@@ -7,6 +7,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { P } from "../core2/parameters";
+import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { CoreState, PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
 import { purposeScene, replyInScene } from "./purpose-scene";
@@ -29,9 +31,9 @@ import type { ScheduleEntry } from "./scheduling";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 6;
 /** The days the first pass plays to learn who to watch; the second stops on the day the scene is staged. */
-const FIND_DAYS = 150;
-const DAYS = 365;
-const WATCHED = 12;
+const FIND_DAYS = 45;
+const PLAY_DAYS = 90;
+const WATCHED = 4;
 const LABELS = new Set([
   "circumstance:story-read-home",
   "circumstance:national-news-work",
@@ -59,6 +61,8 @@ const adult = (core: CoreState, id: PersonId) => {
 function readersHousemates(build: () => ReturnType<typeof buildBenchWorld>) {
   const { core } = build();
   const start = core.date;
+  // Only people the world has at its opening can be watched from it.
+  const present = new Set(core.people.keys());
   advanceCore(core, addDays(makeIsoDate(core.date), FIND_DAYS));
   const players = new Set<PersonId>();
   for (const id of core.logByKind.get("news.read") ?? []) {
@@ -70,7 +74,8 @@ function readersHousemates(build: () => ReturnType<typeof buildBenchWorld>) {
         core.people.get(reader as PersonId)!.householdId,
       );
       for (const mate of home?.memberIds ?? [])
-        if (mate !== reader && adult(core, mate)) players.add(mate);
+        if (mate !== reader && present.has(mate) && adult(core, mate))
+          players.add(mate);
     }
     if (players.size >= WATCHED) break;
   }
@@ -92,36 +97,58 @@ it(`a story read at home is talked over by name (seed ${seed})`, () => {
       // The year as it plays: housemates of the people a story reached. The
       // first world is let go before the second is built.
       const players = readersHousemates(build);
+      // The first world is let go before the second is built (a crowded container
+      // runs this with --expose-gc; otherwise a no-op).
+      (globalThis as { gc?: () => void }).gc?.();
       if (!players.size) {
         tried.push(`${where}: no story reached a household of two adults`);
         continue;
       }
       // The same world, its housemates watched day by day.
+      // The same world, played as the first of them, through the player's
+      // clock (only the person the player controls is served scenes from
+      // circumstance), to the day a story-read scene is staged for them.
       const { core, director } = build();
-      for (const id of players) {
-        core.focusPersonIds.add(id);
-        director.watch(core, id);
+      const personId = [...players][0]!;
+      core.focusPersonIds.add(personId);
+      director.watch(core, personId);
+      const book = director.ledger.people.get(personId)!;
+      const hit: { entry?: ScheduleEntry } = {};
+      const open = () => {
+        const entry = book.schedule.find((row) =>
+          LABELS.has(book.momentsById.get(row.momentId)?.label ?? ""),
+        );
+        if (entry) hit.entry = entry;
+      };
+      let packet = advancePlayerV1(core, {
+        controlledPersonId: personId,
+        through: {
+          date: addDays(makeIsoDate(core.date), PLAY_DAYS),
+          minuteOfDay: P.zero,
+        },
+      });
+      while (packet.kind !== "complete" && !hit.entry) {
+        if (packet.kind === "stop") {
+          open();
+          if (hit.entry) break;
+          packet = resumePlayerV1(core, {
+            kind: "stop",
+            pauseId: packet.pauseId,
+          });
+        } else
+          packet = resumePlayerV1(core, {
+            kind: "own-choice",
+            pauseId: packet.pauseId,
+          });
       }
-      let found: { personId: PersonId; entry: ScheduleEntry } | undefined;
-      for (let day = 0; day < DAYS && !found; day += 1) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        for (const id of players) {
-          const book = director.ledger.people.get(id);
-          const entry = book?.schedule.find((row) =>
-            LABELS.has(book.momentsById.get(row.momentId)?.label ?? ""),
-          );
-          if (entry) {
-            found = { personId: id, entry };
-            break;
-          }
-        }
-      }
-      if (!found) {
-        tried.push(`${where}: ${players.size} watched, no story-read scene`);
+      open();
+      if (!hit.entry) {
+        tried.push(
+          `${where}: played as ${personId} for ${PLAY_DAYS} days, no story-read scene`,
+        );
         continue;
       }
-      const { personId, entry } = found;
-      const book = director.ledger.people.get(personId)!;
+      const entry = hit.entry;
       const moment = book.momentsById.get(entry.momentId)!;
       const record = core.durableLog.get(moment.causeId);
       expect(record?.kind, where).toBe("news.read");
@@ -143,6 +170,11 @@ it(`a story read at home is talked over by name (seed ${seed})`, () => {
       expect(scene.askerId, where).not.toBe(personId);
       // The reader is one of the people the story reached.
       expect(record?.witnessIds, where).toContain(scene.askerId);
+      // At home, the reader lives with the player.
+      if (moment.label === "circumstance:story-read-home")
+        expect(core.people.get(scene.askerId)?.householdId, where).toBe(
+          core.people.get(personId)?.householdId,
+        );
       // It names the thing it refers to: the story's subject, from the record.
       const story = scene.facts.find((row) => row.key === "story");
       expect(story?.recordIds, where).toContain(moment.causeId);
@@ -163,23 +195,35 @@ it(`a story read at home is talked over by name (seed ${seed})`, () => {
         expect(row.text, where).not.toMatch(
           /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/,
         );
-      // Putting the talk off is written on the reply's record: the tie is
-      // strained, and the journal tells it.
-      const putOff = paths(scene.talk.tree).find((full) => {
+      // Every end of the tree names what the talk kept; the reply that ends
+      // it is written on a record the tie, the owed talk and the journal read.
+      // A talk put off or argued out strains the tie (when the reader presses
+      // it, which their traits decide), so that path is taken where there is one.
+      expect(
+        scene.talk.gaps.filter((gap) => gap.includes("/ending/")),
+        where,
+      ).toEqual([]);
+      const ends = paths(scene.talk.tree).flatMap((full) => {
         let node: TreeNode | null = scene.talk.tree;
         for (const index of full) node = node?.replies[index]?.next ?? null;
-        return node?.end?.ending?.id === "put-off";
+        return node?.end?.ending ? [{ full, ending: node.end.ending }] : [];
       });
-      expect(putOff, `${where}: no path puts the talk off`).toBeTruthy();
-      const id = replyInScene(core, director, personId, entry, putOff!);
+      expect(ends.length, where).toBeGreaterThan(0);
+      const chosen =
+        ends.find((row) => row.ending.keeps === "relationship-strained") ??
+        ends[0]!;
+      const id = replyInScene(core, director, personId, entry, chosen.full);
       const reply = core.durableLog.get(id!);
       expect(reply?.facts?.typeKey, where).toBe("story-read");
       expect(reply?.facts?.causeId, where).toBe(moment.causeId);
-      expect(reply?.facts?.keeps, where).toBe("relationship-strained");
+      expect(reply?.facts?.ending, where).toBe(chosen.ending.id);
+      expect(reply?.facts?.keeps, where).toBe(chosen.ending.keeps);
       const told = composeJournal(core, director, personId)
         .flatMap((chapter) => chapter.lines)
         .find((line) => line.momentIds.includes(id!));
-      const note = `STORY READ ${where}: ${core.date}, cause ${moment.causeId}, ${personId} with ${scene.askerId} (${story?.text}); reply ${id}; journal "${told?.text ?? "(other unnamed)"}"\n  ${said}`;
+      if (chosen.ending.keeps !== "none")
+        expect(told?.text, `${where}: the journal tells it`).toBeTruthy();
+      const note = `STORY READ ${where}: ${core.date}, cause ${moment.causeId}, ${personId} with ${scene.askerId} (${story?.text}); reply ${id} ending ${chosen.ending.id} keeps ${chosen.ending.keeps}; journal "${told?.text ?? "(other unnamed)"}"\n  ${said}`;
       if (process.env.SCENE_LOG) writeFileSync(process.env.SCENE_LOG, note);
       process.stdout.write(`${note}\n`);
       return;

@@ -158578,79 +158578,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-ask.when-do-you-go",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "When do you go?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "moving-goodbye"
-      }
-    },
-    {
       "key": "scene-talk.reply-ask.why-now-what-changed",
       "move": "reply-ask",
       "kind": "spoken",
       "text": "Why now? What changed?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.is-it-for-good-or-are-you-coming-back",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Is it for good, or are you coming back?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "moving-goodbye",
-          "key": "moving-goodbye"
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "ask",
-        "key": "moving-goodbye"
-      }
-    },
-    {
-      "key": "scene-talk.reply-ask.do-you-have-somewhere-lined-up",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Do you have somewhere lined up?",
       "uses": [
         {
           "subject": "scene",
@@ -161510,6 +161441,75 @@
       "tag": {
         "move": "answer",
         "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.can-i-ask-what-made-you-decide",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Can I ask what made you decide?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-s-pulling-you-away",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What's pulling you away?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.was-it-something-here-or-something-there",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Was it something here, or something there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "moving-goodbye",
+          "key": "moving-goodbye"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "ask",
+        "key": "moving-goodbye"
       }
     }
   ]

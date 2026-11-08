@@ -7,6 +7,8 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { P } from "../core2/parameters";
+import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { departureOf } from "../core2/modules/moves";
 import type { CoreState, PersonId } from "../core2/types";
 import { composeJournal } from "./journal";
@@ -29,9 +31,9 @@ import type { ScheduleEntry } from "./scheduling";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 8;
 /** The days the first pass plays to learn who to watch; the second stops on the day the scene is staged. */
-const FIND_DAYS = 150;
-const DAYS = 365;
-const WATCHED = 12;
+const FIND_DAYS = 120;
+const AFTER_DAYS = 6;
+const WATCHED = 4;
 const LABEL = "circumstance:moved-away-farewell";
 
 /** Every path of a tree: the replies chosen, the node it reaches. */
@@ -52,12 +54,14 @@ const adult = (core: CoreState, id: PersonId) => {
   );
 };
 
-/** The year as it plays: adults who knew someone who moved away, in the order they left. */
+/** The year as it plays: adults who knew someone who moved away, with the day they left, in that order. */
 function leaversAcquaintances(build: () => ReturnType<typeof buildBenchWorld>) {
   const { core } = build();
   const start = core.date;
+  // Only people the world has at its opening can be watched from it.
+  const present = new Set(core.people.keys());
   advanceCore(core, addDays(makeIsoDate(core.date), FIND_DAYS));
-  const players = new Set<PersonId>();
+  const players = new Map<PersonId, string>();
   for (const id of core.logByKind.get("person.moved-away") ?? []) {
     const record = core.durableLog.get(id as never);
     if (!record || record.date < start) continue;
@@ -70,11 +74,12 @@ function leaversAcquaintances(build: () => ReturnType<typeof buildBenchWorld>) {
       ...(core.people.get(leaver)?.familyIds ?? []),
     ])
       if (
+        present.has(friend as PersonId) &&
         !record.personIds.includes(friend as PersonId) &&
         core.people.get(friend as PersonId)?.knownIds.has(leaver) &&
         adult(core, friend as PersonId)
       )
-        players.add(friend as PersonId);
+        players.set(friend as PersonId, record.date);
     if (players.size >= WATCHED) break;
   }
   return players;
@@ -95,35 +100,57 @@ it(`a goodbye is about the leaving, from the record (seed ${seed})`, () => {
       // The year as it plays: who moved away, and who left behind knows them.
       // The first world is let go before the second is built.
       const players = leaversAcquaintances(build);
+      // The first world is let go before the second is built (a crowded container
+      // runs this with --expose-gc; otherwise a no-op).
+      (globalThis as { gc?: () => void }).gc?.();
       if (!players.size) {
         tried.push(`${where}: no one left behind knew a leaver`);
         continue;
       }
+      // The same world, played as the first of them, through the player's
+      // clock (only the person the player controls is served scenes from
+      // circumstance), to a few days after the move.
       const { core, director } = build();
-      for (const id of players) {
-        core.focusPersonIds.add(id);
-        director.watch(core, id);
+      const [personId, movedOn] = [...players][0]!;
+      core.focusPersonIds.add(personId);
+      director.watch(core, personId);
+      const book = director.ledger.people.get(personId)!;
+      const hit: { entry?: ScheduleEntry } = {};
+      const open = () => {
+        const entry = book.schedule.find(
+          (row) => book.momentsById.get(row.momentId)?.label === LABEL,
+        );
+        if (entry) hit.entry = entry;
+      };
+      let packet = advancePlayerV1(core, {
+        controlledPersonId: personId,
+        through: {
+          date: addDays(makeIsoDate(movedOn), AFTER_DAYS),
+          minuteOfDay: P.zero,
+        },
+      });
+      while (packet.kind !== "complete" && !hit.entry) {
+        if (packet.kind === "stop") {
+          open();
+          if (hit.entry) break;
+          packet = resumePlayerV1(core, {
+            kind: "stop",
+            pauseId: packet.pauseId,
+          });
+        } else
+          packet = resumePlayerV1(core, {
+            kind: "own-choice",
+            pauseId: packet.pauseId,
+          });
       }
-      let found: { personId: PersonId; entry: ScheduleEntry } | undefined;
-      for (let day = 0; day < DAYS && !found; day += 1) {
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-        for (const id of players) {
-          const book = director.ledger.people.get(id);
-          const entry = book?.schedule.find(
-            (row) => book.momentsById.get(row.momentId)?.label === LABEL,
-          );
-          if (entry) {
-            found = { personId: id, entry };
-            break;
-          }
-        }
-      }
-      if (!found) {
-        tried.push(`${where}: ${players.size} watched, no farewell staged`);
+      open();
+      if (!hit.entry) {
+        tried.push(
+          `${where}: played as ${personId} to ${movedOn} and ${AFTER_DAYS} days after, no farewell staged`,
+        );
         continue;
       }
-      const { personId, entry } = found;
-      const book = director.ledger.people.get(personId)!;
+      const entry = hit.entry;
       const moment = book.momentsById.get(entry.momentId)!;
       const record = core.durableLog.get(moment.causeId);
       expect(record?.kind, where).toBe("person.moved-away");
