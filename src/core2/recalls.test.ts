@@ -16,6 +16,8 @@ import { OFFICES_MODULE_ID, openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
+import { openOfficeDay } from "./modules/office-day";
+import { openOfficeDayState } from "./office-day-state";
 import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import {
   openRecalls,
@@ -90,6 +92,10 @@ describe("M3-10 recalls", () => {
       openRecord(core);
       openLegislature(core);
       openRecalls(core);
+      // Every played world installs the office day; the legislature reads it
+      // when a body meets.
+      openOfficeDay(core, seed);
+      openOfficeDayState(core);
       const api = coreAPI(core);
       const outcomes = new Set<string>();
       api.subscribeEvents("recalls-test", ["recall-outcome"], (_api, event) => {

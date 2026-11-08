@@ -56,8 +56,15 @@ const expected = singles.reduce(
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCFullYear(end.getUTCFullYear() + 1);
 advanceCore(core, end.toISOString().slice(0, 10));
-const unions = events.filter((row) => row.kind === "family.partnered");
-const partings = events.filter((row) => row.kind === "family.separated");
+// The town's own couples have their own test (partnerships-town.test.ts).
+const elsewhereOnly = (row: CoreEventInput) =>
+  row.personIds.every((id) => core.people.get(id)?.tier === "husk");
+const unions = events.filter(
+  (row) => row.kind === "family.partnered" && elsewhereOnly(row),
+);
+const partings = events.filter(
+  (row) => row.kind === "family.separated" && elsewhereOnly(row),
+);
 if (process.env.PARTNERSHIPS_REPORT)
   appendFileSync(
     process.env.PARTNERSHIPS_REPORT,

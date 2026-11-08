@@ -23,6 +23,12 @@
     "citation": "Weight on closeness between the two: a bribe passes through existing ties (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6). Spread 0.5 to 2.",
     "stopgapId": "SG-P15-corruption-weights"
   },
+  "corruptionLeanLeverageWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Weight on how little the person who offered a bribe has to lose with the official who turned it down (one minus their closeness) when deciding to press the official again, against the pull of letting it go (corruptionHonestPull). The farther they are, the less a falling-out costs them. Pressure on an official after a refusal runs from veiled to open (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 4). Set at the offer's own honest pull (corruptionHonestPull, 3) so that a person with nothing to lose with the official (a tie of zero) presses on the favor and their temperament alone; each unit of tie takes a third of it back. Spread 2 to 4.",
+    "stopgapId": "SG-P15-corruption-weights"
+  },
   "corruptionReputationWeight": {
     "value": 1,
     "tag": "TUNABLE",

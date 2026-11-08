@@ -138,8 +138,22 @@ try {
     .catch(() => {});
   // Day by day to election morning.
   const morning = page.locator("#election-day:not([hidden])");
-  for (let day = 0; day < 12; day += 1) {
+  for (let day = 0; day < 60; day += 1) {
     if (await morning.isVisible().catch(() => false)) break;
+    // A scene on the way (a neighbor cutting the line) is lived through: its Continue, then Leave.
+    const nextLine = page.locator("#talk-next:visible");
+    for (let line = 0; line < 12 && (await nextLine.count()); line += 1)
+      await nextLine
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
+    // A conversation on the way asks for a reply: the first offered is chosen, as a player might.
+    const reply = page.locator("#talk-choices button:visible");
+    if (await reply.count())
+      await reply
+        .first()
+        .click({ timeout: 5000 })
+        .catch(() => {});
     const talk = page.locator("#talk-leave");
     if (await talk.isVisible().catch(() => false))
       await talk.click({ timeout: 5000 }).catch(() => {});
@@ -161,9 +175,13 @@ try {
   console.log("CARD:", clock.replace(/\s+/g, " "));
   assert.doesNotMatch(clock, /12:00\s*AM/);
   await shot("eday-1-morning");
-  await page
-    .getByRole("button", { name: "Go canvassing", exact: true })
-    .click();
+  // A morning offers the canvass only where the candidate can still reach voters; otherwise
+  // it goes straight to the choice.
+  const canvass = page.getByRole("button", {
+    name: "Go canvassing",
+    exact: true,
+  });
+  if (await canvass.count()) await canvass.click();
   await page.waitForFunction(() =>
     [...document.querySelectorAll("#election-day-acts button")].some((b) =>
       ["Go vote", "Continue"].includes(b.textContent),
@@ -189,7 +207,7 @@ try {
     if (!(await page.locator("#ballot:not([hidden])").isVisible())) break;
     const marked = await page.evaluate(() => {
       const open = document.querySelector(
-        "#ballot-races .acts button:not([disabled])",
+        "#ballot .ballot-choice:not([disabled])",
       );
       if (open) {
         open.click();
@@ -211,6 +229,29 @@ try {
     if (await later.isVisible().catch(() => false)) {
       await later.click({ timeout: 5000 }).catch(() => {});
       await page.waitForTimeout(2000);
+      continue;
+    }
+    // A second morning for a household member who may vote: Go vote, mark each race for its
+    // first candidate, as a voter might.
+    const vote = page.getByRole("button", { name: "Go vote", exact: true });
+    if (await vote.isVisible().catch(() => false)) {
+      await vote.click({ timeout: 5000 }).catch(() => {});
+      await page
+        .locator("#ballot:not([hidden])")
+        .waitFor()
+        .catch(() => {});
+      await shot("eday-3b-ballot-household");
+      for (let mark = 0; mark < 12; mark += 1) {
+        const open = page.locator("#ballot .ballot-choice:not([disabled])");
+        if (!(await open.count())) break;
+        await open
+          .first()
+          .click({ timeout: 5000 })
+          .catch(() => {});
+        await page.waitForTimeout(800);
+      }
+      if (await page.locator("#ballot:not([hidden])").isVisible())
+        await page.locator("#ballot-leave").click();
       continue;
     }
     const talk = page.locator("#talk-leave");

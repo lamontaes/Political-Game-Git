@@ -42,13 +42,13 @@ for (const body of picked) {
     row.series = policy.series;
     const sponsor = body.members[0]!.personId ?? body.members[0]!.key;
     const value = Math.max(1, Math.round((policy.inForce ?? 1) * 1.1 + 1));
-    const run = (label: string, margin: number, opts: { sign?: boolean; overrideMargin?: number }) => {
+    const run = (label: string, margin: number, opts: { sign?: boolean; overrideMargin?: number; discharge?: boolean; chairHears?: boolean }) => {
       const { bill } = dev.introduce({ bodyOfficeId: body.id, sponsorId: sponsor, series: policy.series!, value, ...(policy.unit ? { unit: policy.unit } : {}) });
       const d = dev.decideAt(bill.id, margin, opts);
-      row[label] = { status: d.bill.status, tallies: d.tallies.map((t) => `${t.yes}-${t.no}`).join(","), held: d.held.length };
+      row[label] = { status: d.bill.status, tallies: d.tallies.map((t) => `${t.yes}-${t.no}`).join(","), veto: d.veto, held: d.held.length, committees: d.committees.map((c: any) => `${c.heard ? "heard" : "unheard"} ${c.yes}-${c.no} ${c.reported ? "reported" : "NOT reported: " + c.why}`).join("; ") };
     };
     const wide = body.level === "federal" ? 24 : 3;
-    run("passSign", wide, { sign: true });
+    run("passSign", wide, { sign: true, discharge: true, chairHears: true });
     run("defeat", -wide, {});
     run("vetoOverride", wide, { sign: false, overrideMargin: wide });
     run("vetoNoOverride", wide, { sign: false, overrideMargin: -wide });

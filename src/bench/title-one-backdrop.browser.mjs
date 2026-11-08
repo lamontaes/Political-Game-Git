@@ -20,7 +20,7 @@ try {
   const title = await (await ready).json();
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   // Every change of the painting from here on is counted.
   await page.evaluate(() => {
     const back = document.getElementById("backdrop");
@@ -55,8 +55,7 @@ try {
   // On through the creator with the drawn place.
   await page.locator("[data-gender=female]").click();
   await page.locator("#cr-random-name").click();
-  await page.locator("#cr-character-next").click();
-  await page.locator("#cr-place:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const states = page.locator("#cr-states button");
   await states.first().waitFor();
   const stateCount = await states.count();
@@ -68,7 +67,7 @@ try {
   const townAt = Math.floor(Math.random() * (await towns.count()));
   const townName = (await towns.nth(townAt).innerText()).split("\n")[0];
   await towns.nth(townAt).click();
-  await page.locator("#cr-look:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("#cr-begin").click();
   await page.locator("#front").waitFor({ state: "hidden" });
   await page.locator("#talk:not([hidden])").waitFor();

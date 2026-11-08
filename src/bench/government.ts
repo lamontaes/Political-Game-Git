@@ -1,3 +1,4 @@
+import { lastTimeOf } from "./last-time";
 import { raceTitle } from "./race-words";
 import { properName } from "../director/words";
 import { ageOnDate } from "../core2/kernel/dates";
@@ -451,6 +452,8 @@ export function localRaces(core: CoreState) {
         // Whether the player may run for it (the offices the player runs
         // for, player-offices.json): the screen offers to file only then.
         playerMayFile: playerMayFileFor(api, contest.id),
+        // The last election for the seat, from its holder's term record.
+        lastTime: lastTimeOf(api, contest.id),
         filers,
       };
     })

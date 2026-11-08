@@ -2108,8 +2108,8 @@
     "why": "The engine never answers for the player (the desk rule); the office screen's offer is the play-first lane's (agreement 1-4).",
     "addedBy": "Lane 1 (world-governor-declares-emergency-in-play)",
     "addedAt": "2026-11-04",
-    "replacement": "An office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
-    "status": "open"
+    "replacement": "Resolved Nov 8 (Legislation): the disaster waits as an offer (`emergencyOffers`), the state day brings it to the governor as an `emergency` entry that holds the player, and the player declares through declareEmergency or lets it pass. Was: an office-screen stop the day a federally declared disaster is recorded in the player governor's state, offering declareEmergency with the hazard record and the state's power named, or leaving it to the character.",
+    "status": "resolved"
   },
   {
     "id": "SG-GOV-player-favor-asked",
@@ -2169,6 +2169,18 @@
     "addedBy": "Astra (Codex)",
     "addedAt": "2026-11-07",
     "replacement": "Source each applicable levy and its taxing body, assessment base and effective dates; combine actual levies through the existing resolver and tax engine.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-discharge-no-wait",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 4041,
+    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and only the House has a row: no state's discharge rule is in the data.",
+    "why": "The game's committee meets once on a bill, on a day, and has no calendar of legislative days to count a wait against; the states' rules have not been researched.",
+    "addedBy": "claude/dev-mode-discharge",
+    "addedAt": "2026-11-08",
+    "replacement": "A legislative-day count per body, and one data row per state with a discharge rule, sourced from the state's own rules; the petition then opens only after the wait.",
     "status": "open"
   }
 ]
