@@ -16,7 +16,12 @@ import { townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/outcome-web-model";
 import { P } from "../core2/parameters";
-import { TERM_AREAS, placeTermRead, type AreaRead } from "../core2/term-read";
+import {
+  TERM_AREAS,
+  placeTermRead,
+  termReadPlaces,
+  type AreaRead,
+} from "../core2/term-read";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
@@ -133,15 +138,6 @@ function speakerOf(core: CoreState, level: LocalLevel): Speaker | null {
   };
 }
 
-/** Every place the outcome web keeps rows for (the same read `termReadPlaces` gives once the public-action change lands). */
-function webPlaces(core: CoreState): string[] {
-  const rows = coreAPI(core)
-    .moduleState(OUTCOME_WEB_MODULE_ID)
-    .table("months")
-    .rows() as unknown as { placeId: string }[];
-  return [...new Set(rows.map((row) => row.placeId))].sort();
-}
-
 /** The term read of the state (the places the web keeps inside it) or of the town. */
 function realmRead(
   core: CoreState,
@@ -153,7 +149,7 @@ function realmRead(
   const here = core.people.get(core.playerId ?? "")?.placeId;
   if (level === "town") return here ? placeTermRead(api, here, since) : [];
   const state = placeStateKey(core.placeMetadata.placeKey);
-  const reads = webPlaces(core)
+  const reads = termReadPlaces(api)
     .filter((place) => placeStateKey(place) === state)
     .flatMap((place) => placeTermRead(api, place, since));
   return TERM_AREAS.flatMap((area): AreaRead[] => {
