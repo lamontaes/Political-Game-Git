@@ -3251,39 +3251,6 @@ details.entry[open] {
 .party-green {
   --party: #4f8a4f;
 }
-
-/* A large body's members as a grid of headshots, each ringed in its party's
-   color; a legislature fits one screen this way (owner, Oct 28, point 22). */
-.face-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 6px 0 4px;
-}
-#sheet-body .face-cell {
-  min-height: 0;
-  padding: 0;
-  margin: 0;
-  background: none;
-  border: none;
-  box-shadow: none;
-}
-#sheet-body .face-cell::after {
-  display: none;
-}
-.face-cell .face-cell-face {
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-width: 2px;
-  border-color: var(--party, var(--gold));
-}
-#sheet-body .face-cell:hover:not(:disabled) {
-  background: none;
-}
-.face-cell:hover .face-cell-face {
-  box-shadow: 0 0 0 2px #fff;
-}
 /* An issue card's value: large but wrapping inside its card, never past its
    edge; the cards are as wide as a value needs, so a word is not cut. */
 .record-section .entries-cards {
