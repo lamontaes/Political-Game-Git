@@ -111,7 +111,8 @@ import {
 } from "./legislature";
 import { promisesOf, recordAppeal, votesOf } from "./record";
 import { withholdingOnPay } from "./budgets";
-import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
+import { deliverSpeech, SPEECH_MODULE_ID } from "./people";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import {
   ACCEPTING_MOVES,
@@ -2815,6 +2816,14 @@ export function volunteerShifts(
   return shifts;
 }
 
+/** The law series holding each office class's limit, where the research gives a state a number. */
+const STATE_CONTRIBUTION_SERIES: Readonly<Record<string, string>> = {
+  governor: "state-contribution-limit-governor",
+  stateSenate: "state-contribution-limit-state-senate",
+  stateHouse: "state-contribution-limit-state-house",
+  local: "state-contribution-limit-local",
+};
+
 /** The individual contribution limit for this contest, in minor units (null: no limit), and its source. */
 export function contributionLimit(
   api: CoreAPI,
@@ -2846,10 +2855,20 @@ export function contributionLimit(
     >;
   };
   if (contest.family === "usHouse" || contest.officeId.endsWith(":us-senate")) {
+    // The limit is federal law in force (Congress can raise or lower it);
+    // the research's figure stays the fallback where no law row is open.
     const federal = research.federal.individualToCandidate;
+    const law = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+      ? lawInForce(api, "federal-campaign-contribution-limit")
+      : null;
+    const fromLaw =
+      law && law.value !== null && law.governing ? law.value : null;
     return {
-      minor: federal.usd * 100,
-      source: `${federal.source} ${federal.sourceUrl}`,
+      minor: (fromLaw ?? federal.usd) * 100,
+      source:
+        fromLaw !== null && law?.governing
+          ? `${String(law.governing.source)}`
+          : `${federal.source} ${federal.sourceUrl}`,
       estimate: false,
     };
   }
@@ -2861,6 +2880,20 @@ export function contributionLimit(
           ? "stateSenate"
           : "stateHouse"
         : "local";
+  // The state's law in force on the limit, where the research gives it a number.
+  const series = STATE_CONTRIBUTION_SERIES[key];
+  if (series && (api.state as CoreState).modules.has(LAWS_MODULE_ID)) {
+    const law = lawInForce(api, series);
+    const stateRow = law.levels.find(
+      (level) => level.level === "state" && !level.setAside,
+    )?.row;
+    if (stateRow && typeof stateRow.value === "number")
+      return {
+        minor: stateRow.value * 100,
+        source: String(stateRow.source),
+        estimate: stateRow.estimate === true,
+      };
+  }
   const row = research.limits[townRow(api).stateKey]?.[key];
   if (row && typeof row === "object") {
     const source = [row.source, row.sourceUrl].filter(Boolean).join(" ");

@@ -7,8 +7,8 @@ import { handleDev } from "./dev-api";
 // desktop shell also serves in-process; this file adds only the bench's own
 // page files and Dev mode.
 const assets = new Map([
-  // The old developer page is folded into Dev mode (owner, Oct 14, 2026).
-  ["/", { file: "dev.html", type: "text/html; charset=utf-8" }],
+  // The bench opens on the game; Dev mode is a setting in its Options.
+  ["/", { file: "play.html", type: "text/html; charset=utf-8" }],
   ["/play", { file: "play.html", type: "text/html; charset=utf-8" }],
   ["/play.mjs", { file: "play.mjs", type: "text/javascript; charset=utf-8" }],
   ["/play.css", { file: "play.css", type: "text/css; charset=utf-8" }],
@@ -51,20 +51,8 @@ const server = createServer(async (request, response) => {
       response.end(content);
       return;
     }
-    // Dev mode's page and routes (dev-api.ts).
-    if (
-      await handleDev(
-        request,
-        url,
-        send,
-        (status, type, content) => {
-          response.writeHead(status, { "Content-Type": type });
-          response.end(content);
-        },
-        benchWorld,
-      )
-    )
-      return;
+    // Dev mode's routes (dev-api.ts); its controls are on the game's own screens.
+    if (await handleDev(request, url, send, benchWorld)) return;
     const shared = publicFile.exec(url.pathname);
     if (method === "GET" && shared) {
       const content = await readFile(new URL(shared[1]!, PUBLIC));

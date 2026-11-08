@@ -1,0 +1,232 @@
+{
+  "meta": {
+    "title": "Executive orders and vacancy rules, fetched Nov 8, 2026",
+    "gatheredBy": "Legislation session research sub-agent",
+    "status": "PARTIAL: every fact cites a page fetched on this date; gaps are listed under notFound and are not filled from memory",
+    "unitsNote": "Spot-checked: Virginia EO 41 text (va41) and Oregon EO 20-04 (or2004) are in the fetched pages."
+  },
+  "orders": [
+    {
+      "type": "Restore voting rights after sentence (by pardon/restoration power)",
+      "states": [
+        {
+          "state": "Iowa",
+          "order": "EO 42 (Vilsack; number from Iowa governor's FAQ is not in fetched text; Wikipedia only says July 2005 executive order, rescinded by Branstad Jan 14 2011)",
+          "year": 2005,
+          "url": "https://en.wikipedia.org/wiki/Felony_disenfranchisement_in_the_United_States"
+        },
+        {
+          "state": "Iowa",
+          "order": "EO 7 (Reynolds), signed Aug 5 2020; restores rights of anyone convicted of a felony except Iowa Code ch. 707 homicide offenses, sentence discharged on or before Aug 5 2020",
+          "year": 2020,
+          "url": "https://governor.iowa.gov/services/voting-rights-restoration"
+        },
+        {
+          "state": "Kentucky",
+          "order": "Beshear order of Dec 2019 restoring vote and right to hold office for nonviolent felons (order number not in fetched text; title per search snippet only)",
+          "year": 2019,
+          "url": "https://en.wikipedia.org/wiki/Felony_disenfranchisement_in_the_United_States"
+        }
+      ],
+      "legalLimit": "Varies by state constitution. Iowa: governor's FAQ says the constitution makes felony loss of voting/office permanent unless the Governor restores rights, so the order works through the restoration power but a future governor can rescind it (Vilsack's EO was rescinded 2011) and only a constitutional amendment is permanent. Virginia: 'No person who has been convicted of a felony shall be qualified to vote unless his civil rights have been restored by the Governor or other appropriate authority' (Va. Const. art. II, sec. 1). Kentucky constitutional text (Sec. 145) NOT FETCHED. States where disenfranchisement is statutory or court-restored need the legislature; not verified per state.",
+      "limitUrls": [
+        "https://governor.iowa.gov/services/voting-rights-restoration",
+        "https://law.lis.virginia.gov/constitution/article2/section1/",
+        "https://en.wikipedia.org/wiki/Felony_disenfranchisement_in_the_United_States"
+      ]
+    },
+    {
+      "type": "Recognize public-employee unions / allow bargaining or meet-and-confer for executive-branch employees",
+      "states": [
+        {
+          "state": "Kentucky",
+          "order": "Beshear executive order signed June 2 2008, effective July 1 2008, allowing state employees to be represented by unions in talks (no strikes) and re-establishing advisory panel; order number NOT FOUND",
+          "year": 2008,
+          "url": "https://www.lpm.org/news/2008-06-02/beshear-restores-labor-advisory-panel"
+        },
+        {
+          "state": "Maryland",
+          "order": "one 2008-2011 order authorizing executive-branch agencies to take part in mid-contract negotiations to revise existing bargaining agreements; number NOT FOUND",
+          "year": 2008,
+          "url": "https://mgaleg.maryland.gov/2012rs/fnotes/bil_0004/sb0694.pdf"
+        }
+      ],
+      "legalLimit": "Statute governs where it exists: Maryland's 2012 fiscal note (SB 694) shows the legislature considered a bill barring the Governor from issuing executive orders on collective bargaining for State employees; Governor's general order power is limited to rules for State employees, units, task forces and reorganizing the executive branch. Whether any state's order can compel bargaining in the face of a statute: NOT FOUND (no case law fetched). Executive orders reach only executive-branch employees, not legislature, courts or local government.",
+      "limitUrls": [
+        "https://mgaleg.maryland.gov/2012rs/fnotes/bil_0004/sb0694.pdf"
+      ]
+    },
+    {
+      "type": "State contractor / state-employee minimum wage",
+      "states": [
+        {
+          "state": "Pennsylvania",
+          "order": "Wolf order raising minimum to $10.15 for state employees and workers on state contracts (about Feb 2016 per article; order number NOT FOUND)",
+          "year": 2016,
+          "url": "https://6abc.com/pennsylvania-news-politics-governor-tom-wolf-state-employees/1234231"
+        }
+      ],
+      "legalLimit": "Reach limited to state workers and state contracts; the fetched article says it affects a few hundred state employees and about 109 vendors; it does not set the private-sector minimum wage (statute only). Citation to a specific statute NOT FOUND. Federal analogue EO 13658 page was fetched but returned only a stub (no text).",
+      "limitUrls": [
+        "https://6abc.com/pennsylvania-news-politics-governor-tom-wolf-state-employees/1234231"
+      ]
+    },
+    {
+      "type": "Ban the box in public hiring",
+      "states": [
+        {
+          "state": "Virginia",
+          "order": "Executive Order Number Forty One (2015), signed Apr 3 2015 (McAuliffe); legislation had died in House subcommittee",
+          "year": 2015,
+          "url": "https://www.route-fifty.com/management/2015/04/virginia-governor-mcauliffe-ban-box-rules-executive-order/109318"
+        },
+        {
+          "state": "Georgia",
+          "order": "Deal executive order signed Feb 23 2015 (release says Monday; number NOT FOUND); follows 2014 legislation easing hiring barriers",
+          "year": 2015,
+          "url": "https://www.nelp.org/georgia-governor-signs-ban-the-box-executive-order/"
+        }
+      ],
+      "legalLimit": "Applies only to executive-branch state hiring; the order cannot bind private employers or other branches (private-employer ban-the-box requires statute; no statute citation fetched). Georgia NELP release lists 14 states with such policies at that time. Missouri EO 16-04 (2016), Indiana, Arizona, Kentucky, Kansas appear only in an unfetched search summary: NOT VERIFIED.",
+      "limitUrls": [
+        "https://www.route-fifty.com/management/2015/04/virginia-governor-mcauliffe-ban-box-rules-executive-order/109318",
+        "https://www.nelp.org/georgia-governor-signs-ban-the-box-executive-order/"
+      ]
+    },
+    {
+      "type": "Hiring freeze",
+      "states": [
+        {
+          "state": "California",
+          "order": "Executive Order B-3-11 (Brown), Feb 2011",
+          "year": 2011,
+          "url": "https://www.archive.gov.ca.gov/archive/gov39/2011/02/15/news16907/index.html"
+        },
+        {
+          "state": "Arkansas",
+          "order": "Hutchinson orders, Jan 2015 (numbers NOT FOUND)",
+          "year": 2015,
+          "url": "https://www.ualrpublicradio.org/local-regional-news/2015-01-14/governor-hutchinson-orders-hiring-freeze-regulation-review"
+        }
+      ],
+      "legalLimit": "Only reaches agencies under the governor's control; positions and appropriations are fixed by legislature. No statute or case citation fetched: NOT FOUND.",
+      "limitUrls": []
+    },
+    {
+      "type": "State-agency climate / emissions targets",
+      "states": [
+        {
+          "state": "Oregon",
+          "order": "Executive Order No. 20-04 (Brown), directs 16 listed state agencies; goals at least 45% below 1990 by 2035 and 80% below by 2050, 'Consistent with the minimum GHG reduction goals set forth in ORS 468A.205(1)(c)'",
+          "year": 2020,
+          "url": "https://www.oregon.gov/bcd/Documents/eo-energy-20-04.pdf"
+        }
+      ],
+      "legalLimit": "The order works through existing agency authority: recital 'existing laws grant authority to state agencies to take actions to regulate and encourage a reduction of GHG emissions' and directives apply 'to the full extent allowed by law'. A binding cap on private emitters needs statute or agency rulemaking authority. Washington 2009 session law (SB 5560, fetched) put state-agency emissions limits in statute rather than order.",
+      "limitUrls": [
+        "https://www.oregon.gov/bcd/Documents/eo-energy-20-04.pdf",
+        "https://lawfilesext.leg.wa.gov/biennium/2009-10/Pdf/Bills/Session%20Laws/Senate/5560-S2.sl.pdf"
+      ]
+    },
+    {
+      "type": "Limit state-agency cooperation with federal immigration enforcement",
+      "states": [
+        {
+          "state": "Washington",
+          "order": "Executive Order 17-01 (Inslee), Feb 2017: agencies do not collect immigration status, not arrest solely for civil immigration violations, except as required by federal or state law",
+          "year": 2017,
+          "url": "https://www.governor.wa.gov/sites/default/files/2023-01/eo_17-01.pdf"
+        }
+      ],
+      "legalLimit": "Order text carves out law: 'except as required by federal or state law' and 'shall be inoperative to the sole extent of the conflict' with law; arrest powers 'consistent with current federal law'. Binds executive and small cabinet agencies only; local police/sheriffs, courts, and federal law (e.g. 8 U.S.C. 1357) are outside it.",
+      "limitUrls": [
+        "https://www.governor.wa.gov/sites/default/files/2023-01/eo_17-01.pdf"
+      ]
+    },
+    {
+      "type": "Paid parental/family leave for state employees",
+      "states": [
+        {
+          "state": "New Mexico",
+          "order": "Executive Order 2019-036 (Lujan Grisham), 12 weeks, directs State Personnel Office",
+          "year": 2019,
+          "url": "https://www.governor.nm.gov/newsroom/governor-orders-12-week-paid-parental-leave-for-state-employees-100003276"
+        }
+      ],
+      "legalLimit": "Executive branch employees only; funded from existing appropriations (funding statement not fetched). Missouri EO 17-09 (2017) appears only in unfetched search summary (truman.missouri.edu page fetch returned 404): NOT VERIFIED. Statute citation NOT FOUND.",
+      "limitUrls": []
+    },
+    {
+      "type": "Create a task force / commission / advisory panel; reorganize executive branch; appoint to fill an office",
+      "states": [
+        {
+          "state": "Maryland",
+          "order": "25 of 78 orders in 2008-2011 established advisory task forces, councils or commissions; 14 created or reorganized executive branch entities",
+          "year": 2012,
+          "url": "https://mgaleg.maryland.gov/2012rs/fnotes/bil_0004/sb0694.pdf"
+        },
+        {
+          "state": "Kentucky",
+          "order": "Beshear by executive order appointed Attorney General-elect Cameron to finish his term, Dec 2019 (Wikipedia, number NOT FOUND)",
+          "year": 2019,
+          "url": "https://en.wikipedia.org/wiki/Andy_Beshear"
+        }
+      ],
+      "legalLimit": "Maryland fiscal note lists the Governor's executive order authority as: proclaim emergencies, adopt rules of conduct for State employees and units, establish advisory/study units or task forces, and change executive-branch organization. A body with regulatory power, spending, or new agencies needs statute (general principle; specific citation NOT FOUND).",
+      "limitUrls": [
+        "https://mgaleg.maryland.gov/2012rs/fnotes/bil_0004/sb0694.pdf"
+      ]
+    }
+  ],
+  "vacancy": {
+    "governorSuccession": {
+      "rule": "All 50 states set a line of succession in constitution (21) or constitution plus statute (29). Lt. governor is first in 44 states; 4 use the senate leader and 2 the secretary of state first. Table 1 of CT OLR report 2025-R-0055 lists each state's order with constitutional/statutory cite (e.g. Ala. Const. Art. V sec. 127; Cal. Const. Art. V sec. 10 and Gov. Code 12058-12059; Mich. Const. Art. V sec. 26). Shortest lines: AK, CT, PA, RI; longest NY, NC (11). Some states also name an 'acting governor' for temporary absence. Full per-state table is in the fetched PDF (I read AL through MN); states after Minnesota are in the same file at the URL and were not extracted into this JSON.",
+      "urls": [
+        "https://prdext3.cga.ct.gov/2025/rpt/pdf/2025-R-0055.pdf",
+        "https://en.wikipedia.org/wiki/Gubernatorial_lines_of_succession_in_the_United_States"
+      ]
+    },
+    "agencyHeads": {
+      "rule": "No single 50-state source was fetched. Fetched examples show a common pattern: agency head or governor designates a deputy/division head to act, with the governor able to name an acting head. Rhode Island is a counter-example that bars governor-named acting directors. Do not generalize beyond the three states below.",
+      "perState": [
+        {
+          "state": "Louisiana",
+          "rule": "Director designates a division head or employee to act in absence or vacancy; if not, the governor may make the designation",
+          "citation": "La. R.S. 40:1303 (page text; later redesignated per search summary, unverified)",
+          "url": "https://legis.la.gov/Legis/Law.aspx?d=97392"
+        },
+        {
+          "state": "Washington",
+          "rule": "Director may deputize a chief assistant director who stays in charge on a vacancy until a director is appointed or the governor appoints an acting director",
+          "citation": "RCW 43.17.040",
+          "url": "https://app.leg.wa.gov/RCW/default.aspx?cite=43.17.040"
+        },
+        {
+          "state": "Rhode Island",
+          "rule": "Governor appoints a director; may serve 10 days unless submitted to Senate (Senate in session) or until 3 legislative days after convening; no 'interim' or 'acting' director in circumvention",
+          "citation": "R.I. Gen. Laws 42-6-4",
+          "url": "https://webserver.rilegislature.gov/Statutes/TITLE42/42-6/42-6-4.htm"
+        }
+      ],
+      "urls": ["https://www.law.cornell.edu/uscode/text/5/3345"]
+    },
+    "municipal": {
+      "rule": "No general fetched source. Only one municipal statute was fetched: Ohio R.C. 733.08 says a city mayor vacancy (death, resignation, removal) is filled until a successor is elected by a person chosen by the members of the party central committee that nominated the last occupant, meeting 5 to 45 days after the vacancy. Charters vary by city (council president, council election, special election are other patterns, per unfetched search snippets). Federal analogue 5 U.S.C. 3345 (acting officers) was fetched for comparison only. Department-head acting rules: NOT FOUND as fetched.",
+      "urls": [
+        "https://codes.ohio.gov/ohio-revised-code/section-733.08",
+        "https://www.law.cornell.edu/uscode/text/5/3345"
+      ]
+    }
+  },
+  "notFound": [
+    "Kentucky Const. Sec. 145 text (legislature.ky.gov and apps.legislature.ky.gov returned 404)",
+    "Kentucky EO 2019-003 PDF (civilrightsrestoration.ky.gov returned 403 to curl)",
+    "Iowa Constitution text (legis.iowa.gov 404)",
+    "Federal Register EO 13658 text (page stub only)",
+    "Ballotpedia, NCSL, Justia, CSG Book of the States (403/404)",
+    "State contractor minimum wage EO numbers other than PA (PA number not found)",
+    "Per-state agency-head vacancy rules for 47 states; municipal department-head vacancy rule; Missouri EO 16-04, 17-09 and other orders cited only in search summaries (not fetched)",
+    "Hawaii and Missouri acting-head provisions appeared only in bill drafts in search results, not fetched",
+    "Governor succession rows after Minnesota not transcribed to JSON (in the CT PDF)"
+  ]
+}

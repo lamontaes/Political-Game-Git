@@ -4,6 +4,7 @@
 // Usage: BENCH_PORT=3121 BENCH_BROWSER=... node src/bench/donors.browser.mjs <before|after>
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 const mode = process.argv[2] ?? "after";
@@ -16,11 +17,8 @@ const page = await browser.newPage({ viewport: { width: 1672, height: 941 } });
 page.setDefaultTimeout(30000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
-const dollarsIn = (text) =>
-  Number(
-    (text.match(/\$([\d,]+(?:\.\d\d)?) raised/) ?? [])[1]?.replace(/,/g, "") ??
-      NaN,
-  );
+// The campaign board's money is the large figure: what the campaign has raised.
+const dollarsIn = (text) => Number(text.replace(/[^0-9.]/g, ""));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
   await page.goto(`${base}/play`);
@@ -58,22 +56,20 @@ try {
     .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   const raisedBefore = dollarsIn(
-    await page.locator(".row.campaign").first().innerText(),
+    await page.locator(".campaign-board .money-figure").first().innerText(),
   );
   console.log("Raised before:", raisedBefore);
   await page.screenshot({ path: `${out}/${mode}-1-campaigns.png` });
   await openCampaignTrail(page);
-  const calls = page
-    .locator("#sheet-body.place-view button", { hasText: "Call donors" })
-    .first();
-  if (await calls.isDisabled()) {
+  const calls = await chooseTrailAct(page, "Call donors");
+  if (!(await calls.count())) {
     console.log(
-      "Call donors is grayed; the button says:",
-      await calls.innerText(),
+      "Call donors is out of reach; the page says:",
+      await page.locator(".travel-detail").innerText(),
     );
     await page.screenshot({ path: `${out}/${mode}-2-grayed.png` });
   } else {
@@ -111,11 +107,11 @@ try {
       .evaluate((e) => e.click());
     await page
       .locator("#sheet-tabs")
-      .getByRole("button", { name: "Campaigns", exact: true })
+      .getByRole("button", { name: "Campaign", exact: true })
       .click();
-    await page.locator(".row.campaign").first().waitFor();
+    await page.locator(".campaign-board").first().waitFor();
     const raisedAfter = dollarsIn(
-      await page.locator(".row.campaign").first().innerText(),
+      await page.locator(".campaign-board .money-figure").first().innerText(),
     );
     if (Number.isNaN(raisedAfter))
       console.log(
@@ -137,7 +133,12 @@ try {
     } else {
       console.log(
         "Before: the screen after the call reads:",
-        (await page.locator(".row.campaign").first().innerText()).slice(0, 300),
+        (
+          await page
+            .locator(".campaign-board .money-figure")
+            .first()
+            .innerText()
+        ).slice(0, 300),
       );
     }
   }

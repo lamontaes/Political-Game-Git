@@ -19,12 +19,11 @@ try {
   await ready;
   await page.locator("#new-life").click();
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await page.locator("[data-gender=male]").click();
   await page.locator("#cr-random-name").click();
   await page.locator("#cr-given:not([value=''])").waitFor();
-  await page.locator("#cr-character-next").click();
-  await page.locator("#cr-place:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const button = page.locator("#cr-place-random");
   const label = (await button.innerText()).trim();
   console.log(`button: "${label}"`);
@@ -34,7 +33,7 @@ try {
   );
   await button.click();
   const place = await (await drawn).json();
-  await page.locator("#cr-look:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const named = (
     await page.locator("#cr-place-summary-name").innerText()
   ).trim();
@@ -59,38 +58,26 @@ try {
     await page.screenshot({
       path: `${process.env.SHOT_DIR}/04-creator-random-place.png`,
     });
-  // Change returns to the place stage, with the drawn state kept.
-  await page.locator("#cr-place-summary").click();
-  await page.locator("#cr-place:not([hidden])").waitFor();
+  // The drawn state is kept on the town list.
   assert.equal(
     (await page.locator("#cr-state-name").innerText()).trim(),
     place.state.name,
   );
-  // A second press draws again and reaches the look.
+  // A second press draws again and names the new place.
   await page.locator("#cr-place-random").click();
-  await page.locator("#cr-look:not([hidden])").waitFor();
-  // The panel grows with its content: the place line is paid for by the
-  // figure's preview, which was 260px tall before it, so the stage is no
-  // taller than it was (it already ran past a 900px window with ten rows).
+  await page.locator("#cr-screen:not([hidden])").waitFor();
+  // The whole creator is one screen: it fits a 900px window.
   const fit = await page.evaluate(() => {
     const r = document.getElementById("front").getBoundingClientRect();
-    return {
-      height: r.height,
-      line: document.getElementById("cr-place-summary").getBoundingClientRect()
-        .height,
-      preview: document.getElementById("cr-portrait").getBoundingClientRect()
-        .height,
-    };
+    return { top: r.top, bottom: r.bottom };
   });
-  console.log(
-    `look stage: ${Math.round(fit.height)}px tall, the place line ${Math.round(fit.line)}px, the preview ${Math.round(fit.preview)}px (260px before)`,
-  );
+  console.log(`creator: ${Math.round(fit.top)} to ${Math.round(fit.bottom)}px`);
   assert.ok(
-    fit.line <= 260 - fit.preview,
-    "the place line made the look stage taller than it was",
+    fit.top >= 0 && fit.bottom <= 900,
+    "the creator runs off the screen",
   );
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: Random place draws a place and names it over the look");
+  console.log("ok: Random place draws a place and names it on the one screen");
 } finally {
   await browser.close();
 }

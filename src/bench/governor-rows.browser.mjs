@@ -113,7 +113,7 @@ try {
     1,
     `${place}: no governor races that night`,
   );
-  const shown = await page.locator("#returns-count .row").count();
+  const shown = await page.locator("#returns .dotrow").count();
   console.log("Governor rows:", shown);
   for (const [width, height] of [
     [1440, 900],
@@ -123,10 +123,10 @@ try {
     await page.setViewportSize({ width, height });
     const fit = await page.evaluate(() => {
       const panel = document.getElementById("returns").getBoundingClientRect();
-      const rows = [...document.querySelectorAll("#returns-count .row")].map(
+      const rows = [...document.querySelectorAll("#returns .dotrow")].map(
         (row) => row.getBoundingClientRect(),
       );
-      const count = document.getElementById("returns-count");
+      const count = document.querySelector("#returns .night-cols");
       return {
         outside: rows.filter(
           (r) =>
@@ -136,7 +136,7 @@ try {
         ).length,
         scrolls: count.scrollHeight > count.clientHeight + 1,
         wrapped: rows.filter((r) => r.height > 24).length,
-        clipped: [...document.querySelectorAll("#returns-count .row")].filter(
+        clipped: [...document.querySelectorAll("#returns .dotrow")].filter(
           (row) => row.scrollWidth > row.clientWidth + 1,
         ).length,
         next:

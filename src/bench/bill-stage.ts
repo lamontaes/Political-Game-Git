@@ -31,7 +31,7 @@ import {
   type BillRow,
   type Provision,
 } from "../core2/modules/legislature";
-import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
+import { snapshotExplicitControlV1 } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
@@ -142,6 +142,39 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   const floor = byChamber(false);
   const override = byChamber(true);
 
+  // Amendments moved on the bill: the section as drafted struck, the one inserted, each
+  // estimate and the body's roll call by name (once voted).
+  const sectionText = (provisions: readonly Provision[], index: number) => {
+    const copy: BillRow = { ...bill, provisions };
+    const form = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: form.effectiveSection,
+        before: form.sections.map((section) => section.before),
+      })?.sections[index] ?? null
+    );
+  };
+  // The sections markup added, in the order they went in: a trade for a holdout's vote or a poison pill.
+  const added = bill.deals.filter(
+    (d) =>
+      d.status !== "declined" &&
+      (d.kind === "trade-amendment" || d.kind === "poison-pill"),
+  );
+  const originalSections = bill.provisions.length - added.length;
+  const markupOf = (chamber: string) =>
+    added.flatMap((deal, at) =>
+      deal.stage === "committee" && deal.chamber === chamber
+        ? [
+            {
+              name: personName(core, deal.memberId),
+              personId: core.people.has(deal.memberId) ? deal.memberId : null,
+              kind: deal.kind === "poison-pill" ? "pill" : "trade",
+              inserted: sectionText(bill.provisions, originalSections + at),
+            },
+          ]
+        : [],
+    );
   const committees = committeeRecords(api, bill.id).map((record) => ({
     id: record.id,
     chamber: record.chamber,
@@ -159,6 +192,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     members: record.memberIds.length,
     yes: record.yes,
     no: record.no,
+    markup: markupOf(record.chamber),
   }));
 
   // What members have told the player: the stakes the player learned, newest per member.
@@ -218,19 +252,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   )?.vote;
   const open = bill.status === "drafted" && !floor.length;
 
-  // Amendments moved on the bill: the section as drafted struck, the one inserted, each
-  // estimate and the body's roll call by name (once voted).
-  const sectionText = (provisions: readonly Provision[], index: number) => {
-    const copy: BillRow = { ...bill, provisions };
-    const form = billForm(api, copy);
-    return (
-      composeBill({
-        ...copy,
-        effective: form.effectiveSection,
-        before: form.sections.map((section) => section.before),
-      })?.sections[index] ?? null
-    );
-  };
   const amendments = amendmentsOn(api, bill.id).map((row) => {
     const votes = (row.votes ?? []).map(named);
     return {
@@ -333,6 +354,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     sponsor: personName(core, bill.sponsorId),
     committees,
     told,
+    cosponsors: (bill.cosponsors ?? []).map((key) => ({
+      personId: core.people.has(key) ? key : null,
+      name: personName(core, key),
+    })),
     floor,
     override,
   };
