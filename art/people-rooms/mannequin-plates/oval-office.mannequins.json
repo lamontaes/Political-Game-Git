@@ -1,0 +1,288 @@
+{
+ "scene": "oval-office",
+ "size": [
+  1376,
+  768
+ ],
+ "backdrop": "oval-office-standard__midday.jpg",
+ "standard": true,
+ "pack": "v4",
+ "camera": {
+  "horizon": 307
+ },
+ "spots": [
+  {
+   "id": "oval-office-0",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "angle": "front",
+   "head": {
+    "top": 323,
+    "x": 686.6,
+    "width": 14
+   },
+   "box": [
+    669,
+    323,
+    706,
+    407
+   ],
+   "role": "president",
+   "hands": 406,
+   "deskEdge": 403
+  },
+  {
+   "id": "oval-office-L-near",
+   "pose": "couch",
+   "seat": "couch",
+   "facing": 45,
+   "angle": "tq-right",
+   "head": {
+    "top": 401,
+    "x": 177.0,
+    "width": 32
+   },
+   "box": [
+    142,
+    401,
+    287,
+    691
+   ],
+   "feet": 690
+  },
+  {
+   "id": "oval-office-R-near",
+   "pose": "couch",
+   "seat": "couch",
+   "facing": -45,
+   "angle": "tq-left",
+   "head": {
+    "top": 401,
+    "x": 1198.3,
+    "width": 33
+   },
+   "box": [
+    1090,
+    401,
+    1234,
+    691
+   ],
+   "feet": 690
+  },
+  {
+   "id": "oval-office-L-mid",
+   "pose": "couch",
+   "seat": "couch",
+   "facing": 45,
+   "angle": "tq-right",
+   "head": {
+    "top": 389,
+    "x": 201.8,
+    "width": 34
+   },
+   "box": [
+    168,
+    389,
+    302,
+    664
+   ],
+   "feet": 663,
+   "front": "oval-office.front-L-mid.png"
+  },
+  {
+   "id": "oval-office-R-mid",
+   "pose": "couch",
+   "seat": "couch",
+   "facing": -45,
+   "angle": "tq-left",
+   "head": {
+    "top": 387,
+    "x": 1179.0,
+    "width": 34
+   },
+   "box": [
+    1067,
+    387,
+    1215,
+    661
+   ],
+   "feet": 660
+  },
+  {
+   "id": "oval-office-L-far",
+   "pose": "couch",
+   "seat": "couch",
+   "facing": 45,
+   "angle": "tq-right",
+   "head": {
+    "top": 386,
+    "x": 237.3,
+    "width": 32
+   },
+   "box": [
+    206,
+    386,
+    324,
+    640
+   ],
+   "feet": 639
+  },
+  {
+   "id": "oval-office-R-far",
+   "pose": "couch",
+   "seat": "couch",
+   "facing": -45,
+   "angle": "tq-left",
+   "head": {
+    "top": 386,
+    "x": 1139.4,
+    "width": 31
+   },
+   "box": [
+    1053,
+    386,
+    1172,
+    640
+   ],
+   "feet": 639
+  },
+  {
+   "id": "oval-office-S-left",
+   "pose": "stand",
+   "seat": "none",
+   "facing": 45,
+   "angle": "tq-right",
+   "head": {
+    "top": 253,
+    "x": 433.3,
+    "width": 14
+   },
+   "box": [
+    393,
+    253,
+    489,
+    527
+   ],
+   "feet": 526
+  },
+  {
+   "id": "oval-office-S-right",
+   "pose": "fold",
+   "seat": "none",
+   "facing": -45,
+   "angle": "tq-left",
+   "head": {
+    "top": 262,
+    "x": 997.6,
+    "width": 28
+   },
+   "box": [
+    965,
+    262,
+    1034,
+    539
+   ],
+   "feet": 538
+  },
+  {
+   "id": "oval-office-S-front-left",
+   "pose": "gesture",
+   "seat": "none",
+   "facing": 135,
+   "angle": "btq-right",
+   "head": {
+    "top": 243,
+    "x": 526.6,
+    "width": 42
+   },
+   "box": [
+    455,
+    243,
+    664,
+    638
+   ],
+   "feet": 637
+  },
+  {
+   "id": "oval-office-S-front-right",
+   "pose": "stand",
+   "seat": "none",
+   "facing": -135,
+   "angle": "btq-left",
+   "head": {
+    "top": 242,
+    "x": 843.9,
+    "width": 43
+   },
+   "box": [
+    772,
+    242,
+    917,
+    643
+   ],
+   "feet": 642
+  },
+  {
+   "id": "oval-office-S-window",
+   "pose": "stand",
+   "seat": "none",
+   "facing": 135,
+   "angle": "btq-right",
+   "head": {
+    "top": 263,
+    "x": 917.3,
+    "width": 4
+   },
+   "box": [
+    853,
+    263,
+    936,
+    482
+   ],
+   "feet": 481
+  },
+  {
+   "id": "oval-office-P-desk-front",
+   "pose": "stand",
+   "seat": "none",
+   "facing": 0,
+   "angle": "front",
+   "head": {
+    "top": 274,
+    "x": 767.4,
+    "width": 21
+   },
+   "box": [
+    721,
+    274,
+    805,
+    498
+   ],
+   "feet": 497,
+   "role": "president"
+  },
+  {
+   "id": "oval-office-P-desk-behind",
+   "pose": "stand",
+   "seat": "none",
+   "facing": 0,
+   "angle": "front",
+   "head": {
+    "top": 273,
+    "x": 731.5,
+    "width": 5
+   },
+   "box": [
+    656,
+    273,
+    793,
+    478
+   ],
+   "feet": 477,
+   "front": "oval-office.front-P-desk-behind.png",
+   "role": "president"
+  }
+ ],
+ "pictures": []
+}

@@ -1,0 +1,46 @@
+{
+ "scene": "colonnade",
+ "size": [
+  1365,
+  768
+ ],
+ "backdrop": "white-house-colonnade__morning.jpg",
+ "spots": [
+  {
+   "id": "colonnade-0",
+   "pose": "walk",
+   "seat": "none",
+   "facing": -45,
+   "head": {
+    "top": 234,
+    "x": 614.5,
+    "width": 47
+   },
+   "box": [
+    545,
+    234,
+    690,
+    605
+   ],
+   "feet": 604
+  },
+  {
+   "id": "colonnade-1",
+   "pose": "walk",
+   "seat": "none",
+   "facing": -45,
+   "head": {
+    "top": 153,
+    "x": 422.3,
+    "width": 69
+   },
+   "box": [
+    309,
+    153,
+    537,
+    724
+   ],
+   "feet": 723
+  }
+ ]
+}

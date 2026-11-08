@@ -1,0 +1,190 @@
+{
+ "scene": "depot",
+ "size": [
+  1365,
+  768
+ ],
+ "backdrop": "train-depot-platform__midday.jpg",
+ "spots": [
+  {
+   "id": "depot-0",
+   "pose": "wave",
+   "seat": "none",
+   "facing": 0,
+   "head": {
+    "top": 353,
+    "x": 165.0,
+    "width": 30
+   },
+   "box": [
+    102,
+    353,
+    210,
+    594
+   ],
+   "feet": 593
+  },
+  {
+   "id": "depot-1",
+   "pose": "wave",
+   "seat": "none",
+   "facing": 0,
+   "head": {
+    "top": 354,
+    "x": 260.2,
+    "width": 30
+   },
+   "box": [
+    220,
+    354,
+    326,
+    599
+   ],
+   "feet": 598
+  },
+  {
+   "id": "depot-2",
+   "pose": "wave",
+   "seat": "none",
+   "facing": 0,
+   "head": {
+    "top": 372,
+    "x": 454.8,
+    "width": 21
+   },
+   "box": [
+    409,
+    372,
+    484,
+    569
+   ],
+   "feet": 568
+  },
+  {
+   "id": "depot-3",
+   "pose": "clap",
+   "seat": "none",
+   "facing": 45,
+   "head": {
+    "top": 382,
+    "x": 531.5,
+    "width": 20
+   },
+   "box": [
+    511,
+    382,
+    568,
+    550
+   ],
+   "feet": 549
+  },
+  {
+   "id": "depot-4",
+   "pose": "wave",
+   "seat": "none",
+   "facing": 0,
+   "head": {
+    "top": 386,
+    "x": 705.2,
+    "width": 18
+   },
+   "box": [
+    664,
+    386,
+    728,
+    544
+   ],
+   "feet": 543
+  },
+  {
+   "id": "depot-5",
+   "pose": "clap",
+   "seat": "none",
+   "facing": -45,
+   "head": {
+    "top": 394,
+    "x": 762.9,
+    "width": 16
+   },
+   "box": [
+    733,
+    394,
+    782,
+    530
+   ],
+   "feet": 529
+  },
+  {
+   "id": "depot-6",
+   "pose": "clap",
+   "seat": "none",
+   "facing": 45,
+   "head": {
+    "top": 405,
+    "x": 991.8,
+    "width": 13
+   },
+   "box": [
+    976,
+    405,
+    1017,
+    512
+   ],
+   "feet": 511
+  },
+  {
+   "id": "depot-7",
+   "pose": "phone",
+   "seat": "none",
+   "facing": 45,
+   "head": {
+    "top": 408,
+    "x": 1047.3,
+    "width": 12
+   },
+   "box": [
+    1033,
+    408,
+    1061,
+    504
+   ],
+   "feet": 503
+  },
+  {
+   "id": "depot-8",
+   "pose": "wave",
+   "seat": "none",
+   "facing": 0,
+   "head": {
+    "top": 410,
+    "x": 1184.5,
+    "width": 10
+   },
+   "box": [
+    1164,
+    410,
+    1200,
+    498
+   ],
+   "feet": 497
+  },
+  {
+   "id": "depot-9",
+   "pose": "clap",
+   "seat": "none",
+   "facing": 45,
+   "head": {
+    "top": 414,
+    "x": 1217.5,
+    "width": 8
+   },
+   "box": [
+    1208,
+    414,
+    1232,
+    490
+   ],
+   "feet": 489
+  }
+ ]
+}

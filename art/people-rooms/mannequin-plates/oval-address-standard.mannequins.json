@@ -1,0 +1,78 @@
+{
+ "scene": "oval-address-standard",
+ "size": [
+  1376,
+  768
+ ],
+ "backdrop": "oval-address-standard__night.jpg",
+ "standard": true,
+ "pack": "v4",
+ "camera": {
+  "horizon": 307
+ },
+ "spots": [
+  {
+   "id": "oval-address-standard-0",
+   "pose": "address",
+   "seat": "desk-chair",
+   "facing": 0,
+   "angle": "front",
+   "head": {
+    "top": 332,
+    "x": 687.5,
+    "width": 31
+   },
+   "box": [
+    639,
+    332,
+    736,
+    512
+   ],
+   "role": "president",
+   "hands": 511,
+   "deskEdge": 491
+  }
+ ],
+ "pictures": [
+  {
+   "id": "oval-medium-frame-0",
+   "box": [
+    585,
+    378,
+    610,
+    414
+   ],
+   "fill": "room owner family photo"
+  },
+  {
+   "id": "oval-medium-frame-1",
+   "box": [
+    612,
+    387,
+    644,
+    414
+   ],
+   "fill": "room owner family photo"
+  },
+  {
+   "id": "oval-medium-frame-2",
+   "box": [
+    737,
+    392,
+    769,
+    415
+   ],
+   "fill": "room owner family photo"
+  },
+  {
+   "id": "oval-medium-frame-3",
+   "box": [
+    760,
+    378,
+    802,
+    415
+   ],
+   "fill": "room owner family photo"
+  }
+ ]
+}
