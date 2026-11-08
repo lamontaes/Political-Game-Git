@@ -45,8 +45,8 @@ lines = [
     "",
     "## What was measured",
     "",
-    "| Kind of line | Lines | Words, mean | Words, middle | Ask a question | Use a contraction | Say I | Say you |",
-    "|---|---|---|---|---|---|---|---|",
+    "| Kind of line | Lines | Words, mean | Words, middle | Three words or fewer | Ask a question | Use a contraction | Say I | Say you |",
+    "|---|---|---|---|---|---|---|---|---|",
 ]
 ASK = r"\?$"
 CONTRACTION = r"\b\w+'(s|t|re|ll|ve|d|m)\b"
@@ -55,14 +55,33 @@ SAY_YOU = r"\b(you|your|you're)\b"
 for c in ORDER:
     ts = rows[c]
     w = [words(t) for t in ts]
+    short = sum(1 for n in w if n <= 3) / len(w)
     ask = share([t.strip() for t in ts], ASK)
     con = share(ts, CONTRACTION)
     i_say = share(ts, SAY_I)
     you_say = share(ts, SAY_YOU, re.I)
     lines.append(
         f"| {NAMES[c]} | {len(ts)} | {statistics.mean(w):.1f} | {statistics.median(w):.0f} | "
-        f"{ask:.0%} | {con:.0%} | {i_say:.0%} | {you_say:.0%} |"
+        f"{short:.0%} | {ask:.0%} | {con:.0%} | {i_say:.0%} | {you_say:.0%} |"
     )
+EVASION = r"(get ahead of|speculate|question for|speak for itself|too early to say|haven't seen the final|still reading|more (to say )?(after|when|next))"
+press = rows["press"]
+evasive = sum(1 for t in press if re.search(EVASION, t, re.I))
+comment = []
+for part in json.load(open(R + "data/english/parts/scene-talk.json"))["parts"]:
+    if any(u.get("purpose") == "hearing-testify" and u.get("step") == "reply" for u in part.get("uses", [])):
+        comment.append(part["text"])
+greets = sum(1 for t in comment if re.match(r"(Good evening|Members)", t))
+asks = sum(1 for t in comment if re.search(r"\bI ask you\b", t))
+comment_note = (
+    f"In a hearing's public comment, {greets} of {len(comment)} replies greet the body first "
+    f"({greets / len(comment):.0%}) and {asks} end on an ask ({asks / len(comment):.0%}); the council-comment card "
+    f"measures 80 percent greeting the body and 60 percent ending on an ask."
+)
+evasion_note = (
+    f"In the press kind, {evasive} of {len(press)} lines use a set evasion of the briefing formulas "
+    f"({evasive / len(press):.1%}); the briefing card measures 24 percent of substantive answers."
+)
 lines += [
     "",
     "## What it shows",
@@ -71,7 +90,11 @@ lines += [
     "",
     "## What is still open",
     "",
-    "A hallway word, a floor exchange, a press answer and a resident's question read alike in length and manner. A real hallway word is shorter and quieter than a floor exchange, which is more formal (Madam Chair, I yield, the gentleman from). The next step is to give each spoken kind its own devices from the register cards, and to grade by kind so the owner's grades shape them.",
+    "A hallway word, a floor exchange, a press answer and a resident's question read alike in length and manner. A real hallway word is shorter and quieter than a floor exchange, which is more formal (Madam Chair, I yield, the gentleman from). The next step is to give each spoken kind its own devices from the register cards, and to grade by kind so the owner's grades shape them. The register cards' own measured corpora give targets. In ordinary talk about 45 percent of turns are three words or fewer (Santa Barbara Corpus). The hallway has 8 percent, up from 2 percent before tonight's 37 short hallway lines. The floor opens by thanking the chair in 82 percent of turns (Pennsylvania Legislative Journal), a form the banks do not yet have. A press briefing question runs 14 words in the middle and an answer 17. Public comment at a hearing now counts with residents, not the floor.",
+    "",
+    evasion_note,
+    "",
+    comment_note,
     "",
     "## How this was made",
     "",

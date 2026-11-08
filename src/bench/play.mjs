@@ -62,7 +62,6 @@ import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
 import { electionNight as electionNightScreen } from "./ui/election-night.mjs";
-import { el } from "./ui/dom.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
@@ -98,6 +97,14 @@ import {
   leaderBlock,
   seatNumbers,
   voteRows,
+  moneyFigure,
+  deskBill,
+  deskTitle,
+  deskList,
+  candidate,
+  rosterTitle,
+  rosterCols,
+  rosterSide,
 } from "./ui/strips.mjs";
 import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
@@ -627,6 +634,15 @@ async function act(path) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
       else if (
+        office.reasonKey === "office-day.executive-order" ||
+        office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.appointment" ||
+        office.reasonKey === "office-day.budget-proposal"
+      )
+        await atOrders();
+      else if (office.reasonKey === "office-day-federal.nomination")
+        await atNominations();
+      else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
         office.reasonKey === "office-day-state.floor-vote"
       )
@@ -852,6 +868,174 @@ function atFloor() {
     };
     show("desk", true);
     api("/api/floor").then(draw);
+  });
+}
+
+// The orders the governor's staff brings for signature hold the clock: each is issued (or revoked) or set aside by the player.
+/** The president's open cabinet posts: who each could go to, best first, then the Senate's vote. */
+function atNominations() {
+  return new Promise((resolve) => {
+    const words = controls.nominations ?? {};
+    const draw = (posts) => {
+      if (!posts.length) return finish();
+      $("desk-items").replaceChildren(
+        ...posts.map((entry) => {
+          let nominee = "";
+          return plate(
+            entry.title,
+            // With no one to nominate the post can only be left open.
+            ...(entry.candidates.length
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words.own ?? "" },
+                      ...entry.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [el("p", { textContent: words.nobody ?? "" })]),
+            buttonRow(
+              ...["nominate", "leave"]
+                .filter((how) => how === "leave" || entry.candidates.length)
+                .map((how) => {
+                  const b = makeButton({
+                    className: "action",
+                    textContent: words[how] ?? "",
+                  });
+                  b.addEventListener("click", async () =>
+                    draw(
+                      await post(
+                        `/api/nominations?${new URLSearchParams({
+                          post: entry.post,
+                          ...(how === "leave" ? { how } : {}),
+                          ...(how === "nominate" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
+                    ),
+                  );
+                  return b;
+                }),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/nominations").then(draw);
+  });
+}
+function atOrders() {
+  return new Promise((resolve) => {
+    const words = controls.orders ?? {};
+    const draw = (orders) => {
+      if (!orders.length) return finish();
+      $("desk-items").replaceChildren(
+        ...orders.map((item) => {
+          // An open cabinet post: the people it could go to, best first; left alone, the first stands.
+          let nominee = "";
+          const picker =
+            item.kind === "post"
+              ? [
+                  select({
+                    options: [
+                      { value: "", label: words["post-own"] ?? "" },
+                      ...item.candidates.map((c) => ({
+                        value: c.id,
+                        label: c.job ? `${c.name} · ${c.job}` : c.name,
+                      })),
+                    ],
+                    onChange: (value) => {
+                      nominee = value;
+                    },
+                  }),
+                ]
+              : [];
+          // The state budget: the change to each line, in steps of its amount, as the office panel's editor sets it.
+          const lines =
+            item.kind === "budget"
+              ? item.lines.map((row) =>
+                  labeled(
+                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    select({
+                      options: [-20, -10, 0, 10, 20].map((pct) => {
+                        const minor = Math.round((row.amountMinor * pct) / 100);
+                        return {
+                          value: minor,
+                          label: controls.budgetEditor[String(pct)],
+                          selected: row.changeMinor === minor,
+                        };
+                      }),
+                      onChange: async (changeMinor) => {
+                        await post(
+                          `/api/office/budget-line?${new URLSearchParams({ line: row.line, changeMinor })}`,
+                        );
+                      },
+                    }),
+                  ),
+                )
+              : [];
+          const kindWords = (how) =>
+            item.kind === "emergency"
+              ? words[`emergency-${how}`]
+              : item.kind === "post"
+                ? words[`post-${how}`]
+                : item.kind === "budget"
+                  ? words[`budget-${how}`]
+                  : how === "issue" && item.revoke
+                    ? words.revoke
+                    : words[how];
+          return plate(
+            item.kind === "emergency"
+              ? words.emergency
+              : item.kind === "budget"
+                ? words.budget
+                : (item.name ?? ""),
+            ...picker,
+            ...lines,
+            buttonRow(
+              ...["issue", "decline"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent: kindWords(how),
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/orders?${new URLSearchParams({
+                        entryId: item.entryId,
+                        how,
+                        ...(item.kind === "post" && nominee
+                          ? { nomineeId: nominee }
+                          : {}),
+                      })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ),
+          );
+        }),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/orders").then(draw);
   });
 }
 
@@ -1760,10 +1944,7 @@ async function campaignParts() {
           stripSection(
             2,
             labelsC.money,
-            el("p", {
-              className: "money-figure",
-              textContent: moneyWords(campaign.raisedMinor),
-            }),
+            moneyFigure(moneyWords(campaign.raisedMinor)),
             dotRows([
               {
                 label: labelsC.raised,
@@ -2651,12 +2832,8 @@ async function seatRows() {
         () => openSheet("office"),
       ),
     );
-    return el(
-      "div",
-      { className: "desk-bill" },
-      el("b", {
-        textContent: `${bill.number} · ${floor.status[bill.status] ?? ""}`,
-      }),
+    return deskBill(
+      deskTitle(`${bill.number} · ${floor.status[bill.status] ?? ""}`),
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
         : []),
@@ -2676,6 +2853,50 @@ async function seatRows() {
   );
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
+    : [];
+  // Office hours: the residents' cases the cases engine opened for this official, each with the
+  // two answers the engine offers; a decision runs the engine's own `handleCase`.
+  const caseWords = controls.officeCases ?? {};
+  const open = await api(
+    `/api/office/cases?id=${encodeURIComponent(me.id)}`,
+  ).catch(() => []);
+  const cases = open.length
+    ? [
+        stripSection(
+          1,
+          labels.officeHours,
+          ...open.map((c) => {
+            const answer = (decision, text) => {
+              const b = makeButton({ textContent: text });
+              b.addEventListener("click", async () => {
+                await post(
+                  `/api/office/case?${new URLSearchParams({ caseId: c.id, decision })}`,
+                );
+                openSheet("office");
+              });
+              return b;
+            };
+            return deskBill(
+              peopleSentence([
+                {
+                  name: c.name,
+                  onOpen: () => {
+                    closeSheet();
+                    showPerson({ personId: c.personId });
+                  },
+                },
+              ]),
+              line(
+                `${caseWords.problems?.[c.problem] ?? ""} · ${caseWords.by} ${dateWords(c.respondBy)}`,
+              ),
+              buttonRow(
+                answer("help", caseWords.help),
+                answer("decline", caseWords.decline),
+              ),
+            );
+          }),
+        ),
+      ]
     : [];
   return [
     stripBoard({
@@ -2703,14 +2924,14 @@ async function seatRows() {
                           next: controls.politics.nextPage,
                         },
                       })
-                    : el("div", { className: "desk" }, ...desk),
+                    : deskList(...desk),
                 ),
               ]
             : []),
           ...draftNodes,
           ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
         ],
-        [...parts.budget, ...parts.deals],
+        [...cases, ...parts.budget, ...parts.deals],
       ],
     }),
   ];
@@ -3681,9 +3902,7 @@ const sheets = {
     const racePage = (race) => {
       const candidates = race.filers.length
         ? race.filers.map((f) =>
-            el(
-              "div",
-              { className: "candidate" },
+            candidate(
               memberCard({
                 name: f.name ?? "",
                 line: f.party ?? "",
@@ -3715,21 +3934,33 @@ const sheets = {
         openFiling(race.filedWith, race.contestId),
       );
       return [
-        el(
-          "h2",
-          { className: "roster-title" },
+        rosterTitle(
           race.title,
-          el("span", {
-            textContent: dateWords(race.electionDate, { year: me.date }),
-          }),
+          dateWords(race.electionDate, { year: me.date }),
         ),
-        el(
-          "div",
-          { className: "roster-cols" },
+        rosterCols(
           stripSection(1, labels.whoIsRunning, ...candidates),
-          el(
-            "div",
-            { className: "roster-side" },
+          rosterSide(
+            ...(race.lastTime
+              ? [
+                  stripSection(
+                    3,
+                    labels.lastTime,
+                    dotRows([
+                      {
+                        label: dateWords(race.lastTime.date, {
+                          year: me.date,
+                        }),
+                        value: race.lastTime.winner,
+                      },
+                      {
+                        label: labels.share,
+                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                      },
+                    ]),
+                  ),
+                ]
+              : []),
             stripSection(
               2,
               labels.dates,
@@ -4362,7 +4593,7 @@ const sheets = {
               )
             : [];
       return [
-        el("h2", { className: "roster-title", textContent: name }),
+        rosterTitle(name),
         stripSection(
           1,
           labels.inOffice,
@@ -4512,10 +4743,7 @@ const sheets = {
         row(vote.name, controls.meeting?.[vote.vote] ?? ""),
       );
       return [
-        el("h2", {
-          className: "roster-title",
-          textContent: policyLabel(law.series),
-        }),
+        rosterTitle(policyLabel(law.series)),
         stripSection(1, labels.inForce, ...inForce, ...statutes),
         ...(measures.length ? [buttonTray(...measures)] : []),
         ...(coming.length ? [stripSection(2, labels.coming, ...coming)] : []),
@@ -4977,8 +5205,6 @@ const setup = {
 function dateOrValue(value) {
   return /^\d{4}-\d{2}-\d{2}$/.test(String(value)) ? dateWords(value) : value;
 }
-const genderName = (g) =>
-  document.querySelector(`[data-gender="${g}"]`)?.textContent ?? "";
 $("cr-month").replaceChildren(
   ...optionsOf(MONTH_NAMES.map((name, i) => ({ value: i + 1, label: name }))),
 );
@@ -5011,11 +5237,6 @@ async function fillYears(keepYear) {
     years[0],
   );
   $("cr-year").value = String(nearest.year);
-}
-function chosenAge() {
-  return /\(age (\d+)\)/.exec(
-    $("cr-year").selectedOptions[0]?.textContent ?? "",
-  )?.[1];
 }
 $("cr-month").addEventListener("change", async () => {
   fillDays();

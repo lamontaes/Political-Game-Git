@@ -121,6 +121,83 @@ function nationalUnemployment(api: CoreAPI): number | undefined {
   return row?.unemploymentPct;
 }
 
+/** The month's labor-market conditions by state, read once a month by everyone who reads them. */
+interface WorkConditions {
+  /** A state's (USPS) conditions this month: its mean unemployment over now, and the rise over the last quarter. */
+  of(usps: string | undefined): { meanOverNow: number; rise: number };
+  /** Keeps the run's reference and recent months. */
+  save(): void;
+}
+const conditionsByDate = new WeakMap<
+  CoreState,
+  { date: string; value: WorkConditions }
+>();
+
+/**
+ * This month's unemployment by state against the run's reference for each,
+ * the one reading of the labor market the lives elsewhere and the town's own
+ * seekers' finding of regional work share (done once a month; a second
+ * reader the same day gets the same rows, never a second month's push).
+ */
+export function workConditions(api: CoreAPI): WorkConditions {
+  const core = api.state as CoreState;
+  const held = conditionsByDate.get(core);
+  if (held && held.date === core.date) return held.value;
+  const p = (key: string) => api.parameter(key);
+  const byState = stateUnemployment(api);
+  const national = nationalUnemployment(api);
+  const stored = (table(api).get(STATE_ROW) as unknown as
+    StateRow | undefined) ?? {
+    id: STATE_ROW,
+    reference: {},
+    recent: {},
+  };
+  const state: StateRow = {
+    id: STATE_ROW,
+    reference: { ...stored.reference },
+    recent: Object.fromEntries(
+      Object.entries(stored.recent).map(([key, rows]) => [key, [...rows]]),
+    ),
+  };
+  const conditions = new Map<string, { meanOverNow: number; rise: number }>();
+  const value: WorkConditions = {
+    of(usps) {
+      const key = usps ?? "";
+      const known = conditions.get(key);
+      if (known) return known;
+      const now = (usps ? byState.get(usps) : undefined) ?? national;
+      if (now === undefined || now <= 0) {
+        const flat = { meanOverNow: p("one"), rise: p("zero") };
+        conditions.set(key, flat);
+        return flat;
+      }
+      state.reference[key] ??= now;
+      const recent = [...(state.recent[key] ?? []), now].slice(-4);
+      state.recent[key] = recent;
+      const row = {
+        meanOverNow: state.reference[key]! / now,
+        // The rise over the last quarter, as the pre-start run reads it.
+        rise: Math.max(p("zero"), now - recent[0]!),
+      };
+      conditions.set(key, row);
+      return row;
+    },
+    save() {
+      table(api).put(state as never);
+    },
+  };
+  conditionsByDate.set(core, { date: core.date, value });
+  return value;
+}
+
+/** A place's state conditions this month (see `workConditions`). */
+export function regionalConditions(
+  api: CoreAPI,
+  placeId: string,
+): { meanOverNow: number; rise: number } {
+  return workConditions(api).of(uspsOf(placeId));
+}
+
 /** Day one: working, looking or out, from the person's own seeded line against CPS 2024 for their age. */
 function opening(
   api: CoreAPI,
@@ -227,44 +304,8 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
     .filter((row) => livesElsewhere(core, row))
     .sort((a, b) => a.id.localeCompare(b.id));
   if (!people.length) return;
-  // This month's unemployment by state, and the run's reference for each.
-  const byState = stateUnemployment(api);
-  const national = nationalUnemployment(api);
-  const held = (table(api).get(STATE_ROW) as unknown as
-    StateRow | undefined) ?? {
-    id: STATE_ROW,
-    reference: {},
-    recent: {},
-  };
-  const state: StateRow = {
-    id: STATE_ROW,
-    reference: { ...held.reference },
-    recent: Object.fromEntries(
-      Object.entries(held.recent).map(([key, rows]) => [key, [...rows]]),
-    ),
-  };
-  const conditions = new Map<string, { meanOverNow: number; rise: number }>();
-  const conditionsOf = (usps: string | undefined) => {
-    const key = usps ?? "";
-    const known = conditions.get(key);
-    if (known) return known;
-    const now = (usps ? byState.get(usps) : undefined) ?? national;
-    if (now === undefined || now <= 0) {
-      const flat = { meanOverNow: p("one"), rise: p("zero") };
-      conditions.set(key, flat);
-      return flat;
-    }
-    state.reference[key] ??= now;
-    const recent = [...(state.recent[key] ?? []), now].slice(-4);
-    state.recent[key] = recent;
-    const row = {
-      meanOverNow: state.reference[key]! / now,
-      // The rise over the last quarter, as the pre-start run reads it.
-      rise: Math.max(p("zero"), now - recent[0]!),
-    };
-    conditions.set(key, row);
-    return row;
-  };
+  const work = workConditions(api);
+  const conditionsOf = work.of;
   // A month as a share of the run's quarter.
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
@@ -349,5 +390,5 @@ export function reviewWorkElsewhere(api: CoreAPI): void {
     }
     table(api).put(row as never);
   }
-  table(api).put(state as never);
+  work.save();
 }

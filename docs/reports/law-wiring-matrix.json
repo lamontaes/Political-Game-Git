@@ -14,6 +14,12 @@
       "state": "US-NE"
     },
     {
+      "seed": "13e8ffb8b9784c14db0727bbee4bd77596a82a7b5d8671c962bf05a634f75c0a",
+      "key": "0209710",
+      "name": "Butte, Alaska",
+      "state": "US-AK"
+    },
+    {
       "seed": "9e0221bdb8059f0be3311d498bfc36db09b3e63bd50e680ca65d13fd5e959552",
       "key": "2530630",
       "name": "Holland, Massachusetts",
@@ -48,6 +54,18 @@
       "key": "4941350",
       "name": "Kingston, Utah",
       "state": "US-UT"
+    },
+    {
+      "seed": "f4da8023d325aacb1ede812d485abb57c439fc53622fa9c9ef3c720fdf141870",
+      "key": "5054325",
+      "name": "Peacham, Vermont",
+      "state": "US-VT"
+    },
+    {
+      "seed": "9268ffe9da331539be44c8148fa2d9523716ae6839dc355e58aa21e460230056",
+      "key": "2745772",
+      "name": "New Munich, Minnesota",
+      "state": "US-MN"
     },
     {
       "seed": "4c2b2ebd8ce5c28bd319860dad00df3157bb92173c12d7c0d1715bab1b045f81",
@@ -177,51 +195,51 @@
         "n/a": 0
       },
       "reach": {
-        "wired": 87,
+        "wired": 99,
         "partial": 0,
-        "missing": 31,
+        "missing": 19,
         "stopgap": 0,
         "n/a": 60
       },
       "systems": {
-        "wired": 97,
+        "wired": 113,
         "partial": 0,
-        "missing": 31,
+        "missing": 15,
         "stopgap": 0,
         "n/a": 50
       },
       "money": {
-        "wired": 81,
-        "partial": 0,
-        "missing": 31,
+        "wired": 94,
+        "partial": 10,
+        "missing": 8,
         "stopgap": 0,
         "n/a": 66
       },
       "web": {
-        "wired": 73,
+        "wired": 75,
         "partial": 0,
-        "missing": 31,
+        "missing": 28,
         "stopgap": 0,
-        "n/a": 74
+        "n/a": 75
       },
       "knowing": {
-        "wired": 97,
+        "wired": 128,
         "partial": 0,
-        "missing": 31,
+        "missing": 0,
         "stopgap": 0,
         "n/a": 50
       },
       "repeal": {
-        "wired": 88,
+        "wired": 100,
         "partial": 0,
-        "missing": 31,
+        "missing": 19,
         "stopgap": 0,
         "n/a": 59
       },
       "allPlaces": {
-        "wired": 89,
+        "wired": 101,
         "partial": 0,
-        "missing": 31,
+        "missing": 19,
         "stopgap": 0,
         "n/a": 58
       }
@@ -331,43 +349,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:transportation|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on transportation, which the raise moved by 10000000: 0 without the raise, 10000604 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:transportation:law-wiring-3d0937ae)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 transportation 0 -> 10000000 by law-wiring-3d0937ae",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -1116,43 +1140,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:medicare|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on medicare, which the raise moved by 10000000: 0 without the raise, 9995437 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 170 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:medicare:law-wiring-ef0c4cf9)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 medicare 0 -> 10000000 by law-wiring-ef0c4cf9",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -1575,7 +1605,7 @@
     },
     {
       "key": "budget-line:healthAndHospitals",
-      "name": "Spending: healthAndHospitals",
+      "name": "Spending: health and hospitals",
       "kind": "budget-line",
       "family": "healthcare",
       "reachGroup": "B",
@@ -1676,43 +1706,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:health|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on health, which the raise moved by 10000000: 0 without the raise, 9996045 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 90 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:health:law-wiring-da7d48f9)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 health 0 -> 10000000 by law-wiring-da7d48f9",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -1726,7 +1762,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:starting",
           "why": ""
         },
         "change": {
@@ -1736,42 +1772,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): repealed at federal effective 2025-01-21; then enacted again at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/medical-bills.ts:486",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/medical-bills.ts:599 20143606 -> 20438923 (journal:2025-02-01:6067)",
+          "why": ""
         },
         "web": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "drug-negotiation-to-out-of-pocket: carried by the medical bills' monthly pass (billMembers in src/core2/medical-bills.ts), which reads the federal Medicare drug price negotiation law in force (lawInForce) and multiplies each Medicare member's bill by one plus this row's size, so the cause is decided from the law itself and the web does not also run it (CMS fact sheet, negotiated prices for initial price applicability year 2026 (2024))",
+          "why": ""
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:health.medicare-drug-price-negotiation:general:2025-01-21:law-wiring-786e7fef)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "repealed at federal effective 2025-01-21; then enacted again at federal effective 2026-01-22",
+          "inForceAtOpening": true
+        }
+      ],
       "errors": []
     },
     {
@@ -2294,7 +2336,7 @@
     },
     {
       "key": "budget-line:higherEducation",
-      "name": "Spending: higherEducation",
+      "name": "Spending: higher education",
       "kind": "budget-line",
       "family": "education",
       "reachGroup": "B",
@@ -2395,43 +2437,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:education|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on education, which the raise moved by 10000000: 0 without the raise, 9995741 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 90 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:education:law-wiring-9a12adfe)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 education 0 -> 10000000 by law-wiring-9a12adfe",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -2445,7 +2493,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:education.forgive-student-loans:general:starting",
           "why": ""
         },
         "change": {
@@ -2455,42 +2503,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "student-debt-relief-to-finances: size-not-set, student-loan-forgiveness-to-poverty: about-zero",
+          "why": "every link is unbuilt: size-not-set"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:education.forgive-student-loans:general:2025-01-21:law-wiring-64942118) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -3806,7 +3861,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:starting",
           "why": ""
         },
         "change": {
@@ -3816,42 +3871,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:budget.pay-for-a-higher-debt-limit:general:2025-01-21:law-wiring-64276fc5) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4250,7 +4312,7 @@
     },
     {
       "key": "budget-line:welfareAndMedicaid",
-      "name": "Spending: welfareAndMedicaid",
+      "name": "Spending: welfare and Medicaid",
       "kind": "budget-line",
       "family": "assistance",
       "reachGroup": "B",
@@ -4351,43 +4413,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:incomeSecurity|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on incomeSecurity, which the raise moved by 10000000: 0 without the raise, 9992854 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 149 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:incomeSecurity:law-wiring-0f392aa2)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 incomeSecurity 0 -> 10000000 by law-wiring-0f392aa2",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4713,7 +4781,7 @@
       "links": {
         "exists": {
           "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-earliest-claim-age:general:starting",
           "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
         },
         "change": {
@@ -4723,42 +4791,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/modules/retirement-claims.ts:97, src/core2/modules/jobs.ts:2953",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/life.ts:578 145839911 -> 182332013 (journal:2025-01-21:818); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/modules/residents.ts:1341 3079461367 -> 3046674609 (journal:2025-01-21:823); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/modules/residents.ts:1323 1732423193 -> 1762674300 (journal:2025-02-01:3568)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-earliest-claim-age 62 -> 68 at federal (law:US:federal:social-security-earliest-claim-age:general:2025-01-21:law-wiring-3d351f82) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4772,7 +4847,7 @@
       "links": {
         "exists": {
           "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-full-retirement-age:general:starting",
           "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
         },
         "change": {
@@ -4782,42 +4857,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/modules/retirement-claims.ts:97, src/core2/modules/jobs.ts:2953",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): accounts.transfer @ src/core2/life.ts:578 145839911 -> 137931807 (journal:2025-01-21:818)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-full-retirement-age 67 -> 74 at federal (law:US:federal:social-security-full-retirement-age:general:2025-01-21:law-wiring-2e0ccc5c) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4831,7 +4913,7 @@
       "links": {
         "exists": {
           "status": "missing",
-          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "0/56 places (budgets); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:social-security-delayed-credit-age:general:starting",
           "why": "no starting row in US-AK, US-AL, US-AR, US-AS, US-AZ, US-CA, US-CO, US-CT, US-DC, US-DE, US-FL, US-GA..."
         },
         "change": {
@@ -4841,42 +4923,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/modules/retirement-claims.ts:97, src/core2/modules/jobs.ts:2953",
+          "why": ""
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "social-security-delayed-credit-age 70 -> 77 at federal (law:US:federal:social-security-delayed-credit-age:general:2025-01-21:law-wiring-72cfb761) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -4982,43 +5070,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:socialSecurity|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on socialSecurity, which the raise moved by 10000000: 0 without the raise, 9999996 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:socialSecurity:law-wiring-47206d50)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 socialSecurity 0 -> 10000000 by law-wiring-47206d50",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -5267,7 +5361,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:starting",
           "why": ""
         },
         "change": {
@@ -5277,42 +5371,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "housing-vouchers-to-homelessness",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:housing.vouchers-for-every-eligible-family:general:2025-01-21:law-wiring-45ece489) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -5776,43 +5876,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:communityAndRegionalDevelopment|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on communityAndRegionalDevelopment, which the raise moved by 10000000: 0 without the raise, 9992094 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 139 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:communityAndRegionalDevelopment:law-wiring-978899e0)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 communityAndRegionalDevelopment 0 -> 10000000 by law-wiring-978899e0",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -7278,7 +7384,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:starting",
           "why": ""
         },
         "change": {
@@ -7288,42 +7394,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): power-plant-carbon-to-emissions lags 24 months, past the run's window; the web read law:us-federal-positions:energy-environment.limit-power-plant-carbon as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-01 (2025-01); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): power-plant-carbon-to-particulates lags 72 months, past the run's window; the web read law:us-federal-positions:energy-environment.limit-power-plant-carbon as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-01 (2025-01); New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): power-plant-carbon-to-emissions lags 24 months, past the run's window; the web read law:us-federal-positions:energy-environment.limit-power-plant-carbon as 1 (control 0) in web:jurisdiction_16b3bfd4091db759:2025-02 (2025-02)",
+          "why": ""
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:energy-environment.limit-power-plant-carbon:general:2025-01-21:law-wiring-c0357c70) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -7479,7 +7591,7 @@
     },
     {
       "key": "budget-line:naturalResources",
-      "name": "Spending: naturalResources",
+      "name": "Spending: natural resources",
       "kind": "budget-line",
       "family": "energy-environment",
       "reachGroup": "B",
@@ -8379,7 +8491,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:starting",
           "why": ""
         },
         "change": {
@@ -8389,42 +8501,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "mandatory-minimum-cut-to-federal-prisoners",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:justice-rights.reduce-mandatory-minimums:general:2025-01-21:law-wiring-c08da077) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -9460,7 +9579,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:starting",
           "why": ""
         },
         "change": {
@@ -9470,42 +9589,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:emergencies.states-share-disaster-costs:general:2025-01-21:law-wiring-98e7a2cc) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -10220,7 +10346,7 @@
     },
     {
       "key": "state-contribution-limit-governor",
-      "name": "State campaign contribution limit: governor",
+      "name": "State campaign contribution limit for governor",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10229,7 +10355,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-governor:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX..."
         },
         "change": {
@@ -10239,47 +10365,53 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-governor 4480 -> 4928 at state (law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-governor 4480 -> 4928 at state (law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
       "key": "state-contribution-limit-state-senate",
-      "name": "State campaign contribution limit: stateSenate",
+      "name": "State campaign contribution limit for state senate",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10288,7 +10420,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "42/56 places (state 42); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA, US-TX..."
         },
         "change": {
@@ -10298,47 +10430,53 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-state-senate 1680 -> 1848 at state (law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-state-senate 1680 -> 1848 at state (law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
       "key": "state-contribution-limit-state-house",
-      "name": "State campaign contribution limit: stateHouse",
+      "name": "State campaign contribution limit for state house",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10347,7 +10485,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "40/56 places (state 40); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "40/56 places (state 40); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-state-house:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-GU, US-IA, US-IN, US-MP, US-MS, US-ND, US-NE, US-OR, US-PA..."
         },
         "change": {
@@ -10357,47 +10495,53 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-state-house 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-state-house 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
       "key": "state-contribution-limit-local",
-      "name": "State campaign contribution limit: local",
+      "name": "State campaign contribution limit for local office",
       "kind": "amount",
       "family": "government",
       "reachGroup": null,
@@ -10406,7 +10550,7 @@
       "links": {
         "exists": {
           "status": "partial",
-          "evidence": "34/56 places (state 34); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "34/56 places (state 34); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US-VT:state:state-contribution-limit-local:general:2025-01-01",
           "why": "no starting row in US-AK, US-AL, US-AS, US-CO, US-IA, US-IN, US-ME, US-MN, US-MP, US-MS, US-ND, US-NE..."
         },
         "change": {
@@ -10416,42 +10560,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): state-contribution-limit-local 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68): 70 people heard (person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Peacham, Vermont, US-VT (seed 5b7f20c9e1a43d68)",
+          "change": "state-contribution-limit-local 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -10465,7 +10615,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions",
+          "evidence": "56/56 places (federal 1); src/core2/data/laws/starting-law.json jurisdictions; drawn place row law:US:federal:federal-campaign-contribution-limit:general:2025-01-01",
           "why": ""
         },
         "change": {
@@ -10475,42 +10625,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): federal-campaign-contribution-limit 3500 -> 3850 at federal (law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6) effective 2025-01-21",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "federal-campaign-contribution-limit 3500 -> 3850 at federal (law:US:federal:federal-campaign-contribution-limit:general:2025-01-21:law-wiring-97605df6) effective 2025-01-21",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -10524,7 +10681,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:starting",
           "why": ""
         },
         "change": {
@@ -10534,42 +10691,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "n/a",
+          "evidence": "congress-stock-ban-to-member-returns: about-zero (Chen and Sacerdote 2026, Capital in the Capitol: Congressional Trades Resemble Uninformed Retail Trading, NBER Working Paper 35041, abstract read at https://www.nber.org/papers/w35041; Belmont, Sacerdote, Sehgal and Van Hoek 2020, Relief Rally: Senators As Feckless As the Rest of Us at Stock Picking, NBER Working Paper 26975, abstract read at https://www.nber.org/papers/w26975; Wei and Zhou 2025, \"Captain Gains\" on Capitol Hill, NBER Working Paper 34524, abstract read at https://www.nber.org/papers/w34524)",
+          "why": "the research puts every outcome link from it at about zero, so there is nothing for the web to move"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:government.ban-congressional-stock-trading:general:2025-01-21:law-wiring-dd40db22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -11031,7 +11195,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:starting",
           "why": ""
         },
         "change": {
@@ -11041,42 +11205,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:territories-culture.statehood-for-dc:general:2025-01-21:law-wiring-3c6e5c22) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -11958,7 +12129,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:starting",
           "why": ""
         },
         "change": {
@@ -11967,43 +12138,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 15 open (full 0, counted groups 0/0 people, households 0, orgs 15, govts 0) e.g. applied|us-federal-positions:science-communications.national-data-privacy|organization_cf21013f8947c009",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/modules/business.ts:1407, src/core2/modules/business.ts:1339",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): posts citing us-federal-positions:science-communications.national-data-privacy: 118766366 (journal:2025-02-01:1090); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): of 15 the law paid or charged, the payments that changed first: 15 accounts.transfer paid out (src/core2/world-transfer.ts:40 under us-federal-positions:science-communications.national-data-privacy; e.g. organization_03a1041e7297eb59 on 2025-02-01: 0 in the control world, -204861 here, journal:2025-02-01:1096); 9 accounts.transfer paid in (src/core2/world-transfer.ts:40; e.g. organization_03a1041e7297eb59 on 2025-02-01: -267566 in the control world, -62705 here, journal:2025-02-01:1107); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/business.ts:2037 6981069 -> 6977904 (journal:2025-04-01:18929)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 15 open -> after repeal 0 open, 0 ended",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:science-communications.national-data-privacy:general:2025-01-21:law-wiring-23079870) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -12172,43 +12349,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:agriculture|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on agriculture, which the raise moved by 10000000: 0 without the raise, 10000604 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:agriculture:law-wiring-bd747f33)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 agriculture 0 -> 10000000 by law-wiring-bd747f33",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -12628,7 +12811,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:starting",
           "why": ""
         },
         "change": {
@@ -12638,42 +12821,49 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "partial",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:671 49602439179 -> 49601715831 (journal:2025-01-21:748); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/modules/counted-demotion.ts:318 40891373 -> 40260275 (journal:2025-09-01:68459); Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): accounts.transfer @ src/core2/counted-money.ts:428 598001049 -> 597414514 (journal:2025-02-01:1107)",
+          "why": "money differs from the control world, but no post is the law's own: none by a file that read it, none citing it, none to anyone it reached",
+          "untraced": true
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "more-immigration-to-workforce: size-not-set, immigration-to-crime: about-zero",
+          "why": "every link is unbuilt: size-not-set"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6): 145 people heard (person_0aaf66a4aef1a3e6:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "Butte, Alaska, US-AK (seed 3d8e41c7a09b25f6)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:immigration.admit-more-immigrants:general:2025-01-21:law-wiring-b8da9dc9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -12696,43 +12886,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:nationalDefense|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on nationalDefense, which the raise moved by 10000000: 0 without the raise, 10010026 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 165 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:nationalDefense:law-wiring-0a08fddd)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 nationalDefense 0 -> 10000000 by law-wiring-0a08fddd",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -12755,43 +12951,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:veterans|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on veterans, which the raise moved by 10000000: 0 without the raise, 9999996 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 93 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:veterans:law-wiring-8285a4e0)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 veterans 0 -> 10000000 by law-wiring-8285a4e0",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -12814,43 +13016,49 @@
           "why": ""
         },
         "reach": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open (full 0, counted groups 0/0 people, households 0, orgs 1, govts 0) e.g. applied|budget-line:internationalAffairs|jurisdiction_16b3bfd4091db759",
+          "why": ""
         },
         "systems": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "src/core2/budgets-treasury.ts",
+          "why": ""
         },
         "money": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): the place:2745772 treasury's payments on internationalAffairs, which the raise moved by 10000000: 0 without the raise, 9993462 with it (journal:2025-02-01:1435)",
+          "why": ""
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "data/research/outcome-web/links.json",
+          "why": "no researched outcome-web link starts from this law"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 90 people heard (person_0af0d3e06ac8527e:printed:outlet:newspaper:1:jurisdiction_16b3bfd4091db759:budget-line-changed:budget:place:2745772:2025:internationalAffairs:law-wiring-66ac72d7)",
+          "why": ""
         },
         "repeal": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 1 open under the changed row -> after the old amount is put back 0 still cite it",
+          "why": ""
         },
         "allPlaces": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": ""
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "place:2745772 internationalAffairs 0 -> 10000000 by law-wiring-66ac72d7",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {
@@ -12864,7 +13072,7 @@
       "links": {
         "exists": {
           "status": "wired",
-          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer)",
+          "evidence": "56/56 places (federal 1); src/core2/policy-answers.ts (federal answer); drawn place row law:US:federal:us-federal-positions:trade.raise-tariffs:general:starting",
           "why": ""
         },
         "change": {
@@ -12874,42 +13082,48 @@
         },
         "reach": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "why": "no law-reach row: nothing records who it applies to"
         },
         "systems": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "table trace: no engine read the law's rows in the run",
+          "why": "no engine reads it (only lawmaking, news or the outcome web, if anything)"
         },
         "money": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "journal trace: no post differs from the control world",
+          "why": "no money flow: nobody pays or receives anything because of it"
         },
         "web": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "tariffs-to-prices",
+          "why": "built links did not move their measure in the run (cause not read by the web, or the measure is not kept for this place)"
         },
         "knowing": {
-          "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "status": "wired",
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805): 122 people heard (person_08155d00064491bf:printed:outlet:cable:0:national:law-took-effect:law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9)",
+          "why": ""
         },
         "repeal": {
           "status": "missing",
           "evidence": "",
-          "why": "not run"
+          "why": "nothing reached, so nothing to stop"
         },
         "allPlaces": {
           "status": "missing",
-          "evidence": "",
-          "why": "not run"
+          "evidence": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "why": "reaches nobody anywhere"
         }
       },
       "screens": [],
-      "runs": [],
+      "runs": [
+        {
+          "place": "New Munich, Minnesota, US-MN (seed 7a3c19e2d4b6f805)",
+          "change": "enacted at federal (law:US:federal:us-federal-positions:trade.raise-tariffs:general:2025-01-21:law-wiring-495529d9) effective 2025-01-21; then repealed at federal effective 2026-01-22",
+          "inForceAtOpening": false
+        }
+      ],
       "errors": []
     },
     {

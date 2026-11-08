@@ -39,3 +39,17 @@ Left, with the reason:
 - **Places inside matched consolidated counties** (Denver, Jacksonville, Anchorage...) already have their city body at the seat; only the 14 Louisiana places needed the #7436 rule.
 - **Not mine:** the small-town job climb (Jobs and economy session), the outcome web per place (the web follows only the player's town in 8 of 8 drawn worlds, so nothing to fix).
 - **A words problem for Legislation and Words:** the bill value box reads "In force today 1% / The bill makes it 0%" for a yes-or-no law.
+
+## Update, Nov 8 afternoon (Laws and effects)
+
+On main: the disaster cost share (#7527; London, Kentucky, public assistance 66.7% with the law) and local bodies taking up budget-line amendments each meeting (#7542; Westway, Texas, seed memA: 36 line bills in the year, 12 passed, 24 failed; East Palo Alto and Graniteville also drawn).
+
+Open: #7556 (a pay-for-a-higher-debt-limit law holds the federal debt limit; Newport, Rhode Island; the Treasury borrowed exactly the room under it) and #7558 (a player files for council in a place inside a consolidated city-county; Monticello, Louisiana).
+
+Left, with the reason:
+
+- **Unread outcome-web links (48 on the list).** Looked at each. Of the 48, 28 have no researched size, so the web cannot apply them; 12 name a cause no engine records (coverage, lead, heat, birth bonus) or an outcome no engine produces (test scores, absence, homelessness); the flood-zone limit is read by the disasters engine only through recorded declarations, which end before a law passed from the start can act (24-month lag). The ones left with a size and an engine that could carry them (licensing and poverty, gas hookup ban and child asthma, container deposit and litter, farm payments and land values, rail expansion and riders) need an engine that decides the outcome first; wiring them to a number nobody reads would be a placeholder. They need their research (sizes, causes) and an owning engine, not more readers.
+- **Bill menu topics still missing** (bonds, water, flood control, sentencing, marriage and custody, the rest of immigration, defense, trade) need law for all 56 places from sources this session cannot fetch (every government host is refused by the egress proxy: www.ncsl.org, www.congress.gov, www.govinfo.gov, www.cdc.gov, www.epa.gov, www.bea.gov, www.census.gov).
+- **Six federal questions had no reader; four now have one:** disaster cost share and debt limit are read (#7527, #7556), national data privacy and drug negotiation earlier. Still unread: immigration levels, student loan forgiveness, D.C. statehood, mandatory minimums, the members' stock ban.
+
+Lessons for the skills: a law that takes effect on the day it is enacted ties with the starting row; enact a day ahead in a twin-world proof. A total that mixes a record's kinds (household aid and public assistance share one list) needs filtering to the kind the law touches before a ratio check.
