@@ -106,8 +106,7 @@
     "economy": "Opening the economy",
     "core": "Starting the world",
     "government": "Seating the government",
-    "opening": "Preparing the opening",
-    "done": "Ready"
+    "opening": "Preparing the opening"
   },
   "opening": {
     "news": "News",
