@@ -6,7 +6,7 @@ lead: laws
 kind: wiring
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/federal-cannabis-scope
 pr: #7338
 blocked-on:
