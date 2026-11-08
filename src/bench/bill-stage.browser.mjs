@@ -102,14 +102,22 @@ try {
     const allowed = [...select.options].filter(
       (o) =>
         o.value.startsWith("series:") &&
-        !/Not a power|preempts|levy no|restricts/i.test(o.textContent),
+        !/Not a power|preempts|levy no|restricts|bars/i.test(o.textContent),
     );
-    // The sales tax where the body may draft it (the case the merger found), else the first.
-    const option =
-      allowed.find((o) => /Sales tax rate/i.test(o.textContent)) ?? allowed[0];
+    // The sales tax where the body may draft it (the case the merger found), else the first issue with
+    // an amount in force today: staff redraft a section against the law in force, so one that is not set has nothing to redraft.
+    const pick = (option) => {
+      select.value = option.value;
+      select.dispatchEvent(new Event("change", { bubbles: true }));
+      return document.querySelector(".draft-today").textContent;
+    };
+    const ordered = [
+      ...allowed.filter((o) => /Sales tax rate/i.test(o.textContent)),
+      ...allowed.filter((o) => !/Sales tax rate/i.test(o.textContent)),
+    ];
+    const option = ordered.find((o) => !/not set/i.test(pick(o))) ?? ordered[0];
     if (!option) return null;
-    select.value = option.value;
-    select.dispatchEvent(new Event("change", { bubbles: true }));
+    pick(option);
     return {
       issue: option.textContent,
       today: document.querySelector(".draft-today").textContent,
