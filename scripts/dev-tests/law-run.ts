@@ -57,8 +57,10 @@ function diffKinds(a: Record<string, number>, b: Record<string, number>) {
 function citing(core: CoreState, ...needles: string[]) {
   const out: Record<string, number> = {};
   for (const row of core.durableLog.values()) {
+    // A printed story's id is `printed:<outlet>:law-took-effect:<law row id>` and news.read cites the story id,
+    // so match the record's own id as well as its facts (a count of facts alone missed every story).
     const s = JSON.stringify(row.facts ?? {});
-    if (needles.some((n) => n && s.includes(n))) out[row.kind] = (out[row.kind] ?? 0) + 1;
+    if (needles.some((n) => n && (s.includes(n) || String(row.id).includes(n)))) out[row.kind] = (out[row.kind] ?? 0) + 1;
   }
   return out;
 }
