@@ -82,6 +82,16 @@ describe(`the bill page's view (seed ${seed})`, () => {
         (wage?.current ?? 0) + 200,
       );
       expect(
+        first.changeMinor,
+        `${draw.name}: the raise over the law in force`,
+      ).toBe(200);
+      expect(
+        first.changePct!,
+        `${draw.name}: the raise as a share of the wage in force`,
+      ).toBeCloseTo((200 / (wage?.current || 1)) * 100, 6);
+      // A rate is not a sum: only budget lines make the bill's total change.
+      expect(page.totalChangeMinor, draw.name).toBeNull();
+      expect(
         page.tallies.some((t) => t.stage === "floor"),
         draw.name,
       ).toBe(true);
