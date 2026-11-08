@@ -7,6 +7,12 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, numberBox, statusLine } from "./fields.mjs";
 
+/** The bill last introduced here: kept across the sheet's redraws, which a refresh causes. */
+let lastBillId = null;
+
+/** The last result line, kept across the sheet's redraws. */
+let lastResult = "";
+
 async function send(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
     method: input ? "POST" : "GET",
@@ -67,16 +73,18 @@ export async function devBillsPanel({ labels, onDone }) {
     label: labels.overrideMargin,
   });
   const result = statusLine();
-  let billId = null;
+  result.textContent = lastResult;
   const act = (button, work) =>
     button.addEventListener("click", async () => {
       button.disabled = true;
       result.textContent = "";
       try {
-        result.textContent = await work();
+        lastResult = await work();
+        result.textContent = lastResult;
         await onDone();
       } catch (error) {
-        result.textContent = error.message;
+        lastResult = error.message;
+        result.textContent = lastResult;
       } finally {
         button.disabled = false;
       }
@@ -90,16 +98,16 @@ export async function devBillsPanel({ labels, onDone }) {
       series: seriesBox.value,
       value: Number(value.value),
     });
-    billId = bill.id;
+    lastBillId = bill.id;
     return [bill.number, bill.status, bill.id].join(" · ");
   });
   const decide = (button, sign) =>
     act(button, async () => {
-      if (!billId) throw new Error(labels.noBill);
+      if (!lastBillId) throw new Error(labels.noBill);
       const executive =
         signBox.value === "game" ? undefined : signBox.value === "sign";
       const out = await send("decide", {
-        billId,
+        billId: lastBillId,
         margin: sign * Number(margin.value),
         sign: executive,
         overrideMargin: Number(overrideMargin.value),
@@ -134,5 +142,5 @@ export async function devBillsPanel({ labels, onDone }) {
     ),
     result,
   );
-  return { section, bodies, billId: () => billId };
+  return { section, bodies, billId: () => lastBillId };
 }

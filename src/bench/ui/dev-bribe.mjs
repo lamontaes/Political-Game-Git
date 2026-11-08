@@ -7,6 +7,9 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { select, numberBox, statusLine } from "./fields.mjs";
 
+/** The last result line, kept across the sheet's redraws. */
+let lastResult = "";
+
 async function send(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
     method: input ? "POST" : "GET",
@@ -41,6 +44,7 @@ export async function devBribePanel({ labels, bodies, billId, onDone }) {
   });
   const stake = numberBox({ value: 500000, min: 1, label: labels.stake });
   const result = statusLine();
+  result.textContent = lastResult;
   const offer = makeButton({ className: "action" }, labels.offer);
   offer.dataset.testid = "dev-bribe";
   offer.addEventListener("click", async () => {
@@ -55,7 +59,7 @@ export async function devBribePanel({ labels, bodies, billId, onDone }) {
         subjectId,
         stakeMinor: Number(stake.value) * 100,
       });
-      result.textContent = [
+      lastResult = [
         out.record.offered ? labels.offered : labels.declined,
         ...(out.record.offered
           ? [out.record.taken ? labels.taken : labels.refused]
@@ -63,9 +67,11 @@ export async function devBribePanel({ labels, bodies, billId, onDone }) {
         ...(out.moved ? [`$${Math.round(out.moved / 100)}`] : []),
         out.record.id,
       ].join(" · ");
+      result.textContent = lastResult;
       await onDone();
     } catch (error) {
-      result.textContent = error.message;
+      lastResult = error.message;
+      result.textContent = lastResult;
     } finally {
       offer.disabled = false;
     }

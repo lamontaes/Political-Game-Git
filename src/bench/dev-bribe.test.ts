@@ -22,44 +22,33 @@ const dev = new DevMode(
 const where = `${world.place.displayName} (seed ${seed})`;
 
 describe(`dev bribe: ${where}`, () => {
-  it("an offer for a pending vote runs through considerBribe and money moves only if taken", () => {
-    const body = dev
-      .lawmakingBodies()
-      .find((b) => b.members.filter((m) => m.personId).length > 2);
-    expect(body, where).toBeDefined();
-    const ids = body!.members.flatMap((m) => (m.personId ? [m.personId] : []));
-    const { bill } = dev.introduce({
-      bodyOfficeId: body!.id,
-      sponsorId: body!.members[0]!.key,
-      series: "minimum-wage",
-      value: 22.5,
-    });
-    const rows: string[] = [];
-    for (const offererId of ids)
-      for (const officialId of ids) {
-        if (offererId === officialId) continue;
-        let out;
-        try {
-          out = dev.forceBribe({
-            offererId,
-            officialId,
-            subjectId: bill.id,
-            stakeMinor: 100_000_00,
-          });
-        } catch {
-          continue;
-        }
-        const { record, moved } = out;
-        rows.push(
-          `${record.offered ? "offered" : "declined"} ${record.taken ? "taken" : "refused"} moved=${moved}`,
+  it("an offer runs through considerBribe; money moves only when the official takes it", () => {
+    const rich = dev.wealthiest(10);
+    const poor = [...world.core.people.values()]
+      .filter((p) => p.alive && p.liquidMinor < 100_000)
+      .slice(0, 150);
+    const outcomes = new Set<string>();
+    let taken = 0;
+    for (const offerer of rich)
+      for (const official of poor) {
+        const { record, moved } = dev.forceBribe({
+          offererId: offerer.personId,
+          officialId: official.id,
+          subjectId: "bill:dev-test",
+          stakeMinor: 50_000_000,
+        });
+        outcomes.add(
+          `${record.offered ? "offered" : "declined"}/${record.taken ? "taken" : "refused"}`,
         );
-        if (record.taken) expect(moved, where).toBeGreaterThan(0);
-        else expect(moved, where).toBe(0);
-        expect(record.subjectId).toBe(bill.id);
+        if (record.taken) {
+          taken += 1;
+          expect(moved, where).toBeGreaterThan(0);
+        } else expect(moved, where).toBe(0);
+        expect(record.subjectId).toBe("bill:dev-test");
       }
     process.stderr.write(
-      `${where}\n${[...new Set(rows)].join("\n")}\ncount=${rows.length}\n`,
+      `${where}: ${[...outcomes].join(", ")}; taken=${taken}\n`,
     );
-    expect(rows.length, where).toBeGreaterThan(0);
+    expect(outcomes.size, where).toBeGreaterThan(1);
   });
 });
