@@ -1073,6 +1073,15 @@ function leaveElsewhere(
   )
     ? person.householdId
     : `${person.householdId}:moved:${person.id}:${api.state.date}`;
+  // Someone who moves to another place no longer holds a job, as for anyone
+  // who leaves (`leave`); the relocation refuses a mover who still holds one
+  // (a 20-year run of Upper Witter Gulch, Colorado, seed 5a1c0de7a11ce5e1,
+  // stopped here in 2032).
+  for (const id of going) {
+    const mover = core.people.get(id);
+    if (mover?.jobId && core.jobs.get(mover.jobId)?.endsAt === undefined)
+      api.endJob(mover.jobId, departure.id);
+  }
   api.relocatePeopleV1({
     personIds: going,
     placeId: where.destinationId,
