@@ -33,6 +33,8 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { snapshotExplicitControlV1 } from "../core2/life";
+import reachA from "../core2/data/laws/reach-group-a.json" with { type: "json" };
+import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
@@ -659,36 +661,70 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
   const reach = billReach(api, bill);
   const minorUnit = (unit: string | null | undefined) =>
     typeof unit === "string" && unit.startsWith("minor");
-  const sections = bill.provisions.map((provision, index) => {
+  const rows = bill.provisions.map((provision, index) => {
     const before = form.sections[index]?.before;
     const budgetLine = provision.kind === "budget-line";
+    const amountMinor =
+      budgetLine || minorUnit(provision.unit)
+        ? budgetLine && provision.of !== undefined
+          ? provision.of + provision.value
+          : provision.value
+        : null;
+    const inForceMinor =
+      before && minorUnit(before.unit) && typeof before.value === "number"
+        ? before.value
+        : null;
+    const lastYearMinor = budgetLine ? (provision.of ?? null) : null;
+    // The change the section makes: a budget line against last year's amount, a rate against the law in force.
+    const base = budgetLine ? lastYearMinor : inForceMinor;
+    const changeMinor =
+      amountMinor !== null && base !== null ? amountMinor - base : null;
     return {
-      index,
-      kind: provision.kind,
-      // The catalog policy, question or budget line the section names: the key for its label.
-      labelKey:
-        provision.policyId ??
-        provision.question ??
-        provision.series ??
-        provision.line ??
-        null,
-      // A budget line carries the amount it sets (its change added to what it changes), else the value.
-      amountMinor:
-        budgetLine || minorUnit(provision.unit)
-          ? budgetLine && provision.of !== undefined
-            ? provision.of + provision.value
-            : provision.value
-          : null,
-      // The law in force today for a rate or an amount in minor units.
-      inForceMinor:
-        before && minorUnit(before.unit) && typeof before.value === "number"
-          ? before.value
-          : null,
-      // A budget line's amount in the budget it changes (last year's), where one is recorded.
-      lastYearMinor: budgetLine ? (provision.of ?? null) : null,
-      level: reach.level,
+      budgetLine,
+      section: {
+        index,
+        kind: provision.kind,
+        // The catalog policy, question or budget line the section names: the key for its label.
+        labelKey:
+          provision.policyId ??
+          provision.question ??
+          provision.series ??
+          provision.line ??
+          null,
+        // A budget line carries the amount it sets (its change added to what it changes), else the value.
+        amountMinor,
+        // The law in force today for a rate or an amount in minor units.
+        inForceMinor,
+        // A budget line's amount in the budget it changes (last year's), where one is recorded.
+        lastYearMinor,
+        // The change from last year's amount (a budget line) or the law in force (a rate), in minor
+        // units and as a share of that base; null where the record gives no base.
+        changeMinor,
+        changePct:
+          changeMinor !== null && base ? (changeMinor / base) * 100 : null,
+        level: reach.level,
+        // Whom the law applies to (the law-reach data's own scope for this policy), and the change
+        // itself from what is in force to what is proposed; no counts before it is law.
+        scope: reachScopeOf(
+          provision.policyId ??
+            provision.question ??
+            provision.series ??
+            (provision.line ? `budget:${provision.line}` : null),
+        ),
+      },
     };
   });
+  const sections = rows.map((row) => row.section);
+  // The bill's total change in dollars a year: its budget lines only (a rate is not a sum).
+  const budgetChanges = rows.filter(
+    (row) => row.budgetLine && row.section.changeMinor !== null,
+  );
+  const totalChangeMinor = budgetChanges.length
+    ? budgetChanges.reduce(
+        (sum, row) => sum + (row.section.changeMinor ?? 0),
+        0,
+      )
+    : null;
   const tallies = [
     ...stage.committees.map((c) => ({
       stage: "committee" as const,
@@ -723,10 +759,46 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
       paper.decision?.decidedOn ?? paper.floorDate ?? paper.agendaDate ?? null,
     sponsor: { id: bill.sponsorId, name: paper.sponsor },
     sections,
+    totalChangeMinor,
     tallies,
     reach: {
       level: reach.level,
       reachesYou: reachesTown(api, billJurisdiction(api, bill)),
     },
+  };
+}
+
+interface ReachRow {
+  readonly people?: unknown;
+  readonly reaches?: unknown;
+  readonly organizations?: readonly string[];
+  readonly enforcer?: string;
+  readonly mechanic?: string;
+}
+
+/**
+ * Whom a section's law applies to, as the law-reach data states it for that policy or budget
+ * line: the people it selects (by the selector's own terms, for the banks to word), the
+ * organizations it reaches and who enforces it. Null where the data names none. No counts: a
+ * screen creates no facts, and the counts come from the law-reach records once it is law.
+ */
+function reachScopeOf(key: string | null) {
+  if (!key) return null;
+  const a = (reachA.policies as Record<string, ReachRow>)[key];
+  const b =
+    (reachB.policies as Record<string, ReachRow>)[key] ??
+    (reachB.budgetLines as Record<string, ReachRow>)[
+      key.replace(/^budget:/, "")
+    ];
+  const row = b ?? a;
+  if (!row) return null;
+  const people = row.people ?? row.reaches ?? null;
+  const empty = Array.isArray(people) ? people.length === 0 : people === null;
+  if (empty && !row.organizations?.length && !row.enforcer) return null;
+  return {
+    people: empty ? null : people,
+    organizations: row.organizations ?? [],
+    enforcer: row.enforcer ?? null,
+    mechanic: row.mechanic ?? null,
   };
 }
