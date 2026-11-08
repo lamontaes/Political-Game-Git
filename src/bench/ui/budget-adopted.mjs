@@ -9,7 +9,7 @@ import { typedRow } from "./strips.mjs";
 /**
  * `adoption`: the record. `lineName(line)`: a spending line as the department rows name it.
  * `billName`: the bill's name, or "". `words`: { kinds, by, bill, tally, halved, halvedTimes,
- * dropped, changedSince, carried: { vetoed, rejected } }.
+ * dropped, changedSince, once, times, carried: { vetoed, rejected } }.
  */
 export function adoptedRows({ adoption, lineName, billName, words }) {
   if (!adoption) return [];
@@ -44,6 +44,13 @@ export function adoptedRows({ adoption, lineName, billName, words }) {
       ),
     );
   if (adoption.amendedBy?.length)
-    rows.push(typedRow(words.changedSince, String(adoption.amendedBy.length)));
+    rows.push(
+      typedRow(
+        words.changedSince,
+        adoption.amendedBy.length === 1
+          ? words.once
+          : fill(words.times, { n: adoption.amendedBy.length }),
+      ),
+    );
   return rows;
 }

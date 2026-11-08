@@ -446,7 +446,7 @@
       "signed": "Signed",
       "vetoed": "Vetoed",
       "overridden": "Veto overridden",
-      "enacted": "Enacted",
+      "enacted": "an enacted measure",
       "blocked": "Blocked",
       "awaiting-signature": "Waiting for your signature"
     },
@@ -868,19 +868,21 @@
     "halved": "Cut in half",
     "halvedTimes": "Cut in half {n} times",
     "dropped": "Dropped",
-    "changedSince": "Changes since",
+    "changedSince": "Changed since adoption",
+    "once": "Once",
+    "times": "{n} times",
     "carriedLabel": "Last year's lines",
     "carried": {
       "vetoed": "Carried forward after a veto",
       "rejected": "Carried forward after the body said no"
     },
     "kinds": {
-      "base": "The opening books",
-      "opening": "The opening books",
-      "requests": "The departments' requests",
-      "enacted": "Enacted",
-      "published": "Published",
-      "rule": "The standing rule"
+      "base": "the opening books",
+      "opening": "the opening books",
+      "requests": "the departments' requests",
+      "enacted": "an enacted measure",
+      "published": "the published budget",
+      "rule": "the standing rule"
     }
   },
   "saves": {
