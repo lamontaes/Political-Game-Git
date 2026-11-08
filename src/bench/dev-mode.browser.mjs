@@ -64,8 +64,11 @@ try {
   assert.match(ran, /Days passed/, ran);
   // Scenes: only the types the game can bring about are offered; the rest stay off.
   await page.locator('[data-testid="dev-scene"]').click();
-  await page.waitForFunction(
-    () => document.querySelector(".dev-scene .option-status")?.textContent,
+  // The sheet redraws after a run and rebuilds the line from the last result, so wait for the words.
+  await page.waitForFunction(() =>
+    /Begun for/.test(
+      document.querySelector(".dev-scene .option-status")?.textContent ?? "",
+    ),
   );
   assert.match(
     await page.locator(".dev-scene .option-status").textContent(),
@@ -90,22 +93,19 @@ try {
     });
     if (!value) continue; // this world has no layoff kind the game can start
     await expect_enabled();
-    const before = await page
-      .locator(".dev-scene .option-status")
-      .textContent();
-    // Picked and pressed in one step: the sheet may still be redrawing from the last press.
+    // Picked and pressed in one step: the sheet may still be redrawn from the last press. The
+    // answer is the game's own response to this press, so two runs that write the same line
+    // still tell apart.
+    const answered = page.waitForResponse(
+      (r) => new URL(r.url()).pathname === "/api/dev/scene",
+    );
     await page.evaluate((picked) => {
       document.querySelector(`.dev-scene [data-scene="${picked}"]`).click();
       document.querySelector('[data-testid="dev-scene"]').click();
     }, value);
-    await page.waitForFunction(
-      (text) =>
-        Boolean(
-          document.querySelector(".dev-scene .option-status")?.textContent,
-        ) &&
-        document.querySelector(".dev-scene .option-status")?.textContent !==
-          text,
-      before,
+    await answered;
+    await page.waitForFunction(() =>
+      Boolean(document.querySelector(".dev-scene .option-status")?.textContent),
     );
     assert.match(
       await page.locator(".dev-scene .option-status").textContent(),
