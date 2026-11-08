@@ -2309,6 +2309,16 @@ async function personCardNode(
           ),
         ]
       : []),
+    // Where they place themselves politically: the views engine's own label.
+    ...(c.view
+      ? [
+          stripSection(
+            2,
+            controls.who.views,
+            introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
+          ),
+        ]
+      : []),
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
