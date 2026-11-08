@@ -134,7 +134,7 @@
     "why": "Measured Nov 8 with the pull switched off (24 months, scripts/world-proofs/jobs-24-months.ts, main 48561f2a): Algiers VT 5001035 r7 unemployment 0.2% mean with 0 layoffs and 0 hires in months 12 and 24; Utah place 4906590 n8b 0.0%, 23 zero months; North Carolina place 3755940 rnd-a 0.0%, 24 zero months; Clinton CT 0915420 r7 0.8% mean. With it: 2.3%, 1.1%, 0.5% and 4.9% and 6 to 15 layoffs a year in a 100-worker town. Deleting the pull removes the labor market's churn, not a target.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected), so a layoff is the employer's decision from its books. Then delete reviewTurnover and its pull table.",
+    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected). Plan (Coordinator, Nov 8): a fractional drop in demand cuts hours first, as a sliding scale, with pay and the household's money following; whole-head separations come from discrete causes in the firm's own records (cash running out and the firm closing, the owner's age or health and a retirement or sale, a worker quitting for a better regional job, a worker's own life events). One PR each: hours, then each discrete cause. Then delete reviewTurnover and its pull table.",
     "status": "open"
   }
 ]
