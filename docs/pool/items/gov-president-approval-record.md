@@ -5,13 +5,14 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: nation/national-opinion
 pr:
 after:
 blocked-on:
 milestone:
 source: split from elections-stopgap-electorate-inputs-missing-data by pool feeder Oct 20
+claimed-at: 2026-11-08T16:35:33.761Z
 ---
 
 **What.** Add a monthly president-approval row, written by the executive side and read by the elections side, that says what share of the country approves of the sitting president and why. Each full person and each counted voter group approves from their own view of the president (their lean against the president's party through viewOn and standingWith in src/core2/modules/views.ts), the acts of the president they have heard of (signed or vetoed bills and orders reached through news, per the knowing-is-a-read rule), and the economy they feel (their own pay and prices, with the macro unemployment and inflation change that nationalEconomyChange reads). Sum over people and groups, then record the share with the reasons that moved it since last month.
