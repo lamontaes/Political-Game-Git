@@ -23,7 +23,7 @@
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
 import { coreAPI, fillInPerson, registerModule } from "../state";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 import {
   decisionLean,
   decisionTraitWeight,
@@ -161,9 +161,7 @@ export const MEETINGS_MODULE: CoreModule = {
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(MEETINGS_MODULE_ID).table(name);
 const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 /**
  * What a resident's feeling (`base`) comes to as a drive to stand up: the
  * feeling times one plus every trait's lean toward taking part in a public
