@@ -6,7 +6,7 @@ lead: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/fiscal-reviews-own-law
 pr: #7339
 blocked-on:
