@@ -103,6 +103,8 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - Fixing a cause can shrink tables that never looked related. The player's circle is the people the player's people know, so capping who a join introduces (`knownAmong`, a power law of the group's size) also cut Montpelier's `durableLog` at year 2 from 82,667 to 38,637, and the election year's heap from 7.7 GB at year 4 to 2.8 GB.
 - A log count taken in January includes the circle rows from the November election that `circleActRetentionMonths` (3) has not dropped yet. Compare the same month across years, and read heap after a collection, not the row count alone.
 
+- `npm run speed:year` draws a new place from its seed each run, and a place's size moves a year by two to three times (Nov 8: the same code read 41 to 118 seconds in year 1 across six runs). To compare a branch with main, pass the same `--seed <s>` to both, one process alone, and name the place and seed. A table read that scans every row of a monthly-growing table inside a per-race or per-person call (`rows()` in a hot function) is a cost; keep the latest id on the state row and `get` it.
+
 ## Stop condition
 
 Done when every timed claim names the place, seed, years and machine, every speed PR carries an identical records proof (or a fold's named tables), and the item's done-when lines each have that evidence.
