@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: laws/consolidated-county-body
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T09:04:51.598Z
 ---
 
 **What.** A place whose county has no county-government unit in the research (191 of 3,222 counties, among them Honolulu, Nashville-Davidson, Louisville-Jefferson, Denver and the Connecticut, Rhode Island and Massachusetts counties) gets no county body, and a place that is not itself a municipality gets no body at all. Checked Nov 8: Schofield Barracks, Hawaii (1569050) has the county in its law chain (county:15003) and no local office in the offices table; Union, New Hampshire (township-board and county), Gantt, South Carolina and Schurz, Nevada (county board) resolve correctly; Urban Honolulu and Nashville are form none, so even the seat has no body.
