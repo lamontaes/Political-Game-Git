@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** No dice; research calibrates, never decides an outcome. One rule, all 56 places: no place named in logic.
 
-**Done when.** m1-05-check for the place above passes its rent clause with the cause named, or the clause is changed with the owner's reading line.
+**Done when.** m1-05-check for the place above passes its rent clause with the cause named, or the clause is changed with the owner's reading line. Checked in a played world (buildBenchWorld, a seed the builder did not choose) by record id, with the changed test passing and the result named.
 
 **Files.** src/core2/modules/housing.ts, src/core2/tooling/m1-05-check.ts
 

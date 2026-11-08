@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** News under Nation (merged in #7313) tells every other-state law in the last nationNewsDays. The CTO's Nov 6 ruling: pick them with the press engine's newsworthiness rule, other states as a parameter, a data term for the reader's ties to the state (moved from, family or work there, a neighboring state) and the law's reach, no hand cap, text built when the paper opens from the stored result.
+**What.** News under Nation (merged in #7313) tells every other-state law in the last nationNewsDays. The CTO's Nov 6 ruling: pick them with the press engine's newsworthiness rule, other states as a parameter, a data term for the reader's ties to the state (moved from, family or work there, a neighboring state) and the law's reach, no hand cap, text built when the paper opens from the stored result. In short: Nation story: choose other-state laws by reach and the reader's ties, not a plain two-week window.
 
 **Rules.** Generate on demand (owner Nov 5); no dice, no cap; every number in a parameter table; sourced adjacency.
 

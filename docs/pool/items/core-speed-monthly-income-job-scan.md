@@ -12,11 +12,11 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** monthlyIncome (src/core2/modules/credit.ts line 1179) walks all of core.jobs for each household it is asked about. On Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), core.jobs holds about 8,300 jobs, and year 4's profile puts 5.6 s of self time in monthlyIncome and 3.2 s in its callback, about 9 s of a year that runs 128.4 s against the 120 s bar.
+**What.** monthlyIncome (src/core2/modules/credit.ts line 1179) walks all of core.jobs for each household it is asked about. On Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), core.jobs holds about 8,300 jobs, and year 4's profile puts 5.6 s of self time in monthlyIncome and 3.2 s in its callback, about 9 s of a year that runs 128.4 s against the 120 s bar. In short: The election year scans every job for each household's monthly income (about 9 seconds of year 4).
 
 **Rules.** Speed: never scan the whole world or its history every day; use an index. The result must not change (speed:year --same-records).
 
-**Done when.** monthlyIncome reads a person-to-open-jobs index instead of scanning core.jobs; npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 shows year 4 under 120 s with --same-records passing.
+**Done when.** monthlyIncome reads a person-to-open-jobs index instead of scanning core.jobs; npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 shows year 4 under 120 s with --same-records passing. Checked in a played world (buildBenchWorld, a seed the builder did not choose) by record id, with the changed test passing and the result named.
 
 **Files.** src/core2/modules/credit.ts,src/core2/state.ts,src/core2/job-lifecycle.ts
 

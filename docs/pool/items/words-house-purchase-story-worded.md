@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** src/bench/printed-words.test.ts ('words every story the press prints in a year') fails on main at GOLDEN_PATH_SEED=8d34c386acfb392ec95fae606581c868e19fac50, Maple Grove, Michigan: 27 printed stories of kind event:housing.purchase (officials' households buying homes, e.g. event:housing.purchase:household:official:cabinet:US:education:0:2025-02-06) have no wording in the news banks.
+**What.** src/bench/printed-words.test.ts ('words every story the press prints in a year') fails on main at GOLDEN_PATH_SEED=8d34c386acfb392ec95fae606581c868e19fac50, Maple Grove, Michigan: 27 printed stories of kind event:housing.purchase (officials' households buying homes, e.g. event:housing.purchase:household:official:cabinet:US:education:0:2025-02-06) have no wording in the news banks. In short: The paper words a house purchase it prints.
 
 **Rules.** No hand-written player text in code: words come from the banks. Every printed story is worded or not printed (press-topics).
 

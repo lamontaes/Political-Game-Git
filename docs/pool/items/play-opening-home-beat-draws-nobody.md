@@ -14,9 +14,9 @@ source: added with npm run pool -- add
 
 **What.** src/bench/montage.test.ts fails on clean main (origin/main, Nov 4) for drawn places whose home picture draws nobody: 'home: expected 0 to be greater than 0' in Brighton, Colorado (0808675, run seed lane4-open-a), Agat, Guam (run seed lane4-open-b:a) and St. Johnsbury, Vermont (5062125, lane4-open-b:b). The home beat casts the player and household, but stagePeople places nobody, likely because the home backdrop has no mannequin plate.
 
-**Rules.** Owner, Nov 4: no people work tonight; this waits on the people system (unit 8: people-home-plates). Never draw, place or fake a person.
+**Rules.** Owner, Nov 4: no people work tonight; this waits on the people system (unit 8: people-home-plates). Never draw, place or fake a person. Wire to the world: the change is proven in a generated world through the engines that already read it, not in a test's own small world.
 
-**Done when.** montage.test.ts passes with run seeds lane4-open-a and lane4-open-b: the home beat stages the player and household in every drawn home.
+**Done when.** montage.test.ts passes with run seeds lane4-open-a and lane4-open-b: the home beat stages the player and household in every drawn home. Checked in a played world (buildBenchWorld, a seed the builder did not choose) by record id, with the changed test passing and the result named.
 
 **Files.** src/bench/montage.ts, src/bench/scene.ts, art/people-rooms/mannequin-plates
 

@@ -12,11 +12,11 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), year 4 with the profiler on: 182 s, of which 146 s is the day loop. Campaign work is 50 s (campaignTurn 37 s; takeCampaignDayChoice 21 s, nearly all holdEvent 17 s), applying each event to listeners costs 20 s (the views engine's onEvent 9 s: stanceAfterCase 4.1 s, standingWith 1.4 s, putOwned 1.6 s; drives onEvent 4.3 s; life onEvent 2.3 s) and the collector 36 s.
+**What.** Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), year 4 with the profiler on: 182 s, of which 146 s is the day loop. Campaign work is 50 s (campaignTurn 37 s; takeCampaignDayChoice 21 s, nearly all holdEvent 17 s), applying each event to listeners costs 20 s (the views engine's onEvent 9 s: stanceAfterCase 4.1 s, standingWith 1.4 s, putOwned 1.6 s; drives onEvent 4.3 s; life onEvent 2.3 s) and the collector 36 s. In short: Upper Witter Gulch election year: campaign events and the stance they move take most of the year.
 
 **Rules.** Speed: the election year must run under 120 s on npm run speed:year; no dice; a cut must keep the same records (speed:year --same-records).
 
-**Done when.** npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 shows year 4 under 120 s on the same machine as the base, with --same-records passing; the PR names each cut by function and the seconds it saved.
+**Done when.** npm run speed:year -- --place 0879800 --seed 5a1c0de7a11ce5e1 shows year 4 under 120 s on the same machine as the base, with --same-records passing; the PR names each cut by function and the seconds it saved. Checked in a played world (buildBenchWorld, a seed the builder did not choose) by record id, with the changed test passing and the result named.
 
 **Files.** src/core2/modules/views.ts,src/core2/modules/campaigns.ts,src/core2/campaign-day.ts,src/core2/modules/drives.ts
 

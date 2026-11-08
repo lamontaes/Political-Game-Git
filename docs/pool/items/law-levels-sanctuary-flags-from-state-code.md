@@ -14,9 +14,9 @@ source: added with npm run pool -- add
 
 **What.** partner-with-federal-immigration-enforcement is flagged as a state-set rule (preempts) in 16 places: CA CT DC DE FL GA IL MD ME NJ NM NY OR TN TX WA. The flag fits both directions: Florida, Georgia, Tennessee and Texas require cooperation, California, Illinois and others limit it, and the question settles it for the state either way (docs/reports/law-levels-2026-11-05.md). It is missing about 13 anti-sanctuary states and CO, RI, VT, MA.
 
-**Rules.** Each state's flag from its own statute with the citation and a quote; never from a list of states; state level is exact; a court ruling is not a statute.
+**Rules.** Each state's flag from its own statute with the citation and a quote; never from a list of states; state level is exact; a court ruling is not a statute. Wire to the world: the change is proven in a generated world through the engines that already read it, not in a test's own small world.
 
-**Done when.** Every state is settled by a quoted statute, the flag is set for each, and a test reads all 56.
+**Done when.** Every state is settled by a quoted statute, the flag is set for each, and a test reads all 56. Checked in a played world (buildBenchWorld, a seed the builder did not choose) by record id, with the changed test passing and the result named.
 
 **Files.** data/research/laws/starting-law-2026/justice-public-safety.json
 

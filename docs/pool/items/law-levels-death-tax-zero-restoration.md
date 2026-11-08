@@ -15,9 +15,9 @@ claimed-at: 2026-11-08T02:24:35.938Z
 
 **What.** The death-tax branch of shapedRate scales schedule rates to zero and cannot recover them when a later bill raises the top rate. The death-tax reader also selects rows by date and lexical id instead of the shared law-in-force ordering. Preserve the real schedule basis through zero and use the one resolver so same-day enacted acts govern in order.
 
-**Rules.** Use existing law/bill/estate assessment engines; no invented replacement rates or exemptions. Keep jurisdiction scopes and government-heir exemptions unchanged. Test actual assessment after signed bills, and distinguish this from proving all territory estate-tax scope or played votes.
+**Rules.** Use existing law/bill/estate assessment engines; no invented replacement rates or exemptions. Keep jurisdiction scopes and government-heir exemptions unchanged. Test actual assessment after signed bills, and distinguish this from proving all territory estate-tax scope or played votes. Wire to the world: the change is proven in a generated world through the engines that already read it, not in a test's own small world.
 
-**Done when.** In a randomly drawn generated world, signed bills set an applicable estate or inheritance tax to zero and restore it, including multiple acts on the same date. The production assessment returns its exact original amount and source law; other jurisdictions and exemptions stay unchanged. Old writer/reader fail, ten fresh draws and a new game pass, with place and replay in the PR.
+**Done when.** In a randomly drawn generated world, signed bills set an applicable estate or inheritance tax to zero and restore it, including multiple acts on the same date. The production assessment returns its exact original amount and source law; other jurisdictions and exemptions stay unchanged. Old writer/reader fail, ten fresh draws and a new game pass, with place and replay in the PR. Checked in a played world (buildBenchWorld, a seed the builder did not choose) by record id, with the changed test passing and the result named.
 
 **Files.** src/core2/modules/legislature.ts,src/core2/laws-death-taxes.ts,src/core2/death-tax-zero-restoration.test.ts
 
