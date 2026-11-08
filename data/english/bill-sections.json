@@ -200,6 +200,11 @@
       "purpose": "bar new natural gas hookups in buildings",
       "enact": "a new building shall not be connected to the natural gas system"
     },
+    "environment-energy.allow-retail-electric-choice": {
+      "subject": "retail electric choice",
+      "purpose": "let households buy their electricity from a competitive supplier",
+      "enact": "residential customers may buy electricity from a competitive supplier"
+    },
     "environment-energy.clean-electricity-standard": {
       "subject": "clean electricity",
       "purpose": "require utilities to supply a rising share of power from clean sources",
