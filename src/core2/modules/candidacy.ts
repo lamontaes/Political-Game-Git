@@ -962,26 +962,23 @@ function committedOn(
 ): Set<PersonId> {
   const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
+  const weighed = api.moduleState(CANDIDACY_MODULE_ID).table("weighed");
   const out = new Set<PersonId>();
-  // Whoever has filed for another seat that day, even if asked to run by a
-  // party or a retiring holder (those asks file without a weighed row).
-  for (const other of contests.rows() as unknown as ContestRow[])
-    if (other.electionDate === electionDate && other.id !== exceptContestId)
-      for (const filing of filings.query("byContest", [
-        other.id,
-      ]) as unknown as FilingRow[])
-        if (filing.status !== "withdrawn") out.add(filing.personId as PersonId);
-  for (const row of api
-    .moduleState(CANDIDACY_MODULE_ID)
-    .table("weighed")
-    .rows() as unknown as WeighedContest[]) {
-    const held = contests.get(row.contestId) as unknown as
-      ContestRow | undefined;
-    if (
-      held?.electionDate === electionDate &&
-      row.contestId !== exceptContestId
-    )
-      for (const id of row.runIds) out.add(id);
+  // Everyone who decided to run, or filed (even if asked to run by a party or
+  // a retiring holder: those asks file without a weighed row), for another
+  // seat that day.
+  for (const other of contests.query("byDate", [
+    electionDate,
+  ]) as unknown as ContestRow[]) {
+    if (other.id === exceptContestId) continue;
+    for (const id of (
+      weighed.get(other.id) as unknown as WeighedContest | undefined
+    )?.runIds ?? [])
+      out.add(id);
+    for (const filing of filings.query("byContest", [
+      other.id,
+    ]) as unknown as FilingRow[])
+      if (filing.status !== "withdrawn") out.add(filing.personId as PersonId);
   }
   return out;
 }
