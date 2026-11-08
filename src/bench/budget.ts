@@ -109,7 +109,10 @@ function headsOf(core: CoreState, governmentId: string, level: string) {
   const api = coreAPI(core);
   const heads = new Map<string, string>();
   for (const row of appointmentsIn(api, governmentId)) {
-    const line = lineForPost(level, `town:${row.post}`);
+    const line = lineForPost(
+      level,
+      `${level === "state" ? "state" : "town"}:${row.post}`,
+    );
     if (line === "administration" || heads.has(line)) continue;
     const person = core.people.get(row.holderId);
     const name = person
