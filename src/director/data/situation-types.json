@@ -3335,6 +3335,20 @@
           "sceneKey": "lobbyist-word",
           "opener": "other",
           "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:governor-answer-hallway"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "governor.response",
+          "bind": {
+            "other": "counterpart",
+            "you": "subject"
+          },
+          "sceneKey": "governor-answer-word",
+          "opener": "other",
+          "setting": ["seat", "venue"]
         }
       ],
       "tag": {
