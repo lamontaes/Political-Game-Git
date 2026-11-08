@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: claimed
+status: done
 claimed-by: nation-newsworthy
-pr:
+pr: #7340
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T00:25:39.134Z
