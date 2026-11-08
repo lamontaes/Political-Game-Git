@@ -2935,7 +2935,7 @@ const address: Builder = (read, f) => {
  * A protest or strike with no named demand is not told.
  */
 const publicAction =
-  (kind: "protest" | "strike" | "rally"): Builder =>
+  (kind: "protest" | "strike" | "rally" | "movement"): Builder =>
   (read, f) => {
     const place = read.place();
     if (!place) return null;
@@ -3241,6 +3241,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),
   "civic.rally": publicAction("rally"),
+  "civic.movement": publicAction("movement"),
   "estate.settled": estate,
   "carry-asked": carry,
   "campaign-endorsed": endorsement,
