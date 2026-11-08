@@ -76,8 +76,7 @@ try {
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Your office" })
     .click();
-  // The drafts are on their own tab of Your office.
-  await page.locator('.office-tabs [data-office="draft"]').click();
+  // Your office is one strip board; the draft card is on it, not on a tab of its own.
   await page.locator("#sheet-body select").waitFor();
   const picked = await page.evaluate(() => {
     const select = document.querySelector("#sheet-body select");
