@@ -1151,6 +1151,7 @@ function month(api: CoreAPI): void {
       rt.arrive.set(key, (rt.arrive.get(key) ?? 0) + toCounted);
     }
   }
+  // stopgapId: SG-LIVES-abroad-arrivals-no-pull (the flow is sized by the sourced rate and does not respond to a place's pull)
   // People from abroad: each state takes in its ACS rate of its people a year
   // (the age mix of the nation's arrivals from abroad). They come from no
   // state's leavers, so a state's count grows by them; the town's state sends
