@@ -221,6 +221,32 @@ export function openWorldLegislating(core: CoreState): void {
     scheduleOpening(api, jurisdiction, core.date, true);
 }
 
+/**
+ * Every session already sitting when the world opens takes up its work at the opening, once the
+ * rest of the world is installed, so the bills filed in its first weeks are on the record on
+ * day one. Called last by the world's build; a world that does not call it opens them the next day.
+ */
+export function openSittingSessions(core: CoreState): void {
+  if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
+  const api = coreAPI(core);
+  for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+    const w = nextWindow(jurisdiction, core.date, true);
+    if (!w || w.conveneAt > core.date) continue;
+    openSession(api, {
+      key: `session-open:${jurisdiction}:${w.conveneAt}`,
+      date: core.date,
+      kind: "session-open",
+      source: {
+        tag: w.tag,
+        citation: w.source,
+        asOf: core.date,
+        ...(w.tag === "ESTIMATED" ? { estimatedFrom: w.source } : {}),
+      },
+      sourceRecordIds: [jurisdiction, w.conveneAt, w.adjournAt],
+    } as unknown as Readonly<ModuleCalendarWork>);
+  }
+}
+
 function townBodies(api: CoreAPI): readonly string[] {
   const offices = (
     api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
@@ -1111,6 +1137,9 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
   ];
+  // A session opened already (a sitting one, at the world's opening) is not opened again by its
+  // calendar entry the next day.
+  if (sessionTable(api).get(`session:${jurisdiction}:${conveneAt}`)) return;
   // Another government's session is simulated from its people and keeps only
   // its results (owner, Nov 5: "generate on demand").
   if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) {
@@ -1171,7 +1200,12 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     : [];
   const today = api.state.date;
   const length = Math.max(1, daysBetween(today, adjournAt));
-  const period = campaignParameter("sessionFilingShare") * length;
+  // A session already sitting spreads its filings from the day it convened, so the bills filed
+  // in its first weeks are already on the record when the world opens, dated as they were filed.
+  const start = conveneAt < today ? conveneAt : today;
+  const period =
+    campaignParameter("sessionFilingShare") *
+    Math.max(1, daysBetween(start, adjournAt));
   const filings: Filing[] = filed.map((item, i) => ({
     question: item.question,
     direction: item.direction,
@@ -1179,7 +1213,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     cosponsors: item.cosponsors,
     introduceOn: item.drafted
       ? today
-      : plusDays(today, (i * period) / Math.max(1, filed.length)),
+      : plusDays(start, (i * period) / Math.max(1, filed.length)),
     billId: item.drafted?.id ?? null,
   }));
   const weeks = Math.max(1, length / 7);
@@ -1518,6 +1552,15 @@ function introduce(api: CoreAPI, sessionId: string, index: number): void {
       },
     ],
   });
+  // A bill filed before the world opened is dated the day it was filed.
+  if (filing.introduceOn < api.state.date)
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .put({
+        ...bill,
+        introduced: filing.introduceOn,
+      } as unknown as ModuleRow);
   sessionTable(api).put({
     ...row,
     filings: row.filings.map((f, i) =>
