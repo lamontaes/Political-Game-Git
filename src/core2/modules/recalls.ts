@@ -433,6 +433,7 @@ export function openToRecall(api: CoreAPI, term: TermRow): boolean {
 
 function weighOrdinance(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
+  if (String(event.placeId).startsWith("national:")) return;
   if (facts.level !== "city" && facts.level !== "county") return;
   const row = api
     .moduleState(LAWS_MODULE_ID)
