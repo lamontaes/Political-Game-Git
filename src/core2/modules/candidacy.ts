@@ -815,7 +815,9 @@ export function weighContest(
   // county officeholder from outside the town still holds the county's seat.
   const weighs = (p: PersonState) =>
     p.alive &&
-    (p.placeId === town.townPlaceId || pool.has(p.id) || p.id === incumbentId) &&
+    (p.placeId === town.townPlaceId ||
+      pool.has(p.id) ||
+      p.id === incumbentId) &&
     !appointed.has(p.id) &&
     ageOnDate(p.birthDate, date) >= rules.minimumAge &&
     !isExplicitlyControlledPersonV1(api.state, p.id) &&
@@ -1275,7 +1277,12 @@ function askForSuccessor(api: CoreAPI, contest: ContestRow): void {
       true,
     );
     if (!decision?.run) continue;
-    const filing = fileFor(api, person, contest, Boolean(seatParty(api, contest)));
+    const filing = fileFor(
+      api,
+      person,
+      contest,
+      Boolean(seatParty(api, contest)),
+    );
     table(api).put({ ...decision, filing } as unknown as { id: string });
     if (filing.status !== "refused") break;
   }
