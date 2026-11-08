@@ -273,6 +273,7 @@ export async function handleDev(
         mode.decideAt(String(input.billId), Number(input.margin), {
           sign: typeof input.sign === "boolean" ? input.sign : undefined,
           discharge: input.discharge === true,
+          chairHears: input.chairHears === true,
           overrideMargin:
             input.overrideMargin === undefined
               ? undefined
