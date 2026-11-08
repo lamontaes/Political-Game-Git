@@ -54,7 +54,13 @@ describe(`discharge petition: ${where}`, () => {
         expect(first.discharge.needed, where).toBe(218);
         expect(first.discharge.discharged, where).toBe(true);
         expect(first.reported, where).toBe(true);
-        expect(result.bill.status, where).not.toBe("failed");
+        // Discharged, the bill went on: it was enacted, or it reached the Senate (whose committee has no
+        // discharge rule in the data and may hold it there).
+        expect(
+          result.bill.status === "enacted" ||
+            result.committees.some((c) => c.chamber === "federal:us-senate"),
+          `${where}: the discharged bill reached the floor and went on`,
+        ).toBe(true);
       }
       expect(
         rescued,
