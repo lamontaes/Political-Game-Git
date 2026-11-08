@@ -94,6 +94,11 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // The player has worked beside their colleagues for a while (dev mode records the hours of contact), so the
+  // colleagues who back a bill and know them sign on when they introduce it.
+  await page.evaluate(() =>
+    fetch("/api/dev/work-beside-colleagues", { method: "POST" }),
+  );
   // The draft card: the issue, what is in force today and the new amount.
   await page
     .locator('#rings [data-tab="politics"]')
@@ -181,6 +186,10 @@ try {
     return { aide: v.aide, told: v.told.length, cosponsors: v.cosponsors };
   }, billId);
   console.log("after colleagues told the player:", JSON.stringify(told));
+  assert.ok(
+    told.cosponsors.length > 0,
+    "colleagues signed on beside the player",
+  );
   assert.ok(told.told > 0, "colleagues told the player where they stand");
   // Back, and open the paper again: it now says what the aide expects.
   await page.locator("#sheet-body button.action").first().click();
@@ -192,6 +201,7 @@ try {
   await page.locator(".bill-doc").waitFor();
   const paperAfter = await page.locator("#sheet-body").innerText();
   console.log("aide on the paper:", /aide/i.test(paperAfter));
+  assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
   assert.match(paperAfter, /aide/i, "the paper carries the aide's estimate");
   assert.match(
     paperAfter,

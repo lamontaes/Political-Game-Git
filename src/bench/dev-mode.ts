@@ -1081,6 +1081,31 @@ export class DevMode {
   }
 
   /**
+   * The player has worked beside every colleague of the body they sit on for a while: hours of contact on the
+   * record (`api.relationship`), the way a term of sessions and talks leaves it. A bill they then introduce
+   * is signed on by the colleagues who back it and know them.
+   */
+  workBesideColleagues(hours = 2) {
+    const player = snapshotExplicitControlV1(this.core).personId;
+    if (!player) throw new Error("Control a person first.");
+    const bodies = this.lawmakingBodies().filter((body) =>
+      members(this.api, body.id).some((term) => memberKey(term) === player),
+    );
+    let colleagues = 0;
+    for (const body of bodies)
+      for (const term of members(this.api, body.id)) {
+        const key = memberKey(term);
+        if (key === player || !this.core.people.has(key)) continue;
+        this.api.relationship(player, key, "contact", hours);
+        colleagues += 1;
+      }
+    return this.mark("work-beside-colleagues", [player], {
+      player,
+      colleagues: String(colleagues),
+    });
+  }
+
+  /**
    * What colleagues tell the player about a bill: each member of the player's chamber (or one member) tells
    * them where they stand, as a conversation records it (`learnStake`), so the aide's estimate and the paper's
    * "what members told you" have something to read. The sponsor is the one who learns.
