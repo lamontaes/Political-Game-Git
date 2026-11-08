@@ -131116,6 +131116,721 @@
         "move": "warn",
         "key": "honor"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-you-after-the-vote-on-bill-they-are-smiling-which",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches you after the vote on {bill}. They are smiling, which is not the same as friendly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-you-where-no-one-is-listening-the-group-does-not",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops you where no one is listening. The group does not forget a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-hall-has-emptied-name-has-been-waiting-for-the-people-around",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The hall has emptied. {name} has been waiting for the people around you to go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.you-voted-for-bill-first-well-remember-that-in-the-spring",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "You voted for {bill}, {first}. We'll remember that in the spring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill", "voted-yes"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.bill-you-went-the-other-way-from-us-on-it-first-i",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "{bill}. You went the other way from us on it, {first}. I only wanted you to know it was noticed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill", "voted-yes"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.you-voted-for-bill-after-we-asked-you-not-to-that-has",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "You voted for {bill} after we asked you not to. That has a cost, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill", "voted-yes"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.you-voted-against-bill-first-we-were-counting-on-you-well-remember",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "You voted against {bill}, {first}. We were counting on you. We'll remember that in the spring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill", "voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.you-didnt-give-us-the-vote-on-bill-first-i-only-wanted",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "You didn't give us the vote on {bill}, {first}. I only wanted you to know it was noticed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill", "voted-no"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.you-voted-against-bill-after-we-asked-you-for-it-that-has",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "You voted against {bill} after we asked you for it. That has a cost, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat",
+          "requiresFacts": ["bill", "voted-no"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-warn.you-went-against-us-on-the-vote-first-well-remember-that",
+      "move": "state-warn",
+      "kind": "spoken",
+      "text": "You went against us on the vote, {first}. We'll remember that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I voted the way I thought was right for {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-heard-your-case-it-didnt-change-what-i-thought-was-right",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I heard your case. It didn't change what I thought was right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-take-your-case-seriously-come-and-see-me-next-time-before",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I take your case seriously. Come and see me next time before it comes to a vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-comfort.i-dont-want-to-be-on-the-wrong-side-of-you-lets",
+      "move": "reply-comfort",
+      "kind": "spoken",
+      "text": "I don't want to be on the wrong side of you. Let's talk it through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "comfort",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "comfort",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.dont-try-to-lean-on-me-it-wont-change-my-vote-next",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Don't try to lean on me. It won't change my vote next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.if-thats-a-threat-say-it-plainly-and-i-wont-be-moved",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "If that's a threat, say it plainly. And I won't be moved by it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "refuse",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-have-another-meeting-to-get-to",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I have another meeting to get to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-cant-talk-about-this-here",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't talk about this here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deflect",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.im-going-to-leave-it-there",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm going to leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-wanted-you-to-know-where-we-stand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I wanted you to know where we stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-well-see-how-the-spring-goes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. We'll see how the spring goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-understand-each-other",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we understand each other.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-lot-of-people-in-the-group-depend-on-this-first-youd",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A lot of people in the group depend on this, {first}. You'd do well to remember that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.thats-not-an-answer-i-can-take-back-to-them",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not an answer I can take back to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.id-hoped-for-more-than-that-from-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'd hoped for more than that from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.then-dont-be-surprised-when-our-money-goes-elsewhere",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Then don't be surprised when our money goes elsewhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.well-back-someone-else-in-the-spring-first-id-think-about-that",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "We'll back someone else in the spring, {first}. I'd think about that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "threaten",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.well-leave-it-there-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We'll leave it there, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.remember-that-we-said-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Remember that we said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-me-out-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "lobby-remembers",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     }
   ]
 }

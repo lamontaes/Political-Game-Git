@@ -240,6 +240,26 @@ export async function handleDev(
       );
       return true;
     }
+    case "GET scenes":
+      send(200, mode.scenes());
+      return true;
+    case "POST scene": {
+      const input = await body(request);
+      send(
+        200,
+        mode.forceScene({
+          typeKey: String(input.typeKey),
+          personId:
+            typeof input.personId === "string" ? input.personId : undefined,
+        }),
+      );
+      return true;
+    }
+    case "POST illness": {
+      const input = await body(request);
+      send(200, mode.forceIllness(String(input.personId)));
+      return true;
+    }
     case "GET wealthiest":
       send(200, mode.wealthiest());
       return true;
@@ -278,6 +298,7 @@ export async function handleDev(
           days: input.days === undefined ? undefined : Number(input.days),
           event: input.event as RunEvent | undefined,
           cap: input.cap === undefined ? undefined : Number(input.cap),
+          person: typeof input.person === "string" ? input.person : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,
