@@ -202,8 +202,6 @@
     "since": "Since",
     "record": "Record",
     "publicRecordTitle": "Public record",
-    "earlier": "Earlier years",
-    "later": "Later years",
     "seat": "Seat held",
     "closenessWords": [
       "You barely know each other",
@@ -563,9 +561,6 @@
     "upcoming": "Coming up",
     "advance": "Go to this day",
     "nothing": "Nothing is on this day.",
-    "page": "{page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "key": "What the calendar shows",
     "hide": "Hide these",
@@ -582,8 +577,7 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "me": "Me",
-    "mine": "Mine"
+    "me": "Me"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -622,9 +616,6 @@
   "news": {
     "title": "News",
     "nation": "Nation",
-    "page": "Page {page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "briefs": "Briefs"
   },
   "jobs": {
@@ -755,9 +746,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "page": "{page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
@@ -934,9 +922,7 @@
   },
   "journal": {
     "title": "My story",
-    "empty": "Nothing is written here yet.",
-    "previous": "Earlier chapters",
-    "next": "Later chapters"
+    "empty": "Nothing is written here yet."
   },
   "titles": {
     "people": "People",

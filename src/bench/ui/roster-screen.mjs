@@ -8,14 +8,13 @@ import { pager } from "./pager.mjs";
 
 /**
  * `groups`: [{ title?, entries: [{ key, label, aside?, onSelect?, data? }] }]; `render(entry)`
- * gives the page nodes (or a promise of them); `words`: the pager's words; `className`
+ * gives the page nodes (or a promise of them); `className`
  * names the screen for its checks. An entry with `onSelect` runs it instead of opening a page.
  */
 export function rosterScreen({
   title,
   groups,
   render,
-  words,
   className = "",
   chosenKey,
 }) {
@@ -62,7 +61,6 @@ export function rosterScreen({
       columns: 1,
       rowHeight: 34,
       gap: 2,
-      words,
       className: "roster-pages",
     }),
   );
