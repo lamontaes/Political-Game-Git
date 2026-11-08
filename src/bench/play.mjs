@@ -521,7 +521,7 @@ function endedBy(value) {
   const words = controls.endedBy ?? {};
   if (value?.kind !== "stop") return "";
   const module = value.stop.modules[0];
-  return module ? (words[module.reasonKey] ?? words.moment ?? "") : "";
+  return module ? (words[module.reasonKey] ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -1325,21 +1325,12 @@ function partyRows(party) {
   if (party.member) {
     const m = party.member;
     // What the line stands on: the registration (the tie's own record, with
-    // the day it began) and the fit (the player's recorded views against the
-    // party's platform), each said as what it compares (owner, Nov 1: "Views
-    // fit close. How do you know?").
-    const fit =
-      m.agreement === null
-        ? ""
-        : ((words.fit ?? []).find((band) => m.agreement >= band.atLeast)
-            ?.label ?? "");
     const line = row(
       words.member,
       [
         words.registered
           .replace("{party}", m.name)
           .replace("{date}", dateWords(m.since)),
-        ...(fit ? [words.fitLine.replace("{fit}", fit)] : []),
       ].join(" · "),
     );
     // The tie's record, for the checks that read it.
@@ -3488,10 +3479,7 @@ const sheets = {
       // here. And then it's just a list of people's names."); the clerk asks
       // which race at the counter.
       const doHere = p.filing
-        ? [
-            { text: labels.filingDoes },
-            ...(opensLine ? [{ text: opensLine }] : []),
-          ]
+        ? [...(opensLine ? [{ text: opensLine }] : [])]
         : reasonLine(p)
           ? reasonLine(p)
               .split(" · ")
@@ -3575,8 +3563,7 @@ const sheets = {
           .map((p) => ({
             title: p.name,
             picture: p.presentation?.imageUrl,
-            lines: [hereLine(p)],
-            note: reasonLine(p),
+            lines: [],
             badge: Boolean(p.trail) || p.filing || p.presentCount > 0,
             label: p.name,
             onSelect: () => showPlace(p),
@@ -3799,7 +3786,7 @@ const sheets = {
           ? labels.atLarge
           : ""
         : /^\d+$/.test(district)
-          ? fill(body.level === "city" ? labels.ward : labels.district, {
+          ? fill(labels.district, {
               n: Number(district),
             })
           : district;
@@ -4807,8 +4794,6 @@ api("/api/title").then((title) => {
   // The life's own face: the look the creator saved, as every other view of the player reads it.
   setFace("front-continue-bust", titleLife?.face);
 });
-// The build version, bottom right of the title (#4014).
-void displayVersion().then((v) => ($("title-version").textContent = v));
 $("front-continue").addEventListener("click", async () => {
   const life = titleLife;
   if (!life) return;
@@ -4953,28 +4938,17 @@ async function fillYears(keepYear) {
     years[0],
   );
   $("cr-year").value = String(nearest.year);
-  derivedAge();
 }
 function chosenAge() {
   return /\(age (\d+)\)/.exec(
     $("cr-year").selectedOptions[0]?.textContent ?? "",
   )?.[1];
 }
-function derivedAge() {
-  const age = chosenAge();
-  $("cr-derived-age").textContent =
-    age && setup.start
-      ? (controls.creator?.ageLine ?? "")
-          .replace("{age}", age)
-          .replace("{date}", dateWords(setup.start))
-      : "";
-}
 $("cr-month").addEventListener("change", async () => {
   fillDays();
   await fillYears();
 });
 $("cr-day").addEventListener("change", () => fillYears());
-$("cr-year").addEventListener("change", derivedAge);
 /** A filled field drops its missing mark and the line at the bottom. */
 function filledIn() {
   for (const group of document.querySelectorAll("#cr-character .missing"))
@@ -4983,21 +4957,8 @@ function filledIn() {
 }
 for (const id of ["cr-given", "cr-family"])
   $(id).addEventListener("input", filledIn);
-/**
- * The random name waits for a gender (owner, Nov 1: "Randomized name shouldn't
- * work until you choose a gender"): a name is drawn for the chosen gender, and
- * the button says what it waits for until then.
- */
-function nameWaitsForGender() {
-  const waiting = !setup.gender;
-  $("cr-random-name").disabled = waiting;
-  $("cr-random-name").textContent = waiting
-    ? controls.creator.nameWaitsForGender
-    : controls.creator.randomName;
-}
 function pickGender(g) {
   setup.gender = g;
-  nameWaitsForGender();
   filledIn();
   for (const b of document.querySelectorAll("[data-gender]")) {
     const on = b.dataset.gender === g;
@@ -5007,6 +4968,15 @@ function pickGender(g) {
 for (const b of document.querySelectorAll("[data-gender]"))
   b.addEventListener("click", () => pickGender(b.dataset.gender));
 $("cr-random-name").addEventListener("click", async () => {
+  // A name is drawn for a gender (owner, Nov 1); with none chosen yet the gender field flashes
+  // as missing instead of the button saying what it waits for (the Nov 8 creator mock).
+  if (!setup.gender) {
+    document
+      .querySelector("[data-gender]")
+      ?.closest(".group")
+      ?.classList.add("missing");
+    return;
+  }
   setup.nameDraws++;
   const name = await api(
     `/api/creator/name?${new URLSearchParams({ seed: setup.seed, draw: setup.nameDraws, gender: setup.gender ?? "" })}`,
@@ -5033,7 +5003,6 @@ async function openCreator() {
   $("cr-route-name").textContent = $("new-start").textContent.trim();
   if (!$("cr-year").options.length) await randomBirthday();
   await controlsReady;
-  nameWaitsForGender();
   frontPanel("cr-character");
 }
 $("new-life").addEventListener("click", () => frontPanel("front-new"));
