@@ -24,3 +24,18 @@ Newest at the bottom. Session: Laws and effects.
 - `buildBenchWorld(seed, gameStartDate(), { placeKey, twoLevel: true })` with `advanceCore` is the whole harness a played proof needs; tests default to a 30 second timeout, so a world build needs `{ timeout: 600_000 }`.
 - A failed vote in a drawn place is a real outcome. Draw several places and report each result.
 - State borders are in `src/core2/data/places/state-reach.json` keyed by USPS letters; laws are keyed `US-XX`.
+
+## Update, Nov 8 about 11 a.m. Eastern
+
+On main since the first entry: Medicare drug price negotiation is a law in force and cuts Medicare members' bills 8% (#7411; Baker, Louisiana, and Ghent, Minnesota); Congress can enact tariffs, universal vouchers and a power plant carbon limit (#7415, La Boca, New Mexico); counted movers read every state's income tax from the law in force (#7417, `stateLawInForce`; Kingston, Rhode Island: California repealing its tax moves the pull from -0.0794 to -0.0481); consolidated city-county governments are their county's local body (#7430: Honolulu, Nashville, Louisville-Jefferson, Athens-Clarke, Butte-Silver Bow, Greeley County KS); eight more federal questions start as cited law and reach the bill paper (#7442, Mount Pleasant, Utah); the neighbor-law pull is proved in a played session (#7438, Lula, Mississippi: 8% of 51 filings match the neighbors with the pull off, 12% of 33 with it on); the town-ban vote has its screenshots (#7448, Wilmot, South Dakota, seed fb1b9115...).
+
+Open: #7436 (a place with no government inside a consolidated city-county answers to it: 14 Louisiana places), #7451 (a national data privacy law costs employing businesses 1.0% of other costs, once; Stuart, Oklahoma).
+
+Left, with the reason:
+
+- **Seven federal questions have no reader** (stopgap `SG-LAWS-federal-position-no-reader`): the debt limit, immigration levels, student loan forgiveness, the disaster cost share, D.C. statehood, mandatory minimums, the members' stock ban. Each needs a mechanic or a researched size; the debt limit and the disaster cost share would need an invented size.
+- **Rent as a pull on moving:** needs the BEA regional price parities by component. `www.bea.gov` and `www.census.gov` are not in this session's allowed hosts. The pull already uses the all-items price level, which includes rent, so a second rent term would double-count it.
+- **Bill menu:** 58 of 133 topics enactable. Bonds, water, flood control, campaign finance, sentencing, marriage and custody, and the rest of immigration, defense and trade need researched law for all 56 places.
+- **Places inside matched consolidated counties** (Denver, Jacksonville, Anchorage...) already have their city body at the seat; only the 14 Louisiana places needed the #7436 rule.
+- **Not mine:** the small-town job climb (Jobs and economy session), the outcome web per place (the web follows only the player's town in 8 of 8 drawn worlds, so nothing to fix).
+- **A words problem for Legislation and Words:** the bill value box reads "In force today 1% / The bill makes it 0%" for a yes-or-no law.

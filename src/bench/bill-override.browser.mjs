@@ -82,6 +82,17 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // Control of the chosen character binds when the clock next advances: play one day first.
+  if (!(await page.locator("#week").isDisabled())) {
+    await page.locator("#week").click();
+    for (let i = 0; i < 10; i += 1) {
+      await page.waitForTimeout(1200);
+      if (await visible("talk-next")) await page.locator("#talk-next").click();
+      else if (await visible("continue"))
+        await page.locator("#continue").click();
+      else break;
+    }
+  }
   // The Politics sheet, where the Bills tab is.
   await page
     .locator('#rings [data-tab="politics"]')
@@ -104,25 +115,42 @@ try {
     // A chamber's committee can hold a bill before the floor: try bills until one is vetoed and
     // waits on the player's own override vote.
     const tried = [];
-    for (let i = 0; i < 8; i += 1) {
-      const chamber = chambers[i % chambers.length];
+    // Many series, since a committee chair hears some questions and holds others.
+    const laws = await (await fetch("/api/dev/laws")).json();
+    const series = laws.series.filter(
+      (row) => typeof row.combined === "number" && row.combined > 0,
+    );
+    // Chambers the player sits in (learned from the first bills); later bills go only there.
+    const mine = new Set();
+    for (let i = 0; i < 40; i += 1) {
+      const pool = mine.size
+        ? chambers.filter((c) => mine.has(c.id))
+        : chambers;
+      const chamber = pool[i % pool.length];
       const intro = await post("introduce", {
         bodyOfficeId: chamber.id,
-        sponsorId: chamber.members[i % chamber.members.length].key,
-        series: "minimum-wage",
-        value: 1700 + i * 25,
-        unit: "minor/hour",
+        sponsorId: chamber.members[(i * 7) % chamber.members.length].key,
+        series: series[i % series.length].series,
+        value: Math.round(series[i % series.length].combined * 120) / 100,
+        unit: series[i % series.length].levels.find((l) => l.row)?.row.unit,
       });
       if (intro.status !== 200) {
         tried.push(`introduce ${intro.status}`);
         continue;
       }
       const billId = intro.value.mark?.facts?.billId ?? intro.value.billId;
-      await post("decide", { billId, margin: 6, sign: false });
+      await post("decide", {
+        billId,
+        margin: [6, 14, 22][i % 3],
+        sign: false,
+      });
       const stage = await (
         await fetch(`/api/bill/stage?billId=${encodeURIComponent(billId)}`)
       ).json();
-      tried.push(`${chamber.name} ${stage.status}`);
+      tried.push(
+        `${chamber.name} ${stage.status} sits ${stage.yours.sits} pending ${stage.yours.overridePending} chosen ${stage.yours.overrideChosen}`,
+      );
+      if (stage.yours.sits) mine.add(chamber.id);
       if (stage.yours.overridePending)
         return { chamber: chamber.name, billId, number: stage.number, tried };
     }
@@ -152,10 +180,18 @@ try {
   await page.locator(".stage-vote button", { hasText: /^Yes$/ }).last().click();
   await page.getByRole("button", { name: "Take up the veto message" }).click();
   // The body voted it: the override result is on the paper by name.
-  await page.locator(".stage-chamber").nth(1).waitFor();
-  const results = await page.evaluate(() =>
-    [...document.querySelectorAll(".stage-chamber")].map((n) => n.innerText),
-  );
+  // The override is its own roll call on the paper, under its own heading.
+  await page
+    .getByText("The vote to override the veto", { exact: true })
+    .waitFor();
+  const results = await page.evaluate(() => {
+    const heading = [...document.querySelectorAll(".sechead")].find(
+      (n) => n.textContent === "The vote to override the veto",
+    );
+    return [...heading.parentElement.querySelectorAll(".stage-chamber")].map(
+      (n) => n.innerText,
+    );
+  });
   console.log("results:", results);
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/override-done.png` });
   assert.ok(
