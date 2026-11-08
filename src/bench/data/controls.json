@@ -846,7 +846,11 @@
       "bribe": "A payment taken",
       "reply": "What was said to them"
     },
-    "showAll": "Show all"
+    "showAll": "Show all",
+    "staff": "Staff",
+    "askStaff": "Ask staff to redraft section",
+    "keepStaffs": "Keep staff's",
+    "keepMine": "Keep mine"
   },
   "billFollow": {
     "open": "Read the bill",

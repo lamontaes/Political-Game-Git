@@ -135,6 +135,15 @@ try {
   const billId = new URL((await asked).url()).searchParams.get("billId");
   assert.ok(billId, "the paper names its bill");
   await page.locator(".bill-doc").waitFor();
+  // Staff redraft: ask for section 1, see it struck and inserted, keep the staff's version.
+  await page
+    .getByRole("button", { name: "Ask staff to redraft section 1" })
+    .click();
+  await page.locator(".stage-redraft ins").waitFor();
+  const redrafted = await page.locator(".stage-redraft ins").innerText();
+  console.log("staff redraft:", redrafted);
+  await page.getByRole("button", { name: "Keep staff's" }).click();
+  await page.locator(".stage-vote").first().waitFor();
   // An amendment: lower section 1 (the difference split with the law in force), then the body votes it.
   await page
     .locator(".stage-vote button", { hasText: /^Lower section 1$/ })

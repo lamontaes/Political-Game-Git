@@ -2328,10 +2328,6 @@ async function openBillPaper(billId, show, back, backLabel) {
         paper.floorDate
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
-        ...paper.whip.map(
-          (count) =>
-            `${count.chamber}: ${count.yes} ${floor.for ?? ""}, ${count.no} ${floor.against ?? ""}, ${count.undecided} ${floor.undecided ?? ""}`,
-        ),
         paper.decision
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
           : null,
@@ -2385,6 +2381,18 @@ async function openBillPaper(billId, show, back, backLabel) {
           );
           await openBillPaper(billId, show, back, backLabel);
         },
+      },
+      {
+        onAsk: (index) =>
+          api(`/api/bill/redraft?${new URLSearchParams({ billId, index })}`),
+        onKeep: async (index) => {
+          await api(
+            `/api/bill/redraft?${new URLSearchParams({ billId, index })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+        estimate: () => "",
       },
     ),
   );
@@ -2492,19 +2500,11 @@ async function seatRows() {
   const labels = controls.officeScreen ?? {};
   // A bill of yours on its plate: its standing, the day it is taken up, each chamber's count
   // the day before, how the vote came out, and the paper that opens to read it.
-  const billPlates = v.bills.map(({ bill, votes, tally, floorDate, whip }) =>
+  const billPlates = v.bills.map(({ bill, votes, tally, floorDate }) =>
     plate(
       `${bill.number} · ${floor.status[bill.status] ?? ""}`,
       ...(floorDate
         ? [line(`${floor.takenUp} ${dateWords(floorDate)}`, "floor-date")]
-        : []),
-      ...(bill.status === "drafted"
-        ? whip.map((count) =>
-            line(
-              `${count.chamber}: ${count.yes} ${floor.for}, ${count.no} ${floor.against}, ${count.undecided} ${floor.undecided}`,
-              "floor-whip",
-            ),
-          )
         : []),
       ...(votes.length
         ? [

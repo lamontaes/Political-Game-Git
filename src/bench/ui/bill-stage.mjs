@@ -76,8 +76,59 @@ export function billStageSections(
   onVote,
   amend = {},
   desk = {},
+  staff = {},
 ) {
   const sections = [];
+  // Staff redraft: ask for a section, see it struck and inserted, keep theirs or your own.
+  if (stage.yours?.mayRedraft && staff.onAsk) {
+    const shown = el("div", { className: "stage-redraft" });
+    const ask = async (index) => {
+      const redraft = await staff.onAsk(index);
+      const keep = makeButton({
+        className: "action",
+        textContent: words.keepStaffs,
+      });
+      keep.addEventListener("click", () => staff.onKeep(index));
+      const mine = makeButton({
+        className: "action",
+        textContent: words.keepMine,
+      });
+      mine.addEventListener("click", () => shown.replaceChildren());
+      shown.replaceChildren(
+        el(
+          "p",
+          { className: "stage-strike" },
+          el("del", { textContent: redraft.struck ?? "" }),
+        ),
+        el(
+          "p",
+          { className: "stage-insert" },
+          el("ins", { textContent: redraft.inserted ?? "" }),
+        ),
+        el("p", { textContent: staff.estimate?.(redraft) ?? "" }),
+        el("div", { className: "stage-vote" }, keep, mine),
+      );
+    };
+    sections.push(
+      stripSection(
+        2,
+        words.staff,
+        el(
+          "div",
+          { className: "stage-vote" },
+          ...stage.sectionsAmendable.map((index) => {
+            const button = makeButton({
+              className: "action",
+              textContent: `${words.askStaff} ${index + 1}`,
+            });
+            button.addEventListener("click", () => ask(index));
+            return button;
+          }),
+        ),
+        shown,
+      ),
+    );
+  }
   // The executive's desk: sign or veto while it waits, then who decided it and why.
   if (stage.desk?.waiting && desk.onDecide)
     sections.push(
