@@ -55,12 +55,17 @@ it("an hours cut before a layoff barely moves the weekly benefit", () => {
         quarter: `${year - 1}Q${n}`,
         grossMinor: quarter,
       }));
-      (core.work as unknown as { payByQuarter: object }).payByQuarter = {
-        [job.personId]: [
-          { quarter: `${year - 2}Q4`, grossMinor: quarter },
-          ...quarters.reverse(),
+      (
+        core.work as unknown as { payByQuarter: Map<string, object> }
+      ).payByQuarter = new Map([
+        [
+          job.personId,
+          [
+            { quarter: `${year - 2}Q4`, grossMinor: quarter },
+            ...quarters.reverse(),
+          ],
         ],
-      };
+      ]);
       core.date = `${year}-07-15` as typeof core.date;
       const base = fileClaim(api, claims, cut, "layoff", 52);
       expect(base, where).toBeTruthy();
