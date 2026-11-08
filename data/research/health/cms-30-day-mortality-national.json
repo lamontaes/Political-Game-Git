@@ -1,0 +1,50 @@
+{
+  "id": "cms-30-day-mortality-national",
+  "fetched": "2026-11-08",
+  "source": "CMS Provider Data Catalog, 'Complications and Deaths - National' (dataset qqw3-t4ie), https://data.cms.gov/provider-data/api/1/datastore/query/qqw3-t4ie/0",
+  "about": "National risk-standardized 30-day death rates after a hospital stay for Medicare fee-for-service patients aged 65 and over, by principal condition. One minus the rate is the share who survive the 30 days. Medicare patients only: not an all-ages case-fatality.",
+  "rows": [
+    {
+      "measureId": "MORT_30_AMI",
+      "name": "Death rate for heart attack patients",
+      "nationalRatePercent": 11.9,
+      "startDate": "07/01/2022",
+      "endDate": "06/30/2025"
+    },
+    {
+      "measureId": "MORT_30_CABG",
+      "name": "Death rate for CABG surgery patients",
+      "nationalRatePercent": 2.4,
+      "startDate": "07/01/2022",
+      "endDate": "06/30/2025"
+    },
+    {
+      "measureId": "MORT_30_COPD",
+      "name": "Death rate for COPD patients",
+      "nationalRatePercent": 8.6,
+      "startDate": "07/01/2022",
+      "endDate": "06/30/2025"
+    },
+    {
+      "measureId": "MORT_30_HF",
+      "name": "Death rate for heart failure patients",
+      "nationalRatePercent": 11.1,
+      "startDate": "07/01/2022",
+      "endDate": "06/30/2025"
+    },
+    {
+      "measureId": "MORT_30_PN",
+      "name": "Death rate for pneumonia patients",
+      "nationalRatePercent": 15.2,
+      "startDate": "07/01/2022",
+      "endDate": "06/30/2025"
+    },
+    {
+      "measureId": "MORT_30_STK",
+      "name": "Death rate for stroke patients",
+      "nationalRatePercent": 11.9,
+      "startDate": "07/01/2023",
+      "endDate": "06/30/2025"
+    }
+  ]
+}
