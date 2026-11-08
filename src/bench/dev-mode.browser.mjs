@@ -75,7 +75,7 @@ try {
   // happen take up to a year of days and are proved in dev-scene.test.ts).
   assert.equal(
     await page
-      .locator('.dev-scene select option:text-matches("No engine")')
+      .locator('.dev-scene [data-scene]:text-matches("No engine")')
       .count(),
     0,
     "a scene nothing can start is offered",
@@ -95,8 +95,7 @@ try {
       .textContent();
     // Picked and pressed in one step: the sheet may still be redrawing from the last press.
     await page.evaluate((picked) => {
-      const select = document.querySelector(".dev-scene select");
-      select.value = picked;
+      document.querySelector(`.dev-scene [data-scene="${picked}"]`).click();
       document.querySelector('[data-testid="dev-scene"]').click();
     }, value);
     await page.waitForFunction(

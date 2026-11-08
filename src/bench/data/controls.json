@@ -325,7 +325,6 @@
   },
   "devScene": {
     "title": "Scenes",
-    "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
     "reasons": {
