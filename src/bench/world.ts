@@ -68,6 +68,7 @@ import {
 } from "../core2/opening-outside-market";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -444,7 +445,7 @@ function* benchWorldStages(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
         withWorldEconomy(
-          collapseToTwoLevels(economy, {
+          collapseToTwoLevels(withOrigins(economy), {
             keep: kept,
             ...(countScale !== 1
               ? {
@@ -460,7 +461,7 @@ function* benchWorldStages(
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
-        ...input,
+        ...withOrigins(input),
         finance: createOpeningFinance(input),
       }),
     );

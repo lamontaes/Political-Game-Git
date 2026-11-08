@@ -213,6 +213,8 @@ export class CountedStore {
   readonly genderIx: number[] = [];
   readonly pronounsIx: number[] = [];
   readonly recipeIx: number[] = [];
+  /** Where each member's family comes from (looks.origin). */
+  readonly originIx: number[] = [];
   readonly tierIx: number[] = [];
   state = new Uint8Array(0);
   traits = new Int8Array(0);
@@ -335,6 +337,7 @@ export class CountedStore {
     this.genderIx.push(this.intern(person.looks?.gender));
     this.pronounsIx.push(this.intern(person.looks?.pronouns));
     this.recipeIx.push(this.intern(person.looks?.recipeVersion));
+    this.originIx.push(this.intern(person.looks?.origin));
     this.tierIx.push(this.intern(person.tier));
     this.state = grown(this.state, m + 1, (n) => new Uint8Array(n));
     this.state[m] = MemberState.Counted;
@@ -625,11 +628,13 @@ export class CountedStore {
     const gender = this.genderIx[member]!,
       pronouns = this.pronounsIx[member]!,
       recipe = this.recipeIx[member]!,
+      origin = this.originIx[member],
       appearance = this.appearance[member];
     if (gender) looks.gender = this.strings[gender]!;
     if (pronouns) looks.pronouns = this.strings[pronouns]!;
     if (appearance) looks.appearanceSeed = appearance;
     if (recipe) looks.recipeVersion = this.strings[recipe]!;
+    if (origin) looks.origin = this.strings[origin]!;
     const person: PersonInput = {
       id: this.ids[member]!,
       givenName: this.given[member]!,
