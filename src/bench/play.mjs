@@ -2605,18 +2605,21 @@ function billEstimate(paper, section) {
   else if (est.line && est.ofMinor != null && est.lineAmountMinor != null)
     compare = {
       todayLabel: words.today ?? "",
-      today: moneyWords(est.ofMinor),
+      today: roundedMoney(est.ofMinor),
       newLabel: words.proposed ?? "",
-      proposed: moneyWords(est.ofMinor + est.lineAmountMinor),
+      proposed: roundedMoney(est.ofMinor + est.lineAmountMinor),
     };
   else if (after) lines.push(`${words.to ?? ""} ${after}`);
+  // The two cells above carry the amounts; the line is then only named.
   if (est.line)
     lines.push(
       [
         `${words.line ?? ""}: ${policyLabel(`budget-line:${est.line}`)}`,
-        est.lineAmountMinor != null ? moneyWords(est.lineAmountMinor) : null,
-        est.ofMinor != null
-          ? `${words.from ?? ""} ${moneyWords(est.ofMinor)}`
+        !compare && est.lineAmountMinor != null
+          ? roundedMoney(est.lineAmountMinor)
+          : null,
+        !compare && est.ofMinor != null
+          ? `${words.from ?? ""} ${roundedMoney(est.ofMinor)}`
           : null,
       ]
         .filter(Boolean)
@@ -2627,8 +2630,9 @@ function billEstimate(paper, section) {
       paper.estimate.workers > 0
         ? `${paper.estimate.workers} ${words.workers ?? ""}`
         : null,
-      paper.estimate.payMinor > 0 ? moneyWords(paper.estimate.payMinor) : null,
-      paper.estimate.note,
+      paper.estimate.payMinor > 0
+        ? roundedMoney(paper.estimate.payMinor)
+        : null,
     ]
       .filter(Boolean)
       .join(" · "),
