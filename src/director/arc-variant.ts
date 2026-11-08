@@ -113,13 +113,6 @@ export function variantArc(purpose: string): unknown {
   return ARCS.get(purpose);
 }
 
-/** The purpose a variant purpose is a variant of, or undefined. */
-export function familyOfVariant(purpose: string): string | undefined {
-  return Object.entries(DATA.families).find(([, family]) =>
-    Object.values(family.variants).some((row) => row.purpose === purpose),
-  )?.[P.zero];
-}
-
 /** What the scene is, as the choice reads it. */
 export interface VariantInput {
   /** The type's own purpose: the family. */

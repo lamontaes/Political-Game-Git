@@ -983,9 +983,7 @@ export function composeSceneTalk(
       role: "asker",
       purpose,
       ...(family ? { family } : {}),
-    }).find(
-      (move) => move !== "greet",
-    ) ?? "greet";
+    }).find((move) => move !== "greet") ?? "greet";
   // Not everyone says hello first: an asker who keeps to themself goes
   // straight to why they came.
   const blunt =
