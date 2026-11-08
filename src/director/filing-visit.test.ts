@@ -127,7 +127,10 @@ describe("the filing visit", () => {
       .filter((row) => row.speaker === "clerk")
       .map((row) => row.text)
       .join(" ");
-    expect(told).toContain("City Clerk");
+    // The turndown says where the person must live and where their records
+    // put them, never the filing office's research note.
+    expect(told).toMatch(/live in Springfield/);
+    expect(told).toMatch(/has you in Shelbyville/);
     expect(told).toMatch(/registered voter/);
   });
 });
