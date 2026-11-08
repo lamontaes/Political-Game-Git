@@ -1146,6 +1146,19 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
       family || housemate || tie
         ? personSketch(other.traits, other.looks?.pronouns ?? "they-them")
         : null,
+    // The same leanings one by one, each by the pole's own label and no strength: how the
+    // viewer sees them (the approved person card), only for someone the viewer knows.
+    traitLines:
+      family || housemate || tie
+        ? sketchRows(
+            other.traits,
+            teller.words ? "-third" : "-they",
+            teller.words ?? {},
+            PEOPLE_TRAITS.length,
+          ).map(({ label, line }) => ({ label, line }))
+        : [],
+    // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
+    pronouns: teller.words,
     work:
       (family || housemate || coworker) && job
         ? {

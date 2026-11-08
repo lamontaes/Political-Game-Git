@@ -69,7 +69,7 @@ export function stripScreen({ name, role, face, columns }) {
       { className: "mx3main" },
       el(
         "div",
-        { className: "mx3cols" },
+        { className: `mx3cols${columns.length === 1 ? " one" : ""}` },
         ...columns.map((sections) =>
           el("div", { className: "mx3col" }, ...sections),
         ),
@@ -129,4 +129,21 @@ export function peopleSentence(people) {
     if (person.relation) line.append(` (${person.relation.toLowerCase()})`);
   });
   return line;
+}
+
+/** Typed rows with a dot leader from the label to the figure: `rows` are { label, value }. */
+export function dotRows(rows) {
+  return el(
+    "div",
+    { className: "dotrows" },
+    ...rows.map((row) =>
+      el(
+        "div",
+        { className: "dotrow" },
+        el("span", { className: "dotlabel", textContent: row.label }),
+        el("span", { className: "dotleader" }),
+        el("span", { className: "dotvalue", textContent: row.value }),
+      ),
+    ),
+  );
 }
