@@ -111,6 +111,8 @@ export const EXECUTIVE_MODULE: CoreModule = {
       agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
       emergencies: {},
+      /** A disaster the player governor may declare an emergency for: the offer waits for their answer. */
+      emergencyOffers: {},
       nominations: {},
       review: {},
     },
@@ -141,8 +143,15 @@ function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
   if (!governor || !emergencyPower(api)) return;
   const executiveId = memberKey(governor);
   if (executiveId === (api.state as CoreState).playerId) {
-    // stopgapId: SG-GOV-player-emergency-offer
-    api.stopgap("SG-GOV-player-emergency-offer");
+    // A player governor decides for themselves: the disaster waits as an offer on their desk
+    // (the state day's `emergency` entry), and the engine never declares for them.
+    table(api, "emergencyOffers").put({
+      id: `emergency-offer:${hazardRecordId}`,
+      hazardRecordId,
+      executiveId,
+      date: api.state.date,
+      answered: false,
+    } as unknown as ModuleRow);
     return;
   }
   const id = `emergency:${lawChain(api).stateKey}:${hazardRecordId}`;
@@ -1173,6 +1182,49 @@ export interface EmergencyRow {
   readonly line: string;
   readonly deltaMinor: number;
   readonly date: string;
+}
+
+export interface EmergencyOfferRow {
+  readonly id: string;
+  readonly hazardRecordId: string;
+  readonly executiveId: string;
+  readonly date: string;
+  readonly answered: boolean;
+}
+
+/** The disasters a governor may still declare an emergency for, as offers waiting on them. */
+export function pendingEmergencyOffers(
+  api: CoreAPI,
+  executiveId: string,
+): readonly EmergencyOfferRow[] {
+  return (
+    table(api, "emergencyOffers").rows() as unknown as EmergencyOfferRow[]
+  )
+    .filter((row) => row.executiveId === executiveId && !row.answered)
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/** The governor answers an offer: declare the emergency (the engine's own declaration), or let it pass. */
+export function answerEmergencyOffer(
+  api: CoreAPI,
+  offerId: string,
+  declare: boolean,
+): { readonly emergencyId: string | null } {
+  const offer = table(api, "emergencyOffers").get(offerId) as unknown as
+    EmergencyOfferRow | undefined;
+  if (!offer || offer.answered)
+    throw new Error("No emergency offer is waiting.");
+  table(api, "emergencyOffers").put({
+    ...offer,
+    answered: true,
+  } as unknown as ModuleRow);
+  if (!declare) return { emergencyId: null };
+  return {
+    emergencyId: declareEmergency(api, {
+      executiveId: offer.executiveId,
+      hazardRecordId: offer.hazardRecordId,
+    }).id,
+  };
 }
 
 /** Whether this state's governor may declare a state of emergency, and the researched basis. */

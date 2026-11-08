@@ -42,7 +42,9 @@ import {
   appointmentsIn,
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
+  answerEmergencyOffer,
   issueOrder,
+  pendingEmergencyOffers,
   pendingGovernorOrders,
 } from "./modules/executive";
 import {
@@ -274,6 +276,7 @@ export type StateEntryKind =
   | "interim-committee"
   | "state-of-the-state"
   | "executive-order"
+  | "emergency"
   | "budget-proposal"
   | "legislative-leaders"
   | "clemency";
@@ -425,6 +428,12 @@ export function stateDay(
     return out;
   }
   // The governor.
+  // A disaster in the state the governor may declare an emergency for (the player's to answer).
+  for (const offer of pendingEmergencyOffers(api, office.personId))
+    add("emergency", offer.id, {
+      tag: "SOURCED",
+      citation: `Disaster ${offer.hazardRecordId}: the state's emergency powers`,
+    });
   if (workday)
     for (const order of pendingGovernorOrders(api, office.personId))
       add("executive-order", order.order, {
@@ -533,6 +542,7 @@ export type StateChoice =
       readonly issue?: boolean;
     }
   | { readonly kind: "attend"; readonly attend: boolean }
+  | { readonly kind: "emergency"; readonly declare: boolean }
   | { readonly kind: "clemency"; readonly grant: boolean }
   | {
       readonly kind: "office-hours";
@@ -756,6 +766,17 @@ export function actOn(
           const done = handleCase(api, row.id, decision);
           if (done) recordIds.push(done.id);
         }
+      break;
+    }
+    case "emergency": {
+      // The character declares where the law gives the power, as the engine does for any governor;
+      // the player may let it pass.
+      chosen = choice ?? { kind: "emergency", declare: true };
+      if (chosen.kind !== "emergency")
+        throw new Error("Choose whether to declare the emergency.");
+      const declared = answerEmergencyOffer(api, entry.subject, chosen.declare);
+      if (declared.emergencyId) recordIds.push(declared.emergencyId);
+      reasons["authority"] = "state-emergency-power";
       break;
     }
     case "executive-order": {

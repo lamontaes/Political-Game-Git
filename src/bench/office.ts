@@ -391,7 +391,7 @@ export function colleagueDeal(
   return officeView(core, personId);
 }
 
-/** The executive orders the governor's staff has brought for the player's signature today. */
+/** What the governor's staff has brought for the player to decide today: executive orders and emergency offers. */
 export function ordersView(core: CoreState) {
   const api = coreAPI(core);
   const person = controlledPerson(api);
@@ -399,26 +399,44 @@ export function ordersView(core: CoreState) {
   const names = policyNames();
   const brought = pendingGovernorOrders(api, person);
   return waitingEntries(api, person)
-    .filter((entry) => entry.kind === "executive-order")
-    .map((entry) => ({
-      entryId: entry.id,
-      order: entry.subject,
-      // The order's own question, worded by the bill catalog's name for it.
-      name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
-      revoke:
-        brought.find((row) => row.order === entry.subject)?.revoke ?? false,
-    }));
+    .filter(
+      (entry) => entry.kind === "executive-order" || entry.kind === "emergency",
+    )
+    .map((entry) =>
+      entry.kind === "emergency"
+        ? {
+            entryId: entry.id,
+            kind: "emergency" as const,
+            order: entry.subject,
+            name: null,
+            revoke: false,
+          }
+        : {
+            entryId: entry.id,
+            kind: "order" as const,
+            order: entry.subject,
+            // The order's own question, worded by the bill catalog's name for it.
+            name: names[orderQuestionOf(entry.subject) ?? ""] ?? null,
+            revoke:
+              brought.find((row) => row.order === entry.subject)?.revoke ??
+              false,
+          },
+    );
 }
 
-/** The player issues the order (revoking it when the staff brought a revocation) or sets it aside. */
+/** The player issues the order (or declares the emergency), or sets it aside. */
 export function ordersDecide(core: CoreState, entryId: string, how: string) {
   const api = coreAPI(core);
   const person = controlledPerson(api);
   if (!person) throw new Error("Choose a resident first.");
   if (how !== "issue" && how !== "decline")
-    throw new Error("Issue the order or set it aside.");
+    throw new Error("Issue it or set it aside.");
   const entry = waitingEntries(api, person).find((row) => row.id === entryId);
-  if (!entry) throw new Error("No order is waiting on you.");
+  if (!entry) throw new Error("Nothing is waiting on you.");
+  if (entry.kind === "emergency") {
+    doEntry(api, entryId, { kind: "emergency", declare: how === "issue" });
+    return;
+  }
   const revoke =
     pendingGovernorOrders(api, person).find(
       (row) => row.order === entry.subject,

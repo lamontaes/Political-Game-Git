@@ -862,13 +862,17 @@ function atOrders() {
       $("desk-items").replaceChildren(
         ...orders.map((item) =>
           plate(
-            item.name ?? "",
+            item.kind === "emergency" ? words.emergency : (item.name ?? ""),
             buttonRow(
               ...["issue", "decline"].map((how) => {
                 const b = makeButton({
                   className: "action",
                   textContent:
-                    how === "issue" && item.revoke ? words.revoke : words[how],
+                    item.kind === "emergency"
+                      ? words[`emergency-${how}`]
+                      : how === "issue" && item.revoke
+                        ? words.revoke
+                        : words[how],
                 });
                 b.addEventListener("click", async () =>
                   draw(
