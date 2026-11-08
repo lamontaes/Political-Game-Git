@@ -102,6 +102,7 @@ import {
   keepPetitionCheck,
   openPetition,
   petitionOf,
+  petitionSigners,
   type ContestRow,
   type FilingRow,
   atLargeGroup,
@@ -647,11 +648,12 @@ function checkPetition(api: CoreAPI, petitionId: string): void {
   const petition = petitionOf(api, filingId);
   if (!petition || petition.check) return;
   const roll = new Set(electorateRoll(api).map((v) => v.id));
-  const struckIds = petition.signers
+  const signers = petitionSigners(api, filingId);
+  const struckIds = signers
     .filter((s) => !roll.has(s.personId))
     .map((s) => s.personId);
   keepPetitionCheck(api, filingId, {
-    valid: petition.signers.length - struckIds.length,
+    valid: signers.length - struckIds.length,
     struckIds,
   });
 }
