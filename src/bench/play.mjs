@@ -3591,7 +3591,7 @@ const sheets = {
             showPerson({ personId: k.personId });
           },
         })),
-        ...p.presentNames
+        ...(p.presentNames ?? [])
           .filter((name) => !known.has(name))
           .map((name) => ({ name })),
       ]);
