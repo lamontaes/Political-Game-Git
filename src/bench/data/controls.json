@@ -106,7 +106,14 @@
     "economy": "Opening the economy",
     "core": "Starting the world",
     "government": "Seating the government",
-    "opening": "Preparing the opening"
+    "elections": "Opening the elections",
+    "budgets": "Opening the budgets",
+    "legislature": "Seating the legislature",
+    "cabinet": "Appointing the cabinet",
+    "workings": "Opening the press, courts and meetings",
+    "history": "Writing the country's history",
+    "opening": "Preparing the opening",
+    "done": "Ready"
   },
   "opening": {
     "news": "News",
