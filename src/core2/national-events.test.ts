@@ -23,6 +23,10 @@ it("the country's disasters are generated from recorded rates and happen on thei
     placeKey: place.key,
   });
   const api = coreAPI(world.core);
+  const emitted = new Set<string>();
+  api.subscribeEvents("nation-test", ["national.disaster"], (_api, event) => {
+    emitted.add(event.id);
+  });
   let day = makeIsoDate(world.core.date);
   const end = addDays(day, 100);
   while (day < end) {
@@ -42,10 +46,7 @@ it("the country's disasters are generated from recorded rates and happen on thei
   ).toBeGreaterThan(1);
   for (const e of events) {
     expect(e.counties).toBeGreaterThan(0);
-    // One that has begun by the end of the run is on the record.
-    if (e.date <= day)
-      expect(world.core.durableLog.get(e.id)?.kind, e.id).toBe(
-        "national.disaster",
-      );
+    // One that has begun by the end of the run was emitted for its state.
+    expect(emitted.has(e.id), e.id).toBe(e.date <= day);
   }
 }, 900000);
