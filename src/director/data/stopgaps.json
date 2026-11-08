@@ -515,5 +515,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Laws and effects (or the economy lead) start the town's jobs, poverty and school measures from a settled year, after which the warm-up in src/core2/data/term-read/areas.json is zero and this stopgap is removed.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-public-action-counted-share",
+    "kind": "missing-hook",
+    "file": "src/core2/modules/public-action.ts",
+    "line": 1,
+    "whatItFakes": "A strike, protest or rally is made of the named people who join it; the counted population (the wider town's workers, renters and jobless) is not asked, so an action's size is only its named participants and a strike in a town whose teachers are counted has too few in it to show.",
+    "why": "One model, two tiers (owner, Oct 14): a counted group is read with the same rule as a full person times its count, but the join decision (`joinsGroup`) reads a person's views, ties and traits, which a counted group does not keep one by one.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The counted tier's group rule for a decision that reads a view and traits (counted-groups), asked of each counted group by its count, so an action's size includes the counted people who would join.",
+    "status": "open"
   }
 ]
