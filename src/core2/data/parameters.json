@@ -7099,7 +7099,7 @@
     "value": 0.9,
     "tag": "ESTIMATED",
     "citation": "CPS mean weeks unemployed about 17 at 3.7% unemployment (2019) and about 40 at 9% (2011).",
-    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean.",
+    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean. This one elasticity is the whole market-tightness input of the find: job openings per unemployed worker are a function of the unemployment rate (the Beveridge curve, the matching function's reduced form), so a separate openings term would repeat it. FRED carries JOLTS job openings only by Census region and nationally (JTS00NEJOR, JTS00MWJOR, JTS00SOJOR, JTS00WEJOR, JTSJOR), and the world simulates its own later months, so no real openings series exists to read past the opening. A true second input needs regional employers with postings (Jobs and economy and the Coordinator, Nov 8, 2026).",
     "spread": {
       "low": 0.4,
       "high": 1.0,
@@ -7109,6 +7109,7 @@
   },
   "pastWorkFindAgeReferenceYears": {
     "value": 40,
+    "role": "level",
     "tag": "ESTIMATED",
     "citation": "BLS CPS duration of unemployment by age: the all-ages mean about 23 weeks (FRED UEMPMEAN, 2025 average of 11 months retrieved Nov 8, 2026) sits near the 35-44 band; nobody is modeled as finding work faster for being young.",
     "estimatedFrom": "The reference age is the one at which the all-ages mean duration applies; the 25-54 bands are not on file (SG-LABOR-find-age-estimated: BLS cpsaat31 to replace).",
@@ -7121,6 +7122,7 @@
   },
   "pastWorkFindAgeElasticity": {
     "value": 0.4,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "BLS CPS 2025 annual table cpsaat31 as quoted in a search snippet (unverified): mean weeks unemployed 25.0 at 55-64 and 29.8 at 65 and over, against 23.1 all ages (FRED UEMPMEAN, 2025).",
     "estimatedFrom": "ln(25.0/23.1)/ln(59.5/40) is about 0.2 and ln(29.8/23.1)/ln(70/40) is about 0.45; 0.4 is taken between them, held wide. Duration itself is not penalized: Krueger and Mueller (2016, IZA DP 7957, Table 9) find unemployment duration does not predict acceptance once the reservation wage is controlled.",
@@ -8156,6 +8158,7 @@
   },
   "mentorAgeGapYears": {
     "value": 10,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Years older a coworker must be to take a new hire under their wing (SG-LIVES-mentorship-model).",
     "spread": {
@@ -8167,6 +8170,7 @@
   },
   "mentorFirstHours": {
     "value": 2,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Hours together a mentor's first sit-down with a new hire counts as on their coworker tie (SG-LIVES-mentorship-model).",
     "spread": {
@@ -8178,6 +8182,7 @@
   },
   "rescueHours": {
     "value": 6,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Hours together a rescue at the start of an illness counts as on the tie between the sufferer and the one who stayed with them (SG-LIVES-rescue-acute).",
     "spread": {
@@ -8189,6 +8194,7 @@
   },
   "quarrelStrainHours": {
     "value": 4,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Hours of time together a money quarrel takes off the tie between the borrower and the housemate wronged by their missed payment (SG-LIVES-quarrel-model).",
     "spread": {
@@ -8292,6 +8298,49 @@
       "high": 0.031,
       "unit": "share of balances",
       "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "countySampleHouseholds": {
+    "value": 150,
+    "tag": "TUNABLE",
+    "citation": "How many households of the county outside the town the opening samples; each stands for as many real households as the county's eligible voters ask for. Sized so a county seat's weighing has hundreds of adults to draw from while the opening stays light.",
+    "stopgapId": "SG-LIVES-county-sample-employers",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A sample size, not a real rate; the weights keep the county's total at its real eligible count at any size."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "neighborsKnownCap": {
+    "value": 8,
+    "tag": "ESTIMATED",
+    "citation": "Neighbors an adult knows by name once settled. Ownerly 2020 survey of 2,700 US adults (ownerly.com/data-analysis/do-you-know-your-neighbors-survey): 14% know none, 51% know 1 to 5, 19% know 6 to 10, 15% know 11 or more; the cap is the middle of the 6 to 10 band. Pew Research Center 2019 (pewresearch.org/short-reads/2019/08/15/facts-about-neighbors-in-u-s): 26% know most of their neighbors.",
+    "estimatedFrom": "No published source gives neighbors known by years of residence; the anchor is the settled count, the slope below is an assumption.",
+    "spread": {
+      "low": 3,
+      "high": 14,
+      "unit": "neighbors",
+      "citation": "Ownerly 2020: the 1-to-5 band holds half of adults and the 11-or-more tail 15%."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "neighborsKnownYears": {
+    "value": 6,
+    "tag": "ESTIMATED",
+    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, levelling off at six.",
+    "estimatedFrom": "Assumed time constant anchored loosely on Pew's key-trust rise.",
+    "spread": {
+      "low": 3,
+      "high": 12,
+      "unit": "years",
+      "citation": "Assumed range around the six-year level-off in Pew 2018."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   }
 }
