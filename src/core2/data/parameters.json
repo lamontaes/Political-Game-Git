@@ -8079,5 +8079,16 @@
       "unit": "hours",
       "citation": "A first-week sit-down; closeness fades by half-life so the effect is read in the played year."
     }
+  },
+  "rescueHours": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Hours together a rescue at the start of an illness counts as on the tie between the sufferer and the one who stayed with them (SG-LIVES-rescue-acute).",
+    "spread": {
+      "low": 2,
+      "high": 24,
+      "unit": "hours",
+      "citation": "A night in a hospital waiting room against a call and a ride; closeness fades by half-life so the effect is read in the played year."
+    }
   }
 }

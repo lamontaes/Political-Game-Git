@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 97 kinds of scene. 5 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 97 kinds of scene. 4 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -37,7 +37,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | breakup | breakup-tell | feeling:event:family.separated via partnerships | home | at-cause | ending, partner, children | 54 |  |
 | reunion | - | ? | public, home, other-home | at-cause | one, other | 4 |  |
 | betrayal | betrayal-explain | ? / awaiting record:broken-undertaking, record:lie-found-out, record:secret-told | home, other-home, public | next-together | betrayed, betrayer | 16 |  |
-| rescue | - | NO CAUSE / awaiting record:incident-with-someone-present, record:acute-health-episode | venue, public | at-cause | rescuer, in-danger, bystanders | 0 | dead |
+| rescue | - | feeling:event:health.rescued via partnerships | home | at-cause | rescuer, in-danger, bystanders | 10 |  |
 | visit | - | feeling:event:justice.imprisoned; feeling:event:health.serious-illness; feeling:event:health.serious-illness; feeling:event:justice.held-before-trial; circumstance:held-known-visit via circumstance / awaiting record:serious-illness, record:nursing-home | venue | next-together | visitor, cannot-come | 0 |  |
 | arrival | housemate-arrives | circumstance:new-housemate via circumstance / awaiting record:stepparent-arrives, record:housemate-moves-in | home | effective-date | household, newcomer | 97 |  |
 | care | care-visit | feeling:event:health.serious-illness | home, other-home | effective-date | caregiver, cared-for | 38 |  |
@@ -114,7 +114,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are return, apology, rescue, accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are return, apology, accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
 
 ## How this was made
 

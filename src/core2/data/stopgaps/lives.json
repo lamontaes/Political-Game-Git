@@ -106,5 +106,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A hire event from the jobs engine, and a trait decision for taking someone on, weighed against the month's typical.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-rescue-acute",
+    "kind": "partial-model",
+    "file": "src/core2/modules/rescue.ts",
+    "line": 23,
+    "whatItFakes": "Every serious illness onset is treated as a sudden episode a housemate meets; slow illnesses (a diagnosis after months) are not told apart, and a visitor or a stranger present is not considered.",
+    "why": "The health engine's onset record carries no acuity or place of onset.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "An acuity and a place on the health onset record (condition rows), so only sudden episodes are rescued, by whoever is present there.",
+    "status": "open"
   }
 ]

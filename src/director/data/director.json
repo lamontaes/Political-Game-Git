@@ -1203,6 +1203,11 @@
       "minDaysApart": 30
     },
     {
+      "eventKind": "health.rescued",
+      "channel": "feeling",
+      "impactParameter": "directorEvictionImpact"
+    },
+    {
       "eventKind": "family.contact",
       "channel": "feeling",
       "impactParameter": "directorKinContactImpact",

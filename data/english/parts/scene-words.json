@@ -4567,6 +4567,216 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.your-legs-stop-holding-you-and-the-cup-slips-from-your-hand-other-is-b",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "Your legs stop holding you, and the cup slips from your hand. {other} is beside you before it hits the floor.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-slides-a-hand-under-your-head-and-says-your-name-twice-you-hear-",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} slides a hand under your head and says your name twice. You hear it, and you answer.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.the-pain-in-your-chest-tightens-other-tells-you-to-breathe-slowly-with",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "The pain in your chest tightens. {other} tells you to breathe slowly with them and counts it out loud.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-holds-the-phone-to-an-ear-and-gives-the-address-in-a-level-voice",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} holds the phone to an ear and gives the address in a level voice. The other hand stays on your shoulder.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.breathing-comes-hard-other-loosens-your-collar-and-tells-you-help-is-a",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "Breathing comes hard. {other} loosens your collar and tells you help is already on the way.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-pulls-a-coat-over-you-and-stays-down-on-the-floor-beside-you-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} pulls a coat over you and stays down on the floor beside you. You are shaking, but you hear everything.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.you-try-to-sit-up-other-says-no-gently-and-keeps-you-lying-still",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "You try to sit up. {other} says no, gently, and keeps you lying still.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-stays-on-the-line-and-answers-each-question-without-hurrying-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} stays on the line and answers each question without hurrying. You watch their face while they talk.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.when-the-crew-comes-in-other-steps-back-only-far-enough-to-let-them-wo",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "When the crew comes in, {other} steps back only far enough to let them work. A hand stays on your ankle.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-rescue-other.other-sits-close-and-holds-your-hand-the-whole-way-to-the-hospital-you",
+      "move": "lead-rescue-other",
+      "kind": "spoken",
+      "text": "{other} sits close and holds your hand the whole way to the hospital. You are tired and scared, and you are not alone.",
+      "uses": [
+        {
+          "move": "lead-rescue-other",
+          "subject": "lead",
+          "role": "rescue",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (Lives, night crew)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
     }
   ]
 }
