@@ -150,7 +150,7 @@ try {
   const toOffice = async () => {
     await page.locator('.ring[data-tab="travel"]').click();
     if (process.env.BENCH_TRACE) {
-      await page.locator("#sheet-body .entry").first().waitFor();
+      await page.locator(".travel-tile").first().waitFor();
       console.log(
         "travel",
         (await page.locator("#sheet-body").innerText()).slice(0, 1500),
@@ -159,10 +159,8 @@ try {
     }
     // The first office that takes filings: its card says "You file here",
     // on whichever page of Travel it falls.
-    const card = page
-      .locator("#sheet-body .entry", { hasText: /You file here/ })
-      .first();
-    await page.locator("#sheet-body .entry").first().waitFor();
+    const card = page.locator(".travel-tile[data-filing]").first();
+    await page.locator(".travel-tile").first().waitFor();
     for (
       let p = 0;
       p < 10 &&

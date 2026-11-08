@@ -539,5 +539,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A purpose of its own for action-confront in purpose-arcs.json whose replies and endings are stances toward the crowd (hear the line, send a representative, call the police, join them).",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-lobby-remembers-writeback",
+    "kind": "missing-data",
+    "file": "src/director/circumstance.ts",
+    "line": 1,
+    "whatItFakes": "A group's lobbyist who remembers how the player voted (circumstance lobby-remembers) says so, subtle or open by their own temper, and what the player answers is kept as a promise or a strained tie. The group's endorsement, gifts or a primary challenge do not move from it: the interest-group engine does not read the tie or the kept answer when it decides whom to back.",
+    "why": "The threat is told and kept in the records the director already writes; making the group's backing follow the member's votes is the interest-group engine's decision, which no engine yet reads from a vote against the group (Laws and effects' area).",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The interest-group engine reads the member's vote against its meeting and the kept tie when it decides endorsements and gifts; the scene then cites that decision.",
+    "status": "open"
   }
 ]

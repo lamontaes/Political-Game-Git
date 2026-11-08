@@ -1276,6 +1276,9 @@ function recordGroundwaterLoss(
  */
 export const DATA_PRIVACY_QUESTION =
   "us-policy-positions:technology-privacy.consumer-data-privacy-law";
+/** Congress's national data privacy law: the same duty on the same businesses where the state has none. */
+export const FEDERAL_DATA_PRIVACY_QUESTION =
+  "us-federal-positions:science-communications.national-data-privacy";
 const AGE_VERIFICATION_QUESTION =
   "us-policy-positions:technology-privacy.age-verification-for-social-media";
 
@@ -1286,6 +1289,8 @@ interface BusinessDuty {
   /** Whether only a business with workers in the town is bound (a platform verifying accounts needs none here). */
   readonly employingOnly: boolean;
   readonly parameter: keyof typeof businessParameters;
+  /** Another law that already puts this duty on the same businesses; while it stands this one adds no second cost. */
+  readonly unlessQuestion?: string;
 }
 
 const BUSINESS_DUTIES: readonly BusinessDuty[] = [
@@ -1294,6 +1299,13 @@ const BUSINESS_DUTIES: readonly BusinessDuty[] = [
     classifications: [],
     employingOnly: true,
     parameter: "businessDataPrivacyShareOfCosts",
+  },
+  {
+    question: FEDERAL_DATA_PRIVACY_QUESTION,
+    classifications: [],
+    employingOnly: true,
+    parameter: "businessDataPrivacyShareOfCosts",
+    unlessQuestion: DATA_PRIVACY_QUESTION,
   },
   {
     question: AGE_VERIFICATION_QUESTION,
@@ -1325,6 +1337,9 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
   const c = core(api);
   if (!c.modules.has(LAWS_MODULE_ID)) return;
   const law = lawInForce(api, duty.question);
+  const alreadyBound =
+    duty.unlessQuestion !== undefined &&
+    lawInForce(api, duty.unlessQuestion).value === 1;
   const town = lawChain(api).townPlaceId;
   const table = store(api).table("operating");
   const cause = dutyCause(duty.question);
@@ -1348,6 +1363,7 @@ function readBusinessDuty(api: CoreAPI, duty: BusinessDuty): void {
       // A business whose books carry no other operating costs (a press outlet) has nothing a duty could take a share of.
       !(book.annualOtherCostsMinor > 0) ||
       law.value !== 1 ||
+      alreadyBound ||
       !law.governing
     ) {
       if (existing) endOperatingRule(api, table, ruleId);

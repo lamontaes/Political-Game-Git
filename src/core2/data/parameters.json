@@ -6946,6 +6946,24 @@
       "citation": "States' minimum n-size for reporting, All4Ed 2018: from 10 to 30 students."
     }
   },
+  "disasterStatutoryFederalShare": {
+    "value": 0.75,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs under a major disaster declaration is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1))."
+  },
+  "disasterFederalShareWhenStatesShare": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs once the states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). FEMA's head said the cost share would move to 50 percent federal, 50 percent state: \"It's 75/25 right now, but 50/50's coming\" (David Richardson, FEMA staff town hall, May 15, 2025, as reported by Reuters in Insurance Journal, https://www.insurancejournal.com/news/national/2025/05/15/823980.htm). The FEMA Review Council later recommended a 50 percent federal floor. No enacted bill sets it, so the stated plan is the size.",
+    "estimatedFrom": "The administration's stated 50/50 plan; replace it from the first enacted text.",
+    "stopgapId": "SG-LAWS-disaster-share-size",
+    "spread": {
+      "low": 0.25,
+      "high": 0.75,
+      "unit": "federal share of eligible costs",
+      "citation": "From a quarter of costs (the federal government pays far less) to today's 75 percent (no change)."
+    }
+  },
   "schoolStandingAttendanceWeight": {
     "value": 1,
     "tag": "TUNABLE",
@@ -7972,6 +7990,39 @@
     "spread": {
       "status": "unmeasured",
       "reason": "Set from the researched effect size of this decision once calibrated; until then the general weight's spread, 0.2 to 1.0."
+    }
+  },
+  "partnerDatingMonths": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Months a dating couple in the played town stay in separate homes before one moves in, at a typical couple's lean. Owner-unreviewed stopgap length (SG-LIVES-partner-stage-lengths), tuned so about half of first unions begin with living together, as NSFG reports for women's first unions (Copen, Daniels, Vespa and Mosher 2012, NHSR 49).",
+    "spread": {
+      "low": 4,
+      "high": 24,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerLivingTogetherMonths": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Months a couple living together wait before one asks the other to marry, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 8,
+      "high": 48,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerEngagedMonths": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Months between a proposal accepted and the wedding, at a typical couple's lean (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 3,
+      "high": 18,
+      "unit": "months",
+      "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
     }
   }
 }

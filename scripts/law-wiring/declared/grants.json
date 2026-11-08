@@ -1,0 +1,1977 @@
+{
+  "about": "State grants of power to localities (local-power rows): links a grant does not have by its own terms (status n/a). Each grant is graded through the town law it enables.",
+  "laws": {
+    "local-power:us-policy-positions:transportation-infrastructure.fare-free-transit": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:transportation-infrastructure.public-broadband": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:transportation-infrastructure.shift-highway-funds-to-transit": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:health-human-services.expand-medicaid-eligibility": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:health-human-services.medicaid-work-requirement": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:health-human-services.work-requirement-for-assistance": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:education.universal-preschool": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:education.public-funds-for-private-schooling": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:education.raise-teacher-minimum-salary": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.adopt-income-tax": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.cap-property-tax-growth": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.exempt-groceries-from-sales-tax": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.graduated-income-tax": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.balanced-operating-budget": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.fund-pensions-to-schedule": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:fiscal.minimum-reserve-balance": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:housing-land-use.allow-multifamily-in-single-family-zones": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:housing-land-use.inclusionary-requirement": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:housing-land-use.rent-stabilization": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:housing-land-use.right-to-counsel-in-eviction": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:labor-workforce.local-minimum-wage-authority": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:labor-workforce.raise-minimum-wage": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:labor-workforce.paid-family-leave": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:labor-workforce.public-sector-collective-bargaining": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:labor-workforce.right-to-work": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:business-commerce.legalize-cannabis-sales": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:business-commerce.cap-consumer-loan-rates": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:environment-energy.ban-new-gas-hookups": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:environment-energy.clean-electricity-standard": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:environment-energy.bottle-deposit": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:environment-energy.price-carbon": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.civilian-oversight-of-police": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.partner-with-federal-immigration-enforcement": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.end-cash-bail": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.restore-voting-after-sentence": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.raise-juvenile-court-age": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.child-access-prevention": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.permit-to-carry-concealed": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.raise-handgun-purchase-age": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:justice-public-safety.stand-your-ground": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.all-mail-voting": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.automatic-voter-registration": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.independent-redistricting": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.require-photo-id-to-vote": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.same-day-voter-registration": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.ban-lobbying-after-office": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.broaden-local-authority": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:government-operations.legislative-term-limits": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:civil-family-community.dedicated-parks-funding": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:civil-family-community.restrict-abortion": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:technology-privacy.age-verification-for-social-media": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:technology-privacy.restrict-government-facial-recognition": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:technology-privacy.consumer-data-privacy-law": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:agriculture-natural-resources.limit-groundwater-withdrawal": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    },
+    "local-power:us-policy-positions:agriculture-natural-resources.protect-farmland-from-development": {
+      "reach": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "systems": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "money": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "web": {
+        "status": "n/a",
+        "why": "A state's grant of a power to its localities (local-power row): the grant itself reaches, charges, pays and taxes no one and moves no place outcome of its own; what a town does with it is the town law it enables, graded as that law (the city-level question or amount of the same name)."
+      },
+      "exists": {
+        "status": "n/a",
+        "why": "A grant's starting value is the state's power catalog (data/research/powers-catalog/catalog.json, read by policyAuthority), not a law row; the starting state of the town law it enables is graded on that law."
+      },
+      "knowing": {
+        "status": "n/a",
+        "why": "Nobody hears of a grant until a town uses it; the news prints the town law it enables, graded as that law's knowing link."
+      },
+      "repeal": {
+        "status": "n/a",
+        "why": "A grant reaches no one, so repealing it stops nothing of its own; the state's bill that withdraws it is the same bill route as any law (state legislature, both chambers, the governor), run in Middlebury, Vermont (seed ceeca1aba80bfe3ccdb5aa0e04eb3f7c409b851c0179c93da168f5771a9a4058): the grants took effect on July 1, 2025 and a second bill unwound them (docs/reports/dev-tests/2026-11-08.md). What a town stops doing is graded on the town law."
+      },
+      "allPlaces": {
+        "status": "n/a",
+        "why": "A grant reaches no one in any place; where each place stands on it is the state's power catalog (56 jurisdictions), and what a town does with it is graded on the town law."
+      }
+    }
+  }
+}
