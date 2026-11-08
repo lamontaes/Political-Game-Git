@@ -29,7 +29,7 @@ export async function devScenePanel({ labels, onDone }) {
       .map((row) => ({
         value: row.key,
         label: row.recipe
-          ? `${row.key} · ${row.causeRecords.join(", ")}`
+          ? `${row.key} · ${row.causeRecords.join(", ")}${row.recipe === "wait" ? ` · ${labels.waits}` : ""}`
           : `${row.key} · ${labels.noPath}`,
       })),
   });

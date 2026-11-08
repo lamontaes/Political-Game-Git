@@ -92,6 +92,7 @@ export type RunEvent = keyof typeof RUN_EVENTS;
 /** The way a dev control brings about a cause record kind through the game's own code. */
 const SCENE_RECIPES: Readonly<Record<string, string>> = {
   "life.death": "death",
+  "work.job-lost": "layoff",
 };
 
 export const DEV_MODE = "dev-mode";
@@ -898,14 +899,18 @@ export class DevMode {
   scenes() {
     const types = SITUATION_LIBRARY.types;
     return types.map((type) => {
+      // The record kinds the type waits on that an engine writes; a type with only a producer that
+      // does not exist yet (`awaitingProducer`) or no cause record has none, and so no way in.
       const causeRecords = [
-        ...new Set(
-          type.causes.flatMap((c) => c.causeRecord ?? c.awaitingProducer ?? []),
-        ),
+        ...new Set(type.causes.flatMap((c) => c.causeRecord ?? [])),
       ];
+      const waiting = type.causes.flatMap((c) => c.awaitingProducer ?? []);
+      // `death` and `layoff` bring the cause about through an engine's own function; `wait` runs the
+      // world until an engine writes the record naming the player, as it does on its own schedule.
       const recipe =
-        causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ?? null;
-      return { key: type.key, causeRecords, recipe };
+        causeRecords.map((kind) => SCENE_RECIPES[kind]).find(Boolean) ??
+        (causeRecords.length ? "wait" : null);
+      return { key: type.key, causeRecords, waiting, recipe };
     });
   }
 
@@ -920,57 +925,52 @@ export class DevMode {
     if (!scene) throw new Error("No such situation type.");
     if (!scene.recipe)
       throw new Error(
-        "No game code to attach to: this scene has no way in yet.",
+        "No game code to attach to: no engine writes this scene's cause yet.",
       );
     const player = this.core.playerId
       ? this.core.people.get(this.core.playerId)
       : undefined;
+    if (scene.recipe === "wait") {
+      // The cause is a record an engine writes on its own schedule: run the world until one names the
+      // player, and the director stages the scene from it the ordinary way.
+      if (!player) throw new Error("There is no player to run the world for.");
+      const ran = this.runUntil({
+        kind: scene.causeRecords[0],
+        person: player.id,
+        cap: 366,
+      });
+      return {
+        recipe: scene.recipe,
+        personId: player.id,
+        causeRecords: scene.causeRecords,
+        ran,
+      };
+    }
     const circle = player
       ? [...player.familyIds, ...player.knownIds].filter(
           (id) => id !== player.id && this.core.people.get(id)?.alive,
         )
       : [];
-    const personId = input.personId ?? circle[0];
+    // A layoff is the player's own where they have a job, else a worker in their circle's.
+    const personId =
+      input.personId ??
+      (scene.recipe === "layoff"
+        ? [player?.id, ...circle].find(
+            (id) => id && this.core.people.get(id)?.jobId,
+          )
+        : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
-    const out = this.forceIllness(personId);
+    const out =
+      scene.recipe === "layoff"
+        ? this.forceLayoff(personId)
+        : this.forceIllness(personId);
     return {
       ...out,
       recipe: scene.recipe,
       personId,
       causeRecords: scene.causeRecords,
     };
-  }
-
-  /**
-   * The small-dollar lender's loans as the credit engine wrote them: what was asked, what was lent,
-   * and the outcome web's factor with the month and links it read where the lender quoted (a cap in
-   * force past its lag shows as a factor below one). Reads only.
-   */
-  smallDollarLoans() {
-    if (!has(this.core, "credit")) return [];
-    return (
-      this.api.moduleState("credit").table("loans").rows() as unknown as {
-        id: string;
-        kind: string;
-        askedMinor?: number;
-        principalMinor?: number;
-        annualRate?: number;
-        webFactor?: number;
-        webLinks?: string[];
-        webRecordId?: string;
-      }[]
-    )
-      .filter((loan) => loan.kind === "small-dollar")
-      .map((loan) => ({
-        id: loan.id,
-        askedMinor: loan.askedMinor ?? null,
-        principalMinor: loan.principalMinor ?? null,
-        annualRate: loan.annualRate ?? null,
-        webFactor: loan.webFactor ?? null,
-        webLinks: loan.webLinks ?? [],
-        webRecordId: loan.webRecordId ?? null,
-      }));
   }
 
   /** The wealthiest living people in the world: who might want a favor enough to pay for it. */
@@ -1096,6 +1096,8 @@ export class DevMode {
   runUntil(input: {
     days?: number;
     event?: RunEvent;
+    /** Or any record kind an engine writes (the cause of a scene). */
+    kind?: string;
     cap?: number;
     /** Law series or questions whose bills the members vote down each day, through castMemberVote. */
     defeat?: readonly string[];
@@ -1104,7 +1106,11 @@ export class DevMode {
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
-    const kinds = input.event ? RUN_EVENTS[input.event] : undefined;
+    const kinds = input.kind
+      ? [input.kind]
+      : input.event
+        ? RUN_EVENTS[input.event]
+        : undefined;
     if (input.event && !kinds && input.event !== "scene")
       throw new Error("Unknown event.");
     const count = () =>
@@ -1157,7 +1163,7 @@ export class DevMode {
         break;
       }
     }
-    if (reason === "days" && input.event) reason = "cap";
+    if (reason === "days" && (input.event || input.kind)) reason = "cap";
     return {
       from,
       to: this.core.date,

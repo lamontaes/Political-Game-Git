@@ -290,6 +290,7 @@ export async function handleDev(
           event: input.event as RunEvent | undefined,
           cap: input.cap === undefined ? undefined : Number(input.cap),
           person: typeof input.person === "string" ? input.person : undefined,
+          kind: typeof input.kind === "string" ? input.kind : undefined,
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,
