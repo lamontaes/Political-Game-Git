@@ -67,7 +67,10 @@ interface PostSpec {
   readonly confirmedBy: string;
 }
 const RESEARCH = research as unknown as {
-  local: { city: Record<string, PostSpec[]> };
+  local: {
+    city: Record<string, PostSpec[]>;
+    county: Record<string, PostSpec[]>;
+  };
   places: Record<
     string,
     {
@@ -191,6 +194,29 @@ export function townForm(
 }
 
 /**
+ * The posts the place's own executive appoints, from the research file by the government that
+ * runs it (level as data): a city's by its form (mayor, council-manager), a county's where a
+ * county executive sits or, failing one, a board that hires an administrator. A township board
+ * runs its place as a council does. Elected posts (a sheriff, the county executive) are seats,
+ * not appointments.
+ */
+function townPosts(api: CoreAPI): readonly PostSpec[] {
+  const seats = townSeats(api);
+  const held = (kind: string) =>
+    seats.some((s) => s.office.kind === kind && s.holder);
+  const cityRun = held("council") || held("mayor") || held("township-board");
+  const forms = RESEARCH.local;
+  const posts = cityRun
+    ? (forms.city[townForm(api)] ?? [])
+    : held("county-executive")
+      ? (forms.county["county-executive"] ?? [])
+      : held("county-board")
+        ? (forms.county["council-administrator"] ?? [])
+        : [];
+  return posts.filter((spec) => !/voters/.test(spec.appointedBy));
+}
+
+/**
  * Fill the town's department heads and the state's
  * cabinet at the opening (who holds them then; vacancies come later).
  */
@@ -206,17 +232,32 @@ export function openExecutive(core: CoreState, worldSeed: string): void {
   scheduleReview(api, core.date);
 }
 
+/** The seat of the body that governs the place: its council, township board or county board. */
+const BOARD_KINDS = ["council", "township-board", "county-board"];
+
 function townAppointer(api: CoreAPI, by: string): TermRow | null {
   const seats = townSeats(api);
-  const office = /mayor/.test(by) ? "mayor" : "council";
-  return (
-    seats.find((s) => s.office.kind === office && s.holder?.personId)?.holder ??
-    null
-  );
+  // stopgapId: SG-EXECUTIVE-administrator-appoints
+  // A post the county administrator fills is filled in the board's direction: the board's
+  // holder stands in for the administrator as the appointer.
+  const kinds = /county executive/.test(by)
+    ? ["county-executive"]
+    : /mayor/.test(by)
+      ? ["mayor"]
+      : BOARD_KINDS;
+  for (const kind of kinds) {
+    const held = seats.find(
+      (s) => s.office.kind === kind && s.holder?.personId,
+    )?.holder;
+    if (held) return held;
+  }
+  return null;
 }
 
 function councilSides(api: CoreAPI): number[] {
-  const council = townSeats(api).find((s) => s.office.kind === "council");
+  const council = townSeats(api).find((s) =>
+    BOARD_KINDS.includes(s.office.kind),
+  );
   return council
     ? members(api, council.office.id).map((t) => partySide(t.party))
     : [];
@@ -429,9 +470,7 @@ export function headCandidates(
   api: CoreAPI,
   post: string,
 ): readonly NominationReasons[] {
-  const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
-    (s) => s.key === post,
-  );
+  const spec = townPosts(api).find((s) => s.key === post);
   if (!spec) return [];
   const input = townPostInput(api, spec);
   if (!input.candidates.length) return [];
@@ -509,7 +548,7 @@ function fillTownPost(
   const level =
     govs.find((g) => g.organizationId === employer)?.level ?? "city";
   const post = `town:${spec.key}`;
-  const toFill = (RESEARCH.local.city[townForm(api)] ?? []).filter(
+  const toFill = townPosts(api).filter(
     (other) =>
       lineForPost(level, `town:${other.key}`) === lineForPost(level, post) &&
       (other.key === spec.key ||
@@ -524,6 +563,8 @@ function fillTownPost(
       title: spec.title,
       hourlyMinor: campaignParameter("appointeeHourlyMinor"),
       maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      // A county that runs the place has no jobs of its own to follow: its heads follow the town's pay calendar.
+      scheduleFromPlaceId: town,
       citation: `Appointment ${row.id}`,
     });
   return row;
@@ -534,14 +575,15 @@ function appointTownDepartments(api: CoreAPI): void {
   if (
     !townSeats(api).some(
       (s) =>
-        (s.office.kind === "council" || s.office.kind === "mayor") && s.holder,
+        [...BOARD_KINDS, "mayor", "county-executive"].includes(s.office.kind) &&
+        s.holder,
     )
   )
     return;
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
-  for (const spec of RESEARCH.local.city[townForm(api)] ?? []) {
+  for (const spec of townPosts(api)) {
     // The player's own posts wait for their choice (`appoint`).
     if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
     fillTownPost(api, spec);
@@ -566,7 +608,7 @@ export function postsToFill(
       })
       .map((row) => row.post),
   );
-  return (RESEARCH.local.city[townForm(api)] ?? [])
+  return townPosts(api)
     .filter(
       (spec) =>
         !held.has(spec.key) &&
@@ -585,9 +627,7 @@ export function appoint(
   api: CoreAPI,
   input: { readonly post: string; readonly personId?: string },
 ): AppointmentRow | null {
-  const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
-    (s) => s.key === input.post,
-  );
+  const spec = townPosts(api).find((s) => s.key === input.post);
   if (!spec) throw new Error(`No post ${input.post} in this town's government`);
   return fillTownPost(api, spec, input.personId);
 }
@@ -1422,7 +1462,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
-  const posts = RESEARCH.local.city[townForm(api)] ?? [];
+  const posts = townPosts(api);
   for (const row of appointmentsIn(api, town)) {
     const holder = api.state.people.get(row.holderId);
     if (holder?.alive && holder.placeId === town) continue;

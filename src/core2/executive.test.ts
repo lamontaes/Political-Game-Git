@@ -90,12 +90,23 @@ describe("the executive's desk", () => {
     const form = townForm(api);
     const governed = townSeats(api).some(
       (s) =>
-        (s.office.kind === "council" || s.office.kind === "mayor") && s.holder,
+        [
+          "council",
+          "mayor",
+          "township-board",
+          "county-board",
+          "county-executive",
+        ].includes(s.office.kind) && s.holder,
     );
     const playerAppoints = townSeats(api).some(
       (s) =>
-        (s.office.kind === "mayor" || s.office.kind === "council") &&
-        s.holder?.personId === core.playerId,
+        [
+          "mayor",
+          "council",
+          "township-board",
+          "county-board",
+          "county-executive",
+        ].includes(s.office.kind) && s.holder?.personId === core.playerId,
     );
     if (governed && !playerAppoints)
       expect(heads.length, `${where} (${form})`).toBeGreaterThan(0);
@@ -126,16 +137,27 @@ describe("the executive's desk", () => {
       expect(row.reasons[0]!.candidateId).toBe(row.holderId);
       if (row.confirmation)
         expect(row.confirmation.yes).toBeGreaterThan(row.confirmation.no);
-      // On the town government's payroll.
-      const job = core.people.get(row.holderId)?.jobId;
-      const employer = job ? core.jobs.get(job)?.organizationId : undefined;
-      if (
-        governments(api).some((g) => g.level === "city" || g.level === "county")
-      )
-        expect(
-          governments(api).some((g) => g.organizationId === employer),
-          `${where} ${row.title}`,
-        ).toBe(true);
+      // On the town government's payroll, or held unpaid where the post's budget line carries no wages.
+      const gov =
+        governments(api).find((g) => g.level === "city") ??
+        governments(api).find((g) => g.level === "county");
+      if (gov) {
+        const job = [...core.jobs.values()].find(
+          (j) =>
+            j.id.startsWith(`job:public:town:${row.post}:${row.holderId}`) &&
+            j.endsAt === undefined,
+        );
+        if (job)
+          expect(job.organizationId, `${where} ${row.title}`).toBe(
+            gov.organizationId,
+          );
+        else
+          expect(
+            postPayCapDaily(api, gov.organizationId, `town:${row.post}`, 1) ??
+              0,
+            `${where} ${row.title}: no job means an unpaid line`,
+          ).toBe(0);
+      }
     }
     const state = lawChain(api).stateKey;
     const cabinet = appointmentsIn(api, state);
@@ -182,6 +204,39 @@ describe("the executive's desk", () => {
       }),
     );
   }, 300_000);
+
+  it("every kind of government that runs a place has its department heads at the opening, named and on a payroll", () => {
+    const kinds = new Set<string>();
+    for (let i = 0; i < 14; i += 1) {
+      const { core, api, where } = world(all, `heads:${i}`);
+      const runBy = townSeats(api).find(
+        (s) =>
+          [
+            "council",
+            "mayor",
+            "township-board",
+            "county-board",
+            "county-executive",
+          ].includes(s.office.kind) && s.holder,
+      );
+      if (!runBy) continue;
+      kinds.add(runBy.office.kind);
+      const playerHolds = townSeats(api).some(
+        (s) => s.holder?.personId === core.playerId,
+      );
+      if (playerHolds) continue;
+      const heads = appointmentsIn(api, lawChain(api).townPlaceId);
+      expect(heads.length, `${where} (${runBy.office.kind})`).toBeGreaterThan(
+        0,
+      );
+      for (const head of heads)
+        expect(
+          core.people.get(head.holderId),
+          `${where} ${head.title}: a named person`,
+        ).toBeDefined();
+    }
+    expect(kinds.size, "kinds of government drawn").toBeGreaterThan(1);
+  }, 900_000);
 
   it("a territory's legislature has its recorded seats, so its governor's cabinet is confirmed", () => {
     // Guam, American Samoa, the Northern Marianas and the Virgin Islands have

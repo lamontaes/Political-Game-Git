@@ -16,6 +16,7 @@ import {
   countyGeoidsForPlace,
   governmentUnitsForPlace,
 } from "./reference/government-units";
+import { appliedOn } from "./law-reach/applied";
 import { coreAPI } from "./state";
 
 const QUESTION = "us-federal-positions:emergencies.states-share-disaster-costs";
@@ -143,6 +144,14 @@ it(
           `DISASTER-SHARE ${picked.name}, ${picked.state} (${picked.key}, seed ${seed}): federal public assistance ${without} cents without the law, ${withLaw} with it (${((100 * withLaw) / without).toFixed(1)}%), disaster ${picked.disaster}\n`,
         );
         expect(withLaw / without).toBeCloseTo(0.5 / 0.75, 2);
+        // The law reached the governments: a law-reach row names each one
+        // and the federal money its share cost it.
+        const reached = appliedOn(coreAPI(lawWorld), QUESTION);
+        expect(reached.length, "governments the law reached").toBeGreaterThan(
+          0,
+        );
+        expect(reached.every((r) => r.amountMinor < 0)).toBe(true);
+        expect(appliedOn(coreAPI(control), QUESTION)).toHaveLength(0);
         return;
       }
       throw new Error(

@@ -93,7 +93,9 @@
     "addedBy": "traits helper (people family)",
     "addedAt": "2026-10-28",
     "replacement": "Outside-market employers name a person (their local manager) once the jobs engine records one; until then the decisions are proven by the generated-world tests src/core2/grudge-counted-decider.traits.test.ts and src/core2/cabinet-vacancy.traits.test.ts, and counted in a played year when a drawn year contains the cause.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "The entry recorded that two personality decisions have a real producer a drawn played year rarely reaches; nothing is faked, so there is nothing to stand in for."
   },
   {
     "id": "SG-TRAITS-file-claim-circumstances-tie",

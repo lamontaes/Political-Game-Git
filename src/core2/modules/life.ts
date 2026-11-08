@@ -320,7 +320,6 @@ export const LIFE_MODULE: CoreModule = {
     "public-meeting-place": knownPublicTargets,
     "known-office": knownPublicTargets,
     "public-directory": (api, actor, action) => {
-      api.stopgap("SG-P8-directory-company-substitution");
       const out: ActOffer[] = [];
       for (const placeId of new Set([
         actor.placeId,
@@ -369,20 +368,6 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   effectHandlers: {
-    "paid-work": (api, actorId, chosen, date, days, decision) => {
-      const result = api.settleLegacyWorkResult({
-        personId: actorId,
-        offer: chosen,
-        date,
-        days,
-        decision,
-      });
-      return {
-        recordedActId: result.sourceActId,
-        recordedActivity: true,
-        recordedLastActDate: true,
-      };
-    },
     recover: (api, actorId, chosen) => {
       const actor = api.state.people.get(actorId)!;
       const affect = affectAt(
@@ -449,7 +434,6 @@ export const LIFE_MODULE: CoreModule = {
       );
     },
     organize: (api, actorId, chosen) => {
-      api.stopgap("SG-P8-grief-action-response");
       const actor = api.state.people.get(actorId)!;
       const drive = chosen.driveId
         ? actor.drives.get(chosen.driveId)

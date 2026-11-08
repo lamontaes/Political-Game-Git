@@ -1,6 +1,5 @@
 import { bookkeeping } from "./bookkeeping";
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
-import { daysBetweenText } from "./kernel/dates";
 import { cashJournalParameters } from "./cash-host";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
@@ -24,12 +23,10 @@ import {
 } from "./finance-cash";
 import {
   activityAgeId,
-  discretionaryHours,
   plannedWorkMinutesOnDate,
   workWeekStart,
 } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
-import { readLegacyDiscretionaryWages } from "./legacy-wage-counters";
 import {
   preparePublicWorkPay,
   resolvePublicWorkPayDue,
@@ -48,38 +45,14 @@ import type {
   CashJournalSourceSlot,
 } from "./journal-state";
 import type {
-  ActOffer,
   CoreAPI,
   CoreModule,
   CoreState,
-  DecisionResult,
   IsoDate,
-  Source,
   WorkResult,
   WorkResultInput,
 } from "./types";
 
-export interface LegacyWorkCashInput {
-  personId: string;
-  offer: ActOffer;
-  date: IsoDate;
-  days: number;
-  decision: DecisionResult;
-}
-export interface LegacyWorkCashResult {
-  id: string;
-  date: IsoDate;
-  personId: string;
-  jobId: string;
-  organizationId: string;
-  days: number;
-  requestedMinor: number;
-  paidMinor: number;
-  shortfallMinor: number;
-  sourceActId: string;
-  reasonKey: string;
-  source: Source;
-}
 export interface WorkCashSourceState extends CashJournalPostedMarker {
   id: string;
   kind: string;
@@ -88,8 +61,8 @@ export interface WorkCashSourceState extends CashJournalPostedMarker {
   jobId: string;
   organizationId: string;
   selectionId: string;
-  mode: "scheduled" | "legacy";
-  result: WorkResult | LegacyWorkCashResult;
+  mode: "scheduled";
+  result: WorkResult;
   credits: readonly CreditReceipt[];
   postings: readonly CashJournalPosting[];
   /** Recorded from the actual commitment before payment, kept for visible past results. */
@@ -98,7 +71,7 @@ export interface WorkCashSourceState extends CashJournalPostedMarker {
 }
 type ControlSnapshot = ReturnType<typeof snapshotExplicitControlV1>;
 type Pending = {
-  plan: PreparedFinancePlan<WorkResult | LegacyWorkCashResult>;
+  plan: PreparedFinancePlan<WorkResult>;
   selection: CashActSelection;
   controlSnapshot: ControlSnapshot;
 };
@@ -128,7 +101,6 @@ export function ensureWorkCashModule(core: CoreState): void {
   }
   const id = core.data.workCashModuleId,
     kinds = [
-      core.data.legacyWorkJournalSourceKind,
       ...(core.data.work ? [core.data.work.journalSourceKinds.result] : []),
     ];
   if (
@@ -609,8 +581,8 @@ function submit(
   row: WorkCashSourceState,
   selection: CashActSelection,
   priorId: string | undefined,
-  returned: WorkResult | LegacyWorkCashResult = row.result,
-): WorkResult | LegacyWorkCashResult {
+  returned: WorkResult = row.result,
+): WorkResult {
   if (api.state !== core)
     throw new Error("Coupled work writer has another actual host.");
   try {
@@ -796,253 +768,6 @@ export function settleWorkResultJournal(
       priorId,
       full,
     ) as WorkResult;
-  } catch (error) {
-    cancelCompositeFinanceCreditSources(core, credits);
-    cancelUncompletedCashAct(core, selection);
-    throw error;
-  }
-}
-
-/** The legacy life activation's date and assumed duration share the same commit. */
-function stageLegacyActivation(
-  session: FinancePlanningSession,
-  api: CoreAPI,
-  actorId: string,
-  offer: ActOffer,
-): void {
-  const r = session.reads,
-    m = session.metadata,
-    core = session.core,
-    actor = r.mapGet(r.field(core, "people"), actorId)!;
-  m.write(actor, "lastActDate", session.date);
-  const data = r.field(r.field(core, "data"), "work");
-  if (!data) return;
-  r.field(actor, "birthDate");
-  for (const age of r.array(
-    r.field(data, "activityAgeRows"),
-    session.zero,
-    session.one,
-  )) {
-    r.payload(age, session.zero, session.one);
-    session.parameter(age.minimumAgeParameter);
-    if (age.maximumAgeParameter) session.parameter(age.maximumAgeParameter);
-  }
-  const work = r.field(core, "work"),
-    times = r.field(work, "timeByPerson"),
-    today = m.mapGet(times, actorId);
-  if (today) r.payload(today, session.zero, session.one);
-  const ids = r.mapGet(r.field(work, "commitmentsByPerson"), actorId);
-  for (const id of ids ? r.members(ids) : []) {
-    const commitment = r.mapGet(r.field(work, "commitments"), id);
-    if (!commitment)
-      throw new Error(
-        "Legacy activity has an inconsistent actual commitment index.",
-      );
-    r.payload(commitment, session.zero, session.one);
-    if (
-      commitment.jobId === actor.jobId &&
-      commitment.startsAt <= core.date &&
-      (!commitment.endsAt || commitment.endsAt >= core.date)
-    )
-      throw new Error(
-        "An actual scheduled job cannot also receive calendar-average legacy pay.",
-      );
-  }
-  session.parameter("hoursPerDay");
-  session.parameter(r.field(data, "sleepReserveParameter"));
-  const minutesPerHour = session.parameter("minutesPerHour"),
-    hours =
-      r.field(offer, "effortHours") ??
-      session.parameter(r.field(offer.definition, "effortParameter")),
-    minutes = finite(hours * minutesPerHour, "legacy activity duration");
-  if (
-    minutes < session.zero ||
-    minutes > discretionaryHours(api, actorId) * minutesPerHour
-  )
-    throw new Error(
-      "Legacy activity exceeds the actual remaining-time budget.",
-    );
-  const sameDate = today?.date === core.date;
-  m.mapSet(times, actorId, {
-    date: core.date,
-    workMinutes: sameDate ? r.field(today!, "workMinutes") : session.zero,
-    discretionaryMinutes: finite(
-      (sameDate ? r.field(today!, "discretionaryMinutes") : session.zero) +
-        minutes,
-      "legacy occupied time",
-    ),
-  });
-  const crosswalk = r.field(data, "primaryActivityCrosswalk");
-  r.payload(crosswalk, session.zero, session.one);
-  const category =
-      crosswalk.find((row) => row.effect === offer.definition.effect)
-        ?.category ?? `unmapped:${offer.definition.effect}`,
-    age = activityAgeId(api, actorId),
-    key = `${age}:${category}`,
-    totals = r.field(work, "primaryTimeTotals"),
-    prior = m.mapGet(totals, key);
-  m.mapSet(totals, key, {
-    ageReferenceId: age,
-    category,
-    minutes: finite(
-      (prior ? r.field(prior, "minutes") : session.zero) + minutes,
-      "legacy primary activity time",
-    ),
-    source: prior
-      ? r.field(prior, "source")
-      : {
-          tag: "ESTIMATED",
-          asOf: core.date,
-          citation:
-            "Actual selected prototype act and its registered assumed duration, not an observed diary duration.",
-          estimatedFrom:
-            "Attempt/time duration follows the admitted offer. Crosswalk limitations remain explicit and unmodeled primary activities are not assigned fabricated minutes.",
-        },
-  });
-}
-
-/** Legacy calendar-average pay also requires its actual selected act; bare transfer is gone. */
-export function settleLegacyWorkResultJournal(
-  core: CoreState,
-  api: CoreAPI,
-  input: LegacyWorkCashInput,
-): LegacyWorkCashResult {
-  ensureWorkCashModule(core);
-  ensureFinanceCashModule(core);
-  const s = controlledWorkSession(core),
-    r = s.reads,
-    m = s.metadata;
-  r.payload(input, s.zero, s.one);
-  const actor = r.mapGet(r.field(core, "people"), input.personId),
-    job = r.mapGet(r.field(core, "jobs"), input.offer.targetId);
-  if (
-    !actor ||
-    !job ||
-    r.field(actor, "jobId") !== r.field(job, "id") ||
-    r.field(job, "personId") !== input.personId ||
-    (r.field(job, "endsAt") !== undefined && job.endsAt! <= core.date) ||
-    input.date !== core.date ||
-    !Number.isSafeInteger(input.days) ||
-    input.days !== daysBetweenText(r.field(actor, "lastActDate"), input.date) ||
-    input.days <= s.zero ||
-    input.offer.definition.effect !== "paid-work"
-  )
-    throw new Error(
-      "Legacy pay requires its actual current owned job, selected work and positive elapsed days.",
-    );
-  r.payload(job, s.zero, s.one);
-  const ownedWork = r.field(core, "work"),
-    payrollByJob = r.field(ownedWork, "payrollCalendarByJob"),
-    ownedCommitments = r.mapGet(
-      r.field(ownedWork, "commitmentsByPerson"),
-      r.field(actor, "id"),
-    );
-  if (
-    r.mapHas(payrollByJob, r.field(job, "id")) ||
-    (ownedCommitments &&
-      r.members(ownedCommitments).some((id) => {
-        const row = r.mapGet(r.field(ownedWork, "commitments"), id);
-        if (!row)
-          throw new Error("Legacy work's actual commitment index is stale.");
-        return (
-          r.field(row, "jobId") === r.field(job, "id") &&
-          r.field(row, "payrollCalendarId") !== undefined
-        );
-      }))
-  )
-    throw new Error(
-      "An accrual-enrolled job cannot also receive calendar-average legacy cash.",
-    );
-  const work = r.field(core, "work"),
-    latest = r.field(work, "latestLegacyCashResultByPerson"),
-    prior = m.mapGet(latest, actor.id),
-    requested = minor(
-      Math.round(r.field(job, "wageDailyMinor") * input.days),
-      s.zero,
-    ),
-    id = `legacy-work-result:${core.date}:${actor.id}:${r.field(actor, "actCount")}`;
-  const selection = admitSelectedCashAct(
-    core,
-    api,
-    s,
-    actor.id,
-    input.offer,
-    core.date,
-    input.decision,
-    id,
-  );
-  let credits: readonly CreditReceipt[] = [];
-  try {
-    const finance = prepareWorkFinancePlan(
-      s,
-      job.organizationId,
-      actor.id,
-      requested,
-      id,
-    );
-    credits = finance.credits;
-    const result: LegacyWorkCashResult = {
-      id,
-      date: core.date,
-      personId: actor.id,
-      jobId: job.id,
-      organizationId: job.organizationId,
-      days: input.days,
-      requestedMinor: requested,
-      paidMinor: finance.expectedPaidMinor,
-      shortfallMinor: requested - finance.expectedPaidMinor,
-      sourceActId: selection.id,
-      reasonKey: input.decision.reasonKey,
-      source: {
-        tag: "SOURCED",
-        asOf: core.date,
-        citation:
-          "Actual legacy calendar-average job pay and selected work act, settled through the conserving coupled cash journal.",
-      },
-    };
-    stageLegacyActivation(s, api, actor.id, input.offer);
-    const cumulative = readLegacyDiscretionaryWages(r, work, s.zero, s.one);
-    // The original sealed cash/noncash session commits these once with the receipt.
-    // No job-total update, retry debt, payment policy, or historical summation.
-    m.write(work, "legacyDiscretionaryWages", {
-      earnedMinor: minor(
-        cumulative.earnedMinor + result.requestedMinor,
-        s.zero,
-      ),
-      paidMinor: minor(cumulative.paidMinor + result.paidMinor, s.zero),
-      shortfallMinor: minor(
-        cumulative.shortfallMinor + result.shortfallMinor,
-        s.zero,
-      ),
-      completedReceiptCount: minor(
-        cumulative.completedReceiptCount + s.one,
-        s.zero,
-      ),
-    });
-    const stored = m.mapSet(latest, actor.id, result);
-    const data = r.field(core, "data"),
-      kind = r.field(data, "legacyWorkJournalSourceKind");
-    const canonical: WorkCashSourceState = {
-      id,
-      kind,
-      date: core.date,
-      personId: actor.id,
-      jobId: job.id,
-      organizationId: job.organizationId,
-      selectionId: selection.id,
-      mode: "legacy",
-      result: stored,
-      credits,
-      postings: [],
-    };
-    return submit(
-      core,
-      api,
-      s,
-      canonical,
-      selection,
-      prior?.id,
-    ) as LegacyWorkCashResult;
   } catch (error) {
     cancelCompositeFinanceCreditSources(core, credits);
     cancelUncompletedCashAct(core, selection);

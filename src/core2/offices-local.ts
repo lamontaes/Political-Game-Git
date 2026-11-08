@@ -1,3 +1,4 @@
+import type { GovernmentLevel } from "./government-level";
 import bodyNames from "./data/offices/body-names.json" with { type: "json" };
 /**
  * The local offices that cover a place: its city (council and mayor), its
@@ -55,7 +56,7 @@ export function boardBodyName(listed: string, bodyName: string): string {
   return `${area} ${bodyName}`;
 }
 
-export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";
+export type OfficeLevel = GovernmentLevel | "township";
 
 /** An office: one title in one government, with how many seats it has. */
 export interface OfficeInput {

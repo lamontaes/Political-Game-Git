@@ -27,6 +27,7 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
@@ -149,7 +150,7 @@ const JURISDICTIONS = geography.places as Readonly<
 function questionForLevel(
   api: CoreAPI,
   question: string,
-  level: "federal" | "state" | "county" | "city",
+  level: GovernmentLevel,
   /** The government asking; the player's own state unless an outside legislature sits. */
   stateKey: string = lawChain(api).stateKey,
 ): boolean {
@@ -177,6 +178,8 @@ export function levelMayDecide(
   value = 1,
   stateKey?: string,
 ): boolean {
+  // A township is read as the town's own level (SG-GOV-township-law-level: the law chain has no township level).
+  if (level === "township") api.stopgap("SG-GOV-township-law-level");
   const own = level === "township" ? "city" : level;
   if (!questionForLevel(api, question, own, stateKey)) return false;
   const provision: Provision = { kind: "policy-question", question, value };
@@ -659,6 +662,7 @@ function fileLines(
       let best = 0;
       let wanted = 0;
       let cosponsors = 0;
+      const gaps: number[] = [];
       for (const member of filers) {
         const stance = Math.max(
           -1,
@@ -673,6 +677,7 @@ function fileLines(
         const reason = gap / base - minimum;
         if (reason <= 0) continue;
         cosponsors += 1;
+        gaps.push(gap);
         if (
           reason > best ||
           (reason === best && sponsor && member.key < sponsor.key)
@@ -681,6 +686,15 @@ function fileLines(
           sponsor = member;
           wanted = Math.round(gap * direction);
         }
+      }
+      // Where a majority backs a change, the bill asks for what the member
+      // who makes the majority wants, not the most moved member's larger
+      // ask, so the line settles where the body's median member stands and
+      // is not pushed past it and back.
+      const majority = Math.floor(filers.length / 2) + 1;
+      if (sponsor && gaps.length >= majority) {
+        gaps.sort((a, b) => b - a);
+        wanted = Math.round(gaps[majority - 1]! * direction);
       }
       if (!sponsor || wanted === 0) continue;
       all.push({

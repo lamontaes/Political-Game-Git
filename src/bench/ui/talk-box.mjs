@@ -106,11 +106,6 @@ export function mountSpeakers(root = document) {
     );
 }
 
-/** Say one line in the list of lines with id `listId` (the opening box says them one at a time). */
-export function sayInBox(listId, text) {
-  $(listId).replaceChildren(talkLine({ kind: "speech", text }));
-}
-
 /**
  * Lines and numbered replies set out in a panel of their own (the speech being built in
  * the Campaigns screen): the same lines and replies the talk box shows, from the same parts.

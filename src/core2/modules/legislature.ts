@@ -1,3 +1,7 @@
+import type {
+  GovernmentLevelWithTownship,
+  GovernmentLevel,
+} from "../government-level";
 import { townLean } from "./campaigns";
 import { keepsWhy } from "../why-kept";
 import { lawApplied } from "../law-reach/applied";
@@ -1962,7 +1966,7 @@ export function billReach(
   readonly county: string | null;
   /** The township a township board legislates for (its government-unit id). */
   readonly township: string | null;
-  readonly level: "federal" | "state" | "county" | "township" | "city";
+  readonly level: GovernmentLevelWithTownship;
 } {
   const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
   const state = !federal && isState(api, bill);
@@ -2004,10 +2008,7 @@ export function bodyJurisdiction(api: CoreAPI, bodyOfficeId: string): string {
  * Which government a body belongs to, for a story that is not about one bill
  * (a chamber organizing itself): its body row's level.
  */
-export function bodyReach(
-  api: CoreAPI,
-  officeId: string,
-): "federal" | "state" | "county" | "city" {
+export function bodyReach(api: CoreAPI, officeId: string): GovernmentLevel {
   return bodyLevel(api, officeId);
 }
 
@@ -2022,7 +2023,7 @@ export function effectiveRule(
   bill: BillRow,
 ): {
   readonly jurisdiction: string;
-  readonly level: "federal" | "state" | "county" | "township" | "city";
+  readonly level: GovernmentLevelWithTownship;
   readonly federal: boolean;
   readonly state: boolean;
   readonly kind: "on-enactment" | "state-rule" | "days-after-adoption";
@@ -2413,10 +2414,7 @@ function payProjectGrant(
  * the body's power.
  */
 /** The level of government a lawmaking body belongs to: its body row's (a town's own body where it has none). */
-function bodyLevel(
-  api: CoreAPI,
-  bodyOfficeId: string,
-): "federal" | "state" | "county" | "city" {
+function bodyLevel(api: CoreAPI, bodyOfficeId: string): GovernmentLevel {
   return bodyRow(bodyOf(api, bodyOfficeId)?.kind ?? "")?.level ?? "city";
 }
 
@@ -2570,7 +2568,7 @@ export const FEDERAL_SENATE = "federal:us-senate";
 
 interface BodyRow {
   readonly kindPrefix: string;
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: GovernmentLevel;
   /** Whose law the body's bills make: the nation's, the state's, the county's, its township's or the place's. */
   readonly law: "nation" | "state" | "county" | "township" | "place";
   /** The legislature whose chambers this body is one of; absent for a one-chamber body. */
@@ -2590,7 +2588,7 @@ interface BodyRow {
 }
 const BODIES = bodyRows as unknown as {
   bodies: readonly BodyRow[];
-  vetoHolder: Readonly<Record<"federal" | "state" | "county" | "city", string>>;
+  vetoHolder: Readonly<Record<GovernmentLevel, string>>;
 };
 
 /** A lawmaking body's row (src/core2/data/offices/bodies.json), by its office kind. */
@@ -3128,8 +3126,12 @@ export function learnStake(
     api.relationship(bill.sponsorId, memberId, "contact", 0.05);
   const position = memberPosition(api, billId, memberId);
   const learner = learnerId ?? bill.sponsorId;
-  // Kept for the player and the people they deal with, as reasons are.
-  if (!keepsWhy(api.state as CoreState, learner)) return position;
+  // Kept for the player (the character the player controls, as a played official is) and the people they deal with, as reasons are.
+  if (
+    !keepsWhy(api.state as CoreState, learner) &&
+    snapshotExplicitControlV1(api.state).personId !== learner
+  )
+    return position;
   table(api, "learnedStakes").put({
     id: `stake:${billId}|${memberId}|${learner}`,
     billId,
@@ -4158,6 +4160,17 @@ function dischargePetition(
 ): NonNullable<CommitteeRecord["discharge"]> | null {
   const row = dischargeData.rows.find((r) => r.chamberId === chamber);
   if (!row) return null;
+  // How many signatures the rule asks of this chamber's members: a majority of them, or a fraction.
+  const seated = members(api, chamber).length;
+  const rule: {
+    readonly kind: string;
+    readonly numerator?: number;
+    readonly denominator?: number;
+  } = row.rule;
+  const needed =
+    rule.kind === "majority" || !rule.numerator || !rule.denominator
+      ? Math.floor(seated / 2) + 1
+      : Math.ceil((seated * rule.numerator) / rule.denominator - 1e-9);
   // stopgapId: SG-GOV-discharge-no-wait
   api.stopgap("SG-GOV-discharge-no-wait");
   const signers = members(api, chamber)
@@ -4173,9 +4186,9 @@ function dischargePetition(
       );
     });
   return {
-    needed: row.signatures,
+    needed,
     signers,
-    discharged: signers.length >= row.signatures,
+    discharged: signers.length >= needed,
   };
 }
 
@@ -5530,6 +5543,18 @@ export function castMemberVote(
     id: `${billId}|${memberId}${override ? "|override" : ""}`,
     vote,
   } as unknown as ModuleRow);
+}
+
+/** A member's vote left to their own position on the bill, cast by the same rule as any member's; returns the position and the vote. */
+export function castOwnPositionVote(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+): { readonly position: number; readonly vote: "yes" | "no" | "abstain" } {
+  const position = memberPosition(api, billId, memberId).total;
+  const vote = position > 0 ? "yes" : position < 0 ? "no" : "abstain";
+  castMemberVote(api, billId, memberId, vote);
+  return { position, vote };
 }
 
 /**

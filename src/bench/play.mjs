@@ -33,6 +33,7 @@ import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devWatchSections } from "./ui/dev-watch.mjs";
 import { devScenePanel } from "./ui/dev-scene.mjs";
+import { devCampaignPanel } from "./ui/dev-campaign.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -40,6 +41,11 @@ import {
   restoreDevMode,
   setDevMode,
 } from "./ui/dev-setting.mjs";
+import {
+  colorBlindOn,
+  restoreColorBlind,
+  setColorBlind,
+} from "./ui/palette-setting.mjs";
 import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
@@ -83,6 +89,7 @@ import {
   perkList,
   introText,
   peopleSentence,
+  nameLink,
   dotRows,
   stripBoard,
   typedRow,
@@ -113,6 +120,9 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+// The game's date is the clock's, the packet's; me.date is only the day the
+// screen loaded (P15, C10: the News kept the opening day).
+const today = () => packet?.at?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -269,17 +279,11 @@ function showNewsSurface(news) {
     controls.opening?.closeNews ?? "",
   );
   $("news-surface-open").onclick = () => {
-    coachUsed("news-surface");
     hideNewsToast();
     openNewsReader(news);
   };
-  $("news-surface-close").onclick = () => {
-    coachUsed("news-surface");
-    hideNewsToast();
-  };
-  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8, () =>
-    coachUsed("news-surface"),
-  );
+  $("news-surface-close").onclick = hideNewsToast;
+  showToast($("news-surface"), controls.opening?.newsToastSeconds ?? 8);
 }
 function openNewsReader(news) {
   const [lead, ...rest] = news.stories;
@@ -290,7 +294,7 @@ function openNewsReader(news) {
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
   engraveMasthead($("news-reader-masthead"), outlet);
-  $("news-reader-date").textContent = dateWords(me.date, { weekday: true });
+  $("news-reader-date").textContent = dateWords(today(), { weekday: true });
   $("news-reader").className = `panel paper paper-${
     ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
       ? outlet.layout
@@ -307,33 +311,6 @@ $("news-reader-close").addEventListener("click", () =>
   show("news-reader", false),
 );
 
-/**
- * The first choices, pointed out one at a time: the news, the people you
- * know, then living the day. Each glows until it is used; nothing to read.
- */
-const COACH_ORDER = ["news-surface", "people-tab", "day"];
-const coachDone = new Set();
-const coachNode = (id) =>
-  id === "people-tab"
-    ? document.querySelector('#rings [data-tab="people"]')
-    : $(id);
-/** Glows the first choice not yet used; each clears however it is used. */
-function coachRender() {
-  for (const id of COACH_ORDER) coachNode(id)?.classList.remove("coach");
-  const next = COACH_ORDER.find((id) => {
-    const node = coachNode(id);
-    return !coachDone.has(id) && node && !node.hidden;
-  });
-  if (next) coachNode(next).classList.add("coach");
-}
-function coachUsed(...ids) {
-  for (const id of ids) coachDone.add(id);
-  coachRender();
-}
-function coachFirstChoices() {
-  coachDone.clear();
-  coachRender();
-}
 // Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
   if (event.key !== "Escape") return;
@@ -362,7 +339,7 @@ async function renderCard() {
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -541,15 +518,6 @@ function renderPacket(value) {
   $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
-  $("card-why").textContent = endedBy(packet);
-}
-
-/** What stopped the clock, from the stop's own records. */
-function endedBy(value) {
-  const words = controls.endedBy ?? {};
-  if (value?.kind !== "stop") return "";
-  const module = value.stop.modules[0];
-  return module ? (words[module.reasonKey] ?? "") : "";
 }
 
 /** The newest line of the journal, bottom right. */
@@ -636,8 +604,15 @@ async function act(path) {
       else if (
         office.reasonKey === "office-day.executive-order" ||
         office.reasonKey === "office-day.emergency" ||
+        office.reasonKey === "office-day.state-of-the-state" ||
+        office.reasonKey === "office-day.own-hearing" ||
         office.reasonKey === "office-day.appointment" ||
         office.reasonKey === "office-day.budget-proposal"
+      )
+        await atOrders();
+      else if (
+        office.reasonKey === "office-day-federal.budget-request" ||
+        office.reasonKey === "office-day-federal.joint-address"
       )
         await atOrders();
       else if (office.reasonKey === "office-day-federal.nomination")
@@ -987,25 +962,40 @@ function atOrders() {
                 )
               : [];
           const kindWords = (how) =>
-            item.kind === "emergency"
-              ? words[`emergency-${how}`]
-              : item.kind === "post"
-                ? words[`post-${how}`]
-                : item.kind === "budget"
-                  ? words[`budget-${how}`]
-                  : how === "issue" && item.revoke
-                    ? words.revoke
-                    : words[how];
+            item.kind === "request" || item.kind === "joint"
+              ? words[`${item.kind}-${how}`]
+              : item.kind === "hearing"
+                ? words[`hearing-${how}`]
+                : item.kind === "address"
+                  ? words[`address-${how}`]
+                  : item.kind === "emergency"
+                    ? words[`emergency-${how}`]
+                    : item.kind === "post"
+                      ? words[`post-${how}`]
+                      : item.kind === "budget"
+                        ? words[`budget-${how}`]
+                        : how === "issue" && item.revoke
+                          ? words.revoke
+                          : words[how];
           return plate(
-            item.kind === "emergency"
-              ? words.emergency
-              : item.kind === "budget"
-                ? words.budget
-                : (item.name ?? ""),
+            item.kind === "request" || item.kind === "joint"
+              ? words[item.kind]
+              : item.kind === "hearing"
+                ? words.hearing
+                : item.kind === "address"
+                  ? words.address
+                  : item.kind === "emergency"
+                    ? words.emergency
+                    : item.kind === "budget"
+                      ? words.budget
+                      : (item.name ?? ""),
             ...picker,
             ...lines,
             buttonRow(
-              ...["issue", "decline"].map((how) => {
+              ...(item.kind === "address"
+                ? ["issue"]
+                : ["issue", "decline"]
+              ).map((how) => {
                 const b = makeButton({
                   className: "action",
                   textContent: kindWords(how),
@@ -1235,13 +1225,14 @@ function atThePolls(scene) {
 // runs it to that day. A scene the director fires stops any of them there.
 for (const mode of ["day", "week"])
   $(mode).addEventListener("click", () => {
-    // Living on puts the evening's paper away and ends the first-choice glow.
+    // Living on puts the evening's paper away.
     hideNewsToast();
-    coachUsed(...COACH_ORDER);
     return act(`/api/advance?mode=${mode}`);
   });
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
-let seenNews = 0;
+// The first count a life is opened with is already read: a reload starts with
+// nothing unread, and only what arrives after it lights the dot (P12).
+let seenNews;
 async function newsCount() {
   const rows = await api(`/api/news?id=${encodeURIComponent(me.id)}`);
   // Every row News lists (its public records), the same rows its screen draws.
@@ -1249,7 +1240,7 @@ async function newsCount() {
 }
 async function markNews(read) {
   const count = await newsCount();
-  if (read) seenNews = count;
+  if (read || seenNews === undefined) seenNews = count;
   document
     .querySelector('#rings [data-tab="news"]')
     ?.classList.toggle("unread", count > seenNews);
@@ -1475,7 +1466,8 @@ function renderFiling(value) {
     renderFiling(await post(`/api/filing/choose?${params}`));
   };
   // Each race told apart before the pick: its seat, its election day and
-  // who holds the seat now, from the contest's records.
+  // who holds the seat now, from the contest's records. It says nothing of what the
+  // office does (SG-SCREENS-office-hover-prose: no office-duties bank yet).
   const counter = controls.filing;
   const factsOf = (choice) => {
     const seat = value.seats?.[choice.action.contestId];
@@ -1706,7 +1698,6 @@ async function campaignParts() {
       if (result.scene) {
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
       }
       if (moment) await showStory(moment.recordId);
       if (!result.scene && !moment) reopenTrail(filing.id);
@@ -1755,7 +1746,6 @@ async function campaignParts() {
         closeSheet();
         $("backdrop").src = result.scene.backdrop.url;
         drawPeople(result.scene.people);
-        $("card-why").textContent = campaignResult;
         return;
       }
       reopenTrail(filing.id);
@@ -1881,7 +1871,6 @@ async function campaignParts() {
                 closeSheet();
                 $("backdrop").src = result.scene.backdrop.url;
                 drawPeople(result.scene.people);
-                $("card-why").textContent = campaignResult;
               },
             }),
           ],
@@ -2215,6 +2204,37 @@ async function personCardNode(
           : labels.sharedWords[s.kind],
       ),
     );
+  // How close you are and why that last changed, read from the tie's own record
+  // (the card's tie row: its closeness and its latestChange); a person with no
+  // tie to you has neither line.
+  const closeness = Number.isFinite(person.level)
+    ? labels.closenessWords[
+        Math.min(
+          labels.closenessWords.length - 1,
+          Math.floor(Math.max(0, person.level) * labels.closenessWords.length),
+        )
+      ]
+    : null;
+  const change = person.latestChange;
+  const changeLine = change
+    ? introText(
+        [
+          labels.tieChange[
+            change.after > change.before
+              ? "closer"
+              : change.after < change.before
+                ? "apart"
+                : "same"
+          ],
+          labels.tieCauses[change.cause],
+          dateWords(change.date),
+        ]
+          .filter(Boolean)
+          .join(" · "),
+      )
+    : null;
+  if (closeness) sharedLines.unshift(introText(closeness));
+  if (changeLine) sharedLines.push(changeLine);
   // Their public record, from the past module's public tier: a fact the record does not hold is left out.
   const recordRows = known
     ? [
@@ -3049,6 +3069,16 @@ const sheets = {
                   ),
                 ]
               : []),
+            // Where the player places themselves politically: the views engine's own label.
+            ...(c.view
+              ? [
+                  stripSection(
+                    2,
+                    labels.views,
+                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
+                  ),
+                ]
+              : []),
             ...(c.traitLines?.length
               ? [
                   stripSection(
@@ -3359,9 +3389,9 @@ const sheets = {
     // governments as tabs, the fiscal year typed at the right, the departments, the open
     // department as a typed page, the town's money, and who wrote it. The game keeps
     // budget lines by category rather than departments, so each spending line is a
-    // department; Last year comes from the government's previous budget; a head, an
-    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
-    // with-named-heads and gov-budget-asked-versus-adopted.
+    // department; Last year comes from the government's previous budget; "Asked" is the line
+    // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
+    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3433,6 +3463,9 @@ const sheets = {
                 roundedMoney(opened.minor),
                 lastYear(lastOf(prior?.spending, opened.line)),
               ),
+              ...(opened.askedMinor !== undefined
+                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                : []),
               ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
             ),
           ],
@@ -3458,6 +3491,25 @@ const sheets = {
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
+            ...(gov.executive?.title
+              ? [
+                  stripSection(
+                    4,
+                    gov.executive.title,
+                    leaderBlock({
+                      face: gov.executive.face,
+                      name: gov.executive.name,
+                      party: gov.executive.party,
+                      post: gov.executive.title,
+                      onOpen: () =>
+                        showPerson({
+                          personId: gov.executive.cardId,
+                          figureUrl: gov.executive.face?.url,
+                        }),
+                    }),
+                  ),
+                ]
+              : []),
             ...(latest.adoptedOn
               ? [
                   stripSection(
@@ -3514,6 +3566,14 @@ const sheets = {
             }),
           ]
         : []),
+      ...(devModeOn()
+        ? [
+            await devCampaignPanel({
+              labels: controls.devCampaign,
+              onDone: () => refresh(),
+            }),
+          ].filter(Boolean)
+        : []),
     ];
   },
   async news() {
@@ -3542,7 +3602,7 @@ const sheets = {
       newsBoard({
         outlets,
         labels,
-        date: me.date,
+        date: today(),
         headlineOf: storyHeadline,
         words: {
           page: controls.politics.page,
@@ -3651,8 +3711,10 @@ const sheets = {
   /**
    * Options as the Nov 8 front mock draws it (fr-options): a strip for Seeing (Full screen
    * as On and Off toggles), a strip for Leave (Quit to title) and a strip for Dev mode, lit
-   * toggles and never checkboxes. Color-blind mode, which scenes may stop the day and Save
-   * now are in the mock but are not settings the game keeps yet, so they are not drawn.
+   * toggles and never checkboxes, and a strip for which scenes may stop the day (the
+   * director's own record, by group). Color-blind colors are one global setting
+   * (palette-setting.mjs). Save now is in the mock but is not a setting the game keeps yet,
+   * so it is not drawn.
    */
   async options() {
     await controlsReady;
@@ -3696,11 +3758,56 @@ const sheets = {
           ),
         ]
       : [];
+    seeing.push(
+      settingRow(
+        labels.colorBlind,
+        toggle({
+          attr: "palette",
+          testid: "options-color-blind",
+          on: colorBlindOn,
+          set: setColorBlind,
+        }),
+      ),
+    );
+    // Which kinds of scene may stop the day: the director's own record of the
+    // player's setting (/api/scene-filter), one On/Off per group of kinds.
+    const filter = me
+      ? await api(`/api/scene-filter?id=${encodeURIComponent(me.id)}`)
+      : null;
+    const groups = new Map();
+    for (const [kind, group] of Object.entries(filter?.groups ?? {}))
+      if (group && labels.sceneGroups[group])
+        groups.set(group, [...(groups.get(group) ?? []), kind]);
+    let allowed = new Set(filter?.allowed ?? filter?.kinds ?? []);
+    const stopping = filter
+      ? [...groups].map(([group, kinds]) =>
+          settingRow(
+            labels.sceneGroups[group],
+            toggle({
+              attr: "stop",
+              testid: `options-stop-${group}`,
+              on: () => kinds.every((kind) => allowed.has(kind)),
+              set: async (wanted) => {
+                for (const kind of kinds)
+                  wanted ? allowed.add(kind) : allowed.delete(kind);
+                const every = allowed.size === filter.kinds.length;
+                const saved = await post(
+                  `/api/scene-filter?id=${encodeURIComponent(me.id)}&kinds=${every ? "all" : [...allowed].join(",")}`,
+                );
+                allowed = new Set(saved.allowed ?? saved.kinds);
+              },
+            }),
+          ),
+        )
+      : [];
     return [
       optionsBoard({
         columns: [
           [
             ...(seeing.length ? [{ title: labels.seeing, rows: seeing }] : []),
+            ...(stopping.length
+              ? [{ title: labels.sceneStop, rows: stopping }]
+              : []),
             {
               title: labels.leave,
               rows: [
@@ -3937,9 +4044,11 @@ const sheets = {
       return [
         rosterTitle(
           race.title,
-          dateWords(race.electionDate, { year: me.date }),
+          dateWords(race.electionDate, { year: today() }),
         ),
         rosterCols(
+          // A candidate's name opens their card; there is no rally to go to
+          // (SG-SCREENS-candidate-rally: no engine keeps a rally as a place and a time).
           stripSection(1, labels.whoIsRunning, ...candidates),
           rosterSide(
             ...(race.lastTime
@@ -3950,9 +4059,13 @@ const sheets = {
                     dotRows([
                       {
                         label: dateWords(race.lastTime.date, {
-                          year: me.date,
+                          year: today(),
                         }),
-                        value: race.lastTime.winner,
+                        value: race.lastTime.winnerId
+                          ? nameLink(race.lastTime.winner, () =>
+                              showPerson({ personId: race.lastTime.winnerId }),
+                            )
+                          : race.lastTime.winner,
                       },
                       {
                         label: labels.share,
@@ -3972,7 +4085,7 @@ const sheets = {
                       {
                         when: dateWords(race.filingDeadline, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingCloses,
                       },
@@ -3980,7 +4093,7 @@ const sheets = {
                 {
                   when: dateWords(race.electionDate, {
                     month: "short",
-                    year: me.date,
+                    year: today(),
                   }),
                   text: labels.electionDay,
                 },
@@ -4001,7 +4114,7 @@ const sheets = {
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: me.date }),
+          title: dateWords(day, { year: today() }),
           entries: races.map((race) => ({
             key: race.contestId,
             label: race.title,
@@ -4076,13 +4189,15 @@ const sheets = {
                   ),
                   ...(item.mine.length
                     ? [
-                        line(
-                          `${words.yourMembers}: ${item.mine
-                            .map(
-                              (m) =>
-                                `${m.name} ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
-                            )
-                            .join(", ")}`,
+                        introText(
+                          `${words.yourMembers}: `,
+                          ...item.mine.flatMap((m, i) => [
+                            ...(i ? [", "] : []),
+                            nameLink(m.name, () =>
+                              showPerson({ personId: m.memberId }),
+                            ),
+                            ` ${controls.billStage?.[m.vote === "yes" ? "yes" : m.vote === "no" ? "no" : "abstain"] ?? ""}`,
+                          ]),
                         ),
                       ]
                     : []),
@@ -4105,7 +4220,7 @@ const sheets = {
         (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
         text ?? "",
       );
-    const short = (iso) => dateWords(iso, { month: "short", year: me.date });
+    const short = (iso) => dateWords(iso, { month: "short", year: today() });
     const open = (cardId, face) => () => {
       closeSheet();
       showPerson({ personId: cardId, figureUrl: face?.url });
@@ -4202,6 +4317,18 @@ const sheets = {
                 title: v.title,
                 result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                ...(v.openable
+                  ? {
+                      onOpen: () =>
+                        openBillPaper(
+                          v.billId,
+                          (...nodes) =>
+                            $("sheet-body").replaceChildren(...nodes),
+                          () => openSheet("government"),
+                          labels.backToGovernment,
+                        ),
+                    }
+                  : {}),
               })),
             ),
           ]
@@ -4832,7 +4959,6 @@ const groupOf = (tab) =>
 async function openSheet(tab) {
   await controlsReady;
   if (tab === "politics") tab = "government";
-  if (groupOf(tab) === "people") coachUsed("people-tab");
   openTab = tab;
   if (tab === "news") markNews(true);
   if (tab === "journal")
@@ -5041,12 +5167,20 @@ function rotateTitle(scenes, seconds) {
       next.classList.add("fading");
       setTimeout(() => {
         if (!onTitleMenu()) return next.classList.remove("fading");
+        // One picture, one fade: both layers drift on the same clock, so the
+        // base takes the new picture underneath and the top layer clears at once
+        // (no second fade, no restarted zoom; owner, Nov 8 P1).
         const back = $("backdrop");
+        const clear = () => {
+          back.onload = null;
+          next.style.transition = "none";
+          next.classList.remove("fading");
+          void next.offsetWidth;
+          next.style.transition = "";
+        };
+        back.onload = clear;
         back.src = next.src;
-        back.style.animation = "none";
-        void back.offsetWidth;
-        back.style.animation = "";
-        next.classList.remove("fading");
+        if (back.complete) clear();
       }, 3100);
     };
   }, seconds * 1000);
@@ -5140,6 +5274,7 @@ onDevMode((dev) => {
   else gapButton.remove();
 });
 restoreDevMode();
+restoreColorBlind();
 if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
@@ -5722,11 +5857,13 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("game").classList.add("in-play");
     renderPacket(life.packet);
     await refresh({ keepBackdrop: Boolean(life.sceneMomentId) });
-    showNewsSurface(await nightsNews(life.personId));
+    const news = await nightsNews(life.personId);
     // The scene the director staged for the evening (the address) plays first
-    // and sets the one backdrop the opening loads.
+    // and sets the one backdrop the opening loads. The night's news pops up
+    // after it opens, so it waits until the speech ends (C5; owner, Nov 7:
+    // "News pop-ups wait until the scene ends").
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
-    coachFirstChoices();
+    showNewsSurface(news);
   } catch (error) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;

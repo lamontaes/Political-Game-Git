@@ -6,9 +6,9 @@ kind: bug
 priority: 2
 size: M
 lead: governing
-status: open
+status: done
 claimed-by:
-pr:
+pr: #7609
 blocked-on:
 source: added with npm run pool -- add
 ---
@@ -21,4 +21,4 @@ source: added with npm run pool -- add
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/legislature.ts (councilBudget), tests/golden-path/played-world.node-test.ts
 
-**Notes.** Filed Nov 8 by the merge desk while replaying #7455's golden-path-year red. Laws #7542 (local bodies amend budget lines through the year) merged shortly before; check it first.
+**Notes.** Diagnosed Nov 8 (Laws and effects): the 14 of 17 bills named were mid-year budget-line amendments from local bodies (#7542), not annual budget bills; they reach spending by amending the adopted budget (adoptedBy 'amended by <number>', the government's enacted record carries the line change). The check expected an adopted row named for the bill. Fixed on laws/budget-lines-reach-spending (check follows an amendment to the budget it changed; amendments size to the body's median member so a line stops flipping). Verified at Jacksonville Beach FL 1235050 seed 81e6830a: all 24 budgets changed spending.

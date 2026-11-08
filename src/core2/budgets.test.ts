@@ -137,6 +137,18 @@ describe(
               line.outsideMinor +
               (line.chargedMinor ?? 0);
         }
+        // What it invested outside the town above its reserve (SG-GOV-reserve-sweep).
+        closes -= (
+          api
+            .moduleState(BUDGETS_MODULE_ID)
+            .table("reserveSweeps")
+            .rows() as unknown as {
+            governmentId: string;
+            amountMinor: number;
+          }[]
+        )
+          .filter((row) => row.governmentId === gov.id)
+          .reduce((n, row) => n + row.amountMinor, 0);
         // What it paid suppliers outside the town since its last close (a
         // commission's month, an election's costs), not yet in a month.
         closes -= chargedSinceClose(api, gov.id);
@@ -156,7 +168,9 @@ describe(
               ) - api.publicPayShortfallMinor(authorityId);
           }
         expect(cash(gov.organizationId), gov.id).toBe(
-          (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
+          // The cash it opened with (a treasury's seeded balance, from the outside account).
+          (gov.openingCash?.minor ?? 0) +
+            (received.get(`cash:${gov.organizationId}:residual`) ?? 0) +
             (salesTax.get(`sales-tax:${gov.id}`)?.collectedMinor ?? 0) +
             outsideRevenueOf(api, gov.id) +
             taxPaymentsOf(api, gov.id).reduce((n, p) => n + p.amountMinor, 0) +
