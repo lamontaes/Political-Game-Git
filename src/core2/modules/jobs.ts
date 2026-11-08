@@ -1964,7 +1964,9 @@ function turnoverJobs(api: CoreAPI): JobInput[] {
  * work (`reviewRegionalFinds`) and no losing of it, and its out-of-work count
  * drains to nothing.
  */
+// stopgapId: SG-LABOR-turnover-fixed-rate (a fixed JOLTS layoff pace stands in for firms' own demand shocks)
 function reviewTurnover(api: CoreAPI): void {
+  stopgap("SG-LABOR-turnover-fixed-rate");
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const month =
