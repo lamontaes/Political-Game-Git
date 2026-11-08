@@ -429,6 +429,7 @@ function reasonsFrom(
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
   return {
+    // perception: a person's own read of their chance, their real odds plus the hope an enterprising, risk-taking person adds, read once for this one decision (owner, Nov 8, 10:20 a.m.: candidates run because they think they have a chance).
     chance: c(api, "candidacyChanceWeight") * (odds + hope * (one - odds)),
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,

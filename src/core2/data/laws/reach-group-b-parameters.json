@@ -337,24 +337,28 @@
     },
     "childCareMonthlySubsidyDollars": {
       "value": 700,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Federal Register, Improving Child Care Access, Affordability, and Stability in the CCDF (Mar 1, 2024), https://www.govinfo.gov/content/pkg/FR-2024-03-01/pdf/2024-04139.pdf: 'the average subsidy amount of approximately $8,400 per year (which has been adjusted for inflation to 2023 dollars)', from unpublished preliminary FY 2021 CCDF administrative data: $700 a month for each child, the government's share excluding the parent's copay.",
       "spread": [650, 750]
     },
     "childCareTakeUpShare": {
       "value": 0.2,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "ASPE, Child Care Subsidy Eligibility and Receipt, FY 2022, https://aspe.hhs.gov/sites/default/files/documents/423242373901e0901d36fc56c3d55a21/CCDF%20Eligibility%20and%20Receipt_FY22.pdf: 9.1 million children eligible under state rules, 1.8 million received subsidies, '20 percent under state rules'.",
       "spread": [0.16, 0.25]
     },
     "childCareAgeBelow": {
       "value": 13,
+      "role": "law",
       "tag": "SOURCED",
       "source": "CCDF serves children under 13 (42 U.S.C. 9858n(2)); ASPE counts children ages 0 through 12.",
       "spread": [13, 13]
     },
     "childCareFamilySizeExponent": {
       "value": 0.5,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "A family's income limit scales from the three-person figure by (size over three) to this power, the square-root equivalence scale used for household incomes; CCDF limits rise with family size by a percentage of the state median income for that size.",
       "spread": [0.3, 0.7]
