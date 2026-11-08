@@ -11,6 +11,7 @@
  */
 import type { ModuleTable } from "../module-state";
 import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
+import { SeededRng } from "../kernel/rng";
 import { chooseAct, decisionFromScores, scoreOffers } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
@@ -65,7 +66,12 @@ import { SCHOOL_MODULE_ID } from "../school-measures";
 import { claimRetirementNow } from "./retirement-claims";
 import { MOVED_AWAY_EVENT } from "./moves";
 import { regionalConditions, reviewWorkElsewhere } from "../jobs-elsewhere";
-import { findPerQuarter, workLeans } from "../past";
+import {
+  findPerQuarter,
+  layoffPerQuarter,
+  workAgeFactor,
+  workLeans,
+} from "../past";
 import { townOutsideOf } from "../opening-outside-market";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
@@ -930,6 +936,7 @@ function open(api: CoreAPI): void {
   }
   openCountedSeekers(api);
   openSeekers(api);
+  openTurnover(api);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
@@ -1844,6 +1851,7 @@ function reviewWorkers(api: CoreAPI): void {
   reviewCountedWorkers(api, going);
   reviewCountedEntry(api);
   reviewRegionalFinds(api);
+  reviewTurnover(api);
   raisePay(api);
 }
 
@@ -1887,6 +1895,110 @@ function reviewRegionalFinds(api: CoreAPI): void {
     }
   }
   for (const seeker of found) hireRegional(api, seeker);
+}
+
+/** The private employers' live jobs the turnover pull reads, named and counted, by id. */
+function turnoverJobs(api: CoreAPI): JobInput[] {
+  const c = core(api);
+  const jobs: JobInput[] = [];
+  const consider = (job: JobInput) => {
+    if (job.endsAt !== undefined) return;
+    const org = c.organizations.get(job.organizationId);
+    // The private employers the jobs engine reviews: public posts end by resigning or the budget, outside employers by their own rule.
+    if (org?.kind !== "employer" || org.publicPayAuthority || org.outsideFlow)
+      return;
+    jobs.push(job);
+  };
+  for (const job of c.jobs.values()) consider(job);
+  for (const job of residentsRuntime(c)?.jobs.values() ?? []) consider(job);
+  return jobs.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * Day one: where each worker stands along the pull toward being let go, as
+ * the lives elsewhere seed theirs (generation of who exists, from the worker's
+ * own seeded line: nobody's line is a draw of what they do), so a month's
+ * pulls reach one whole for the share JOLTS says, not for everyone at once.
+ */
+function openTurnover(api: CoreAPI): void {
+  const pulls = store(api).table("turnover");
+  for (const job of turnoverJobs(api))
+    pulls.put({
+      id: job.id,
+      pull: new SeededRng(api.state.seed)
+        .fork(`town-turnover:${job.personId}`)
+        .next(),
+    } as never);
+}
+
+/**
+ * The town's workers are let go at the rate working people are everywhere
+ * (JOLTS layoffs and discharges, about 1.2% of employment a month), by the
+ * rule the lives elsewhere use (`layoffPerQuarter`): the quarterly pull moved
+ * by the rise in their state's unemployment, their age and, for a named
+ * person, their traits' lean in the employer's own decision. A pull builds a
+ * month at a time and the employer lets the worker go when it reaches one
+ * whole, never by a roll; the firm then refills the job from the people
+ * looking, as it does any leaver's. Without this the town has the finding of
+ * work (`reviewRegionalFinds`) and no losing of it, and its out-of-work count
+ * drains to nothing.
+ */
+function reviewTurnover(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const month =
+    p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
+  const pulls = store(api).table("turnover");
+  const jobs = turnoverJobs(api);
+  const born = (personId: string) =>
+    c.people.get(personId)?.birthDate ?? residentFacts(c, personId)?.birthDate;
+  const placeOf = (job: JobInput) =>
+    c.organizations.get(job.organizationId)?.placeId ?? "";
+  for (const job of jobs) {
+    const person = c.people.get(job.personId);
+    if (
+      person &&
+      (!person.alive ||
+        inCustody(api, person.id) ||
+        controlled(c, person.id) ||
+        c.organizations.get(job.organizationId) === undefined)
+    )
+      continue;
+    const birth = born(job.personId);
+    if (!birth) continue;
+    const age = daysBetweenText(birth, c.date) / p("jobsDaysPerYear");
+    const lean =
+      person && !isCounted(api, person.id)
+        ? workLeans(c, person).layoffLean
+        : p("zero");
+    const at = regionalConditions(api, placeOf(job));
+    const held = (pulls.get(job.id) as { pull?: number } | undefined)?.pull;
+    const pull =
+      (held ?? p("zero")) +
+      layoffPerQuarter(api, at.rise, lean, workAgeFactor(api, age)) * month;
+    if (pull < p("one")) {
+      pulls.put({ id: job.id, pull } as never);
+      continue;
+    }
+    const staff = currentJobs(api, job.organizationId);
+    const laid = layOff(
+      api,
+      job.organizationId,
+      staff.filter((row) => row.id === job.id),
+      headsOf(c, job),
+      { turnoverPull: pull },
+    );
+    // A worker the employer could not let go today keeps the pull and is weighed at the next review.
+    if (laid === "over" || laid === undefined) {
+      pulls.put({ id: job.id, pull } as never);
+      continue;
+    }
+    pulls.remove(job.id);
+  }
+  // A job that ended another way keeps no pull.
+  const live = new Set(jobs.map((job) => job.id));
+  for (const row of pulls.rows() as unknown as { id: string }[])
+    if (!live.has(row.id)) pulls.remove(row.id);
 }
 
 /** The town's own role nearest in pay to what the seeker earned (the median where they earned nothing yet), as the regional job's pattern. */
@@ -4102,6 +4214,8 @@ export const JOBS_MODULE: CoreModule = {
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       // The working lives of people living elsewhere (src/core2/jobs-elsewhere.ts).
       elsewhere: {},
+      // Each town worker's pull toward being let go (the JOLTS layoff pull), by job.
+      turnover: {},
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
       claims: {
         indexes: {
