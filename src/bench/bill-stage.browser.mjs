@@ -80,6 +80,20 @@ try {
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
+  // Control binds when the clock next advances: play a day, then clear what the day brings.
+  await page.locator("#week").click();
+  for (let i = 0; i < 20; i += 1) {
+    const replies = page.locator("#talk-choices .reply");
+    if ((await replies.count()) > 0 && (await replies.first().isVisible()))
+      await replies.first().click();
+    else if (await visible("talk-next"))
+      await page.locator("#talk-next").click();
+    else if (await visible("talk-leave"))
+      await page.locator("#talk-leave").click();
+    else if (await visible("continue")) await page.locator("#continue").click();
+    else if (!(await page.locator("#week").isDisabled())) break;
+    await page.waitForTimeout(800);
+  }
   // The draft card: the issue, what is in force today and the new amount.
   await page
     .locator('#rings [data-tab="politics"]')
