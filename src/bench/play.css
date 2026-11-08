@@ -2909,45 +2909,8 @@ details.entry[open] {
   --paper-red: #b3202a;
   --paper-blue: #1d4a7a;
 }
-#game.in-play #sheet.paper-sheet {
-  background: var(--paper-cream);
-  border-color: #d8ccae;
-  color: var(--paper-ink);
-  text-shadow: none;
-  padding: 18px 36px 26px;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.25),
-    0 12px 30px rgba(0, 0, 0, 0.5);
-}
-#sheet.paper-sheet:has(.paper-modern),
-#sheet.paper-sheet:has(.paper-tabloid) {
-  background: var(--paper-white);
-}
-#sheet.paper-sheet::before,
-#sheet.paper-sheet::after {
-  display: none;
-}
 /* The masthead names the paper: the sheet's own title is not shown, the close
    X sits in the corner in ink. */
-#sheet.paper-sheet .sheet-head {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  z-index: 2;
-}
-#sheet.paper-sheet #sheet-title {
-  display: none;
-}
-#sheet.paper-sheet .glyph.close,
-#news-reader .glyph.close {
-  filter: invert(1) brightness(0.25);
-}
-#sheet.paper-sheet #sheet-body {
-  max-width: none;
-}
-#sheet.paper-sheet #sheet-tabs:empty + #sheet-body {
-  margin-top: 0;
-}
 .paper {
   font: 16px/1.45 var(--speech);
   color: var(--paper-ink);
@@ -3143,15 +3106,6 @@ details.entry[open] {
 }
 #sheet-body .paper-story.brief .story-headline {
   font-size: 17px;
-}
-#sheet.paper-sheet .outlet-picker {
-  display: flex;
-  gap: 16px;
-  margin: 0 0 12px;
-}
-#sheet.paper-sheet .outlet-picker .tab {
-  color: var(--paper-ink);
-  text-shadow: none;
 }
 /* A modern daily: white stock, the name on a blue bar, sans type. */
 .paper-modern {
@@ -5158,4 +5112,65 @@ select.release-pick {
   font-size: 15px;
   text-transform: none;
 >>>>>>> origin/main
+}
+
+/* News (Nov 8 play mock, pl-news): type on the dark panel, columns, a Briefs strip. */
+@font-face {
+  font-family: "Old Standard TT";
+  font-weight: 400;
+  src: url("/fonts/kit12/old-standard-tt-400.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Old Standard TT";
+  font-weight: 700;
+  src: url("/fonts/kit12/old-standard-tt-700.ttf") format("truetype");
+}
+.news-board {
+  width: 100%;
+}
+.news-masthead {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 12px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(226, 191, 110, 0.3);
+}
+.news-masthead h2 {
+  margin: 0;
+  font:
+    400 40px/1.1 "Old Standard TT",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.news-masthead span {
+  font: 500 15px var(--ui);
+  color: var(--muted, #c4bbab);
+}
+.news-headline {
+  margin: 0 0 6px;
+  font:
+    700 28px/1.15 "Old Standard TT",
+    Georgia,
+    serif;
+  color: #f6efe0;
+  cursor: pointer;
+}
+.news-headline.side {
+  font-size: 21px;
+}
+.news-text .intro {
+  margin: 0 0 10px;
+}
+.news-story .news-text {
+  column-gap: 26px;
+}
+.strip-board .board-cols:has(.news-story) {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(220px, 0.7fr);
+}
+.news-story.lead .news-text {
+  column-count: 2;
 }

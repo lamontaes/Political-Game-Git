@@ -158,8 +158,8 @@ try {
     .locator('[data-tab="news"]')
     .first()
     .evaluate((e) => e.click());
-  await second.locator(".paper").waitFor();
-  const stories = await second.locator(".story-headline").allInnerTexts();
+  await second.locator(".news-board").waitFor();
+  const stories = await second.locator(".news-headline").allInnerTexts();
   assert.ok(
     stories.some((text) => text.trim() === headline.trim()),
     `the toast story is missing from News: "${headline}" not in ${JSON.stringify(stories)}`,
