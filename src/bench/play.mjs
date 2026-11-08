@@ -58,6 +58,8 @@ import {
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { newsBoard } from "./ui/news-board.mjs";
+import { el } from "./ui/dom.mjs";
+import { rosterScreen } from "./ui/roster-screen.mjs";
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
@@ -1769,10 +1771,6 @@ async function reopenTrail(filingId) {
   await openSheet("travel");
   const part = (await campaignParts()).find((p) => p.filing.id === filingId);
   if (part) trailView(part);
-}
-/** The tab's rows: each filed campaign's standing and results. */
-async function campaignRows() {
-  return (await campaignParts()).map((part) => part.tab);
 }
 
 // ---- A big moment, staged when it stops the clock ----
@@ -3732,151 +3730,146 @@ const sheets = {
     const labels = controls.localRaces;
     const stance = voteWords();
     const filed = new Set(v.filings.map((f) => f.contestId));
-    const fileForIt = (race) => {
-      const b = makeButton({ textContent: labels.fileForIt });
-      b.dataset.testid = "file-for-it";
-      b.addEventListener("click", () =>
-        openFiling(race.filedWith, race.contestId),
-      );
-      return buttonTray(b);
-    };
     const status = (race) =>
       filed.has(race.contestId)
         ? labels.youFiled
         : race.filers.length
           ? labels.running.replace("{n}", race.filers.length)
           : labels.noFilers;
-    // One race's page: who is running as face cards with where they stand,
-    // the race's dates beside them, and File for it in its tray.
-    const showRace = (race) => {
-      $("sheet").classList.remove("fits");
-      $("sheet-body").replaceChildren(
-        splitScreen({
-          controls: [heading(race.title, "h2")],
-          main: [
-            plate(
-              race.filers.length ? status(race) : null,
-              ...(race.filers.length
-                ? race.filers.map((f) =>
-                    plate(
-                      null,
-                      memberCard({
-                        name: f.name ?? "",
-                        line: f.party ?? "",
-                        party: f.party,
-                        badge: f.party ? f.party.charAt(0) : null,
-                        face: f.face,
-                        onOpen: () => {
-                          closeSheet();
-                          showPerson({
-                            personId: f.cardId,
-                            figureUrl: f.face?.url,
-                          });
-                        },
-                      }),
-                      ...f.stances.map((st) =>
-                        row(
-                          policyLabel(st.question),
-                          st.position > 0
-                            ? (stance.for ?? "")
-                            : (stance.against ?? ""),
-                        ),
-                      ),
-                    ),
-                  )
-                : [prose(labels.noFilers, "record-empty")]),
-              // Only a race the player may run for (owner, Oct 29: six
-              // offices; the row's playerMayFile, government.ts).
-              ...(race.filingOpen &&
-              race.playerMayFile &&
-              !filed.has(race.contestId) &&
-              race.filedWith
-                ? [fileForIt(race)]
-                : []),
+    // One race's page: its title and date, who is running (face, party, where they stand),
+    // its dates, and File for it when the player may.
+    const racePage = (race) => {
+      const candidates = race.filers.length
+        ? race.filers.map((f) =>
+            el(
+              "div",
+              { className: "candidate" },
+              memberCard({
+                name: f.name ?? "",
+                line: f.party ?? "",
+                party: f.party,
+                badge: f.party ? f.party.charAt(0) : null,
+                face: f.face,
+                onOpen: () => {
+                  closeSheet();
+                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
+                },
+              }),
+              ...f.stances.map((st) =>
+                row(
+                  policyLabel(st.question),
+                  st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+                ),
+              ),
             ),
-          ],
-          side: [
-            {
-              title: labels.dates,
-              nodes: [
-                dateList([
-                  ...(race.filingClosed
-                    ? []
-                    : [
-                        {
-                          when: dateWords(race.filingDeadline, {
-                            month: "short",
-                            year: me.date,
-                          }),
-                          text: labels.filingCloses,
-                        },
-                      ]),
-                  {
-                    when: dateWords(race.electionDate, {
-                      month: "short",
-                      year: me.date,
-                    }),
-                    text: labels.electionDay,
-                  },
-                ]),
-              ],
-            },
-          ],
-          className: "race-page",
-        }),
+          )
+        : [prose(labels.noFilers, "record-empty")];
+      const mayFile =
+        race.filingOpen &&
+        race.playerMayFile &&
+        !filed.has(race.contestId) &&
+        race.filedWith;
+      const fileButton = makeButton({ textContent: labels.fileForIt });
+      fileButton.dataset.testid = "file-for-it";
+      fileButton.addEventListener("click", () =>
+        openFiling(race.filedWith, race.contestId),
       );
-    };
-    // The coming ballot as race cards on a plate, paged to fit the window;
-    // each opens its race (owner, Oct 29: every menu like Government).
-    const races = ballot.races.map((race) => ({
-      title: race.title,
-      value: status(race),
-      lede: dateWords(race.electionDate),
-      note: race.filingClosed
-        ? null
-        : `${labels.filingCloses} ${dateWords(race.filingDeadline)}`,
-      label: race.title,
-      onSelect: () => showRace(race),
-      data: { contest: race.contestId },
-    }));
-    const own = v.filings.length ? await campaignRows() : [];
-    return [
-      splitScreen({
-        main: [
-          ...(own.length ? [plate(labels.yourCampaign, ...own)] : []),
-          plate(
-            labels.title,
-            ...(races.length
-              ? [
-                  pager({
-                    items: races,
-                    render: listEntry,
-                    rows: Math.max(
-                      1,
-                      Math.min(
-                        4,
-                        Math.floor(
-                          (window.innerHeight - (own.length ? 580 : 400)) / 118,
-                        ),
-                      ),
-                    ),
-                    columns: 3,
-                    rowHeight: 108,
-                    gap: 10,
-                    words: {
-                      page: controls.politics.page,
-                      previous: controls.politics.previousPage,
-                      next: controls.politics.nextPage,
-                    },
-                    className: "race-cards",
+      return [
+        el(
+          "h2",
+          { className: "roster-title" },
+          race.title,
+          el("span", {
+            textContent: dateWords(race.electionDate, { year: me.date }),
+          }),
+        ),
+        el(
+          "div",
+          { className: "roster-cols" },
+          stripSection(1, labels.whoIsRunning, ...candidates),
+          el(
+            "div",
+            { className: "roster-side" },
+            stripSection(
+              2,
+              labels.dates,
+              dateList([
+                ...(race.filingClosed
+                  ? []
+                  : [
+                      {
+                        when: dateWords(race.filingDeadline, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingCloses,
+                      },
+                    ]),
+                {
+                  when: dateWords(race.electionDate, {
+                    month: "short",
+                    year: me.date,
                   }),
-                ]
-              : [prose(labels.noBallot, "record-empty")]),
+                  text: labels.electionDay,
+                },
+              ]),
+            ),
+            ...(mayFile ? [buttonTray(fileButton)] : []),
           ),
-        ],
-        className: "campaigns-screen",
-      }),
+        ),
+      ];
+    };
+    // The player's own filed campaigns lead the list; each opens its board.
+    const own = v.filings.length ? await campaignParts() : [];
+    const byDate = new Map();
+    for (const race of ballot.races) {
+      const day = byDate.get(race.electionDate) ?? [];
+      day.push(race);
+      byDate.set(race.electionDate, day);
+    }
+    const groups = [
+      ...(own.length
+        ? [
+            {
+              title: labels.yourCampaign,
+              entries: own.map((part) => ({
+                key: part.filing.id,
+                label: part.contest?.title ?? part.filing.id,
+                data: { campaign: part.filing.id },
+                part,
+              })),
+            },
+          ]
+        : []),
+      ...[...byDate.entries()]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([day, races]) => ({
+          title: dateWords(day, { year: me.date }),
+          entries: races.map((race) => ({
+            key: race.contestId,
+            label: race.title,
+            aside:
+              race.filers.length || filed.has(race.contestId)
+                ? status(race)
+                : "",
+            data: { contest: race.contestId },
+            race,
+          })),
+        })),
     ];
+    if (!groups.length) return [prose(labels.noBallot, "record-empty")];
+    return rosterScreen({
+      title: labels.title,
+      groups,
+      className: "elections-screen",
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
+      },
+      render: async (entry) =>
+        entry.part ? [entry.part.tab] : racePage(entry.race),
+    });
   },
   /**
    * Politics → Government, drawn as a game menu (owner, Oct 29: "make it look like a real

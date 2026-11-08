@@ -5173,3 +5173,121 @@ select.release-pick {
 .news-story.lead .news-text {
   column-count: 2;
 }
+
+/* The roster screens (Elections, to pl-elections): a titled list grouped under small
+   headings at the left, the chosen entry's page at the right. */
+#sheet-body:has(.roster-screen) {
+  max-width: none;
+}
+.roster-screen {
+  width: 1000px;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: 290px minmax(0, 1fr);
+  gap: 26px;
+  align-items: start;
+  font-family: var(--ui);
+}
+.roster .sechead {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  font:
+    700 15px "Cinzel",
+    "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.32),
+    rgba(196, 160, 90, 0)
+  );
+}
+.roster-group {
+  align-self: end;
+  padding: 0 12px 2px;
+  font: 700 11.5px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+#sheet-body .roster .roster-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  color: #f2e6c9;
+  min-height: 0;
+}
+.roster-row b {
+  font: 600 15px var(--ui);
+}
+.roster-row span {
+  font: 13px var(--ui);
+  color: #c4bbab;
+}
+#sheet-body .roster .roster-row:hover,
+#sheet-body .roster .roster-row:focus-visible {
+  background: rgba(214, 189, 132, 0.12);
+  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
+}
+#sheet-body .roster .roster-row[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.34),
+    rgba(196, 160, 90, 0.08)
+  );
+}
+#sheet-body .roster-title {
+  margin: 0 0 10px;
+  font:
+    600 32px/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.roster-title span {
+  margin-left: 12px;
+  font: 500 15px var(--ui);
+  color: var(--gold2, #e6cd93);
+}
+.roster-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+.roster-side {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.candidate {
+  margin-bottom: 10px;
+}
+.roster-page.strip-screen {
+  display: block;
+  width: auto;
+  min-width: 0;
+}
+.roster-row b {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.roster-row span {
+  white-space: nowrap;
+}

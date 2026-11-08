@@ -701,7 +701,7 @@
     "worth": "Worth"
   },
   "localRaces": {
-    "title": "On the ballot",
+    "title": "On my ballot",
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
     "running": "{n} running",
@@ -711,7 +711,8 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "yourCampaign": "Your campaign"
+    "yourCampaign": "Your campaign",
+    "whoIsRunning": "Who's running"
   },
   "grade": {
     "good": "Good",
@@ -788,7 +789,7 @@
     "politics": "Politics",
     "government": "Government",
     "office": "Your office",
-    "campaigns": "Campaigns",
+    "campaigns": "Elections",
     "parties": "Parties",
     "issues": "Issues",
     "calendar": "Calendar",
