@@ -707,6 +707,49 @@ function bandQuotas(
 }
 
 /**
+ * Who among a place's jobless counted adults the opening makes seekers: each age band takes
+ * as many as its quota, the neediest first; a band with fewer jobless adults
+ * than its quota (a town whose workers are mostly middle-aged and whose
+ * jobless are young) hands the rest to the place's other jobless adults, in
+ * the same order, so the place keeps the seekers its rate implies.
+ */
+function pickSeekers<T>(
+  candidates: readonly T[],
+  keyOf: (row: T) => string,
+  order: (a: T, b: T) => number,
+  quotas: ReadonlyMap<string, number>,
+): T[] {
+  const placeOf = (key: string) => key.split("|")[0]!;
+  const picked: T[] = [];
+  const taken = new Set<T>();
+  const left = new Map<string, number>();
+  for (const [key, quota] of quotas)
+    left.set(placeOf(key), (left.get(placeOf(key)) ?? 0) + quota);
+  for (const key of [...new Set(candidates.map(keyOf))].sort()) {
+    const take = [...candidates]
+      .filter((row) => keyOf(row) === key)
+      .sort(order)
+      .slice(0, quotas.get(key) ?? 0);
+    for (const row of take) {
+      picked.push(row);
+      taken.add(row);
+    }
+    left.set(placeOf(key), (left.get(placeOf(key)) ?? 0) - take.length);
+  }
+  for (const [placeId, more] of [...left].sort(([a], [b]) =>
+    a.localeCompare(b),
+  ))
+    if (more > 0)
+      picked.push(
+        ...candidates
+          .filter((row) => placeOf(keyOf(row)) === placeId && !taken.has(row))
+          .sort(order)
+          .slice(0, more),
+      );
+  return picked;
+}
+
+/**
  * The opening's seekers among the named people: jobless working-age adults
  * with the most pressing need to work, in each place as many as that place's
  * rate implies against the jobs its named workers hold. (The wider
@@ -809,26 +852,22 @@ function openCountedSeekers(api: CoreAPI): void {
   // against the jobs its counted workers hold: the same rule as the named
   // people, times the count.
   const quotas = bandQuotas(api, workingBy);
-  for (const key of [
-    ...new Set(candidates.map((row) => `${row.placeId}|${row.band}`)),
-  ].sort()) {
-    candidates
-      .filter((row) => `${row.placeId}|${row.band}` === key)
-      .sort((a, b) => a.share - b.share || a.personId.localeCompare(b.personId))
-      .slice(0, quotas.get(key) ?? 0)
-      .forEach((row) =>
-        store(api).table("countedSeekers").put({
-          id: row.personId,
-          isSeeker: true,
-          personId: row.personId,
-          placeId: row.placeId,
-          employed: false,
-          since: c.date,
-          reasonKey: OPENING_UNEMPLOYED,
-          referenceHourlyMinor: 0,
-        }),
-      );
-  }
+  for (const row of pickSeekers(
+    candidates,
+    (row) => `${row.placeId}|${row.band}`,
+    (a, b) => a.share - b.share || a.personId.localeCompare(b.personId),
+    quotas,
+  ))
+    store(api).table("countedSeekers").put({
+      id: row.personId,
+      isSeeker: true,
+      personId: row.personId,
+      placeId: row.placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: OPENING_UNEMPLOYED,
+      referenceHourlyMinor: 0,
+    });
 }
 
 /** A job's role: its occupation, or its title where it has none. */
