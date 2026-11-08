@@ -5292,3 +5292,40 @@ select.release-pick {
     monospace;
   color: var(--muted);
 }
+.strip-screen .dotrow.typed .dotlabel {
+  white-space: nowrap;
+}
+.strip-screen .dotrow.typed .dotvalue {
+  white-space: nowrap;
+}
+.strip-board {
+  width: 100%;
+}
+.strip-board .board-cols {
+  grid-template-columns: minmax(300px, 1fr) minmax(0, 1.5fr) minmax(280px, 1fr);
+}
+.strip-screen .bsdept {
+  height: 50px;
+  align-content: center;
+}
+.strip-screen .bsdept b {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-right: 10px;
+}
+.strip-screen .bsdept em {
+  white-space: nowrap;
+}
+#game.in-play #sheet.fits.strip-sheet {
+  width: calc(100vw - 122px - var(--gutter));
+  max-width: 1320px;
+}
+.strip-screen .dotrow.typed .dotlabel {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.strip-board .board-cols {
+  grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr) minmax(300px, 1fr);
+}

@@ -211,8 +211,3 @@ export function departmentRow({ name, amount, head, selected, onSelect }) {
   });
   return row;
 }
-
-/** The list the department rows sit in. */
-export function departmentList(...rows) {
-  return el("div", { className: "bsdepts" }, ...rows);
-}

@@ -82,7 +82,6 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
-  departmentList,
 } from "./ui/strips.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -2995,8 +2994,8 @@ const sheets = {
             stripSection(
               1,
               words.departments,
-              departmentList(
-                ...latest.spending.map((r) =>
+              pager({
+                items: latest.spending.map((r) =>
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
@@ -3007,7 +3006,18 @@ const sheets = {
                     },
                   }),
                 ),
-              ),
+                render: (node) => node,
+                rows: Math.max(4, Math.floor((window.innerHeight - 380) / 56)),
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words: {
+                  page: controls.politics.page,
+                  previous: controls.politics.previousPage,
+                  next: controls.politics.nextPage,
+                },
+                className: "bsdepts",
+              }),
             ),
           ],
           [
@@ -4623,7 +4633,10 @@ async function openSheet(tab) {
   );
   const character = groupOf(tab) === "who";
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
-  $("sheet").classList.toggle("strip-sheet", tab === "who");
+  $("sheet").classList.toggle(
+    "strip-sheet",
+    tab === "who" || tab === "budgets",
+  );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
