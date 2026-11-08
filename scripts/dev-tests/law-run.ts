@@ -67,6 +67,8 @@ function pass(core: CoreState, bodyId: string, sponsor: string, policyId: string
   const bill = draftBill(api, { bodyOfficeId: bodyId, sponsorId: sponsor,
     provisions: [provisionFor({ policyId, operation: op as never, ...(amount !== undefined ? { amount } : {}) })] });
   for (const ch of chambersOf(api, bill)) for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
+  // Dev force: the executive's signature is on the record before the vote, as dev mode's "sign" control writes it.
+  executiveDecision(api, bill.id, true);
   let b = holdVote(api, bill.id);
   const trail = [b.status];
   if (b.status === "awaiting-signature") { b = executiveDecision(api, bill.id, true); trail.push(b.status); }
