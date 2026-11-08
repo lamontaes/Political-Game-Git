@@ -5,9 +5,9 @@ area: laws
 kind: research
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #7368
 blocked-on:
 source: added with npm run pool -- add
 ---

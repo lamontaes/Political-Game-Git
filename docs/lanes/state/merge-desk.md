@@ -1,8 +1,8 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 249 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 254 pull requests merged. Newest state at the top of each section.
 
-**Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. From Nov 7, 9:30 p.m. Eastern (CTO), also the Fixer's PRs (a Claude cloud session; branches `fixer/`, line 2 `Session: Fixer`), on the same check. #7354, the owner's approved mocks, is the owner's to merge. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
+**Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. From Nov 7, 9:30 p.m. Eastern (CTO), also the Fixer's PRs (a Claude cloud session; branches `fixer/`, line 2 `Session: Fixer`), on the same check. #7354, the owner's approved mocks, is the owner's to merge. From Nov 8, 1:36 a.m. Eastern (CTO, on the owner's word that dev mode "should be merged as soon as it's ready"): Dev Mode's `devmode/` PRs go first, and the second account's `story/`, `tester/`, `laws/`, `legislation/` and `speed/` PRs come to the desk on the same check (stacked PRs after their base). #7110 stays held. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
 ## What the owner can play now
 
@@ -164,6 +164,14 @@ New on Nov 3:
 | #7352 | Congress can repeal and restore the federal income tax itself                                                                                                                                                                       | Kidder, South Dakota             | 1909ef8617edace0 |
 | #7353 | Repealing and restoring a treasury reserve requirement on the same day no longer crashes on a reused cash-transfer id                                                                                                               | White Clay, Nebraska             | 328259bb8d8722cf |
 
+## The second account's PRs (from Nov 8: Dev Mode, Story, Dev Tester, Laws and effects, Legislation, Speed)
+
+| PR    | Session          | What it does                                                                                                                                      | Town                   | Replay number    |
+| ----- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------- | ---------------- |
+| #7369 | Legislation      | Adds a bill stage view for the coming bill screens: where one bill stands (drafted, in committee, on the floor, and so on); nothing on screen yet | Dunseith, North Dakota | b9c00920e02526b2 |
+| #7371 | Laws and effects | The played proof that a state can ban a town's rule and lift the ban now always draws an incorporated town (proof script only)                    | Lake Butler, Florida   | ab6e665c42fa95f9 |
+| #7372 | Laws and effects | A bigger federal deficit raises what a state pays its bondholders (an outcome-web link wired from research)                                       | Coopersville, Michigan | d53eaf2a8f9944c2 |
+
 ## The Fixer's PRs (from Nov 7)
 
 | PR    | What it does                                                                                                                                                                                                                 | Town                                 | Replay number    |
@@ -211,6 +219,8 @@ New on Nov 3:
 | #7359 | About 7,500 officials of other states stay counted until the player knows them, instead of each getting a job, account and paycheck at the opening; year 1 of the timed town runs 37.6 s, not 51.7 s (the desk moved a `reason` line into the body of its release note) | Powdersville, South Carolina     | a1badf252363e059 |
 | #7360 | A pool note: with #7359, Montpelier finishes four years (105, 260, 197 and 1,012 s); the election year's growth is mostly campaign causes and relationships (docs only; same release-note mend)                                                                         | Williamsburg, Kentucky           | b02f20bc6b515bb3 |
 | #7361 | A pool note: keeping folded causes only for the player's circle changed nothing in either timed town (docs only; its Notes conflict joined both sides, and the same release-note mend)                                                                                  | Angie, Louisiana                 | 31634587e1d0751b |
+| #7367 | Campaign records for people the player doesn't know are kept as a summary (the desk moved a `reason` line into the body of its release note)                                                                                                                            | Murray, Kentucky                 | a192d090ca93cdbd |
+| #7368 | Nevada's, Vermont's and New Hampshire's bars on a local minimum wage agree across the two research lists (same release-note mend)                                                                                                                                       | Hensley, Arkansas                | 38e909285ff6e9a7 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
@@ -418,6 +428,8 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 #6971 is closed and its item is done (the CTO handled it).
 
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
+
+**Left for the CTO:** #7370 (Legislation's `legislation-screens` skill) is a skills PR; skills PRs stay with the CTO.
 
 ## How the desk ran
 
