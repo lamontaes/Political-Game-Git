@@ -15,3 +15,7 @@ I played a little bit this morning, and the opening presidential address still i
 "Now, when it finds these errors or finds that these laws don't pass, I want them fixed. I don't just want a report of everything that was broken. I want you to try to fix those things."
 
 "I would prefer everything to just build until dev mode is done, because that will significantly save time for everything. So anything that's, you know, waiting on something to happen should just wait for dev mode, and dev mode should be merged as soon as it's ready."
+
+## Minutes later, for the Speed session (verbatim, Nov 8 about 1:58 a.m.)
+
+And FYI, for the speed session, for a 20-year thing, I'm fine with it simulating everything as long as it makes sense in the end. Like, I would love if 20 years only took, 5 seconds, It took as long as it took for you to do 20 years. Click 20 years. But, okay, yes, I'm getting ready to go paste that.
