@@ -140,7 +140,7 @@ try {
       .count(),
     government?.ofVotingAge ? 1 : 0,
   );
-  for (const tab of ["Campaigns", "Parties", "Issues"]) {
+  for (const tab of ["Elections", "Parties", "Issues"]) {
     await page
       .locator("#sheet-tabs")
       .getByRole("button", { name: tab, exact: true })
@@ -152,7 +152,11 @@ try {
     // Issues is law cards by subject (owner, Oct 24): a card opens its law.
     if (tab === "Issues") {
       const before = await page.locator("#sheet-body").innerText();
-      await page.locator("#sheet-body [data-series]").first().click();
+      // The first law is already open beside its subject; another subject opens another.
+      await page
+        .locator("#sheet-body .issues-screen > .roster .roster-row")
+        .nth(1)
+        .click();
       await page.waitForFunction(
         (text) => document.getElementById("sheet-body").innerText !== text,
         before,

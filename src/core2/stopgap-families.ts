@@ -39,6 +39,7 @@ import f_pw3 from "./data/stopgaps/pw3.json" with { type: "json" };
 import f_pw8 from "./data/stopgaps/pw8.json" with { type: "json" };
 import f_school from "./data/stopgaps/school.json" with { type: "json" };
 import f_screens from "./data/stopgaps/screens.json" with { type: "json" };
+import f_speed from "./data/stopgaps/speed.json" with { type: "json" };
 import f_state from "./data/stopgaps/state.json" with { type: "json" };
 import f_traits from "./data/stopgaps/traits.json" with { type: "json" };
 import f_web from "./data/stopgaps/web.json" with { type: "json" };
@@ -83,6 +84,7 @@ export const STOPGAP_FAMILIES: Record<string, readonly unknown[]> = {
   "pw8.json": f_pw8,
   "school.json": f_school,
   "screens.json": f_screens,
+  "speed.json": f_speed,
   "state.json": f_state,
   "traits.json": f_traits,
   "web.json": f_web,

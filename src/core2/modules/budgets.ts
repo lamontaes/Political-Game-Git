@@ -2119,6 +2119,17 @@ export function taxPaymentsOf(
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
   return table(api, "governments").rows() as unknown as GovernmentRow[];
 }
+/** What the laws have added to a government's line in a fiscal year so far, in minor units (negative for a cut). */
+export function lineChangedInYear(
+  api: CoreAPI,
+  governmentId: string,
+  fy: number,
+  line: string,
+): number {
+  const row = table(api, "enacted").get(governmentId) as unknown as
+    { byYear?: Record<string, Record<string, number>> } | undefined;
+  return row?.byYear?.[String(fy)]?.[line] ?? 0;
+}
 export function budgetsOf(
   api: CoreAPI,
   governmentId: string,
