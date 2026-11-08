@@ -11,11 +11,13 @@ import {
   learnedStakesOf,
   memberKey,
   members,
+  motionOn,
   votesOn,
   type BillRow,
 } from "../core2/modules/legislature";
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreState } from "../core2/types";
+import { screenLine } from "../english/screen-words";
 import { personName } from "./legislature";
 
 const LEGISLATURE = "core2-legislature-v1";
@@ -84,9 +86,22 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       .map(({ chamber, cast }) => {
         const yes = cast.filter((row) => row.vote === "yes").map(named);
         const no = cast.filter((row) => row.vote === "no").map(named);
+        // The result in words from the English engine's bank, by the roll call's own counts.
+        const carried = yes.length > no.length;
+        const key = carried
+          ? override
+            ? "passed"
+            : motionOn(bill) === "adopt"
+              ? "adopted"
+              : "passed"
+          : "defeated";
         return {
           chamber,
           chamberTitle: title(chamber),
+          result: screenLine("bill-paper", `bill-paper.result.${key}`, {
+            yes: yes.length,
+            no: no.length,
+          }),
           yes,
           no,
           other: cast

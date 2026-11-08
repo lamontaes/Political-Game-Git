@@ -36,7 +36,7 @@ function resultBlock(entry, words, onOpen) {
     "div",
     { className: "stage-chamber" },
     el("b", {
-      textContent: `${entry.chamberTitle} · ${words.yes} ${entry.yes.length}, ${words.no} ${entry.no.length}`,
+      textContent: `${entry.chamberTitle} · ${entry.result ?? `${words.yes} ${entry.yes.length}, ${words.no} ${entry.no.length}`}`,
     }),
     labeledNames(words.yes, entry.yes, onOpen, words.nobody),
     labeledNames(words.no, entry.no, onOpen, words.nobody),

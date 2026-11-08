@@ -78,6 +78,11 @@ describe(`a bill's stage (seed ${seed})`, () => {
       expect(after.floor.length, "the floor voted").toBeGreaterThan(0);
       for (const chamber of after.floor) {
         expect(chamber.yes.length + chamber.no.length).toBeGreaterThan(0);
+        expect(chamber.result, "the result in words").toMatch(
+          new RegExp(
+            `^(Adopted|Passed), ${chamber.yes.length} to ${chamber.no.length}\\.$|^Defeated, ${chamber.no.length} to ${chamber.yes.length}\\.$`,
+          ),
+        );
         for (const v of [...chamber.yes, ...chamber.no])
           expect(v.name.length, v.memberId).toBeGreaterThan(0);
       }

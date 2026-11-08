@@ -10,3 +10,7 @@ A bill's paper now shows where it stands: what the committee heard and how each 
 ### Added
 
 When you sit on the body that will vote a bill, the paper offers Yes, No and Abstain before the floor takes it up, and your choice is the vote that is counted.
+
+### Improved
+
+A floor result on a bill's paper now reads in words, such as "Adopted, 4 to 2." or "Defeated, 3 to 2.", above the names.
