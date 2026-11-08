@@ -435,6 +435,9 @@
   },
   "politics": {
     "seats": "Seats",
+    "members": "Members",
+    "whoRuns": "Who runs {name}",
+    "seats": "Seats",
     "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
@@ -668,6 +671,19 @@
   },
   "patchNotes": {
     "release": "Release"
+  },
+  "budgetStrips": {
+    "departments": "Departments",
+    "comingIn": "Coming in",
+    "goingOut": "Going out",
+    "balance": "Balance",
+    "short": "short",
+    "ahead": "ahead",
+    "savings": "Savings",
+    "lastYear": "Last year",
+    "whoWrote": "Who wrote it",
+    "adoptedBy": "Adopted by",
+    "fiscalYear": "Fiscal year"
   },
   "saves": {
     "none": "No life is saved yet. Start a new life and it will be kept here.",

@@ -101,9 +101,12 @@ export function budgetView(core: CoreState, personId: string) {
     }
   return {
     governments: governments(api).map((gov) => {
-      const latest = [...budgetsOf(api, gov.id)].sort(
+      const years = [...budgetsOf(api, gov.id)].sort(
         (a, b) => b.fiscalYear - a.fiscalYear,
-      )[0];
+      );
+      const latest = years[0];
+      // The year before, when the government kept one: "Last year" beside each line.
+      const prior = years[1];
       return {
         ...gov,
         // Some federal files hold names in capitals only.
@@ -112,6 +115,7 @@ export function budgetView(core: CoreState, personId: string) {
         priorities: budgetPriorities(api, gov.id),
         books: booksOf(core, gov.organizationId),
         latest: latest && totaled(latest),
+        prior: prior && totaled(prior),
       };
     }),
     withholding: {
