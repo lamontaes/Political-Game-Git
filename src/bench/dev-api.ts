@@ -236,6 +236,11 @@ export async function handleDev(
       );
       return true;
     }
+    case "POST layoff": {
+      const input = await body(request);
+      send(200, mode.forceLayoff(String(input.personId)));
+      return true;
+    }
     case "POST illness": {
       const input = await body(request);
       send(200, mode.forceIllness(String(input.personId)));

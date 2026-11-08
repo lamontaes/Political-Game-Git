@@ -5,7 +5,8 @@
 // names and record data only.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { select, numberBox, statusLine, checkboxSetting } from "./fields.mjs";
+import { select, numberBox, statusLine } from "./fields.mjs";
+import { devCheckbox } from "./dev-check.mjs";
 import { lastIntroducedSeries } from "./dev-bills.mjs";
 
 /**
@@ -27,7 +28,7 @@ export function devRunPanel({ labels, onDone }) {
     ],
   });
   // Hold the law just passed: while the world runs, the members vote down any bill that changes it.
-  const hold = checkboxSetting({ label: labels.holdLaw, checked: false });
+  const hold = devCheckbox({ label: labels.holdLaw });
   hold.box.dataset.testid = "dev-hold-law";
   const result = statusLine();
   const run = makeButton({ className: "action" }, labels.run);

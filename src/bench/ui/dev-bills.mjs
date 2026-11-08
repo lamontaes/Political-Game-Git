@@ -5,7 +5,8 @@
 // override margin for a veto. Words are control names and record data only.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { select, numberBox, statusLine, checkboxSetting } from "./fields.mjs";
+import { select, numberBox, statusLine } from "./fields.mjs";
+import { devCheckbox } from "./dev-check.mjs";
 
 /** The bill last introduced here: kept across the sheet's redraws, which a refresh causes. */
 let lastBillId = null;
@@ -93,7 +94,7 @@ export async function devBillsPanel({ labels, onDone }) {
   });
   // Members sign a discharge petition before the committee meets: it matters only where a committee
   // does not report the bill and the chamber's rule lets its members take the bill from it.
-  const petition = checkboxSetting({ label: labels.petition, checked: false });
+  const petition = devCheckbox({ label: labels.petition });
   petition.box.dataset.testid = "dev-petition";
   const result = statusLine();
   result.textContent = lastResult;

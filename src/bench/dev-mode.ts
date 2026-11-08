@@ -60,6 +60,7 @@ import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
 import { residentsRuntime } from "../core2/modules/residents";
+import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
   HEALTH_MODULE,
@@ -864,6 +865,28 @@ export class DevMode {
         "No illness: the person is gone or has no health record.",
       );
     return { mark: this.mark("illness", [personId], { personId }) };
+  }
+
+  /**
+   * A named person's job ends through their employer's own layoff (the jobs engine's separation): the
+   * record of why, the work.job-lost event, the state claim and the news follow as for any layoff. A
+   * worker who played today's day is let go the next day, which this says.
+   */
+  forceLayoff(personId: string) {
+    const person = personOrFillIn(this.core, personId);
+    if (!person) throw new Error("No such person.");
+    if (!person.jobId) throw new Error("They have no job to lose.");
+    const out = layOffWorker(this.api, person.jobId);
+    if (out === null)
+      throw new Error("Their job is not on a business's staff.");
+    if (out === "worked-today")
+      throw new Error("They worked today: lay them off tomorrow.");
+    if (out === "over")
+      throw new Error("The job stands for more than one: a counted worker.");
+    return {
+      mark: this.mark("layoff", [personId], { personId, jobId: person.jobId }),
+      layoff: out,
+    };
   }
 
   /**
