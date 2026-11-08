@@ -150,7 +150,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     witnesses: record.witnesses.map((w) => ({
       personId: w.personId,
       name: personName(core, w.personId),
-      personId: core.people.has(w.personId) ? w.personId : null,
       stake: w.stake,
     })),
     votes: record.votes.map(named),
