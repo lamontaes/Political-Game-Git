@@ -9,6 +9,8 @@ export const ADDRESS_FACT = {
   inauguration: "address:inauguration",
   president: "address:president",
   kind: "address:kind",
+  /** The kind it took (crisis, combative, hopeful, victory, mourning, policy): what the world and the speaker gave it to say. */
+  style: "address:style",
   opening: "address:opening",
   remembered: "address:remembered",
   text: "address:text",
