@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 247 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 248 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. From Nov 7, 9:30 p.m. Eastern (CTO), also the Fixer's PRs (a Claude cloud session; branches `fixer/`, line 2 `Session: Fixer`), on the same check. #7354, the owner's approved mocks, is the owner's to merge. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -172,6 +172,7 @@ New on Nov 3:
 | #7356 | The desktop smoke test expects Saved games enabled and opening its sheet, so the Mac build matches #7355 (test tooling; the desk removed a section and title from its `impact: none` release note)                       | Wahiawa, Hawaii                      | 514c23ac063caaa6 |
 | #7357 | The You screen follows the owner's approved mock (Nov 7): your name over a fading bust, "Who I am", "What I'm like" and "My people"                                                                                      | Shaw Heights, Colorado               | dc49581da8b52b66 |
 | #7358 | Clicking a person opens the approved person card: their name over a bust, who they are, how you see them, what you share, their people and, for an official, the public record (stacked on #7357, merged right after it) | Bentonville, Arkansas                | f8d3135a76cdca1c |
+| #7363 | The Budgets screen follows the approved mock: governments as tabs, a Departments list, each department as a typed page, "Coming in, Going out, Balance, Savings" beside last year, and "Who wrote it"                    | Mayfield, Utah                       | 2fc144aca18abbc3 |
 
 ## State Sessions' PRs (from Nov 5)
 
