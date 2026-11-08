@@ -5,6 +5,7 @@
  * real for named people, organizations, officeholders or counted groups
  * through the engine that owns it; a repeal ends it.
  */
+import type { GovernmentLevel } from "./government-level";
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
@@ -151,7 +152,7 @@ function jurisdictionOf(level: string): string {
 function enactLawId(key: string, level: string, value: number): string {
   return enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: key,
     value,
     effectiveDate: api.state.date,
@@ -165,7 +166,7 @@ function enact(key: string, level: string, value: number, days = 2): string {
   const measureId = `test:${key}:${value}:${api.state.date}`;
   enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
-    level: level as "federal" | "state" | "county" | "city",
+    level: level as GovernmentLevel,
     series: key,
     value,
     effectiveDate: after(api.state.date, 1),

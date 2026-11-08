@@ -7,12 +7,13 @@
  * county areas, the township over it where one governs, and the place itself; only those jurisdictions' rows load, so a
  * world never carries another place's law.
  */
+import type { GovernmentLevelWithTownship } from "./government-level";
 import startingLaw from "./data/laws/starting-law.json" with { type: "json" };
 import { placeCounty, placeRow, placeStateKey } from "./place-map";
 import { corePlaceByKey } from "./place-lookup";
 import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
 
-export type LawLevelName = "federal" | "state" | "county" | "township" | "city";
+export type LawLevelName = GovernmentLevelWithTownship;
 
 export interface LawChainLevel {
   readonly level: LawLevelName;

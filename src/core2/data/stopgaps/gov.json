@@ -213,7 +213,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "Each fiscal year's budget is adopted by its council's or legislature's vote (src/core2/modules/budgets.ts header, legislatedBudget); the enacted lines are carried forward only when a year's bill fails, which is the rule's fallback, not a stand-in for a missing vote."
   },
   {
     "id": "SG-GOV-veto-override-rule",
@@ -1494,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1506,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2193,6 +2195,18 @@
     "addedBy": "Money",
     "addedAt": "2026-11-08",
     "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-disaster-damage-from-causes",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/national-events.ts",
+    "line": 1,
+    "whatItFakes": "A disaster elsewhere in the country is generated as a result row (state, kind, start day, number of counties at the state's recorded mean) with no damage, no aid, no declaration and no reaction: its severity is not drawn from the place's recorded spread and nothing reads it yet but the record log.",
+    "why": "Damage should come from the housing stock, building codes, levees and budgets in force, the declaration from the governor's and the President's decisions, and aid from real treasuries (CTO ruling, Nov 8, 12:21 on #7365); those engines exist only for the town.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-08",
+    "replacement": "Detail built on open from the housing, budget and executive engines (damage, aid, the governor's and President's declarations), severity from the state's recorded spread, and the national press and approval reading the result.",
     "status": "open"
   }
 ]

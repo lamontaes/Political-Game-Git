@@ -282,12 +282,27 @@ export function seatNumbers(parts, vacant) {
   );
 }
 
-/** Roll calls in type: the title, the result and the count, the date under it. */
+/** Roll calls in type: the title, the result and the count, the date under it; a row with `onOpen` opens its bill. */
 export function voteRows(rows) {
   return el(
     "div",
     { className: "vote-rows" },
-    ...rows.map((row) => typedRow(row.title, row.result, row.when)),
+    ...rows.map((row) => {
+      const node = typedRow(row.title, row.result, row.when);
+      if (!row.onOpen) return node;
+      // A row with a paper behind it opens it: a button for the pointer and the keyboard.
+      node.classList.add("pick");
+      node.tabIndex = 0;
+      node.setAttribute("role", "button");
+      node.addEventListener("click", row.onOpen);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          row.onOpen();
+        }
+      });
+      return node;
+    }),
   );
 }
 
