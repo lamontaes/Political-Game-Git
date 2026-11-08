@@ -246,7 +246,19 @@ function entrantBornNear(
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
+  | "people"
+  | "past"
+  | "economy"
+  | "core"
+  | "government"
+  | "elections"
+  | "budgets"
+  | "legislature"
+  | "cabinet"
+  | "workings"
+  | "history"
+  | "opening"
+  | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -492,11 +504,13 @@ function* benchWorldStages(
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);
+  yield "elections";
   openElections(core);
   openCampaigns(core);
   openParties(core);
   openVoting(core);
   openRecord(core);
+  yield "budgets";
   openBudgets(core);
   // Every other state's budget, in the same store, moved by the state's own economy.
   openOutsideBudgets(core);
@@ -507,6 +521,7 @@ function* benchWorldStages(
   openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
+  yield "legislature";
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
@@ -514,6 +529,7 @@ function* benchWorldStages(
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
+  yield "cabinet";
   openExecutive(core, seed);
   // The president's cabinet and the line of succession (OPUS-GOV).
   openSuccession(core);
@@ -523,6 +539,7 @@ function* benchWorldStages(
   // on every bill's vote), other governments' lawmaking, state and federal
   // races elsewhere, ballot measures, recalls, the press, public meetings
   // (debates need the press's outlets) and constituent cases.
+  yield "workings";
   openStaff(core);
   openInterestGroups(core);
   openWorldLegislating(core);
@@ -548,6 +565,7 @@ function* benchWorldStages(
   openPublicSafety(core);
   // The federal courts as a national flow and stock, from the Commission and the Bureau.
   openFederalCourts(core);
+  yield "history";
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
