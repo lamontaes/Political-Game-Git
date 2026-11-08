@@ -101,6 +101,10 @@
     "state-contribution-limit-local": {
       "levels": ["state"],
       "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "child-care-income-limit": {
+      "levels": ["state"],
+      "source": "Child Care and Development Block Grant Act, 42 U.S.C. 9858c(c)(2)(B): a state sets the family income limit for its subsidies, up to 85 percent of the state median income"
     }
   },
   "questions": {
