@@ -12410,6 +12410,72 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.floor-debate.name-spoke-for-designation-and-opponent-against-it-before-the",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "{name} spoke for {designation} and {opponent} against it before the vote.",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "news",
+          "role": "floor-debate",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.floor-debate.before-the-roll-on-designation-name-rose-in-its-favor",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "Before the roll on {designation}, {name} rose in its favor and {opponent} rose against it.",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "news",
+          "role": "floor-debate",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.floor-debate.the-floor-heard-name-for-designation-and-opponent-against-it",
+      "move": "floor-debate",
+      "kind": "written",
+      "text": "The floor heard {name} for {designation} and {opponent} against it.",
+      "uses": [
+        {
+          "move": "floor-debate",
+          "subject": "news",
+          "role": "floor-debate",
+          "choice": "lede",
+          "requiresFacts": ["opponent", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }
