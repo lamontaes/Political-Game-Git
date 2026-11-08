@@ -8057,5 +8057,101 @@
       "unit": "hours",
       "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
     }
+  },
+  "studentLoanHolderShare": {
+    "value": 0.218,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the share of families with education debt, Federal Reserve Survey of Consumer Finances 2022, Table 4 (21.8 percent). The survey is 2022; the engine marks any 2026 adjustment ESTIMATED."
+  },
+  "studentLoanMedianBalanceUsd": {
+    "value": 24500,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the median balance among families holding education debt, Survey of Consumer Finances 2022, Table 4 (2022 dollars)."
+  },
+  "studentLoanMeanBalanceUsd": {
+    "value": 46600,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: the mean balance among families holding education debt, Survey of Consumer Finances 2022, Table 4 (2022 dollars)."
+  },
+  "studentLoanBalanceShare18to29": {
+    "value": 0.1862,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.149,
+      "high": 0.223,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare30to39": {
+    "value": 0.3178,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.254,
+      "high": 0.381,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare40to49": {
+    "value": 0.233,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.186,
+      "high": 0.28,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare50to59": {
+    "value": 0.1582,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.127,
+      "high": 0.19,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare60to69": {
+    "value": 0.0786,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.063,
+      "high": 0.094,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
+  },
+  "studentLoanBalanceShare70plus": {
+    "value": 0.0261,
+    "tag": "ESTIMATED",
+    "role": "opening",
+    "citation": "Derived by scripts/credit/derive-student-loan-seed.ts from data/research/credit/student-loan-debt-2026.json: this age band's share of the student-loan balances in the New York Fed's Household Debt and Credit Report for 2026Q2 (page 21 data), each band over the sum of the bands.",
+    "estimatedFrom": "Each age row over the sum of the age rows; the published national total is slightly larger because a few borrowers' birth years are unknown.",
+    "spread": {
+      "low": 0.021,
+      "high": 0.031,
+      "unit": "share of balances",
+      "citation": "Plus or minus a fifth: one quarter's balances by age, with unknown birth years left out."
+    }
   }
 }
