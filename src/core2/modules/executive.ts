@@ -142,7 +142,11 @@ function governorAnswersDisaster(api: CoreAPI, hazardRecordId: string): void {
   )?.holder;
   if (!governor || !emergencyPower(api)) return;
   const executiveId = memberKey(governor);
-  if (executiveId === (api.state as CoreState).playerId) {
+  if (
+    executiveId ===
+    (snapshotExplicitControlV1(api.state).personId ??
+      (api.state as CoreState).playerId)
+  ) {
     // A player governor decides for themselves: the disaster waits as an offer on their desk
     // (the state day's `emergency` entry), and the engine never declares for them.
     table(api, "emergencyOffers").put({
