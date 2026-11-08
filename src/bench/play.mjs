@@ -120,6 +120,9 @@ mountSpeakers();
 const $ = (id) => document.getElementById(id);
 let me;
 let packet;
+// The game's date is the clock's, the packet's; me.date is only the day the
+// screen loaded (P15, C10: the News kept the opening day).
+const today = () => packet?.at?.date ?? me.date;
 let talk;
 let openTab;
 let busy = false;
@@ -297,7 +300,7 @@ function openNewsReader(news) {
   };
   $("news-reader-masthead").textContent = outlet.name ?? controls.news.title;
   engraveMasthead($("news-reader-masthead"), outlet);
-  $("news-reader-date").textContent = dateWords(me.date, { weekday: true });
+  $("news-reader-date").textContent = dateWords(today(), { weekday: true });
   $("news-reader").className = `panel paper paper-${
     ["broadsheet", "modern", "tabloid", "weekly"].includes(outlet.layout)
       ? outlet.layout
@@ -369,7 +372,7 @@ async function renderCard() {
   me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = me.placeName;
-  setClock(packet?.at ?? { date: me.date, minuteOfDay: me.minuteOfDay ?? 0 });
+  setClock(packet?.at ?? { date: today(), minuteOfDay: me.minuteOfDay ?? 0 });
 }
 
 // The Guide's search, kept so an underlined term opens straight to it.
@@ -3630,7 +3633,7 @@ const sheets = {
       newsBoard({
         outlets,
         labels,
-        date: me.date,
+        date: today(),
         headlineOf: storyHeadline,
         words: {
           page: controls.politics.page,
@@ -4072,7 +4075,7 @@ const sheets = {
       return [
         rosterTitle(
           race.title,
-          dateWords(race.electionDate, { year: me.date }),
+          dateWords(race.electionDate, { year: today() }),
         ),
         rosterCols(
           // A candidate's name opens their card; there is no rally to go to
@@ -4087,7 +4090,7 @@ const sheets = {
                     dotRows([
                       {
                         label: dateWords(race.lastTime.date, {
-                          year: me.date,
+                          year: today(),
                         }),
                         value: race.lastTime.winnerId
                           ? nameLink(race.lastTime.winner, () =>
@@ -4113,7 +4116,7 @@ const sheets = {
                       {
                         when: dateWords(race.filingDeadline, {
                           month: "short",
-                          year: me.date,
+                          year: today(),
                         }),
                         text: labels.filingCloses,
                       },
@@ -4121,7 +4124,7 @@ const sheets = {
                 {
                   when: dateWords(race.electionDate, {
                     month: "short",
-                    year: me.date,
+                    year: today(),
                   }),
                   text: labels.electionDay,
                 },
@@ -4142,7 +4145,7 @@ const sheets = {
       ...[...byDate.entries()]
         .sort(([a], [b]) => a.localeCompare(b))
         .map(([day, races]) => ({
-          title: dateWords(day, { year: me.date }),
+          title: dateWords(day, { year: today() }),
           entries: races.map((race) => ({
             key: race.contestId,
             label: race.title,
@@ -4248,7 +4251,7 @@ const sheets = {
         (t, [k, v]) => t.replaceAll(`{${k}}`, String(v)),
         text ?? "",
       );
-    const short = (iso) => dateWords(iso, { month: "short", year: me.date });
+    const short = (iso) => dateWords(iso, { month: "short", year: today() });
     const open = (cardId, face) => () => {
       closeSheet();
       showPerson({ personId: cardId, figureUrl: face?.url });
