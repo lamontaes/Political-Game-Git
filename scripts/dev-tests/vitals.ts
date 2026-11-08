@@ -20,8 +20,11 @@ import {
 } from "../../src/core2/modules/residents";
 import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
+import { RENEWAL_MODULE_ID } from "../../src/core2/modules/renewal";
 import { townMetrics } from "../../src/core2/modules/world-metrics";
 import type { CoreState } from "../../src/core2/types";
+
+type Household = Parameters<typeof householdIncome>[1];
 
 export interface Vitals {
   date: string;
@@ -36,6 +39,9 @@ export interface Vitals {
   closedBusinesses: number;
   deathsLogged: number;
   birthsLogged: number;
+  /** The wider population's births and deaths (the monthly counts rows), apart from the full people's logged ones. */
+  countedBirths: number;
+  countedDeaths: number;
   partiesInTownSeats: Record<string, number>;
   unmeasured: string[];
 }
@@ -51,9 +57,9 @@ export function vitals(core: CoreState): Vitals {
     const store = (
       rt as unknown as {
         store: {
-          liveHouseholds(): Iterable<any>;
-          weightOf(h: any): number;
-          countedMembers(h: any): ArrayLike<unknown>;
+          liveHouseholds(): Iterable<Household>;
+          weightOf(h: Household): number;
+          countedMembers(h: Household): ArrayLike<unknown>;
         };
       }
     ).store;
@@ -82,6 +88,18 @@ export function vitals(core: CoreState): Vitals {
   for (const seat of townSeats(coreAPI(core)))
     if (seat.holder?.party)
       parties[seat.holder.party] = (parties[seat.holder.party] ?? 0) + 1;
+  // The counted tier's births and deaths, in real people since the opening:
+  // the renewal engine keeps a running total in each place's carry row (the
+  // monthly counts rows exist only with bookkeeping on, so play keeps none).
+  const counted = { births: 0, deaths: 0 };
+  if (core.modules.has(RENEWAL_MODULE_ID))
+    for (const row of coreAPI(core)
+      .moduleState(RENEWAL_MODULE_ID)
+      .table("countedCarry")
+      .rows() as unknown as { id: string; born?: number; died?: number }[]) {
+      counted.births += row.born ?? 0;
+      counted.deaths += row.died ?? 0;
+    }
   const fullWorkers = fullAlive.filter((p) => p.jobId).length;
   // The full people are a separate tier from the counted households.
   const adults = sum("adults") + fullAlive.length;
@@ -103,6 +121,8 @@ export function vitals(core: CoreState): Vitals {
     closedBusinesses: core.logByKind.get("business.closed")?.size ?? 0,
     deathsLogged: core.logByKind.get("life.death")?.size ?? 0,
     birthsLogged: core.logByKind.get("person-birth")?.size ?? 0,
+    countedBirths: counted.births,
+    countedDeaths: counted.deaths,
     partiesInTownSeats: parties,
     unmeasured: [
       "rent share of income",
