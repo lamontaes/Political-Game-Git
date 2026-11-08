@@ -933,6 +933,8 @@ const townRates = new WeakMap<
 >();
 function entryRateFeedback(api: CoreAPI, placeId: string): number {
   const c = core(api);
+  // With no economy running there is no region's rate to drift toward.
+  if (!c.modules.has("macro")) return 0;
   let cache = townRates.get(c);
   if (!cache || cache.date !== c.date) {
     const byPlace = new Map<string, { seekers: number; jobs: number }>();
@@ -2521,11 +2523,18 @@ export function reviewJobless(api: CoreAPI): void {
       !person.alive ||
       person.jobId ||
       outOfCivilianWork(api, person.id) ||
-      controlled(c, person.id) ||
-      // Those living in another place work by the lives-elsewhere review.
-      livesElsewhere(c, person)
+      controlled(c, person.id)
     )
       continue;
+    // Those living in another place work by the lives-elsewhere review: a
+    // search row kept from when they lived here ends with the move.
+    if (livesElsewhere(c, person)) {
+      if (store(api).table("seekers").get(person.id)) {
+        store(api).table("seekers").remove(person.id);
+        endSpell(api, person.id);
+      }
+      continue;
+    }
     // Someone already looking is weighed again below, as a counted seeker is.
     const seeking = store(api).table("seekers").get(person.id) as
       SeekerRow | undefined;
