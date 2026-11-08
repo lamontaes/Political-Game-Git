@@ -1271,8 +1271,7 @@ body:not(.dev) .dev-only {
 .me .name {
   font-size: 16px;
 }
-#card-place:empty,
-#card-why:empty {
+#card-place:empty {
   display: none;
 }
 .me .time {
@@ -1290,9 +1289,6 @@ body:not(.dev) .dev-only {
 }
 .me .time .action:last-child {
   margin-right: 0;
-}
-#card-why {
-  margin-bottom: 4px;
 }
 #rings {
   display: flex;
