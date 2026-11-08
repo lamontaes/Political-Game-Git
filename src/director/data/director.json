@@ -1108,6 +1108,16 @@
       "impactParameter": "directorPublicCommentImpact"
     },
     {
+      "eventKind": "governor.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
+      "eventKind": "mayor.address",
+      "channel": "cause",
+      "impactParameter": "directorElectionResultImpact"
+    },
+    {
       "eventKind": "president.address",
       "channel": "cause",
       "impactParameter": "directorElectionResultImpact"

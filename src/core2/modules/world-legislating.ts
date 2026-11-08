@@ -69,6 +69,7 @@ import {
 } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { policySeriesAtLevel } from "../policy-answers";
+import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import type { OfficeLevel } from "../offices-local";
 import { partySide } from "../appointments";
@@ -392,7 +393,7 @@ function lawStanding(
   question: string,
   direction: number,
   jurisdiction: string,
-): { settled: number; reluctance: number } {
+): { settled: number; reluctance: number; neighbors: number } {
   const settled = settledness(api, question, jurisdiction);
   const last = lastEnactment(api, question, lawKeysOf(api, jurisdiction));
   const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
@@ -403,7 +404,45 @@ function lawStanding(
         Math.max(0, last.margin) *
         ((1 - settled) / 2)
       : 0,
+    neighbors: neighborPull(api, question, direction, jurisdiction),
   };
+}
+
+/** The states bordering each state (Census county adjacency; src/core2/data/places/state-reach.json). */
+const BORDERS = (
+  stateReach as unknown as { states: Record<string, { borders: string[] }> }
+).states;
+
+/**
+ * How the states that border a state stand on a change to a question: the
+ * share with the law the change would make, less the share with the law it
+ * would unmake, from -1 to 1 (0 for a body that is not a state's, or a
+ * question the neighbors' research does not answer). A neighbor's law is its
+ * researched starting law: only the town's state legislates in a played
+ * world, so no neighbor's own acts are recorded.
+ */
+export function neighborPull(
+  api: CoreAPI,
+  question: string,
+  direction: number,
+  jurisdiction: string,
+): number {
+  const neighbors = (
+    BORDERS[jurisdiction.replace(/^US-/, "")]?.borders ?? []
+  ).map((usps) => `US-${usps}`);
+  const answers = POLICY_QUESTIONS[question]?.answers;
+  if (!neighbors.length || !answers) return 0;
+  let net = 0,
+    counted = 0;
+  for (const state of neighbors) {
+    const answer = answers[state]?.answer;
+    if (answer !== "yes" && answer !== "no") continue;
+    // stopgapId: SG-LAWS-neighbor-law-starting
+    api.stopgap("SG-LAWS-neighbor-law-starting");
+    counted += 1;
+    net += (answer === "yes" ? 1 : -1) * direction;
+  }
+  return counted ? net / counted : 0;
 }
 
 /** A member's own reasons to carry a change on a question, pointing one way. */
@@ -412,13 +451,16 @@ export function filingReason(
   f: Filer,
   question: string,
   direction: number,
-  law: { settled: number; reluctance: number },
+  law: { settled: number; reluctance: number; neighbors?: number },
 ): number {
   const bare =
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction -
-    law.reluctance;
+    law.reluctance +
+    // The states next door: the more of them have the change, the likelier it
+    // is carried (policy diffusion between neighboring states).
+    campaignParameter("neighborLawWeight") * (law.neighbors ?? 0);
   // A taste for change backs changing a settled law, not undoing a fresh one.
   return f.person
     ? bare +
