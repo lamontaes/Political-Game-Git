@@ -16,7 +16,7 @@
 import type { CoreState, PersonState } from "../core2/types";
 import { P } from "../core2/parameters";
 import { daysBetweenText } from "../core2/kernel/dates";
-import type { AreaRead } from "../core2/term-read";
+import type { AreaRead } from "../core2/modules/laws";
 import kindData from "./data/address-kinds.json" with { type: "json" };
 
 export const ADDRESS_KINDS = [

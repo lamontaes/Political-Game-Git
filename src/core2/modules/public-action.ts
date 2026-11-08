@@ -31,15 +31,14 @@ import { addDays, makeIsoDate } from "../kernel/dates";
 import {
   INTEREST_GROUPS_MODULE_ID,
   foundMovement,
-  groupDraw,
-  joinsGroup,
   movementGroupId,
 } from "./interest-groups";
+import { groupDraw, joinsGroup } from "./elections";
 import { leanedYes } from "../trait-decisions";
 import { makeCase } from "./speech";
 import { townSeats } from "./offices";
 import { currentCloseness } from "../closeness";
-import { placeTermRead, termReadPlaces, type AreaRead } from "../term-read";
+import { placeTermRead, termReadPlaces, type AreaRead } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { ageOnDate } from "../kernel/dates";

@@ -1,0 +1,343 @@
+/* ---------- Front of the game, Options, pop-ups and dev mode (Nov 8, 1:35 a.m.) ----------
+   The owner: "I'm going to conditionally approve all the UI stuff you made earlier... take the principles you
+   learned from everything today, apply that to, you know, dev mode screens and all that."
+   Then, 2:15 a.m.: "remove all those subtexts... Remove all of those submenus." So no caption or explanatory
+   line sits under any heading, control, item or memory: data goes on its own line or into the control itself.
+   Same build as the approved screens: strips with the broken gold outline (ol-g), fading busts, no boxes,
+   no symbols, no timelines, names in Playfair 600, typed records in Courier Prime. Figures marked "fixture"
+   in front-record.md are made up for the mock; the real game reads its own records. */
+
+/* screen state, set by data-fr="key:value" (or "key:+1" / "key:-1" for arrows) */
+const FR = {
+  hov: "", playas: "whitfield", wstate: 0, wtown: "latimer", wpage: 0, start: 0, pay: 0, save: 0, lean: 0, turnout: 0, seed: 0,
+  name: "John Spencer", miss: "", age: 24, gender: "Man", cstate: 0, ctown: "latimer", cpage: 0,
+  face: 0, hair: 2, hcolor: 1, skin: 3, build: 0, shirt: 0, jacket: 0, tie: 1, pants: 0, shoes: 0,
+  done: "", sv: 0, note: 0, cb: "Off", full: "On", dev: "On",
+  toast0: "1", toast1: "1", scene: "",
+  runN: 30, until: "A bill passes", ran: "",
+  body: "Board of Aldermen", margin: 4, held: "", signed: "", gloss: "", learned: "",
+  decide: "", bribe: "As she would", amt: 6000, offered: "",
+  kind: "breakup", sroleA: 0, sroleB: 0, where: "Home", played: "",
+  trace: "nair",
+};
+const frStop = new Set(["Family", "Friends", "Work", "Campaign", "My office", "Public meetings", "Press"]);
+const fsec = (depth, title, body, cls = "", right = "") => `<section class="sec strips dp${depth} ${cls}"><h3 class="sechead">${title}${right}</h3><div class="secbody">${body}</div></section>`;
+const frTogs = (key, list, curv) => `<div class="frtogs">${list.map((t) => `<button type="button" class="tog" aria-pressed="${t === curv}" data-fr="${key}:${t.replace(/ /g, "_")}">${esc(t)}</button>`).join("")}</div>`;
+const frPick = (list, i) => list[((i % list.length) + list.length) % list.length];
+/* a control row: label, arrows, and the value itself (data goes in the value, never in a line under it) */
+const frArrow = (label, key, list) => `<div class="frrow"><span class="frlab">${label}</span><span class="frarr"><button type="button" class="arrow" data-fr="${key}:-1" aria-label="Back">‹</button><b>${esc(frPick(list, FR[key]))}</b><button type="button" class="arrow" data-fr="${key}:+1" aria-label="Next">›</button></span></div>`;
+const frName = (text) => `<h4 class="frname">${esc(text)}</h4>`;
+const frGo = (key, text, cls = "kbtn") => `<button type="button" class="${cls}" data-ex="${key}">${text}</button>`;
+/* one line per item: the name, and its figure on the same line at the right */
+const frLine = (cls, on, attr, left, right) => `<button type="button" class="${cls}${on ? " on" : ""}" ${attr}><b>${left}</b>${right ? `<i>${right}</i>` : ""}</button>`;
+
+/* ---------- places (fixtures: Latimer is the prototype's own town; the others are rounded 2020 census counts) ---------- */
+const FR_STATES = ["Mississippi", "Alabama", "Louisiana", "Tennessee"];
+const FR_TOWNS = [
+  ["latimer", "Latimer", "6,400"], ["hazlehurst", "Hazlehurst", "3,700"], ["crystal", "Crystal Springs", "4,900"], ["wesson", "Wesson", "1,900"],
+  ["georgetown", "Georgetown", "280"], ["brookhaven", "Brookhaven", "11,700"], ["mccomb", "McComb", "12,400"], ["jackson", "Jackson", "154,000"],
+];
+const frTownList = (sel, pageKey, pickKey) => {
+  const per = 6, pages = Math.ceil(FR_TOWNS.length / per), page = Math.max(0, Math.min(FR[pageKey], pages - 1));
+  const rows = FR_TOWNS.slice(page * per, page * per + per).map(([id, n, pop]) => frLine("frtown", id === sel, `data-fr="${pickKey}:${id}"`, n, `${pop} people`)).join("");
+  return `<div class="frtowns">${rows}</div><div class="frpager"><button type="button" class="arrow" data-fr="${pageKey}:-1"${page > 0 ? "" : " disabled"} aria-label="Back">‹</button><span>${page + 1} of ${pages}</span><button type="button" class="arrow" data-fr="${pageKey}:+1"${page < pages - 1 ? "" : " disabled"} aria-label="Next">›</button></div>`;
+};
+
+/* ---------- 1. Title ---------- */
+function frTitle() {
+  const item = (key, text, go) => `<button type="button" class="fritem${FR.hov === key ? " hov" : ""}"${go ? ` data-ex="${go}"` : ""}>${text}</button>`;
+  return `<div class="ex fr frtitlebox">
+    <button type="button" class="frcontinue${FR.hov === "continue" ? " hov" : ""}">${govBust("mefig", 96, 112, 0.78)}<b>Continue as John Spencer</b></button>
+    <nav class="frmenu" aria-label="Title">
+      ${item("new", "New game", "fr-new")}${item("saves", "Saved games", "fr-saves")}${item("options", "Options", "fr-options")}${item("notes", "Patch notes", "fr-notes")}${item("quit", "Quit")}
+    </nav>
+  </div>`;
+}
+
+/* ---------- 2. New game: two choices and nothing under them ---------- */
+function frNew() {
+  return `<div class="ex fr frnew">
+    <button type="button" class="frchoice" data-ex="fr-creator"><span class="frchoicepic">${govBust("mefig", 200, 150, 1.25)}</span><b>Start a life</b></button>
+    <button type="button" class="frchoice" data-ex="fr-world"><span class="frchoicepic">${["whitfield", "holcomb", "garrity"].map((k) => govBust(k, 132, 120, 0.95)).join("")}</span><b>Advanced</b></button>
+  </div>`;
+}
+
+/* ---------- 3. Advanced: the world (dev mode's world setup); each value is the figure itself ---------- */
+const FR_STARTS = ["January 20, 2025", "January 1, 2025", "November 4, 2025", "November 8, 2026"];
+const FR_PAY = ["$38,900 a year", "$35,000 a year", "$42,800 a year"];
+const FR_SAVE = ["$4,200", "$2,100", "$8,400"];
+const FR_LEAN = ["Garrity, 58 to 41", "Garrity, 64 to 35", "Garrity, 52 to 47"];
+const FR_TURN = ["62 of 100", "51 of 100", "71 of 100"];
+const FR_SEEDS = ["4F2A-91", "B07C-33", "19E5-08"];
+function frWorld() {
+  const st = FR_STARTS.map((d, i) => frLine("frtown", i === FR.start, `data-fr="start:${i}"`, d, "")).join("");
+  const g = GP[FR.playas];
+  return `<div class="ex fr ol-g frcols3">
+    <div class="frcol">${fsec(1, "Where", `${frArrow("State", "wstate", FR_STATES)}${frTownList(FR.wtown, "wpage", "wtown")}`)}</div>
+    <div class="frcol">
+      ${fsec(2, "When it starts", `<div class="frtowns">${st}</div>`)}
+      ${fsec(3, "The world", `${frArrow("Median pay", "pay", FR_PAY)}${frArrow("Savings", "save", FR_SAVE)}${frArrow("2024 vote", "lean", FR_LEAN)}${frArrow("Turnout", "turnout", FR_TURN)}`)}
+    </div>
+    <div class="frcol">
+      ${fsec(4, "Who I play", `<div class="frwho">${g.face ? govBust(g.face, 210, 150, 1.2) : ""}<div>${frName(g.n)}<p class="lead2sub">${esc(g.t)}</p></div></div><div class="frbtns">${frGo("fr-playas", "Someone else")}${frGo("fr-creator", "Start a life")}</div>`)}
+      ${fsec(5, "This world", `<div class="frrow"><span class="frlab">World</span><b class="frseed">${frPick(FR_SEEDS, FR.seed)}</b><button type="button" class="kbtn" data-fr="seed:+1">Another world</button></div><div class="frbtns end">${frGo("fr-loading", "Begin", "kbtn big")}</div>`)}
+    </div>
+  </div>`;
+}
+
+/* ---------- 3b. Advanced: play as anyone, grouped by office, one line each ---------- */
+function frPlayas() {
+  const row = (id, role) => frLine("frpers", id === FR.playas, `data-fr="playas:${id}"`, esc(GP[id].n), esc(role || GP[id].t));
+  const g = GP[FR.playas];
+  return `<div class="ex fr ol-g frcols3">
+    <div class="frcol">${fsec(1, "Latimer", `${row("whitfield", "Mayor")}${row("hill", "District 1")}${row("cole", "District 2")}${row("price", "District 3")}${row("greer", "District 4")}${row("nair", "District 5")}${row("freeman", "At large")}${row("hale", "Clerk")}`)}</div>
+    <div class="frcol">${fsec(2, "Mississippi", `${row("holcomb", "Governor")}${row("haynes", "Lieutenant governor")}${row("bufkin", "Speaker")}${row("hollins", "House")}${row("lofton", "Senate")}`)}${fsec(3, "United States", `${row("garrity", "President")}${row("marsh", "Vice president")}${row("ashby", "House")}${row("sloan", "Senate")}`)}</div>
+    <div class="frcol">${fsec(4, "Play as", `<div class="frwho big">${g.face ? govBust(g.face, 250, 170, 1.4) : ""}<div>${frName(g.n)}<p class="lead2sub">${esc(g.t)}</p></div></div><p class="intro">${esc(g.who)}</p><div class="frbtns">${frGo("fr-loading", `Play as ${esc(g.n)}`, "kbtn big")}${frGo("fr-world", "The world")}</div>`)}</div>
+  </div>`;
+}
+
+/* ---------- 4. Creator: one screen, no Back or Continue; a missing name only shows red ---------- */
+const FR_LOOK = [
+  ["Face", "face", ["1 of 8", "2 of 8", "3 of 8", "4 of 8", "5 of 8", "6 of 8", "7 of 8", "8 of 8"]],
+  ["Hair", "hair", ["Close crop", "Short, combed back", "Short part", "Buzz", "Long, tied back", "Curls"]],
+  ["Hair color", "hcolor", ["Black", "Dark brown", "Brown", "Auburn", "Blond", "Gray"]],
+  ["Skin", "skin", ["1 of 10", "2 of 10", "3 of 10", "4 of 10", "5 of 10", "6 of 10", "7 of 10", "8 of 10", "9 of 10", "10 of 10"]],
+  ["Build", "build", ["Slim", "Medium", "Heavy"]],
+  ["Shirt", "shirt", ["White oxford", "Light blue oxford", "Gray knit", "Plaid flannel"]],
+  ["Jacket", "jacket", ["Charcoal suit", "Navy suit", "Brown sport coat", "None"]],
+  ["Tie", "tie", ["None", "Navy stripe", "Burgundy", "Gold"]],
+  ["Pants", "pants", ["Charcoal", "Navy", "Khaki", "Dark jeans"]],
+  ["Shoes", "shoes", ["Black oxfords", "Brown loafers", "Work boots", "Sneakers"]],
+];
+function frCreator() {
+  const missing = FR.miss === "1";
+  return `<div class="ex fr ol-g frcreator">
+    <div class="frme">${govBust("mefig", 280, 150, 1.9)}${missing ? "" : frName(FR.name)}<button type="button" class="kbtn">Random</button></div>
+    <div class="frcol">${fsec(1, "Who I am", `<label class="frfield${missing ? " need" : ""}"><span class="frlab">Name</span><input type="text" value="${missing ? "" : esc(FR.name)}" aria-label="Name"${missing ? ' aria-invalid="true"' : ""}></label><div class="frrow"><span class="frlab">Age</span><span class="frarr"><button type="button" class="arrow" data-fr="age:-1" aria-label="Younger">‹</button><b>${FR.age}</b><button type="button" class="arrow" data-fr="age:+1" aria-label="Older">›</button></span></div><div class="frrow"><span class="frlab">I am</span>${frTogs("gender", ["Man", "Woman", "Nonbinary"], FR.gender)}</div>`)}
+      ${fsec(2, "Where I'm from", `${frArrow("State", "cstate", FR_STATES)}${frTownList(FR.ctown, "cpage", "ctown")}`)}</div>
+    <div class="frcol">${fsec(3, "How I look", `${FR_LOOK.map(([l, k, list]) => frArrow(l, k, list)).join("")}`)}<div class="frbtns end">${missing ? `<button type="button" class="kbtn big need" data-fr="miss:1">Begin my life</button>` : frGo("fr-loading", "Begin my life", "kbtn big")}</div></div>
+  </div>`;
+}
+const frAgeFix = () => { FR.age = Math.max(18, Math.min(80, FR.age)); };
+
+/* ---------- 5. Loading: the world's story while it builds ---------- */
+function frLoading() {
+  const steps = ["The people of Latimer", "Copiah County", "Mississippi", "The country"];
+  const at = FR.done === "1" ? 4 : 1;
+  return `<div class="ex fr ol-g frload">
+    <h2 class="frloadplace">Latimer, Mississippi</h2>
+    <p class="frstory">Latimer grew up where the Illinois Central crossed Highway 51, around a lumber mill that closed in 1988. Gulf South's warehouse came in 2004 and is the biggest employer in town now. The west side ditches were dug in 1974, for half the houses that stand there today, and everyone on Cypress Street can tell you about the spring of 2023.</p>
+    <p class="frstory">Carol Whitfield has been mayor since 2021. The board raised the water rate this month, four votes to two, and the people who rent on the west side are the ones paying it.</p>
+    <div class="frloadfoot"><div class="frsteps">${steps.map((s, i) => `<span class="${i < at ? "done" : i === at ? "now" : ""}">${s}</span>`).join("")}</div>${at >= 4 ? `<button type="button" class="kbtn big">Begin</button>` : ""}</div>
+  </div>`;
+}
+
+/* ---------- 7. Saved games: the bust, the day in the game, Load ---------- */
+const FR_SAVES = [["mefig", "John Spencer", "January 20, 2025"], ["whitfield", "Carol Whitfield", "August 6, 2025"], ["garrity", "Thomas Garrity", "March 3, 2025"]];
+function frSaves() {
+  return `<div class="ex fr ol-g frcols3">${FR_SAVES.map(([k, n, when], i) => `<div class="frcol">${fsec(i + 1, esc(n), `<div class="frsave">${govBust(k, 300, 150, 1.55)}<p class="frline"><b>${esc(when)}</b></p><div class="frbtns"><button type="button" class="kbtn big" data-fr="sv:${i}">Load</button><button type="button" class="smallbtn">Delete</button></div></div>`)}</div>`).join("")}</div>`;
+}
+
+/* ---------- 8. Patch notes (tonight's merges, in plain words); the builds one line each ---------- */
+const FR_NOTES = [
+  ["Next build", "", [
+    ["Changed", ["The You screen follows the approved look: your name over a bust, who you are, what you're like, and your people.", "The card you open on anyone follows the approved look too, with only what you've seen of them."]],
+    ["Improved", ["A year runs about a quarter faster in small towns: other states' officials are counted, not followed one by one, until you meet them."]],
+    ["Fixed", ["Saved games on the title opens your saves."]],
+  ]],
+  ["0.88.4", "Nov 7", [
+    ["Added", ["Congress can repeal the federal income tax adoption law, and restore it.", "Every law in force when a game starts can be repealed by the body that has the power."]],
+    ["Fixed", ["An income tax cut to zero and then raised again starts collecting again.", "SNAP's work limits no longer reach unrelated cash assistance."]],
+  ]],
+];
+function frNotes() {
+  const [, , parts] = FR_NOTES[FR.note];
+  return `<div class="ex fr ol-g frnotes">
+    <div class="frcol frbuilds">${fsec(1, "Builds", FR_NOTES.map(([n, w], i) => frLine("frtown", i === FR.note, `data-fr="note:${i}"`, n, w)).join(""))}</div>
+    <div class="frcol">${parts.map(([h, lines], i) => fsec(i + 2, h, lines.map((l) => `<p class="intro frnote">${esc(l)}</p>`).join(""))).join("")}</div>
+  </div>`;
+}
+
+/* ---------- 6. Options (Esc): controls only ---------- */
+function frOptions() {
+  const kinds = ["Family", "Friends", "Neighbors", "Work", "School", "Campaign", "My office", "Public meetings", "Press", "Strangers"];
+  return `<div class="ex fr ol-g frcols3">
+    <div class="frcol">${fsec(1, "Seeing", `<div class="frrow col"><span class="frlab">Color-blind mode</span>${frTogs("cb", ["Off", "Red and green", "Blue and yellow", "No color"], FR.cb)}</div><div class="frrow"><span class="frlab">Full screen</span>${frTogs("full", ["On", "Off"], FR.full)}</div>`)}
+      ${fsec(4, "Leave", `<div class="frbtns"><button type="button" class="kbtn">Save now</button>${frGo("fr-title", "Quit to title")}</div>`)}</div>
+    <div class="frcol">${fsec(2, "What may stop my day", `<div class="frtogs wide">${kinds.map((k) => `<button type="button" class="tog" aria-pressed="${frStop.has(k)}" data-fr="stop:${k}">${k}</button>`).join("")}</div>`)}</div>
+    <div class="frcol">${fsec(3, "Dev mode", frTogs("dev", ["On", "Off"], FR.dev))}</div>
+  </div>`;
+}
+
+/* ---------- 9. Pop-ups on the play screen ---------- */
+function frNotify() {
+  const inScene = FR.scene === "1";
+  const toast = (i, label, text) => FR["toast" + i] === "1" && !inScene ? `<div class="frtoast t${i}" role="status"><div><small>${label}</small><p>${text}</p></div><button type="button" class="frx" data-fr="toast${i}:0" aria-label="Dismiss">${X}</button></div>` : "";
+  const talk = inScene ? `<div class="frtalk"><div class="who">Hal Whitaker</div><p class="line">“You still putting that sign in my window, or do I have to come get it?”</p><div class="replies"><button type="button" class="reply"><i>1</i>Tonight, after my shift.</button><button type="button" class="reply"><i>2</i>Ask me again after the hearing.</button></div></div>` : "";
+  return `<div class="ex fr frbare"><p class="frhidden">The play screen, with nothing open.</p>${toast(0, "Copiah Courier", "The board sets a February 3 hearing on the west side ditches.")}${toast(1, "Journal", "Hal stopped me on the stairs to say he'd put my sign in his window.")}${talk}</div>`;
+}
+
+/* ---------- 10. Dev mode on the game's own screens: bare controls and record data ---------- */
+const DEVTAG = `<span class="frdevtag">Dev mode</span>`;
+/* a. run: beside Day and Week on the player card */
+function frDevRun() {
+  const untils = ["A bill passes", "An election", "A death", "A scene", "A law takes effect", "A date"];
+  return `<div class="ex fr frbare"><p class="frhidden">The play screen, with dev mode on.</p><div class="frdrawer ol-g">${fsec(1, `Run ${DEVTAG}`, `<div class="frrow"><span class="frlab">For</span><span class="frarr"><button type="button" class="arrow" data-fr="runN:-10" aria-label="Fewer">‹</button><b>${FR.runN} days</b><button type="button" class="arrow" data-fr="runN:+10" aria-label="More">›</button></span></div><div class="frrow col"><span class="frlab">Or until</span>${frTogs("until", untils, FR.until)}</div><div class="frbtns"><button type="button" class="kbtn big" data-fr="ran:1">Run</button></div>${FR.ran === "1" ? `<p class="frstop"><b>August 5, 2025:</b> Resolution 25-31 passed, 4 to 2.</p><div class="frbtns">${frGo("leg-floor", "Open the vote")}</div>` : ""}`)}</div></div>`;
+}
+/* b. on the bill: any body, any sponsor, a chosen margin, then the real vote, signature and override */
+const FR_BODIES = ["Board of Aldermen", "Copiah County Board of Supervisors", "Mississippi House", "Mississippi Senate", "U.S. House", "U.S. Senate"];
+const FR_SIZE = { "Board of Aldermen": 6, "Copiah County Board of Supervisors": 5, "Mississippi House": 122, "Mississippi Senate": 52, "U.S. House": 435, "U.S. Senate": 100 };
+const FR_BOARD = ["hill", "spencer", "price", "greer", "nair", "freeman"];
+const FR_MV = { hill: "Yes", spencer: "Yes", price: "Yes", greer: "No", nair: "Yes", freeman: "No" };
+const frBoardYes = () => FR_BOARD.filter((i) => FR_MV[i] === "Yes").length;
+/* the glossary's inline help (Sept 29, "a thousand times"): the term underlined, hover for the short meaning and Mark as learned */
+const FR_TERMS = { "go-bond": ["General obligation bonds", "Money a town borrows and repays from its taxes, whatever else happens to its budget."] };
+const frTerm = (key, text) => FR.learned === key ? text : `<span class="frterm${FR.gloss === key ? " open" : ""}" tabindex="0">${text}<span class="frglosstip" role="tooltip"><b>${FR_TERMS[key][0]}</b><span>${FR_TERMS[key][1]}</span><button type="button" class="kbtn small" data-fr="learned:${key}">Mark as learned</button></span></span>`;
+function frDevBill() {
+  const board = FR.body === "Board of Aldermen", size = FR_SIZE[FR.body];
+  const yes = board ? frBoardYes() : Math.max(0, Math.min(size, FR.margin)), no = size - yes;
+  const votes = board ? FR_BOARD.map((id) => `<div class="frvote">${gnm(id)}<div class="frtogs">${["Yes", "No"].map((t) => `<button type="button" class="tog" aria-pressed="${FR_MV[id] === t}" data-fr="mv:${id}.${t}">${t}</button>`).join("")}</div></div>`).join("") : `<div class="frvote"><b>Yes</b><b class="frnum">${yes}</b></div><div class="frvote"><b>No</b><b class="frnum">${no}</b></div>`;
+  const passed = yes > no;
+  const exec = FR.body.startsWith("U.S.") ? "President" : FR.body.startsWith("Mississippi") ? "Governor" : FR.body.startsWith("Copiah") ? "" : "Mayor";
+  const result = FR.held === "1" ? `<p class="lbig">${passed ? "Adopted" : "Failed"}, ${yes} to ${no}${FR.signed && exec && passed ? ` · ${FR.signed}` : ""}</p>${board ? `<p class="intro">${FR_BOARD.filter((i) => FR_MV[i] === "Yes").map((i) => gnm(i)).join(", ")} voted yes. ${FR_BOARD.filter((i) => FR_MV[i] === "No").map((i) => gnm(i)).join(" and ")} voted no.</p>` : ""}` : "";
+  return `<div class="ex fr leg ol-g frcols3">
+    <div class="frcol">${fsec(1, "Resolution 25-31 · The drainage bond", `<div class="ink lbill small"><p class="lsect"><b>SECTION 1.</b> ${frTerm("go-bond", "General obligation bonds")} of not more than $1,200,000 for the ditches and culverts on the west side, from Highway 51 to Cypress Street.</p><p class="lsect"><b>SECTION 2.</b> Repaid over twenty (20) years at not more than 4.5 percent a year.</p><p class="lsect"><b>SECTION 3.</b> Paid from a tax on all taxable property in the Town.</p></div>`)}${result ? fsec(2, "The vote", result) : ""}</div>
+    <div class="frcol">${fsec(3, `How each member votes ${DEVTAG}`, votes)}</div>
+    <div class="frcol">${fsec(4, `Dev mode`, `<div class="frrow col"><span class="frlab">Introduce at</span>${frTogs("body", FR_BODIES, FR.body)}</div><div class="frrow"><span class="frlab">Margin</span><span class="frarr"><button type="button" class="arrow" data-fr="margin:-1" aria-label="Fewer yes">‹</button><b>${yes} to ${no}</b><button type="button" class="arrow" data-fr="margin:+1" aria-label="More yes">›</button></span></div><div class="frbtns"><button type="button" class="kbtn">Introduce</button><button type="button" class="kbtn" data-fr="held:1">Hold the vote</button>${exec ? `<button type="button" class="kbtn${FR.signed === "Signed" ? " on" : ""}" data-fr="signed:Signed">Sign</button><button type="button" class="kbtn${FR.signed === "Vetoed" ? " on" : ""}" data-fr="signed:Vetoed">Veto</button><button type="button" class="kbtn">Override</button>` : ""}<button type="button" class="kbtn">Repeal</button></div>`)}</div>
+  </div>`;
+}
+/* c. on a person: what she remembers (the memory and its line, nothing under it), a decision, a bribe */
+const FR_MEM = [
+  ["The July 15 board meeting", "Walter Greer said he'd vote for half the bond and not a dollar more."],
+  ["Her 2021 race", "She won the open mayor's seat with 61 percent."],
+  ["Lunch with Marcus Hill, June 3", "He told her the finance committee would send the bond up."],
+  ["Tommy Rhodes's ditch map, July 2", "He walked her down Cypress Street with it."],
+];
+function frDevPerson() {
+  const choices = ["Sign Resolution 25-31", "Veto it", "Call Walter Greer", "Wait a day"];
+  const answers = ["As she would", "Takes it", "Refuses"];
+  const result = FR.offered === "1" ? `<p class="frstop"><b>${FR.bribe === "Takes it" ? "She took it." : "She refused."}</b></p>` : "";
+  return `<div class="ex fr ol-g frperson">
+    <div class="frme">${govBust("whitfield", 280, 150, 1.5)}${frName("Carol Whitfield")}<p class="lead2sub">Mayor of Latimer</p></div>
+    <div class="frcol">${fsec(1, `What she remembers ${DEVTAG}`, FR_MEM.map(([w, d]) => `<div class="frmem"><b>${w}</b><p>${d}</p></div>`).join(""))}</div>
+    <div class="frcol">${fsec(2, `Make her decide ${DEVTAG}`, frTogs("decide", choices, FR.decide))}
+      ${fsec(3, `A bribe ${DEVTAG}`, `<div class="frrow"><span class="frlab">From</span><b class="frval">Wade Pruitt, Pruitt Paving</b></div><div class="frrow"><span class="frlab">For</span><b class="frval">The drainage contract, $1,200,000</b></div><div class="frrow"><span class="frlab">Offer</span><span class="frarr"><button type="button" class="arrow" data-fr="amt:-1000" aria-label="Less">‹</button><b>$${FR.amt.toLocaleString("en-US")}</b><button type="button" class="arrow" data-fr="amt:+1000" aria-label="More">›</button></span></div><div class="frrow col"><span class="frlab">Her answer</span>${frTogs("bribe", answers, FR.bribe)}</div><div class="frbtns"><button type="button" class="kbtn" data-fr="offered:1">Offer</button></div>${result}`)}</div>
+  </div>`;
+}
+/* d. force a scene: the kind, the people, where; a scene that needs an event first offers that event */
+const FR_KINDS = [
+  ["Home and family", [["argument", "Argument"], ["apology", "Apology"], ["celebration", "Celebration"], ["proposal", "Proposal"], ["breakup", "Breakup"], ["new-baby", "New baby"], ["funeral", "Funeral"]]],
+  ["Friends and neighbors", [["reach-out", "Reaching out"], ["visit", "Visit"], ["advice", "Advice"], ["reconciliation", "Making up"], ["betrayal", "Betrayal"]]],
+  ["Work", [["job-offer", "Job offer"], ["layoff", "Layoff"], ["first-day", "First day"], ["last-day", "Last day"]]],
+  ["Campaign", [["door-ask", "At the door"], ["donor-ask", "Asking a donor"], ["debate-sitting", "Debate"], ["interview-sitting", "Interview"], ["filing", "Filing"]]],
+  ["Office", [["desk-visit", "Desk visit"], ["vote-asked", "Asked for a vote"], ["bribe-offer", "Bribe offer"], ["veto", "Veto"], ["town-hall-question", "Town hall question"], ["scandal", "Scandal"]]],
+];
+/* roles per kind; "first" names the event to force first; "none" = nothing in the game starts it yet (the button stays off) */
+const FR_ROLES = {
+  breakup: [["Ending it", ["marisol", "me"]], ["The other", ["me", "marisol"]]],
+  funeral: [["Mourning", ["me", "denise"]], ["For", ["earl", "hal"]], "first"],
+  proposal: [["Asking", ["me", "marisol"]], ["Asked", ["marisol", "me"]], "none"],
+};
+const frWho = (k) => k === "me" ? "John Spencer" : WHO[k][0] === "Denise" ? "Denise Spencer" : WHO[k][0];
+function frDevScene() {
+  const kinds = FR_KINDS.map(([g, list]) => `<div class="frkind"><span class="frlab">${g}</span><div class="frtogs">${list.map(([k, t]) => `<button type="button" class="tog" aria-pressed="${k === FR.kind}" data-fr="kind:${k}">${t}</button>`).join("")}</div></div>`).join("");
+  const roles = FR_ROLES[FR.kind] || [["With", ["me", "marisol"]], ["And", ["marisol", "hal"]]];
+  const name = FR_KINDS.flatMap(([, l]) => l).find(([k]) => k === FR.kind)[1];
+  const first = roles[2] === "first", none = roles[2] === "none";
+  return `<div class="ex fr ol-g frscene">
+    <div class="frcol wide">${fsec(1, `Force a scene ${DEVTAG}`, kinds)}</div>
+    <div class="frcol">${fsec(2, esc(name), `${frArrow(roles[0][0], "sroleA", roles[0][1].map(frWho))}${frArrow(roles[1][0], "sroleB", roles[1][1].map(frWho))}<div class="frrow"><span class="frlab">Where</span>${frTogs("where", ["Home", "Somewhere public", "A restaurant"], FR.where)}</div><div class="frbtns">${first ? `<button type="button" class="kbtn">Force a death first</button>` : ""}<button type="button" class="kbtn big${FR.played === "1" && !none ? " on" : ""}" data-fr="played:1"${none ? " disabled" : ""}>Play it</button></div>`)}</div>
+  </div>`;
+}
+/* e. trace: from any record, why it happened and what came of it, one line each */
+const FR_WHY = {
+  nair: ["Priya Nair", "Yes", [["Drainage", "For, strongly"], ["The tax, 2.8 mills", "Against, weaker"], ["Section 6, Hill's reports", "Tipped her"], ["John asked her, August 4", ""]]],
+  greer: ["Walter Greer", "No", [["Spending that isn't roads", "Against, strongly"], ["His amendment for half failed", ""], ["Carol Whitfield's 38 mills", "Agrees"]]],
+  hill: ["Marcus Hill", "Yes", [["The finance committee sent it up", ""], ["His Section 6 is in it", ""], ["The tax", "Against, weak"]]],
+  spencer: ["John Spencer", "Yes", [["His own bill", ""], ["Drainage", "For, strongly"]]],
+  price: ["Angela Price", "Yes", [["She cosponsored it", ""], ["Cypress Street floods", "Her district"]]],
+  freeman: ["Joyce Freeman", "No", [["Carol Whitfield asked her, August 1", ""], ["The tax", "Against"], ["Drainage", "For, weaker"]]],
+};
+function frDevTrace() {
+  const [n, v, rs] = FR_WHY[FR.trace];
+  const nameOf = (i) => `<span class="pick frtr${i === FR.trace ? " on" : ""}" data-fr="trace:${i}" tabindex="0" role="button">${esc(GP[i].n.split(" ").pop().toUpperCase())}</span>`;
+  const one = (left, right) => `<div class="frone"><b>${left}</b>${right ? `<i>${right}</i>` : ""}</div>`;
+  return `<div class="ex fr leg ol-g frcols3">
+    <div class="frcol">${fsec(1, `The record ${DEVTAG}`, `<div class="ink lbill small"><p class="lnum">BOARD OF ALDERMEN · AUGUST 5, 2025</p><p class="lsect">Resolution 25-31, the drainage bond. Adopted, 4 to 2.</p><p class="lsect">Yes: ${["hill", "spencer", "price", "nair"].map(nameOf).join(", ")}.</p><p class="lsect">No: ${["greer", "freeman"].map(nameOf).join(", ")}.</p></div>`)}</div>
+    <div class="frcol">${fsec(2, `Why ${esc(n)} voted ${v.toLowerCase()}`, rs.map(([w, h]) => one(w, h)).join(""))}</div>
+    <div class="frcol">${fsec(3, "What came of it", `${one("To the mayor's desk", "August 6")}${one("The Copiah Courier quotes Angela Price", "August 7")}${one("Vetoed, the tax", "August 15")}`)}</div>
+  </div>`;
+}
+
+/* ---------- the examples ---------- */
+const FRONTEX = {
+  "fr-title": ["Title", "Title", "the title menu over a monument (Oct 29: \"the menu screens... the Washington Monument or the Lincoln Monument\"; his pick: \"Yes, plus passersby\"), plain items with the hover glow, and Saved games working (Nov 7 audit: it was a dead button)", frTitle],
+  "fr-new": ["New game", "New game", "two choices and nothing under them (Oct 28: \"Remove every Continue and Back from every menu. They serve no purpose.\"; Nov 8: \"remove all those subtexts\"); Esc goes back", frNew],
+  "fr-world": ["Advanced", "The world", "Advanced is dev mode's world setup, \"more like RimWorld or Crusader Kings... get rid of the opening questions\" (Oct 26): where, when it starts, and the world as data, the figure itself in each control, never a line under it", frWorld],
+  "fr-playas": ["Advanced", "Play as anyone", "\"being able to click somebody and play as them or start off as a legislator or the president\" (Oct 26): everyone in office, grouped by office, one line each, with the chosen one's bust", frPlayas],
+  "fr-creator": ["Start a life", "Creator", "the creator on one screen, no Back or Continue (Oct 28); a bust, never a full figure (Nov 7); arrows like The Political Process; real populations on the same line (Oct 26); a missing name flashes red (Oct 28)", frCreator],
+  "fr-loading": ["Loading", "Loading", "the world's story while it builds, in plain words, with no developer labels and no bar (Oct 27: \"There is a weird little bar at the end, though.\")", frLoading],
+  "fr-saves": ["Saved games", "Saved games", "the saves, one strip each: the bust, the day in the game, Load (Nov 7 audit: Saved games was missing)", frSaves],
+  "fr-notes": ["Patch notes", "Patch notes", "the builds on the left, one line each, and what changed on the right: no box per card, no pill chips (Oct 28: \"get them in\")", frNotes],
+  "fr-options": ["Options", "Options", "Esc, controls only: color-blind mode as one global setting (Nov 5), what may stop my day, dev mode on or off, lit toggles instead of checkboxes (Nov 5: \"those checkboxes are not an approved style\")", frOptions],
+  "fr-notify": ["Dev mode", "Pop-ups", "small news and journal pop-ups that leave on their own, gone with one click, and held until a scene ends (Nov 7: \"too builky and there is still no way for me to manually/quickly remove them\")", frNotify],
+  "fr-dev-run": ["Dev mode", "Run", "dev mode beside Day and Week: run a number of days or until something happens, and where it stopped (Nov 8: \"simulate X amount of days at a time, or until a certain thing has happened, or a certain bill has passed\")", frDevRun],
+  "fr-dev-bill": ["Politics", "On a bill", "dev mode on the bill: introduce it at any body, pick the margin, the members vote, the executive signs or vetoes, override, repeal, all through the game's own code (Nov 8); hover the underlined term for the glossary's help and Mark as learned (Sept 29; Nov 8: \"I've never seen any of the inline helping stuff for the glossary\")", frDevBill],
+  "fr-dev-person": ["People", "On a person", "dev mode on the person card: what she remembers, a decision she'll make, a bribe (Nov 8: \"see if you can force a bribe... See what people remember\"); nothing under a memory or a control (Nov 8, 2:15 a.m.: \"remove all those subtexts\")", frDevPerson],
+  "fr-dev-scene": ["Dev mode", "Force a scene", "force any scene with the people you pick; it goes to the director like any moment; a scene that needs an event first offers that event (Nov 8: \"you should be able to force a scene\")", frDevScene],
+  "fr-dev-trace": ["Dev mode", "Trace", "from any record, each vote's reasons and what came of it, one line each, every name clickable (Oct 14: \"Dev mode's Trace is the ultimate trace\")", frDevTrace],
+};
+/* who the player card shows (the front screens hide it) */
+const FRONTHUD = {
+  "fr-dev-run": ["me", "John Spencer", "Tuesday, August 5, 2025", "5:40 PM"],
+  "fr-dev-bill": ["me", "John Spencer", "Tuesday, August 5, 2025", "5:40 PM"],
+  "fr-dev-person": ["me", "John Spencer", "Wednesday, August 6, 2025", "10:20 AM"],
+  "fr-dev-scene": ["me", "John Spencer", "Wednesday, August 6, 2025", "10:20 AM"],
+  "fr-dev-trace": ["me", "John Spencer", "Wednesday, August 6, 2025", "10:20 AM"],
+};
+const FR_FRONT = new Set(["fr-title", "fr-new", "fr-world", "fr-playas", "fr-creator", "fr-loading", "fr-saves", "fr-notes"]);
+const FR_SCENE = { "fr-title": "lincoln-memorial__night.jpg", "fr-new": "lincoln-memorial__night.jpg", "fr-world": "us-capitol-exterior__midday.jpg", "fr-playas": "us-capitol-exterior__midday.jpg", "fr-creator": "white-house-exterior__midday.jpg", "fr-loading": "us-capitol-exterior__midday.jpg", "fr-saves": "white-house-exterior__midday.jpg", "fr-notes": "white-house-exterior__midday.jpg" };
+
+/* state changes, from a click or from a render's hash (#key~f.name.value) */
+const frSet = (k, v) => {
+  if (k === "stop") { frStop.has(v) ? frStop.delete(v) : frStop.add(v); return; }
+  if (k === "mv") { const [id, val] = v.split("."); FR_MV[id] = val; FR.held = ""; return; }
+  if (k === "margin" && FR.body === "Board of Aldermen") { const up = Number(v) > 0; const pool = up ? FR_BOARD.filter((i) => FR_MV[i] === "No") : FR_BOARD.filter((i) => FR_MV[i] === "Yes").reverse(); if (pool.length) FR_MV[pool[0]] = up ? "Yes" : "No"; FR.held = ""; return; }
+  if (/^[+-]\d+$/.test(v) && typeof FR[k] === "number") FR[k] += Number(v);
+  else FR[k] = /^\d+$/.test(v) && typeof FR[k] === "number" ? Number(v) : v.replace(/_/g, " ");
+  if (k === "margin") FR.held = "";
+  if (k === "body") { FR.margin = Math.floor(FR_SIZE[FR.body] / 2) + 1; FR.held = ""; FR.signed = ""; }
+  if (k === "kind") { FR.sroleA = 0; FR.sroleB = 0; FR.played = ""; }
+  if (k === "bribe" || k === "amt") FR.offered = "";
+  if (k === "until" || k === "runN") FR.ran = "";
+  if (k === "learned") FR.gloss = "";
+};
+
+/* after the page's own render: the monument, no player card on the front screens, the dev mode mark */
+let frHashDone = false, frSceneSet = false;
+const frRender0 = render;
+render = function () {
+  if (!frHashDone) { frHashDone = true; try { for (const p of String(hash).split("~").slice(1)) { const m = p.match(/^f\.([A-Za-z0-9]+)\.(.+)$/); if (m) frSet(m[1], m[2]); } } catch (e) { /* no hash */ } }
+  frAgeFix();
+  frRender0();
+  const mine = cur.startsWith("fr-");
+  stage.classList.toggle("frfront", FR_FRONT.has(cur));
+  stage.classList.toggle("frtitle", cur === "fr-title");
+  stage.classList.toggle("frnarrow", cur === "fr-new");
+  stage.classList.toggle("frbare", cur === "fr-notify" || cur === "fr-dev-run");
+  stage.classList.toggle("frnohead", cur === "fr-title" || cur === "fr-loading");
+  stage.classList.toggle("frloadscr", cur === "fr-loading");
+  const sceneNow = cur === "fr-notify" && FR.scene === "1";
+  if (sceneNow) { stage.classList.add("in-scene"); frSceneSet = true; } else if (frSceneSet) { stage.classList.remove("in-scene"); frSceneSet = false; }
+  stage.style.setProperty("--frscene", FR_SCENE[cur] ? `url(img/${FR_SCENE[cur]})` : "none");
+  if (!mine) return;
+  const devOn = cur.startsWith("fr-dev") || cur === "fr-options";
+  if (devOn && FR.dev === "On") { const tb = $("#hud .tbtns"); if (tb) tb.insertAdjacentHTML("beforeend", `<span class="frdevmark">Dev mode</span>`); }
+  if (cur === "fr-dev-bill") { for (const b of document.querySelectorAll("#menuhost .phead .tabrail button")) b.classList.toggle("on", b.textContent === "Government"); }
+};
+document.addEventListener("click", (e) => {
+  const f = e.target.closest("[data-fr]"); if (!f || f.disabled) return;
+  const [k, ...rest] = f.dataset.fr.split(":"); frSet(k, rest.join(":"));
+  if (k === "sv") return;
+  render();
+});
