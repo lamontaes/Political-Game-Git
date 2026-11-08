@@ -59,7 +59,7 @@ try {
   await page.waitForTimeout(300);
   await rows("New game");
   await page.locator("#new-start").click();
-  await page.locator("#cr-character:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   await rows("Creator");
   await page.goto(`${base}/play`);
   const made = page.waitForResponse(

@@ -58,7 +58,10 @@ import { OPENING_KIN } from "../core2/opening-kin";
 import { scaleFirmsToCensus } from "../core2/census-firms";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { buildOpeningEconomy } from "../core2/opening-economy";
-import { addOutsideMarket } from "../core2/opening-outside-market";
+import {
+  addOutsideMarket,
+  addTradeArea,
+} from "../core2/opening-outside-market";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
@@ -70,7 +73,7 @@ import {
   checkSettings as checkWorldSettings,
   scaleOutsideSales,
   type WorldSettings,
-} from "../core2/world-settings";
+} from "../core2/life";
 
 export interface BenchResident {
   id: string;
@@ -435,17 +438,19 @@ function* benchWorldStages(
     // (the central bank's board) are named officials and stay full people.
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
-      withWorldEconomy(
-        collapseToTwoLevels(economy, {
-          keep: kept,
-          ...(countScale !== 1
-            ? {
-                weights: {
-                  [place.context.jurisdiction.id]: countScale,
-                },
-              }
-            : {}),
-        }),
+      addTradeArea(
+        withWorldEconomy(
+          collapseToTwoLevels(economy, {
+            keep: kept,
+            ...(countScale !== 1
+              ? {
+                  weights: {
+                    [place.context.jurisdiction.id]: countScale,
+                  },
+                }
+              : {}),
+          }),
+        ),
       ),
     );
   } else

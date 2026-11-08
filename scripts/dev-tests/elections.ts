@@ -1,127 +1,43 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-// Field sizes, uncontested shares and empty races in played years: tsx elections.ts <seed> [years] [placeKey]
+/**
+ * Phase 2, elections: a drawn place run N years untouched; every contest the
+ * town votes in that was held. Per contest: level, family, special or not,
+ * how many filed and how many stood on the ballot (the field), the town's
+ * named and counted turnout and the wider electorate's, the winner's share.
+ * Summary: field sizes (real local fields run 1 to 15), turnout against real
+ * ranges, uncontested races, races with no winner.
+ *   tsx scripts/dev-tests/elections.ts <seed> [years]
+ */
 import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
-import benchmarks from "../../src/core2/data/candidacy/benchmarks.json" with { type: "json" };
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { coreAPI } from "../../src/core2/state";
 import { advanceCore } from "../../src/core2/life";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
-import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
-import { VOTING_MODULE_ID } from "../../src/core2/modules/voting";
-import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
+import { ELECTIONS_MODULE_ID, ballot, type ContestRow, type FilingRow } from "../../src/core2/modules/elections";
+import { resultOf } from "../../src/core2/modules/voting";
 setBookkeeping(false);
-const [seed = "1", years = "3", key] = process.argv.slice(2);
+const [seed = "el1", yearsArg = "2"] = process.argv.slice(2);
 const place = drawPlace(seed, "elections");
-const w = buildBenchWorld(place.seed, gameStartDate(), {
-  twoLevel: true,
-  placeKey: key ?? place.key,
-});
-const t0 = Date.now();
-advanceCore(
-  w.core,
-  addDays(makeIsoDate(w.core.date), Math.round(Number(years) * 365)),
-);
+const w = buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true, placeKey: place.key });
 const api = coreAPI(w.core);
-const results = api
-  .moduleState(VOTING_MODULE_ID)
-  .table("results")
-  .rows() as any[];
-const empties = api
-  .moduleState(VOTING_MODULE_ID)
-  .table("emptyRaces")
-  .rows() as any[];
-const by: Record<string, number[]> = {};
-const filed: Record<string, number[]> = {};
-const filings = api
-  .moduleState(ELECTIONS_MODULE_ID)
-  .table("filings")
-  .rows() as any[];
-const filedBy = new Map<string, number>();
-for (const f of filings)
-  filedBy.set(f.contestId, (filedBy.get(f.contestId) ?? 0) + 1);
-for (const r of results) {
-  const c = api
-    .moduleState(ELECTIONS_MODULE_ID)
-    .table("contests")
-    .get(r.contestId) as any;
-  if (!c) continue;
-  const k = `${c.level}/${c.family}${c.special ? "/special" : ""}`;
-  (by[k] ??= []).push(Object.keys(r.totals ?? {}).length);
-  (filed[k] ??= []).push(filedBy.get(r.contestId) ?? 0);
+for (let y = 0; y < Number(yearsArg); y++) advanceCore(w.core, addDays(makeIsoDate(w.core.date), 365));
+const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests").rows() as unknown as ContestRow[];
+const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings").rows() as unknown as (FilingRow & { contestId: string })[];
+const rows: any[] = [];
+for (const c of contests) {
+  const result = resultOf(api, c.id);
+  if (!result) continue;
+  const field = ballot(api, c.id).length;
+  const filed = filings.filter((f) => f.contestId === c.id).length;
+  const total = Object.values(result.totals).reduce((a, b) => a + b, 0);
+  const top = Math.max(0, ...Object.values(result.totals));
+  const eligible = result.namedEligible + result.countedEligible;
+  const turnedOut = result.namedTurnout + result.countedTurnout;
+  rows.push({ title: c.title, level: c.level, family: c.family, special: !!c.special, date: result.date, filed, field, votes: Math.round(total), eligible: Math.round(eligible), turnoutPct: eligible ? Math.round((1000 * turnedOut) / eligible) / 10 : null, winnerSharePct: total ? Math.round((1000 * top) / total) / 10 : null, noWinner: result.winnerId === null });
 }
-console.log(
-  `place ${place.key} ${place.name} seed ${seed} years ${years} ms ${Date.now() - t0}`,
-);
-let tot = 0,
-  unc = 0,
-  zero = 0;
-for (const [k, v] of Object.entries(by).sort()) {
-  const u = v.filter((n) => n <= 1).length,
-    z = v.filter((n) => n === 0).length;
-  tot += v.length;
-  unc += u;
-  zero += z;
-  console.log(
-    `${k.padEnd(34)} n=${String(v.length).padStart(3)} unc=${String(u).padStart(3)} zero=${z} max=${Math.max(...v)} mean=${(v.reduce((a, b) => a + b, 0) / v.length).toFixed(2)} filedMax=${Math.max(...filed[k]!)} filedMean=${(filed[k]!.reduce((a, b) => a + b, 0) / v.length).toFixed(2)}`,
-  );
-}
-console.log(
-  `TOTAL contests ${tot} uncontested(<=1) ${unc} zero ${zero}; emptyRaces ${empties.length} (${empties.map((e) => e.method).join(",")})`,
-);
-const terms = api.moduleState(OFFICES_MODULE_ID).table("terms").rows() as any[];
-const seats = api.moduleState(OFFICES_MODULE_ID).table("seats")?.rows?.() as
-  any[] | undefined;
-if (seats) {
-  const held = new Set(
-    terms.filter((t) => t.status === "serving").map((t) => t.seatId),
-  );
-  const empty = seats.filter((s) => !held.has(s.id));
-  console.log(`seats ${seats.length} without holder ${empty.length}`);
-  const offices = api.moduleState(OFFICES_MODULE_ID).table("offices");
-  const vac = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("vacancies")
-    .rows() as any[];
-  for (const s of empty.slice(0, 12)) {
-    const o = offices.get(s.officeId) as any;
-    const v = vac
-      .filter((x) => x.seatId === s.id)
-      .map((x) => `${x.status}/${x.rule?.method ?? ""}`)
-      .join(",");
-    console.log(`  vacant ${s.id} ${o?.level}/${o?.kind} vacancies[${v}]`);
-  }
-}
-
-// Incumbent challenge rate by level: of the contests where the seat's holder filed again, how many drew a general-election opponent.
-{
-  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
-  const ran: Record<string, [number, number]> = {};
-  for (const r of results) {
-    const c = api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("contests")
-      .get(r.contestId) as any;
-    if (!c?.incumbentTermId || c.special) continue;
-    const holder = (terms.get(c.incumbentTermId) as any)?.personId;
-    const fs = filings.filter((f) => f.contestId === c.id);
-    if (
-      !holder ||
-      !fs.some((f) => f.personId === holder && f.status !== "withdrawn")
-    )
-      continue;
-    const k = `${c.level}/${c.family}`;
-    const row = (ran[k] ??= [0, 0]);
-    row[0] += 1;
-    if (Object.keys(r.totals ?? {}).length > 1) row[1] += 1;
-  }
-  for (const [k, [n, challenged]] of Object.entries(ran).sort())
-    console.log(
-      `incumbents again ${k.padEnd(30)} ran ${n} drew a general opponent ${challenged}`,
-    );
-}
-
-console.log(
-  `Ballotpedia (to check against, never to steer to; a field passes when the records explain it): state legislative uncontested ${benchmarks.stateLegislativeUncontestedShare.value}, House primary candidates per seat ${benchmarks.usHousePrimaryCandidatesPerSeat.value}, House races contested by both parties ${benchmarks.usHouseContestedByBothParties.value}, state legislative seats open ${benchmarks.stateLegislativeOpenSeatShare.value}, largest cities' mayoral candidates ${benchmarks.largestCitiesMayoralCandidatesPerElection.value}, all seats uncontested ${benchmarks.allSeatsUncontestedShare2025.value}`,
-);
+const hist: Record<number, number> = {};
+for (const r of rows) hist[r.field] = (hist[r.field] ?? 0) + 1;
+const turn = rows.map((r) => r.turnoutPct).filter((x): x is number => x !== null).sort((a, b) => a - b);
+console.log(JSON.stringify({ place: place.name, key: place.key, seed: place.seed, years: Number(yearsArg), contestsHeld: rows.length, fieldSizeHistogram: hist, uncontested: rows.filter((r) => r.field <= 1).length, noWinner: rows.filter((r) => r.noWinner).length, turnoutPct: { min: turn[0], median: turn[Math.floor(turn.length / 2)], max: turn.at(-1) }, byLevel: Object.fromEntries([...new Set(rows.map((r) => r.level))].map((l) => [l, rows.filter((r) => r.level === l).length])) }));
+for (const r of rows.slice(0, 40)) console.log(JSON.stringify(r));

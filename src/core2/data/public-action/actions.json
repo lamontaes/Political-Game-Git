@@ -25,6 +25,30 @@
       "tag": "ESTIMATED",
       "spread": "0.0001 to 0.01",
       "note": "A level of organizing below this has faded out and is kept as none, so a town with nothing to organize about costs the monthly pass nothing. A month at full slide adds 0.5, so this is a thousandth of one."
+    },
+    "movementLevelWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "0.5 to 2",
+      "note": "How much the town's organizing in the area (the stock a bad term builds each month and fades) weighs in a participant's decision to found a standing group over it, against the bar."
+    },
+    "movementTurnoutWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": "0.25 to 1",
+      "note": "How much the size of the crowd (the log of its people, named and counted) weighs in the decision to found a group; a bigger crowd carries more."
+    },
+    "movementTieWeight": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "spread": "0.5 to 2",
+      "note": "How much the participant's closeness to the others in the crowd (the sum of their ties to them, at most one) weighs: an organizer's capacity is the people who will follow them."
+    },
+    "movementBar": {
+      "value": 2.5,
+      "tag": "TUNABLE",
+      "spread": "1.5 to 3.5",
+      "note": "What the case for founding must clear, with the participant's temperament added by the interest-groups lobbyist decision (speak out and engage against stay quiet and withdraw). Set so a fierce, large, well-tied crowd founds a group in weeks, a middling one in a few months and a weak one never; movements form over weeks to months (the sample of forming times is checked in public-action-movement.test.ts, one to six months)."
     }
   },
   "areas": {

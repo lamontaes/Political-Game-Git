@@ -52,11 +52,34 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/laws.ts",
     "line": 312,
-    "whatItFakes": "Seven federal questions (the debt limit, immigration levels, student loan forgiveness, the disaster cost share, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts).",
+    "whatItFakes": "Five federal questions (the debt limit, student loan forgiveness, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. The immigration question is read now (counted-moves.ts raises the yearly arrivals from abroad by the researched extra admissions); its labor effect through the outcome web is still unread. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts). The disaster cost share is read now (disasters.ts).",
     "why": "Each needs a mechanic or a researched size that does not exist yet (a debt ceiling that binds borrowing, an immigration flow, a loan balance record, a disaster cost split, a privacy rule that businesses follow, a statehood and representation change, a sentencing record, a members' holdings record).",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "One reader per question, each from its research (data/research/campaigns/federal-questions-2026.json names the cheapest reader for each), so enacting the law changes a record another engine reads.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-local-line-filing-threshold",
+    "file": "src/core2/modules/world-legislating.ts",
+    "line": 720,
+    "whatItFakes": "How big a gap between a member's wanted budget line and the line in force must be before they file a mid-year amendment (1 percent of the line, spread 0.5 to 3 percent, budgetAmendmentMinShare) is an estimate; no table of local amendment thresholds was found. Real councils also take up contracts, appointments and rezonings that no record here carries.",
+    "why": "The research names how often local bodies amend budgets mid-year but not a size below which members do not bother.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "Thresholds from sampled local budget-amendment codes and agendas.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-disaster-share-size",
+    "kind": "estimated-calibration",
+    "file": "src/core2/modules/disasters.ts",
+    "line": 255,
+    "whatItFakes": "The federal share of public assistance once Congress has states share disaster costs is the 50 percent FEMA's head said was coming (May 15, 2025, Reuters), spread 25 to 75 percent (disasterFederalShareWhenStatesShare); no enacted bill sets it. The cut applies to the federal public assistance the declaration pays the county and town governments.",
+    "why": "Only the administration's stated plan names the replacement share; no bill or rule has set it.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "The share from the first enacted or introduced text, with the state's own cost taken up by the state government's budget.",
     "status": "open"
   }
 ]
