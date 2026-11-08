@@ -2956,6 +2956,19 @@ const publicAction =
     );
   };
 
+/** The other side's answer to a governor's address (director/address-response.ts): who answered, whom, and the ask they objected to. */
+const addressResponse: Builder = (read, f) =>
+  story(
+    "address-response",
+    {
+      ...read.who(f.responderId, "name", false),
+      ...read.who(f.governorId, "opponent", false),
+      ...(f.question ? read.issue(f.question) : {}),
+    },
+    ["name", "opponent", "issue"],
+    f.responderId,
+  );
+
 /** The floor before a roll call (legislature.ts recordFloorDebate): who spoke for the bill and who against. */
 const floorDebate: Builder = (read, f) => {
   const bill = read.billFacts(f.billId, f.number);
@@ -3223,6 +3236,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "president.address": address,
   "governor.address": localAddress("state"),
   "mayor.address": localAddress("town"),
+  "governor.response": addressResponse,
   "floor-debate": floorDebate,
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),
