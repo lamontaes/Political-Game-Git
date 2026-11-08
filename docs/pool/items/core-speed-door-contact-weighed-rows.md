@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Montpelier, Vermont (5046000, seed 5a1c0de7a11ce5e1), year 4: the log holds about 106,000 person.weighed rows after 100 days from 467 people, 459 of them tied to the player only by a door answer (kind contact), each weighing believe-claim, retell, sign-petition and parties.attend choices several times a day.
+**What.** Montpelier, Vermont (5046000, seed 5a1c0de7a11ce5e1), year 4: the log holds about 106,000 person.weighed rows after 100 days from 467 people, 459 of them tied to the player only by a door answer (kind contact), each weighing believe-claim, retell, sign-petition and parties.attend choices several times a day. Each weighed row keeps why a person answered as they did, so a later reader can ask. Most of those rows belong to people the player met only at a door, and the donor meeting and the campaign turn may still read some of them.
 
 **Rules.** Keep what the player's circle reads (CTO Nov 5). No dice. A cut must keep the donor meeting and campaign-turn reads.
 

@@ -119,6 +119,18 @@ export function openFilingVisit(
   return visit;
 }
 
+/**
+ * The filing office as a clerk names it: the research note's first office,
+ * without its asides. The note reads "Town clerk (party endorsements by town
+ * committee/caucus; petitions certified by registrars of voters)" or "State
+ * party chair (party candidates); Secretary of State (independents)"; a
+ * person names the office.
+ */
+export function spokenOffice(note: string): string {
+  const first = note.split(/\s*[;(]|\s+\/\s+|,\s/)[0]!.trim();
+  return first || note.trim();
+}
+
 /** The player names an office; the clerk answers from that contest's records. */
 export function pickContest(
   core: Readonly<CoreState>,
@@ -145,7 +157,7 @@ export function pickContest(
       text: spokenDate(contest.filingDeadline, core.date),
       sourceRecordIds: ids,
     },
-    where: { text: terms.filedWith, sourceRecordIds: ids },
+    where: { text: spokenOffice(terms.filedWith), sourceRecordIds: ids },
   };
   // The clerk tells the candidate about the race before the paperwork
   // (owner, Oct 28 sitting, 32: "you're running for Trustee ... the primary

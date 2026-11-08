@@ -1,0 +1,398 @@
+{
+  "about": "Each state's CCDF initial income eligibility limit for a family of three, in dollars a month, as state law a legislature can change. 50 states and D.C. from the ACF Office of Child Care table (Colorado is its most populous county only; several states raised limits after Jan 2025 per NWLC, 'Warning Signs: State Child Care Assistance Policies 2025', May 2026, https://nwlc.org/wp-content/uploads/2026/05/State-of-Child-Care-2026-FINAL-WEB.pdf). Territories from their own plans; American Samoa, the Northern Marianas, the Virgin Islands and Puerto Rico are ESTIMATED (older, dated or draft sources).",
+  "retrieved": "2026-11-08",
+  "rows": {
+    "US-AK": {
+      "monthlyDollarsFamilyOf3": 6192,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: AK family of 3 = 85% SMI, $6,192/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-AL": {
+      "monthlyDollarsFamilyOf3": 3729,
+      "pctSMI": 60,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: AL family of 3 = 60% SMI, $3,729/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-AR": {
+      "monthlyDollarsFamilyOf3": 5151,
+      "pctSMI": 53,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: AR family of 3 = 53% SMI, $5,151/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-AS": {
+      "monthlyDollarsFamilyOf3": 4088,
+      "pctSMI": 85,
+      "source": "2023 CCDF Policies Database Book of Tables (OPRE), https://acf.gov/sites/default/files/documents/opre/opre-CCDF-policies-database-2023-may25.pdf, Table 14 and B-1",
+      "estimate": true,
+      "note": "2023 CCDF Policies Database Book of Tables (OPRE), https://acf.gov/sites/default/files/documents/opre/opre-CCDF-policies-database-2023-may25.pdf, Table 14 and B-1: American Samoa family of 3 = $4,088, 85% SMI (reported Oct 2021 plan; FY2025-27 plan not reached)"
+    },
+    "US-AZ": {
+      "monthlyDollarsFamilyOf3": 3419,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: AZ family of 3 = 85% SMI, $3,419/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-CA": {
+      "monthlyDollarsFamilyOf3": 7472,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: CA family of 3 = 85% SMI, $7,472/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-CO": {
+      "monthlyDollarsFamilyOf3": 3833,
+      "pctSMI": 46,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: CO family of 3 = 46% SMI, $3,833/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-CT": {
+      "monthlyDollarsFamilyOf3": 6126,
+      "pctSMI": 60,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: CT family of 3 = 60% SMI, $6,126/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-DC": {
+      "monthlyDollarsFamilyOf3": 6455,
+      "pctSMI": 58,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: DC family of 3 = 58% SMI, $6,455/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-DE": {
+      "monthlyDollarsFamilyOf3": 3833,
+      "pctSMI": 46,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: DE family of 3 = 46% SMI, $3,833/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-FL": {
+      "monthlyDollarsFamilyOf3": 3108,
+      "pctSMI": 63,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: FL family of 3 = 63% SMI, $3,108/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-GA": {
+      "monthlyDollarsFamilyOf3": 3333,
+      "pctSMI": 50,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: GA family of 3 = 50% SMI, $3,333/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-GU": {
+      "monthlyDollarsFamilyOf3": 6455.63,
+      "pctSMI": 85,
+      "source": "Guam CCDF State Plan FFY 2025-2027 Amendment 01, section 2.2.4, https://guamchildcare.com/sites/default/files/ccdf_state_plan_ffy_2025-2027_for_guam_amendment_01.pdf",
+      "estimate": false,
+      "note": "Guam CCDF State Plan FFY 2025-2027 Amendment 01, section 2.2.4, https://guamchildcare.com/sites/default/files/ccdf_state_plan_ffy_2025-2027_for_guam_amendment_01.pdf: family size 3, SMI $7,594.86, 85% = $6,455.63"
+    },
+    "US-HI": {
+      "monthlyDollarsFamilyOf3": 6202,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: HI family of 3 = 85% SMI, $6,202/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-IA": {
+      "monthlyDollarsFamilyOf3": 3443,
+      "pctSMI": 47,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: IA family of 3 = 47% SMI, $3,443/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-ID": {
+      "monthlyDollarsFamilyOf3": 3626,
+      "pctSMI": 60,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: ID family of 3 = 60% SMI, $3,626/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-IL": {
+      "monthlyDollarsFamilyOf3": 4841,
+      "pctSMI": 61,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: IL family of 3 = 61% SMI, $4,841/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-IN": {
+      "monthlyDollarsFamilyOf3": 3228,
+      "pctSMI": 45,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: IN family of 3 = 45% SMI, $3,228/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-KS": {
+      "monthlyDollarsFamilyOf3": 5851,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: KS family of 3 = 85% SMI, $5,851/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-KY": {
+      "monthlyDollarsFamilyOf3": 5731,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: KY family of 3 = 85% SMI, $5,731/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-LA": {
+      "monthlyDollarsFamilyOf3": 5173,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: LA family of 3 = 85% SMI, $5,173/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MA": {
+      "monthlyDollarsFamilyOf3": 5092,
+      "pctSMI": 50,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MA family of 3 = 50% SMI, $5,092/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MD": {
+      "monthlyDollarsFamilyOf3": 6302,
+      "pctSMI": 60,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MD family of 3 = 60% SMI, $6,302/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-ME": {
+      "monthlyDollarsFamilyOf3": 9163,
+      "pctSMI": 125,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: ME family of 3 = 125% SMI, $9,163/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MI": {
+      "monthlyDollarsFamilyOf3": 4144,
+      "pctSMI": 57,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MI family of 3 = 57% SMI, $4,144/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MN": {
+      "monthlyDollarsFamilyOf3": 4134,
+      "pctSMI": 47,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MN family of 3 = 47% SMI, $4,134/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MO": {
+      "monthlyDollarsFamilyOf3": 3108,
+      "pctSMI": 46,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MO family of 3 = 46% SMI, $3,108/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MP": {
+      "monthlyDollarsFamilyOf3": 5667,
+      "pctSMI": 85,
+      "source": "CNMI CCDF Income Guidelines and Sliding Fee Scale (Feb 2024 to Sep 2026), https://childcare.gov.mp/wp-content/uploads/2024/09/CCDF-Income-Guidelines-and-Sliding-Fee-Scale-02.01.2024-to-09.30.2026.pdf",
+      "estimate": true,
+      "note": "CNMI CCDF Income Guidelines and Sliding Fee Scale (Feb 2024 to Sep 2026), https://childcare.gov.mp/wp-content/uploads/2024/09/CCDF-Income-Guidelines-and-Sliding-Fee-Scale-02.01.2024-to-09.30.2026.pdf: family size 3 income level 5667; the 85% is from the 2023 Book of Tables (older plan) and may no longer hold"
+    },
+    "US-MS": {
+      "monthlyDollarsFamilyOf3": 4322,
+      "pctSMI": 75,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MS family of 3 = 75% SMI, $4,322/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-MT": {
+      "monthlyDollarsFamilyOf3": 3981,
+      "pctSMI": 60,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: MT family of 3 = 60% SMI, $3,981/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NC": {
+      "monthlyDollarsFamilyOf3": 4143,
+      "pctSMI": 67,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NC family of 3 = 67% SMI, $4,143/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-ND": {
+      "monthlyDollarsFamilyOf3": 6463,
+      "pctSMI": 75,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: ND family of 3 = 75% SMI, $6,463/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NE": {
+      "monthlyDollarsFamilyOf3": 3833,
+      "pctSMI": 54,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NE family of 3 = 54% SMI, $3,833/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NH": {
+      "monthlyDollarsFamilyOf3": 7940,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NH family of 3 = 85% SMI, $7,940/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NJ": {
+      "monthlyDollarsFamilyOf3": 4303,
+      "pctSMI": 42,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NJ family of 3 = 42% SMI, $4,303/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NM": {
+      "monthlyDollarsFamilyOf3": 8607,
+      "pctSMI": 150,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NM family of 3 = 150% SMI, $8,607/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NV": {
+      "monthlyDollarsFamilyOf3": 2756,
+      "pctSMI": 41,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NV family of 3 = 41% SMI, $2,756/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-NY": {
+      "monthlyDollarsFamilyOf3": 7604,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: NY family of 3 = 85% SMI, $7,604/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-OH": {
+      "monthlyDollarsFamilyOf3": 3004,
+      "pctSMI": 43,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: OH family of 3 = 43% SMI, $3,004/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-OK": {
+      "monthlyDollarsFamilyOf3": 5357,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: OK family of 3 = 85% SMI, $5,357/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-OR": {
+      "monthlyDollarsFamilyOf3": 4304,
+      "pctSMI": 57,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: OR family of 3 = 57% SMI, $4,304/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-PA": {
+      "monthlyDollarsFamilyOf3": 4303,
+      "pctSMI": 55,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: PA family of 3 = 55% SMI, $4,303/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-PR": {
+      "monthlyDollarsFamilyOf3": 2488.11,
+      "pctSMI": 85,
+      "source": "Puerto Rico draft FFY 2025-2027 CCDF State Plan, section 2.2.4, https://docs.pr.gov/files/Familia/AvisosPublicos/Borrador%20Plan%20Estatal%20Child%20Care%202025-2027.pdf",
+      "estimate": true,
+      "note": "Puerto Rico draft FFY 2025-2027 CCDF State Plan, section 2.2.4, https://docs.pr.gov/files/Familia/AvisosPublicos/Borrador%20Plan%20Estatal%20Child%20Care%202025-2027.pdf: family size 3, 100% of SMI $2,927.19/month... max initial eligibility 85%, $2,488.11 (draft plan; final not seen)"
+    },
+    "US-RI": {
+      "monthlyDollarsFamilyOf3": 4303,
+      "pctSMI": 49,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: RI family of 3 = 49% SMI, $4,303/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-SC": {
+      "monthlyDollarsFamilyOf3": 5841,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: SC family of 3 = 85% SMI, $5,841/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-SD": {
+      "monthlyDollarsFamilyOf3": 4498,
+      "pctSMI": 67,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: SD family of 3 = 67% SMI, $4,498/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-TN": {
+      "monthlyDollarsFamilyOf3": 5853,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: TN family of 3 = 85% SMI, $5,853/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-TX": {
+      "monthlyDollarsFamilyOf3": 6141,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: TX family of 3 = 85% SMI, $6,141/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-UT": {
+      "monthlyDollarsFamilyOf3": 6637,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: UT family of 3 = 85% SMI, $6,637/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-VA": {
+      "monthlyDollarsFamilyOf3": 7973,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: VA family of 3 = 85% SMI, $7,973/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-VI": {
+      "monthlyDollarsFamilyOf3": 2506,
+      "pctSMI": 85,
+      "source": "U.S. Virgin Islands DHS State Median Income Guideline, https://dhs.vi.gov/wp-content/uploads/2023/02/OCCRS_VI-State-Median-Income-Guideline.pdf",
+      "estimate": true,
+      "note": "U.S. Virgin Islands DHS State Median Income Guideline, https://dhs.vi.gov/wp-content/uploads/2023/02/OCCRS_VI-State-Median-Income-Guideline.pdf: family of 3 monthly 2,948, 85% = 2,506 (dated guideline); 85% from the 2023 CCDF Policies Database Book of Tables, Table B-1"
+    },
+    "US-VT": {
+      "monthlyDollarsFamilyOf3": 8607,
+      "pctSMI": 124,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: VT family of 3 = 124% SMI, $8,607/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-WA": {
+      "monthlyDollarsFamilyOf3": 5057,
+      "pctSMI": 60,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: WA family of 3 = 60% SMI, $5,057/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-WI": {
+      "monthlyDollarsFamilyOf3": 4303,
+      "pctSMI": 57,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: WI family of 3 = 57% SMI, $4,303/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-WV": {
+      "monthlyDollarsFamilyOf3": 5394,
+      "pctSMI": 85,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: WV family of 3 = 85% SMI, $5,394/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    },
+    "US-WY": {
+      "monthlyDollarsFamilyOf3": 3765,
+      "pctSMI": 52,
+      "source": "ACF Office of Child Care, CCDF Family Income Eligibility Levels by State, Table 1 (Jan 2025, from FY2025-2027 State CCDF Plans), https://acf.gov/sites/default/files/documents/occ/CCDF-Family-Income-Eligibility-Levels-by-State.pdf",
+      "estimate": false,
+      "note": "Table 1 row: WY family of 3 = 52% SMI, $3,765/month (Initial Income eligibility limit, ACF OCC, Jan 2025, from FY2025-2027 State CCDF Plans)"
+    }
+  }
+}

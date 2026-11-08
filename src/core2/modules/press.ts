@@ -145,12 +145,8 @@ import {
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
-import {
-  newsKey,
-  storiesHeard,
-  registerCountedNewsSource,
-  type Story,
-} from "./news";
+import { newsKey, storiesHeard, type Story } from "./news";
+import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";
