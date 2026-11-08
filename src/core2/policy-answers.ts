@@ -31,6 +31,8 @@ export type StartingAnswers = Record<
         operativeAt?: string;
         answer?: string;
         estimated?: string;
+        /** The source researched for this jurisdiction's answer. */
+        source?: string;
         /** The statute or rule the answer rests on, where the research names one. */
         cite?: string;
         /** Numeric provisions attached to this researched answer. */
