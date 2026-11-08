@@ -323,6 +323,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       outsideRevenue: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
       },
+      /** What a treasury held above its reserve and invested outside the town at a close (SG-GOV-reserve-sweep). */
+      reserveSweeps: {},
       /** The part of each spending line that left the town, by the group it paid. */
       spendingPayments: {
         indexes: { byGovernment: { fields: ["governmentId"] } },
