@@ -52,7 +52,7 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/laws.ts",
     "line": 312,
-    "whatItFakes": "Six federal questions (the debt limit, immigration levels, student loan forgiveness, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts). The disaster cost share is read now (disasters.ts).",
+    "whatItFakes": "Five federal questions (the debt limit, student loan forgiveness, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. The immigration question is read now (counted-moves.ts raises the yearly arrivals from abroad by the researched extra admissions); its labor effect through the outcome web is still unread. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts). The disaster cost share is read now (disasters.ts).",
     "why": "Each needs a mechanic or a researched size that does not exist yet (a debt ceiling that binds borrowing, an immigration flow, a loan balance record, a disaster cost split, a privacy rule that businesses follow, a statehood and representation change, a sentencing record, a members' holdings record).",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
@@ -62,7 +62,7 @@
   {
     "id": "SG-LAWS-local-line-filing-threshold",
     "file": "src/core2/modules/world-legislating.ts",
-    "line": 709,
+    "line": 720,
     "whatItFakes": "How big a gap between a member's wanted budget line and the line in force must be before they file a mid-year amendment (1 percent of the line, spread 0.5 to 3 percent, budgetAmendmentMinShare) is an estimate; no table of local amendment thresholds was found. Real councils also take up contracts, appointments and rezonings that no record here carries.",
     "why": "The research names how often local bodies amend budgets mid-year but not a size below which members do not bother.",
     "addedBy": "night:laws-and-effects",
@@ -80,6 +80,17 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "The share from the first enacted or introduced text, with the state's own cost taken up by the state government's budget.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LAWS-retail-choice-price",
+    "file": "src/core2/modules/place-prices.ts",
+    "line": 1041,
+    "whatItFakes": "A law allowing residential retail electric choice cuts every household's electricity spending by 7 percent, fading to nothing over five years from its effective date (Su 2015). The cut is the average over states, which research traces to the rate freezes and cuts legislated with restructuring; no rate freeze is drawn up, no state-by-state size is used, and the starting law in the 14 states that already have choice dates from 1998 to 2002, so it has faded to nothing there.",
+    "why": "Published estimates differ by sample and method (Hill finds the cut comes from rate freezes; Borenstein and Bushnell find no significant effect after controlling for gas prices), and none is per state.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A state-by-state price effect from the restructuring acts' own rate freezes and cuts, with the supplier market (shopping share) as the competition term.",
     "status": "open"
   }
 ]
