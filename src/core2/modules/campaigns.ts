@@ -188,6 +188,8 @@ export interface CampaignRow {
   }[];
   /** The share of an event the town has been owed but not yet had (`heldInTown`), 0 up to one. */
   readonly townEventCredit?: number;
+  /** The same for the interviews the town's outlets ask of the candidate (`interviewHeldInTown`). */
+  readonly townInterviewCredit?: number;
   /** Money set aside toward an event's venue and a poll, not yet paid. */
   readonly eventFundMinor?: number;
   readonly pollFundMinor?: number;
@@ -2561,17 +2563,30 @@ function townShareOfRace(api: CoreAPI, contestId: string): number {
  * town race (share one) holds every event. (Speed, Nov 8: a House candidate
  * held about a town hall a day in a town of 600.)
  */
-function heldInTown(api: CoreAPI, filingId: string): boolean {
+function heldInTown(
+  api: CoreAPI,
+  filingId: string,
+  credit: "townEventCredit" | "townInterviewCredit" = "townEventCredit",
+): boolean {
   const campaign = campaignFor(api, filingId);
   const share = townShareOfRace(api, campaign.contestId);
   if (share >= 1) return true;
-  const owed = (campaign.townEventCredit ?? 0) + share;
+  const owed = (campaign[credit] ?? 0) + share;
   const held = owed >= 1;
   save(api, {
     ...campaign,
-    townEventCredit: held ? owed - 1 : owed,
+    [credit]: held ? owed - 1 : owed,
   });
   return held;
+}
+
+/**
+ * Whether an interview a town outlet would ask of a candidate is held: the
+ * town's outlets interview a candidate for an office the town is only part of
+ * in proportion to the town's share of the race, as events are (`heldInTown`).
+ */
+export function interviewHeldInTown(api: CoreAPI, filingId: string): boolean {
+  return heldInTown(api, filingId, "townInterviewCredit");
 }
 
 /**

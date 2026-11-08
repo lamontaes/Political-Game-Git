@@ -58,6 +58,7 @@ import {
   CAMPAIGNS_MODULE_ID,
   campaignFor,
   campaignRecognition,
+  interviewHeldInTown,
   makeStatements,
   touchImpression,
   registerAdOutlet,
@@ -3656,6 +3657,9 @@ function pressWeek(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         break;
       if (already(api, outlet.id, f.id)) continue;
       if (worth < newsworthyBar(outlet)) continue;
+      // The town's outlet interviews a district candidate by the town's share
+      // of the race (the player's own invitations are never thinned).
+      if (f.personId !== playerId && !interviewHeldInTown(api, f.id)) continue;
       const row = arrange(api, f.id, outlet.id, "outlet");
       if (row.status === "invited" && f.personId === playerId)
         invitedThisWeek.set(row.candidateId, [
