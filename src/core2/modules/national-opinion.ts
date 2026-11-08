@@ -78,26 +78,38 @@ export function pushOpinion(
   } as unknown as { id: string });
 }
 
+interface OpinionState {
+  readonly id: string;
+  readonly openedAt: string;
+  /** The id of the latest approval row, kept so a race reads it without a scan. */
+  readonly latestId?: string;
+}
+
+const stateOf = (api: CoreAPI) =>
+  table(api, "state").get("national-opinion:state") as unknown as
+    OpinionState | undefined;
+
 /** The latest approval row, or undefined where the module is not installed or has not run. */
 export function latestApproval(api: CoreAPI): ApprovalRow | undefined {
   if (!(api.state as CoreState).modules.has(NATIONAL_OPINION_MODULE_ID))
     return undefined;
-  const rows = table(api, "approval").rows() as unknown as ApprovalRow[];
-  let best: ApprovalRow | undefined;
-  for (const row of rows) if (!best || row.month > best.month) best = row;
-  return best;
+  const latestId = stateOf(api)?.latestId;
+  return latestId
+    ? (table(api, "approval").get(latestId) as unknown as ApprovalRow)
+    : undefined;
 }
 
 /** The latest approval against the long-run mean, in points (0 before any row). */
 export function approvalGapPoints(api: CoreAPI, onDate?: string): number {
-  const row = latestApproval(api);
+  if (!(api.state as CoreState).modules.has(NATIONAL_OPINION_MODULE_ID))
+    return 0;
+  const state = stateOf(api);
   // No approval was kept before the engine opened: an earlier election
   // (a past one the world replays) has no approval record to read.
-  const opened = (
-    table(api, "state").get("national-opinion:state") as unknown as
-      { openedAt: string } | undefined
-  )?.openedAt;
-  if (onDate && opened && onDate < opened) return 0;
+  if (onDate && state && onDate < state.openedAt) return 0;
+  const row = state?.latestId
+    ? (table(api, "approval").get(state.latestId) as unknown as ApprovalRow)
+    : undefined;
   return row ? row.pct - opinionParameter("longRunMeanPct") : 0;
 }
 
@@ -161,6 +173,11 @@ function monthlyRun(api: CoreAPI): void {
     sourceRecordIds: sources,
   };
   rows.put(row as unknown as { id: string });
+  const state = stateOf(api);
+  if (state)
+    table(api, "state").put({ ...state, latestId: row.id } as unknown as {
+      id: string;
+    });
 }
 
 const monthIndex = (month: string) => {
