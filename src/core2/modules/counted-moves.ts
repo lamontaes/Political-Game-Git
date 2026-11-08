@@ -20,6 +20,7 @@ import moverRates from "../../../data/research/migration/mover-rates-acs-2024.js
 import stateTax from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
+import rppHousing from "../data/regional/rpp-housing.json" with { type: "json" };
 import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
@@ -66,8 +67,16 @@ const COARSE = [
 type Rates = Readonly<Record<string, number>>;
 const RATES = moverRates as unknown as {
   ageBands: readonly string[];
-  national: { departurePerYearByAge: Rates };
-  places: Readonly<Record<string, { departurePerYearByAge: Rates }>>;
+  national: {
+    departurePerYearByAge: Rates;
+    arrivalsPerResidentPerYear: number;
+  };
+  places: Readonly<
+    Record<
+      string,
+      { departurePerYearByAge: Rates; arrivalsPerResidentPerYear?: number }
+    >
+  >;
 };
 const STATES = (
   regions as unknown as {
@@ -183,6 +192,25 @@ function priceLevel(fips: string): number {
   return year ? rpp[year]! : 100;
 }
 
+/**
+ * A state's price level for a renting household: the all-items level tilted
+ * toward housing by what a renter spends on it over what every household does
+ * (BEA's housing component of the regional price parities).
+ */
+function renterPriceLevel(fips: string): number {
+  const row = (
+    rppHousing as unknown as {
+      byFips: Record<string, { allItems: number; housing: number }>;
+    }
+  ).byFips[fips];
+  const all = priceLevel(fips);
+  if (!row) return all;
+  const tilt =
+    countedParameter("countedMovesRenterHousingWeight") -
+    (rppHousing as unknown as { housingWeight: number }).housingWeight;
+  return all * Math.pow(row.housing / row.allItems, tilt);
+}
+
 /** Yearly state income tax on wages in dollars: each state's law in force (the same rule for every state), the 2026 table only where the research gives that state no income tax row. */
 function stateIncomeTax(
   api: CoreAPI,
@@ -263,13 +291,17 @@ function netIncome(
   rt: Runtime,
   usps: string,
   wages: number,
+  renter = false,
 ): number {
-  const key = `${usps}|${wages}`;
+  const key = `${usps}|${wages}|${renter ? "rent" : "own"}`;
   let value = rt.netCache.get(key);
   if (value === undefined) {
     value =
       Math.max(1, wages - stateIncomeTax(api, rt, usps, wages)) /
-      (priceLevel(rt.states.get(usps)?.fips ?? "") / 100);
+      ((renter ? renterPriceLevel : priceLevel)(
+        rt.states.get(usps)?.fips ?? "",
+      ) /
+        100);
     rt.netCache.set(key, value);
   }
   return value;
@@ -283,10 +315,14 @@ export function pullBetween(
   to: string,
   wages: number,
   jobless: ReadonlyMap<string, number>,
+  renter = false,
 ): Record<string, number> {
   const income =
     countedParameter("countedMovesIncomeElasticity") *
-    Math.log(netIncome(api, rt, to, wages) / netIncome(api, rt, from, wages));
+    Math.log(
+      netIncome(api, rt, to, wages, renter) /
+        netIncome(api, rt, from, wages, renter),
+    );
   const here = jobless.get(from),
     there = jobless.get(to);
   const jobs =
@@ -314,8 +350,12 @@ function openCoarse(core: CoreState, rt: Runtime): void {
   if (!residents || !home) return;
   const counted = countedPeople(residents);
   const total = home.people.reduce((n, v) => n + v, 0);
-  if (total > counted)
-    home.people = home.people.map((v) => (v * (total - counted)) / total);
+  // Counted places that are the whole state (Washington, D.C.) leave it no
+  // rest: its coarse people are none, not its whole population again.
+  if (total > 0)
+    home.people = home.people.map(
+      (v) => (v * Math.max(0, total - counted)) / total,
+    );
 }
 
 export function runtimeOf(api: CoreAPI): Runtime | undefined {
@@ -488,10 +528,9 @@ function month(api: CoreAPI): void {
   rt.netCache.clear();
   const jobless = stateUnemployment(api);
   const stateList = [...rt.states.values()];
-  const nationPeople = stateList.reduce(
-    (n, s) => n + s.people.reduce((a, b) => a + b, 0),
-    0,
-  );
+  // The town's state holds its counted places apart from its coarse people:
+  // a destination's weight and the nation's total count both.
+  const countedAll = countedPeople(residents);
   const inState = countedParameter("countedMovesInStateShare");
   const store = residents.store;
   const source: Source = {
@@ -556,8 +595,8 @@ function month(api: CoreAPI): void {
 
   // 1. Counted groups weigh every other state, and the rest of their own.
   const pullCache = new Map<string, Record<string, number>>();
-  const pullFor = (from: string, to: string, wages: number) => {
-    const key = `${from}|${to}|${Math.round(wages / 1000)}`;
+  const pullFor = (from: string, to: string, wages: number, renter = false) => {
+    const key = `${from}|${to}|${Math.round(wages / 1000)}|${renter ? "rent" : "own"}`;
     let row = pullCache.get(key);
     if (!row) {
       row = pullBetween(
@@ -567,6 +606,7 @@ function month(api: CoreAPI): void {
         to,
         Math.round(wages / 1000) * 1000,
         jobless,
+        renter,
       );
       pullCache.set(key, row);
     }
@@ -631,6 +671,7 @@ function month(api: CoreAPI): void {
       group: number;
       home: string;
       wages: number;
+      renter: boolean;
       weight: number;
       people: number;
     }
@@ -658,11 +699,14 @@ function month(api: CoreAPI): void {
       Math.exp(sum(pushes) - holdOf(residents, h, date, adultAge, ages)) *
       rt.holdNorm.get(h.placeId)!;
     const wages = Math.round(head.wages / 1000) * 1000;
-    const key = `${h.group}|${home}|${wages}`;
+    // A household without a home weighs prices as a renter does.
+    const renter = h.tenure === "rent" || h.tenure === "none";
+    const key = `${h.group}|${home}|${wages}|${renter ? "rent" : "own"}`;
     const row = alike.get(key) ?? {
       group: h.group,
       home,
       wages,
+      renter,
       weight: 0,
       people: 0,
     };
@@ -671,8 +715,79 @@ function month(api: CoreAPI): void {
     alike.set(key, row);
   }
   const statePeople = new Map(
-    stateList.map((s) => [s.usps, s.people.reduce((a, b) => a + b, 0)]),
+    stateList.map((s) => [
+      s.usps,
+      s.people.reduce((a, b) => a + b, 0) +
+        (s.usps === rt.townState ? countedAll : 0),
+    ]),
   );
+  // The share of a home state living outside the counted places: where the
+  // counted places are the whole jurisdiction (Washington, D.C.) there is no
+  // remainder to move to, and a leaver within the state lands in one of the
+  // counted places again, so it is no departure. Where the remainder is the
+  // whole state, the share is one and nothing changes.
+  // Where people go. Each state's attractiveness as a destination is fitted so
+  // that the people the other states send it, by their size, ACS leaving rates
+  // and the pulls below, match the arrivals the ACS counts in it (a doubly
+  // constrained gravity model; the margins are the survey's own, in
+  // data/research/migration/mover-rates-acs-2024.json). A small jurisdiction
+  // with many newcomers (Washington, D.C.) is then drawn as the survey finds,
+  // not by its share of the nation's people. Places the survey does not cover
+  // take the nation's arrivals rate. The pull is the one model above.
+  const attract = new Map<string, number>();
+  {
+    const n = stateList.length;
+    const peopleOf = stateList.map((st) => statePeople.get(st.usps)!);
+    const leavingOf = stateList.map((st, i) => {
+      const total = st.people.reduce((x, y) => x + y, 0);
+      let rate = 0;
+      for (const [band, [, , acs]] of COARSE.entries())
+        rate +=
+          (total > 0 ? st.people[band]! / total : 1 / COARSE.length) *
+          coarseRate(api.state.seed, st.usps, acs);
+      return peopleOf[i]! * rate * (1 - inState);
+    });
+    const arrivalsOf = stateList.map(
+      (st, i) =>
+        peopleOf[i]! *
+        (RATES.places[`US-${st.usps}`]?.arrivalsPerResidentPerYear ??
+          RATES.national.arrivalsPerResidentPerYear) *
+        (1 - inState),
+    );
+    const sumOf = (xs: readonly number[]) => xs.reduce((x, y) => x + y, 0);
+    const scale =
+      sumOf(arrivalsOf) > 0 ? sumOf(leavingOf) / sumOf(arrivalsOf) : 1;
+    const target = arrivalsOf.map((t) => t * scale);
+    const pulls = stateList.map((from) => {
+      const wages = (STATES[from.fips]?.perCapitaIncome ??
+        NATION_INCOME) as number;
+      return stateList.map((to) =>
+        to === from ? 0 : Math.exp(sum(pullFor(from.usps, to.usps, wages))),
+      );
+    });
+    const a = peopleOf.map((x) => Math.max(x, 1));
+    for (let pass = 0; pass < 30; pass++) {
+      const inflow = new Array<number>(n).fill(0);
+      for (let f = 0; f < n; f++) {
+        let denom = 0;
+        for (let t = 0; t < n; t++) denom += a[t]! * pulls[f]![t]!;
+        if (denom <= 0) continue;
+        for (let t = 0; t < n; t++)
+          inflow[t] =
+            inflow[t]! + (leavingOf[f]! * a[t]! * pulls[f]![t]!) / denom;
+      }
+      for (let t = 0; t < n; t++)
+        if (inflow[t]! > 0 && target[t]! > 0)
+          a[t] = a[t]! * Math.pow(target[t]! / inflow[t]!, 0.8);
+    }
+    stateList.forEach((st, i) => attract.set(st.usps, a[i]!));
+  }
+  const remainderShare = (home: string) => {
+    if (home !== rt.townState) return 1;
+    const remainder = statePeople.get(home)! - countedAll;
+    const total = statePeople.get(home)!;
+    return total > 0 ? Math.max(0, remainder) / total : 1;
+  };
   // Each state's share of the movers out of a home state and its pull at a
   // wage step, in `stateList` order (none for home), worked out once.
   const destRows = new Map<
@@ -683,18 +798,29 @@ function month(api: CoreAPI): void {
       causes: [string, number][];
     } | null)[]
   >();
-  const destRowsOf = (home: string, wages: number) => {
-    const key = `${home}|${wages}`;
+  const destRowsOf = (home: string, wages: number, renter: boolean) => {
+    const key = `${home}|${wages}|${renter ? "rent" : "own"}`;
     let rows = destRows.get(key);
     if (!rows) {
-      const elsewhere = nationPeople - statePeople.get(home)!;
+      const parts = new Map(
+        stateList.map((dest) => [
+          dest.usps,
+          pullFor(home, dest.usps, wages, renter),
+        ]),
+      );
+      // The fitted attractiveness times the pull, over every other state's.
+      let norm = 0;
+      for (const dest of stateList)
+        if (dest.usps !== home)
+          norm +=
+            attract.get(dest.usps)! * Math.exp(sum(parts.get(dest.usps)!));
       rows = stateList.map((dest) => {
         if (dest.usps === home) return null;
-        const parts = pullFor(home, dest.usps, wages);
+        const row = parts.get(dest.usps)!;
         return {
-          share: statePeople.get(dest.usps)! / elsewhere,
-          exp: Math.exp(sum(parts)),
-          causes: Object.entries(parts),
+          share: norm > 0 ? attract.get(dest.usps)! / norm : 0,
+          exp: Math.exp(sum(row)),
+          causes: Object.entries(row),
         };
       });
       destRows.set(key, rows);
@@ -710,7 +836,7 @@ function month(api: CoreAPI): void {
     };
     summary.people += row.people;
     // Out of state: each state by its people and its pull.
-    const dests = destRowsOf(row.home, row.wages);
+    const dests = destRowsOf(row.home, row.wages, row.renter);
     for (let i = 0; i < dests.length; i++) {
       const d = dests[i];
       if (!d) continue;
@@ -722,7 +848,7 @@ function month(api: CoreAPI): void {
         summary.byCause[cause] = (summary.byCause[cause] ?? 0) + due * value;
     }
     // Within the state (same taxes and prices).
-    const due = (row.weight * inState) / 12;
+    const due = (row.weight * inState * remainderShare(row.home)) / 12;
     const key = leaveKey(row.group, row.home);
     rt.leave.set(key, (rt.leave.get(key) ?? 0) + due);
     summary.total += due;
@@ -862,7 +988,14 @@ function month(api: CoreAPI): void {
           // The web's links land on a household by its adults; none, none.
           head.adults ? leaving.web : 1,
           holdsOf(residents, next, date, adultAge, ages),
-          to === home ? {} : pullFor(home, to, head.wages),
+          to === home
+            ? {}
+            : pullFor(
+                home,
+                to,
+                head.wages,
+                next.tenure === "rent" || next.tenure === "none",
+              ),
           !head.adults && pulled?.people
             ? (pulled.total * 12) / pulled.people
             : undefined,
@@ -894,16 +1027,17 @@ function month(api: CoreAPI): void {
     people: number;
   }[] = [];
   for (const from of stateList) {
-    const elsewhere = nationPeople - statePeople.get(from.usps)!;
     const wages = (STATES[from.fips]?.perCapitaIncome ??
       NATION_INCOME) as number;
-    // Where its people go: each place by its people and its pull (the same for every age).
-    const weights = stateList.map((to) =>
+    // Where its people go: the fitted attractiveness times the pull, over every other place's (the same for every age).
+    const raw = stateList.map((to) =>
       to === from
         ? 0
-        : (statePeople.get(to.usps)! / elsewhere) *
+        : attract.get(to.usps)! *
           Math.exp(sum(pullFor(from.usps, to.usps, wages))),
     );
+    const rawTotal = raw.reduce((x, y) => x + y, 0);
+    const weights = raw.map((x) => (rawTotal > 0 ? x / rawTotal : 0));
     for (const [band, [, , acs]] of COARSE.entries()) {
       const leaving =
         (from.people[band]! *

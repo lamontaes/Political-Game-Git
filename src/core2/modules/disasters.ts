@@ -17,6 +17,7 @@ import severityData from "../data/disasters/severity.json" with { type: "json" }
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { placeStateKey } from "../place-map";
+import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
 import {
@@ -28,6 +29,8 @@ import {
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
+const STATES_SHARE_DISASTER_COSTS =
+  "us-federal-positions:emergencies.states-share-disaster-costs";
 const BUILDER_CLASSIFICATION = "enterprise:construction";
 
 /** A government's name reduced to its place name: "Liberty, City of" → "liberty". */
@@ -245,7 +248,19 @@ function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   )[`${rt.county}|${disaster.number}`];
   if (!row) return;
   const accounts = api.accounts();
-  const pay = (orgId: string | undefined, cents: number, who: string) => {
+  // A law having states share disaster costs lowers the federal share of
+  // eligible costs from the statutory 75 percent; the governments receive that
+  // much less. stopgapId: SG-LAWS-disaster-share-size
+  const sharing =
+    api.state.modules.has(LAWS_MODULE_ID) &&
+    lawInForce(api, STATES_SHARE_DISASTER_COSTS).value === 1;
+  if (sharing) api.stopgap("SG-LAWS-disaster-share-size");
+  const federalShare = sharing
+    ? api.parameter("disasterFederalShareWhenStatesShare") /
+      api.parameter("disasterStatutoryFederalShare")
+    : 1;
+  const pay = (orgId: string | undefined, paying: number, who: string) => {
+    const cents = Math.round(paying * federalShare);
     if (!orgId || cents <= 0) return;
     // A government kept outside the town (its money is not simulated here)
     // receives nothing the world can see; the treasury is outside too.

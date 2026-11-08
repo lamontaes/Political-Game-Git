@@ -305,10 +305,10 @@ export function openLaws(core: CoreState): LawChain {
 }
 
 /**
- * Questions on federal law (answered once for the nation). Eight of them have
+ * Questions on federal law (answered once for the nation). Seven of them have
  * a starting answer and a bill-paper route but no engine reads them yet: the
  * debt limit, immigration levels, student loan forgiveness, the disaster cost
- * share, national data privacy, D.C. statehood, federal mandatory minimums and
+ * share, D.C. statehood, federal mandatory minimums and
  * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
  */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
@@ -1099,3 +1099,12 @@ export function recordPublicPay(api: CoreAPI, source: Source): void {
 // The bribe a dev control forces runs through the corruption engine, which is in this family: its
 // entry carries the way in, so a caller outside the family imports one entry, not the file.
 export { considerBribe, CORRUPTION_MODULE_ID } from "./corruption";
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export { policyAuthority } from "../policy-authority";
+export { stateActEffectiveDate } from "../state-effective-date";
+export { policySeriesAtLevel } from "../policy-answers";
+export type { LawRowInput } from "../laws-starting";
+export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
+export { termReadPlaces } from "../term-read";
+export { countryTermRead } from "../term-read";

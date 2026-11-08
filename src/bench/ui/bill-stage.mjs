@@ -284,11 +284,25 @@ export function billStageSections(
         ),
       ),
     );
+  // The members who signed on beside the sponsor.
+  if (stage.cosponsors?.length)
+    sections.push(
+      stripSection(
+        2,
+        words.cosponsors,
+        el(
+          "div",
+          { className: "stage-row" },
+          nameSentence(stage.cosponsors, onOpen, words),
+        ),
+      ),
+    );
   stage.committees.forEach((record) => {
     sections.push(
       stripSection(
         2,
         `${words.committee}: ${record.chamberTitle} · ${record.committee}`,
+        el("p", { textContent: `${words.referred} ${record.committee}` }),
         el("p", { textContent: `${words.chair} ${record.chair}` }),
         record.heard
           ? labeledNames(
@@ -299,6 +313,20 @@ export function billStageSections(
               words,
             )
           : el("p", { textContent: words.held }),
+        ...(record.markup?.length
+          ? [
+              el("b", { textContent: words.markup }),
+              ...record.markup.map((item) =>
+                el(
+                  "p",
+                  { className: "stage-insert" },
+                  el("ins", {
+                    textContent: `${item.name} · ${words[item.kind === "pill" ? "markupPill" : "markupTrade"]} · ${item.inserted ?? ""}`,
+                  }),
+                ),
+              ),
+            ]
+          : []),
         labeledNames(
           words.votedFor,
           record.votes.filter((v) => v.vote === "yes"),
@@ -316,6 +344,16 @@ export function billStageSections(
       ),
     );
   });
+  // The aide's estimate: marked as an estimate, in words, never a count.
+  if (stage.aide && stage.aide.heard > 0)
+    sections.push(
+      stripSection(
+        3,
+        words.aide,
+        el("p", { textContent: words[`aide-${stage.aide.outlook}`] }),
+        el("p", { className: "stage-note", textContent: words.aideCaveat }),
+      ),
+    );
   if (stage.told.length) {
     const side = (name) => stage.told.filter((t) => t.side === name);
     sections.push(

@@ -22,5 +22,17 @@
     "addedAt": "2026-10-30",
     "replacement": "The budgets engine amends a line on the section's date: enact schedules the dated budget section on the calendar (as enactLaw does a dated law row) and amendBudget applies it to the fiscal year that date falls in, so lawmakers and the budget screen read each step when it lands; seatAct then takes phase-in steps on a budget line, as it does on a law amount.",
     "status": "open"
+  },
+  {
+    "id": "SG-LEGISLATURE-cosponsors-player-bills",
+    "kind": "partial-model",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 0,
+    "whatItFakes": "Cosponsors are recorded only for the bill the played official sponsors; other members' bills carry none.",
+    "why": "Reading every member's position on every drafted bill in a 435-member House each day would slow a country's year past the speed bar; a member's own bill is the one a player reads.",
+    "addedBy": "Legislation",
+    "addedAt": "2026-11-08",
+    "replacement": "Record cosponsors for every full person's bill from the same rule, once the position read is cheap enough, and fold the counted members' signatures as a count.",
+    "status": "open"
   }
 ]

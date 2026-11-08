@@ -1159,12 +1159,22 @@
       "impactParameter": "directorBribeOfferImpact"
     },
     {
+      "eventKind": "corruption.bribe-pressed",
+      "channel": "cause",
+      "impactParameter": "directorBribeOfferImpact"
+    },
+    {
       "eventKind": "civic.strike",
       "channel": "cause",
       "impactParameter": "directorPublicActionImpact"
     },
     {
       "eventKind": "civic.protest",
+      "channel": "cause",
+      "impactParameter": "directorPublicActionImpact"
+    },
+    {
+      "eventKind": "civic.rally",
       "channel": "cause",
       "impactParameter": "directorPublicActionImpact"
     },
