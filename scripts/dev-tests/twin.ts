@@ -21,25 +21,28 @@ import { vitals } from "./vitals";
 setBookkeeping(false);
 const [seed = "tw1", level = "state", pick = "", yearsArg = "3"] = process.argv.slice(2);
 const years = Number(yearsArg);
-const place = drawPlace(seed, "twin");
+const skippedDraws: string[] = [];
+let place = drawPlace(seed, "twin"), a = undefined as any, b = undefined as any, p: any, op = "", amount: number | undefined, bill: any, result: any, api: any;
 const build = () => buildBenchWorld(place.seed, gameStartDate(), { twoLevel: true, placeKey: place.key });
 const seatOf = (core: CoreState) => townSeats(coreAPI(core)).find((r) => r.office.level === level && r.holder?.personId && bodyOf(coreAPI(core), r.office.id) && (level !== "state" || r.office.kind.startsWith("legislature-")));
-const a = build(), b = build();
-const api = coreAPI(a.core);
-const seat = seatOf(a.core);
-const p = billCatalog(api, level as never).flatMap((s) => s.topics.flatMap((t) => t.policies)).find((x) => x.id.includes(pick));
-if (!seat || !p || !p.authority.allowed) {
-  console.log(JSON.stringify({ place: place.name, key: place.key, seed: place.seed, skipped: !seat ? "no body" : !p ? "no policy" : `barred: ${p.authority.reason}` }));
-  process.exit(0);
+for (let attempt = 0; attempt < 10; attempt++) {
+  place = drawPlace(attempt ? `${seed}:${attempt}` : seed, "twin");
+  a = build(); api = coreAPI(a.core);
+  const seat = seatOf(a.core);
+  p = billCatalog(api, level as never).flatMap((s) => s.topics.flatMap((t) => t.policies)).find((x) => x.id.includes(pick));
+  if (!seat || !p || !p.authority.allowed) { skippedDraws.push(`${place.name}: ${!seat ? "no body" : !p ? "no policy" : "barred " + p.authority.reason}`); continue; }
+  op = p.operations.includes("enact") ? "enact" : "raise";
+  amount = p.kind === "policy-question" ? undefined : Math.max(1, Math.round((p.inForce ?? 1) * 1.5 + 1));
+  bill = draftBill(api, { bodyOfficeId: seat.office.id, sponsorId: seat.holder!.personId!, provisions: [provisionFor({ policyId: p.id, operation: op as never, ...(amount !== undefined ? { amount } : {}) })] });
+  for (const ch of chambersOf(api, bill)) for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
+  executiveDecision(api, bill.id, true);
+  result = holdVote(api, bill.id);
+  if (result.status === "enacted" || result.status === "overridden") break;
+  skippedDraws.push(`${place.name}: bill ${result.status}`); result = undefined;
 }
-const op = p.operations.includes("enact") ? "enact" : "raise";
-const amount = p.kind === "policy-question" ? undefined : Math.max(1, Math.round((p.inForce ?? 1) * 1.5 + 1));
-const bill = draftBill(api, { bodyOfficeId: seat.office.id, sponsorId: seat.holder!.personId!, provisions: [provisionFor({ policyId: p.id, operation: op as never, ...(amount !== undefined ? { amount } : {}) })] });
-for (const ch of chambersOf(api, bill)) for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
-executiveDecision(api, bill.id, true);
-const result = holdVote(api, bill.id);
-const out: any = { place: place.name, key: place.key, seed: place.seed, level, policy: p.id, op, amount, billStatus: result.status, years, rows: [] };
-if (result.status !== "enacted" && result.status !== "overridden") { console.log(JSON.stringify(out)); process.exit(0); }
+if (!result) { console.log(JSON.stringify({ seed, level, policy: pick, skippedDraws, error: "no draw enacted it" })); process.exit(0); }
+b = build();
+const out: any = { place: place.name, key: place.key, seed: place.seed, level, policy: p.id, op, amount, billStatus: result.status, skippedDraws, years, rows: [] };
 const snap = (core: CoreState) => ({ v: vitals(core), kinds: Object.fromEntries([...core.logByKind].map(([k, s]) => [k, s.size])) });
 out.rows.push({ year: 0, withLaw: snap(a.core).v, control: snap(b.core).v });
 for (let y = 1; y <= years; y++) {
