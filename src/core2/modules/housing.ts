@@ -2785,6 +2785,7 @@ export const HOUSING_MODULE: PreStartModule = {
       owedAtNoticeMinor: number;
       [key: string]: unknown;
     }[]) {
+      api.stopgap("SG-WORLD-housing-fill-in-arrears");
       api.carryStandingArrears(lease, row.owedAtNoticeMinor, row.noticeAt);
       // The household settles part of it now, from its own cash and traits:
       // what its members hold beyond a month's living, times how far their
