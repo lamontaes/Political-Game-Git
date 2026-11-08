@@ -40,6 +40,14 @@ On the night's scenes: "These are good scenes so far. Perfect... This is exactly
 
 On the laws that partly work: "they've got to spend money... They should be passing stuff."
 
+## Later, to the night Coordinator, on who runs for office (10:20 a.m. Eastern, verbatim)
+
+Sent to the night Coordinator's session (the owner's second account), about county seats with no challengers:
+
+"Candidates don't necessarily need to be the strongest person. They just have to want to run. For whatever reason. Maybe they're crazy. Maybe they're not. Maybe they think they have a good chance. Maybe they have some inside knowledge that says that they have a good chance, etc."
+
+Sent to Elections, and posted on #7365 for the rulings log.
+
 ## Where each part went
 
 The night Coordinator sent each part to its session as an updated goal at about 10:00 a.m. Eastern:
