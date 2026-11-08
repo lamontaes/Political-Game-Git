@@ -59,11 +59,11 @@ try {
     .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
-    .getByRole("button", { name: "Campaigns", exact: true })
+    .getByRole("button", { name: "Campaign", exact: true })
     .click();
-  await page.locator(".row.campaign").first().waitFor();
+  await page.locator(".campaign-board").first().waitFor();
   const raisedBefore = dollarsIn(
-    await page.locator(".row.campaign").first().innerText(),
+    await page.locator(".campaign-board").first().innerText(),
   );
   console.log("Raised before:", raisedBefore);
   await page.screenshot({ path: `${out}/${mode}-1-campaigns.png` });
@@ -110,11 +110,11 @@ try {
       .evaluate((e) => e.click());
     await page
       .locator("#sheet-tabs")
-      .getByRole("button", { name: "Campaigns", exact: true })
+      .getByRole("button", { name: "Campaign", exact: true })
       .click();
-    await page.locator(".row.campaign").first().waitFor();
+    await page.locator(".campaign-board").first().waitFor();
     const raisedAfter = dollarsIn(
-      await page.locator(".row.campaign").first().innerText(),
+      await page.locator(".campaign-board").first().innerText(),
     );
     if (Number.isNaN(raisedAfter))
       console.log(
@@ -136,7 +136,7 @@ try {
     } else {
       console.log(
         "Before: the screen after the call reads:",
-        (await page.locator(".row.campaign").first().innerText()).slice(0, 300),
+        (await page.locator(".campaign-board").first().innerText()).slice(0, 300),
       );
     }
   }
