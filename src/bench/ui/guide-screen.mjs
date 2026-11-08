@@ -10,17 +10,10 @@ import { stripSection, introText } from "./strips.mjs";
 
 /**
  * `terms`: [{ key, term, short, explanation, contextNote, related: [name] }]; `labels`:
- * { title, search, none, resetLearned, whatItIs, here, related }; `words`: the pager's words;
+ * { title, search, none, resetLearned, whatItIs, here, related };
  * `query` the search text now; `onSearch(text) -> terms`; `onReset()`.
  */
-export function guideScreen({
-  terms,
-  labels,
-  words,
-  query,
-  onSearch,
-  onReset,
-}) {
+export function guideScreen({ terms, labels, query, onSearch, onReset }) {
   let shown = terms;
   let chosen = terms[0]?.key;
   const roster = el("nav", { className: "guide-roster" });
@@ -98,7 +91,6 @@ export function guideScreen({
             columns: 1,
             rowHeight: 34,
             gap: 2,
-            words,
             className: "guide-pages",
           })
         : el("p", { className: "guide-none", textContent: labels.none }),

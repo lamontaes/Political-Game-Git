@@ -235,6 +235,12 @@ export interface HouseholdInput {
   placeId: PlaceId;
   memberIds: readonly PersonId[];
   source: Source;
+  /**
+   * Real households this one record stands for, where it differs from its
+   * place's weight (a county's circle kin stand for themselves; its sample
+   * stands for the rest).
+   */
+  weight?: number;
   /** The day the household moved into its place (years in place, from the opening's mover rates). */
   since?: IsoDate;
   /**

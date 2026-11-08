@@ -29,6 +29,7 @@
     "candidate": "Present when the person in the scene filed for office, from the filing record.",
     "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
     "kid": "The household's new child, by name, from the household record.",
+    "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
     "when": "When a filing was made, said as the director says a date, from the filing record.",
     "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
@@ -127931,10 +127932,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.all-right-office-let-s-get-you-started",
+      "key": "scene-talk.state-tell-running.all-right-you-re-running-for-office-let-s-get-you-started",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "All right, {office}. Let's get you started.",
+      "text": "All right, you're running for {office}. Let's get you started.",
       "uses": [
         {
           "subject": "scene",
@@ -128269,7 +128270,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128294,7 +128295,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128319,7 +128320,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128344,7 +128345,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128369,7 +128370,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["one-signature"]
+          "requiresFacts": ["one-signature", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128394,7 +128395,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128419,7 +128420,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -136676,6 +136677,31 @@
       "origin": "authored",
       "author": "Words, scenes and the director (play-first-filing-campaign-tutorial)",
       "date": "2026-11-02",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.get-your-one-signature-today-and-that-part-s-done-then-it-s-the-voters-knock-on-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your one signature today and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "one-signature"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial); the no-newspaper variant filled in by Elections, Nov 8",
+      "date": "2026-11-08",
       "tag": {
         "move": "answer",
         "key": "filed"
@@ -155359,6 +155385,15 @@
         "key": "threat"
       }
     },
+    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you head to the {post}'s office to ask about running. {name} comes over to the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-walk-in-to-ask-for-the-papers-to-run-and", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You walk in to ask for the papers to run, and {name}, the {post}, is already at the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-step-into-the-posts-office-and-ask-for-name", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you step into the {post}'s office and ask for {name}.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you head to the {post}'s office to pick up the papers for {office}. {name} pulls them from a drawer.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You head to the {post}'s office and speak to {name}, to ask what running for {office} takes.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-take-your-petition-back-to-the-posts-office-name-holds", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you take your petition back to the {post}'s office. {name} holds out a hand for it.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-come-back-to-name-at-the-posts-counter-with-your", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You come back to {name} at the {post}'s counter with your petition in a folder.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-stop-by-the-posts-office-your-name-is-already-on", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you stop by the {post}'s office. Your name is already on the ballot, and {name} looks up and nods.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-name-the-post-waves-you-over-though-there-is-nothing-left", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. {name}, the {post}, waves you over, though there is nothing left for you to file.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
     {
       "key": "scene-talk.reply-thank.thank-you-chair",
       "move": "reply-thank",
