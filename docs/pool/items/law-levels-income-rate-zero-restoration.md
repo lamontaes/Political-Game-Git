@@ -5,7 +5,7 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: astra/income-rate-zero-restoration
 pr: #7347
 blocked-on:
