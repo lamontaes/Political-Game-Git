@@ -2196,5 +2196,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-disaster-damage-from-causes",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/national-events.ts",
+    "line": 1,
+    "whatItFakes": "A disaster elsewhere in the country is generated as a result row (state, kind, start day, number of counties at the state's recorded mean) with no damage, no aid, no declaration and no reaction: its severity is not drawn from the place's recorded spread and nothing reads it yet but the record log.",
+    "why": "Damage should come from the housing stock, building codes, levees and budgets in force, the declaration from the governor's and the President's decisions, and aid from real treasuries (CTO ruling, Nov 8, 12:21 on #7365); those engines exist only for the town.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-08",
+    "replacement": "Detail built on open from the housing, budget and executive engines (damage, aid, the governor's and President's declarations), severity from the state's recorded spread, and the national press and approval reading the result.",
+    "status": "open"
   }
 ]
