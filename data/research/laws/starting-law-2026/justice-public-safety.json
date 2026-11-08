@@ -3767,6 +3767,17 @@
           "note": "Tried: the state-law trackers read (Stateline, American Immigration Council, ICE) cover the 50 states and D.C.; ICE lists 2 territories with agreements, but no territorial law requiring or barring one was found."
         }
       }
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "source": "https://www.law.cornell.edu/uscode/text/21/841",
+      "note": "The question asks whether Congress reduces federal mandatory minimums. 21 U.S.C. 841(b)(1)(A) keeps a ten-year minimum (fifteen after a prior serious drug felony, as the First Step Act set) and the HALT Fentanyl Act extended the minimums, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.law.cornell.edu/uscode/text/21/841",
+          "cite": "21 U.S.C. 841(b)(1)(A)"
+        }
+      }
     }
   }
 }

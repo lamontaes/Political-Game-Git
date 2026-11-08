@@ -11,7 +11,7 @@ import {
   type PartGradeLedger,
 } from "../../src/english/english-grades";
 import { renderLine } from "../../src/english/bank-line";
-import { buildReach } from "../../src/english/grade-reach";
+import { buildReach, groupKey } from "../../src/english/grade-reach";
 import { readPieces, REACH_FILE } from "./apply-grades";
 
 const pieces = readPieces();
@@ -30,6 +30,32 @@ describe("a grade reaches the pieces that share its pattern, voice and register"
   it("the shipped reach file is what the banks and the ledger give", () => {
     const built = buildReach(pieces, PART_GRADES, classes);
     expect(JSON.parse(readFileSync(REACH_FILE, "utf8"))).toEqual(built);
+  });
+
+  it("scene talk has a register per kind of scene: a floor line, a hallway word, a press answer and a town-hall reply never share a group", () => {
+    const kinds = new Map<string, Set<string>>();
+    for (const [key, piece] of pieces) {
+      if (piece.bank !== "scene-talk") continue;
+      const kind =
+        classes[`scene-talk:${piece.purpose}`] ?? classes["scene-talk"]!;
+      const group = groupKey(piece, classes);
+      expect(group.endsWith(`|${kind}`), key).toBe(true);
+      kinds.set(kind, (kinds.get(kind) ?? new Set()).add(group));
+    }
+    expect([...kinds.keys()].sort()).toEqual(
+      ["election", "floor", "hallway", "private", "press", "town-hall"].sort(),
+    );
+    // The same move and bearing is a group of its own in each kind of scene.
+    const moves = new Set<string>();
+    for (const groups of kinds.values())
+      for (const group of groups) {
+        const [move, bearing] = group.split("|");
+        const inKind = [...kinds.values()].filter((set) =>
+          [...set].some((g) => g.startsWith(`${move}|${bearing}|`)),
+        ).length;
+        if (inKind > 1) moves.add(`${move}|${bearing}`);
+      }
+    expect(moves.size).toBeGreaterThan(0);
   });
 
   // Across banks: a grade said in one bank moves the same pattern in another
