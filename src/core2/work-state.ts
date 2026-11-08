@@ -23,6 +23,7 @@ export function emptyWorkRuntime(): WorkRuntime {
   const zero = parameter("zero");
   return {
     payChanges: new Map(),
+    hourChanges: new Map(),
     payrollCalendars: new Map(),
     payrollCalendarByCommitment: new Map(),
     payrollCalendarByJob: new Map(),
@@ -335,4 +336,87 @@ export function compactQuietWorkResults(core: CoreState, api: CoreAPI): void {
       for (const key of keys) core.work.rollups.delete(key);
       core.work.rollupsByWeek.delete(week);
     }
+}
+
+/**
+ * A named job's hours change from today (`rehourJob`): each open commitment's
+ * shifts scale by the new hours over the old, the planned-minutes calendar
+ * and its residue index are rebuilt, and the payroll calendar is left alone;
+ * attendance already earned in an open pay period stays, and later days earn
+ * at the new schedule, so the payday pays what was worked.
+ */
+export function rehourNamedJob(
+  core: CoreState,
+  api: CoreAPI,
+  jobId: string,
+  hoursDaily: number,
+  source: Source,
+): void {
+  const p = (key: string) => parameter(key, core.data.parameters);
+  const job = core.jobs.get(jobId);
+  if (!job) throw new Error(`No recorded job to change the hours of: ${jobId}`);
+  if (job.endsAt !== undefined) throw new Error("The job has ended.");
+  const day = p("hoursPerDay") * p("minutesPerHour");
+  const commitments = [
+    ...(core.work.commitmentsByPerson.get(job.personId) ?? []),
+  ]
+    .map((id) => core.work.commitments.get(id)!)
+    .filter((row) => row.jobId === jobId && row.endsAt === undefined);
+  const ratio = hoursDaily / job.hoursDaily;
+  const rebuilt = commitments.map((row) => {
+    const slots = row.slots.map((slot) => ({
+      ...slot,
+      minutes: slot.minutes * ratio,
+    }));
+    const spans = slots
+      .map((slot) => ({
+        start: slot.offsetDays * day + slot.startMinute,
+        minutes: slot.minutes,
+      }))
+      .sort((a, b) => a.start - b.start);
+    for (const [index, span] of spans.entries()) {
+      const next =
+        spans[index + 1]?.start ?? spans[0]!.start + row.periodDays * day;
+      if (span.minutes > day || span.start + span.minutes > next)
+        throw new Error("The new hours do not fit the job's shifts.");
+    }
+    return {
+      row,
+      slots,
+      expectedWeeklyMinutes: row.expectedWeeklyMinutes * ratio,
+    };
+  });
+  for (const { row, slots, expectedWeeklyMinutes } of rebuilt) {
+    row.slots = slots;
+    row.expectedWeeklyMinutes = expectedWeeklyMinutes;
+    const residues =
+      core.work.byPeriodResidue.get(row.periodDays) ??
+      new Map<number, Set<string>>();
+    for (const [residue, ids] of residues) {
+      ids.delete(row.id);
+      if (!ids.size) residues.delete(residue);
+    }
+    const calendar = commitmentCalendar(row, api);
+    core.work.plannedByCommitmentResidue.set(row.id, calendar);
+    for (const residue of calendar.keys()) {
+      const ids = residues.get(residue) ?? new Set<string>();
+      ids.add(row.id);
+      residues.set(residue, ids);
+    }
+    core.work.byPeriodResidue.set(row.periodDays, residues);
+  }
+  core.work.hourChanges.set(jobId, [
+    ...(core.work.hourChanges.get(jobId) ?? []),
+    { date: core.date, hoursDaily, source: { ...source } },
+  ]);
+  job.hoursDaily = hoursDaily;
+  job.wageDailyMinor = Math.round(job.wageDailyMinor * ratio);
+  if (core.people.has(job.personId))
+    api.observe(job.personId, {
+      key: `job:${job.id}:pay`,
+      value: String(job.wageDailyMinor),
+      learnedAt: core.date,
+      sourceId: job.id,
+      access: "self",
+    });
 }
