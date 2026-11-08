@@ -950,14 +950,7 @@ input[type="range"]::-moz-range-thumb {
 /* One header treatment for every title-side panel: the gold name, a thin
    gold rule, then room before the first control. */
 #front .title {
-  margin-bottom: 0;
-}
-.title-rule {
-  height: 0;
-  margin: 12px 0 16px;
-  border: 0;
-  border-top: 1px solid var(--gold);
-  opacity: 0.7;
+  margin-bottom: 18px;
 }
 .seed-row {
   display: flex;
@@ -1166,36 +1159,6 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-3);
 }
 /* Progress: a brass frame, the fill running dark to light gold. */
-.progress {
-  position: relative;
-  height: 24px;
-  margin: 12px 0 8px;
-  border-style: solid;
-  border-width: 12px;
-  border-image: url("/ui/kit13/progress-frame.svg") 12 stretch;
-  background: #0c0c0d;
-  background-clip: padding-box;
-}
-.progress span {
-  position: absolute;
-  left: -2px;
-  top: -8px;
-  height: 16px;
-  width: 40%;
-  max-width: calc(100% + 4px);
-  background: linear-gradient(
-    90deg,
-    var(--brass-lo),
-    var(--gold) 60%,
-    var(--brass-hi)
-  );
-  animation: fill 2s ease-in-out infinite alternate;
-}
-.progress span.steady {
-  animation: none;
-  width: 2%;
-  transition: width 0.4s ease-out;
-}
 @keyframes fill {
   from {
     width: 10%;
@@ -1564,20 +1527,9 @@ body:not(.dev) .dev-only {
 
 /* Calendar, to its mock: a compact month of day tiles with small icons, the chosen day on
    a plate between, Coming up paged inside its box beside them. Nothing scrolls. */
-#sheet-body:has(.calendar-layout) {
+#sheet-body:has(.calendar-board) {
   max-width: none;
   display: flex;
-}
-.calendar-layout {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.45fr) minmax(250px, 0.95fr) minmax(
-      250px,
-      0.9fr
-    );
-  gap: 26px;
-  min-height: 0;
-  align-items: start;
 }
 .calendar-month,
 .calendar-day,
@@ -1587,7 +1539,7 @@ body:not(.dev) .dev-only {
   min-height: 0;
   min-width: 0;
 }
-.calendar-layout h3 {
+.calendar-board h3 {
   font: 600 20px var(--name);
   color: var(--gold);
   margin: 0;
@@ -1882,13 +1834,32 @@ body:not(.dev) .dev-only {
   text-underline-offset: 3px;
   cursor: help;
 }
+/* The glossary card in the menu look: a dark soft surface under the word, no brass edge, the
+   term in small capitals over its one-line meaning, Mark as learned a lit button. */
 #tip {
   z-index: 9;
   width: 300px;
-  padding: 10px 14px 12px;
+  padding: 12px 16px 14px;
+  background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
+  border: 0;
+  border-radius: 4px;
+  box-shadow:
+    0 0 0 1px rgba(226, 191, 110, 0.18),
+    0 8px 22px rgba(0, 0, 0, 0.55),
+    0 0 18px rgba(226, 191, 110, 0.12);
+}
+#tip::before,
+#tip::after {
+  display: none;
+}
+#tip .label {
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  color: var(--gold);
 }
 #tip .prose {
-  margin: 5px 0 8px;
+  margin: 6px 0 10px;
+  font: 400 15px/1.45 var(--speech);
 }
 
 /* ---- Opening (director/opening-story, owner Oct 14, 2026) ----
@@ -2938,45 +2909,8 @@ details.entry[open] {
   --paper-red: #b3202a;
   --paper-blue: #1d4a7a;
 }
-#game.in-play #sheet.paper-sheet {
-  background: var(--paper-cream);
-  border-color: #d8ccae;
-  color: var(--paper-ink);
-  text-shadow: none;
-  padding: 18px 36px 26px;
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.25),
-    0 12px 30px rgba(0, 0, 0, 0.5);
-}
-#sheet.paper-sheet:has(.paper-modern),
-#sheet.paper-sheet:has(.paper-tabloid) {
-  background: var(--paper-white);
-}
-#sheet.paper-sheet::before,
-#sheet.paper-sheet::after {
-  display: none;
-}
 /* The masthead names the paper: the sheet's own title is not shown, the close
    X sits in the corner in ink. */
-#sheet.paper-sheet .sheet-head {
-  position: absolute;
-  top: 10px;
-  right: 12px;
-  z-index: 2;
-}
-#sheet.paper-sheet #sheet-title {
-  display: none;
-}
-#sheet.paper-sheet .glyph.close,
-#news-reader .glyph.close {
-  filter: invert(1) brightness(0.25);
-}
-#sheet.paper-sheet #sheet-body {
-  max-width: none;
-}
-#sheet.paper-sheet #sheet-tabs:empty + #sheet-body {
-  margin-top: 0;
-}
 .paper {
   font: 16px/1.45 var(--speech);
   color: var(--paper-ink);
@@ -3172,15 +3106,6 @@ details.entry[open] {
 }
 #sheet-body .paper-story.brief .story-headline {
   font-size: 17px;
-}
-#sheet.paper-sheet .outlet-picker {
-  display: flex;
-  gap: 16px;
-  margin: 0 0 12px;
-}
-#sheet.paper-sheet .outlet-picker .tab {
-  color: var(--paper-ink);
-  text-shadow: none;
 }
 /* A modern daily: white stock, the name on a blue bar, sans type. */
 .paper-modern {
@@ -3888,22 +3813,16 @@ details.entry[open] {
   position: relative;
   margin: 0 0 14px;
   padding: 13px 16px 15px;
-  /* The corners are background layers, not an overlay, so a plate in a
-     column layout draws them on itself wherever its columns fall. */
+  /* A plate is a soft inset surface: no brass corners and no hard edge (owner, Nov 5 and
+     Nov 7: the panel's corners are the only corner ornaments anywhere). */
   background:
-    url("/ui/kit13/corner-tl.svg") left top / 11px 11px no-repeat border-box,
-    url("/ui/kit13/corner-tr.svg") right top / 11px 11px no-repeat border-box,
-    url("/ui/kit13/corner-bl.svg") left bottom / 11px 11px no-repeat border-box,
-    url("/ui/kit13/corner-br.svg") right bottom / 11px 11px no-repeat border-box,
     url("/ui/kit13/button-grain.svg") 0 0 / 96px 64px,
-    linear-gradient(172deg, rgba(72, 66, 58, 0.42), rgba(26, 25, 24, 0.66) 72%);
-  border: 1px solid rgba(156, 131, 80, 0.55);
+    linear-gradient(172deg, rgba(72, 66, 58, 0.3), rgba(26, 25, 24, 0.5) 72%);
+  border: 0;
   border-radius: 3px;
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 240, 199, 0.07),
     inset 0 0 28px rgba(0, 0, 0, 0.42),
-    0 3px 8px rgba(0, 0, 0, 0.3);
+    0 2px 8px rgba(0, 0, 0, 0.22);
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
 }
@@ -4102,38 +4021,6 @@ details.entry[open] {
   gap: 10px;
   min-height: 0;
 }
-.journal-page {
-  flex: 1;
-  min-height: 420px;
-  overflow: hidden;
-  padding: 34px 48px;
-  background: var(--paper-cream, #efe4c8);
-  color: var(--paper-ink, #1f1b14);
-  box-shadow: inset 0 0 40px rgba(120, 90, 40, 0.18);
-  font: 18px/1.7 var(--speech);
-}
-.journal-page h2 {
-  margin: 0;
-  text-align: center;
-  font: 700 30px var(--name);
-  color: var(--paper-ink, #1f1b14);
-}
-.journal-page .journal-chapter {
-  margin: 6px 0 0;
-  text-align: center;
-  font-style: italic;
-  opacity: 0.75;
-}
-.journal-page hr {
-  width: 70px;
-  margin: 16px auto 22px;
-  border: 0;
-  border-top: 1px solid var(--paper-rule, rgba(31, 27, 20, 0.38));
-}
-.journal-page p:not(.journal-chapter) {
-  margin: 0 0 14px;
-  text-indent: 1.6em;
-}
 
 /* Travel, to its mock: three large pictured tiles across, two rows to a page, the room's
    picture with a people mark on its corner, the place's name and who is there under it. */
@@ -4196,172 +4083,8 @@ details.entry[open] {
   margin: 0 0 8px;
 }
 /* Columns side by side: each amount over its column, the month under it. */
-.column-chart {
-  margin: 12px 0 0;
-}
-.column-chart-columns {
-  display: flex;
-  align-items: stretch;
-  gap: 12px;
-  height: 190px;
-}
-.column-chart-item {
-  flex: 1 1 0;
-  max-width: 76px;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 4px;
-}
-.column-chart-well {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-}
-.column-chart-bar {
-  width: 100%;
-  border-radius: 2px 2px 0 0;
-  background: linear-gradient(
-    var(--brass-hi),
-    var(--gold) 35%,
-    var(--brass-lo)
-  );
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 2px 4px rgba(0, 0, 0, 0.4);
-}
-.column-chart-bar.below {
-  background: linear-gradient(#d07a68, var(--red));
-}
-.column-chart-value,
-.column-chart-label {
-  font: 500 11.5px var(--ui);
-  color: var(--text-2);
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.column-chart-label {
-  color: var(--text);
-}
-.column-chart figcaption {
-  margin: 8px 0 0;
-  font: 500 12.5px var(--ui);
-  color: var(--text-2);
-}
 /* A ring of the parts of a whole, the whole in its middle, the key beside it. */
-.donut-chart {
-  margin: 0;
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
-}
-.donut-center {
-  position: relative;
-  width: 150px;
-  height: 150px;
-}
-.donut-ring svg {
-  width: 150px;
-  height: 150px;
-  transform: rotate(-90deg);
-}
-.donut-track {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.45);
-  stroke-width: 14;
-}
-.donut-part {
-  fill: none;
-  stroke-width: 14;
-}
-.donut-total {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 0 36px;
-  text-align: center;
-  font: 600 16px/1.15 var(--ui);
-  color: var(--text-strong);
-}
-.donut-key {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.donut-key li {
-  display: grid;
-  grid-template-columns: 14px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 9px;
-  font: 500 13.5px var(--ui);
-}
-.donut-swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
-}
-.donut-share {
-  color: var(--text-2);
-  font-variant-numeric: tabular-nums;
-}
 /* The kit's chart colors, in order: muted, never navy. */
-.donut-part.c0 {
-  stroke: #c9a55c;
-}
-.donut-part.c1 {
-  stroke: #4f8a8b;
-}
-.donut-part.c2 {
-  stroke: #9a4a3f;
-}
-.donut-part.c3 {
-  stroke: #6f7f3a;
-}
-.donut-part.c4 {
-  stroke: #7a8796;
-}
-.donut-part.c5 {
-  stroke: #8a6386;
-}
-.donut-part.c6 {
-  stroke: #b08a5a;
-}
-.donut-part.c7 {
-  stroke: #6f6c66;
-}
-.donut-swatch.c0 {
-  background: #c9a55c;
-}
-.donut-swatch.c1 {
-  background: #4f8a8b;
-}
-.donut-swatch.c2 {
-  background: #9a4a3f;
-}
-.donut-swatch.c3 {
-  background: #6f7f3a;
-}
-.donut-swatch.c4 {
-  background: #7a8796;
-}
-.donut-swatch.c5 {
-  background: #8a6386;
-}
-.donut-swatch.c6 {
-  background: #b08a5a;
-}
-.donut-swatch.c7 {
-  background: #6f6c66;
-}
 
 /* Jobs and study (on framed plates): the workplace's painting
    across the top of the job plate, the title in the name type. */
@@ -4537,13 +4260,6 @@ select.release-pick {
 
 /* A short window gives the budgets ring less room. */
 @media (max-height: 780px) {
-  .donut-chart {
-    grid-template-columns: 120px minmax(0, 1fr);
-  }
-  .donut-center {
-    width: 120px;
-    height: 120px;
-  }
 }
 /* The news paper is read inside its own box: the menu itself never scrolls as a page. */
 #sheet-body:has(.paper) {
@@ -4599,13 +4315,6 @@ select.release-pick {
 
 /* The calendar's kinds, each its own color, named and hidden by the key above the month
    (owner, Nov 1: "color code those things ... and be able to hide them"). */
-.calendar-layout {
-  --kind-birthday: #e0a090;
-  --kind-deadline: #d6bd84;
-  --kind-election: #7fa3d6;
-  --kind-meeting: #8fc79a;
-  --kind-holiday: #c4a0d8;
-}
 .calendar-key {
   grid-column: 1 / -1;
   display: flex;
@@ -4649,16 +4358,16 @@ select.release-pick {
 .kind-holiday {
   --kind-color: var(--kind-holiday);
 }
-.calendar-layout .day-icon[class*="kind-"] {
+.calendar-board .day-icon[class*="kind-"] {
   border-radius: 50%;
   background: var(--kind-color);
   box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
   filter: none;
 }
-.calendar-layout .calendar-entry[class*="kind-"] {
+.calendar-board .calendar-entry[class*="kind-"] {
   border-left: 3px solid var(--kind-color);
 }
-.calendar-layout .calendar-entry[class*="kind-"] .when {
+.calendar-board .calendar-entry[class*="kind-"] .when {
   color: var(--kind-color);
 }
 
@@ -5229,8 +4938,7 @@ select.release-pick {
 
 /* The title menu as the Nov 8 front mock draws it (fr-title): no wordmark over it, the
    items in plain type, and Continue first when a life exists. */
-#front:has(#front-main:not([hidden])) > .title,
-#front:has(#front-main:not([hidden])) > .title-rule {
+#front:has(#front-main:not([hidden])) > .title {
   display: none;
 }
 #front-main .item b {
@@ -5291,4 +4999,177 @@ select.release-pick {
   grid-template-columns: 1.4fr 1fr 1fr;
   gap: 8px;
   padding: 2px 0;
+}
+
+/* The front's close X (no Back on any menu): top right of the panel. */
+#front > #front-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+/* New game (Nov 8 front mock, fr-new): two cards side by side on a wide panel. */
+#front:has(#front-new:not([hidden])) {
+  width: min(760px, calc(100vw - 2 * var(--gutter)));
+}
+#front-new {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+#front-new .item {
+  min-height: 150px;
+  display: grid;
+  place-items: center;
+}
+
+/* The rail's names (owner, Nov 8): a ring's name lights beside it after a quarter second of
+   hover or focus, in the menu look, and a dot marks what is unread. */
+.ring[data-name]::before {
+  content: attr(data-name);
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px 12px;
+  white-space: nowrap;
+  font: 600 14px var(--ui);
+  color: #f2e6c9;
+  background: linear-gradient(rgba(34, 32, 29, 0.97), rgba(20, 19, 17, 0.97));
+  border-radius: 3px;
+  box-shadow:
+    0 0 0 1px rgba(226, 191, 110, 0.18),
+    0 4px 12px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.14s ease 0s;
+  z-index: 8;
+}
+.ring[data-name]:hover::before,
+.ring[data-name]:focus-visible::before {
+  opacity: 1;
+  transition-delay: 0.25s;
+}
+/* In a scene or a talk the player card and the menu buttons are gone, never dimmed (owner,
+   Nov 7); the talk box takes the stage. */
+#game:has(#talk:not([hidden])) #rings,
+#game:has(#talk:not([hidden])) #card {
+  display: none;
+}
+
+/* Calendar (Nov 8 play mock, pl-calendar): the month, then Today and Coming up, on strips. */
+.strip-board .board-cols {
+  width: 100%;
+}
+.calendar-board .board-cols,
+.calendar-board .board-cols.two {
+  grid-template-columns: minmax(0, 1.6fr) minmax(300px, 1fr);
+}
+.calendar-board .calendar-day,
+.calendar-board .calendar-side {
+  display: block;
+  margin-bottom: 14px;
+}
+.calendar-board {
+  flex: 1;
+}
+.calendar-board {
+  --kind-birthday: #e0a090;
+  --kind-deadline: #d6bd84;
+  --kind-election: #7fa3d6;
+  --kind-meeting: #8fc79a;
+  --kind-holiday: #c4a0d8;
+}
+
+/* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
+.journal-text {
+  column-count: 2;
+  column-gap: 32px;
+}
+.journal-text .intro {
+  margin: 0 0 12px;
+  break-inside: avoid-column;
+}
+.journal-text .intro:first-child::first-letter {
+  float: left;
+  margin: 2px 8px 0 0;
+  font:
+    600 58px/0.85 "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+
+/* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
+.strip-board .money-figure {
+  margin: 0 0 6px;
+  font: 600 44px/1.05 var(--f-ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: #fbf6ea;
+}
+.strip-board .dotrows .dotrow {
+  font-family: "Courier Prime", monospace;
+  font-size: 15px;
+  text-transform: none;
+}
+
+/* News (Nov 8 play mock, pl-news): type on the dark panel, columns, a Briefs strip. */
+@font-face {
+  font-family: "Old Standard TT";
+  font-weight: 400;
+  src: url("/fonts/kit12/old-standard-tt-400.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Old Standard TT";
+  font-weight: 700;
+  src: url("/fonts/kit12/old-standard-tt-700.ttf") format("truetype");
+}
+.news-board {
+  width: 100%;
+}
+.news-masthead {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  margin: 12px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(226, 191, 110, 0.3);
+}
+.news-masthead h2 {
+  margin: 0;
+  font:
+    400 40px/1.1 "Old Standard TT",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.news-masthead span {
+  font: 500 15px var(--ui);
+  color: var(--muted, #c4bbab);
+}
+.news-headline {
+  margin: 0 0 6px;
+  font:
+    700 28px/1.15 "Old Standard TT",
+    Georgia,
+    serif;
+  color: #f6efe0;
+  cursor: pointer;
+}
+.news-headline.side {
+  font-size: 21px;
+}
+.news-text .intro {
+  margin: 0 0 10px;
+}
+.news-story .news-text {
+  column-gap: 26px;
+}
+.strip-board .board-cols:has(.news-story) {
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(220px, 0.7fr);
+}
+.news-story.lead .news-text {
+  column-count: 2;
 }

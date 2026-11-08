@@ -177,6 +177,7 @@
     "pass": "Pass",
     "defeat": "Defeat",
     "held": "Held in committee",
+    "noVeto": "No veto at this body",
     "noBill": "Introduce a bill first."
   },
   "devBribe": {
@@ -482,7 +483,8 @@
     "nation": "Nation",
     "page": "Page {page} of {pages}",
     "previousPage": "Previous page",
-    "nextPage": "Next page"
+    "nextPage": "Next page",
+    "briefs": "Briefs"
   },
   "jobs": {
     "work": "Work",
@@ -772,34 +774,10 @@
     "newAmount": "The new amount"
   },
   "journal": {
-    "title": "My life",
+    "title": "My story",
     "empty": "Nothing is written here yet.",
-    "chapter": "Chapter {n}",
-    "numbers": [
-      "one",
-      "two",
-      "three",
-      "four",
-      "five",
-      "six",
-      "seven",
-      "eight",
-      "nine",
-      "ten",
-      "eleven",
-      "twelve",
-      "thirteen",
-      "fourteen",
-      "fifteen",
-      "sixteen",
-      "seventeen",
-      "eighteen",
-      "nineteen",
-      "twenty"
-    ],
-    "previous": "Earlier chapter",
-    "next": "Later chapter",
-    "page": "{page} of {pages}"
+    "previous": "Earlier chapters",
+    "next": "Later chapters"
   },
   "titles": {
     "people": "People",
@@ -890,5 +868,13 @@
     "reaches": "Reaches your town",
     "yourMembers": "Your members",
     "empty": "No bill is before your state or Congress yet."
+  },
+  "frontTitles": {
+    "front-new": "New game",
+    "front-advanced": "Advanced",
+    "front-pick": "Play as",
+    "cr-character": "Start a life",
+    "cr-place": "Where you're from",
+    "cr-look": "How you look"
   }
 }

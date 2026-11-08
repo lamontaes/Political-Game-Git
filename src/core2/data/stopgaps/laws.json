@@ -46,5 +46,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Read each bordering state's law in force from the laws a coarse state legislature enacts for it, so a neighbor's change reaches its neighbors the next session.",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-federal-position-no-reader",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/laws.ts",
+    "line": 312,
+    "whatItFakes": "Seven federal questions (the debt limit, immigration levels, student loan forgiveness, the disaster cost share, D.C. statehood, federal mandatory minimums, the members' stock trading ban) start as law in force ('no', each cited) and Congress can enact or repeal them from the bill paper, but no engine reads the law, so enacting one moves no money, person or place. National data privacy is read now: the business engine charges employing businesses a compliance cost while it stands (federal-data-privacy-law.test.ts).",
+    "why": "Each needs a mechanic or a researched size that does not exist yet (a debt ceiling that binds borrowing, an immigration flow, a loan balance record, a disaster cost split, a privacy rule that businesses follow, a statehood and representation change, a sentencing record, a members' holdings record).",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "One reader per question, each from its research (data/research/campaigns/federal-questions-2026.json names the cheapest reader for each), so enacting the law changes a record another engine reads.",
+    "status": "open"
   }
 ]
