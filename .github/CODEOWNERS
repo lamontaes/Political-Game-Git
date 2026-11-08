@@ -65,6 +65,7 @@
 /src/core2/turnout*.ts @lamontaes
 /src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
+/src/core2/gov-test-clock.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
@@ -142,6 +143,7 @@
 /src/core2/outcome-web-*.ts @lamontaes
 /src/core2/health-web.ts @lamontaes
 /src/core2/jobs-web.ts @lamontaes
+/src/core2/term-read.ts @lamontaes
 
 # Jobs, businesses and the economy (jobs-businesses)
 /src/core2/modules/jobs.ts @lamontaes
@@ -259,6 +261,8 @@
 /src/core2/home-distance.ts @lamontaes
 /src/core2/sibling-names.ts @lamontaes
 /src/core2/modules/partnerships.ts @lamontaes
+/src/core2/modules/kin-contact.ts @lamontaes
+/src/core2/modules/public-action.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -281,6 +285,7 @@
 /src/core2/world-settings.ts @lamontaes
 /src/core2/player-*.ts @lamontaes
 /src/core2/opening-*.ts @lamontaes
+/src/core2/fast-forward.ts @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes

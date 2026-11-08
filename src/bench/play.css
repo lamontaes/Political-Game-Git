@@ -992,10 +992,43 @@ input[type="range"]::-moz-range-thumb {
   color: var(--text-2);
 }
 /* The creator (the Oct 12 SetupScreen's steps). */
-#front:has(#cr-character:not([hidden])),
-#front:has(#cr-place:not([hidden])),
-#front:has(#cr-look:not([hidden])) {
-  width: 420px;
+#front:has(#cr-screen:not([hidden])) {
+  width: min(1180px, 94vw);
+}
+#cr-screen {
+  grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+}
+#cr-figure {
+  align-items: center;
+}
+#cr-figure .portraits {
+  gap: 8px;
+}
+#cr-figure .portrait {
+  height: 170px;
+}
+#cr-figure .strip-name {
+  text-align: center;
+}
+#cr-screen .secbody {
+  padding-bottom: 8px;
+}
+#cr-screen .choice-list {
+  max-height: 150px;
+}
+#cr-screen .acts {
+  justify-content: flex-end;
+}
+#cr-place-summary-name {
+  margin: 0 0 4px;
+}
+#cr-place-summary-name:empty {
+  display: none;
+}
+#cr-place.missing #cr-place-summary-name::before,
+#cr-screen .sec:has(.missing) .sechead {
+  color: var(--red);
 }
 .summary {
   display: flex;
@@ -1570,7 +1603,7 @@ body:not(.dev) .dev-only {
   grid-template-columns: repeat(7, minmax(0, 1fr));
   grid-template-rows: auto;
   grid-auto-rows: 74px;
-  gap: 6px;
+  gap: 0 8px;
   min-height: 0;
   max-height: 640px;
 }
@@ -1596,12 +1629,12 @@ body:not(.dev) .dev-only {
   overflow: hidden;
   text-align: left;
   font-weight: 400;
-  background: linear-gradient(
-    rgba(255, 255, 255, 0.07),
-    rgba(255, 255, 255, 0.025)
-  );
-  border: 1px solid rgba(214, 189, 132, 0.22);
-  box-shadow: inset 0 1px 6px rgba(0, 0, 0, 0.45);
+  /* The month is a ruled sheet, not a grid of boxes (fr and pl-calendar mocks). */
+  background: none;
+  border: 0;
+  border-top: 1px solid rgba(214, 189, 132, 0.2);
+  border-radius: 0;
+  box-shadow: none;
 }
 .month .day .num {
   font: 600 14px var(--ui);
@@ -1611,7 +1644,8 @@ body:not(.dev) .dev-only {
 }
 .month .day.today {
   color: var(--gold);
-  border-color: var(--gold);
+  border-top-color: var(--gold);
+  background: rgba(214, 189, 132, 0.1);
 }
 .month .day.selected {
   outline: 2px solid var(--gold);
@@ -2364,132 +2398,6 @@ body:not(.dev) .dev-only {
     grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   }
 }
-/* Relationships are shown only when the player's records contain them. */
-#sheet-body:has(.relationship-web) {
-  max-width: none;
-}
-.people-toolbar,
-.people-filters,
-.people-selection {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-}
-.people-toolbar {
-  justify-content: space-between;
-}
-.people-search {
-  width: min(340px, 60%);
-}
-.people-filters {
-  margin: 16px 0;
-}
-.relationship-web {
-  position: relative;
-  height: min(50vh, 470px);
-  min-height: 280px;
-}
-.people-lines {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
-/* The People map as the owner liked it (Oct 28: the earlier web): a round
-   face in a ring colored by kind, and lines you can see, in the same color. */
-.people-node,
-.people-key span {
-  --kind: rgba(200, 185, 151, 0.6);
-}
-.people-node.family,
-.people-key .family {
-  --kind: rgba(194, 155, 72, 0.9);
-}
-.people-node.household,
-.people-key .household {
-  --kind: rgba(200, 185, 151, 0.8);
-}
-.people-node.friends,
-.people-key .friends {
-  --kind: rgba(132, 176, 128, 0.85);
-}
-.people-node.work,
-.people-key .work {
-  --kind: rgba(140, 170, 190, 0.85);
-}
-.people-node.politics,
-.people-key .politics {
-  --kind: rgba(176, 120, 96, 0.9);
-}
-.people-edge {
-  stroke: rgba(200, 185, 151, 0.45);
-  stroke-width: 1.5px;
-  vector-effect: non-scaling-stroke;
-}
-.people-edge.family {
-  stroke: rgba(194, 155, 72, 0.85);
-}
-.people-edge.household {
-  stroke: rgba(200, 185, 151, 0.7);
-  stroke-dasharray: 4 3;
-}
-.people-edge.friends {
-  stroke: rgba(132, 176, 128, 0.8);
-}
-.people-edge.work {
-  stroke: rgba(140, 170, 190, 0.8);
-}
-.people-edge.politics {
-  stroke: rgba(176, 120, 96, 0.85);
-}
-.people-edge.selected {
-  stroke-width: 3px;
-}
-.people-node.dim,
-.people-edge.dim {
-  opacity: 0.32;
-}
-/* The face's center sits on the point; names hang below, or above for the
-   people in the top half. */
-#sheet-body .people-node {
-  position: absolute;
-  transform: translate(-50%, -30px);
-  width: 155px;
-  display: grid;
-  justify-items: center;
-  gap: 3px;
-  background: none;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  margin: 0;
-}
-#sheet-body .people-node.above {
-  transform: translate(-50%, calc(-100% + 30px));
-}
-.people-node.above > :first-child {
-  order: 9;
-}
-.people-node::after {
-  display: none;
-}
-.people-node b {
-  font: 500 13px var(--ui);
-}
-.people-node span {
-  font: 12px var(--ui);
-  color: var(--text-2);
-}
-.people-node b,
-.people-node span,
-.people-node em,
-.people-center b {
-  text-shadow:
-    0 0 3px var(--iron),
-    0 0 3px var(--iron);
-}
-.people-node img,
-.people-center img,
 .headshot {
   box-sizing: border-box;
   width: 60px;
@@ -2500,68 +2408,96 @@ body:not(.dev) .dev-only {
   object-position: center top;
   background: var(--iron);
 }
-.people-center img,
-.people-center .headshot {
-  width: 72px;
-  height: 72px;
-  border-color: var(--gold);
-}
 /* The headshot's figure is placed inside the round frame by play.mjs. */
 .headshot {
   display: block;
   background-repeat: no-repeat;
 }
-.people-node.selected img,
-.people-node.selected .headshot {
-  border-width: 4px;
-  border-color: var(--gold);
+/* People: the roster of everyone you know at the left, grouped, and the selected person's
+   card beside it (owner, Nov 7: the person card, "perfect"; the mock's pl-people). */
+#sheet-body:has(.people-screen) {
+  max-width: none;
 }
-.people-node.selected b {
+.people-screen {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 22px;
+  align-items: start;
+}
+.people-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-family: var(--ui);
+}
+.people-roster .sechead {
+  margin: 0 0 6px;
+  padding: 8px 12px;
+  font:
+    700 15px "Cinzel",
+    "Playfair Display",
+    Georgia,
+    serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.32),
+    rgba(196, 160, 90, 0)
+  );
+}
+.people-roster .group {
+  margin: 10px 0 2px 12px;
+  font: 700 11.5px var(--ui);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   color: var(--gold);
 }
-.people-center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  display: grid;
-  justify-items: center;
-  gap: 8px;
-  font: 15px var(--name);
-}
-.people-selection {
-  min-height: 44px;
-  justify-content: center;
-}
-.people-key {
+.people-roster .person,
+#sheet-body .people-roster .person {
   display: flex;
-  justify-content: center;
-  gap: 22px;
-  font: 11px var(--ui);
-  color: var(--text-2);
-  margin: 12px 0;
-}
-.people-key span::before {
-  content: "";
-  display: inline-block;
-  width: 22px;
-  margin-right: 7px;
-  vertical-align: middle;
-  border-top: 2px solid var(--kind);
-}
-.people-key .household::before {
-  border-top-style: dashed;
-}
-/* The list of everyone you know: face cards across the area, paged. */
-.relationship-web.people-list {
-  height: auto;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 10px;
+  width: 100%;
+  margin: 0;
+  padding: 6px 12px;
+  background: none;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  text-align: left;
+  color: #f2e6c9;
+  font: inherit;
   min-height: 0;
+  cursor: pointer;
 }
-.people-list .member-card.on {
-  border-color: rgba(214, 189, 132, 0.8);
-  box-shadow:
-    0 0 0 1px rgba(214, 189, 132, 0.35),
-    0 0 12px rgba(214, 189, 132, 0.2);
+.people-roster .person b {
+  font: 600 15px var(--ui);
+}
+.people-roster .person span {
+  font: 13px var(--ui);
+  color: var(--muted, #c4bbab);
+}
+.people-roster .person:hover,
+#sheet-body .people-roster .person:hover,
+#sheet-body .people-roster .person:focus-visible {
+  background: rgba(214, 189, 132, 0.12);
+  box-shadow: 0 0 10px rgba(214, 189, 132, 0.2);
+}
+#sheet-body .people-roster .person[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(196, 160, 90, 0.34),
+    rgba(196, 160, 90, 0.08)
+  );
+}
+.people-pane .strip-screen {
+  grid-template-columns: 1fr;
+}
+.people-pane .strip-screen:has(.mxbust) {
+  grid-template-columns: 300px 1fr;
 }
 /* Politics layouts retain the existing Kit 13 panel frame. */
 #sheet-body:has(.government-picker, .entries-rows, .screen-grid) {
@@ -2731,15 +2667,6 @@ details.entry[open] {
   .paper-masthead h2 {
     font-size: 30px;
   }
-  #sheet-body .people-node {
-    width: 115px;
-  }
-  .people-node b {
-    font-size: 11px;
-  }
-  .people-key {
-    gap: 10px;
-  }
 }
 
 #sheet-body:has(.entries-cards) {
@@ -2824,8 +2751,40 @@ details.entry[open] {
   overflow-y: auto;
   margin: 12px 0;
 }
-.pick-list button {
+#front:has(#front-pick:not([hidden])) {
+  width: min(1100px, 94vw);
+}
+#front-pick {
+  grid-template-columns: minmax(0, 1fr) 340px;
+}
+#front-pick .pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-height: 62vh;
+}
+.pick-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  width: 100%;
+  padding: 6px 10px;
   text-align: left;
+}
+.pick-row .pick-name {
+  font: 700 17px var(--name);
+}
+.pick-row .pick-role {
+  color: var(--text-2);
+  font: 500 13px var(--ui);
+}
+.pick-row[aria-pressed="true"] {
+  background: linear-gradient(
+    90deg,
+    rgba(214, 189, 132, 0.45),
+    rgba(214, 189, 132, 0.12)
+  );
 }
 
 /* The bill on paper: the document and its estimate side by side. */
@@ -3256,23 +3215,6 @@ details.entry[open] {
   fill: var(--gold);
   fill-opacity: 1;
 }
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin: 0 0 20px;
-  padding: 0;
-  list-style: none;
-  font: 15px var(--ui);
-}
-.map-swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 8px;
-  background: var(--party, var(--text-3));
-  vertical-align: -1px;
-}
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
   --party: #3f6fb5;
@@ -3290,39 +3232,6 @@ details.entry[open] {
 }
 .party-green {
   --party: #4f8a4f;
-}
-
-/* A large body's members as a grid of headshots, each ringed in its party's
-   color; a legislature fits one screen this way (owner, Oct 28, point 22). */
-.face-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin: 6px 0 4px;
-}
-#sheet-body .face-cell {
-  min-height: 0;
-  padding: 0;
-  margin: 0;
-  background: none;
-  border: none;
-  box-shadow: none;
-}
-#sheet-body .face-cell::after {
-  display: none;
-}
-.face-cell .face-cell-face {
-  display: block;
-  width: 40px;
-  height: 40px;
-  border-width: 2px;
-  border-color: var(--party, var(--gold));
-}
-#sheet-body .face-cell:hover:not(:disabled) {
-  background: none;
-}
-.face-cell:hover .face-cell-face {
-  box-shadow: 0 0 0 2px #fff;
 }
 /* An issue card's value: large but wrapping inside its card, never past its
    edge; the cards are as wide as a value needs, so a word is not cut. */
@@ -3891,9 +3800,6 @@ details.entry[open] {
 #sheet-body .record-actions > button {
   margin: 0;
 }
-.tab-rail.people-filters {
-  gap: 3px;
-}
 /* The timeline: a gold line down the left, a round brass icon on it per record, and a
    small card with the year over the sentence; the pager's arrows name each chapter by
    its years. */
@@ -4344,29 +4250,8 @@ select.release-pick {
   font-weight: inherit;
 }
 
-/* Politics → Your office on plates: a rail of tabs, one page of plates at a time, so the
-   panel fits and never scrolls as a page (owner, Oct 29). */
-.office-screen {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: 0;
-}
-.office-body {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
-  min-height: 0;
-}
-.office-body .fact-plates {
-  margin: 0;
-}
 .office-paged .pager-grid > * {
   align-self: center;
-}
-.office-bills .plate {
-  height: 100%;
-  overflow: hidden;
 }
 
 /* A short window gives the budgets ring less room. */
@@ -4976,9 +4861,12 @@ select.release-pick {
   align-content: center;
 }
 .strip-screen .bsdept b {
-  white-space: nowrap;
+  /* A long name wraps to a second line before it is cut. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.15;
   overflow: hidden;
-  text-overflow: ellipsis;
   padding-right: 10px;
 }
 .strip-screen .bsdept em {
@@ -5403,6 +5291,218 @@ select.release-pick {
   white-space: nowrap;
 }
 
+/* Issues (pl-issues): subjects, then a subject's laws, then the law's page. */
+.issues-screen,
+.issues-laws {
+  width: auto;
+  max-width: 100%;
+}
+.issues-screen {
+  width: 1180px;
+  grid-template-columns: 250px minmax(0, 1fr);
+}
+.issues-laws {
+  grid-template-columns: 270px minmax(0, 1fr);
+}
+.issues-screen .roster-row span {
+  min-width: 1.5em;
+  text-align: right;
+}
+
+/* Your office (pl-office): my seat, my desk and the budget and deals in three columns. */
+#sheet-body:has(.office-board) {
+  max-width: none;
+}
+.strip-board.office-board {
+  width: 1080px;
+  max-width: 100%;
+}
+.office-board .board-cols {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr) minmax(0, 1fr);
+}
+.desk-bill {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+/* The ballot (pl-ballot), election night (pl-night) and election morning (pl-eday), over the
+   room's picture. */
+#ballot,
+#returns {
+  top: 6vh;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  transform: translateX(-50%);
+  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+}
+.ballot-paper {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 28px;
+  font-family: var(--ui);
+}
+.ballot-sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-family: "Courier Prime", monospace;
+}
+.ballot-race {
+  margin: 14px 0 2px;
+  font:
+    700 15px "Courier Prime",
+    monospace;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #f2e6c9;
+}
+#ballot .ballot-sheet .ballot-choice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 4px 6px;
+  background: none;
+  border: none;
+  box-shadow: none;
+  color: #f2e6c9;
+  font:
+    600 15px "Courier Prime",
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.ballot-choice .oval {
+  width: 28px;
+  height: 16px;
+  border: 1.5px solid #d6bd84;
+  border-radius: 50%;
+}
+.ballot-choice[aria-pressed="true"] .oval {
+  background: #d6bd84;
+}
+#ballot .ballot-choice:hover,
+#ballot .ballot-choice:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.ballot-person {
+  display: grid;
+  grid-template-columns: 72px 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: start;
+}
+.ballot-person b {
+  font:
+    600 20px "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+.night-board.strip-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: auto;
+}
+.night-title {
+  margin: 0;
+  font:
+    600 34px "Playfair Display",
+    Georgia,
+    serif;
+  text-transform: none;
+  letter-spacing: 0;
+  color: #f2e6c9;
+}
+.night-cols {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+  align-items: start;
+}
+#returns.nation .night-cols .dotrows {
+  columns: 2;
+}
+/* Election morning: the narrator's lines in italics, the choices numbered, in one dark box at
+   the foot of the picture. */
+#election-day {
+  top: auto;
+  left: 50%;
+  right: auto;
+  bottom: 6vh;
+  transform: translateX(-50%);
+  width: min(1160px, calc(100vw - 2 * var(--gutter)));
+  background: rgba(14, 12, 10, 0.94);
+  border: none;
+}
+#election-day-lines p {
+  font: italic 18px/1.5 var(--speech);
+  color: #f2e6c9;
+}
+#election-day-acts {
+  counter-reset: choice;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+#election-day-acts .action {
+  counter-increment: choice;
+  text-align: left;
+  background: none;
+  border: none;
+  box-shadow: none;
+  font: 16px var(--ui);
+  color: #f2e6c9;
+}
+#election-day-acts .action::before {
+  content: counter(choice) "." / "";
+  display: inline-block;
+  width: 2em;
+  color: #d6bd84;
+  font-weight: 700;
+}
+#election-day-acts .action:hover,
+#election-day-acts .action:focus-visible {
+  background: rgba(214, 189, 132, 0.14);
+}
+.ballot-know.strip-screen {
+  display: block;
+  width: auto;
+}
+
 .guide-article .sec {
   width: 100%;
+}
+
+/* Advanced: the world's start and settings in strips (the Nov 8 front mock, fr-world). */
+#front:has(#front-advanced:not([hidden])) {
+  width: min(900px, 94vw);
+}
+#front-advanced {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 22px;
+}
+#front-advanced .field input {
+  width: 190px;
+}
+#front-advanced .secbody {
+  padding-bottom: 8px;
+}
+#front-advanced .seed-row input {
+  width: 120px;
+}
+#front-advanced .seed-row button {
+  white-space: nowrap;
+}
+/* New game: the two choices read in the title's own type, not small capitals (fr-new). */
+#front-new .item b {
+  font: 700 24px "Playfair Display", Georgia, serif;
+  letter-spacing: 0.01em;
+  text-transform: none;
 }

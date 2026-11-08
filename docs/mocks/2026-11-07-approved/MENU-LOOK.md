@@ -40,7 +40,7 @@ He chose every item here on Nov 5 while hovering mocks. The live reference is ht
 
 ## Words
 
-- **American English only.** Never "ward" (use the place's record: district, at large), councillor, organise, colour, local authority, elected member. Check sample text in mocks too: "I know these are mock-ups, but take off" ward.
+- **American English only.** Never "ward" (use the place's record: district, at large), and no British words or spellings (no "-ise" or "-our" endings, no "local authority" or "elected member"). Check sample text in mocks too: "I know these are mock-ups, but take off" ward.
 - The game's title never appears in anything outsiders see.
 
 ## Layout he ruled
@@ -84,3 +84,8 @@ He chose every item here on Nov 5 while hovering mocks. The live reference is ht
 ## Before showing him any menu mock
 
 Check each line above, plus [chevron rule] and people-art rules. Then render at 1440x900 over a bright room (the courthouse or school hallway at midday) and look at it at full size. If anything breaks a line here, fix it before he sees it.
+
+## No subtexts (owner, Nov 7 and Nov 8, repeated)
+
+- No caption or explaining line under a heading, a control row, a quote or an item. Nov 7: "NONE OF THESE SUBTITLES ON MENUS". Nov 8: "remove all those subtexts... Only what the game offers her today... Kept. That's why she holds the tax... Fades about October... I already said I don't like those." Data and quotes stay; the line that explains them goes.
+- Show the glossary's inline help wherever civic words appear in player text: the word underlined, hover or keyboard focus (after about 250 ms) shows its short definition and "Mark as learned"; a learned word loses its underline everywhere. Nov 8: "I've never seen any of the inline helping stuff for the glossary."

@@ -343,12 +343,39 @@ export function householdIncome(
   );
 }
 
-/** What one of a counted household's unplaced workers earns a year: its place's pool's rate. */
-export function unplacedPayPerWorker(
+/** What one of a counted household's unplaced workers earns a year at the opening's pay: its place's pool's rate. The pool's flow is paid indexed to the place's pay level, so this is the base the flow's amount is kept in. */
+export function unplacedPayPerWorkerBase(
   rt: ResidentsRuntime,
   h: CountedHousehold,
 ): number {
   return rt.unplacedPerWorker.get(unplacedPoolOf(h.placeId, !!h.quarters)) ?? 0;
+}
+
+const levelReads = new WeakMap<
+  CoreState,
+  { date: string; byPlace: Map<string, number> }
+>();
+
+/**
+ * What one of a counted household's unplaced workers earns a year now: the
+ * pool's rate at the opening times the place's pay level (the pool's flow is
+ * paid indexed the same way), so the household's income, and every figure
+ * that reads it, follows wages. One read of a place's level a day.
+ */
+export function unplacedPayPerWorker(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+): number {
+  const base = unplacedPayPerWorkerBase(rt, h);
+  const core = rt.api?.state as CoreState | undefined;
+  if (!core || base === 0) return base;
+  let cache = levelReads.get(core);
+  if (!cache || cache.date !== core.date)
+    levelReads.set(core, (cache = { date: core.date, byPlace: new Map() }));
+  let level = cache.byPlace.get(h.placeId);
+  if (level === undefined)
+    cache.byPlace.set(h.placeId, (level = payLevel(core, h.placeId)));
+  return base * level;
 }
 
 /** What keys a counted household to its group today. */
@@ -3440,6 +3467,83 @@ function startCommuterJob(
 }
 
 /**
+ * A town resident finds work in the wider labor market (the jobs engine's
+ * regional find, src/core2/jobs-elsewhere.ts). A full person starts a job with
+ * the place's outside account as employer, at `hourlyMinor` over the standard
+ * commuter week, paid on the place's unplaced workers' payday (the same
+ * commuter job a filled-in household's unplaced worker has). A counted person
+ * joins the place's unplaced workers: their household's workers and the pool's
+ * pay grow by the record's weight times the pool's pay per worker. Returns the
+ * job's id for a full person, `counted` for a counted one, and undefined where
+ * the place has no unplaced pool to take them.
+ */
+export function startRegionalWork(
+  core: CoreState,
+  personId: string,
+  hourlyMinor: number,
+): string | undefined {
+  const rt = runtimes.get(core);
+  if (!rt) return undefined;
+  const m = rt.store.countedMember(personId);
+  if (m !== undefined) {
+    const h = rt.store.households[rt.store.household[m]!]!;
+    const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+    const perWorker = unplacedPayPerWorkerBase(rt, h);
+    if (!base || !(perWorker > 0)) return undefined;
+    const perYear =
+      base.cadence.kind === "days"
+        ? DAYS_PER_YEAR / base.cadence.every
+        : 12 / base.cadence.every;
+    const workers = rt.store.weightOf(h);
+    base.amountMinor += Math.round((workers * perWorker) / perYear);
+    h.unplacedWorkers += workers;
+    regroupHousehold(rt, h, core.date);
+    return "counted";
+  }
+  const person = core.people.get(personId);
+  if (!person) return undefined;
+  const unplaced = unplacedFlowOf(rt, person.placeId, false);
+  if (!unplaced || unplaced.cadence.kind !== "days") return undefined;
+  const api = rt.api ?? coreAPI(core);
+  const weekHours =
+    countedParameter("countedCommuterWorkdayHours") *
+    countedParameter("countedCommuterWorkdaysPerWeek");
+  const amount = Math.round(
+    (hourlyMinor * weekHours * unplaced.cadence.every) /
+      api.parameter("daysPerWeek"),
+  );
+  if (!startCommuterJob(core, rt, personId, unplaced, amount)) return undefined;
+  return commuterJobId(personId, addDays(makeIsoDate(core.date), 1));
+}
+
+/**
+ * A counted person's regional work ends (`startRegionalWork` reversed): their
+ * household's unplaced workers and the pool's pay shrink by the record's
+ * weight times the pool's pay per worker. False where there is nothing to end.
+ */
+export function stopRegionalWork(core: CoreState, personId: string): boolean {
+  const rt = runtimes.get(core);
+  const m = rt?.store.countedMember(personId);
+  if (!rt || m === undefined) return false;
+  const h = rt.store.households[rt.store.household[m]!]!;
+  const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
+  const workers = Math.min(rt.store.weightOf(h), h.unplacedWorkers);
+  if (!base || !(perWorker > 0) || !(workers > 0)) return false;
+  const perYear =
+    base.cadence.kind === "days"
+      ? DAYS_PER_YEAR / base.cadence.every
+      : 12 / base.cadence.every;
+  base.amountMinor = Math.max(
+    0,
+    base.amountMinor - Math.round((workers * perWorker) / perYear),
+  );
+  h.unplacedWorkers -= workers;
+  regroupHousehold(rt, h, core.date);
+  return true;
+}
+
+/**
  * A household returning to the counts brings its commuter's pay back to its
  * place's unplaced workers' flow, and its share of those workers with it
  * (`amountMinor` is what the job paid for each of that flow's periods).
@@ -3470,7 +3574,7 @@ export function returnCommuterPay(
     base.cadence.kind === "days"
       ? DAYS_PER_YEAR / base.cadence.every
       : 12 / base.cadence.every;
-  const perWorker = unplacedPayPerWorker(rt, h);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
   h.unplacedWorkers = perWorker > 0 ? (amountMinor * perYear) / perWorker : 0;
   regroupHousehold(rt, h, core.date);
 }

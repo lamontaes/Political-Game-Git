@@ -648,8 +648,21 @@
       ],
       "setting": ["letter"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:contact-from-someone-away"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.contact",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.contact",
+          "bind": {
+            "writer": "counterpart",
+            "reader": "subject"
+          }
+        }
+      ],
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
@@ -875,11 +888,17 @@
       "timing": "effective-date",
       "causes": [
         {
-          "awaitingProducer": "married",
+          "match": {
+            "label": "feeling:event:family.married",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.married",
           "bind": {
             "honoree": "subject",
-            "host": "kin",
-            "guests": "present"
+            "host": "household",
+            "guests": "kin"
           },
           "opener": "host"
         },
@@ -1041,8 +1060,20 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": ["record:birthday-gathering", "record:holiday-calendar"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.gathering-missed",
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.gathering-missed",
+          "bind": {
+            "household": "household",
+            "absent": "counterpart"
+          }
+        }
+      ],
       "tag": {
         "key": "loss",
         "endpoint": "personal",
@@ -1306,18 +1337,31 @@
       "timing": "next-together",
       "causes": [
         {
-          "awaitingProducer": "started-dating",
+          "match": {
+            "label": "feeling:event:family.partnered",
+            "selfNamed": true,
+            "counterpart": "some",
+            "causeFacts": [{ "key": "union", "equals": ["dating"] }]
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.partnered",
           "bind": {
             "partner": "subject",
             "other-partner": "counterpart"
-          }
+          },
+          "opener": "other-partner",
+          "opening": "greet"
         }
       ],
       "tag": {
         "key": "routine",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "first-date",
+      "asker": "other-partner",
+      "asked": "partner",
+      "stakes": ["place"]
     },
     {
       "key": "proposal",
@@ -1341,8 +1385,23 @@
       ],
       "setting": ["home", "public", "venue"],
       "timing": "next-together",
-      "causes": [],
-      "awaiting": ["record:couple-next-stage"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.engaged",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.engaged",
+          "bind": {
+            "proposing": "counterpart",
+            "proposed-to": "subject"
+          },
+          "opener": "proposing",
+          "opening": "greet"
+        }
+      ],
       "aftermath": {
         "agree": {
           "kind": "commitment:engaged",
@@ -1354,7 +1413,11 @@
         "key": "favor-asked",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "proposal-ask",
+      "asker": "proposing",
+      "asked": "proposed-to",
+      "stakes": ["home"]
     },
     {
       "key": "breakup",
@@ -1388,20 +1451,20 @@
       "timing": "at-cause",
       "causes": [
         {
-          "awaitingProducer": "broke-up",
+          "match": {
+            "label": "feeling:event:family.separated",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.separated",
           "bind": {
-            "ending": "subject",
-            "partner": "counterpart",
+            "ending": "counterpart",
+            "partner": "subject",
             "children": "household"
-          }
-        },
-        {
-          "awaitingProducer": "separated",
-          "bind": {
-            "ending": "subject",
-            "partner": "counterpart",
-            "children": "household"
-          }
+          },
+          "opener": "ending",
+          "opening": "greet"
         }
       ],
       "aftermath": {
@@ -1415,7 +1478,11 @@
         "key": "loss",
         "endpoint": "personal",
         "registers": ["conversation", "scene-words", "journal"]
-      }
+      },
+      "purpose": "breakup-tell",
+      "asker": "ending",
+      "asked": "partner",
+      "stakes": ["home"]
     },
     {
       "key": "reunion",
@@ -5313,6 +5380,115 @@
       "tag": {
         "key": "threat",
         "endpoint": "money",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "office-doubt",
+      "note": "A strike or protest against the town's term, and someone who lives with the official asks the question the crowd raised: is the job worth it? (the public-action engine's civic record, the day after; the cast is the official's own household). The official can say why, say it looks worse than it is, promise time at home, or put the talk off.",
+      "purpose": "office-doubt",
+      "asker": "relative",
+      "asked": "you",
+      "stakes": ["office", "home"],
+      "roles": [
+        {
+          "key": "relative",
+          "fill": "household",
+          "count": "one",
+          "moves": ["ask", "press", "accept", "thank", "warn"],
+          "wants": ["change"],
+          "bearing": "hurt"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "comfort", "promise", "deflect", "leave"],
+          "wants": ["keep-same"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:office-doubt"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "civic.protest",
+          "bind": {
+            "relative": "counterpart",
+            "you": "subject"
+          },
+          "opener": "relative",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "threat",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "floor-debate",
+      "note": "The floor before the roll (the legislature's floor-debate record: the sponsor, or the member leaning furthest for the bill, and the member leaning furthest against, each recognized by the chair). The speaker addresses the chair; the player, a member of the body, can stand with them, say they disagree, ask them to yield for a question or say nothing.",
+      "purpose": "floor-debate",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "press", "answer", "thank", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:floor-debate-for"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "floor-debate",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:floor-debate-against"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "floor-debate",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "honor",
+        "endpoint": "political",
         "registers": ["scene-talk", "scene-words"]
       }
     },

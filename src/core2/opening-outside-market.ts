@@ -194,3 +194,82 @@ export function addOutsideMarket(
     residents: { ...residents, flows: [...residents.flows, ...flows] },
   };
 }
+
+/** A flow's payments a year at its cadence. */
+function flowPerYear(flow: ResidentFlowInput): number {
+  return flow.cadence.kind === "days"
+    ? (flow.amountMinor * 365) / flow.cadence.every
+    : (flow.amountMinor * 12) / flow.cadence.every;
+}
+
+/**
+ * The firm's trade area (Jobs and economy, Nov 8, 2026). A small town's
+ * establishments are in the Census counts because they sell: their receipts
+ * equal the books' demand (an identity of the receipts data), and whatever
+ * the town's own households and firms do not buy comes from customers beyond
+ * the town, the trade area retail analysis calls the pull factor (Stone,
+ * "Retail Trade Analysis", Iowa State University Extension, 1995: a town's
+ * sales above its residents' spending are trade-area customers' spending).
+ * The industry's sourced outside share (`addOutsideMarket`) is a floor.
+ * Applied once, after the households are counted, so the town's own buyers
+ * are the real ones: the outside flow is raised until the firm's receipts
+ * from town households, town firms and outside buyers together meet its
+ * books. Without it the firm's sales sit near half its demand at the opening
+ * and its staff is laid off toward them (Algiers, Vermont, seed r7: one
+ * seeker in the opening, twenty-three thirteen months on).
+ */
+export function addTradeArea(
+  input: CoreInput,
+  data: OutsideMarketData = outsideMarket as OutsideMarketData,
+): CoreInput {
+  const residents = input.residents;
+  if (!residents) return input;
+  const local = new Map<string, number>();
+  const outsideFlow = new Map<string, ResidentFlowInput>();
+  for (const flow of residents.flows) {
+    if (flow.kind === "purchase")
+      local.set(
+        flow.payeeId,
+        (local.get(flow.payeeId) ?? 0) + flowPerYear(flow),
+      );
+    else if (flow.kind === "outside-sales") outsideFlow.set(flow.payeeId, flow);
+  }
+  for (const contract of input.finance?.contracts ?? [])
+    if (contract.salesReceipt)
+      local.set(
+        contract.payeeId,
+        (local.get(contract.payeeId) ?? 0) +
+          (contract.amountMinor * 12) / contract.periodMonths,
+      );
+  const raised = new Map<string, ResidentFlowInput>();
+  for (const book of input.finance?.businesses ?? []) {
+    const flow = outsideFlow.get(book.organizationId);
+    if (!flow) continue;
+    const gap =
+      book.annualDemandMinor -
+      (local.get(book.organizationId) ?? 0) -
+      flowPerYear(flow);
+    if (gap <= 0) continue;
+    const weekly = Math.round(gap / data.weeksPerYear);
+    raised.set(flow.id, {
+      ...flow,
+      amountMinor: flow.amountMinor + weekly,
+      source: {
+        tag: "ESTIMATED",
+        asOf: flow.source.asOf,
+        citation:
+          "Trade-area customers: the firm's receipts (its books' demand) less what the town's households and firms buy and the industry's sourced outside share (retail pull factor, Stone 1995, Iowa State University Extension).",
+        estimatedFrom:
+          "BusinessBooksState.annualDemandMinor less the town's purchase flows and sales contracts to the firm and its outside-sales flow.",
+      },
+    });
+  }
+  if (!raised.size) return input;
+  return {
+    ...input,
+    residents: {
+      ...residents,
+      flows: residents.flows.map((flow) => raised.get(flow.id) ?? flow),
+    },
+  };
+}

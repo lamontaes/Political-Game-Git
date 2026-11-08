@@ -1549,3 +1549,13 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
         .get(contest.incumbentTermId) as unknown as TermRow)
     : null;
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export {
+  campaignParameter,
+  personStance,
+  PLATFORM_QUESTIONS,
+} from "../campaign-views";
+export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
+export { groupDraw, joinsGroup } from "./interest-groups";
+export { foundMovement, movementGroupId } from "./interest-groups";

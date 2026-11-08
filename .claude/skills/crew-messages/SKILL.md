@@ -20,7 +20,16 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 - Send with the claude-code-remote `send_message` tool and the session id from `docs/coordination/CREW.md`. `SendMessage` is a different transport and reaches no other session (Oct 30: a checker's hand-offs to the mergers went through it for hours and arrived nowhere).
 - Start with who is talking to whom: `Checker 2 → Merger 1.` Then the point in the first sentence.
 - `send_message` delivers the moment it is called, and nothing takes it back. Never call it with a draft, a placeholder or a body still to fill in: write the whole body first, then send (Nov 1: a governing message that said only "placeholder" reached the laws lead and needed a second message to withdraw it).
+- A message to a session in a long turn waits in its queue until the turn ends, unless it is sent with `priority: "next"`, which joins the running turn (`"now"` interrupts it). Send rulings and corrections with `"next"`. A session that keeps doing what you told it to stop has probably not received your messages, so ask it for a one-line reply naming what it is on (Nov 8: Jobs and economy got 24 messages, from 9:55 a.m. on, only at 11:40, after building two things they had redirected).
 - Arm no timers: no `send_later`, `create_trigger` or wake-up chain (owner, Nov 1: "Anthropic has removed 5-hour limits, so no need for any timers or anything"). After a long stop, the CTO restarts each session by message.
+
+## Starting a session with a goal
+
+- A session started with `create_session` whose first message begins `/goal ` runs it as a real goal (a stop hook the session can't end before it holds). The goal is limited to 4,000 characters; a longer one is refused and the session does nothing (Nov 8: the five night briefs, 8,000 to 12,000 characters each, and Dev Mode's were all refused). Write the role, the done-when lines and the rules in short under 4,000, and point to the full brief by branch and path.
+- A `/goal` sent later with `send_message` arrives as an ordinary message, not a command. The session works on it but holds no stop hook, so it can end its turn early (Nov 8: none of the five night sessions given their goal by message showed one). Check `get_session` for `external_metadata.goal`; a session without one is restarted by message on each pass.
+- The model passed to `create_session` is the one that runs; after the first turn `external_metadata.last_served_model` confirms it.
+- Post a new session's branch prefix where the merge desk's owner reads, in the same comment that announces the session ("new session: X, branches `x/`"). The merge desk merges only prefixes it has been told about (Nov 8: `jobs/`, `lives/`, `memory/` and `elections/` PRs waited two to four hours for that line).
+- Before every push to a PR's branch, read the PR's own state. A merged PR strands whatever is pushed after it, so open a new PR from fresh main instead (Nov 8: five stranded pushes in one night, from four sessions).
 
 ## Who gets what
 
@@ -35,6 +44,8 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 | A seam (you will build in another session's area) | that session, before you build                                   | your channel block                                  |
 | Your queue is empty or too long (checker)         | the CTO, who moves PRs between checkers                          | nothing else                                        |
 | A stray push, a deleted file, a mistake           | the CTO at once, with what and where                             | nothing else                                        |
+
+- **Every question goes on the coordination PR (owner, Nov 8).** When a crew runs from a coordination PR (Nov 8: #7365, where the CTO and a Coordinator on another account talk), every question from every session (design, ruling, scope or blocker) is a comment on that PR. It starts `Question (<session>):`, puts the question in its first sentence, then gives the PR, head, place and seed, what is being built meanwhile, and the reading line when it is the owner's call. Send the Coordinator a one-line message that it is posted. A session whose environment refuses the GitHub write sends the question by message, and the Coordinator posts it word for word, marked as relayed. Watch it so the CTO's answers arrive at once. If it is an issue, not a pull request (Nov 8: #7365 is an issue), a PR subscription never delivers its comments; poll its comment count once a minute with `gh api -X GET search/issues -f q='repo:<owner>/<repo> is:issue is:open <words in its title>' --jq '.items[] | select(.number==N) | .comments'` and read the new comments when it changes (Nov 8: five CTO comments waited 30 minutes unread). Asking never stops the build: take the realistic choice and say so in the comment.
 
 When the CTO moves a PR between two checkers, it tells both. A checker already mid-gate keeps the PR and tells the other.
 
