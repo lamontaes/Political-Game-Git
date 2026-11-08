@@ -222,6 +222,12 @@ export async function fileWhenFilingOpens(page, { maxWeeks = 104 } = {}) {
         );
         body = await res.json();
       }
+      // An election day on the way holds the clock at the polling place: the player leaves it,
+      // as a voter who does not stay would, and the week goes on.
+      if (!res.ok && /polling place first/.test(JSON.stringify(body))) {
+        await fetch("/api/polling-place/leave", { method: "POST" });
+        return;
+      }
       if (!res.ok)
         throw new Error(`A week of play failed: ${JSON.stringify(body)}`);
     });

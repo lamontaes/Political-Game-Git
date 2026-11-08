@@ -171,6 +171,7 @@ async function launch() {
       ).length,
       continueShown: Boolean(document.getElementById("front-continue")),
       continueDisabled: document.getElementById("front-continue")?.disabled,
+      continueHidden: document.getElementById("front-continue")?.hidden,
       figures: document.querySelectorAll("#people img").length,
       quitShown: !document.getElementById("front-quit")?.hidden,
     };
@@ -223,8 +224,10 @@ async function launch() {
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(
-    "title: Continue is there, disabled with no life saved",
-    titleScreen.continueShown && titleScreen.continueDisabled === true,
+    "title: Continue is not offered (hidden and disabled) with no life saved",
+    titleScreen.continueShown &&
+      titleScreen.continueDisabled === true &&
+      titleScreen.continueHidden === true,
   );
   check("title: Quit is offered on the desktop", titleScreen.quitShown);
   // No version string on the title (owner, Nov 8); the window title names the version.

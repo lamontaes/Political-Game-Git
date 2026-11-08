@@ -873,7 +873,11 @@
   },
   "billStage": {
     "committee": "In committee",
+    "referred": "Referred to",
     "chair": "Chaired by",
+    "markup": "Changes in markup",
+    "markupTrade": "added to win their vote",
+    "markupPill": "added to sink the bill",
     "heardFrom": "Heard from",
     "held": "The chair held it and did not hear it",
     "votedFor": "For",
