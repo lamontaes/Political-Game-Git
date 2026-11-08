@@ -633,6 +633,11 @@ export interface WorkRuntime {
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
   >;
+  /** Dated changes to a job's hours by job (rehourJob), newest last. */
+  hourChanges: Map<
+    string,
+    readonly { date: IsoDate; hoursDaily: number; source: Source }[]
+  >;
   payrollCalendars: Map<string, WorkPayrollCalendarInput>;
   payrollCalendarByCommitment: Map<string, string>;
   payrollCalendarByJob: Map<string, string>;
@@ -1291,6 +1296,8 @@ export interface CoreAPI {
   addPersonV1(input: PersonInput): PersonState;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
+  /** New daily hours for a job from today: its shifts shrink or grow in proportion, open pay periods keep what was earned, and the next payday pays the new hours. */
+  rehourJob(jobId: string, hoursDaily: number, source: Source): void;
   /**
    * v19: a public pay authority draws its wages from a government's cash
    * (its treasury) on each payday; what the treasury can't cover, the

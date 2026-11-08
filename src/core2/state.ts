@@ -29,7 +29,7 @@ import {
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { rehourCountedJobs, rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
@@ -49,6 +49,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  rehourNamedJob,
 } from "./work-state";
 import {
   admitWorkAttendanceOwner,
@@ -1986,6 +1987,18 @@ export function coreAPI(core: CoreState): CoreAPI {
           sourceId: job.id,
           access: "self",
         });
+    },
+    rehourJob(jobId, hoursDaily, source) {
+      if (!Number.isFinite(hoursDaily) || hoursDaily <= 0)
+        throw new Error("New daily hours must be positive.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("An hours change cannot cite a later source.");
+      if (!core.jobs.has(jobId)) {
+        if (rehourCountedJobs(core, new Map([[jobId, hoursDaily]])) > 0) return;
+        throw new Error(`No recorded job to change the hours of: ${jobId}`);
+      }
+      rehourNamedJob(core, api, jobId, hoursDaily, source);
     },
     addOrganization(row) {
       if (
