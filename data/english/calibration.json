@@ -685,7 +685,7 @@
     "scene-talk:desk-bill": "floor",
     "scene-talk:desk-visit": "floor",
     "scene-talk:section-bargain": "floor",
-    "scene-talk:hearing-testify": "floor",
+    "scene-talk:hearing-testify": "town-hall",
     "scene-talk:hearing-push": "floor",
     "scene-talk:hearing-ask": "floor",
     "scene-talk:testimony-heard": "floor",
