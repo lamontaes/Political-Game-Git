@@ -3359,9 +3359,9 @@ const sheets = {
     // governments as tabs, the fiscal year typed at the right, the departments, the open
     // department as a typed page, the town's money, and who wrote it. The game keeps
     // budget lines by category rather than departments, so each spending line is a
-    // department; Last year comes from the government's previous budget; a head, an
-    // "Asked" figure and the executive's bust wait on pool items gov-budget-departments-
-    // with-named-heads and gov-budget-asked-versus-adopted.
+    // department; Last year comes from the government's previous budget; the executive's
+    // bust is the offices record's chief executive; a head and an "Asked" figure wait on
+    // pool items gov-budget-departments-with-named-heads and gov-budget-asked-versus-adopted.
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3457,6 +3457,25 @@ const sheets = {
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
             ),
+            ...(gov.executive?.title
+              ? [
+                  stripSection(
+                    4,
+                    gov.executive.title,
+                    leaderBlock({
+                      face: gov.executive.face,
+                      name: gov.executive.name,
+                      party: gov.executive.party,
+                      post: gov.executive.title,
+                      onOpen: () =>
+                        showPerson({
+                          personId: gov.executive.cardId,
+                          figureUrl: gov.executive.face?.url,
+                        }),
+                    }),
+                  ),
+                ]
+              : []),
             ...(latest.adoptedOn
               ? [
                   stripSection(
