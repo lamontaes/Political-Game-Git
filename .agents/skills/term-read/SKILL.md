@@ -26,3 +26,12 @@ description: How Our Civic Duty reads an official's or a town's term by policy a
 - **People move.** A participant's `placeId` after six months may be another town's; assert they were adults of the town when they joined, not where they are now.
 - **The speech engine's cases are not kept in the durable log.** To see who an action pressed, register a small tap module on `CASE_MADE` (see `public-action.test.ts`).
 - The yearly address is recorded by `yearly-address.ts` from the director's `onDay`; the household's `address` scene fires from its `president.address` event like the opening's.
+
+## Traps the first night found (Nov 8)
+
+- **`src/director/director.test.ts` forbids a numeric literal in any non-test director file** ("keeps numbers in data"): use `P.zero`, `P.one`, a date helper (`daysBetweenText`) and a parameter (`api.parameter("daysPerMeanYear")`). It was red on main for an hour because #7380 shipped `0`, `1` and `86_400_000`; run that test file on every PR that touches `src/director`.
+- **One heavy job at a time.** A year of one town is 6 GB; two background world runs plus a vitest run were killed for memory and the run's output was lost. Start one, wait on it with a Monitor, then start the next.
+- **A mayor is not in the officials engine** (only the state's and nation's officials have a stand row); a local address says its story and asks nothing. Look for an `OfficialRow` before assuming a speaker has views on record.
+- **A scene reuses a purpose by its bank pieces, not its type.** To give a kind of scene its own register, add pieces to the existing purpose that require a fact the scene sets (`protest`, `strike`) and put `excludesFacts` on the old pieces that do not fit; do not fork the purpose until it needs its own replies and endings.
+- **A player decision belongs to the player:** an engine that decides by traits for everyone (`considerBribe`) checks `isPlayerSeat` first, records the offer as pending with an event the director stages, and settles on the scene's `scene.reply` ending. That is the pattern for any offer made to the player's seat.
+- **The press wire keeps only fresh items**, so a test that wants to know whether a story was told reads the `press.printed` stories in the news table, not the wire table days later.
