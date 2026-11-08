@@ -114,7 +114,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are rescue. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are rescue. A rescue needs an incident with someone present or an acute health episode, and no engine writes either: crime victimization names no one present, health records a diagnosis and a death but no emergency, and the disaster engine fired in none of the drawn years.
 
 ## How this was made
 
