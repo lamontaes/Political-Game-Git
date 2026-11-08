@@ -474,7 +474,7 @@ const ROUTES: readonly Route[] = [
   },
   {
     match: ({ request, url }) =>
-      request.method === "GET" && NEWSPAPER_ART.exec(url.pathname),
+      request.method === "GET" && NEWSPAPER_ART.test(url.pathname),
     run: async ({ response, url }) => {
       const newspaper = NEWSPAPER_ART.exec(url.pathname)!;
       // The newspaper art: engraved mastheads and front-page photos, cut
