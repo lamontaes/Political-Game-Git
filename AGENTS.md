@@ -124,6 +124,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `session-start`: the pool worker loop
 - `skill-lessons`: the skills learn from each day
 - `speed-work`: timing a year, proving a cut changes nothing, folding what grows
+- `term-read`: reading a term by policy area, the kind of an address and the town's strikes, protests and rallies
 - `trace-audit`: the 56-place trace audit
 - `wiring-audit`: auditing a family of mechanics end to end
 - `words-engine`: the English engine and the director
