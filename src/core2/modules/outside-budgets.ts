@@ -17,6 +17,7 @@
  * line and the state's treasury follow when someone opens that state
  * (stopgap SG-NATION-outside-budget-lines).
  */
+import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import { REGIONS } from "../regional-model";
 import type { RegionMonth } from "../regional-model";
@@ -145,6 +146,7 @@ function government(stateKey: string, base: StateBase): GovernmentRow {
     level: "state",
     name: base.name,
     organizationId: "",
+    jurisdictionId: stateJurisdictionId(stateKey) ?? stateKey,
     fiscalYearStart: base.fiscalYearStart,
     residents: residentsOf(base),
     base: "state",

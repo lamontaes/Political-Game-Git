@@ -31,7 +31,7 @@ import {
   townForm,
 } from "./modules/executive";
 import { answerIn } from "./modules/world-legislating";
-import { governments } from "./modules/budgets";
+import { governmentOfJurisdiction, governments } from "./modules/budgets";
 import { postPayCapDaily } from "./budgets-treasury";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -220,6 +220,33 @@ describe("the executive's desk", () => {
         ).toBeDefined();
     }
     expect(kinds.size, "kinds of government drawn").toBeGreaterThan(1);
+  }, 900_000);
+
+  it("every budget government is one jurisdiction, and the government that runs the place finds its heads by either name", () => {
+    for (let i = 0; i < 8; i += 1) {
+      const { api, where } = world(all, `jurisdiction:${i}`);
+      const govs = governments(api);
+      for (const g of govs) {
+        expect(g.jurisdictionId, `${where} ${g.id}`).toBeTruthy();
+        expect(
+          governmentOfJurisdiction(api, g.jurisdictionId)?.id,
+          `${where} ${g.id}: its jurisdiction names it back`,
+        ).toBe(g.id);
+        expect(governmentOfJurisdiction(api, g.id)?.id, where).toBe(g.id);
+      }
+      const heads = appointmentsIn(api, lawChain(api).townPlaceId);
+      if (!heads.length) continue;
+      const runs = govs.find(
+        (g) => g.jurisdictionId === lawChain(api).townPlaceId,
+      );
+      expect(
+        runs,
+        `${where}: a government is the town's own jurisdiction`,
+      ).toBeDefined();
+      expect(appointmentsIn(api, runs!.id).length, `${where} ${runs!.id}`).toBe(
+        heads.length,
+      );
+    }
   }, 900_000);
 
   it("a territory's legislature has its recorded seats, so its governor's cabinet is confirmed", () => {

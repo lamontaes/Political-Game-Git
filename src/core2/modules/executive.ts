@@ -56,7 +56,12 @@ import { leanOf, mayorVeto, memberKey, members } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
-import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
+import {
+  BUDGETS_MODULE_ID,
+  amendBudget,
+  governmentOfJurisdiction,
+  governments,
+} from "./budgets";
 import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
@@ -1012,13 +1017,18 @@ export function appointmentsIn(
   government: string,
 ): readonly AppointmentRow[] {
   if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-  return (
-    table(api, "appointments").query("byGovernment", [
-      government,
-    ]) as unknown as AppointmentRow[]
-  )
-    .slice()
-    .sort((a, b) => a.id.localeCompare(b.id));
+  // A government is named by its id, its jurisdiction or the key the post was filed under.
+  const named = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governmentOfJurisdiction(api, government)
+    : undefined;
+  const rows = new Map<string, AppointmentRow>();
+  for (const key of new Set([government, named?.id, named?.jurisdictionId]))
+    if (key)
+      for (const row of table(api, "appointments").query("byGovernment", [
+        key,
+      ]) as unknown as AppointmentRow[])
+        rows.set(row.id, row);
+  return [...rows.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /** The governor's candidates for a state post and the chamber that confirms them, as the engine weighs them. */
