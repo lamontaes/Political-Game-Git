@@ -117,6 +117,7 @@ export async function devBillsPanel({ labels, onDone }) {
         out.bill.status,
         ...out.tallies.map((t) => `${t.yes}–${t.no}`),
         ...out.held.map(() => labels.held),
+        ...(!out.veto && executive !== undefined ? [labels.noVeto] : []),
       ].join(" · ");
     });
   const pass = makeButton({ className: "action" }, labels.pass);

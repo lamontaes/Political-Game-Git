@@ -177,6 +177,7 @@
     "pass": "Pass",
     "defeat": "Defeat",
     "held": "Held in committee",
+    "noVeto": "No veto at this body",
     "noBill": "Introduce a bill first."
   },
   "devBribe": {
