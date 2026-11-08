@@ -19,7 +19,10 @@ async function send(path, input) {
 
 /** The bills panel. `labels` is controls.devBills; `onDone()` refreshes the game's screens. */
 export async function devBillsPanel({ labels, onDone }) {
-  const [bodies, laws] = await Promise.all([send("lawmaking-bodies"), send("laws")]);
+  const [bodies, laws] = await Promise.all([
+    send("lawmaking-bodies"),
+    send("laws"),
+  ]);
   if (!bodies.length) return null;
   const bodyBox = select({
     label: labels.body,
@@ -114,7 +117,7 @@ export async function devBillsPanel({ labels, onDone }) {
   defeat.dataset.testid = "dev-defeat";
   decide(pass, 1);
   decide(defeat, -1);
-  return el(
+  const section = el(
     "section",
     { className: "dev-only dev-bills" },
     el("h3", { textContent: labels.title }),
@@ -131,4 +134,5 @@ export async function devBillsPanel({ labels, onDone }) {
     ),
     result,
   );
+  return { section, bodies, billId: () => billId };
 }
