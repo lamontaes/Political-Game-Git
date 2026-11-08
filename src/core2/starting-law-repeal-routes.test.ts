@@ -1,5 +1,5 @@
 // @vitest-environment node
-/** Exhaustive opening-law drafting audit. These drafts are not passed votes. */
+/** Exhaustive opening-law effect audit. Passed desks are fixtures, not played votes. */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -9,10 +9,13 @@ import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { inForceOn, lawRowIsLater } from "./laws-in-force";
 import {
+  authorityFor,
   bodyJurisdiction,
   bodyReach,
   bodyRow,
   draftBill,
+  executiveDecision,
+  LEGISLATURE_MODULE_ID,
   FEDERAL_HOUSE,
   memberKey,
   members,
@@ -20,7 +23,9 @@ import {
 import { LAWS_MODULE_ID, lawInForce } from "./modules/laws";
 import { townSeats } from "./modules/offices";
 import type { LawRowInput } from "./laws-starting";
+import type { ModuleRow } from "./module-data";
 import { coreAPI } from "./state";
+import { governmentAt } from "./law-reach/group-b-money";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const place = drawPlace(replay, "starting-law-repeal-routes");
@@ -28,6 +33,15 @@ const place = drawPlace(replay, "starting-law-repeal-routes");
 it(`every active opening law has a reversal bill: ${place.name}, replay ${replay}`, () => {
   setBookkeeping(false);
   try {
+    console.log(
+      JSON.stringify({
+        stage: "opening",
+        place: place.name,
+        placeKey: place.key,
+        replay,
+        worldSeed: place.seed,
+      }),
+    );
     const world = buildBenchWorld(place.seed, gameStartDate(), {
       placeKey: place.key,
       twoLevel: true,
@@ -96,9 +110,9 @@ it(`every active opening law has a reversal bill: ${place.name}, replay ${replay
     const routes: unknown[] = [];
     const missing: unknown[] = [];
     for (const row of opening.filter((row) => active.has(row.id))) {
-      // Existing production alias: group-a-wages.localWageAuthority writes
-      // the authority series read by the minimum-wage resolver. This is a
-      // concrete policy route, not the old audit's unsupported exemption.
+      // Existing production route: the policy writes an authority enactment,
+      // read by the local-wage permission rule. Check both the policy row
+      // and that permission consumer; the old numeric row is historical.
       const key =
         row.series === "local-minimum-wage-authority"
           ? "us-policy-positions:labor-workforce.local-minimum-wage-authority"
@@ -131,6 +145,7 @@ it(`every active opening law has a reversal bill: ${place.name}, replay ${replay
               policyId: policy.id,
               operation,
               amount: row.value === 0 ? 1 : 0,
+              effectiveDate: api.state.date,
             }),
           ],
         });
@@ -139,8 +154,162 @@ it(`every active opening law has a reversal bill: ${place.name}, replay ${replay
           !bill.authority.every((a) => a.allowed)
         )
           continue;
+        const context = { lawId: row.id, body: body.id, billId: bill.id };
+        console.log(JSON.stringify({ stage: "reversal", ...context }));
+        // The votes are a fixture. Signature, bill enactment, law effects and
+        // the law-in-force reader are the production path.
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .put({
+            ...bill,
+            status: "awaiting-signature",
+            passedOn: api.state.date,
+          } as unknown as ModuleRow);
+        expect(
+          executiveDecision(api, bill.id, true).status,
+          JSON.stringify(context),
+        ).toBe("enacted");
+        const reversed = lawInForce(api, key).levels.find(
+          (level) =>
+            level.level === row.level &&
+            (row.level === "federal" ||
+              level.jurisdiction === row.jurisdiction),
+        )?.row;
+        expect(reversed, JSON.stringify(context)).toBeDefined();
+        expect(reversed!.value, JSON.stringify(context)).toBe(
+          row.value === 0 ? 1 : 0,
+        );
+        expect(reversed!.id, JSON.stringify(context)).not.toBe(row.id);
+        if (key !== row.series)
+          expect(
+            authorityFor(api, {
+              kind: "law-amount",
+              series: "minimum-wage",
+              value: 0,
+            }).allowed,
+            JSON.stringify(context),
+          ).toBe(row.value === 0);
+        // Restore this answer through another bill before auditing the next
+        // opening row. Otherwise reversing a state's grant would itself bar
+        // a later town route that was authorized in the opening world.
+        const restoration = draftBill(api, {
+          bodyOfficeId: body.id,
+          sponsorId: body.sponsor,
+          provisions: [
+            provisionFor({
+              policyId: policy.id,
+              operation:
+                policy.kind === "policy-question"
+                  ? row.value === 0
+                    ? "repeal"
+                    : "enact"
+                  : row.value === 0
+                    ? "lower"
+                    : "raise",
+              amount: row.value ?? 0,
+              effectiveDate: api.state.date,
+            }),
+          ],
+        });
+        expect(
+          restoration.authority.every((a) => a.allowed),
+          JSON.stringify(context),
+        ).toBe(true);
+        api
+          .moduleState(LEGISLATURE_MODULE_ID)
+          .table("bills")
+          .put({
+            ...restoration,
+            status: "awaiting-signature",
+            passedOn: api.state.date,
+          } as unknown as ModuleRow);
+        expect(
+          executiveDecision(api, restoration.id, true).status,
+          JSON.stringify(context),
+        ).toBe("enacted");
+        const restored = lawInForce(api, key).levels.find(
+          (level) =>
+            level.level === row.level &&
+            (row.level === "federal" ||
+              level.jurisdiction === row.jurisdiction),
+        )?.row;
+        expect(restored?.value, JSON.stringify(context)).toBe(row.value);
+        if (key !== row.series)
+          expect(
+            authorityFor(api, {
+              kind: "law-amount",
+              series: "minimum-wage",
+              value: 0,
+            }).allowed,
+            JSON.stringify(context),
+          ).toBe(row.value === 1);
+        let reserveProof: unknown;
+        if (key === "us-policy-positions:fiscal.minimum-reserve-balance") {
+          const gov = governmentAt(api, row.level)!;
+          expect(gov, JSON.stringify(context)).toBeDefined();
+          const accountId = `reserve:${gov.organizationId}`;
+          const main = api.accounts().main(gov.organizationId);
+          const heldBefore = api.accounts().balance(accountId);
+          const combinedBefore = heldBefore + api.accounts().balance(main);
+          const repeats: unknown[] = [];
+          for (const [provisions, expected] of [
+            [bill.provisions, row.value === 0 ? 1 : 0],
+            [restoration.provisions, row.value],
+          ] as const) {
+            const repeat = draftBill(api, {
+              bodyOfficeId: body.id,
+              sponsorId: body.sponsor,
+              provisions,
+            });
+            expect(
+              repeat.authority.every((a) => a.allowed),
+              JSON.stringify(context),
+            ).toBe(true);
+            api
+              .moduleState(LEGISLATURE_MODULE_ID)
+              .table("bills")
+              .put({
+                ...repeat,
+                status: "awaiting-signature",
+                passedOn: api.state.date,
+              } as unknown as ModuleRow);
+            expect(
+              executiveDecision(api, repeat.id, true).status,
+              JSON.stringify(context),
+            ).toBe("enacted");
+            expect(
+              lawInForce(api, key).levels.find(
+                (level) => level.level === row.level,
+              )?.row?.value,
+              JSON.stringify(context),
+            ).toBe(expected);
+            const held = api.accounts().balance(accountId);
+            if (expected === 0) expect(held, JSON.stringify(context)).toBe(0);
+            expect(
+              held + api.accounts().balance(main),
+              JSON.stringify(context),
+            ).toBe(combinedBefore);
+            repeats.push({
+              billId: repeat.id,
+              held,
+              journal: world.core.cashJournal.latestByAccount.get(accountId),
+            });
+          }
+          expect(
+            api.accounts().balance(accountId),
+            JSON.stringify(context),
+          ).toBe(heldBefore);
+          reserveProof = { accountId, heldBefore, combinedBefore, repeats };
+        }
         routes.push({
           lawId: row.id,
+          effectiveSeries: key,
+          effectiveLawId: reversed!.id,
+          effectiveValue: reversed!.value,
+          restorationBillId: restoration.id,
+          restoredLawId: restored!.id,
+          ...(reserveProof ? { reserveProof } : {}),
           body: body.id,
           jurisdiction: body.jurisdiction,
           policy: policy.id,
@@ -174,7 +343,7 @@ it(`every active opening law has a reversal bill: ${place.name}, replay ${replay
     expect(active.size).toBeGreaterThan(0);
     expect(
       missing,
-      "Every active starting law must have an authorized reversal draft",
+      "Every active starting law must have an authorized reversal that takes effect",
     ).toEqual([]);
   } finally {
     setBookkeeping(true);

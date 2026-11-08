@@ -123,6 +123,12 @@
     "newsToastSeconds": 8
   },
   "person": {
+    "whoIs": "Who {lower} is",
+    "whoAre": "Who they are",
+    "howISee": "How I see {object}",
+    "betweenUs": "Between us",
+    "herPeople": "{possessive} people",
+    "theirPeople": "Their people",
     "age": "Age",
     "work": "Work",
     "place": "Home",
@@ -388,6 +394,11 @@
     "school": "School",
     "money": "Money",
     "family": "Family",
+    "whoIAm": "Who I am",
+    "whatImLike": "What I'm like",
+    "myPeople": "My people",
+    "strong": "Strong",
+    "mild": "Moderate",
     "views": "Politics",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
@@ -658,6 +669,10 @@
   "patchNotes": {
     "release": "Release"
   },
+  "saves": {
+    "none": "No life is saved yet. Start a new life and it will be kept here.",
+    "later": "Your life is kept as you play. More saved lives, and saving to a slot of your own, arrive with early access."
+  },
   "campaignActs": {
     "volunteer": "Volunteers",
     "endorsement": "Endorsements",
@@ -713,7 +728,7 @@
   },
   "titles": {
     "people": "People",
-    "who": "Who you are",
+    "who": "You",
     "money": "Money and property",
     "jobs": "Jobs and study",
     "journal": "Journal",
@@ -728,6 +743,7 @@
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",
+    "saves": "Saved games",
     "guide": "Guide",
     "handoff": "Carry on as",
     "news": "News",

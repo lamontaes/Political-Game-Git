@@ -81,14 +81,10 @@ try {
     await page.waitForTimeout(800);
     const found = await page.evaluate(() => ({
       name: document.getElementById("person-name").textContent.trim(),
-      empty: [...document.querySelectorAll("#person-facts .record-section")]
-        .filter((section) => section.children.length < 2)
-        .map((section) => section.textContent.trim())
-        .concat(
-          [...document.querySelectorAll("#person-facts .record-value")]
-            .filter((value) => !value.textContent.trim())
-            .map((value) => value.parentElement.textContent.trim()),
-        ),
+      // A strip with nothing under it is an empty heading.
+      empty: [...document.querySelectorAll("#person-facts .sec")]
+        .filter((sec) => !sec.querySelector(".secbody")?.textContent.trim())
+        .map((sec) => sec.querySelector(".sechead")?.textContent.trim()),
     }));
     console.log(`${found.name}: ${found.empty.length} empty`, found.empty);
     assert.deepEqual(

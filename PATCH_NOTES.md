@@ -296,6 +296,47 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.89.0
+
+_Released November 8, 2026._
+
+### Changed
+
+- **The You screen follows the approved look** The You screen now shows your
+  name over a bust, with "Who I am" and "What I'm like" written in your own
+  voice and the people closest to you as names that open their cards. Sections
+  sit under gold-edged header strips.
+
+## PRE-ALPHA 0.88.4
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Saved games on the title screen opens** Saved games on the title screen no
+  longer does nothing. It opens a sheet that shows the life in progress, with a
+  way to continue it, and says that more saved lives arrive with early access.
+
+- **Reserve laws can be repealed and restored on the same day** Repealing and
+  restoring a reserve requirement no longer reuses an earlier cash-transfer ID.
+  The opening-law audit now follows every authorized reversal through signature
+  and effect, then restores its original answer.
+
+## PRE-ALPHA 0.88.3
+
+_Released November 8, 2026._
+
+### Fixed
+
+- **Congress can repeal and restore its income tax** Congress can repeal and
+  restore the federal income-tax adoption law through the shared bill system.
+  Restoring a tax set to zero uses that government's recorded schedule,
+  preserving state taxes and existing territorial exclusions.
+
+- **Opening laws retain their jurisdiction's legal sources** Opening policy laws
+  now keep the source recorded for their own jurisdiction. Federal policy rows
+  also retain the researched legal terms shown with the law.
+
 ## PRE-ALPHA 0.88.2
 
 _Released November 8, 2026._
