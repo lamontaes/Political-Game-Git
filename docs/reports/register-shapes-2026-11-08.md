@@ -30,4 +30,4 @@ In a hearing's public comment, 8 of 61 replies greet the body first (13%) and 7 
 
 ## How this was made
 
-The numbers are counted from every bank piece in the English engine's banks, grouped by the register class that grades use (the bank, or the bank and the scene's purpose for scene talk). A word is a run of letters; slots are counted as one word. The script is scripts/reports/register-shapes.py.
+The numbers are counted from every bank piece in the English engine's banks, grouped by the kind of scene (the bank's register class, and for scene talk the class of the scene's purpose, sceneClasses; grades reach across them). A word is a run of letters; slots are counted as one word. The script is scripts/reports/register-shapes.py.
