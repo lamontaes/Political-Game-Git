@@ -4534,6 +4534,7 @@ export function electoralCollege(
     cycle: "presidential",
     raceVotes: 0,
     townPlaceId: null,
+    electionDate: date,
   });
   const holder = presidentSide(api);
   const sample = sampleFor(api, date);
@@ -5201,6 +5202,7 @@ function decide(
     cycle,
     raceVotes: votesAt2024 * cycleTurnout(date).share,
     townPlaceId: null,
+    electionDate: date,
   });
   const stateKey = `US-${race.usps}`;
   const parties =
