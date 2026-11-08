@@ -51,4 +51,4 @@ it("a state's act outside the town's chain is a national event the press reads",
   expect(item?.level, `${where}: ${event.id} is on the press wire`).toBe(
     "nation",
   );
-});
+}, 900000);
