@@ -5318,6 +5318,7 @@ select.release-pick {
   min-height: 150px;
   display: grid;
   place-items: center;
+}
 
 /* The rail's names (owner, Nov 8): a ring's name lights beside it after a quarter second of
    hover or focus, in the menu look, and a dot marks what is unread. */

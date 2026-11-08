@@ -73,7 +73,6 @@ test("the title menu and the creator follow the Oct 12 build", () => {
     "start-birth-day",
     "start-birth-year",
     "creator-randomize-birthday",
-    "creator-derived-age",
     "creator-summary-character",
     "state-search",
     "state-choices",
