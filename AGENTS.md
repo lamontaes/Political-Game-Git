@@ -100,6 +100,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `civic-reports`: reports and PR bodies for the owner
 - `cto`: the CTO role
 - `crew-messages`: how sessions message each other, and processes as skills
+- `dev-tester`: proving laws, bodies and drifting worlds with scripts/dev-tests, and its traps
 - `governing-measurement`: path-check runners, the re-election totals and ablation, records per race or per person
 - `heavy-runs`: long, memory-heavy runs that survive memory, restarts and moved branches
 - `helper-checkout`: helpers work in sparse copies of the repository
