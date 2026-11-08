@@ -1,0 +1,212 @@
+{
+  "source": "U.S. Bureau of Economic Analysis, Regional Price Parities by State (SARPP), 2024, https://apps.bea.gov/regional/zip/SARPP.zip, fetched 2026-11-08.",
+  "year": 2024,
+  "housingWeight": 0.1657,
+  "weightsFrom": "Least squares of the all-items index on goods, housing, utilities and other services across the 51 states, normalized to sum to one; the largest gap between fitted and published all-items is 2.15 index points.",
+  "byFips": {
+    "01": {
+      "allItems": 88.823,
+      "housing": 61.785
+    },
+    "02": {
+      "allItems": 102.359,
+      "housing": 93.784
+    },
+    "04": {
+      "allItems": 100.677,
+      "housing": 106.804
+    },
+    "05": {
+      "allItems": 86.937,
+      "housing": 58.203
+    },
+    "06": {
+      "allItems": 110.72,
+      "housing": 154.346
+    },
+    "08": {
+      "allItems": 103.052,
+      "housing": 127.359
+    },
+    "09": {
+      "allItems": 103.61,
+      "housing": 117.048
+    },
+    "10": {
+      "allItems": 99.808,
+      "housing": 102.015
+    },
+    "11": {
+      "allItems": 109.901,
+      "housing": 154.984
+    },
+    "12": {
+      "allItems": 103.414,
+      "housing": 122.107
+    },
+    "13": {
+      "allItems": 96.293,
+      "housing": 88.694
+    },
+    "15": {
+      "allItems": 109.951,
+      "housing": 125.304
+    },
+    "16": {
+      "allItems": 95.494,
+      "housing": 90.027
+    },
+    "17": {
+      "allItems": 99.958,
+      "housing": 93.944
+    },
+    "18": {
+      "allItems": 93.329,
+      "housing": 73.926
+    },
+    "19": {
+      "allItems": 87.762,
+      "housing": 65.322
+    },
+    "20": {
+      "allItems": 90.068,
+      "housing": 71.156
+    },
+    "21": {
+      "allItems": 90.159,
+      "housing": 64.313
+    },
+    "22": {
+      "allItems": 88.207,
+      "housing": 63.104
+    },
+    "23": {
+      "allItems": 97.05,
+      "housing": 78.94
+    },
+    "24": {
+      "allItems": 104.959,
+      "housing": 121.079
+    },
+    "25": {
+      "allItems": 105.757,
+      "housing": 128.068
+    },
+    "26": {
+      "allItems": 96.217,
+      "housing": 82.332
+    },
+    "27": {
+      "allItems": 98.621,
+      "housing": 91.281
+    },
+    "28": {
+      "allItems": 86.953,
+      "housing": 56.456
+    },
+    "29": {
+      "allItems": 90.817,
+      "housing": 69.88
+    },
+    "30": {
+      "allItems": 94.645,
+      "housing": 84.648
+    },
+    "31": {
+      "allItems": 90.103,
+      "housing": 75.174
+    },
+    "32": {
+      "allItems": 99.979,
+      "housing": 114.135
+    },
+    "33": {
+      "allItems": 104.165,
+      "housing": 114.947
+    },
+    "34": {
+      "allItems": 108.805,
+      "housing": 134.292
+    },
+    "35": {
+      "allItems": 92.212,
+      "housing": 73.611
+    },
+    "36": {
+      "allItems": 107.921,
+      "housing": 122.168
+    },
+    "37": {
+      "allItems": 94.326,
+      "housing": 81.364
+    },
+    "38": {
+      "allItems": 88.959,
+      "housing": 71.421
+    },
+    "39": {
+      "allItems": 92.774,
+      "housing": 73.012
+    },
+    "40": {
+      "allItems": 87.843,
+      "housing": 62.763
+    },
+    "41": {
+      "allItems": 103.361,
+      "housing": 108.628
+    },
+    "42": {
+      "allItems": 97.572,
+      "housing": 85.068
+    },
+    "44": {
+      "allItems": 102.28,
+      "housing": 105.62
+    },
+    "45": {
+      "allItems": 93.749,
+      "housing": 80.49
+    },
+    "46": {
+      "allItems": 88.586,
+      "housing": 67.642
+    },
+    "47": {
+      "allItems": 91.87,
+      "housing": 79.07
+    },
+    "48": {
+      "allItems": 97.057,
+      "housing": 96.503
+    },
+    "49": {
+      "allItems": 98.864,
+      "housing": 107.814
+    },
+    "50": {
+      "allItems": 97.958,
+      "housing": 86.502
+    },
+    "51": {
+      "allItems": 101.104,
+      "housing": 106.799
+    },
+    "53": {
+      "allItems": 107.013,
+      "housing": 125.979
+    },
+    "54": {
+      "allItems": 89.497,
+      "housing": 54.241
+    },
+    "55": {
+      "allItems": 94.095,
+      "housing": 79.312
+    },
+    "56": {
+      "allItems": 92.691,
+      "housing": 71.127
+    }
+  }
+}

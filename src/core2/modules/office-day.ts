@@ -1143,3 +1143,19 @@ function gaveInYear(
     (row) => row.kind === kind && row.date.startsWith(year),
   );
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export {
+  controlledPerson,
+  heldFederal,
+  leaveVoteToCharacter,
+  voteOnFloor,
+} from "../office-day-federal";
+export {
+  OFFICE_DAY_STATE_MODULE_ID,
+  stateFloorHolds,
+  voteOnStateFloor,
+} from "../office-day-state";
+export { appointGovernor, doEntry, waitingEntries } from "../office-day-state";
+export { budgetProposalDue } from "../office-day-acts";
+export { jointAddress } from "../office-day-federal-calendar";
