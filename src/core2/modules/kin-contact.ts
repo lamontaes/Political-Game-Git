@@ -18,6 +18,8 @@ import { livesElsewhere } from "./moves";
 import type { CoreAPI, CoreState, PersonId, Source } from "../types";
 
 export const FAMILY_CONTACT = "family.contact";
+export const FAMILY_GATHERING_MISSED = "family.gathering-missed";
+export const BIRTHDAY_KIND = "kin-birthday";
 const KIN_TRAITS_STOPGAP = "SG-LIVES-kin-contact-traits";
 
 /** One month of word from relatives elsewhere, for the town's adults. */
@@ -81,4 +83,86 @@ export function reviewKinContact(api: CoreAPI): void {
       pulls.put({ id: key, value } as never);
     }
   }
+}
+
+/**
+ * The next month's birthdays among the town's people, each put on the module
+ * calendar for its own day (a leap-day birthday falls on the 28th in a common
+ * year). Run from the monthly review on the 1st.
+ */
+export function scheduleBirthdays(api: CoreAPI): void {
+  const core = api.state as CoreState;
+  // The next month's birthdays: the calendar takes only a future day, and the
+  // review that runs on the 1st reaches the 1st of the month after it.
+  const [year, mon] = core.date.split("-").map(Number) as [number, number];
+  const nextYear = mon === 12 ? year + 1 : year;
+  const nextMon = mon === 12 ? 1 : mon + 1;
+  const month = `${nextYear}-${String(nextMon).padStart(2, "0")}`;
+  const calendar = api.moduleCalendar("partnerships");
+  for (const person of core.people.values()) {
+    if (!person.alive || person.tier === "husk") continue;
+    const md = person.birthDate.slice(5);
+    const day = md === "02-29" ? "02-28" : md;
+    const date = `${nextYear}-${day}`;
+    if (!date.startsWith(month)) continue;
+    calendar.schedule({
+      key: `${BIRTHDAY_KIND}:${person.id}:${date}`,
+      date: date as never,
+      kind: BIRTHDAY_KIND,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: `${person.givenName} ${person.familyName}'s birthday.`,
+        estimatedFrom: "The person's recorded birth date.",
+      },
+      sourceRecordIds: [person.id],
+    });
+  }
+}
+
+/**
+ * A birthday at home with the closest relative living elsewhere missing: the
+ * relative the honoree was closest to (the tie's closeness today, the lowest
+ * id breaking a tie) is the one the table misses, written as
+ * `family.gathering-missed` with the household as witnesses. No relative
+ * elsewhere with a tie, no record.
+ */
+export function birthdayGathering(api: CoreAPI, key: string): void {
+  const core = api.state as CoreState;
+  const id = key.split(":")[1] as PersonId;
+  const honoree = core.people.get(id);
+  if (!honoree?.alive || honoree.tier === "husk") return;
+  let best: { id: PersonId; level: number } | undefined;
+  for (const other of [...honoree.familyIds].sort()) {
+    const kin = core.people.get(other);
+    if (!kin || !livesElsewhere(core, kin)) continue;
+    const level = closenessBetween(core, id, other);
+    if (level > (best?.level ?? api.parameter("zero")))
+      best = { id: other as PersonId, level };
+  }
+  if (!best) return;
+  const home = (core.households.get(honoree.householdId)?.memberIds ?? [])
+    .filter((m) => m !== id && core.people.get(m)?.alive)
+    .sort();
+  api.emit({
+    id: `${FAMILY_GATHERING_MISSED}:${id}:${best.id}:${core.date}`,
+    date: core.date,
+    kind: FAMILY_GATHERING_MISSED,
+    personIds: [id, best.id],
+    placeId: honoree.placeId,
+    publicRecord: false,
+    source: {
+      tag: "ESTIMATED",
+      asOf: core.date,
+      citation: `${honoree.givenName}'s birthday gathering missed ${core.people.get(best.id)!.givenName}.`,
+      estimatedFrom:
+        "The honoree's recorded birth date and the closeness of their ties to relatives living elsewhere.",
+    },
+    witnessIds: home,
+    facts: {
+      occasion: "birthday",
+      absentId: best.id,
+      closeness: String(best.level),
+    },
+  });
 }

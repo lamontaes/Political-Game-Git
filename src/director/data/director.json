@@ -1189,6 +1189,13 @@
       "impactParameter": "directorOwnSeparationImpact"
     },
     {
+      "eventKind": "family.gathering-missed",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "closeness",
+      "minDaysApart": 30
+    },
+    {
       "eventKind": "family.contact",
       "channel": "feeling",
       "impactParameter": "directorKinContactImpact",

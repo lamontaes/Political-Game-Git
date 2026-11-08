@@ -87,7 +87,7 @@
     "id": "SG-LIVES-kin-contact-traits",
     "kind": "partial-model",
     "file": "src/core2/modules/kin-contact.ts",
-    "line": 27,
+    "line": 29,
     "whatItFakes": "Relatives elsewhere write in proportion to closeness alone; the writer's traits (a letter writer or not) do not move how often.",
     "why": "No decision row for staying in touch exists in data/content/trait-decisions.json; the people engine's contact-known-person action reaches only town residents.",
     "addedBy": "Lives (night crew, Nov 8)",
