@@ -96,6 +96,9 @@ export async function devBillsPanel({ labels, onDone }) {
   // does not report the bill and the chamber's rule lets its members take the bill from it.
   const petition = devCheckbox({ label: labels.petition });
   petition.box.dataset.testid = "dev-petition";
+  // The chair of each committee is cast to hear the bill, through the committee's own hearing decision.
+  const hear = devCheckbox({ label: labels.chairHears });
+  hear.box.dataset.testid = "dev-chair-hears";
   const result = statusLine();
   result.textContent = lastResult;
   const act = (button, work) =>
@@ -154,6 +157,7 @@ export async function devBillsPanel({ labels, onDone }) {
         sign: executive,
         overrideMargin: Number(overrideMargin.value),
         discharge: petition.box.checked,
+        chairHears: hear.box.checked,
       });
       return [
         out.bill.number,
@@ -171,7 +175,13 @@ export async function devBillsPanel({ labels, onDone }) {
           .filter((c) => !c.reported)
           .map((c) =>
             [
-              c.heard ? labels.lost : labels.held,
+              labels[
+                {
+                  lost: "lost",
+                  "petition-short": "held",
+                  "unheard-no-route": "noRoute",
+                }[c.why]
+              ],
               `${c.yes}–${c.no}`,
               labels.chair,
               Number(c.chairPosition).toFixed(2),
@@ -211,6 +221,7 @@ export async function devBillsPanel({ labels, onDone }) {
       defeat,
     ),
     petition.line,
+    hear.line,
     result,
   );
   return { section, bodies, billId: () => lastBillId };

@@ -3973,6 +3973,37 @@
     },
     "stopgapId": "SG-P15-partnership-model"
   },
+  "groupKnownScale": {
+    "value": 4.5,
+    "tag": "ESTIMATED",
+    "citation": "How many people one knows by name in a group or workplace of N people grows slower than N: known(N) = scale * N^exponent, capped at groupKnownCap and at N - 1. Anchors: Jacobs and Watts, 'A Large-Scale Comparative Study of Informal Social Networks in Firms', Management Science 67(9), 2021 (65 U.S. firms, 1.4 million users: average contacts grow with firm size and run near 27 in a mid-size firm); a survey of 3,000 U.S. full-time workers (Olivet Nazarene University, 2019) found five friends at work on average; Dunbar's limit of about 150 stable ties.",
+    "estimatedFrom": "A power law through those anchors (about 15 known at 20 people, 28 at 100, 54 at 500). The source papers were not fetched in full, so the scale and exponent are an estimate with the spread below.",
+    "spread": {
+      "low": 3,
+      "high": 7,
+      "unit": "people known in a group of 10, before the power law's exponent",
+      "citation": "Five work friends (Olivet Nazarene University, 2019) to the near-27 average contacts in a mid-size firm (Jacobs and Watts, 2021)."
+    },
+    "stopgapId": "SG-P15-encounters"
+  },
+  "groupKnownExponent": {
+    "value": 0.4,
+    "tag": "ESTIMATED",
+    "citation": "Exponent of the people-known power law (see groupKnownScale); Jacobs and Watts (2021) report that firm size shapes average degree sublinearly.",
+    "estimatedFrom": "Fitted by eye through the anchors named at groupKnownScale.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.5,
+      "unit": "exponent",
+      "citation": "Range that keeps 100 people at 18 to 45 known."
+    },
+    "stopgapId": "SG-P15-encounters"
+  },
+  "groupKnownCap": {
+    "value": 150,
+    "tag": "SOURCED",
+    "citation": "Dunbar, R. I. M. (1993), 'Coevolution of neocortical size, group size and language in humans', Behavioral and Brain Sciences 16(4): about 150 stable relationships; Dunbar says under about 500 people colleagues tend also to be friends (NPR transcript, https://www.npr.org/transcripts/136723316)."
+  },
   "openingCoworkerGroupSize": {
     "value": 8,
     "tag": "TUNABLE",
@@ -6915,11 +6946,16 @@
       "citation": "States' minimum n-size for reporting, All4Ed 2018: from 10 to 30 students."
     }
   },
+  "disasterStatutoryFederalShare": {
+    "value": 0.75,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs under a major disaster declaration is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1))."
+  },
   "disasterFederalShareWhenStatesShare": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "citation": "The share of eligible public assistance costs the federal government pays once Congress passes a law having states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). No published bill or rule sets a lower share.",
-    "estimatedFrom": "An even federal and state split, 50 percent: the lowest share the cost-shifting proposals name in words (states bear half) and a sliding step down from the 75 percent floor. Replace it from the first enacted text.",
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs once the states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). FEMA's head said the cost share would move to 50 percent federal, 50 percent state: \"It's 75/25 right now, but 50/50's coming\" (David Richardson, FEMA staff town hall, May 15, 2025, as reported by Reuters in Insurance Journal, https://www.insurancejournal.com/news/national/2025/05/15/823980.htm). The FEMA Review Council later recommended a 50 percent federal floor. No enacted bill sets it, so the stated plan is the size.",
+    "estimatedFrom": "The administration's stated 50/50 plan; replace it from the first enacted text.",
     "stopgapId": "SG-LAWS-disaster-share-size",
     "spread": {
       "low": 0.25,
@@ -7987,6 +8023,39 @@
       "high": 18,
       "unit": "months",
       "citation": "Checked against the chain's yearly union count in src/core2/partnerships.test.ts: the stage lengths move when a couple moves in and marries, never how many couples form (the chain's pace sets that)."
+    }
+  },
+  "partnerProposalLapseMonths": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Months a proposal to the player waits for their answer in the proposal scene before it lapses back to living together, unanswered (SG-LIVES-partner-stage-lengths).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "Not a rate: a wait for the player's own choice; checked against how soon scenes stage after their record in the played year."
+    }
+  },
+  "kinContactsPerYearAtFull": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Contacts a year (a letter, a call, a message) from a relative living elsewhere to a town resident at full closeness; a tie writes in proportion to its closeness. Stand-in for the GSS frequencies of seeing parents, siblings and relatives behind the opening closeness (data/closeness.json).",
+    "spread": {
+      "low": 4,
+      "high": 26,
+      "unit": "contacts per year at full closeness",
+      "citation": "Checked against the played year's count of family.contact records against the opening's visits-per-year stand-ins (CLOSENESS.visitsPerYearByCategory, 1 to 30 a month)."
+    }
+  },
+  "kinContactHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together one letter or call from a relative elsewhere counts as on their tie (SG-LIVES-kin-contact-traits).",
+    "spread": {
+      "low": 0.1,
+      "high": 1,
+      "unit": "hours",
+      "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
     }
   }
 }

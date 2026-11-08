@@ -55,6 +55,12 @@
       "source": "How far a face-to-face meeting on a trip moves the person's impression of the traveler, against the meetings engine's town hall weight; a personal meeting with a president or member leaves a strong impression on the few who have one.",
       "spread": [0.1, 0.6]
     },
+    "actingServiceDays": {
+      "value": 210,
+      "tag": "SOURCED",
+      "source": "5 U.S.C. 3346(a)(1) (https://www.law.cornell.edu/uscode/text/5/3346): a person serving as acting officer under 5 U.S.C. 3345 may serve no longer than 210 days from the date the vacancy occurs, or while a first or second nomination is pending in the Senate. 3345(a): the first assistant acts by default; the President alone may direct another Senate-confirmed officer, or a qualified agency employee (90 days in the agency in the prior 365 days, paid at GS-15 or above).",
+      "spread": [210, 210]
+    },
     "confirmationSittingDays": {
       "value": 10,
       "tag": "ESTIMATED",

@@ -68,6 +68,8 @@ import {
   meetingSceneView,
   colleagueDeal,
   nameHeadPick,
+  nominationDecide,
+  nominationsView,
   budgetLinePick,
   officeView,
 } from "./office";
@@ -1090,6 +1092,21 @@ export async function benchRequest(
           url.searchParams.get("nomineeId") ?? undefined,
         );
         send(200, ordersView(requireCore()));
+        return;
+      }
+      // The president's open cabinet posts, and the player's nomination for one.
+      if (request.method === "GET" && url.pathname === "/api/nominations") {
+        send(200, player?.personId ? nominationsView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/nominations") {
+        nominationDecide(
+          requireCore(),
+          url.searchParams.get("post") ?? "",
+          url.searchParams.get("nomineeId") ?? undefined,
+          url.searchParams.get("how") === "leave",
+        );
+        send(200, nominationsView(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
