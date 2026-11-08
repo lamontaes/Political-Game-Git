@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Why a contest filed for ended with nobody on the ballot: tsx zero-general.ts <seed> <years>
+// Why a contest filed for ended with one name or none on the general ballot: tsx zero-general.ts <seed> <years>
 import { drawPlace } from "../core2-year/place";
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -32,7 +32,7 @@ const filings = api
 const results = api.moduleState(VOTING_MODULE_ID).table("results");
 for (const c of contests) {
   const r = results.get(`result:${c.id}`) as any;
-  if (!r || Object.keys(r.totals).length) continue;
+  if (!r || Object.keys(r.totals).length > 1) continue;
   const fs = filings.filter((f) => f.contestId === c.id);
   const by: Record<string, number> = {};
   for (const f of fs) by[f.status] = (by[f.status] ?? 0) + 1;
@@ -45,9 +45,7 @@ for (const c of contests) {
     "filed",
     fs.length,
     JSON.stringify(by),
-    "result keys",
-    Object.keys(r).join(","),
-    "outcome",
-    r.outcome ?? r.kind ?? "",
+    "parties",
+    JSON.stringify(fs.map((f) => `${f.party ?? "-"}:${f.status}`)),
   );
 }
