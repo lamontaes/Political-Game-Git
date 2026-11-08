@@ -121,7 +121,7 @@ import proposalData from "../data/legislature/executive-proposal.json" with { ty
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -2997,8 +2997,32 @@ function billSettledness(api: CoreAPI, bill: BillRow): number {
   );
 }
 
+/**
+ * Positions already worked out inside one run of the floor's amendments. The run reads the same
+ * member against the same terms again and again (a recount after each amendment, then each member
+ * against each candidate section); nothing it reads is written between its own emits, so a position
+ * is kept for the bill's id, sponsor, provisions and deals and dropped at every emit. Null outside
+ * that run, so every other caller works the position out as before.
+ */
+let positionMemo: Map<string, MemberPosition> | null = null;
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
+  api: CoreAPI,
+  bill: BillRow,
+  memberId: string,
+): MemberPosition {
+  const memo = positionMemo;
+  if (!memo) return positionOfMember(api, bill, memberId);
+  const key = `${memberId}|${bill.id}|${bill.sponsorId}|${JSON.stringify(bill.provisions)}|${JSON.stringify(bill.deals)}`;
+  const kept = memo.get(key);
+  if (kept) return kept;
+  const out = positionOfMember(api, bill, memberId);
+  memo.set(key, out);
+  return out;
+}
+
+function positionOfMember(
   api: CoreAPI,
   bill: BillRow,
   memberId: string,
@@ -4162,10 +4186,15 @@ function dischargePetition(
   if (!row) return null;
   // How many signatures the rule asks of this chamber's members: a majority of them, or a fraction.
   const seated = members(api, chamber).length;
+  const rule: {
+    readonly kind: string;
+    readonly numerator?: number;
+    readonly denominator?: number;
+  } = row.rule;
   const needed =
-    row.rule.kind === "majority"
+    rule.kind === "majority" || !rule.numerator || !rule.denominator
       ? Math.floor(seated / 2) + 1
-      : Math.ceil((seated * row.rule.numerator) / row.rule.denominator - 1e-9);
+      : Math.ceil((seated * rule.numerator) / rule.denominator - 1e-9);
   // stopgapId: SG-GOV-discharge-no-wait
   api.stopgap("SG-GOV-discharge-no-wait");
   const signers = members(api, chamber)
@@ -4494,6 +4523,22 @@ function floorAmendments(
   stage: "committee" | "floor" = "floor",
   seats: readonly string[] = members(api, chamber).map(memberKey),
 ): BillRow {
+  const outer = positionMemo;
+  positionMemo = new Map();
+  try {
+    return floorAmendmentsRun(api, bill, chamber, stage, seats);
+  } finally {
+    positionMemo = outer;
+  }
+}
+
+function floorAmendmentsRun(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor",
+  seats: readonly string[],
+): BillRow {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
@@ -4558,6 +4603,8 @@ function floorAmendments(
           : d,
       ),
     };
+    // The emit may change what a position reads: the kept positions go with it.
+    positionMemo?.clear();
     api.emit({
       id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
