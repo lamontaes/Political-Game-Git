@@ -123,5 +123,5 @@ if (seats) {
 }
 
 console.log(
-  `Ballotpedia: state legislative uncontested ${benchmarks.stateLegislativeUncontestedShare.value}, House primary candidates per seat ${benchmarks.usHousePrimaryCandidatesPerSeat.value}, House races contested by both parties ${benchmarks.usHouseContestedByBothParties.value}, state legislative seats open ${benchmarks.stateLegislativeOpenSeatShare.value}, largest cities' mayoral candidates ${benchmarks.largestCitiesMayoralCandidatesPerElection.value}, all seats uncontested ${benchmarks.allSeatsUncontestedShare2025.value}`,
+  `Ballotpedia (to check against, never to steer to; a field passes when the records explain it): state legislative uncontested ${benchmarks.stateLegislativeUncontestedShare.value}, House primary candidates per seat ${benchmarks.usHousePrimaryCandidatesPerSeat.value}, House races contested by both parties ${benchmarks.usHouseContestedByBothParties.value}, state legislative seats open ${benchmarks.stateLegislativeOpenSeatShare.value}, largest cities' mayoral candidates ${benchmarks.largestCitiesMayoralCandidatesPerElection.value}, all seats uncontested ${benchmarks.allSeatsUncontestedShare2025.value}`,
 );
