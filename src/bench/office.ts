@@ -5,7 +5,7 @@
  * only; the words of each act come from the engines that kept them.
  */
 import { billTitleOf } from "../english/bill-names";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   leavePostOpen,
   nominate,
@@ -88,8 +88,13 @@ export function billItem(core: CoreState, bill: BillRow) {
     number: bill.number,
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
+    // Opening the bill is meeting the people who spoke on it: a speaker still in the wider
+    // population is filled in now (two-level population), and the name is theirs.
     remarks: remarksOn(api, bill.id).map((r) => ({
-      name: personName(core, r.personId),
+      name: personName(
+        core,
+        personOrFillIn(core, r.personId)?.id ?? r.personId,
+      ),
       position: r.position,
       kind: r.kind,
     })),
