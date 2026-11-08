@@ -373,9 +373,11 @@ describe(`the federal day (${place.name}, seed ${seed})`, () => {
     const senator = holderOf(seat.seat.id)!;
     expect(senator, "the town's state has a sitting senator").toBeTruthy();
     // A bill filed in the House reaches the Senate in the same count; the
-    // player, now a senator, has not chosen, so the character votes it and
-    // the act is on the record (it was cast with no act before).
+    // player, now a senator, has not chosen and has turned the floor-vote stop off, so the
+    // character votes it and the act is on the record (with the stop on, the evening before
+    // holds the player for it instead, and the character does not vote a week early).
     player.select(senator);
+    setStops(api, senator, { "floor-vote": false });
     // The clock binds to the character the day it runs for them.
     playThrough(addDays(core.date, 1));
     const { bill } = ownBill(3, nthSitting("house", core.date, 3));
