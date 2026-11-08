@@ -28,14 +28,13 @@
     "people": "people",
     "about": "about",
     "countyLine": "in {county}",
-    "summaryAge": "Age {age}",
-    "summaryBorn": "Born {date}",
     "previous": "Previous {row}",
     "next": "Next {row}",
     "randomPlace": "Random place",
     "randomName": "Randomize name",
     "missingGender": "Choose a gender to go on.",
-    "missingName": "Type a first and last name to go on."
+    "missingName": "Type a first and last name to go on.",
+    "missingPlace": "Choose where you are from to go on."
   },
   "endedBy": {
     "office-day.meeting": "The meeting",
@@ -919,8 +918,6 @@
     "front-new": "New game",
     "front-advanced": "Advanced",
     "front-pick": "Play as",
-    "cr-character": "Start a life",
-    "cr-place": "Where you're from",
-    "cr-look": "How you look"
+    "cr-screen": "Start a life"
   }
 }

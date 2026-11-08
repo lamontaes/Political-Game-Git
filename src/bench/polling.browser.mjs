@@ -82,7 +82,6 @@ try {
     const grown =
       years.find((y) => Number(y) <= 1996) ?? years[years.length - 1];
     await page.locator("#cr-year").selectOption({ label: grown });
-    await page.locator("#cr-character-next").click();
     await page.locator("#cr-states .item").first().waitFor();
     const drawn = drawPlace(runSeed, `polling-${attempt}`);
     console.log("Drawn place:", drawn.key, drawn.name, drawn.state);

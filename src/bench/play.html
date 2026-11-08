@@ -260,229 +260,229 @@
           <div id="pick-list" class="pick-list"></div>
           <div class="acts"></div>
         </div>
-        <!-- The creator, step by step as the Oct 12 SetupScreen had it. -->
-        <div id="cr-character" data-testid="creator-stage-character" hidden>
-          <button
-            id="cr-route"
-            class="summary"
-            type="button"
-            data-testid="creator-summary-route"
-          >
-            <span id="cr-route-name" class="summary-value"></span
-            ><span class="summary-edit">Change</span>
-          </button>
-          <h2 class="label">Your character</h2>
-          <div
-            class="group row"
-            role="group"
-            aria-labelledby="cr-gender-label"
-            data-testid="gender-choices"
-          >
-            <span id="cr-gender-label" class="label">Gender (required)</span>
-            <div class="choices">
+        <!-- The creator: one screen (the Nov 8 front mock): the figure, who I am, where I'm from, how I look. -->
+        <div id="cr-screen" class="strip-screen" hidden>
+          <div id="cr-figure" class="mx3left">
+            <div class="portraits">
+              <img
+                id="cr-portrait"
+                class="portrait"
+                alt=""
+                data-testid="creator-engine-figure"
+              />
+              <img
+                id="cr-portrait-work"
+                class="portrait"
+                alt=""
+                data-testid="creator-engine-figure-work"
+              />
+            </div>
+            <p id="cr-figure-name" class="strip-name"></p>
+            <button id="cr-randomize" class="action small" type="button">
+              Random
+            </button>
+          </div>
+          <div class="mx3col">
+            <section class="sec strips dp1">
+              <h3 class="sechead">Who I am</h3>
+              <div class="secbody">
+                <div id="cr-character" data-testid="creator-stage-character">
+                  <div
+                    class="group row"
+                    role="group"
+                    aria-labelledby="cr-gender-label"
+                    data-testid="gender-choices"
+                  >
+                    <span id="cr-gender-label" class="label">I am</span>
+                    <div class="choices">
+                      <button
+                        type="button"
+                        class="action small"
+                        data-gender="female"
+                        data-testid="gender-female"
+                      >
+                        Female
+                      </button>
+                      <button
+                        type="button"
+                        class="action small"
+                        data-gender="male"
+                        data-testid="gender-male"
+                      >
+                        Male
+                      </button>
+                      <button
+                        type="button"
+                        class="action small"
+                        data-gender="nonbinary"
+                        data-testid="gender-nonbinary"
+                      >
+                        Non-binary
+                      </button>
+                    </div>
+                  </div>
+                  <div class="group" data-testid="creator-name">
+                    <span class="label">Name</span>
+                    <label class="field"
+                      >First name
+                      <input id="cr-given" maxlength="40" autocomplete="off"
+                    /></label>
+                    <label class="field"
+                      >Last name
+                      <input id="cr-family" maxlength="40" autocomplete="off"
+                    /></label>
+                    <button
+                      id="cr-random-name"
+                      class="action small"
+                      type="button"
+                      data-testid="creator-randomize-name"
+                    >
+                      Randomize name
+                    </button>
+                  </div>
+                  <div
+                    class="group row"
+                    role="group"
+                    aria-labelledby="cr-birthday-label"
+                    data-testid="creator-birthday"
+                  >
+                    <span id="cr-birthday-label" class="label">Birthday</span>
+                    <div class="date-row">
+                      <label class="field"
+                        >Month
+                        <select
+                          id="cr-month"
+                          data-testid="start-birth-month"
+                        ></select
+                      ></label>
+                      <label class="field"
+                        >Day
+                        <select
+                          id="cr-day"
+                          data-testid="start-birth-day"
+                        ></select
+                      ></label>
+                      <label class="field"
+                        >Year
+                        <select
+                          id="cr-year"
+                          data-testid="start-birth-year"
+                        ></select
+                      ></label>
+                    </div>
+                    <button
+                      id="cr-random-birthday"
+                      class="action small"
+                      type="button"
+                      data-testid="creator-randomize-birthday"
+                    >
+                      Randomize birthday
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+          <div class="mx3col">
+            <section id="cr-place-sec" class="sec strips dp2">
+              <h3 class="sechead">Where I'm from</h3>
+              <div class="secbody">
+                <div id="cr-place" data-testid="creator-stage-place">
+                  <p
+                    id="cr-place-summary-name"
+                    class="summary-name"
+                    data-testid="creator-summary-place"
+                  ></p>
+                  <div id="cr-state-pick">
+                    <label class="field" for="cr-state-search"
+                      >Choose a state</label
+                    >
+                    <input
+                      id="cr-state-search"
+                      type="search"
+                      autocomplete="off"
+                      data-testid="state-search"
+                    />
+                    <div
+                      id="cr-states"
+                      class="choice-list"
+                      data-testid="state-choices"
+                    ></div>
+                  </div>
+                  <div id="cr-town-pick" hidden>
+                    <button
+                      id="cr-state"
+                      class="summary"
+                      type="button"
+                      data-testid="creator-change-state"
+                    >
+                      <span id="cr-state-name" class="summary-value"></span
+                      ><span class="summary-edit">Change</span>
+                    </button>
+                    <label class="field" for="cr-town-search">Search</label>
+                    <input
+                      id="cr-town-search"
+                      type="search"
+                      autocomplete="off"
+                      data-testid="place-search"
+                    />
+                    <div
+                      id="cr-towns"
+                      class="choice-list"
+                      data-testid="place-choices"
+                    ></div>
+                  </div>
+                  <div class="acts">
+                    <button
+                      id="cr-place-random"
+                      class="action small"
+                      type="button"
+                      data-testid="creator-random-place"
+                      data-label="creator.randomPlace"
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section class="sec strips dp3">
+              <h3 class="sechead">How I look</h3>
+              <div class="secbody">
+                <div id="cr-look" data-testid="creator-stage-appearance">
+                  <div
+                    id="cr-rows"
+                    data-testid="engine-appearance-controls"
+                  ></div>
+                  <div class="acts">
+                    <button
+                      id="cr-reset"
+                      class="action small"
+                      type="button"
+                      data-testid="creator-reset-appearance"
+                    >
+                      Reset appearance
+                    </button>
+                    <button
+                      id="cr-undo"
+                      class="action small"
+                      type="button"
+                      data-testid="creator-undo-appearance"
+                    >
+                      Undo
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <div class="acts">
               <button
+                id="cr-begin"
+                class="action primary small"
                 type="button"
-                class="action small"
-                data-gender="female"
-                data-testid="gender-female"
+                data-testid="begin"
               >
-                Female
-              </button>
-              <button
-                type="button"
-                class="action small"
-                data-gender="male"
-                data-testid="gender-male"
-              >
-                Male
-              </button>
-              <button
-                type="button"
-                class="action small"
-                data-gender="nonbinary"
-                data-testid="gender-nonbinary"
-              >
-                Non-binary
+                Begin my life
               </button>
             </div>
-          </div>
-          <div class="group" data-testid="creator-name">
-            <span class="label">Name</span>
-            <label class="field"
-              >First name
-              <input id="cr-given" maxlength="40" autocomplete="off"
-            /></label>
-            <label class="field"
-              >Last name
-              <input id="cr-family" maxlength="40" autocomplete="off"
-            /></label>
-            <button
-              id="cr-random-name"
-              class="action small"
-              type="button"
-              data-testid="creator-randomize-name"
-            >
-              Randomize name
-            </button>
-          </div>
-          <div
-            class="group row"
-            role="group"
-            aria-labelledby="cr-birthday-label"
-            data-testid="creator-birthday"
-          >
-            <span id="cr-birthday-label" class="label">Birthday</span>
-            <div class="date-row">
-              <label class="field"
-                >Month
-                <select id="cr-month" data-testid="start-birth-month"></select
-              ></label>
-              <label class="field"
-                >Day
-                <select id="cr-day" data-testid="start-birth-day"></select
-              ></label>
-              <label class="field"
-                >Year
-                <select id="cr-year" data-testid="start-birth-year"></select
-              ></label>
-            </div>
-            <button
-              id="cr-random-birthday"
-              class="action small"
-              type="button"
-              data-testid="creator-randomize-birthday"
-            >
-              Randomize birthday
-            </button>
-          </div>
-          <div class="acts">
-            <button
-              id="cr-character-next"
-              class="action primary small"
-              type="button"
-              data-testid="creator-continue-character"
-            >
-              Continue
-            </button>
-          </div>
-        </div>
-        <div id="cr-place" data-testid="creator-stage-place" hidden>
-          <button
-            id="cr-summary"
-            class="summary"
-            type="button"
-            data-testid="creator-summary-character"
-          >
-            <span class="summary-value"
-              ><strong id="cr-summary-name" class="summary-name"></strong
-              ><span id="cr-summary-age"></span
-              ><span id="cr-summary-born"></span></span
-            ><span class="summary-edit">Change</span>
-          </button>
-          <h2 class="label">Where are you from?</h2>
-          <div id="cr-state-pick">
-            <label class="field" for="cr-state-search">Choose a state</label>
-            <input
-              id="cr-state-search"
-              type="search"
-              autocomplete="off"
-              data-testid="state-search"
-            />
-            <div
-              id="cr-states"
-              class="choice-list"
-              data-testid="state-choices"
-            ></div>
-          </div>
-          <div id="cr-town-pick" hidden>
-            <button
-              id="cr-state"
-              class="summary"
-              type="button"
-              data-testid="creator-change-state"
-            >
-              <span id="cr-state-name" class="summary-value"></span
-              ><span class="summary-edit">Change</span>
-            </button>
-            <label class="field" for="cr-town-search">Search</label>
-            <input
-              id="cr-town-search"
-              type="search"
-              autocomplete="off"
-              data-testid="place-search"
-            />
-            <div
-              id="cr-towns"
-              class="choice-list"
-              data-testid="place-choices"
-            ></div>
-          </div>
-          <div class="acts">
-            <button
-              id="cr-place-random"
-              class="action small"
-              type="button"
-              data-testid="creator-random-place"
-              data-label="creator.randomPlace"
-            ></button>
-          </div>
-        </div>
-        <div id="cr-look" data-testid="creator-stage-appearance" hidden>
-          <button
-            id="cr-place-summary"
-            class="summary"
-            type="button"
-            data-testid="creator-summary-place"
-          >
-            <span id="cr-place-summary-name" class="summary-value"></span
-            ><span class="summary-edit">Change</span>
-          </button>
-          <div class="portraits">
-            <img
-              id="cr-portrait"
-              class="portrait"
-              alt=""
-              data-testid="creator-engine-figure"
-            />
-            <img
-              id="cr-portrait-work"
-              class="portrait"
-              alt=""
-              data-testid="creator-engine-figure-work"
-            />
-          </div>
-          <h2 class="label">Character appearance</h2>
-          <div id="cr-rows" data-testid="engine-appearance-controls"></div>
-          <button id="cr-randomize" class="action small" type="button">
-            Randomize
-          </button>
-          <div class="acts">
-            <button
-              id="cr-reset"
-              class="action small"
-              type="button"
-              data-testid="creator-reset-appearance"
-            >
-              Reset appearance
-            </button>
-            <button
-              id="cr-undo"
-              class="action small"
-              type="button"
-              data-testid="creator-undo-appearance"
-            >
-              Undo
-            </button>
-          </div>
-          <div class="acts">
-            <button
-              id="cr-begin"
-              class="action primary small"
-              type="button"
-              data-testid="begin"
-            >
-              Begin
-            </button>
           </div>
         </div>
         <p
