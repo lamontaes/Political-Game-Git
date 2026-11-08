@@ -24,7 +24,7 @@ it("counted wage flows settle on their employer's recorded paydays, once each, a
   const where = `${draw.name} [${draw.key}], seed ${draw.seed}`;
   const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
     twoLevel: true,
-    placeKey: draw.key,
+    placeKey: process.env.GOLDEN_PATH_PLACE_KEY ?? draw.key,
   });
   const rt = residentsRuntime(core)!;
   const flows = [...rt.flows.values()].filter(
@@ -100,6 +100,10 @@ it("counted wage flows settle on their employer's recorded paydays, once each, a
     const covered = new Set(dates);
     for (const partner of flow.partnerFlowIds ?? [])
       for (const date of countedPaid.get(partner) ?? []) covered.add(date);
+    if ([...due].some((date) => !covered.has(date)))
+      console.log(
+        `DBG ${flow.id} cadence ${JSON.stringify(flow.cadence)} first ${flow.firstAt} paid ${[...covered].sort().slice(0, 4)} due ${[...due].sort().slice(0, 4)} partners ${flow.partnerFlowIds}`,
+      );
     for (const date of due)
       expect(
         covered.has(date),
