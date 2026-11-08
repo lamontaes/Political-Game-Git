@@ -85,6 +85,7 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  savedLifeRow,
   leaderBlock,
   seatNumbers,
   voteRows,
@@ -3320,45 +3321,32 @@ const sheets = {
     ];
   },
   /**
-   * The title's Saved games. The game keeps one life, the one Continue opens,
-   * and saves to more slots wait for early-access preparation (OWNER-DECISIONS:
-   * "Saves don't matter" until the versioned save format). The screen lists
-   * what exists and says so.
+   * The title's Saved games, as the Nov 8 front mock draws it (fr-saves): one strip per saved
+   * life, its name over a bust, the game's date and Load. The game keeps one life, the one
+   * Continue opens; more slots and Delete wait for the versioned save format in
+   * early-access preparation (OWNER-DECISIONS: "Saves don't matter" until then), so there
+   * is no Delete here: a control with no effect is a defect.
    */
   async saves() {
     await controlsReady;
     const words = controls.saves;
     const life = titleLife;
-    const rows = life
-      ? [
-          pager({
-            items: [
-              {
-                title: life.name,
-                lede: life.placeName,
-                label: life.name,
-                onSelect: () => {
-                  closeSheet();
-                  $("front-continue").click();
-                },
-                data: { life: life.personId },
-              },
-            ],
-            render: listEntry,
-            rows: 1,
-            columns: 1,
-            rowHeight: 58,
-            gap: 8,
-            words: {
-              page: controls.politics.page,
-              previous: controls.politics.previousPage,
-              next: controls.politics.nextPage,
-            },
-            className: "pick-cards save-cards",
-          }),
-        ]
-      : [prose(words.none, "saves-none")];
-    return [plate(null, ...rows, prose(words.later, "saves-later"))];
+    if (!life) return [plate(null, prose(words.none, "saves-none"))];
+    return [
+      savedLifeRow({
+        name: life.name,
+        face: life.face,
+        date: dateWords(life.date),
+        load: makeButton({
+          className: "action",
+          textContent: words.load,
+          onclick: () => {
+            closeSheet();
+            $("front-continue").click();
+          },
+        }),
+      }),
+    ];
   },
   async options() {
     await controlsReady;
