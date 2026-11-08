@@ -14,7 +14,11 @@
  *             `none`); `calibration.json` ties traits to bearings.
  *   register  the class of the bank's register (`registerClasses` in
  *             `calibration.json`): public address, private talk, broadcast,
- *             narration.
+ *             narration. A bank whose lines serve many kinds of scene (scene
+ *             talk) names a class per purpose (`bank:purpose`), so a floor
+ *             line, a hallway word, a press answer and a town-hall reply each
+ *             have their own (owner, Nov 8: "the English can work different
+ *             for different kinds of scenes").
  *
  * Pieces sharing all three form a group. A group's grades add up (good +1,
  * bad or fix -1, a grade shared with other parts of a line counts half), and
@@ -36,6 +40,8 @@ export interface PieceMakeup {
   readonly move: string;
   readonly tag?: { readonly move?: string };
   readonly bearing?: string;
+  /** The purpose of the scene the piece serves (its first use that names one). */
+  readonly purpose?: string;
 }
 
 export interface ReachGroup {
@@ -63,7 +69,9 @@ export function groupKey(
   piece: PieceMakeup,
   classes: Readonly<Record<string, string>>,
 ): string {
-  const register = classes[piece.bank];
+  const register =
+    (piece.purpose ? classes[`${piece.bank}:${piece.purpose}`] : undefined) ??
+    classes[piece.bank];
   if (!register) throw new Error(`no register class for bank ${piece.bank}`);
   return `${piece.tag?.move ?? piece.move}|${piece.bearing ?? "none"}|${register}`;
 }
