@@ -221,6 +221,16 @@ def child_care(rows):
                         note=item.get("note"), retrieved="2026-11-08"))
 
 
+def ssi(rows):
+    """The federal SSI benefit rate for an eligible individual, a month."""
+    data = load(RESEARCH / "laws/ssi-2026.json")
+    rate = data["federalBenefitRate"]
+    rows.append(row("US", "federal", "ssi-federal-benefit-rate", rate["individualDollars"], rate["effectiveDate"], FOREVER,
+                    data["sources"][0]["url"], False, unit="USD/month",
+                    terms={"coupleDollars": rate["coupleDollars"], "colaPercent": rate["colaPercent"]},
+                    retrieved=data["retrieved"]))
+
+
 def business_taxes(rows):
     """Taxes a business pays on wages and profit (data/research/money/business-taxes-2026.json)."""
     taxes = load(RESEARCH / "money/business-taxes-2026.json")
@@ -596,6 +606,7 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    ssi(rows)
     governor_term_limits(rows)
     campaign_finance(rows)
     child_care(rows)

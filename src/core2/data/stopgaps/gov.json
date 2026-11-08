@@ -2196,5 +2196,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-ssi-eligibility",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 325,
+    "whatItFakes": "An aged resident (65 or older) is paid the federal SSI benefit rate less countable income, monthly, by the federal Treasury. Not read: blindness and disability (the two other routes to SSI), the resource limit, the earned-income exclusions, who is a couple (a couple draws as two individuals), deeming from a spouse or parent, and state supplements. Countable income is the household's income per member less the $20 general exclusion. Every eligible resident is paid (the share of eligible who apply is ESTIMATED at one).",
+    "why": "The game keeps no disability record, resource (assets) test or application, and state supplements are per state and not in the data.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A disability status and an asset record on the person; the application and the Social Security Administration's own income rules; each state's supplement from its plan.",
+    "status": "open"
   }
 ]
