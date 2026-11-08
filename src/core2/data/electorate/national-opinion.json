@@ -1,5 +1,5 @@
 {
-  "about": "How the country's opinion of its president moves (Nation, Nov 8, 2026). Read by src/core2/modules/national-opinion.ts. Every number is tagged SOURCED, ESTIMATED (with source and spread) or TUNABLE.",
+  "about": "How the country's opinion of its president moves (Nation, Nov 8, 2026). Read by src/core2/modules/national-opinion.ts. Every number is tagged SOURCED, ESTIMATED (with source and spread) or TUNABLE. Disasters carry no weight in approval: Gallup finds 'little evidence' that Hurricane Katrina moved the president's overall job approval (43 percent in August 2005, 44 in September, 41 in October, 38 in November, with the Miers nomination and two indictments in the same months; news.gallup.com/poll/24283/little-impact-katrina-bushs-overall-job-ratings.aspx), so a disaster pushes approval by nothing here and no read is built for it. Sized pushes wait for a producer: a scandal (Iran-Contra, 63 to 47 percent in two months, recovered over about 20; Watergate, 62 to 24 over 21 months; news.gallup.com/poll/4258) or a rally (the Iran hostage crisis, +27 points, back to the start in about 5 months). See pool item nation-federal-scandal-producer.",
   "parameters": {
     "longRunMeanPct": {
       "value": 50,
