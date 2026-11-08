@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 98 kinds of scene. 1 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 98 kinds of scene. 0 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -45,7 +45,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | accusation | conflict-accuse | feeling:event:justice.accused via justice | school, workplace, public | at-cause | accuser, accused, witnesses | 19 |  |
 | warning | protest-warning | circumstance:organizing-warning via circumstance / awaiting record:arrears, record:eviction-notice, record:conflict-escalating | home, phone, letter | at-cause | warning, at-risk | 15 |  |
 | reconciliation | ally-return | ? / awaiting record:help-after-quarrel | home, other-home, public | next-together | one, other | 17 |  |
-| polling-place | poll-problem | WAITS: election-day / awaiting record:polling-place | venue | at-cause | voter, workers, neighbors | 65 | dead |
+| polling-place | poll-problem | WAITS: election-day / staged by src/director/polling-place.ts / awaiting record:polling-place | venue | at-cause | voter, workers, neighbors | 65 |  |
 | hearing | - | feeling:event:justice.charged; feeling:event:justice.charged / awaiting record:prosecutor-in-scene | public | at-cause | accused, family, others | 1 |  |
 | verdict | - | feeling:event:justice.convicted; feeling:event:justice.convicted; feeling:event:justice.acquitted; feeling:event:justice.acquitted / awaiting record:judge-in-scene | public | at-cause | defendant, family, others | 1 |  |
 | race-won | victory-night | cause:event:election-result via elections | venue, home | at-cause | candidate, supporters, family | 81 |  |
@@ -115,7 +115,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are . Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
 
 ## How this was made
 
