@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 // The world first: the engine modules load in the order the game loads them.
 import { buildBenchWorld } from "./world";
+import { advanceCore } from "../core2/life";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { gameStartDate } from "../core2/game-start";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
@@ -21,6 +23,8 @@ describe("a state legislator's calendar names their chamber's next sitting (West
     );
     const rep = seat?.holder?.personId;
     expect(rep, "a House member").toBeTruthy();
+    // The first day runs: the sessions already sitting open on it (a world is built before its first day).
+    advanceCore(core, addDays(makeIsoDate(core.date), 2));
     const meetings = calendarItems(core, rep!).filter(
       (item) => item.kind === "meeting",
     );
@@ -28,6 +32,10 @@ describe("a state legislator's calendar names their chamber's next sitting (West
     expect(meetings.some((m) => m.recordIds.includes(seat!.office.id))).toBe(
       true,
     );
+    // The date the calendar names is the first floor day the legislature holds the member for (2025-02-11, seen in bill-westway-floor.test.ts).
+    expect(
+      meetings.find((m) => m.recordIds.includes(seat!.office.id))!.date,
+    ).toBe("2025-02-11");
     console.log(
       `calendar: Westway, Texas, seed memA, ${core.date}: ${meetings.map((m) => `${m.date} ${m.line}`).join("; ")}`,
     );
