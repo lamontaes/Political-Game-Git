@@ -54,6 +54,17 @@ import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
 
 /** The mark every dev-mode write carries. */
+/** The events a run can stop on, each as the record kinds the game logs when it happens. */
+export const RUN_EVENTS = {
+  "bill-passes": ["bill-presented"],
+  "bill-fails": ["bill-failed"],
+  election: ["election-result"],
+  death: ["life.death"],
+  "law-takes-effect": ["law-took-effect"],
+  scene: [],
+} as const;
+export type RunEvent = keyof typeof RUN_EVENTS;
+
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
 export const DEV_MODE_RECORD = "dev-mode-change";
@@ -672,6 +683,63 @@ export class DevMode {
       if (this.core.date.slice(0, 7) !== month) this.snapshot();
     }
     return { from, to: this.core.date, ms: Date.now() - started };
+  }
+
+  /**
+   * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
+   * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
+   */
+  runUntil(input: { days?: number; event?: RunEvent; cap?: number }) {
+    const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
+    const limit = Math.min(input.days ?? cap, cap);
+    const kinds = input.event ? RUN_EVENTS[input.event] : undefined;
+    if (input.event && !kinds && input.event !== "scene")
+      throw new Error("Unknown event.");
+    const count = () =>
+      (kinds ?? []).reduce(
+        (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
+        0,
+      );
+    const sceneCount = () =>
+      this.director?.ledger.people.get(this.player?.personId ?? "")?.moments
+        .length ?? 0;
+    const seen = new Set(
+      (kinds ?? []).flatMap((kind) => [
+        ...(this.core.logByKind.get(kind) ?? []),
+      ]),
+    );
+    const sceneBefore = sceneCount();
+    const before = count();
+    const from = this.core.date;
+    let days = 0;
+    let reason: "days" | "event" | "cap" = "days";
+    let records: string[] = [];
+    while (days < limit) {
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+      days += 1;
+      if (input.event === "scene" && sceneCount() > sceneBefore) {
+        reason = "event";
+        break;
+      }
+      if (kinds && count() > before) {
+        reason = "event";
+        records = kinds.flatMap((kind) =>
+          [...(this.core.logByKind.get(kind) ?? [])].filter(
+            (id) => !seen.has(id),
+          ),
+        );
+        break;
+      }
+    }
+    if (reason === "days" && input.event) reason = "cap";
+    return {
+      from,
+      to: this.core.date,
+      days,
+      reason,
+      event: input.event ?? null,
+      records: records.slice(0, 20),
+    };
   }
 
   // 4. Trace --------------------------------------------------------------

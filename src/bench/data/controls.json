@@ -164,6 +164,27 @@
     "later": "Later years",
     "seat": "Seat held"
   },
+  "devRun": {
+    "title": "Run until",
+    "days": "Days",
+    "cap": "Cap",
+    "event": "Event",
+    "noEvent": "No event",
+    "run": "Run",
+    "events": {
+      "bill-passes": "A bill passes",
+      "bill-fails": "A bill fails",
+      "election": "An election is held",
+      "death": "A person dies",
+      "scene": "A scene fires",
+      "law-takes-effect": "A law takes effect"
+    },
+    "reasons": {
+      "days": "Days passed",
+      "event": "Event happened",
+      "cap": "Cap reached"
+    }
+  },
   "options": {
     "version": "Version",
     "fullScreen": "Full screen",

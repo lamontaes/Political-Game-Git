@@ -8,6 +8,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   DevMode,
+  type RunEvent,
   type DevStep,
   type Experiment,
   type LawLevel,
@@ -220,6 +221,18 @@ export async function handleDev(
       const input = await body(request);
       const to = reach(core.date, String(input.step), input.to as string);
       send(200, mode.advance(to));
+      return true;
+    }
+    case "POST run-until": {
+      const input = await body(request);
+      send(
+        200,
+        mode.runUntil({
+          days: input.days === undefined ? undefined : Number(input.days),
+          event: input.event as RunEvent | undefined,
+          cap: input.cap === undefined ? undefined : Number(input.cap),
+        }),
+      );
       return true;
     }
     case "GET trace":
