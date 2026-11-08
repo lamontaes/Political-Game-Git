@@ -34,7 +34,12 @@ type IdentityOf = (
   core: CoreState,
   personId: PersonId,
 ) =>
-  { birthDate: string; traits: Readonly<Record<string, number>> } | undefined;
+  {
+      birthDate: string;
+      placeId: string;
+      traits: Readonly<Record<string, number>>;
+    }
+  | undefined;
 
 const identities: IdentityOf[] = [];
 
