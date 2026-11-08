@@ -92,13 +92,13 @@ try {
   // its page, whose Go takes the player there; the filing office first, as
   // its counter holds the race list (race-list-rows.browser.mjs), then the
   // rest, until a talk opens.
-  await page.locator(".entries-tiles .entry-go").first().waitFor();
-  const filing = page.locator(".entry-go", { hasText: /Filing office/ });
-  const cards = (await filing.count()) ? filing : page.locator(".entry-go");
+  await page.locator(".travel-tile").first().waitFor();
+  const filing = page.locator(".travel-tile[data-filing]");
+  const cards = (await filing.count()) ? filing : page.locator(".travel-tile");
   for (let i = 0; i < (await cards.count()); i++) {
     await cards.nth(i).click();
     await page
-      .locator("#sheet-body button", { hasText: /^\s*Go\s*$/ })
+      .locator("#sheet-body button", { hasText: /^\s*Go\b/ })
       .first()
       .click();
     if (
@@ -113,7 +113,7 @@ try {
       .locator('[data-tab="travel"]')
       .first()
       .evaluate((e) => e.click());
-    await page.locator(".entries-tiles .entry-go").first().waitFor();
+    await page.locator(".travel-tile").first().waitFor();
   }
   await page.waitForTimeout(800);
   await rows("Talk box");
