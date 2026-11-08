@@ -811,6 +811,32 @@
     "raise": "Raise section",
     "callVote": "Call the vote on it",
     "adopted": "Adopted",
-    "rejected": "Rejected"
+    "rejected": "Rejected",
+    "desk": "The executive's desk",
+    "deskView": "Where you stand on it",
+    "deskTemperament": "What your temperament adds",
+    "for": "For",
+    "against": "Against",
+    "none": "Neither way",
+    "sign": "Sign it",
+    "veto": "Veto it",
+    "signed": "Signed",
+    "vetoed": "Vetoed",
+    "by": "By",
+    "reasons": {
+      "views": "Their own views",
+      "constituents": "The people they serve",
+      "sponsor": "The sponsor",
+      "deal": "A deal made",
+      "lobby": "Interests that pressed them",
+      "party": "Their party",
+      "wing": "Their wing",
+      "ambition": "Their next election",
+      "press": "The press",
+      "trait": "Their temperament",
+      "consistency": "Their last vote on it",
+      "bribe": "A payment taken",
+      "reply": "What was said to them"
+    }
   }
 }

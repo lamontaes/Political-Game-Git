@@ -87,6 +87,14 @@ describe(`a bill's stage (seed ${seed})`, () => {
           expect(v.name.length, v.memberId).toBeGreaterThan(0);
       }
       expect(after.stage).not.toBe("drafted");
+      // A bill the executive signed or vetoed names them and the reasons the record kept.
+      if (after.status === "signed" || after.status === "vetoed") {
+        expect(after.desk.decided.length).toBe(1);
+        expect(after.desk.decided[0]!.name.length).toBeGreaterThan(0);
+        expect(after.desk.decided[0]!.vote).toBe(
+          after.status === "signed" ? "sign" : "veto",
+        );
+      }
       expect(
         after.floor.flatMap((c) => c.no).some((v) => v.memberId === sponsor),
         "the sponsor's own chosen No is on the floor result",

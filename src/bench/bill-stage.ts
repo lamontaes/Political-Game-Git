@@ -10,6 +10,7 @@ import {
   billForm,
   billOf,
   castMemberVote,
+  executiveLean,
   moveAmendment,
   voteAmendment,
   chambersOf,
@@ -26,6 +27,7 @@ import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { personName } from "./legislature";
+import { deskWaiting } from "../core2/modules/office-day";
 
 const LEGISLATURE = "core2-legislature-v1";
 const OFFICES = "core2-offices-v1";
@@ -232,11 +234,59 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     };
   });
 
+  // The executive's desk: this bill waiting on the player's desk (with the player's own lean
+  // on it, from their view and temperament), and the signature or veto once decided, with the
+  // reasons the record kept (each a reason's name and which way it pulled).
+  const waiting = deskWaiting(api).some((row) => row.id === bill.id);
+  const lean = waiting ? executiveLean(api, bill.id, player) : null;
+  const side = (n: number) => (n > 0 ? "for" : n < 0 ? "against" : "none");
+  const REASONS = [
+    "views",
+    "constituents",
+    "sponsor",
+    "deal",
+    "lobby",
+    "party",
+    "wing",
+    "ambition",
+    "press",
+    "trait",
+    "consistency",
+    "bribe",
+    "reply",
+  ] as const;
+  const decided = (
+    votesOn(api, bill.id) as unknown as {
+      memberId: string;
+      vote: string;
+      position: Record<string, number | undefined>;
+    }[]
+  )
+    .filter((row) => row.vote === "sign" || row.vote === "veto")
+    .map((row) => ({
+      ...named(row),
+      personId: core.people.has(row.memberId) ? row.memberId : null,
+      reasons: REASONS.flatMap((key) => {
+        const n = row.position?.[key];
+        return typeof n === "number" && n !== 0
+          ? [{ reason: key, side: side(n) }]
+          : [];
+      }),
+    }));
+  const desk = {
+    waiting,
+    lean: lean
+      ? { view: side(lean.position), temperament: side(lean.temperament) }
+      : null,
+    decided,
+  };
+
   return {
     id: bill.id,
     number: bill.number,
     status: bill.status,
     stage,
+    desk,
     amendments,
     /** The sections whose amount an amendment may lower or raise. */
     sectionsAmendable: bill.provisions

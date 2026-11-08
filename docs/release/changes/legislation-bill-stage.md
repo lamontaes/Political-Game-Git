@@ -18,3 +18,7 @@ A floor result on a bill's paper now reads in words, such as "Adopted, 4 to 2." 
 ### Added
 
 On a bill's paper you can amend a section, lowering it to split the difference with the law in force or raising it. The amendment shows as a struck clause and the clause that replaces it, with its own estimate; the body votes it, member by member, and the bill is rewritten only if it is adopted.
+
+### Added
+
+When a passed bill waits on your desk as an executive, its paper offers Sign it and Veto it with where you stand on it, and once decided it names who signed or vetoed it and the reasons that weighed.

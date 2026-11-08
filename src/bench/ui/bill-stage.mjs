@@ -48,8 +48,59 @@ function resultBlock(entry, words, onOpen) {
  * told you (when any did), the floor and the override (when they voted). `stage` is
  * GET /api/bill/stage; `words` is controls.billStage; `onOpen(person)` shows a card.
  */
-export function billStageSections(stage, words, onOpen, onVote, amend = {}) {
+export function billStageSections(
+  stage,
+  words,
+  onOpen,
+  onVote,
+  amend = {},
+  desk = {},
+) {
   const sections = [];
+  // The executive's desk: sign or veto while it waits, then who decided it and why.
+  if (stage.desk?.waiting && desk.onDecide)
+    sections.push(
+      stripSection(
+        1,
+        words.desk,
+        ...(stage.desk.lean
+          ? [
+              el("p", {
+                textContent: `${words.deskView}: ${words[stage.desk.lean.view]}`,
+              }),
+              el("p", {
+                textContent: `${words.deskTemperament}: ${words[stage.desk.lean.temperament]}`,
+              }),
+            ]
+          : []),
+        el(
+          "div",
+          { className: "stage-vote" },
+          ...["sign", "veto"].map((how) => {
+            const button = makeButton({
+              className: "action",
+              textContent: words[how],
+            });
+            button.addEventListener("click", () => desk.onDecide(how));
+            return button;
+          }),
+        ),
+      ),
+    );
+  stage.desk?.decided?.forEach((row) =>
+    sections.push(
+      stripSection(
+        5,
+        `${words.desk} · ${words[row.vote === "sign" ? "signed" : "vetoed"]}`,
+        labeledNames(words.by, [row], onOpen, words.nobody),
+        ...row.reasons.map((r) =>
+          el("p", {
+            textContent: `${words.reasons[r.reason]}: ${words[r.side]}`,
+          }),
+        ),
+      ),
+    ),
+  );
   if (stage.yours?.mayChoose && onVote)
     sections.push(
       stripSection(

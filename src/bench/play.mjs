@@ -2360,6 +2360,15 @@ async function openBillPaper(billId, show, back, backLabel) {
             .filter(Boolean)
             .join(" · "),
       },
+      {
+        onDecide: async (how) => {
+          await api(
+            `/api/desk?${new URLSearchParams({ billId, how })}`,
+            "POST",
+          );
+          await openBillPaper(billId, show, back, backLabel);
+        },
+      },
     ),
   );
 }
