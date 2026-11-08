@@ -32,130 +32,112 @@ try {
   await page.locator('.ring[data-tab="politics"]').click();
   await page.locator("#sheet:not([hidden])").waitFor();
   await page.locator('#sheet-tabs [data-tab="issues"]').click();
-  await page.locator("#sheet-body .issue-cards .entry").first().waitFor();
-  // Every subject on the rail, each opened in turn: its cards, and the panel
-  // never scrolling.
-  const subjects = await page
-    .locator("#sheet-body [data-subject]")
-    .evaluateAll((tabs) => tabs.map((t) => t.dataset.subject));
-  const list = { groups: [], cards: [], text: "" };
-  for (const subject of subjects) {
-    await page.locator(`#sheet-body [data-subject="${subject}"]`).click();
-    await page.waitForTimeout(200);
+  await page.locator("#sheet-body .issues-laws .roster-row").first().waitFor();
+  // Every subject in the list, each opened in turn: its laws, and the panel never scrolling.
+  const laws = [];
+  let text = "";
+  let count = 0;
+  await eachSubject(page, async () => {
+    count += 1;
     const seen = await page.evaluate(() => {
       const body = document.getElementById("sheet-body");
       return {
-        group: document
-          .querySelector("#sheet-body [data-subject].on")
-          ?.textContent.trim(),
         scrolls: body.scrollHeight > body.clientHeight + 1,
-        cards: [...document.querySelectorAll("#sheet-body .entry")].map(
-          (e) => ({
-            title: e.querySelector("h3")?.textContent.trim() ?? "",
-            value: e.querySelector(".entry-value")?.textContent.trim() ?? "",
-            line: e.querySelector(".entry-line")?.textContent.trim() ?? "",
-            series: e.dataset.series ?? "",
-            clickable: e.tagName === "BUTTON",
-          }),
-        ),
+        laws: [
+          ...document.querySelectorAll("#sheet-body .issues-laws .roster-row"),
+        ].map((e) => ({
+          title: e.querySelector("b")?.textContent.trim() ?? "",
+          value: e.querySelector("span")?.textContent.trim() ?? "",
+          series: e.dataset.series ?? "",
+          clickable: e.tagName === "BUTTON",
+        })),
         text: body.innerText,
       };
     });
-    assert.ok(!seen.scrolls, `${seen.group}: the Issues panel scrolls`);
-    assert.ok(seen.cards.length, `${seen.group}: no cards`);
-    list.groups.push(seen.group);
-    list.cards.push(...seen.cards);
-    list.text += seen.text;
-  }
-  console.log(
-    `${list.groups.length} subjects (${list.groups.slice(0, 5).join(", ")}...), ${list.cards.length} issues; first: ${list.cards
-      .slice(0, 3)
-      .map((c) => `${c.title} = ${c.value} (${c.line})`)
-      .join(" | ")}`,
-  );
-  assert.ok(list.groups.length >= 2, "the issues are not grouped by subject");
-  assert.ok(list.cards.length >= 10, "fewer than ten issues");
-  for (const c of list.cards) {
+    assert.ok(!seen.scrolls, "the Issues panel scrolls");
+    assert.ok(seen.laws.length, "a subject with no laws");
+    laws.push(...seen.laws);
+    text += seen.text;
+  });
+  assert.ok(count >= 2, "the issues are not grouped by subject");
+  console.log(`${count} subjects, ${laws.length} laws on the first pages`);
+  assert.ok(laws.length >= 10, "fewer than ten issues");
+  for (const c of laws) {
     assert.ok(c.clickable, `${c.title}: not clickable`);
     assert.ok(c.series, `${c.title}: no series record`);
   }
-  assert.doesNotMatch(
-    list.text,
-    /\d{4}-\d{2}-\d{2}|us-policy-positions|undefined/,
-  );
-  assert.doesNotMatch(list.text, new RegExp(`State · ${stateName}`));
-  if (process.env.SHOT_DIR)
-    await page.screenshot({
-      path: `${process.env.SHOT_DIR}/21-issues-cards.png`,
-    });
-  // Open the first issue with a value (the minimum wage where it leads),
-  // from its subject's page.
+  assert.doesNotMatch(text, /\d{4}-\d{2}-\d{2}|us-policy-positions|undefined/);
+  assert.doesNotMatch(text, new RegExp(`State · ${stateName}`));
+  // Open a law with a value: its page names the level that sets it, and no label carries a
+  // level, place and date together.
   const pick =
-    list.cards.find((c) => /^minimum wage$/i.test(c.title)) ??
-    list.cards.find((c) => c.value);
-  const box = page.locator('#sheet-body input[type="search"]');
-  await box.fill(pick.title);
-  await page
-    .locator(`#sheet-body .entry[data-series="${pick.series}"]`)
-    .click();
-  await page.locator("#sheet-body .law-page").waitFor();
-  await page.waitForTimeout(400);
+    laws.find((c) => /^minimum wage$/i.test(c.title)) ??
+    laws.find((c) => c.value);
+  let opened = false;
+  await eachSubject(page, async () => {
+    const row = page.locator(
+      `#sheet-body .issues-laws .roster-row[data-series="${pick.series}"]`,
+    );
+    if (!opened && (await row.count())) {
+      opened = true;
+      await row.click();
+      return true;
+    }
+  });
+  await page.locator("#sheet-body .issues-laws .roster-title").waitFor();
   const law = await page.evaluate(() => ({
     name: document
-      .querySelector("#sheet-body .law-page .heading")
+      .querySelector("#sheet-body .issues-laws .roster-title")
       ?.textContent.trim(),
-    // Each plate (in force, coming, changed, votes) and its facts: the
-    // in-force plates and every labeled row.
-    sections: [...document.querySelectorAll("#sheet-body .law-page .plate")]
-      .filter((s) => !s.classList.contains("fact-plate"))
-      .map((s) => ({
-        title: s.querySelector("h3")?.textContent.trim() ?? "",
-        facts: [
-          ...[...s.querySelectorAll(".fact-plate")].map((f) => ({
-            label: f.querySelector(".label")?.textContent.trim() ?? "",
-            value: f.querySelector(".fact-value")?.textContent.trim() ?? "",
-          })),
-          ...[...s.querySelectorAll(".record-value")].map((v) => ({
-            label: v.previousElementSibling?.textContent.trim() ?? "",
-            value: v.textContent.trim(),
-          })),
-        ],
-      })),
-    text: document.getElementById("sheet-body").innerText,
+    labels: [
+      ...document.querySelectorAll(
+        "#sheet-body .issues-laws .roster-page .row",
+      ),
+    ].map((r) => r.firstElementChild?.textContent.trim() ?? ""),
+    text: document.querySelector("#sheet-body .issues-laws .roster-page")
+      .innerText,
   }));
-  console.log(
-    `${law.name}: ${law.sections
-      .map(
-        (s) =>
-          `${s.title}: ${s.facts.map((f) => `${f.label} = ${f.value}`).join(", ")}`,
-      )
-      .join(" | ")}`,
-  );
   assert.equal(law.name, pick.title, "the law screen is not the issue clicked");
-  assert.ok(
-    law.sections.length >= 1 && law.sections[0].facts.length >= 1,
-    "no law in force shown",
-  );
-  for (const s of law.sections)
-    for (const f of s.facts) {
-      assert.notEqual(
-        f.label,
-        stateName,
-        `${s.title}: the state named as a row`,
-      );
-      assert.doesNotMatch(
-        f.label,
-        /\s·\s.*\d{4}/,
-        `${s.title}: level, place and date in one label`,
-      );
-    }
+  assert.ok(law.labels.length >= 1, "no law in force shown");
+  for (const label of law.labels) {
+    assert.notEqual(label, stateName, "the state named as a row");
+    assert.doesNotMatch(
+      label,
+      /\s·\s.*\d{4}/,
+      "level, place and date in one label",
+    );
+  }
   assert.doesNotMatch(law.text, /\d{4}-\d{2}-\d{2}|undefined|null/);
-  if (process.env.SHOT_DIR)
-    await page.screenshot({
-      path: `${process.env.SHOT_DIR}/21-issues-law.png`,
-    });
   assert.deepEqual(errors, [], "page errors");
-  console.log("ok: Issues are cards by subject, each opening the law itself");
+  console.log("ok: Issues are subjects and laws, each opening the law itself");
 } finally {
   await browser.close();
+}
+
+// The subjects list pages; visit each subject on every page.
+async function eachSubject(page, visit) {
+  const arrows = page.locator(
+    "#sheet-body .issues-screen > .roster .pager-arrow",
+  );
+  while (
+    (await arrows.first().isVisible()) &&
+    (await arrows.first().isEnabled())
+  )
+    await arrows.first().click();
+  for (;;) {
+    const rows = page.locator(
+      "#sheet-body .issues-screen > .roster .roster-row",
+    );
+    for (let i = 0; i < (await rows.count()); i += 1) {
+      await rows.nth(i).click();
+      await page
+        .locator("#sheet-body .issues-laws .roster-row")
+        .first()
+        .waitFor();
+      if ((await visit()) === true) return;
+    }
+    const next = arrows.nth(1);
+    if (!(await next.isVisible()) || !(await next.isEnabled())) break;
+    await next.click();
+  }
 }

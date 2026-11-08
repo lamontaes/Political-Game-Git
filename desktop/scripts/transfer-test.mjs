@@ -96,7 +96,6 @@ await page.getByTestId("setup-screen").waitFor();
 await page.getByTestId("start-normal").click();
 await page.getByTestId("creator-stage-character").waitFor();
 await chooseStartAge(page, 27);
-await page.getByTestId("creator-continue-character").click();
 await page.getByTestId("creator-stage-place").waitFor();
 await page.getByTestId("state-search").fill("Kentucky");
 await page.getByTestId("state-KY").click();

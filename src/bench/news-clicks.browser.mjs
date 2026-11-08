@@ -50,26 +50,23 @@ try {
     await page.waitForTimeout(500);
   }
   await page.locator('.ring[data-tab="news"]').click();
-  await page.locator("#sheet-body .paper-stories").waitFor();
+  await page.locator("#sheet-body .news-story").waitFor();
   await page.waitForTimeout(800);
   // The real front page: every headline that is a button opens its story.
-  const headlines = await page.locator(".story-headline").count();
+  const headlines = await page.locator(".news-headline").count();
   console.log(`${headlines} headlines that open`);
   for (let i = 0; i < Math.min(headlines, 4); i += 1) {
-    const button = page.locator(".story-headline").nth(i);
+    const button = page.locator(".news-headline").nth(i);
     const text = (await button.innerText()).trim();
     await button.click();
     const lead = (
-      await page
-        .locator(".paper-story.lead .story-headline")
-        .first()
-        .innerText()
+      await page.locator(".news-headline.lead").first().innerText()
     ).trim();
     assert.equal(lead, text, `"${text}" did not open in place`);
   }
   // The shared newspaper part with every kind of story on the page.
   await page.evaluate(async () => {
-    const { newspaperScreen } = await import("/ui/newspaper.mjs");
+    const { newsBoard } = await import("/ui/news-board.mjs");
     const story = (n, extra) => ({
       id: `s${n}`,
       headline: `Headline ${n}`,
@@ -94,16 +91,15 @@ try {
       ],
     ]);
     document.getElementById("sheet-body").replaceChildren(
-      ...newspaperScreen({
+      newsBoard({
         outlets,
         labels: { title: "News" },
         date: "2025-01-20",
         headlineOf: (item) => item.headline,
-        photoOf: () => null,
       }),
     );
   });
-  const side = page.locator(".paper-side .side-headline");
+  const side = page.locator(".news-brief");
   const briefs = await side.count();
   assert.equal(briefs, 2, "the page has no side briefs");
   for (let i = 0; i < briefs; i += 1) {
@@ -123,13 +119,11 @@ try {
     await page.screenshot({ path: `${shots}/brief-hovered-1440x900.png` });
   }
   // A headline that opens: the page makes it the lead, in place.
-  const second = page.locator(".paper-column .story-headline").first();
+  const second = page.locator(".news-headline.side").first();
   const secondText = (await second.innerText()).trim();
   await second.click();
   assert.equal(
-    (
-      await page.locator(".paper-story.lead .story-headline").innerText()
-    ).trim(),
+    (await page.locator(".news-headline.lead").innerText()).trim(),
     secondText,
     "a headline did not open in place",
   );

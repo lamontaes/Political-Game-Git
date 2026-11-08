@@ -21,6 +21,8 @@ const dev = new DevMode(
 );
 const where = `${world.place.displayName} (seed ${seed})`;
 const BIG = 1000;
+/** A margin that passes a bill in every body: the Senate's cloture needs three fifths, so Congress takes more than a bare majority. */
+const marginFor = (level: string | null) => (level === "federal" ? 40 : 6);
 let count = 0;
 
 /** The bill, or null where the law bars this body from the series (the game's own authority check). */
@@ -51,40 +53,55 @@ describe(`dev bills: ${where}`, () => {
     }
   });
 
-  it("a bill passes at a chosen margin wherever no committee chair holds it", () => {
+  it("a bill passes at a chosen margin through every committee wherever no chair holds it", () => {
     const report: string[] = [];
     for (const body of bodies) {
       const row = bill(body);
       if (!row) continue;
-      const result = dev.decideAt(row.id, BIG, { sign: true });
+      const result = dev.decideAt(row.id, marginFor(body.level), {
+        sign: true,
+      });
       report.push(
-        `${body.kind}: ${result.bill.status} held=${result.held.length}`,
+        `${body.kind}: ${result.bill.status}${result.bill.moot ? " moot=" + JSON.stringify(result.bill.moot) : ""} committees=${JSON.stringify(result.committees)} veto=${result.veto}`,
       );
-      if (!result.held.length)
-        expect(result.bill.status, `${body.kind} ${where}`).toBe("enacted");
+      // A chair who never heard the bill is the game's own answer; any other committee reported it.
+      const unheard = result.committees.some((c) => !c.heard);
+      if (!unheard)
+        expect(
+          result.bill.status,
+          `${body.kind} ${where}: ${report.at(-1)}`,
+        ).toBe("enacted");
     }
     process.stderr.write(`${where}\n${report.join("\n")}\n`);
   });
 
-  it("a vetoed bill is overridden or sustained at the margin chosen", () => {
+  it("a veto is overridden or sustained at the margin chosen, and a body with no veto says so", () => {
     for (const body of bodies) {
       const first = bill(body);
       const second = bill(body);
       if (!first || !second) continue;
-      const overridden = dev.decideAt(first.id, BIG, {
+      const overridden = dev.decideAt(first.id, marginFor(body.level), {
         sign: false,
         overrideMargin: BIG,
       });
-      const sustained = dev.decideAt(second.id, BIG, {
+      const sustained = dev.decideAt(second.id, marginFor(body.level), {
         sign: false,
         overrideMargin: -BIG,
       });
-      if (!overridden.held.length && overridden.bill.status !== "enacted")
+      const unheard = [...overridden.committees, ...sustained.committees].some(
+        (c) => !c.heard,
+      );
+      if (unheard) continue;
+      if (!overridden.veto) {
+        // No executive veto here: the bill is simply law, and the control says so.
+        expect(sustained.veto, `${body.kind} ${where}`).toBe(false);
+        expect(overridden.bill.status, `${body.kind} ${where}`).toBe("enacted");
+      } else {
         expect(overridden.bill.status, `${body.kind} ${where}`).toBe(
           "overridden",
         );
-      if (!sustained.held.length && sustained.bill.status !== "enacted")
         expect(sustained.bill.status, `${body.kind} ${where}`).toBe("vetoed");
+      }
     }
   });
 });

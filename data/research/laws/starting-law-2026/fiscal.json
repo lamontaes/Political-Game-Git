@@ -4914,6 +4914,17 @@
           "note": "The Governor must recommend a General Fund reserve of at least 5% of estimated receipts, and any unappropriated General Fund balance above that reserve at the end of each biennium must be transferred to the Legislative Stabilization Reserve Account."
         }
       }
+    },
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "source": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+      "note": "The question asks whether Congress pays for a higher debt limit. P.L. 119-21 sec. 72001 raised the limit by $5,000,000,000,000 with no offset, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.govinfo.gov/content/pkg/PLAW-119publ21/html/PLAW-119publ21.htm",
+          "cite": "31 U.S.C. 3101(b); P.L. 119-21 sec. 72001"
+        }
+      }
     }
   }
 }
