@@ -12542,6 +12542,50 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.public-action.after-months-of-turning-out-over-issue-number-neighbors-in",
+      "move": "public-action",
+      "kind": "written",
+      "text": "After months of turning out over {issue}, {number} neighbors in {place} have formed a standing group.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["movement", "several", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.public-action.neighbors-in-place-who-kept-turning-out-over-issue-have",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} who kept turning out over {issue} have formed a standing group.",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "news",
+          "role": "public-action",
+          "choice": "lede",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

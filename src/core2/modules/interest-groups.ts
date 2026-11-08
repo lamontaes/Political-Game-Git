@@ -841,6 +841,75 @@ function joinSide(
 }
 
 /**
+ * A crowd that keeps coming back over the same grievance becomes a standing
+ * residents' group (owner, Nov 8: "can you start a movement?"): the same group
+ * a bill's fiscal losers form (same id, same organization, same lobbying of
+ * the next bill on its question), founded by the people who keep turning out
+ * and not by a bill. Returns the group, or null where the engine is not
+ * installed or no one who is alive can speak for it. A group already standing
+ * on the question takes the new members.
+ */
+export function foundMovement(
+  api: CoreAPI,
+  input: {
+    readonly town: string;
+    readonly question: string;
+    readonly memberIds: readonly string[];
+    readonly formedOver: string;
+    readonly citation: string;
+  },
+): GroupRow | null {
+  if (!api.state.modules.has(INTEREST_GROUPS_MODULE_ID)) return null;
+  const alive = input.memberIds.filter((id) => api.state.people.get(id)?.alive);
+  if (!alive.length) return null;
+  const groupId = groupIdFor(input.town, input.question, 1);
+  const organizationId = `organization:${groupId}`;
+  const existing = table(api, "groups").get(groupId) as unknown as
+    GroupRow | undefined;
+  if (!api.state.organizations.has(organizationId))
+    api.addOrganization({
+      id: organizationId,
+      placeId: input.town,
+      name: groupId,
+      kind: "interest-group",
+      topic: input.question,
+      liquidMinor: 0,
+      source: {
+        tag: "SOURCED",
+        citation: input.citation,
+        asOf: api.state.date,
+      },
+    });
+  const members = [
+    ...new Set([...(existing?.memberPersonIds ?? []), ...alive]),
+  ].sort();
+  const speaker =
+    existing?.lobbyistId &&
+    members.includes(existing.lobbyistId) &&
+    api.state.people.get(existing.lobbyistId)?.alive &&
+    lobbyingBarredUntil(api, existing.lobbyistId) === null
+      ? existing.lobbyistId
+      : (members.find(
+          (id) =>
+            api.state.people.get(id)?.alive &&
+            lobbyingBarredUntil(api, id) === null,
+        ) ?? null);
+  const row = {
+    id: groupId,
+    organizationId,
+    interest: input.question,
+    formedOn: existing?.formedOn ?? api.state.date,
+    formedOver: existing?.formedOver ?? input.formedOver,
+    memberOrganizationIds: [],
+    memberPersonIds: existing?.memberPersonIds ?? [],
+    lobbyistId: speaker,
+  } satisfies GroupRow;
+  table(api, "groups").put(row as unknown as ModuleRow);
+  for (const id of alive) joinSide(api, id, input.town, input.question, 1);
+  return table(api, "groups").get(groupId) as unknown as GroupRow;
+}
+
+/**
  * Membership follows the view, on the day it moves: a member whose view on
  * the group's question has crossed to the other side, by a margin that
  * slides with how closely they follow politics (the engaged hold on longer),

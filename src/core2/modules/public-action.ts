@@ -28,7 +28,7 @@ import { countedPersonOf } from "../counted-actor";
 import { residentsRuntime } from "./residents";
 import { registerModule } from "../state";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { groupDraw, joinsGroup } from "./interest-groups";
+import { foundMovement, groupDraw, joinsGroup } from "./interest-groups";
 import { makeCase } from "./speech";
 import { townSeats } from "./offices";
 import { currentCloseness } from "../closeness";
@@ -470,6 +470,15 @@ function monthlyRun(api: CoreAPI): void {
             asOf: core.date,
           },
         });
+      // A grievance that keeps drawing people over the same demand is a
+      // movement: the crowd becomes a standing residents' group the
+      // interest-group engine lobbies the next bill on its question with.
+      if (
+        stock.side === "grievance" &&
+        rule.question &&
+        row.months >= PAR.movementMonths.value
+      )
+        standMovement(api, row, rule.question, participants);
       // A friend in it asks the player to come. A rally has no demand, so the
       // invitation names none (its topic is the area), and joining one presses
       // no one (`playerJoins`).
@@ -495,6 +504,52 @@ function monthlyRun(api: CoreAPI): void {
       }
     }
   }
+}
+
+/**
+ * The crowd is a standing group now (interest-groups.ts foundMovement), and
+ * the first time it is, the town hears: a public record the paper tells.
+ */
+function standMovement(
+  api: CoreAPI,
+  action: ActionRow,
+  question: string,
+  participants: readonly string[],
+): void {
+  const core = api.state as CoreState;
+  const group = foundMovement(api, {
+    town: action.placeId,
+    question,
+    memberIds: participants,
+    formedOver: action.id,
+    citation: `A ${action.kind} over ${action.area} that kept turning out people (${action.id}) became a standing group.`,
+  });
+  if (!group) return;
+  const id = `civic.movement:${group.id}`;
+  if (core.eventIds.has(id)) return;
+  api.emit({
+    id,
+    date: core.date,
+    kind: "civic.movement",
+    personIds: [...group.memberPersonIds!],
+    witnessIds: [...group.memberPersonIds!, ...officialsOfTown(api, true)],
+    placeId: action.placeId,
+    publicRecord: true,
+    news: true,
+    topic: question,
+    facts: {
+      actionId: action.id,
+      groupId: group.id,
+      area: action.area,
+      question,
+      size: String(group.memberPersonIds!.length),
+    },
+    source: {
+      tag: "SOURCED",
+      citation: `The ${action.kind} over ${action.area} kept drawing people for ${action.months} months; they stand as a group (${group.id}).`,
+      asOf: core.date,
+    },
+  });
 }
 
 /** Install the engine in a world (after the outcome web, the offices and the speech engine). */
