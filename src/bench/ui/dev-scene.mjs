@@ -22,7 +22,6 @@ export async function devScenePanel({ labels, onDone }) {
   const scenes = await send("scenes");
   // The ones brought about directly first, then those that run the world until they happen, then the rest.
   const rank = (row) => ({ death: 0, layoff: 1, wait: 2 })[row.recipe] ?? 3;
-  const forceable = scenes.filter((row) => row.recipe);
   const type = select({
     label: labels.type,
     value: [...scenes].sort((a, b) => rank(a) - rank(b))[0].key,
