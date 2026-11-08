@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 97 kinds of scene. 1 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 98 kinds of scene. 1 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -21,7 +21,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | race-told | race-told | circumstance:race-result-known via circumstance | public, home, phone | at-cause | bearer, you, about | 92 |  |
 | letter | - | feeling:event:family.contact via partnerships | letter | at-cause | writer, reader | 10 |  |
 | argument | neighbor-argument | ? / awaiting record:dispute-over-money, record:dispute-over-rules, record:dispute-over-belief | home, workplace, school, public | at-cause | side, other-side, witness | 72 |  |
-| apology | owed-apology | feeling:event:family.quarrel via partnerships | home, other-home, public | next-together | apologizing, wronged | 75 |  |
+| apology | owed-apology | feeling:event:family.quarrel via partnerships | home, other-home, public | next-together | apologizing, wronged | 78 |  |
 | reach-out | favor-job | circumstance:job-lost-calls via circumstance | phone | at-cause | asking, asked | 17 |  |
 | becoming-friends | - | ? | public, home, other-home | next-together | friend, other-friend | 4 |  |
 | celebration | - | feeling:event:family.married via partnerships; money:job-started; money:job-started / awaiting record:birthday-gathering | home, venue | effective-date | honoree, host, guests | 1 |  |
@@ -41,14 +41,14 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | visit | - | feeling:event:justice.imprisoned; feeling:event:health.serious-illness; feeling:event:health.serious-illness; feeling:event:justice.held-before-trial; circumstance:held-known-visit via circumstance / awaiting record:serious-illness, record:nursing-home | venue | next-together | visitor, cannot-come | 0 |  |
 | arrival | housemate-arrives | circumstance:new-housemate via circumstance / awaiting record:stepparent-arrives, record:housemate-moves-in | home | effective-date | household, newcomer | 97 |  |
 | care | care-visit | feeling:event:health.serious-illness | home, other-home | effective-date | caregiver, cared-for | 38 |  |
-| advice | mentor-advice | WAITS: next-step; feeling:event:work.mentorship-formed via partnerships | school, home, other-home | next-together | adviser, deciding | 105 |  |
+| advice | mentor-advice | WAITS: next-step; feeling:event:work.mentorship-formed via partnerships | school, home, other-home | next-together | adviser, deciding | 108 |  |
 | accusation | conflict-accuse | feeling:event:justice.accused via justice | school, workplace, public | at-cause | accuser, accused, witnesses | 19 |  |
 | warning | protest-warning | circumstance:organizing-warning via circumstance / awaiting record:arrears, record:eviction-notice, record:conflict-escalating | home, phone, letter | at-cause | warning, at-risk | 15 |  |
 | reconciliation | ally-return | ? / awaiting record:help-after-quarrel | home, other-home, public | next-together | one, other | 17 |  |
 | polling-place | poll-problem | WAITS: election-day / awaiting record:polling-place | venue | at-cause | voter, workers, neighbors | 65 | dead |
 | hearing | - | feeling:event:justice.charged; feeling:event:justice.charged / awaiting record:prosecutor-in-scene | public | at-cause | accused, family, others | 1 |  |
 | verdict | - | feeling:event:justice.convicted; feeling:event:justice.convicted; feeling:event:justice.acquitted; feeling:event:justice.acquitted / awaiting record:judge-in-scene | public | at-cause | defendant, family, others | 1 |  |
-| race-won | victory-night | cause:event:election-result via elections | venue, home | at-cause | candidate, supporters, family | 76 |  |
+| race-won | victory-night | cause:event:election-result via elections | venue, home | at-cause | candidate, supporters, family | 81 |  |
 | race-lost | concession-call | cause:event:election-result via elections; cause:event:primary-result via elections | venue, home | at-cause | candidate, supporters, family | 63 |  |
 | floor-vote | floor-switch | cause:event:legislative-vote via legislature | venue | at-cause | chair, member, colleagues, public | 122 |  |
 | bill-signed | signing-ask | cause:event:executive-action via legislature | venue | at-cause | sponsor, signer, press | 56 |  |
@@ -57,48 +57,49 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | recall | recall-confront | cause:event:recall-petition via recalls; cause:event:recall-outcome via recalls | public, home | at-cause | official, petitioners, family | 98 |  |
 | public-hearing | hearing-testify | cause:event:public-comment via meetings | venue | at-cause | chair, speaker, members | 114 |  |
 | testimony-heard | testimony-heard | feeling:event:speech.heard via speech | venue | at-cause | speaker, member | 52 |  |
-| press-interview | press-comment | cause:event:executive-action via legislature; cause:event:veto-override via legislature; cause:event:office.introduced via legislature; cause:event:legislative-vote via legislature; cause:event:interview-published via press; circumstance:hallway-reporter via circumstance | venue, phone | at-cause | reporter, official | 437 |  |
-| scandal | scandal-comment | feeling:event:press.exposed via press | home, phone | at-cause | exposed, reporter, family | 34 |  |
+| press-interview | press-comment | cause:event:executive-action via legislature; cause:event:veto-override via legislature; cause:event:office.introduced via legislature; cause:event:legislative-vote via legislature; cause:event:interview-published via press; circumstance:hallway-reporter via circumstance | venue, phone | at-cause | reporter, official | 485 |  |
+| scandal | scandal-comment | feeling:event:press.exposed via press | home, phone | at-cause | exposed, reporter, family | 58 |  |
 | law-takes-effect | law-reaches | cause:event:law.effect-learned via budgets | home, workplace, public | effective-date | reached | 29 |  |
 | morning-after | morning-after | circumstance:morning-after via circumstance | home | at-cause | visitor, you | 42 |  |
 | constituent-stop | law-reaches | circumstance:vote-read-street via circumstance; circumstance:law-reached-street via circumstance; circumstance:law-news-street via circumstance | public | at-cause | constituent, you | 31 |  |
-| hallway | hallway-word | circumstance:meeting-colleague via circumstance; circumstance:meeting-reporter via circumstance; circumstance:lobbyist-hallway via circumstance | seat, venue | at-cause | other, you | 220 |  |
+| hallway | hallway-word | circumstance:meeting-colleague via circumstance; circumstance:meeting-reporter via circumstance; circumstance:lobbyist-hallway via circumstance; circumstance:governor-answer-hallway via circumstance | seat, venue | at-cause | other, you | 284 |  |
 | address | - | cause:event:president.address via opening-story; cause:event:president.address via opening-story; cause:event:governor.address via local-address; cause:event:mayor.address via local-address | seat, venue, public | at-cause | speaker, aide, audience | 4 |  |
-| campaign-stop | rally-volunteer | ? via speech | public, venue | at-cause | volunteer, candidate, voters | 36 |  |
-| speech-afterward | ask-support | cause:event:speech.heard via speech | venue, public | at-cause | listener, candidate | 40 |  |
+| campaign-stop | rally-volunteer | ? via speech | public, venue | at-cause | volunteer, candidate, voters | 52 |  |
+| speech-afterward | ask-support | cause:event:speech.heard via speech | venue, public | at-cause | listener, candidate | 56 |  |
 | filing | filing-petition | cause:event:candidate-filed via elections | venue | at-cause | candidate, clerk | 56 |  |
 | layoff | layoff-terms | money:job-ended via work | workplace | at-cause | worker, boss, coworkers | 20 |  |
 | vote-asked | ask-vote | cause:event:bill-amendment via legislature; cause:event:vote-ahead via legislature; circumstance:hallway-colleague via circumstance | office, chamber | at-cause | colleague, you | 129 |  |
-| door-ask | ask-support | circumstance:door-first via circumstance; circumstance:door-again via circumstance | other-home | at-cause | resident, you | 38 |  |
+| door-ask | ask-support | circumstance:door-first via circumstance; circumstance:door-again via circumstance | other-home | at-cause | resident, you | 54 |  |
 | door-signature | ask-signature | circumstance:door-petition via circumstance | other-home | at-cause | resident, you | 51 |  |
 | vote-sought | ask-vote | cause:event:vote-ahead via legislature | office, chamber, phone | at-cause | colleague, you | 129 |  |
 | vote-confirmed | confirm-vote | circumstance:override-whip via circumstance; cause:event:vote-promise via legislature | office, chamber, phone | at-cause | colleague, you | 134 |  |
 | bill-carry | carry-bill | circumstance:bill-introduced-carry via circumstance; cause:event:carry-asked via legislature | office | at-cause | member, you | 123 |  |
-| donor-ask | donor-ask | circumstance:donor-ask-street via circumstance; money:event:campaign-gift via campaigns | office, phone, public | at-cause | donor, you | 109 |  |
-| bribe-offer | bribe-offer | cause:event:corruption.bribe-offered via corruption | office, venue | at-cause | offerer, you | 83 |  |
+| donor-ask | donor-ask | circumstance:donor-ask-street via circumstance; money:event:campaign-gift via campaigns | office, phone, public | at-cause | donor, you | 173 |  |
+| bribe-offer | bribe-offer | cause:event:corruption.bribe-offered via corruption | office, venue | at-cause | offerer, you | 134 |  |
 | party-recruit | ask-to-run | cause:event:party-asked via candidacy | home | at-cause | chair, you | 34 |  |
-| office-hours | constituent-help | cause:event:office.approached via constituent-cases | venue, office | at-cause | constituent, you | 270 |  |
-| family-filing | family-filing | cause:event:candidate-filed via elections | home | at-cause | relative, you | 91 |  |
-| family-win | family-win | cause:event:election-result via elections | home | at-cause | relative, you | 36 |  |
+| office-hours | constituent-help | cause:event:office.approached via constituent-cases | venue, office | at-cause | constituent, you | 273 |  |
+| family-filing | family-filing | cause:event:candidate-filed via elections | home | at-cause | relative, you | 131 |  |
+| family-win | family-win | cause:event:election-result via elections | home | at-cause | relative, you | 66 |  |
 | family-loss | family-loss | cause:event:election-result via elections; cause:event:primary-result via elections | home | at-cause | relative, you | 62 |  |
-| family-absence | family-absence | circumstance:away-evening via circumstance | home | at-cause | relative, you | 48 |  |
+| family-absence | family-absence | circumstance:away-evening via circumstance | home | at-cause | relative, you | 80 |  |
 | rally-opponent | rally-opponent | circumstance:rival-message via circumstance; cause:event:debate via meetings | public | at-cause | opponent, you | 59 |  |
 | desk-visit | desk-visit | cause:event:bill-presented via legislature; cause:event:bill-presented via legislature | office, phone | at-cause | visitor, you | 100 |  |
 | desk-bill | desk-bill | cause:event:bill-presented via legislature; cause:event:bill-presented via legislature | office | at-cause | aide, you | 131 |  |
 | staff-news | staff-news | cause:event:bill-failed via legislature; cause:event:press-story via press; cause:event:press-story via press | office, phone | at-cause | aide, you | 79 |  |
 | section-bargain | section-bargain | cause:event:bill-amendment via legislature | chamber, office | at-cause | member, you | 119 |  |
-| bill-held-chair | hearing-ask | cause:event:bill-held-in-committee via legislature | office, venue | at-cause | sponsor, you | 58 |  |
+| bill-held-chair | hearing-ask | cause:event:bill-held-in-committee via legislature | office, venue | at-cause | sponsor, you | 61 |  |
 | bill-held-member | hearing-push | cause:event:bill-held-in-committee via legislature | office, venue | at-cause | sponsor, you | 58 |  |
 | new-baby | new-baby | feeling:event:person-birth | home | at-cause | parent, visitor | 46 |  |
 | cause-invite | join-cause | feeling:event:cause.shared | public, other-home | next-together | invited, recruiter | 172 |  |
 | concession-received | concession-received | cause:event:election-result via elections | phone | at-cause | loser, you | 88 |  |
-| action-confront | town-hall-question | cause:event:civic.protest via public-action; cause:event:civic.strike via public-action | public | at-cause | protester, you | 73 |  |
-| town-hall-question | town-hall-question | cause:event:town-hall via meetings | venue, public | at-cause | resident, you | 73 |  |
+| action-confront | town-hall-question | cause:event:civic.protest via public-action; cause:event:civic.strike via public-action | public | at-cause | protester, you | 103 |  |
+| town-hall-question | town-hall-question | cause:event:town-hall via meetings | venue, public | at-cause | resident, you | 103 |  |
 | rally-word | rally-word | cause:event:civic.rally via public-action | public | at-cause | neighbor, you | 35 |  |
 | lobby-remembers | lobby-remembers | circumstance:lobby-remembers via circumstance | seat, venue | at-cause | lobbyist, you | 30 |  |
-| bribe-pressed | bribe-pressed | cause:event:corruption.bribe-pressed via corruption | office, venue | at-cause | offerer, you | 26 |  |
+| bribe-pressed | bribe-pressed | cause:event:corruption.bribe-pressed via corruption | office, venue | at-cause | offerer, you | 40 |  |
 | office-doubt | office-doubt | circumstance:office-doubt via circumstance | home | at-cause | relative, you | 29 |  |
 | floor-debate | floor-debate | circumstance:floor-debate-for via circumstance; circumstance:floor-debate-against via circumstance | seat, venue | at-cause | speaker, you | 24 |  |
+| run-doubt | run-doubt | circumstance:run-doubt via circumstance | home | at-cause | relative, you | 21 |  |
 | interview-invite | invite-interview | cause:event:interview-invited via press | phone | at-cause | reporter, you | 34 |  |
 | interview-sitting | - | cause:event:interview-accepted via press | public | at-cause | reporter, you | 4 |  |
 | debate-sitting | - | cause:event:debate-accepted via meetings | public | at-cause | host, you | 4 |  |

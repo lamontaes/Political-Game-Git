@@ -574,6 +574,10 @@
       "levels": ["state"],
       "why": "A state writes the plan for counties that fail the federal standard, and enforces it on polluters. A county or city does not."
     },
+    "us-policy-positions:labor-workforce.ban-the-box-public-hiring": {
+      "dial": "nondiscrimination",
+      "levels": ["state"]
+    },
     "us-policy-positions:environment-energy.allow-retail-electric-choice": {
       "dial": "utility-rates",
       "levels": ["state"]
