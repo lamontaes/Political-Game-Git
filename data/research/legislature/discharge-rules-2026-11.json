@@ -16,7 +16,11 @@
       "url": "https://www.everycrsreport.com/reports/R45920.html",
       "quote": "bring to the floor for consideration a public bill or resolution that has been referred to committee but not reported",
       "note": "CRS R45920, updated Feb 12 2026",
-      "usage": "563 petitions filed 1931-2003, 47 reached the signatures, House voted discharge 26 times, 2 measures became law (CRS 97-856, https://www.everycrsreport.com/reports/97-856GOV.html); 2 petitions hit 218 in 118th Congress, 4 in 2025 (R45920)"
+      "usage": "563 petitions filed 1931-2003, 47 reached the signatures, House voted discharge 26 times, 2 measures became law (CRS 97-856, https://www.everycrsreport.com/reports/97-856GOV.html); 2 petitions hit 218 in 118th Congress, 4 in 2025 (R45920)",
+      "chamberId": "federal:us-house",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "U.S. Senate",
@@ -88,7 +92,13 @@
       "url": "https://www.azhouse.gov/alispdfs/AdoptedRulesofthe57thLegislature_ConformingChanges.pdf",
       "quote": "if three-fifths or more of the members of the House sign a petition to discharge all committees from further consideration of a measure",
       "note": "57th Legislature (2025-26) rules",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-AZ:legislature-lower",
+      "rule": {
+        "kind": "share",
+        "numerator": 3,
+        "denominator": 5
+      }
     },
     {
       "place": "Arizona",
@@ -400,7 +410,13 @@
       "url": "https://en.wikipedia.org/wiki/Discharge_petition",
       "quote": "The Kansas Legislature requires 56-percent approval (70 members).",
       "note": "Secondary; verify against the rules",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-KS:legislature-lower",
+      "rule": {
+        "kind": "share",
+        "numerator": 14,
+        "denominator": 25
+      }
     },
     {
       "place": "Kansas",
@@ -520,7 +536,11 @@
       "url": "https://malegislature.gov/Laws/Rules/House",
       "quote": "may, by filing a petition signed by a majority of the members elected to the House, discharge the House committee on Ways and Means",
       "note": "House Rule 26 also forces joint committees to report (with a study recommendation) once reporting deadlines pass (deadline mechanism)",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-MA:legislature-lower",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "Massachusetts",
@@ -664,7 +684,11 @@
       "url": "https://nebraskalegislature.gov/FloorDocs/Current/PDF/Rules/RuleBook.pdf",
       "quote": "Any senator may move that a bill be placed on General File twenty calendar days or more after the committee hearing",
       "note": "Rule book posted as 'Current'; a senator's description (search snippet) says use is rare because it causes hard feelings with committee chairs",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-NE:legislature-unicameral",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "Nevada",
@@ -796,7 +820,11 @@
       "url": "https://www.ncleg.gov/Sessions/2025/Bills/House/HTML/H563v3.html",
       "quote": "when the signatures of 61 members appear on the petition, the Principal Clerk shall place that motion on the calendar",
       "note": "",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-NC:legislature-lower",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "North Carolina",
@@ -808,7 +836,13 @@
       "url": "https://www.ncleg.gov/Sessions/2025/Bills/Senate/HTML/S1v2.html",
       "quote": "If the motion is adopted by two-thirds of the membership of the Senate, then the committee ... is discharged",
       "note": "",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-NC:legislature-upper",
+      "rule": {
+        "kind": "share",
+        "numerator": 2,
+        "denominator": 3
+      }
     },
     {
       "place": "North Dakota",
@@ -844,7 +878,11 @@
       "url": "https://lsc.ohio.gov/assets/organizations/legislative-service-commission/files/appendix-e-committee-and-floor-action-guides-10021985.pdf",
       "quote": "Discharge a bill from committee A majority of members of the House (50) (HR 89)",
       "note": "Minority Leader statement (https://www.ohiohouse.gov/members/c-allison-russo/news/minority-leader-russo-calls-hjr-1-discharge-petition-another-attempt-by-republicans-to-shamelessly-rewrite-the-rules-114029) says a petition 'needs a 50% + 1 vote'",
-      "usage": "Used in March 2023 on HJR 1 (same Russo release)"
+      "usage": "Used in March 2023 on HJR 1 (same Russo release)",
+      "chamberId": "office:US-OH:legislature-lower",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "Ohio",
@@ -856,7 +894,11 @@
       "url": "https://lsc.ohio.gov/assets/organizations/legislative-service-commission/files/appendix-e-committee-and-floor-action-guides-10021985.pdf",
       "quote": "Discharge a bill from committee A majority of members of the Senate (17) (SR 32)",
       "note": "",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-OH:legislature-upper",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "Oklahoma",
@@ -880,7 +922,13 @@
       "url": "https://oksenate.gov/senate-rules",
       "quote": "Any bill or resolution may be withdrawn from any committee of the Senate upon a two-thirds vote of the members of the Senate",
       "note": "",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-OK:legislature-upper",
+      "rule": {
+        "kind": "share",
+        "numerator": 2,
+        "denominator": 3
+      }
     },
     {
       "place": "Oregon",
@@ -928,7 +976,11 @@
       "url": "https://www.pasen.gov/rules.cfm",
       "quote": "No standing committee shall be discharged ... within 10 legislative days of its reference to committee without the unanimous consent of the Senate",
       "note": "",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-PA:legislature-upper",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "Rhode Island",
@@ -952,7 +1004,11 @@
       "url": "https://webserver.rilegislature.gov/BillText18/SenateText18/S2680.htm",
       "quote": "as soon as a majority of all the senators elected to the senate shall have affixed their signatures to any such petition",
       "note": "Proposed replacement in the same resolution: majority of elected senators by written communication to the presiding officer; not verified as adopted",
-      "usage": ""
+      "usage": "",
+      "chamberId": "office:US-RI:legislature-upper",
+      "rule": {
+        "kind": "majority"
+      }
     },
     {
       "place": "South Carolina",
