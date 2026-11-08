@@ -98,6 +98,11 @@ export function actionsOf(api: CoreAPI, placeId?: string): ActionRow[] {
     .sort((a, b) => a.startedOn.localeCompare(b.startedOn));
 }
 
+/** The policy question a town presses on its officials when an area goes badly, where the area has one. */
+export function areaQuestion(area: string): string | undefined {
+  return RULES[area]?.question;
+}
+
 /** The first of the month's key ("YYYY-MM"). */
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 

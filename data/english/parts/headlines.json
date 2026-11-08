@@ -7596,6 +7596,226 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.public-action.residents-protest-issue-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Residents protest {issue} in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["protest", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.protesters-press-place-officials-on-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Protesters press {place} officials on {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["protest", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.workers-walk-out-in-place-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Workers walk out in {place} over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["strike", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.walkout-in-place-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Walkout in {place} over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["strike", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.place-rallies-behind-a-good-year",
+      "move": "public-action",
+      "kind": "written",
+      "text": "{place} rallies behind a good year",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.neighbors-gather-in-place-in-good-spirits",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors gather in {place} in good spirits",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["rally"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-gives-the-states-yearly-address",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gives the state's yearly address",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-addresses-the-legislature",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} addresses the legislature",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["state"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-gives-the-towns-yearly-address",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} gives the town's yearly address",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.local-address.name-addresses-the-council",
+      "move": "local-address",
+      "kind": "written",
+      "text": "{name} addresses the council",
+      "uses": [
+        {
+          "move": "local-address",
+          "subject": "headline",
+          "role": "local-address",
+          "choice": "headline",
+          "requiresFacts": ["town"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
