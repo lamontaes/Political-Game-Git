@@ -41,6 +41,7 @@ import {
 } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
+import { watchTerms } from "./ui/term-mark.mjs";
 import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen, listEntry } from "./ui/list-screen.mjs";
@@ -366,6 +367,20 @@ let guideQuery = "";
 let guideTerms = new Map();
 api("/api/guide?q=").then((rows) => {
   guideTerms = new Map(rows.map((row) => [row.term.toLowerCase(), row]));
+  // Every civic term in player text is underlined until learned, wherever it appears.
+  watchTerms(document.getElementById("game"), {
+    terms: guideTerms,
+    learned,
+    hooks: {
+      onHover: (node, key) => showTip(node, key),
+      onLeave: hideTipSoon,
+      onOpen: (text) => {
+        show("tip", false);
+        guideQuery = text;
+        openSheet("guide");
+      },
+    },
+  });
 });
 // Terms the player marked as learned lose their underline (kept in the Guide).
 const LEARNED_KEY = "ocd-learned-terms";
