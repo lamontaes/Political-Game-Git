@@ -34,17 +34,5 @@
     "addedAt": "2026-10-29",
     "replacement": "A director situation type (Words session) reading volunteer-shift events by id: a volunteer reporting back on their evening of doors, or the week's journal line of what the campaign's volunteers walked, with the volunteer-door causes that name the volunteer as actor.",
     "status": "open"
-  },
-  {
-    "id": "SG-SPEED-fast-forward-campaigns",
-    "kind": "partial-model",
-    "file": "src/core2/modules/campaigns.ts",
-    "line": 6226,
-    "whatItFakes": "With fast-forward on (development only), a world campaign takes its turns four times as far apart, so a race is decided on fewer impressions than a played one.",
-    "why": "The owner asked for 20 years in seconds, accepted if the result makes sense in the end (Nov 8, 1:58 a.m.); a campaign's town halls, speeches and doors are most of an election year's time.",
-    "addedBy": "speed",
-    "addedAt": "2026-11-08",
-    "replacement": "A stride engine that steps the whole day loop in months for people nobody is watching; the campaign then reads the aggregate effect of its spending and reach.",
-    "status": "open"
   }
 ]

@@ -9,7 +9,7 @@
  * outright was tried on Nov 8: no votes were tallied, so no one won.) Off in play and in every test unless one turns it on.
  *
  * Registered stopgap: SG-SPEED-fast-forward-campaigns (see
- * src/core2/data/stopgaps/speed.ts).
+ * src/core2/data/stopgaps/speed.json).
  */
 let enabled = false;
 
