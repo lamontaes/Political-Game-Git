@@ -4351,7 +4351,12 @@ export function runAd(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
-  const amount = Math.min(input.amountMinor, available);
+  // A campaign for an office the town is only part of spreads its ad money
+  // over the whole district, so this town's outlet sells it the town's share.
+  const amount = Math.floor(
+    Math.min(input.amountMinor, available) *
+      townShareOfRace(api, campaign.contestId),
+  );
   void account;
   if (amount <= 0) return [];
   const sold = adAudience(api, amount);
@@ -5460,9 +5465,15 @@ export function sendMail(
   )
     ? campaign.raisedMinor - campaign.spentMinor
     : 0;
+  // The mail a district campaign sends is spread over the district: the
+  // town gets its share of the pieces.
   const pieces = Math.min(
     list.length,
-    Math.floor(Math.min(amountMinor, available) / perPiece),
+    Math.floor(
+      (Math.min(amountMinor, available) *
+        townShareOfRace(api, campaign.contestId)) /
+        perPiece,
+    ),
   );
   if (pieces <= 0) return [];
   spend(api, filingId, {
