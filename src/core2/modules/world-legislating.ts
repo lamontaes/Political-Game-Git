@@ -221,6 +221,32 @@ export function openWorldLegislating(core: CoreState): void {
     scheduleOpening(api, jurisdiction, core.date, true);
 }
 
+/**
+ * Every session already sitting when the world opens takes up its work at the opening, once the
+ * rest of the world is installed, so the bills filed in its first weeks are on the record on
+ * day one. Called last by the world's build; a world that does not call it opens them the next day.
+ */
+export function openSittingSessions(core: CoreState): void {
+  if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
+  const api = coreAPI(core);
+  for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+    const w = nextWindow(jurisdiction, core.date, true);
+    if (!w || w.conveneAt > core.date) continue;
+    openSession(api, {
+      key: `session-open:${jurisdiction}:${w.conveneAt}`,
+      date: core.date,
+      kind: "session-open",
+      source: {
+        tag: w.tag,
+        citation: w.source,
+        asOf: core.date,
+        ...(w.tag === "ESTIMATED" ? { estimatedFrom: w.source } : {}),
+      },
+      sourceRecordIds: [jurisdiction, w.conveneAt, w.adjournAt],
+    } as unknown as Readonly<ModuleCalendarWork>);
+  }
+}
+
 function townBodies(api: CoreAPI): readonly string[] {
   const offices = (
     api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
@@ -655,25 +681,26 @@ function fileLines(
     const base = now - changed;
     if (!(base > 0)) continue;
     const question = `budget-line:${name}`;
+    // A member's stance on a line does not depend on which way it is moved.
+    const stances = filers.map((member) =>
+      Math.max(
+        -1,
+        Math.min(
+          1,
+          member.stance(question) +
+            campaignParameter("constituentWeight") *
+              personStance(member.home, question),
+        ),
+      ),
+    );
     for (const direction of [1, -1]) {
-      // A change the body just turned down is not filed again at once.
-      if (barred(question, direction)) continue;
       let sponsor: Filer | null = null;
       let best = 0;
       let wanted = 0;
       let cosponsors = 0;
       const gaps: number[] = [];
-      for (const member of filers) {
-        const stance = Math.max(
-          -1,
-          Math.min(
-            1,
-            member.stance(question) +
-              campaignParameter("constituentWeight") *
-                personStance(member.home, question),
-          ),
-        );
-        const gap = (base * scale * stance - changed) * direction;
+      for (const [at, member] of filers.entries()) {
+        const gap = (base * scale * stances[at]! - changed) * direction;
         const reason = gap / base - minimum;
         if (reason <= 0) continue;
         cosponsors += 1;
@@ -692,11 +719,17 @@ function fileLines(
       // ask, so the line settles where the body's median member stands and
       // is not pushed past it and back.
       const majority = Math.floor(filers.length / 2) + 1;
-      if (sponsor && gaps.length >= majority) {
-        gaps.sort((a, b) => b - a);
-        wanted = Math.round(gaps[majority - 1]! * direction);
-      }
-      if (!sponsor || wanted === 0) continue;
+      // A body brings a budget amendment to the floor only where its
+      // sponsors can count a majority; a change without the votes is not
+      // taken up (members do not spend a meeting's agenda, or a recorded
+      // vote, on an amendment they know will fail).
+      if (!sponsor || gaps.length < majority) continue;
+      gaps.sort((a, b) => b - a);
+      wanted = Math.round(gaps[majority - 1]! * direction);
+      if (wanted === 0) continue;
+      // A change the body just turned down is not filed again at once (read
+      // only for a change that would be filed: the check scans the sessions).
+      if (barred(question, direction)) continue;
       all.push({
         weight: cosponsors * (Math.abs(wanted) / base),
         filed: {
@@ -1104,6 +1137,9 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
   ];
+  // A session opened already (a sitting one, at the world's opening) is not opened again by its
+  // calendar entry the next day.
+  if (sessionTable(api).get(`session:${jurisdiction}:${conveneAt}`)) return;
   // Another government's session is simulated from its people and keeps only
   // its results (owner, Nov 5: "generate on demand").
   if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) {
@@ -1164,7 +1200,12 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     : [];
   const today = api.state.date;
   const length = Math.max(1, daysBetween(today, adjournAt));
-  const period = campaignParameter("sessionFilingShare") * length;
+  // A session already sitting spreads its filings from the day it convened, so the bills filed
+  // in its first weeks are already on the record when the world opens, dated as they were filed.
+  const start = conveneAt < today ? conveneAt : today;
+  const period =
+    campaignParameter("sessionFilingShare") *
+    Math.max(1, daysBetween(start, adjournAt));
   const filings: Filing[] = filed.map((item, i) => ({
     question: item.question,
     direction: item.direction,
@@ -1172,7 +1213,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     cosponsors: item.cosponsors,
     introduceOn: item.drafted
       ? today
-      : plusDays(today, (i * period) / Math.max(1, filed.length)),
+      : plusDays(start, (i * period) / Math.max(1, filed.length)),
     billId: item.drafted?.id ?? null,
   }));
   const weeks = Math.max(1, length / 7);
@@ -1347,9 +1388,10 @@ function openOutsideSession(
         r.counts.map((c) => `${c.yes}-${c.no}`).join("/"),
         bodies.map((b) => b.id).join(","),
         r.decision,
-        governorKey,
         String(i + 1),
         String(r.margin),
+        // The governor's key is the last record, left out when no one holds the office.
+        ...(governorKey ? [governorKey] : []),
       ],
     });
   });
@@ -1386,9 +1428,9 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     counts,
     bodyIds,
     decision,
-    governorKey,
     nth,
     margin,
+    governorKey,
   ] = work.sourceRecordIds as [
     string,
     string,
@@ -1399,7 +1441,7 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
     string,
-    string,
+    string | undefined,
   ];
   const direction = Number(directionText);
   // The law may have changed since the session opened: then nothing passes.
@@ -1510,6 +1552,15 @@ function introduce(api: CoreAPI, sessionId: string, index: number): void {
       },
     ],
   });
+  // A bill filed before the world opened is dated the day it was filed.
+  if (filing.introduceOn < api.state.date)
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .put({
+        ...bill,
+        introduced: filing.introduceOn,
+      } as unknown as ModuleRow);
   sessionTable(api).put({
     ...row,
     filings: row.filings.map((f, i) =>
