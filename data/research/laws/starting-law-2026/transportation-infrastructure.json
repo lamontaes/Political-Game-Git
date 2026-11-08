@@ -1064,7 +1064,10 @@
           "answer": "no",
           "preempts": false,
           "source": "https://t4america.org/transit-report-card/",
-          "note": "A state statute bars spending gas tax revenue on public transit (Transportation for America, Transit Report Card, 2023: statutory restriction)."
+          "note": "A county may fund mass transit from its county aid fund up to 22.22 percent of it (Tenn. Code Ann. § 54-4-103(e)); the earlier reading, that a statute bars spending gas tax revenue on transit, did not match the code text.",
+          "localGrant": true,
+          "localGrantLevels": ["county"],
+          "localGrantCite": "Tenn. Code Ann. § 54-4-103: the county aid fund goes to county highway authorities \"for the building, repairing and improvement of county roads and bridges or for the funding of mass transit systems\", and under (e) \"no more than twenty-two and twenty-two one hundredths percent (22.22%) of funds in the county aid fund may be expended for the purpose of funding mass transit\" (https://www.lawserver.com/law/state/tennessee/tn-code/tennessee_code_54-4-103). The 22.22 percent cap is not modeled; a county may shift its aid-fund share only."
         },
         "US-TX": {
           "answer": "no",
@@ -1406,7 +1409,9 @@
           "answer": "no",
           "preempts": false,
           "source": "https://data.transportation.gov/resource/ekg5-frzt.json",
-          "note": "Transit riders here paid fares: agencies based here earned $28.3 million in fares in 2024, 8.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride."
+          "note": "Transit riders here paid fares: agencies based here earned $28.3 million in fares in 2024, 8.6% of what they spent to run service (FTA National Transit Database, 2024), so no law here makes local transit free to ride.",
+          "localGrant": true,
+          "localGrantCite": "Tenn. Code Ann. § 7-56-101(b): a transit authority operates \"with the right of the legislative body of the municipality or county to approve the budget and set the rates of fare\", so a county or city commission sets its own fares, a fare of zero included (https://www.lawserver.com/law/state/tennessee/tn-code/tennessee_code_7-56-101)."
         },
         "US-TX": {
           "answer": "no",

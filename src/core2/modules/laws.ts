@@ -738,6 +738,33 @@ export function localPowerBarred(
   );
 }
 
+/**
+ * Whether the town's state gives its places this power by name. The state's
+ * own law decides: a `local-power:<question>` row in force (1 grants, 0 bars);
+ * with none, the researched starting grant (`localGrant`, with its statute in
+ * `localGrantCite`, for the levels it names) is the law in force.
+ */
+export function localPowerGranted(
+  api: CoreAPI,
+  question: string,
+  level: "county" | "city",
+  date: string = api.state.date,
+): boolean {
+  const series = `${LOCAL_POWER_PREFIX}${question}`;
+  const row = seriesRows(api, series).length
+    ? lawInForce(api, series, date).levels.find(
+        (entry) => entry.level === "state",
+      )?.row
+    : undefined;
+  if (row && row.value !== null) return row.value === 1;
+  const start = POLICY_QUESTIONS[question]?.answers[lawChain(api).stateKey];
+  return (
+    start?.localGrant === true &&
+    (start.localGrantLevels === undefined ||
+      start.localGrantLevels.includes(level))
+  );
+}
+
 /** Today's answers by series, kept while the laws engine's tables are unwritten. */
 const todaysLaw = new WeakMap<
   CoreState,
