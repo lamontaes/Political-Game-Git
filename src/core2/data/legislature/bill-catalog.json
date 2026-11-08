@@ -429,7 +429,7 @@
               "kind": "policy-question",
               "question": "us-policy-positions:fiscal.adopt-income-tax",
               "operations": ["enact", "repeal"],
-              "levels": ["state"]
+              "levels": ["federal", "state"]
             },
             {
               "id": "law:local-power:adopt-income-tax",
