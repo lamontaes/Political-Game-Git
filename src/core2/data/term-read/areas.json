@@ -1,0 +1,65 @@
+{
+  "version": "term-read-v1",
+  "about": "How an official's term is read by policy area (owner, Nov 8: 'if you're having a good term except for education, then you might get a strike... this needs to work with the entire game'). Each area is a few of the outcome web's own measures with the direction that is better (+1 when more is better, -1 when less is). The read of an area is how far its measures moved since the term began, as a slide between -1 (as bad as the scale) and 1 (as good); nothing flips at a point. It holds no sentence and decides nothing: the director's addresses and the groups' reactions read it.",
+  "fullChange": {
+    "value": 0.12,
+    "tag": "TUNABLE",
+    "spread": "0.05 to 0.3",
+    "note": "The relative change in a measure over a term that reads as most of the way better or worse (a slide of about 0.76 through tanh). Checked against how far the web's measures move over a decade of a played world."
+  },
+  "minimumMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "spread": "2 to 12",
+    "note": "The fewest months of web rows an area is read over; a term shorter than this is not read yet (the web writes one row a month)."
+  },
+  "areas": {
+    "jobs": {
+      "labor.unemployment-pct": -1,
+      "labor.wages": 1
+    },
+    "pay": {
+      "household.income": 1,
+      "household.poverty-pct": -1
+    },
+    "prices": {
+      "household.prices": -1
+    },
+    "rent": {
+      "housing.rent": -1,
+      "housing.rent-to-income-pct": -1,
+      "housing.eviction-orders": -1
+    },
+    "crime": {
+      "crime.violent": -1,
+      "crime.reported-per-capita": -1,
+      "crime.robbery": -1,
+      "crime.assault": -1
+    },
+    "schools": {
+      "school.math-proficient-pct": 1,
+      "school.reading-proficient-pct": 1,
+      "school.graduation-pct": 1
+    },
+    "health": {
+      "health.uninsured-pct": -1,
+      "health.overdose-deaths": -1,
+      "health.infant-mortality": -1,
+      "health.mortality-55-64": -1
+    },
+    "roads": {
+      "roads.poor-condition-pct": -1,
+      "traffic.fatality-rate": -1
+    },
+    "environment": {
+      "env.particulates": -1,
+      "env.drinking-water-violations": -1
+    }
+  },
+  "warmupMonths": {
+    "value": 12,
+    "tag": "ESTIMATED",
+    "spread": "6 to 18",
+    "note": "The months a world's town needs before its records show a trend and not the settling in from the records it opened with. Read from one played year in Algiers, Vermont (seed r7): unemployment ran 0.3 percent to 5.7 percent and poverty 9.6 percent to 18.6 percent across the first twelve months and was still rising in the fourteenth, and the school measures read a zero from the third month for a town too small to have a class. The warm-up is a stopgap for that drift (SG-WORDS-term-read-warmup): the economy's start is the owner of the fix."
+  }
+}
