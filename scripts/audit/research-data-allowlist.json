@@ -18,6 +18,10 @@
       "reason": "Raw Census 2022 shares of local spending by type of government; scripts/research/export-public-budget-bases.py measures each place's county and city base rows from it into data/research/money/public-budget-bases.json, which the budgets engine reads."
     },
     {
+      "file": "data/research/business/roadmap-r8-PR.json",
+      "reason": "Raw BDS business-dynamics rows for Puerto Rico, the evidence the business-opening and closing rates cite (docs/research/requests/businesses-owners-and-wealth.json). Its only readers were the roadmap M1-08 check, which since 622a9b251e tests openings and closings by record and no longer reads the state's BDS rates."
+    },
+    {
       "file": "data/research/campaigns/ban-the-box-support-yougov-2022.json",
       "reason": "Raw poll evidence (YouGov Daily Question, September 16, 2022, with crossbreaks): the figures the policy-support row for ban-the-box in public hiring uses are copied from it with their citation; the game does not read the file."
     },
@@ -30,14 +34,6 @@
       "reason": "Raw research evidence on the measured effects of ban the box (26 sourced findings); the outcome-web link for the question will cite it. The game does not read the file."
     },
     {
-      "file": "data/research/executive/orders-and-vacancies-2026-11.json",
-      "reason": "Raw research evidence on which orders governors issue alone, their legal limits and vacancy rules, for the Laws pool item laws-order-question-rows. The game does not read the file."
-    },
-    {
-      "file": "data/research/executive/orders-and-vacancies-2026-11.json",
-      "reason": "Raw research evidence on which orders governors issue alone, their legal limits and vacancy rules, for the Laws pool item laws-order-question-rows. The game does not read the file."
-    },
-    {
       "file": "data/research/housing/acs-2024-owner-mortgage-age.json",
       "reason": "Raw source the game does not read directly: input to data/research/housing/build_core_data.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
@@ -46,8 +42,16 @@
       "reason": "Raw source the game does not read directly: input to data/research/housing/build_core_data.py, which writes data the game reads; source cited by src/core2/data/housing/parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
+      "file": "data/research/jobs/series/turnover.json",
+      "reason": "Raw JOLTS monthly turnover rates by industry and state (2001 to 2019), the evidence behind the job-turnover parameters (docs/pool/items/world-job-turnover-far-below-jolts.md). Its only reader was the roadmap M1-04 check, which since 0a0d2b3ea5 tests causes by record and no longer reads the state's recorded bands."
+    },
+    {
       "file": "data/research/justice/money-bail-2026.json",
       "reason": "Raw source the game does not read directly: source cited by data/laws/justice/lw17-person-landings.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
+    },
+    {
+      "file": "data/research/labor/unemployment-duration-and-reservation-wage.json",
+      "reason": "Raw research evidence on how long unemployment lasts by age (FRED mean and median weeks, CPS duration), fetched Nov 8, 2026 for the registered estimate that finding work slows past age 40 (420176cbb9); the game reads the estimate's parameter row, not this file."
     },
     {
       "file": "data/research/laws/regular-session-years.json",
@@ -56,10 +60,6 @@
     {
       "file": "data/research/legislative-procedure/item-veto.json",
       "reason": "Raw source the game does not read directly: source cited by src/core2/data/office-day/state-parameters.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
-      "file": "data/research/legislature/discharge-rules-2026-11.json",
-      "reason": "Raw research evidence on how each legislature discharges a bill from committee (12 of 56 places read from primary sources), for the legislature engine's discharge rule; the game does not read the file yet."
     },
     {
       "file": "data/research/local-government/governing-body-seat-qualification.json",

@@ -24,6 +24,7 @@ import { bookkeeping } from "./bookkeeping";
 import { placeStateKey } from "./place-map";
 import { residentsRuntime } from "./modules/residents";
 import {
+  ageOn,
   type CountedHousehold,
   type CountedStore,
   isDemoted,
@@ -48,7 +49,19 @@ export interface CountedVoter {
   readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
+  /** Whole years their household has lived in its place (absent where unrecorded). */
+  readonly yearsInPlace?: number;
+  /** The sampled county employer they work at, where the county's sample holds one. */
+  readonly employerId?: string;
 }
+
+const employerOf = (
+  employment: NonNullable<CountedHousehold["employment"]>,
+  id: string,
+) => {
+  const row = employment.find((work) => work.personId === id);
+  return row ? { employerId: row.employerId } : {};
+};
 
 const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
 
@@ -195,6 +208,8 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
       weeklyMinutes: minutes.get(id) ?? 0,
       hourlyMinor: hourly.get(id) ?? 0,
       weight: store.weightOf(h),
+      ...(h.since ? { yearsInPlace: ageOn(h.since, core.date) } : {}),
+      ...(h.employment ? employerOf(h.employment, id) : {}),
     });
     slot[m] = walked.length - 1;
   });
