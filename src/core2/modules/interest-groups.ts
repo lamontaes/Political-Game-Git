@@ -12,6 +12,7 @@
  * Congress); a member they met weighs the group's case among their reasons,
  * in proportion to how many of the bill's losers the group speaks for.
  */
+import { ageInYears } from "../kernel/dates";
 import { coreAPI, registerModule } from "../state";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
@@ -559,9 +560,7 @@ function lobbyTerm(api: CoreAPI, b: BillRow, memberId: string): number {
 }
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) -
-  Number(p.birthDate.slice(0, 4)) -
-  (date.slice(5) < p.birthDate.slice(5) ? 1 : 0);
+  ageInYears(p.birthDate, date);
 
 /**
  * Residents organize over a bill: each feels its pull by how strongly they
