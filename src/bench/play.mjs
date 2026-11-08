@@ -17,15 +17,11 @@ import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { districtMap, partyLegend, partyRoster } from "./ui/map.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
-import { partyBar } from "./ui/party-bar.mjs";
 import { memberCard } from "./ui/member-card.mjs";
-import { seatChart } from "./ui/seat-chart.mjs";
-import { voteBar } from "./ui/vote-bar.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
 import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
-import { section } from "./ui/section.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate, factPlates, chips } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
@@ -82,6 +78,9 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  leaderBlock,
+  seatNumbers,
+  voteRows,
 } from "./ui/strips.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -3874,56 +3873,41 @@ const sheets = {
       );
     const voteList = (votes) =>
       votes.length
-        ? votes.map((v) =>
-            voteBar({
-              title: v.title,
-              when: short(v.date),
-              yes: v.yes,
-              no: v.no,
-              yesLabel: fill(labels.yesCount, { n: v.yes }),
-              noLabel: fill(labels.noCount, { n: v.no }),
-              passed: v.passed,
-              outcome: v.passed ? labels.passed : labels.failed,
-            }),
-          )
+        ? [
+            voteRows(
+              votes.map((v) => ({
+                title: v.title,
+                result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
+                when: short(v.date),
+              })),
+            ),
+          ]
         : [dateList([], labels.noVotes)];
-    // The party split, largest first, nonpartisan bodies as one gray bar.
+    // The party split, largest first, as big numbers in the party's color; a nonpartisan body as one.
     const splitBar = (body) => {
       const total = fill(labels.seatsTotal, { n: body.seats });
-      const vacant = body.vacant
-        ? fill(labels.vacantCount, { n: body.vacant })
-        : "";
       const held = body.members.length;
       const parts = body.parties.length
         ? body.parties.map((p) => ({
             party: p.party,
             seats: p.seats,
-            label: fill(labels.partyCount, {
-              n: p.seats,
-              party:
-                (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
-                  p.party
-                ] ?? p.party,
-            }),
+            label:
+              (p.seats === 1 ? labels.partySingular : labels.partyPlural)?.[
+                p.party
+              ] ?? p.party,
           }))
-        : [
-            {
-              party: null,
-              seats: held,
-              label: `${labels.nonpartisan} · ${total}`,
-            },
-          ];
+        : [{ party: null, seats: held, label: labels.nonpartisan }];
       const unlisted = held - parts.reduce((sum, p) => sum + p.seats, 0);
-      return partyBar(
+      return seatNumbers(
         unlisted > 0 && body.parties.length
-          ? [
-              ...parts,
-              { party: null, seats: unlisted, label: String(unlisted) },
-            ]
+          ? [...parts, { party: null, seats: unlisted, label: total }]
           : parts,
-        body.seats,
-        total,
-        vacant,
+        body.vacant
+          ? {
+              count: body.vacant,
+              label: fill(labels.vacantCount, { n: body.vacant }),
+            }
+          : null,
       );
     };
     const lawmakingView = (body, executive, level, stateKey) => {
@@ -3975,56 +3959,58 @@ const sheets = {
               .map((m) => card(body, m, seatWords(body, m.district))),
           ]
         : body.members.map((m) => card(body, m, seatWords(body, m.district)));
-      const chart = big
-        ? [
-            seatChart(
-              [...body.members]
-                .sort((a, b) => (a.party ?? "~").localeCompare(b.party ?? "~"))
-                .map((m) => ({
-                  party: m.party,
-                  own: m.own,
-                  label: [m.name, m.party].filter(Boolean).join(", "),
-                })),
-              fill(labels.seatChart, { n: body.seats }),
-            ),
-          ]
-        : [];
       // The level's chief executive beside its lawmakers, where it has one.
       const chief = executive.find((e) => e.chief);
       return {
         main: [
           header,
-          splitBar(body),
-          ...chart,
-          pager({
-            items: people,
-            render: (node) => node,
-            rows: big ? rowsFor(650, 3) : rowsFor(560, 4),
-            columns: 2,
-            rowHeight: 64,
-            gap: 8,
-            words: pageWords,
-            className: "members-pager",
-          }),
+          stripSection(1, labels.seats, splitBar(body)),
+          stripSection(
+            2,
+            labels.members,
+            pager({
+              items: people,
+              render: (node) => node,
+              rows: big ? rowsFor(700, 3) : rowsFor(620, 4),
+              columns: 2,
+              rowHeight: 64,
+              gap: 8,
+              words: pageWords,
+              className: "members-pager",
+            }),
+          ),
         ],
         side: [
-          { title: labels.recentVotes, nodes: voteList(body.recentVotes) },
-          { title: labels.comingUp, nodes: [comingList(body.comingUp)] },
-          ...(chief?.members[0]
-            ? [
-                {
-                  title: chief.title,
-                  nodes: [
-                    card(
-                      chief,
-                      chief.members[0],
-                      sinceLine(chief.members[0]),
-                      true,
+          {
+            title: null,
+            nodes: [
+              stripSection(
+                3,
+                labels.recentVotes,
+                ...voteList(body.recentVotes),
+              ),
+              stripSection(4, labels.comingUp, comingList(body.comingUp)),
+              ...(chief?.members[0]
+                ? [
+                    stripSection(
+                      5,
+                      chief.title,
+                      leaderBlock({
+                        face: chief.members[0].face,
+                        name: chief.members[0].name,
+                        party: chief.members[0].party,
+                        post: chief.title,
+                        line: sinceLine(chief.members[0]),
+                        onOpen: open(
+                          chief.members[0].cardId,
+                          chief.members[0].face,
+                        ),
+                      }),
                     ),
-                  ],
-                },
-              ]
-            : []),
+                  ]
+                : []),
+            ],
+          },
         ],
       };
     };
@@ -4034,6 +4020,15 @@ const sheets = {
       const chief = executive.find((e) => e.chief) ?? executive[0];
       const officers = executive.filter((e) => e !== chief);
       const head = chief?.members[0];
+      const runs = peopleSentence(
+        officers.flatMap((o) =>
+          o.members.map((m) => ({
+            name: m.name,
+            relation: o.title,
+            onOpen: open(m.cardId, m.face),
+          })),
+        ),
+      );
       return {
         main: chief
           ? [
@@ -4045,8 +4040,24 @@ const sheets = {
                 // the filter names (owner, Oct 28, point 16).
                 line: level === "local" ? chief.government : null,
               }),
-              ...(head ? [card(chief, head, sinceLine(head), true)] : []),
-              section(
+              ...(head
+                ? [
+                    stripSection(
+                      1,
+                      chief.title,
+                      leaderBlock({
+                        face: head.face,
+                        name: head.name,
+                        party: head.party,
+                        post: chief.title,
+                        line: sinceLine(head),
+                        onOpen: open(head.cardId, head.face),
+                      }),
+                    ),
+                  ]
+                : []),
+              stripSection(
+                3,
                 labels.comingUp,
                 comingList(
                   executive
@@ -4057,29 +4068,22 @@ const sheets = {
               ),
             ]
           : [],
-        side: [
-          ...(officers.length
-            ? [
-                {
-                  title: labels.officers,
-                  nodes: [
-                    pager({
-                      items: officers.flatMap((o) =>
-                        o.members.map((m) => card(o, m, o.title)),
-                      ),
-                      render: (node) => node,
-                      rows: rowsFor(450, 4),
-                      columns: 1,
-                      rowHeight: 64,
-                      gap: 8,
-                      words: pageWords,
-                      className: "members-pager",
+        side: runs
+          ? [
+              {
+                title: null,
+                nodes: [
+                  stripSection(
+                    2,
+                    fill(labels.whoRuns, {
+                      name: chief?.government ?? chief?.title ?? "",
                     }),
-                  ],
-                },
-              ]
-            : []),
-        ],
+                    runs,
+                  ),
+                ],
+              },
+            ]
+          : [],
       };
     };
     // The chosen level, branch, state and body, kept while the sheet is open.
@@ -4201,7 +4205,7 @@ const sheets = {
           ? executiveView(v.executive, level)
           : lawmakingView(body, v.executive, level, v.state.key);
       const screenNode = splitScreen({
-        className: "government-screen",
+        className: "government-screen strip-screen strip-wrap strips ol-g",
         controls: [
           levels,
           stateFilter,

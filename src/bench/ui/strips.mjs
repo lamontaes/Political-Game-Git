@@ -236,7 +236,10 @@ export function leaderBlock({ face, name, party, post, line, onOpen }) {
         "p",
         { className: "leader-post" },
         ...(party
-          ? [el("span", { className: "leader-party", textContent: party }), " · "]
+          ? [
+              el("span", { className: "leader-party", textContent: party }),
+              " · ",
+            ]
           : []),
         post,
       ),

@@ -5215,3 +5215,53 @@ select.release-pick {
 .strip-board .board-cols {
   grid-template-columns: minmax(280px, 1fr) minmax(0, 1.6fr) minmax(300px, 1fr);
 }
+
+/* Government as strip sections (approved build, gov-local, gov-state, gov-federal). */
+.strip-screen.strip-wrap {
+  display: block;
+  width: 100%;
+}
+.strip-wrap .sec {
+  margin-bottom: 14px;
+}
+.strip-wrap .leader {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+.strip-wrap .leader .leader-name {
+  font:
+    600 34px/1.1 "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+.strip-wrap .leader-post {
+  margin: 4px 0 6px;
+  font: 500 15px var(--f-ui);
+  color: var(--muted);
+}
+.strip-wrap .leader-party {
+  font-weight: 600;
+  color: var(--party, var(--gold2));
+}
+.seat-numbers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 32px;
+}
+.seat-number {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+.seat-number b {
+  font: 600 44px/1 var(--f-ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: var(--party, #d9d2c2);
+}
+.seat-number span {
+  font: 500 15px var(--f-ui);
+  letter-spacing: 0.4px;
+  color: var(--muted);
+}
