@@ -30,6 +30,14 @@
   ],
   "moneySteps": [
     {
+      "below": 10,
+      "step": 1
+    },
+    {
+      "below": 100,
+      "step": 5
+    },
+    {
       "below": 1000,
       "step": 50
     },
@@ -42,6 +50,27 @@
       "step": 1000
     }
   ],
+  "lateSteps": {
+    "about": "How long rent has gone unpaid, said as people say it in talk (the notice at home, Nov 8: a shortfall left for two months is 'about two months', never '61 days'). Each row: the days below which the phrase is said. Read by lateSaid in src/english/count-words.ts; the director passes the days.",
+    "rows": [
+      { "below": 10, "said": "a week or so" },
+      { "below": 21, "said": "a couple of weeks" },
+      { "below": 45, "said": "about a month" },
+      { "below": 76, "said": "about two months" },
+      { "below": 106, "said": "about three months" },
+      { "below": 137, "said": "about four months" },
+      { "below": 167, "said": "about five months" },
+      { "below": 198, "said": "about six months" },
+      { "below": 228, "said": "about seven months" },
+      { "below": 259, "said": "about eight months" },
+      { "below": 289, "said": "about nine months" },
+      { "below": 320, "said": "about ten months" },
+      { "below": 350, "said": "about eleven months" },
+      { "below": null, "said": "a year or more" }
+    ],
+    "tag": "ESTIMATED",
+    "source": "Calendar months of 30.4 days (365 / 12), rounded to the nearest month; under a month said in weeks as people say them. The phrase is rounding in speech, not a measure the game decides on."
+  },
   "vote": "{count} vote",
   "votes": "{count} votes",
   "aboutVotes": "about {count} votes",

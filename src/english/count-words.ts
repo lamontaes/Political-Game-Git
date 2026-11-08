@@ -31,3 +31,12 @@ export function moneySaid(minor: number): string {
     Math.max(step, Math.round(dollars / step) * step),
   );
 }
+
+/** How long rent has gone unpaid, in days, as people say it: "about two months". */
+export function lateSaid(days: number): string {
+  const rows = data.lateSteps.rows as readonly {
+    below: number | null;
+    said: string;
+  }[];
+  return rows.find((row) => row.below === null || days < row.below)!.said;
+}

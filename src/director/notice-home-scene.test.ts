@@ -153,6 +153,33 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
       const said = scene.talk.lines.map((row) => row.text).join(" | ");
       const owed = scene.facts.find((row) => row.key === "owed");
       expect(owed?.recordIds, where).toContain(moment.causeId);
+      // What is owed is said as people say it ("about $400"), never to the
+      // dollar; how long the rent has gone unpaid is said in months, from the
+      // day the lease first went unpaid; and the state line says both. A few
+      // dollars is not "that far behind", and no line names a season (owner,
+      // Nov 8 playtest, P39).
+      expect(owed?.text, where).toMatch(/^about \$[\d,]+$/);
+      const late = scene.facts.find((row) => row.key === "late");
+      expect(late?.text, where).toMatch(/^(?:a week|a couple|about|a year)/);
+      expect(scene.talk.state.text, where).toContain(owed!.text);
+      expect(scene.talk.state.text, where).toContain(late!.text);
+      const deep = scene.facts.some((row) => row.key === "short-deep");
+      const lines = scene.talk.lines.map((row) => row.text);
+      for (const line of lines) {
+        expect(line, where).not.toMatch(
+          /\b(?:spring|summer|fall|autumn|winter)\b/i,
+        );
+        if (!deep) expect(line, where).not.toMatch(/that far behind/i);
+      }
+      process.stdout.write(
+        `NOTICE SHORTFALL ${where}: owed ${owed!.text}, unpaid ${late!.text}, rent ${core.durableLog.get(moment.causeId)?.facts?.rentMinor}, band ${
+          scene.facts.some((row) => row.key === "short-little")
+            ? "little"
+            : deep
+              ? "deep"
+              : "between"
+        }\n`,
+      );
       // The four answers are four moves.
       const root = scene.talk.tree.replies.map((reply) => reply.line);
       expect(new Set(root.map((row) => row.move)).size, where).toBe(

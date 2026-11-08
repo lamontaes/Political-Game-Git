@@ -575,5 +575,41 @@
     "addedAt": "2026-11-08",
     "replacement": "Weights fitted to how often real bribe approaches are small, large, from a friend, repeated or desperate (the corruption literature's cases), checked against the played years, or read straight from the corruption engine's own reasons once it keeps one for each.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-story-read-talk-moves-nothing",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "The story-read scene's replies (agree, disagree, ask, put off) write the reply record, time together, a strain on the tie when the talk is put off or argued, the owed talk and the journal line; no engine moves the player's or the reader's view of the story's question from the talk.",
+    "why": "The views engine moves a view from a speech heard, a story read or a case made; it has no hook that reads a household talk's agree or disagree. The scene still names the story, ends on a record other engines read, and is not small talk (Nov 8, P37).",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A views-engine hook that reads a scene.reply of typeKey story-read (move agree or disagree, cause the news.read record) and moves the reader's and the player's stance on the story's question by the tie between them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-moving-goodbye-reason-rows",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/scene-talk-rules.json",
+    "line": 1,
+    "whatItFakes": "Which reason a farewell says when the departure record names several: the rows of departureWhy are tried in a hand-set order (an eviction, a job lost, a job elsewhere, family, kin who left first, a death), and a reason is said only when its row is present in the record.",
+    "why": "The moves engine records every cause and push that built the pull, on scales that do not compare (events against pushes read on the holds' scale), so no one reason is 'the biggest'. Naming none when no row is present keeps the goodbye honest; the order is a hand-set stopgap.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The moves engine records the one cause that tipped the pull over the holds (the largest term on a common scale) on the departure; the farewell reads that.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-notice-shortfall-bands",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/scene-talk-rules.json",
+    "line": 1,
+    "whatItFakes": "Where a notice's lines call the shortfall small or deep: under half a month's rent is 'small', two months' rent or more is 'deep', and the lines for each differ.",
+    "why": "Wording bands set by hand (TUNABLE, with a spread) from ordinary usage; no survey sizes at what share of a month's rent people say 'a little short' or 'months behind'. No outcome depends on them: the landlord's own weighing of amount and months is the housing engine's.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "Bands read from how renters in the Household Pulse and the Eviction Lab describe arrears, or from the housing engine's own notice score so the lines follow the same weighing the landlord used.",
+    "status": "open"
   }
 ]

@@ -1816,6 +1816,12 @@ function review(api: CoreAPI): void {
           caseId,
           owedMinor: String(lease?.arrearsMinor ?? late!.owedMinor),
           cureBy,
+          // What the notice is for, so a line can say it: the rent the lease
+          // asks each month and the day the first of it went unpaid.
+          ...(lease && lease.amountMinor > 0
+            ? { rentMinor: String(lease.amountMinor) }
+            : {}),
+          ...(lease?.firstUnpaidAt ? { unpaidSince: lease.firstUnpaidAt } : {}),
         },
         source: {
           tag: "ESTIMATED",

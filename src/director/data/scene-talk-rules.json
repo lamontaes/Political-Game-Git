@@ -137,5 +137,31 @@
       "spread": [3, 14],
       "checkedAgainst": "'We'll talk later' or 'let's meet' in ordinary American usage means within about a week; a week falls between the next few days and the next pay period. Checked against the played-world test: the due day lands after the scene and before the next month's scenes."
     }
+  },
+  "noticeShortfall": {
+    "about": "How a notice to pay or leave is worded to fit what is owed (owner, Nov 8 playtest: 'that far behind' said of a $14 shortfall). The shortfall is read against the rent the lease asks each month. Under `littleBelow` months of rent the lines call it small (they still say it is owed); from `deepFrom` months of rent they call it deep. In between, the lines say the amount and how long it has run and call it neither. Wording only; the landlord's own weighing of amount and months is the housing engine's.",
+    "littleBelow": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 1],
+      "checkedAgainst": "Under half a month's rent is a few days' worth: people call such a gap 'a little short' and not 'behind'. Checked against the played-world test, which prints the owed-to-rent ratio of the notice it reads."
+    },
+    "deepFrom": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1.5, 3],
+      "checkedAgainst": "Two months of rent owed is where a household says 'months behind' and not 'a little behind' (ordinary usage; a wording line only, no real rate decides anything here). Checked against the played-world test, which prints the ratio of every notice it reads."
+    }
+  },
+  "departureWhy": {
+    "about": "Why someone is leaving, said only when a record names it (owner, Nov 8: a farewell names the leaving; 'why' only when the records say). Each row is a key in the departure's `reasons` (an event that added to the pull, or a push the moves engine read) or `basis:<destinationBasis>`; the fact it sets is the one the bank's lines require. Rows are tried in order and the first present names the reason; no row present, and no reason is said. Moves only, no sentence.",
+    "rows": [
+      { "reason": "housing.eviction", "fact": "why-evicted" },
+      { "reason": "work.job-lost", "fact": "why-work-lost" },
+      { "reason": "push:jobElsewhere", "fact": "why-job-elsewhere" },
+      { "reason": "basis:relative", "fact": "why-family" },
+      { "reason": "person.moved-away", "fact": "why-kin-moved" },
+      { "reason": "life.death", "fact": "why-loss" }
+    ]
   }
 }
