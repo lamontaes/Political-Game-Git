@@ -5163,12 +5163,20 @@ function rotateTitle(scenes, seconds) {
       next.classList.add("fading");
       setTimeout(() => {
         if (!onTitleMenu()) return next.classList.remove("fading");
+        // One picture, one fade: both layers drift on the same clock, so the
+        // base takes the new picture underneath and the top layer clears at once
+        // (no second fade, no restarted zoom; owner, Nov 8 P1).
         const back = $("backdrop");
+        const clear = () => {
+          back.onload = null;
+          next.style.transition = "none";
+          next.classList.remove("fading");
+          void next.offsetWidth;
+          next.style.transition = "";
+        };
+        back.onload = clear;
         back.src = next.src;
-        back.style.animation = "none";
-        void back.offsetWidth;
-        back.style.animation = "";
-        next.classList.remove("fading");
+        if (back.complete) clear();
       }, 3100);
     };
   }, seconds * 1000);
