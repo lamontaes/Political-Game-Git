@@ -7970,6 +7970,50 @@
         "move": "headline",
         "key": "news-received"
       }
+    },
+    {
+      "key": "headlines.public-action.neighbors-in-place-form-a-standing-group-over-issue",
+      "move": "public-action",
+      "kind": "written",
+      "text": "Neighbors in {place} form a standing group over {issue}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.public-action.a-crowd-over-issue-becomes-a-group-in-place",
+      "move": "public-action",
+      "kind": "written",
+      "text": "A crowd over {issue} becomes a group in {place}",
+      "uses": [
+        {
+          "move": "public-action",
+          "subject": "headline",
+          "role": "public-action",
+          "choice": "headline",
+          "requiresFacts": ["movement", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
     }
   ]
 }
