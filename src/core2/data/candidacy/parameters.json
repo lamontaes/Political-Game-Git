@@ -233,8 +233,8 @@
   "candidacyWideStayOutPull": {
     "value": 3.2,
     "tag": "ESTIMATED",
-    "citation": "The pull of staying out for a wide race (a statewide or congressional seat, whose candidates come from a state's whole pool of people with standing), against which running is weighed. Local seats keep candidacyStayOutPull, fit on town seats. Calibrated so the people who file for a U.S. House seat average near Ballotpedia's 4.1 primary candidates per seat (1,773 candidates over 435 seats in 2024; Annual Congressional Competitiveness Report, 2024; src/core2/data/candidacy/benchmarks.json usHousePrimaryCandidatesPerSeat). Each person already running lowers the next one's pull by candidacyFieldWeight, so the field limits itself. Spread 3.2 to 3.9.",
-    "estimatedFrom": "Ballotpedia 2024 House primary counts over 435 seats, drawn places 2 years each (scripts/dev-tests/elections.ts, filedMean); spread 3.2 to 3.9",
+    "citation": "The pull of staying out for a wide race (a statewide or congressional seat, whose candidates come from a state's whole pool of people with standing), against which running is weighed. Local seats keep candidacyStayOutPull, fit on town seats. Checked against Ballotpedia's 2024 House primaries: 1,773 candidates over 435 seats, about 4.1 a seat, and by state from 2.3 in New York to 10.9 in Maryland (Annual Congressional Competitiveness Report, 2024; src/core2/data/candidacy/benchmarks.json). In three drawn places (Cedar Mills MN a1, Nett Lake MN b2, Rutland ND d4, two years each) the House filings averaged 3.0 (3, 4 and 2) and the state legislative filings 4.5, 6.0 and 3.0, up from 3.0 and 4.0 at 3.5 and from fewer at the local bar of 3.94. Each person already running lowers the next one's pull by candidacyFieldWeight, so the field limits itself. Spread 3.0 to 3.6.",
+    "estimatedFrom": "Ballotpedia 2024 House primary counts over 435 seats and by state; three drawn places two years each (scripts/dev-tests/elections.ts, filedMean); spread 3.0 to 3.6",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }
