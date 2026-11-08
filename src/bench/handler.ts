@@ -48,6 +48,7 @@ import {
   billStage,
   callAmendmentVote,
   chooseOwnVote,
+  followedBills,
   moveOwnAmendment,
 } from "./bill-stage";
 import {
@@ -863,6 +864,11 @@ export async function benchRequest(
             player?.personId,
           ),
         );
+        return;
+      }
+      // Bills before the state's chambers and Congress, followed from home.
+      if (request.method === "GET" && url.pathname === "/api/bills/following") {
+        send(200, followedBills(requireCore(), player?.personId));
         return;
       }
       // An amendment on a bill's section, and the body's vote on it.

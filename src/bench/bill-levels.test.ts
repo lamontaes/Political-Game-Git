@@ -15,7 +15,7 @@ import {
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
-import { billStage } from "./bill-stage";
+import { billStage, followedBills } from "./bill-stage";
 import { buildBenchWorld } from "./world";
 
 // The bill paper's stage at every level: a bill drafted in the state's two chambers and in
@@ -93,6 +93,16 @@ describe(`a bill at every level (seed ${seed})`, () => {
               for (const v of [...chamber.yes, ...chamber.no])
                 expect(v.name.length, v.memberId).toBeGreaterThan(0);
             }
+            // Followed from home: this bill is on the list with where it stands and how the
+            // place's own members voted on it.
+            const followed = followedBills(world.core).find(
+              (row) => row.id === draft.id,
+            );
+            expect(followed, `${draft.id} is followed`).toBeTruthy();
+            expect(followed!.floor.length).toBe(stage.floor.length);
+            lines.push(
+              `followed: ${followed!.number} ${followed!.stage}, your members voted ${followed!.mine.map((m) => `${m.name} ${m.vote}`).join(", ") || "none on the floor"}; reaches your place: ${followed!.reachesYou}`,
+            );
             levels += 1;
             if (body === FEDERAL_HOUSE) sawCongress = true;
             lines.push(

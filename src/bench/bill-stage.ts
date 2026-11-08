@@ -8,8 +8,10 @@ import { composeBill } from "../english/bill-sections";
 import {
   amendmentsOn,
   billForm,
+  billJurisdiction,
   billOf,
   bodyOf,
+  reachesTown,
   castMemberVote,
   executiveLean,
   moveAmendment,
@@ -27,7 +29,8 @@ import {
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
-import { personName } from "./legislature";
+import { billPaper, personName } from "./legislature";
+import { townSeats } from "../core2/modules/offices";
 import { deskWaiting } from "../core2/modules/office-day";
 
 const LEGISLATURE = "core2-legislature-v1";
@@ -390,4 +393,57 @@ export function callAmendmentVote(
   const api = coreAPI(core);
   const row = voteAmendment(api, amendmentId);
   return billStage(core, row.billId, asId);
+}
+
+/**
+ * Bills before the state's chambers and Congress, for following from home: where each is,
+ * how the player's own members (the state and federal officials who hold the seats that
+ * cover the player's place) voted on it, and whether it reaches the player's place.
+ * Read from the one stage view; nothing is counted here.
+ */
+export function followedBills(core: CoreState, asId?: string) {
+  if (!core.modules.has(LEGISLATURE)) return [];
+  const api = coreAPI(core);
+  const higher = (officeId: string) =>
+    officeId.startsWith("federal:") ||
+    (bodyOf(api, officeId)?.kind ?? "").startsWith("legislature-");
+  const mine = new Set(
+    townSeats(api).flatMap(({ office, holder }) =>
+      holder &&
+      (office.kind.startsWith("legislature-") || office.kind.startsWith("us-"))
+        ? [memberKey(holder)]
+        : [],
+    ),
+  );
+  const rows = api
+    .moduleState(LEGISLATURE)
+    .table("bills")
+    .rows() as unknown as BillRow[];
+  return rows
+    .filter((bill) => higher(bill.bodyOfficeId))
+    .sort(
+      (a, b) =>
+        b.introduced.localeCompare(a.introduced) || a.id.localeCompare(b.id),
+    )
+    .map((bill) => {
+      const stage = billStage(core, bill.id, asId);
+      return {
+        id: bill.id,
+        number: bill.number,
+        title: billPaper(core, bill.id).title,
+        sponsor: stage.sponsor,
+        stage: stage.stage,
+        status: stage.status,
+        floor: stage.floor.map((c) => ({
+          chamberTitle: c.chamberTitle,
+          result: c.result,
+        })),
+        mine: [...stage.floor, ...stage.override].flatMap((c) =>
+          [...c.yes, ...c.no, ...c.other]
+            .filter((v) => mine.has(v.memberId))
+            .map((v) => ({ ...v, chamberTitle: c.chamberTitle })),
+        ),
+        reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+      };
+    });
 }
