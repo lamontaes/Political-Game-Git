@@ -745,7 +745,10 @@
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
-    "whoIsRunning": "Who's running"
+    "whoIsRunning": "Who's running",
+    "lastTime": "Last time",
+    "share": "Share of the vote",
+    "percent": "percent"
   },
   "grade": {
     "good": "Good",
