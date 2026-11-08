@@ -104,11 +104,11 @@ try {
     // A chamber's committee can hold a bill before the floor: try bills until one is vetoed and
     // waits on the player's own override vote.
     const tried = [];
-    for (let i = 0; i < 8; i += 1) {
+    for (let i = 0; i < 40; i += 1) {
       const chamber = chambers[i % chambers.length];
       const intro = await post("introduce", {
         bodyOfficeId: chamber.id,
-        sponsorId: chamber.members[i % chamber.members.length].key,
+        sponsorId: chamber.members[(i * 7) % chamber.members.length].key,
         series: "minimum-wage",
         value: 1700 + i * 25,
         unit: "minor/hour",
@@ -122,7 +122,9 @@ try {
       const stage = await (
         await fetch(`/api/bill/stage?billId=${encodeURIComponent(billId)}`)
       ).json();
-      tried.push(`${chamber.name} ${stage.status}`);
+      tried.push(
+        `${chamber.name} ${stage.status} sits ${stage.yours.sits} pending ${stage.yours.overridePending} chosen ${stage.yours.overrideChosen}`,
+      );
       if (stage.yours.overridePending)
         return { chamber: chamber.name, billId, number: stage.number, tried };
     }
