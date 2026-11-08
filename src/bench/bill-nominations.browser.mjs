@@ -123,6 +123,16 @@ try {
         ),
       ).slice(0, 600),
     );
+  if (!held)
+    console.log(
+      "nominations api:",
+      JSON.stringify(
+        await page.evaluate(async () => {
+          const r = await fetch("/api/nominations");
+          return { status: r.status, body: (await r.text()).slice(0, 300) };
+        }),
+      ),
+    );
   if (!held) {
     if (SHOTS) await page.screenshot({ path: `${SHOTS}/nominations-none.png` });
     console.log(
