@@ -84,6 +84,20 @@ try {
       .querySelector("#person-facts")
       ?.textContent.includes("Seriously ill"),
   );
+  // Their records, and the trace behind one: the person view and the trace have a home here.
+  if ((await page.locator(".dev-record-ids .id").count()) > 0) {
+    await page.locator(".dev-record-ids .id").first().click();
+    await page.locator(".dev-trace h4").waitFor();
+  }
+  // What the game offers them today: a pick is their next decision.
+  if ((await page.locator('[data-testid="dev-offer"]').count()) > 0) {
+    await page.locator('[data-testid="dev-offer"]').first().click();
+    await page.waitForFunction(() =>
+      document
+        .querySelector("#person-facts")
+        ?.textContent.includes("Picked for their next decision"),
+    );
+  }
   await shot("person");
   await page.evaluate(() => document.getElementById("person-close").click());
 
