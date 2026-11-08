@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: astra/opening-reversal-effects
-pr:
+pr: #7353
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T02:02:45.005Z
