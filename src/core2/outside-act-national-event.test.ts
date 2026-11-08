@@ -26,11 +26,11 @@ it("a state's act outside the town's chain is a national event the press reads",
   });
   const api = coreAPI(world.core);
   const seen: CoreEventInput[] = [];
-  api.subscribeEvents("nation-test", ["law-took-effect"], (event) => {
+  api.subscribeEvents("nation-test", ["law-took-effect"], (_api, event) => {
     if (String(event.placeId).startsWith("national:")) seen.push(event);
   });
   let day = makeIsoDate(world.core.date);
-  const end = addDays(day, 400);
+  const end = addDays(day, 200);
   while (day < end && seen.length === 0) {
     day = addDays(day, 1);
     advanceCore(world.core, day);
