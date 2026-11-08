@@ -261,7 +261,8 @@
         "src/core2/modules/health.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/trait-decision-table.ts",
-        "src/core2/modules/views.ts"
+        "src/core2/modules/views.ts",
+        "src/core2/husk-promoters.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -371,7 +372,9 @@
         "src/core2/player-control-state-v1.ts",
         "src/core2/modules/national-events.ts",
         "src/core2/opening-county-sample.ts",
-        "src/core2/opening-tenure.ts"
+        "src/core2/opening-tenure.ts",
+        "src/core2/opening-origin.ts",
+        "src/core2/opening-roles.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
