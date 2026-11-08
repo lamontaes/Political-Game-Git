@@ -4,6 +4,7 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
+import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
 
@@ -173,7 +174,7 @@ export function stripBoard({ tabs, fiscal, columns }) {
     ),
     el(
       "div",
-      { className: "board-cols" },
+      { className: `board-cols${columns.length === 2 ? " two" : ""}` },
       ...columns.map((sections) =>
         el("div", { className: "mx3col" }, ...sections),
       ),
@@ -330,4 +331,55 @@ export function quitButton(label, onQuit) {
   button.dataset.testid = "quit-to-title";
   button.addEventListener("click", onQuit);
   return el("div", { className: "acts" }, button);
+}
+
+/**
+ * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
+ * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
+ */
+export function patchNotesScreen({ builds, title, words, rows }) {
+  const holder = el("div");
+  let chosen = builds[0];
+  const draw = () =>
+    holder.replaceChildren(
+      stripBoard({
+        columns: [
+          [
+            stripSection(
+              1,
+              title,
+              pager({
+                items: builds.map((build) =>
+                  departmentRow({
+                    name: build.name,
+                    amount: build.when,
+                    selected: build === chosen,
+                    onSelect: () => {
+                      chosen = build;
+                      draw();
+                    },
+                  }),
+                ),
+                render: (node) => node,
+                rows,
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words,
+                className: "bsdepts",
+              }),
+            ),
+          ],
+          (chosen?.groups ?? []).map((group, at) =>
+            stripSection(
+              Math.min(at + 2, 5),
+              group.heading,
+              ...group.notes.map((note) => introText(note)),
+            ),
+          ),
+        ],
+      }),
+    );
+  draw();
+  return holder;
 }
