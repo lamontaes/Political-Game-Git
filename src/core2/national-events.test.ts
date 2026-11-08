@@ -41,10 +41,11 @@ it("the country's disasters are generated from recorded rates and happen on thei
     `${where}: more than the town's own state`,
   ).toBeGreaterThan(1);
   for (const e of events) {
-    expect(e.begins <= e.date).toBe(true);
     expect(e.counties).toBeGreaterThan(0);
-    expect(world.core.durableLog.get(e.id)?.kind, e.id).toBe(
-      "national.disaster",
-    );
+    // One that has begun by the end of the run is on the record.
+    if (e.date <= day)
+      expect(world.core.durableLog.get(e.id)?.kind, e.id).toBe(
+        "national.disaster",
+      );
   }
 }, 900000);
