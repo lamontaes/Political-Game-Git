@@ -74,3 +74,4 @@ The recipe, in the order that worked (the rally, the doubt at home and the lobby
 - **Area and issue words.** Say an area after "with" or "about", never "on" ("safety on our streets"), and never as a verb's subject ("our schools has").
 - **After a bank change** run `apply-grades.ts`; when main moved the reach file, take main's and regenerate it, never merge it by hand.
 - **A threat's cost** (money, an endorsement) is the interest-group engine's to read; until it does, register the stopgap and say so.
+- **Read the PR's own state right before every push to its branch.** A push to a PR that merged a minute earlier is stranded (Nov 8, twice: a floor-debate export that missed #7529's merge, and a first push the desk's own commit bounced). Check merged or open, and pull the desk's commits in, then push.
