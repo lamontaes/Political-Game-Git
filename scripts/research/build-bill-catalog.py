@@ -62,6 +62,13 @@ CATEGORY_SUBJECT = {
     "fiscal": "taxes-finance",
     # Federal questions (us-federal-positions) use short category names.
     "trade": "foreign-trade",
+    "budget": "taxes-finance",
+    "immigration": "immigration",
+    "emergencies": "justice",
+    "science-communications": "technology",
+    "territories-culture": "government",
+    "justice-rights": "justice",
+    "government": "government",
     "energy-environment": "energy-environment",
     "housing": "housing",
     "health": "healthcare",
@@ -77,6 +84,8 @@ CATEGORY_SUBJECT = {
 
 # Topic placement by words in the question key; the subject's first topic otherwise.
 TOPIC_WORDS = [
+    ("debt-limit", "Debt and borrowing"), ("admit-more", "Entry and visas"), ("forgive", "Student aid"), ("states-share-disaster", "Emergency management and disaster recovery"),
+    ("national-data-privacy", "Data protection"), ("statehood", "Constitutional and institutional reform"), ("mandatory-minimum", "Criminal law and sentencing"), ("stock-trading", "Ethics and conflicts"),
     ("tariff", "Trade and customs"), ("voucher", "Affordable and public housing"), ("power-plant", "Air and emissions"),
     ("minimum-wage", "Wages and working hours"), ("paid-family-leave", "Paid and unpaid leave"),
     ("collective-bargaining", "Unions and collective bargaining"), ("right-to-work", "Unions and collective bargaining"),

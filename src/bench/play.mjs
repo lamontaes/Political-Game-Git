@@ -40,12 +40,10 @@ import {
 } from "./ui/dev-setting.mjs";
 import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
-import { columnChart, donutChart } from "./ui/chart.mjs";
 import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
-import { journalPage } from "./ui/journal-page.mjs";
 import { recordScreen } from "./ui/screen.mjs";
 import { listScreen, listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
@@ -83,6 +81,8 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  journalScreen,
+  moneyBoard,
   settingRow,
   quitButton,
   optionsBoard,
@@ -2823,10 +2823,11 @@ const sheets = {
       asked > paid
         ? `${moneyWords(paid)} ${labels.loanPaid} · ${moneyWords(asked - paid)} ${labels.unpaid}`
         : moneyWords(paid);
-    // Money on framed plates: the cash in large type with
-    // each month's review as columns under it, where last month went as a
-    // ring, and the home, what you own and what you owe as small plates
-    // beside it. Every figure is a record's own; nothing scrolls.
+    // Money as the Nov 8 play mock draws it (pl-money): strips of typed rows with dot leaders,
+    // never charts. My money (the cash in large type, then each month's balance), what went
+    // out last month, what I own and what I owe, and what comes out of my pay. Every figure
+    // is a record's own; a ledger line per day and the campaign's money (in the mock) wait on
+    // records the bank does not serve yet.
     const shortMonth = (date) =>
       (MONTH_NAMES[Number(String(date).slice(5, 7)) - 1] ?? "").slice(0, 3);
     const months = [...(bank?.cash?.months ?? [])].reverse();
@@ -2849,111 +2850,81 @@ const sheets = {
     const shared = (me.card.home?.members ?? []).length > 0;
     const homeValue = bank?.assets?.find((a) => a.kind === "home")?.valueMinor;
     const owned = (bank?.assets ?? []).filter((a) => a.kind !== "home");
-    const unpaid = spent.filter((part) => part.unpaid > 0);
-    const cash = plate(
-      bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
-      line(roundedMoney(me.card.liquidMinor), "money-figure"),
-      ...(months.length
-        ? [
-            columnChart(
-              months.map((m) => ({
-                label: shortMonth(m.date),
-                value: m.cashMinor,
-              })),
-              shared ? labels.householdCashByMonth : labels.cashByMonth,
-              roundedMoney,
-            ),
-          ]
-        : []),
-    );
-    cash.classList.add("money-cash");
-    const home = dwelling && {
-      title: me.card.age < 18 ? labels.householdHome : labels.home,
-      nodes: [
-        ...(dwelling.presentation?.imageUrl
-          ? [
-              pictureFrame({
-                src: dwelling.presentation.imageUrl,
-                className: "money-home-picture",
-              }),
-            ]
-          : []),
-        factPlates([
-          {
-            title: dwelling.tenure === "own" ? labels.owned : labels.rented,
-            value: words(dwelling.kind ?? ""),
-            // A home you own is worth its value; one you rent costs its rent.
-            note:
-              dwelling.tenure === "own" && homeValue
-                ? `${labels.worth} ${roundedMoney(homeValue)}`
-                : dwelling.rentMinor !== undefined
-                  ? `${labels.rent} ${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
-                  : "",
-          },
-        ]),
-      ],
+    const homeRow = dwelling && {
+      label: dwelling.tenure === "own" ? labels.owned : labels.rented,
+      value:
+        dwelling.tenure === "own" && homeValue
+          ? roundedMoney(homeValue)
+          : dwelling.rentMinor !== undefined
+            ? `${roundedMoney(dwelling.rentMinor)} ${labels.monthly}`
+            : words(dwelling.kind ?? ""),
     };
+    const ownRows = [
+      ...(homeRow ? [homeRow] : []),
+      ...owned.map((asset) => ({
+        label:
+          asset.kind === "savings" && bank.name
+            ? `${labels.assetKinds.savings} · ${bank.name}`
+            : labels.assetKinds[asset.kind],
+        value: roundedMoney(asset.valueMinor),
+      })),
+    ];
+    const debtRows = (bank?.debts ?? []).map((debt) => ({
+      label: named(labels.debtKinds, debt.kind),
+      value:
+        debt.pastDueMinor > 0
+          ? `${roundedMoney(debt.owedMinor)} · ${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
+          : roundedMoney(debt.owedMinor),
+    }));
     return [
-      splitScreen({
-        main: [
-          cash,
-          ...(home ? [plate(home.title, ...home.nodes)] : []),
-          ...(deductions.length
-            ? [
-                plate(
-                  labels.deductions,
-                  ...deductions.map(([name, value]) =>
-                    row(words(name), moneyWords(value)),
-                  ),
-                ),
-              ]
-            : []),
-        ],
-        side: [
-          spent.length && {
-            title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
-            nodes: [
-              donutChart(spent, roundedMoney(spentTotal), labels.lastMonth),
-              // A bill left unpaid is said, never folded into the ring.
-              ...unpaid.map((part) =>
-                row(
-                  part.label,
-                  owedWords(part.value, part.value + part.unpaid),
-                ),
-              ),
-            ],
-          },
-          owned.length && {
-            title: labels.assets,
-            nodes: [
-              factPlates(
-                owned.map((asset) => ({
-                  title:
-                    asset.kind === "savings"
-                      ? `${labels.assetKinds.savings} · ${bank.name}`
-                      : labels.assetKinds[asset.kind],
-                  value: roundedMoney(asset.valueMinor),
-                })),
-              ),
-            ],
-          },
-          bank?.debts?.length && {
-            title: labels.debts,
-            nodes: [
-              factPlates(
-                bank.debts.map((debt) => ({
-                  title: named(labels.debtKinds, debt.kind),
-                  value: roundedMoney(debt.owedMinor),
-                  note:
-                    debt.pastDueMinor > 0
-                      ? `${roundedMoney(debt.pastDueMinor)} ${labels.pastDue}`
-                      : "",
-                })),
-              ),
-            ],
-          },
-        ].filter(Boolean),
-        className: "money-screen",
+      moneyBoard({
+        columns: [
+          [
+            {
+              title: bank?.name ? `${labels.cash} · ${bank.name}` : labels.cash,
+              figure: roundedMoney(me.card.liquidMinor),
+              rows: months.map((m) => ({
+                label: shortMonth(m.date),
+                value: roundedMoney(m.cashMinor),
+              })),
+            },
+          ],
+          [
+            ...(spent.length
+              ? [
+                  {
+                    title: `${shared ? labels.householdLastMonth : labels.lastMonth} · ${roundedMoney(spentTotal)}`,
+                    rows: spent.map((part) => ({
+                      label: part.label,
+                      value:
+                        part.unpaid > 0
+                          ? owedWords(part.value, part.value + part.unpaid)
+                          : roundedMoney(part.value),
+                    })),
+                  },
+                ]
+              : []),
+            ...(deductions.length
+              ? [
+                  {
+                    title: labels.deductions,
+                    rows: deductions.map(([name, value]) => ({
+                      label: words(name),
+                      value: moneyWords(value),
+                    })),
+                  },
+                ]
+              : []),
+          ],
+          [
+            ...(ownRows.length
+              ? [{ title: labels.assets, rows: ownRows }]
+              : []),
+            ...(debtRows.length
+              ? [{ title: labels.debts, rows: debtRows }]
+              : []),
+          ],
+        ].filter((column) => column.length),
       }),
     ];
   },
@@ -3023,10 +2994,16 @@ const sheets = {
     // part of it (owner, Oct 27: "written like a story, not individual sections... from
     // birth"; "remove all those subheadings").
     return [
-      journalPage({
+      journalScreen({
         chapters,
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
+        rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
       }),
     ];
   },
@@ -4848,7 +4825,7 @@ async function openSheet(tab) {
   // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
   $("sheet").classList.toggle(
     "strip-sheet",
-    tab === "who" || tab === "budgets",
+    tab === "who" || tab === "budgets" || tab === "journal" || tab === "money",
   );
   $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title
@@ -5623,7 +5600,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
-  document.querySelector("#front .progress").hidden = false;
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5631,16 +5607,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    const bar = document.querySelector("#front .progress span");
-    bar.classList.add("steady");
-    const STEPS = [
-      "people",
-      "past",
-      "economy",
-      "core",
-      "government",
-      "opening",
-    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5653,13 +5619,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      const at =
-        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
-      const within = p.total ? p.done / p.total : 0;
-      // Full when the build says it is done ("Ready"), never before.
-      bar.style.width = `${Math.round((Math.min(at + within, STEPS.length) / STEPS.length) * 100)}%`;
-      $("front-status").textContent =
-        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
+      // bar at the end"; the Nov 8 loading mock).
+      $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
     try {
