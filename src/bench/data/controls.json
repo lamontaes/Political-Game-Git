@@ -192,6 +192,13 @@
     "refused": "Refused",
     "noBill": "Introduce a bill first."
   },
+  "devScene": {
+    "title": "Scenes",
+    "type": "Situation",
+    "make": "Make it happen",
+    "begun": "Begun for",
+    "noPath": "No game code to attach to"
+  },
   "devPerson": {
     "title": "Health",
     "fallIll": "Falls seriously ill",
