@@ -1979,10 +1979,10 @@ function businessExtras(
   const industry = read.industry(id);
   const extras: Facts = industry ? { industry: read.fact(industry, id) } : {};
   if (kind === "staff-cut") {
-    // The staff the employer plans for after the cut, which its staffing
-    // review kept on the record (the staff it has changes day to day).
-    const planned = Math.round(num(f.targetStaff) ?? 0);
-    if (planned > 1) extras.staff = read.fact(count(planned), id);
+    // The staff the business has after the cut, which its jobs engine kept on
+    // the record with the event (the staff it has changes day to day).
+    const staff = Math.round(num(f.staffAfter) ?? 0);
+    if (staff > 1) extras.staff = read.fact(count(staff), id);
   }
   if (kind === "owner-changed") {
     const handover = read.row<{
