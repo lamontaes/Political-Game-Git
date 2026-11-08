@@ -1674,6 +1674,7 @@ const exposed: Builder = (read, f) => {
       ...read.who(id, "name", false),
       ...(office ? { office: read.fact(office) } : {}),
       ...(acts.includes("bribe-taken") ? { bribe: read.yes() } : {}),
+      ...(acts.includes("bribe-offered") ? { offered: read.yes() } : {}),
       ...(conflict && firm
         ? { firm: read.fact(firm, f.organizationId ?? "") }
         : {}),
@@ -1707,11 +1708,16 @@ const TIMES: readonly (string | undefined)[] = [
 ];
 
 /**
- * A recorded bribe that someone who learned of it took to the press (the
- * corruption engine reports only bribes): told as the exposure it is.
+ * A recorded bribe that someone who learned of it took to the press, or an
+ * offer an official turned down and told the press of: told as the exposure
+ * it is.
  */
 const scandalReported: Builder = (read, f) =>
-  exposed(read, { ...f, crime: "bribe-taken" });
+  exposed(read, {
+    ...f,
+    // An official told the press of an offer they turned down: the offer is the story.
+    crime: f.attempt ? "bribe-offered" : "bribe-taken",
+  });
 
 /** An appointment to a public post. */
 const appointed: Builder = (read, f) => {
