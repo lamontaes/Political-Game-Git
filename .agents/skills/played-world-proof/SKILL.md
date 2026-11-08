@@ -47,6 +47,7 @@ Name the few people it reached by record id. Most people are untouched; say so.
 
 - An effect is a read: a record nobody else reads is a placeholder. Register it as a stopgap.
 - Hand-inserted fixtures prove edge cases only.
+- When a controlled budget amendment needs a positive benefit program, read the current and adopted line through the budget engine before choosing its amount. Opening fiscal rules may already have cut the line below its base, so a fixed increase can still create no benefit. Keep the assertion that actual payment obligations exist; correct the fixture instead of skipping the drawn place or weakening that assertion. For an explicit new recipient fixture, use `api.addPersonV1` to admit the person and their cash account; `initialPersonState` only constructs the person object and does not register cash ownership or indexes.
 - Speed: measure a game year before and after with `npm run speed:year`, on the same base and machine, one process at a time. No change makes a year more than 20% slower. A year must run under two minutes.
 - Every dollar balances; the golden-path suite must stay green.
 - Answer why for every number you report (see `ask-why`).
