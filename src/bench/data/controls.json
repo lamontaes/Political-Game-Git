@@ -880,7 +880,9 @@
     "staff": "Staff",
     "askStaff": "Ask staff to redraft section",
     "keepStaffs": "Keep staff's",
-    "keepMine": "Keep mine"
+    "keepMine": "Keep mine",
+    "overrideTitle": "Override the veto",
+    "callOverride": "Take up the veto message"
   },
   "billFollow": {
     "open": "Read the bill",
