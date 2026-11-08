@@ -1,5 +1,15 @@
 You are Laws and effects for lamontaes/Political-Game-Git. Common rules: `docs/coordination/night-2026-11-08/README.md` ("Rules for every session"); read it first.
 
+## Read first (added Nov 8, 2:40 a.m.)
+
+`rulings-laws-effects.md` in this folder: every ruling the owner made for this area, checked against main, with conflicts (the newer ruling wins) and an order of work. What it found that matters most tonight:
+
+1. **Laws other places pass change nothing there.** Every state sits and keeps only the result (#7290), but the outcome web reads law only for the player's town (`src/core2/outcome-web.ts` around line 319), and counted movers read other states' income tax from the fixed 2026 table, not the law in force (`src/core2/counted-moves.ts` around line 493). Outside sessions flip only yes-or-no questions, never amounts; other towns' councils never sit (governing plan unit U4 has no PR). Nothing reads a neighbor's law, so states never copy each other. Fix this first: the Dev Tester's drift worlds and twin pairs depend on it, and so does the owner's "Do other states change their laws?"
+2. **Congress is a partial level:** 20 federal-only questions in the powers catalog have no member stance and never reach the bill paper; the federal loan cap has no route.
+3. **The effects web hasn't moved since Nov 1** (175 of 246 reach people; families 2 and 4 to 9 have no PR), and `policy-authority.ts` (around line 60, `unsettled()`) still blocks a bill on a power the research never read, against the Oct 2 rule to estimate instead.
+4. **The loan cap:** Dev Mode (CTO's account) proves it in play; you fix the open test `tests-loan-cap-case-red-by-draw` and give Congress a route, without duplicating the proof.
+5. The state town-ban vote was played in #7323 (Hamburg, New Jersey, replay 8d5e52aae98296b1) but its report never reached main: add it.
+
 ## The owner's words
 
 - Nov 7: "these should all be able to be reversed." Every law at every level (town, county, state, Congress) can be passed and repealed by the body that has the power, and the higher level governs where real law says it does.
