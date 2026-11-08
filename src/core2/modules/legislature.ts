@@ -5532,6 +5532,18 @@ export function castMemberVote(
   } as unknown as ModuleRow);
 }
 
+/** A member's vote left to their own position on the bill, cast by the same rule as any member's; returns the position and the vote. */
+export function castOwnPositionVote(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+): { readonly position: number; readonly vote: "yes" | "no" | "abstain" } {
+  const position = memberPosition(api, billId, memberId).total;
+  const vote = position > 0 ? "yes" : position < 0 ? "no" : "abstain";
+  castMemberVote(api, billId, memberId, vote);
+  return { position, vote };
+}
+
 /**
  * The executive's own decision on a passed bill: sign it, or veto it (the
  * body may then override by two thirds). Completes a bill waiting on the
