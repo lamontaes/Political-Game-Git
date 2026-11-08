@@ -109,7 +109,9 @@
     "addedBy": "effect-web-labor",
     "addedAt": "2026-10-20",
     "replacement": "The jobs engine applies the low-wage factor to every organization whose jobs labor.low-wage-jobs counts, at the moment it sets that organization's staffing, shown in a low-wage-only twin by employer id.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "Deleted lowWageStaffFactor. A higher wage floor reaches low-wage jobs as pay (wage-floor engine: 213 pay-change records in Higganum CT, 1350 in Attleboro MA, 61 in Marcola OR) and reaches staffing and prices through the employers' own books: in a twin pair in Attleboro MA (seed bc7595dd..., floor 1500 -> 2251, 13 months past the law) yearly payroll rose from $48,983,047 to $59,528,919, the mean price index from 1.0284 to 1.0359 and jobs at firms moved from 1215 to 1210, with 62 firms open in both (scripts/world-proofs/minimum-wage-twin.ts). labor.low-wage-jobs stays a measure."
   },
   {
     "id": "SG-LABOR-regional-job-town-roles",
@@ -121,6 +123,18 @@
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
     "replacement": "Keep the occupation of the last job on the seeker row and price the regional job from it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-turnover-fixed-rate",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "Town workers are let go at a fixed pace (the JOLTS layoff rate, moved by the state's unemployment, age and traits) instead of by their employers' own books and demand. A firm's demand does not shake month to month the way real firms' does (a big customer lost, a contract ended, a bad season), so without this pull the town's firms almost never separate anyone.",
+    "why": "Measured Nov 8 with the pull switched off (24 months, scripts/world-proofs/jobs-24-months.ts, main 48561f2a): Algiers VT 5001035 r7 unemployment 0.2% mean with 0 layoffs and 0 hires in months 12 and 24; Utah place 4906590 n8b 0.0%, 23 zero months; North Carolina place 3755940 rnd-a 0.0%, 24 zero months; Clinton CT 0915420 r7 0.8% mean. With it: 2.3%, 1.1%, 0.5% and 4.9% and 6 to 15 layoffs a year in a 100-worker town. Deleting the pull removes the labor market's churn, not a target.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-08",
+    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected), so a layoff is the employer's decision from its books. Then delete reviewTurnover and its pull table.",
     "status": "open"
   }
 ]

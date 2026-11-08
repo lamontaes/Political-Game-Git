@@ -48,7 +48,11 @@ import {
   movePairFactor,
   type CalibrationTable,
 } from "../english/calibration";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  searchCorePlaces,
+  type CorePlace,
+} from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
@@ -2390,10 +2394,43 @@ function awayPlaceOf(
         )
         .flatMap(([, ids]) => [...ids].slice(zero, one)),
     );
-  return person
-    ? { placeId: person.placeId, recordId: person.householdId }
+  if (person) return { placeId: person.placeId, recordId: person.householdId };
+  // No one the world holds lives elsewhere (a played town holds its own
+  // people, and the rest of the country only as counts by place): another town
+  // of the player's state, which the place records name. The pick among equals
+  // is a stable ordering by the conversation's key, never a roll.
+  const home = corePlaceByJurisdictionId(player.placeId as never);
+  const state = home?.stateJurisdictionKey;
+  if (!state) return null;
+  let towns = TOWNS_OF_STATE.get(state);
+  if (!towns) {
+    towns = searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    });
+    TOWNS_OF_STATE.set(state, towns);
+  }
+  const town = towns
+    .filter(
+      (row) =>
+        row.context.jurisdiction.id !== player.placeId &&
+        row.context.jurisdiction.id !== player.countyId,
+    )
+    .sort((a, b) =>
+      stableHash(`${key}:${a.key}`).localeCompare(
+        stableHash(`${key}:${b.key}`),
+      ),
+    )[zero];
+  return town
+    ? {
+        placeId: town.context.jurisdiction.id,
+        recordId: town.context.jurisdiction.id,
+      }
     : null;
 }
+
+/** Each state's towns, read once: the places a false answer about home can name. */
+const TOWNS_OF_STATE = new Map<string, readonly CorePlace[]>();
 
 /** The kinds the player can raise: the other person has words to reply with. */
 function raisable(data: ConversationData, kind: string): boolean {

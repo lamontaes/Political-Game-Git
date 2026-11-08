@@ -45,7 +45,6 @@ import {
   countedFacts,
   fullFacts,
   inGroup,
-  lowWageStaffFactor,
   markUnwiredLaborLinks,
   participationShift,
   type LaborFacts,
@@ -920,56 +919,6 @@ export function rolesByDeficit(
 }
 
 /**
- * A place's own unemployment against its region's, as a pull on starting to
- * look for work: where the town sits below its state's rate (the labor-market
- * statistics' rate for the region) more of the jobless start looking, where it
- * sits above fewer do, so a place drifts toward its state's rate with no step
- * at any threshold. The town's rate is its seekers over its seekers and jobs
- * held, named and counted (one read per place a day).
- */
-const townRates = new WeakMap<
-  CoreState,
-  { date: string; byPlace: Map<string, { seekers: number; jobs: number }> }
->();
-function entryRateFeedback(api: CoreAPI, placeId: string): number {
-  const c = core(api);
-  // With no economy running there is no region's rate to drift toward.
-  if (!c.modules.has("macro")) return 0;
-  let cache = townRates.get(c);
-  if (!cache || cache.date !== c.date) {
-    const byPlace = new Map<string, { seekers: number; jobs: number }>();
-    const row = (id: string) => {
-      let r = byPlace.get(id);
-      if (!r) byPlace.set(id, (r = { seekers: 0, jobs: 0 }));
-      return r;
-    };
-    for (const name of ["seekers", "countedSeekers"] as const)
-      for (const seeker of store(api)
-        .table(name)
-        .rows() as unknown as SeekerRow[])
-        if (!seeker.employed) row(seeker.placeId).seekers += 1;
-    for (const job of c.jobs.values()) {
-      const where = c.people.get(job.personId)?.placeId;
-      if (job.endsAt === undefined && where) row(where).jobs += 1;
-    }
-    for (const job of residentsRuntime(c)?.jobs.values() ?? [])
-      if (job.endsAt === undefined) {
-        const where = c.organizations.get(job.organizationId)?.placeId;
-        if (where) row(where).jobs += 1;
-      }
-    townRates.set(c, (cache = { date: c.date, byPlace }));
-  }
-  const town = cache.byPlace.get(placeId);
-  if (!town || town.seekers + town.jobs <= 0) return 0;
-  const ownRate =
-    (api.parameter("macroHundred") * town.seekers) / (town.seekers + town.jobs);
-  const regionRate =
-    unemploymentGap(api, placeId) +
-    api.parameter("macroNaturalUnemploymentPct");
-  return api.parameter("jobsEntryRateFeedback") * (regionRate - ownRate);
-}
-
-/**
  * How far a place's unemployment rate sits above the natural rate, in points,
  * read from the latest month of the regional series (the nation's where the
  * place has no region; 0 where no economy runs). One read per place a day.
@@ -1254,21 +1203,13 @@ function reviewEmployers(api: CoreAPI): void {
       p("jobsStaffGapActedPerMonth") * (observedStaff - previousSalesStaff);
     // The market forecast already reads regional and national conditions.
     // Actual receipts let firms diverge when customers pay different sellers.
-    // The web's factor on low-wage jobs (a higher wage floor) moves the
-    // employer's own target by the low-wage share of its staff.
-    let lowHeads = 0;
-    for (const job of jobs)
-      if ((job.hourlyMinor ?? 0) < p("jobsLowWageLineHourlyMinor"))
-        lowHeads += headsOf(c, job);
+    // A higher wage floor reaches the employer through its own books: the
+    // payroll it raises is paid out of the same receipts the staffing target
+    // and the loss memory (`affordableStaff`) read, and its prices follow its
+    // costs. No separate factor moves the target.
     const demandTarget =
-      (projected * (1 - p("jobsSalesForecastWeight")) +
-        salesStaff * p("jobsSalesForecastWeight")) *
-      lowWageStaffFactor(
-        api,
-        c.organizations.get(row.id)!.placeId,
-        lowHeads,
-        staff,
-      );
+      projected * (1 - p("jobsSalesForecastWeight")) +
+      salesStaff * p("jobsSalesForecastWeight");
     const target =
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
@@ -2023,7 +1964,9 @@ function turnoverJobs(api: CoreAPI): JobInput[] {
  * work (`reviewRegionalFinds`) and no losing of it, and its out-of-work count
  * drains to nothing.
  */
+// stopgapId: SG-LABOR-turnover-fixed-rate (a fixed JOLTS layoff pace stands in for firms' own demand shocks)
 function reviewTurnover(api: CoreAPI): void {
+  stopgap("SG-LABOR-turnover-fixed-rate");
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const month =
@@ -2565,7 +2508,6 @@ export function reviewJobless(api: CoreAPI): void {
         unemployment:
           -p("jobsUnemploymentEntryWeight") *
           unemploymentGap(api, person.placeId),
-        rateFeedback: entryRateFeedback(api, person.placeId),
       }),
     ]);
     settleEntryChoice(
@@ -3695,7 +3637,6 @@ export function reviewCountedEntry(api: CoreAPI): void {
             p("jobsUnemployedNeedWeight") / (p("one") + days / monthDays),
           unemployment:
             -p("jobsUnemploymentEntryWeight") * unemploymentGap(api, placeId),
-          rateFeedback: entryRateFeedback(api, placeId),
         }),
       ]);
       settleEntryChoice(

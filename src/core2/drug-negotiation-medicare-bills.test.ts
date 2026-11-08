@@ -13,6 +13,7 @@ import type { MedicalBillRow } from "./medical-bills";
 import { COVERAGE_MODULE_ID } from "./modules/coverage";
 import { enactLaw, lawInForce } from "./modules/laws";
 import { WEB_LINKS } from "./outcome-web-model";
+import { appliedOn } from "./law-reach/applied";
 import { coreAPI } from "./state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -92,6 +93,14 @@ it(
           passed.push(`${where}: no Medicare member billed in both`);
           continue;
         }
+        // The law reached those members: a law-reach row names each named
+        // Medicare member and what their bill fell by.
+        const reached = appliedOn(api, QUESTION);
+        expect(
+          reached.length,
+          `${where}: Medicare members reached`,
+        ).toBeGreaterThan(0);
+        expect(reached.every((r) => r.target === "person")).toBe(true);
         process.stdout.write(
           `DRUGS ${where}: ${compared} Medicare members billed ${(-100 * size).toFixed(0)}% less with the law; ${example}. Passed over: ${passed.join("; ") || "none"}\n`,
         );

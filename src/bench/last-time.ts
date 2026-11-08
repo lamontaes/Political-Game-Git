@@ -13,6 +13,7 @@ export function lastTimeOf(api: CoreAPI, contestId: string) {
   return {
     date: term.elected.date,
     winner: `${term.identity.givenName} ${term.identity.familyName}`,
+    winnerId: term.personId,
     party: term.party,
     sharePercent: Math.round(term.elected.share * 100),
   };
