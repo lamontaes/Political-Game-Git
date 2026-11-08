@@ -4114,6 +4114,17 @@ const sheets = {
               2,
               labels.dates,
               dateList([
+                ...(race.filingOpens && race.filingOpens > me.date
+                  ? [
+                      {
+                        when: dateWords(race.filingOpens, {
+                          month: "short",
+                          year: me.date,
+                        }),
+                        text: labels.filingOpens,
+                      },
+                    ]
+                  : []),
                 ...(race.filingClosed
                   ? []
                   : [
