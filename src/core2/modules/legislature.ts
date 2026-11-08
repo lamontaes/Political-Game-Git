@@ -3128,8 +3128,12 @@ export function learnStake(
     api.relationship(bill.sponsorId, memberId, "contact", 0.05);
   const position = memberPosition(api, billId, memberId);
   const learner = learnerId ?? bill.sponsorId;
-  // Kept for the player and the people they deal with, as reasons are.
-  if (!keepsWhy(api.state as CoreState, learner)) return position;
+  // Kept for the player (the character the player controls, as a played official is) and the people they deal with, as reasons are.
+  if (
+    !keepsWhy(api.state as CoreState, learner) &&
+    snapshotExplicitControlV1(api.state).personId !== learner
+  )
+    return position;
   table(api, "learnedStakes").put({
     id: `stake:${billId}|${memberId}|${learner}`,
     billId,
