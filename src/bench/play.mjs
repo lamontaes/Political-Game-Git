@@ -28,6 +28,12 @@ import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
+import {
+  devModeOn,
+  onDevMode,
+  restoreDevMode,
+  setDevMode,
+} from "./ui/dev-setting.mjs";
 import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { columnChart, donutChart } from "./ui/chart.mjs";
@@ -3380,20 +3386,23 @@ const sheets = {
       });
       fullScreen = [{ node: line }, { node: status }];
     }
+    const devSetting = checkboxSetting({
+      label: labels.devMode,
+      checked: devModeOn(),
+      testid: "options-dev-mode",
+    });
+    devSetting.box.addEventListener("change", () =>
+      setDevMode(devSetting.box.checked),
+    );
     return recordScreen({
       sections: [
         {
           items: [
             { fact: [labels.version, await displayVersion()] },
             ...(fullScreen ?? []),
+            { node: devSetting.line },
             {
               actions: [
-                // Dev mode, for a developer's session only.
-                {
-                  label: labels.devMode,
-                  className: "dev-only",
-                  onClick: () => window.open("/dev"),
-                },
                 {
                   label: labels.quitToTitle,
                   testid: "quit-to-title",
@@ -4884,12 +4893,13 @@ function worldSettings() {
 $("front-options").addEventListener("click", () => openSheet("options"));
 $("front-saves").addEventListener("click", () => openSheet("saves"));
 $("front-patch-notes").addEventListener("click", () => openSheet("patchNotes"));
-// The bench's developer controls sit behind one faint ring, off by default.
-$("dev-toggle").addEventListener("click", () => {
-  const dev = document.body.classList.toggle("dev");
+// Dev mode is a setting in Options, off by default; its controls show while it is on.
+onDevMode((dev) => {
   if (dev) $("talk-silent").before(gapButton);
   else gapButton.remove();
 });
+restoreDevMode();
+if (devModeOn()) $("talk-silent").before(gapButton);
 // New game: Custom world (the world's settings, then the creator), Start a
 // life (the creator) or New world (straight in, a random person and place).
 const FRONT_PANELS = [
