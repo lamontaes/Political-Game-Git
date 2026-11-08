@@ -30,3 +30,13 @@ for (const w of api.moduleState(CANDIDACY_MODULE_ID).table("weighed").rows() as 
   const c = contests.find((x) => x.id === w.contestId);
   if (c?.family === "countyOffice") console.log("county weighed", c.title.slice(0, 24), "asked", w.askedIds.length, "countedWeighed", w.countedWeighed, "filledIn", w.filledInIds.length, "run", w.runIds.length);
 }
+
+for (const w of api.moduleState(CANDIDACY_MODULE_ID).table("weighed").rows() as any[]) {
+  const c = contests.find((x) => x.id === w.contestId);
+  if (c?.family !== "countyOffice") continue;
+  for (const id of w.filledInIds.slice(0, 3)) {
+    const d = decisions.find((x) => x.contestId === c.id && x.personId === id);
+    const person = api.state.people.get(id);
+    console.log("filled", c.title.slice(0, 18), id.slice(-6), "known", person?.knownIds.size, "run", d?.run, "reasons", JSON.stringify(Object.fromEntries(Object.entries(d?.reasons ?? {}).map(([k, v]) => [k, Math.round((v as number) * 100) / 100]))), "scores", JSON.stringify(d?.scores?.map((s: any) => Math.round(s.score * 100) / 100)));
+  }
+}
