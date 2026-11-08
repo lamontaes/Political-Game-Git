@@ -44,6 +44,8 @@ The owner's rules: sessions message the CTO and the CTO messages them, sessions 
 | Your queue is empty or too long (checker)         | the CTO, who moves PRs between checkers                          | nothing else                                        |
 | A stray push, a deleted file, a mistake           | the CTO at once, with what and where                             | nothing else                                        |
 
+- **Every question goes on the coordination PR (owner, Nov 8).** When a crew runs from a coordination PR (Nov 8: #7365, where the CTO and a Coordinator on another account talk), every question from every session (design, ruling, scope or blocker) is a comment on that PR. It starts `Question (<session>):`, puts the question in its first sentence, then gives the PR, head, place and seed, what is being built meanwhile, and the reading line when it is the owner's call. Send the Coordinator a one-line message that it is posted. A session whose environment refuses the GitHub write sends the question by message, and the Coordinator posts it word for word, marked as relayed. The Coordinator subscribes to that PR, so the CTO's answers reach it at once. Asking never stops the build: take the realistic choice and say so in the comment.
+
 When the CTO moves a PR between two checkers, it tells both. A checker already mid-gate keeps the PR and tells the other.
 
 ## What a message carries
