@@ -576,6 +576,195 @@
       "author": "Claude Opus (pool item words-person-card-third-person-sketch)",
       "date": "2026-10-28",
       "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.strong-first",
+      "move": "deliberative",
+      "text": "I think things through before I act.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.deliberative.mild-first",
+      "move": "deliberative",
+      "text": "I usually think before I act.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.strong-first",
+      "move": "impulsive",
+      "text": "I act on impulse.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.impulsive.mild-first",
+      "move": "impulsive",
+      "text": "I can be quick to act.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.strong-first",
+      "move": "reserved",
+      "text": "I keep to myself.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.reserved.mild-first",
+      "move": "reserved",
+      "text": "I'm a little reserved.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.strong-first",
+      "move": "outgoing",
+      "text": "I love being around people.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.outgoing.mild-first",
+      "move": "outgoing",
+      "text": "I'm easy to talk to.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.strong-first",
+      "move": "conciliatory",
+      "text": "I'd rather find common ground than fight.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.conciliatory.mild-first",
+      "move": "conciliatory",
+      "text": "I try to smooth things over.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.strong-first",
+      "move": "confrontational",
+      "text": "I don't back down from a fight.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.confrontational.mild-first",
+      "move": "confrontational",
+      "text": "I speak up when I disagree.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.strong-first",
+      "move": "lets-things-slip",
+      "text": "I let things slip.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.lets-things-slip.mild-first",
+      "move": "lets-things-slip",
+      "text": "I don't always follow through.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.strong-first",
+      "move": "dependable",
+      "text": "When I say I'll do something, I do it.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.dependable.mild-first",
+      "move": "dependable",
+      "text": "People can count on me.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.strong-first",
+      "move": "cautious",
+      "text": "I play it safe.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.cautious.mild-first",
+      "move": "cautious",
+      "text": "I'm careful about taking chances.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.strong-first",
+      "move": "risk-taking",
+      "text": "I'll take a chance most people wouldn't.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.risk-taking.mild-first",
+      "move": "risk-taking",
+      "text": "I don't mind a gamble.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
+    },
+    {
+      "key": "person-sketch.balanced.1-first",
+      "move": "balanced",
+      "text": "I'm even-tempered: hard to rattle and hard to rush.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Fixer, the approved You screen)",
+      "date": "2026-11-08",
+      "kind": "written"
     }
   ]
 }

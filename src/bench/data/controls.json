@@ -388,6 +388,11 @@
     "school": "School",
     "money": "Money",
     "family": "Family",
+    "whoIAm": "Who I am",
+    "whatImLike": "What I'm like",
+    "myPeople": "My people",
+    "strong": "Strong",
+    "mild": "Moderate",
     "views": "Politics",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
@@ -717,7 +722,7 @@
   },
   "titles": {
     "people": "People",
-    "who": "Who you are",
+    "who": "You",
     "money": "Money and property",
     "jobs": "Jobs and study",
     "journal": "Journal",

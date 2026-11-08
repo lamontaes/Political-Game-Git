@@ -72,6 +72,13 @@ import {
   sameFor,
 } from "./ui/newspaper.mjs";
 import { show, mountCloseButtons, mountPanelHeads } from "./ui/panel.mjs";
+import {
+  stripScreen,
+  stripSection,
+  perkList,
+  introText,
+  peopleSentence,
+} from "./ui/strips.mjs";
 mountPanelHeads();
 mountCloseButtons();
 mountSpeakers();
@@ -538,16 +545,6 @@ async function refresh(scene = {}) {
   if (openTab) await openSheet(openTab);
 }
 
-/** Once a menu is on screen, apply each step in turn until the panel no longer scrolls. */
-function fitToPanel(steps) {
-  window.requestAnimationFrame(() => {
-    const body = $("sheet-body");
-    for (const step of steps) {
-      if (body.scrollHeight <= body.clientHeight + 1) return;
-      step();
-    }
-  });
-}
 async function act(path) {
   if (busy) return;
   busy = true;
@@ -2648,122 +2645,69 @@ const sheets = {
       },
     });
   },
+  /**
+   * You, as the owner approved it on Nov 7 (item 53; the mock's you-ol-g): your
+   * name and role over a bust, "Who I am" and "What I'm like" in the first
+   * person from your own records, and the people you're closest to as names
+   * that open their cards. "What people say about me" waits for a record of
+   * what people say about a person (stopgap in the PR body).
+   */
   async who() {
     const c = me.card;
     const labels = controls.who ?? {};
-    const born = dateWords(c.birthDate);
-    const views =
-      c.views ??
-      (c.view && controls.leanWords?.[c.view]
-        ? [{ text: controls.leanWords[c.view] }]
-        : []);
-    // On framed plates: your figure framed at the left (the
-    // sheet's media slot); what you're like in plain sentences, never the
-    // traits' names (owner, Oct 27); small plates for home, work, school and
-    // cash; the people at home as face cards; your views as small plates.
-    // A school only while they are at one (never a grown player's old school).
-    const school = c.schoolNow ?? null;
-    const members = (c.home?.members ?? []).map((member) =>
-      memberCard({
+    const known = await api(
+      `/api/known?${new URLSearchParams({ id: me.id, other: me.id })}`,
+    ).catch(() => ({ summaryFirst: [] }));
+    const strengthWord = { strong: labels.strong, mild: labels.mild };
+    const peopleLine = peopleSentence(
+      (c.home?.members ?? []).map((member) => ({
         name: member.name,
-        line: member.relation
-          ? member.relation.charAt(0).toUpperCase() + member.relation.slice(1)
-          : "",
-        face: member.face,
+        relation: member.relation,
         onOpen: () => {
           closeSheet();
           showPerson(member);
         },
-      }),
+      })),
     );
-    const drawn = recordScreen({
-      heading: {
+    const role = c.job
+      ? [c.job.title, c.job.employer].filter(Boolean).join(", ")
+      : `${labels.age} ${c.age}`;
+    return [
+      stripScreen({
         name: c.name,
-        meta: `${labels.age} ${c.age} · ${labels.born} ${born}`,
-      },
-      lede: c.sketch,
-      sections: [
-        {
-          items: [
-            {
-              node: factPlates(
-                [
-                  {
-                    title: c.age < 18 ? labels.householdHome : labels.home,
-                    value: c.home?.placeName ?? me.placeName,
-                    // The town's size and this year's moves (path 10).
-                    note: c.town
-                      ? [
-                          labels.townPeople.replace(
-                            "{n}",
-                            c.town.population.toLocaleString("en-US"),
-                          ),
-                          labels.townMoves
-                            .replace(
-                              "{in}",
-                              c.town.arrivals.toLocaleString("en-US"),
-                            )
-                            .replace(
-                              "{out}",
-                              c.town.departures.toLocaleString("en-US"),
-                            ),
-                        ].join(" · ")
-                      : "",
-                  },
-                  c.job && {
-                    title: labels.work,
-                    value: c.job.title,
-                    note: c.job.employer ?? "",
-                  },
-                  school && { title: labels.school, value: school.name },
-                  {
-                    title: labels.money,
-                    value: roundedMoney(c.liquidMinor),
-                  },
-                ].filter(Boolean),
-              ),
-            },
+        role,
+        face: c.face ?? null,
+        columns: [
+          [
+            ...(known.summaryFirst?.length
+              ? [
+                  stripSection(
+                    1,
+                    labels.whoIAm,
+                    introText(known.summaryFirst.join(" ")),
+                  ),
+                ]
+              : []),
+            ...(c.traitLines?.length
+              ? [
+                  stripSection(
+                    2,
+                    labels.whatImLike,
+                    perkList(
+                      c.traitLines.map((row) => ({
+                        name: row.label,
+                        strength: strengthWord[row.strength],
+                        line: row.line,
+                      })),
+                    ),
+                  ),
+                ]
+              : []),
           ],
-        },
-        members.length && {
-          title: labels.family,
-          items: [
-            {
-              node: pager({
-                items: members,
-                render: (card) => card,
-                rows: window.innerHeight >= 800 ? 2 : 1,
-                columns: 3,
-                rowHeight: 64,
-                gap: 8,
-                words: {
-                  page: controls.politics.page,
-                  previous: controls.politics.previousPage,
-                  next: controls.politics.nextPage,
-                },
-              }),
-            },
-          ],
-        },
-        views.length && {
-          title: labels.views,
-          items: [
-            {
-              views: views.map((v) => ({
-                label: v.label !== labels.views ? v.label : undefined,
-                text: v.text,
-              })),
-            },
-          ],
-        },
-      ].filter(Boolean),
-    });
-    // A short window: tighter plates, then a shorter lede, until the panel holds it without a scroll.
-    fitToPanel([
-      () => $("sheet-body").classList.add("compact"),
-      () => $("sheet-body").classList.add("tight"),
-    ]);
-    return drawn;
+          peopleLine ? [stripSection(3, labels.myPeople, peopleLine)] : [],
+        ],
+      }),
+    ];
   },
   async money() {
     const [budget, bank] = await Promise.all([
@@ -4712,11 +4656,13 @@ async function openSheet(tab) {
     tab === "options" || !$("front").hidden,
   );
   const character = groupOf(tab) === "who";
-  $("sheet").classList.toggle("character-sheet", character);
+  // You carries its own bust (the approved strip screen); Jobs and Your life keep the side figure.
+  $("sheet").classList.toggle("strip-sheet", tab === "who");
+  $("sheet").classList.toggle("character-sheet", character && tab !== "who");
   // News is the paper itself: the sheet is the page, its masthead the title
   // (owner, Oct 28, point 25).
   $("sheet").classList.toggle("paper-sheet", tab === "news");
-  $("sheet-media").hidden = !character;
+  $("sheet-media").hidden = !character || tab === "who";
   fillArtwork(
     $("sheet-media"),
     character
@@ -4743,7 +4689,7 @@ async function openSheet(tab) {
   $("sheet").classList.toggle(
     "fits",
     !["calendar", "people", "news"].includes(tab) &&
-      !character &&
+      (!character || tab === "who") &&
       !$("sheet-body").classList.contains("cols") &&
       !$("sheet-body").querySelector(".screen-grid, .split-screen"),
   );
