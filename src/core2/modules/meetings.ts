@@ -22,7 +22,7 @@
  *   (`debateEve`).
  */
 import rows from "../data/meetings/parameters.json" with { type: "json" };
-import { coreAPI, fillInPerson, registerModule } from "../state";
+import { coreAPI, registerModule } from "../state";
 import { addDays, ageInYears, makeIsoDate } from "../kernel/dates";
 import {
   decisionLean,
@@ -411,14 +411,13 @@ function publicComment(api: CoreAPI, billId: string): void {
   const bill = billOf(api, billId);
   const stance = billQuestion(api, bill);
   if (!stance || !local(bill)) return;
-  const core = api.state as CoreState;
   const speakers = takePart(
     commentSpeakers(api, bill, stance),
     meetingParameter("publicCommentSpeakers"),
   );
   for (const s of speakers) {
-    // A speaker on the public record is a named person.
-    if (countedRecordOnly(core, s.p.id)) fillInPerson(core, s.p.id);
+    // A resident from the wider population speaks on the record by their id and their counted
+    // record; they are filled in only when the player attends or opens the bill (two-level population).
     table(api, "remarks").put({
       id: `remark:${bill.id}:${s.p.id}`,
       billId: bill.id,
@@ -441,6 +440,7 @@ function publicComment(api: CoreAPI, billId: string): void {
       ),
       ...said.map((r) => r.personId),
     ].filter((id) => api.state.people.get(id)?.alive);
+    // stopgapId: SG-MEETINGS-counted-speaker-speech
     // Everyone who spoke is heard: those who signed up (the player among
     // them) and those moved to stand up.
     for (const r of said)

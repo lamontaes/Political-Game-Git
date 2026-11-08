@@ -1,15 +1,16 @@
 /**
- * Pool item people-drives-counted-speech-and-shared-causes: public comment
- * draws its speakers from every adult in town by the same rule (how strongly
- * they feel about the bill's question, by their civic temperament), the
- * wider population's included, read from their counted record. A counted
- * adult who stands up is filled in before speaking, hears the room, and can
- * take up a cause from it. A played year in places drawn from all 56, with
- * bounded redraws until one does.
+ * Public comment draws its speakers from every adult in town by the same rule
+ * (how strongly they feel about the bill's question, by their civic
+ * temperament), the wider population's included, read from their counted
+ * record. A counted adult who stands up speaks on the record by their id and
+ * stays in the counts: they are filled in when the player opens the bill
+ * (two-level population; Coordinator ruling, Nov 8). A played stretch in
+ * places drawn from all 56, with bounded redraws until a counted adult speaks.
  */
 import { createHash, randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { billItem } from "../bench/office";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
@@ -17,17 +18,17 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { isDemoted } from "./counted-groups";
 import { advanceCore } from "./life";
 import { countedDemotions } from "./modules/counted-demotion";
+import { LEGISLATURE_MODULE_ID, type BillRow } from "./modules/legislature";
 import { residentsRuntime } from "./modules/residents";
-import { drivesReport } from "./modules/drives";
 import { countedRecordOnly, MEETINGS_MODULE_ID } from "./modules/meetings";
 import { coreAPI, fillInPerson } from "./state";
 import type { CoreState } from "./types";
 
-const PLACES = 4;
+const PLACES = 6;
 const base = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
 it(
-  "a counted adult who feels strongly stands up at public comment, is filled in and takes up a cause from the room",
+  "a counted adult who feels strongly speaks at public comment on the record and is filled in only when the player opens the bill",
   () => {
     const tried: string[] = [];
     for (let n = 0; n < PLACES; n++) {
@@ -48,70 +49,55 @@ it(
           .table("remarks")
           .rows() as unknown as {
           id: string;
+          billId: string;
           personId: string;
           kind: string;
         }[];
-      const seen = new Set(remarks().map((r) => r.id));
-      // Speakers who were still counted the day before they spoke.
-      const wereCounted = new Map<string, string>();
-      // Whether each was a living named person on the day they spoke (a speaker
-      // may die later in the year, which does not undo the fill-in).
-      const livingWhenSpoke = new Map<string, boolean>();
       let date = makeIsoDate(core.date);
-      const end = addDays(date, 365);
-      while (date < end) {
-        const full = new Set(core.people.keys());
+      const end = addDays(date, 120);
+      let spoke: { id: string; billId: string; personId: string } | undefined;
+      while (date < end && !spoke) {
         date = addDays(date, 1);
         advanceCore(core, date);
-        for (const r of remarks()) {
-          if (seen.has(r.id)) continue;
-          seen.add(r.id);
-          if (r.kind === "public-comment" && !full.has(r.personId)) {
-            wereCounted.set(r.personId, r.id);
-            livingWhenSpoke.set(
-              r.personId,
-              core.people.get(r.personId)?.alive === true,
-            );
-          }
-        }
-      }
-      const fromRoom = (
-        drivesReport(core as CoreState).drives as {
-          id: string;
-          personId: string;
-          formations: { eventId?: string }[];
-        }[]
-      ).filter(
-        (drive) =>
-          wereCounted.has(drive.personId) &&
-          drive.formations.some((f) => f.eventId?.startsWith("speech:remark:")),
-      );
-      tried.push(
-        `${where}: ${wereCounted.size} speakers were counted, ${fromRoom.length} causes from the room`,
-      );
-      for (const [personId, remarkId] of wereCounted) {
-        // Filled in: a named person, alive, in town, on the public record.
-        expect(livingWhenSpoke.get(personId), `${where}: ${remarkId}`).toBe(
-          true,
+        spoke = remarks().find(
+          (r) => r.kind === "public-comment" && !core.people.has(r.personId),
         );
       }
-      if (!fromRoom.length) continue;
-      const drive = fromRoom[0]!;
+      if (!spoke) {
+        tried.push(`${where}: no counted adult spoke in 120 days`);
+        continue;
+      }
+      // On the record by id, still in the counts: no full person was made to speak.
+      expect(countedRecordOnly(core, spoke.personId), where).toBe(true);
+      expect(core.people.has(spoke.personId), where).toBe(false);
+      // The player opens the bill: the speaker is met, filled in, named.
+      const bill = api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(spoke.billId) as unknown as BillRow;
+      const shown = billItem(core, bill).remarks;
+      expect(core.people.get(spoke.personId)?.alive, where).toBe(true);
+      const person = core.people.get(spoke.personId)!;
+      expect(
+        shown.some(
+          (r) => r.name === `${person.givenName} ${person.familyName}`,
+        ),
+        `${where}: ${spoke.id} named on the bill`,
+      ).toBe(true);
       process.stdout.write(
-        `COUNTED SPEAKERS ${where}: ${wereCounted.size} speakers were counted; ${drive.personId} spoke at ${wereCounted.get(drive.personId)} and holds ${drive.id} from ${drive.formations.find((f) => f.eventId?.startsWith("speech:remark:"))!.eventId}; ${fromRoom.length} causes from the room\n`,
+        `COUNTED SPEAKERS ${where}: ${spoke.personId} spoke at ${spoke.id} from the counts and was filled in as ${person.givenName} ${person.familyName} when the bill was opened\n`,
       );
       return;
     }
     throw new Error(
-      `no counted speaker took up a cause from the room in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
+      `no counted adult spoke at public comment in ${PLACES} places (base ${base}): ${tried.join("; ")}`,
     );
-    // A day-by-day played year took 463 seconds in Port Wentworth, Georgia on a 4-core container; up to PLACES of them.
   },
-  PLACES * 600_000,
+  PLACES * 300_000,
 );
 
 it(
-  "a resident returned to the counts is still a counted record: eligible to stand up at public comment and filled in before speaking",
+  "a resident returned to the counts is still a counted record: eligible to stand up at public comment",
   () => {
     const tried: string[] = [];
     for (let n = 0; n < PLACES; n++) {
