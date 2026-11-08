@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** src/director/electoral-scenes.test.ts fails its second case on main on Nov 4 in Bascom, Florida (1203725), seed 78df996a2a76eb81378fcb7c5c00238bb398b33a: person_42e3dd4105e41fc4 was not in the crowd of speech:person_09cc581aaf91cdae:2025-10-05:speech:organization_f266a19676377820. A campaign speech is a stop with its listeners, and the listener the test checks is not among the crowd the speech record keeps, so the scene and the record disagree about who heard it.
+**What.** src/director/electoral-scenes.test.ts fails its second case on main on Nov 4 in Bascom, Florida (1203725), seed 78df996a2a76eb81378fcb7c5c00238bb398b33a: person_42e3dd4105e41fc4 was not in the crowd of speech:person_09cc581aaf91cdae:2025-10-05:speech:organization_f266a19676377820. A campaign speech is a stop with its listeners, and the listener the test checks is not among the crowd the speech record keeps, so the scene and the record disagree about who heard it. The fix is whichever side is wrong, the scene's cast or the speech's crowd.
 
 **Rules.** One engine per mechanic: the scene's listeners are the speech record's crowd, read from one place; Ask why: name by record why this person was expected and why the crowd left them out before changing either side.
 

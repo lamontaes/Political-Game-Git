@@ -15,7 +15,12 @@ export interface BillNameBook {
   readonly forms: Readonly<Record<string, string>>;
   readonly list: { readonly conjunction: string };
   /** A budget bill's name and purpose: it sets amounts for spending lines, with no direction. */
-  readonly budget: { readonly name: string; readonly purpose: string };
+  readonly budget: {
+    readonly name: string;
+    readonly purpose: string;
+    /** A section's own line: "{line}: {amount} for the year". */
+    readonly section: string;
+  };
   readonly policies: Readonly<
     Record<
       string,
@@ -138,6 +143,21 @@ export function billNameOf(
     }
   }
   return null;
+}
+
+/**
+ * One spending line of a budget bill, said on its own: the line's name and its amount for the year
+ * ("Highways: about $40 million for the year"). A budget bill states one purpose in its title; its
+ * sections each say their own line and amount, not that purpose again.
+ */
+export function budgetSectionSaid(
+  line: string,
+  amount: string,
+  book: BillNameBook = billNames as BillNameBook,
+): string {
+  return book.budget.section
+    .replace("{line}", line)
+    .replace("{amount}", amount);
 }
 
 /** Items in a list as American English writes them: "a", "a and b", "a, b, and c". */
