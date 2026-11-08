@@ -60,6 +60,10 @@ CATEGORY_SUBJECT = {
     "education": "education",
     "environment-energy": "energy-environment",
     "fiscal": "taxes-finance",
+    # Federal questions (us-federal-positions) use short category names.
+    "trade": "foreign-trade",
+    "energy-environment": "energy-environment",
+    "housing": "housing",
     "government-operations": "government",
     "health-human-services": "healthcare",
     "housing-land-use": "housing",
@@ -72,6 +76,7 @@ CATEGORY_SUBJECT = {
 
 # Topic placement by words in the question key; the subject's first topic otherwise.
 TOPIC_WORDS = [
+    ("tariff", "Trade and customs"), ("voucher", "Affordable and public housing"), ("power-plant", "Air and emissions"),
     ("minimum-wage", "Wages and working hours"), ("paid-family-leave", "Paid and unpaid leave"),
     ("collective-bargaining", "Unions and collective bargaining"), ("right-to-work", "Unions and collective bargaining"),
     ("voter", "Elections and representation"), ("voting", "Elections and representation"), ("redistricting", "Elections and representation"),
