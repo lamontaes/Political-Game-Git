@@ -79,7 +79,11 @@ describe(`a state chamber's vote story (seed ${seed})`, () => {
           topic: question,
           facts: { ...vote.facts, sourceRecordId: vote.id },
         });
-        const text = [worded?.headline, worded?.lede, ...(worded?.paragraphs ?? [])].join(" ");
+        const text = [
+          worded?.headline,
+          worded?.lede,
+          ...(worded?.paragraphs ?? []),
+        ].join(" ");
         const usps = chamber.office.jurisdiction.slice(3);
         if (!worded) continue;
         console.log(
