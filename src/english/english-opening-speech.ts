@@ -49,7 +49,11 @@ export const OPENING_SPEECH_BANK = bankJson as unknown as {
   parts: OpeningPart[];
 };
 
-export type OpeningSpeechKind = "state-of-the-union" | "inaugural";
+export type OpeningSpeechKind =
+  | "state-of-the-union"
+  | "inaugural"
+  | "state-of-the-state"
+  | "town-address";
 export type SpeechVoice = "polished" | "plain";
 
 /** Where the camera is while a block is spoken. */

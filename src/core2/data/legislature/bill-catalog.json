@@ -238,8 +238,17 @@
         },
         {
           "name": "Medicines and medical products",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:health.medicare-drug-price-negotiation",
+              "name": "medicare drug price negotiation",
+              "kind": "policy-question",
+              "question": "us-federal-positions:health.medicare-drug-price-negotiation",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Reproductive health",
@@ -804,6 +813,14 @@
               "levels": ["state", "county", "city"]
             },
             {
+              "id": "question:us-federal-positions:housing.vouchers-for-every-eligible-family",
+              "name": "vouchers for every eligible family",
+              "kind": "policy-question",
+              "question": "us-federal-positions:housing.vouchers-for-every-eligible-family",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            },
+            {
               "id": "question:us-policy-positions:housing-land-use.inclusionary-requirement",
               "name": "inclusionary requirement",
               "kind": "policy-question",
@@ -1172,6 +1189,14 @@
           "name": "Air and emissions",
           "supported": true,
           "policies": [
+            {
+              "id": "question:us-federal-positions:energy-environment.limit-power-plant-carbon",
+              "name": "limit power plant carbon",
+              "kind": "policy-question",
+              "question": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            },
             {
               "id": "question:us-policy-positions:environment-energy.clean-air-plan-for-polluted-counties",
               "name": "clean air plan for polluted counties",
@@ -2111,8 +2136,17 @@
         },
         {
           "name": "Trade and customs",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "question:us-federal-positions:trade.raise-tariffs",
+              "name": "raise tariffs",
+              "kind": "policy-question",
+              "question": "us-federal-positions:trade.raise-tariffs",
+              "operations": ["enact", "repeal"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Sanctions and export controls",
