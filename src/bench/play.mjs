@@ -23,7 +23,7 @@ import { pager } from "./ui/pager.mjs";
 import { officeScreen } from "./ui/office-screen.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
-import { plate, factPlates, chips } from "./ui/plate.mjs";
+import { plate, factPlates } from "./ui/plate.mjs";
 import { timeline } from "./ui/timeline.mjs";
 import { makeCard } from "./ui/card.mjs";
 import { townRow } from "./ui/town-row.mjs";
@@ -87,6 +87,7 @@ import {
   stripBoard,
   typedRow,
   departmentRow,
+  patchNotesScreen,
   savedLifeRow,
   leaderBlock,
   seatNumbers,
@@ -3247,89 +3248,46 @@ const sheets = {
     ];
   },
   /**
-   * The title's Patch notes: the release machinery's file, one release at a
-   * time, newest first (owner, Oct 28: "No reason anymore; get them in"). As
-   * the Guide: the release's changes as headline cards on a plate, the chosen
-   * change in full beside them, never a wall to scroll (owner, Oct 29).
+   * The title's Patch notes, as the Nov 8 front mock draws it (fr-notes): the builds in a
+   * strip at the left, newest first, and the chosen build's changes in a strip per heading
+   * (Changed, Improved, Fixed), each note's text under it. The release machinery's file is
+   * the only source; no card per note, no chips.
    */
   async patchNotes() {
     const { releases } = await api("/api/patch-notes");
-    let release = releases[0];
-    let chosen = 0;
-    const notesOf = (r) =>
-      (r?.groups ?? []).flatMap((group) =>
-        group.notes.map((note) => ({ ...note, group: group.heading })),
-      );
-    const cards = plate(null);
-    const article = plate(null);
-    article.classList.add("pick-article");
-    const drawArticle = () => {
-      const note = notesOf(release)[chosen];
-      // The chosen card is marked, as a chosen tab is.
-      for (const card of cards.querySelectorAll("[data-note]"))
-        card.classList.toggle("on", Number(card.dataset.note) === chosen);
-      article.replaceChildren(
-        ...(note
-          ? [
-              chips([{ text: note.group }]),
-              ...(note.title ? [heading(note.title, "h3")] : []),
-              prose(note.text, "article-text"),
-            ]
-          : []),
-      );
-    };
-    // The release's name is its own picker, newest first.
-    const which = select({
-      options: releases.map((r) => ({ value: r.version, label: r.title })),
-      value: release?.version,
-      label: controls.patchNotes?.release,
-      className: "release-pick",
-      onChange: (version) => {
-        release = releases.find((r) => r.version === version) ?? release;
-        chosen = 0;
-        drawCards();
-        drawArticle();
-      },
-    });
-    const drawCards = () => {
-      cards.replaceChildren(
-        which,
-        ...(release?.released ? [prose(release.released, "release-date")] : []),
-        pager({
-          items: notesOf(release).map((note, at) => ({
-            title: note.title ?? note.text,
-            lede: note.title ? note.text : "",
-            label: note.title ?? note.text,
-            onSelect: () => {
-              chosen = at;
-              drawArticle();
-            },
-            data: { note: String(at) },
-          })),
-          render: listEntry,
-          rows: Math.max(
-            3,
-            Math.min(8, Math.floor((window.innerHeight - 340) / 66)),
-          ),
-          columns: 1,
-          rowHeight: 58,
-          gap: 8,
-          words: {
-            page: controls.politics.page,
-            previous: controls.politics.previousPage,
-            next: controls.politics.nextPage,
-          },
-          className: "pick-cards note-cards",
-        }),
-      );
-    };
-    drawCards();
-    drawArticle();
+    const labels = controls.patchNotes ?? {};
     return [
-      splitScreen({
-        main: [cards],
-        side: [{ title: null, nodes: [article] }],
-        className: "patch-notes",
+      patchNotesScreen({
+        title: labels.builds,
+        rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
+        words: {
+          page: controls.politics.page,
+          previous: controls.politics.previousPage,
+          next: controls.politics.nextPage,
+        },
+        builds: releases.map((r) => ({
+          name: r.version,
+          // The release file says "Released November 8, 2026."; the list shows "Nov 8".
+          when: (() => {
+            const day = new Date(
+              String(r.released ?? "")
+                .replace(/^Released\s+/i, "")
+                .replace(/\.$/, ""),
+            );
+            return Number.isNaN(day.getTime())
+              ? ""
+              : day.toLocaleDateString("en-US", {
+                  month: "short",
+                  day: "numeric",
+                });
+          })(),
+          groups: (r.groups ?? []).map((group) => ({
+            heading: group.heading,
+            notes: group.notes.map((note) =>
+              [note.title, note.text].filter(Boolean).join(". "),
+            ),
+          })),
+        })),
       }),
     ];
   },

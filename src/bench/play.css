@@ -5277,6 +5277,19 @@ select.release-pick {
   color: #f2e6c9;
 }
 
+/* Patch notes (Nov 8 front mock, fr-notes): builds at the left, the notes in strips. */
+.strip-board .board-cols.two {
+  grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+}
+#game #sheet.options-sheet.strip-sheet {
+  width: min(1280px, calc(100vw - 2 * var(--gutter)));
+}
+#game #sheet.options-sheet.strip-sheet,
+#game #sheet.options-sheet.strip-sheet.fits {
+  width: min(1280px, calc(100vw - 2 * var(--gutter))) !important;
+  max-width: none !important;
+}
+
 /* Dev mode's memory rows: the record kind, the day learned, the day it fades. */
 .dev-memory-row {
   display: grid;
