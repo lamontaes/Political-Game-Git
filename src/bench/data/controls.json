@@ -123,6 +123,12 @@
     "newsToastSeconds": 8
   },
   "person": {
+    "whoIs": "Who {lower} is",
+    "whoAre": "Who they are",
+    "howISee": "How I see {object}",
+    "betweenUs": "Between us",
+    "herPeople": "{possessive} people",
+    "theirPeople": "Their people",
     "age": "Age",
     "work": "Work",
     "place": "Home",

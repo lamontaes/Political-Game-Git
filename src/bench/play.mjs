@@ -78,6 +78,7 @@ import {
   perkList,
   introText,
   peopleSentence,
+  dotRows,
 } from "./ui/strips.mjs";
 mountPanelHeads();
 mountCloseButtons();
@@ -1886,178 +1887,108 @@ async function showPerson(person) {
   personOpener = opener;
   closeSheet();
   const labels = controls.person;
-  // Only this person's supplied artwork. Null deliberately leaves a clear slot.
-  fillArtwork($("person-media"), {
-    portraitUrl:
-      c.presentation?.portraitUrl !== undefined
-        ? c.presentation.portraitUrl
-        : (c.figureUrl ?? person.figureUrl),
-    backgroundUrl: c.presentation?.backgroundUrl,
-    name: c.name,
-  });
+  // The approved person card (owner, Nov 7, item 54, "perfect"; the mock's per-hale): the
+  // You build about them. Their name over a bust; who they are, how you see them (only the
+  // leanings you could know, no strength), what is between you, their people and their
+  // public record, each under its header strip. "What people say about her" waits for a
+  // record of what people say (stopgap in the PR body).
   $("person-name").textContent = c.name;
-  $("person-role").textContent = [
-    c.relation && c.relation.charAt(0).toUpperCase() + c.relation.slice(1),
+  const known = c.publicKnowledge;
+  const stance = voteWords();
+  const pronoun = c.pronouns;
+  const fill = (text) =>
+    text.replace(/\{(\w+)\}/g, (_all, slot) => pronoun?.[slot] ?? "");
+  const heading = (key, theyKey) =>
+    pronoun ? fill(labels[key]) : labels[theyKey ?? key];
+  const capital = (text) => text.charAt(0).toUpperCase() + text.slice(1);
+  const role = [
+    c.relation && capital(c.relation),
+    known?.party,
     c.age !== null && c.age !== undefined ? `${labels.age} ${c.age}` : null,
   ]
     .filter((part) => part !== null && part !== undefined && part !== "")
     .join(" · ");
-  // Who they are now and where they come from, worded from their records.
-  $("person-summary").textContent = (c.summary ?? []).join(" ");
-  // What the public knows of a figure (the past module's public tier): read
-  // from the record, shown beside the tie if there is one.
-  const known = c.publicKnowledge;
-  const stance = voteWords();
-  // The card as the mock draws it, on framed plates (owner, Oct 29): what
-  // they are to you as chips, what they are like, small plates for their
-  // work, seats, home and school, then a tab rail over one plate: their
-  // history as a timeline, or their record. How they feel about you is never
-  // a meter or a mark (owner, Oct 29; OCD-LIFE-008, "never a visible
-  // meter"): it shows in what they do and what happened between you.
-  const together = [
-    ...(known?.party ? [{ text: known.party }] : []),
-    // What the two share, by the records the director's scenes read too. A
-    // tie with no name to give (living in the same home) is the words alone.
-    ...(c.shared ?? [])
-      .filter((s) => labels.sharedWords?.[s.kind])
-      .map((s) => ({
-        text: s.name
+  const sharedLines = (c.shared ?? [])
+    .filter((s) => labels.sharedWords?.[s.kind])
+    .map((s) =>
+      introText(
+        s.name
           ? `${labels.sharedWords[s.kind]} · ${s.name}`
           : labels.sharedWords[s.kind],
-        record: s.recordId,
-      })),
-  ];
-  // The seats they reached before the start, one plate per office from the
-  // first year they held it (each term is its own record).
-  const seats = [];
-  for (const s of c.seats ?? []) {
-    const held = seats.find((seat) => seat.office === s.office);
-    if (held) held.year = Math.min(held.year, s.year);
-    else if (s.office) seats.push({ ...s });
-  }
-  const facts = [
-    c.work && {
-      title: labels.work,
-      value: c.work.title ?? "",
-      note: c.work.employer ?? "",
-    },
-    ...seats.map((s) => ({
-      title: labels.seat,
-      value: s.office,
-      note: `${labels.since} ${s.year}`,
-      record: s.recordId,
-    })),
-    c.placeName && { title: labels.place, value: c.placeName },
-    c.school && { title: labels.school, value: c.school.name },
-  ].filter(Boolean);
-  // Their record: what the public knows of them, then the people they know
-  // in office, closest first, from their ties.
-  const record = [
-    known &&
-      section(
-        labels.publicRecordTitle,
-        // A fact the record does not hold (a named official's votes) is
-        // left out, never shown blank.
-        ...[
-          ["since", dateOrValue(known.serviceStart)],
-          ["votes", known.votesOnRecord],
-          ["sponsored", known.lawsSponsored],
-          ["signed", known.lawsSigned],
-        ]
-          .filter(([, value]) => value !== null && value !== undefined)
-          .map(([key, value]) => row(labels.publicRecord[key], value)),
-        ...known.positions.map((p) =>
-          row(
-            policyLabel(p.question),
-            p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
-          ),
-        ),
       ),
-    c.colleagues &&
-      section(
-        labels.knows,
-        c.colleagues.length
-          ? factPlates(
-              c.colleagues.map((k) => ({
-                title: k.office,
-                value: k.name,
-                // How they know them; plain acquaintance goes unsaid.
-                note:
-                  k.level < 0
-                    ? labels.rival
-                    : k.kind === "contact"
-                      ? ""
-                      : (labels.tieWords?.[k.kind] ?? ""),
-                record: k.recordId,
-              })),
-            )
-          : prose(labels.noColleagues),
-      ),
-  ].filter((node) => node && node.childElementCount > 1);
-  // Their history from the records, oldest first (owner, Oct 28), down a
-  // timeline that pages by chapter of years to fill the plate, never a
-  // scroll (owner, Oct 29).
-  const tabs = [
-    c.history?.length && {
-      key: "history",
-      draw: (room) => [
-        timeline({
-          entries: c.history.map((h) => ({
-            year: h.date.slice(0, 4),
-            text: h.text,
-            kind: h.kind,
-            recordId: h.recordId,
-          })),
-          rows: Math.max(2, Math.floor((room + 6) / 64)),
-          words: { previous: labels.earlier, next: labels.later },
-        }),
-      ],
-    },
-    record.length && { key: "record", draw: () => record },
-  ].filter(Boolean);
-  // One tab alone is named on its plate instead of a rail of one.
-  const single = tabs.length === 1;
-  const body = plate(single ? labels[tabs[0].key] : null);
-  body.classList.add("person-tab");
-  const title = body.firstElementChild;
-  let chosen = tabs[0]?.key;
-  const rail = single
-    ? null
-    : tabBar({
-        attr: "personTab",
-        active: chosen,
-        tabs: tabs.map((tab) => ({
-          key: tab.key,
-          label: labels[tab.key],
-          onSelect: () => {
-            chosen = tab.key;
-            drawTab();
-          },
-        })),
-      });
-  function drawTab() {
-    // The room the plate has, less its padding, title and the pager's arrows.
-    const room = body.clientHeight - 64 - (title ? title.offsetHeight + 9 : 0);
-    body.replaceChildren(
-      ...(title ? [title] : []),
-      ...(tabs.find((tab) => tab.key === chosen)?.draw(room) ?? []),
     );
-    if (rail) chooseTab(rail, "personTab", chosen);
-  }
-  $("person-facts").replaceChildren(
-    ...(together.length ? [chips(together)] : []),
-    ...(c.sketch ? [prose(c.sketch, "screen-lede")] : []),
-    ...(facts.length ? [factPlates(facts)] : []),
-    ...(rail ? [rail] : []),
-    ...(tabs.length ? [body] : []),
+  // Their public record, from the past module's public tier: a fact the record does not hold is left out.
+  const recordRows = known
+    ? [
+        ["since", dateOrValue(known.serviceStart)],
+        ["votes", known.votesOnRecord],
+        ["sponsored", known.lawsSponsored],
+        ["signed", known.lawsSigned],
+      ]
+        .filter(([, value]) => value !== null && value !== undefined)
+        .map(([key, value]) => ({
+          label: labels.publicRecord[key],
+          value: String(value),
+        }))
+        .concat(
+          known.positions.map((p) => ({
+            label: policyLabel(p.question),
+            value: p.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
+          })),
+        )
+    : [];
+  const people = peopleSentence(
+    (c.colleagues ?? []).map((k) => ({
+      name: k.name,
+      relation: k.office,
+      onOpen: () => showPerson({ personId: k.personId }),
+    })),
   );
-  for (const button of document.querySelectorAll("[data-person-label]"))
-    button.textContent = labels[button.dataset.personLabel];
+  const firstColumn = [
+    ...(c.summary?.length
+      ? [
+          stripSection(
+            1,
+            heading("whoIs", "whoAre"),
+            introText(c.summary.join(" ")),
+          ),
+        ]
+      : []),
+    ...(c.traitLines?.length
+      ? [
+          stripSection(
+            2,
+            heading("howISee"),
+            perkList(
+              c.traitLines.map((t) => ({ name: t.label, line: t.line })),
+            ),
+          ),
+        ]
+      : []),
+    ...(sharedLines.length
+      ? [stripSection(5, labels.betweenUs, ...sharedLines)]
+      : []),
+  ];
+  const secondColumn = [
+    ...(people
+      ? [stripSection(3, capital(heading("herPeople", "theirPeople")), people)]
+      : []),
+    ...(recordRows.length
+      ? [stripSection(4, labels.publicRecordTitle, dotRows(recordRows))]
+      : []),
+  ];
+  $("person-facts").replaceChildren(
+    stripScreen({
+      name: c.name,
+      role,
+      face: c.face ?? null,
+      columns: secondColumn.length
+        ? [firstColumn, secondColumn]
+        : [firstColumn],
+    }),
+  );
   show("person", true);
   $("game").classList.add("person-open");
-  // The timeline counts its rows from the plate's height, so it draws once
-  // the card is open.
-  if (tabs.length) drawTab();
   $("person-close").focus();
 }
 $("person-close").addEventListener("click", closePerson);
