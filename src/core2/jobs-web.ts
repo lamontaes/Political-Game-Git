@@ -394,23 +394,6 @@ export function inGroup(
   );
 }
 
-/**
- * The staff multiplier for an employer's low-wage jobs: one plus the share of
- * its staff paid under the line times the web's factor less one, so the
- * employer's own target moves with the policy exactly as far as its staff is
- * low-wage. `low` and `total` are the employer's heads under and in all.
- */
-// stopgapId: SG-LABOR-low-wage-unreviewed
-export function lowWageStaffFactor(
-  api: CoreAPI,
-  placeId: string,
-  low: number,
-  total: number,
-): number {
-  if (total <= 0 || low <= 0) return 1;
-  return 1 + (low / total) * (webFactorFor(api, placeId, LOW_WAGE_JOBS) - 1);
-}
-
 /** The links this family cannot yet wire, marked where the jobs engine runs. */
 export function markUnwiredLaborLinks(): void {
   stopgap("SG-LABOR-person-exposure");
