@@ -9,7 +9,11 @@ import {
   partnershipsModule,
   UNION_FACT,
 } from "./modules/partnerships";
-import { partneringPerYear, partnershipGeo } from "./opening-partnership";
+import {
+  partnerAgeLikelihood,
+  partneringPerYear,
+  partnershipGeo,
+} from "./opening-partnership";
 import { registerModule } from "./state";
 import { drawPlace } from "../../tests/golden-path/place";
 import { generatedOpening } from "./tooling/generated-world";
@@ -82,13 +86,49 @@ if (process.env.PARTNERSHIPS_REPORT)
   );
 
 describe(`couples in the town of ${input.placeMetadata?.placeName} over ${YEARS} years (seed ${seed})`, () => {
-  it("forms couples among the town's singles at about the chain's pace", () => {
+  it("forms couples from the town's singles, each union explained by its records", () => {
     expect(singles.length).toBeGreaterThan(10);
-    const expected = expectedPerYear * YEARS;
-    const spread = 3 * Math.sqrt(expected);
     expect(unions.length).toBeGreaterThan(0);
-    expect(unions.length).toBeGreaterThanOrEqual(0.7 * expected - spread);
-    expect(unions.length).toBeLessThanOrEqual(1.3 * expected + spread);
+    // The chain's pace is reported, never a band the run must land in (owner,
+    // Nov 8): a union passes when its records explain it.
+    console.log(
+      `${input.placeMetadata?.placeName} (seed ${seed}): ${unions.length} unions in ${YEARS} years, the chain's pace for these singles ${(expectedPerYear * YEARS).toFixed(1)}`,
+    );
+    const single = new Set(singles.map((row) => row.id));
+    for (const row of unions) {
+      const [a, b] = row.personIds.map((id) => core.people.get(id)!);
+      // Two town adults, a union fact on the record, and at least one of them
+      // was one of the opening's singles (the other may be a wider-population
+      // partner who shared their home).
+      expect(row.personIds.length, row.id).toBe(2);
+      expect(
+        ageOnDate(makeIsoDate(a!.birthDate), makeIsoDate(row.date)),
+        row.id,
+      ).toBeGreaterThanOrEqual(18);
+      expect(
+        ageOnDate(makeIsoDate(b!.birthDate), makeIsoDate(row.date)),
+        row.id,
+      ).toBeGreaterThanOrEqual(18);
+      expect(
+        row.personIds.some((id) => single.has(id)) ||
+          row.personIds.some((id) => partnered(id)),
+        row.id,
+      ).toBe(true);
+      // The age fit the chain's own table gives the pair is above zero: a
+      // couple the pull picked, not any two singles.
+      const sexA = a!.looks?.gender as "female" | "male" | undefined;
+      const sexB = b!.looks?.gender as "female" | "male" | undefined;
+      if (sexA && sexB && single.has(a!.id) && single.has(b!.id))
+        expect(
+          partnerAgeLikelihood(
+            ageOnDate(makeIsoDate(a!.birthDate), makeIsoDate(row.date)),
+            sexA,
+            ageOnDate(makeIsoDate(b!.birthDate), makeIsoDate(row.date)),
+            sexB,
+          ),
+          `${row.id}: ages the chain gives no weight`,
+        ).toBeGreaterThan(0);
+    }
   });
 
   it("moves a couple into one household, then engages and marries them, each with its own dated record", () => {
