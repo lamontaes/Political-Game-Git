@@ -2077,7 +2077,7 @@ async function showPerson(person) {
   if (memory) secondColumn.push(memory);
   if (devModeOn())
     secondColumn.push(
-      devPersonSection({
+      await devPersonSection({
         personId: person.personId,
         labels: controls.devPerson,
         onDone: () => refresh(),
