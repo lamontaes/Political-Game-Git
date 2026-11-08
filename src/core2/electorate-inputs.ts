@@ -122,6 +122,27 @@ export interface CandidateReasons {
   readonly total: number;
 }
 
+/**
+ * The two-party share the president's party is expected to lose this cycle,
+ * in parts (positive loses): the national economy's pull (all of it for a
+ * federal office, a share for state offices) and the midterm penalty. The
+ * one formula the count and the decision to run both read.
+ */
+export function tideAgainstPresident(
+  national: RaceConditions["national"],
+  federal: boolean,
+  cycle: RaceConditions["cycle"],
+): { readonly economy: number; readonly midterm: number } {
+  const p = electorateParameter;
+  return {
+    economy:
+      (federal ? 1 : p("downBallotNationalShare")) *
+      (p("unemploymentShare") * national.unemploymentChange +
+        p("inflationShare") * national.inflationChange),
+    midterm: cycle === "midterm" ? campaignParameter("midtermSwing") : 0,
+  };
+}
+
 /** Each candidate's public standing, from their inputs and the race's conditions. */
 export function candidateReasons(
   candidate: CandidateInputs,
@@ -140,15 +161,13 @@ export function candidateReasons(
             p("spendingFloorShareOfTypical") * typical,
           ) / typical,
         );
-  const economy = candidate.presidentsParty
-    ? -(conditions.federal ? 1 : p("downBallotNationalShare")) *
-      (p("unemploymentShare") * conditions.national.unemploymentChange +
-        p("inflationShare") * conditions.national.inflationChange)
-    : 0;
-  const midterm =
-    candidate.presidentsParty && conditions.cycle === "midterm"
-      ? -campaignParameter("midtermSwing")
-      : 0;
+  const tide = tideAgainstPresident(
+    conditions.national,
+    conditions.federal,
+    conditions.cycle,
+  );
+  const economy = candidate.presidentsParty ? -tide.economy : 0;
+  const midterm = candidate.presidentsParty ? -tide.midterm : 0;
   const local =
     candidate.seatPartyHolder && conditions.town
       ? -(

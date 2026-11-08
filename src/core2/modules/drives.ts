@@ -2160,7 +2160,6 @@ export function createDrivesModule(
         const actor = api.state.people.get(actorId)!;
         traceAct(api, actorId, offer, drive);
         const id = `organization:${data.causeGroupKind}:${actorId}:${drive.id}`;
-        api.stopgap("SG-P10-group-name-key");
         api.addOrganization({
           id,
           placeId: actor.placeId,
