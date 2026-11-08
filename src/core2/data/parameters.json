@@ -65,6 +65,40 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "talkMinutesPerLine": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends. A pacing choice, not a measured rate; no source has been fetched for it.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "minutes per line",
+      "citation": "From a quick exchange to a long answer; to be checked against American Time Use Survey conversation lengths once fetched."
+    }
+  },
+  "tripMinutes": {
+    "value": 17,
+    "tag": "ESTIMATED",
+    "citation": "Summary of Travel Trends: 2022 National Household Travel Survey (https://nhts.ornl.gov/assets/2022/pub/2022_NHTS_Summary_Travel_Trends.pdf, fetched Nov 8, 2026). Table 3-3, average person trip length by purpose, 2022: shopping 5.8 miles and family/personal errands 8.6 miles. Table 7-4, average commute speed, 2022: 25.51 miles per hour for all modes, 26.59 for a privately owned vehicle.",
+    "estimatedFrom": "The survey's summary gives trip length by purpose and speed for commutes, not trip time by purpose: 5.8 miles at about 25 miles per hour is 14 minutes (shopping) and 8.6 miles is 20 minutes (errands); 17 minutes is between them. Every trip to a place in town takes this, because the records hold no distance between two places (SG-PLAY-trip-time-average); a place's own distance and travel speed replace it.",
+    "spread": {
+      "low": 14,
+      "high": 21,
+      "unit": "minutes",
+      "citation": "NHTS 2022 Table 3-3 trip lengths (shopping, errands) over the Table 7-4 speeds (25.51 to 26.59 miles per hour)."
+    }
+  },
+  "visitHours": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The hours a visit to a place in town (a shop, a school, an office, a diner) takes the player: one hour spent there, so the clock moves and the people at the next place are the ones there at that hour (Nov 8: visits, talks and trips spend game time). Checked against the American Time Use Survey's Using Government Services, 0.91 hours for the people who did it that day (the lookupHours row), and shopping, under an hour a trip.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "hours",
+      "citation": "From a short errand to the ATUS hour for government services."
+    }
+  },
   "filingVisitHours": {
     "value": 3,
     "tag": "TUNABLE",

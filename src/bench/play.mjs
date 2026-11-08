@@ -2405,6 +2405,8 @@ async function visit(organizationId) {
   $("backdrop").src = v.backdrop.url;
   drawPeople(v.people, (p) => talkTo(p.personId));
   $("card-place").textContent = v.name;
+  // The visit's hour moved the clock: the card shows the new time.
+  if (v.packet) renderPacket(v.packet);
 }
 
 // ---- Play someone else: the one you leave finishes their day ----
