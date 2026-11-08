@@ -967,6 +967,12 @@
     "debate": "Debate",
     "speech": "Give a speech"
   },
+  "nominations": {
+    "own": "Decided for me",
+    "nominate": "Nominate",
+    "leave": "Leave it open",
+    "nobody": "No one is available to nominate"
+  },
   "orders": {
     "issue": "Issue the order",
     "revoke": "Revoke the order",
