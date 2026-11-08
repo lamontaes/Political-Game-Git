@@ -42,7 +42,11 @@ import {
   residentsRuntime,
 } from "../../src/core2/modules/residents";
 import { departuresSeen, watchDepartures } from "../../src/core2/modules/moves";
-import { budgetsOf, governments } from "../../src/core2/modules/budgets";
+import {
+  budgetsOf,
+  governments,
+  lineChangedInYear,
+} from "../../src/core2/modules/budgets";
 import { LEGISLATURE_MODULE_ID } from "../../src/core2/modules/legislature";
 import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import {
@@ -110,6 +114,28 @@ const importHeapMiB = heapMiB();
 const LOAN_TO_FOUNDER_CASH = 9;
 const SCHOOL_AGES = [5, 17] as const;
 const ROUTINE_ACTS = new Set(["rest", "contact-known-person"]);
+
+/**
+ * Modules that wait for a cause an ordinary year may not raise (M0-13, CTO
+ * ruling Nov 8). Each is listed only because `src/core2/forced-causes.test.ts`
+ * forces its cause in a played world and shows the module acting on it. Such a
+ * module idle in the year reads "unobserved", not broken. Every other module
+ * idle or unchanged is still broken; add a module here only with its forced test.
+ */
+const CAUSE_GATED: Record<string, string> = {
+  "core2-ballot-measures-v1": "a measure placed on a ballot",
+  "core2-estates-v1": "a person of means dying",
+  "core2-executive-v1": "an appointed post losing its holder",
+  // Forced by src/core2/recalls.test.ts (an ordinance starts a recall).
+  "core2-recalls-v1":
+    "an ordinance that aggrieves enough residents to petition",
+  // Forced in a played world by src/core2/succession.test.ts (the president dies).
+  "core2-succession-v1": "a president or vice president dying",
+  // Forced by src/core2/office-day-federal.test.ts (a federal office day).
+  "core2-office-day-federal-v1": "a federal officeholder's working day",
+  // Forced by src/bench/dev-bribe.test.ts (dev mode's forced bribe).
+  corruption: "an official offered a bribe",
+};
 
 /**
  * Assertions failing today, by the session fixing each. When a fix makes one
@@ -423,12 +449,22 @@ function playWorld(seed: string) {
   const unchanged = [...recordsAtEnd.keys()].filter(
     (id) => recordsAtEnd.get(id) === recordsAtStart.get(id),
   );
+  const gatedIdle = [...new Set([...idle, ...unchanged])].filter(
+    (id) => id in CAUSE_GATED,
+  );
+  const idleBroken = idle.filter((id) => !(id in CAUSE_GATED));
+  const unchangedBroken = unchanged.filter((id) => !(id in CAUSE_GATED));
+  const unobservedNote = gatedIdle.length
+    ? ` Unobserved (cause did not arise; a forced test proves it): ${gatedIdle.map((id) => `${id} waits for ${CAUSE_GATED[id]}`).join("; ")}.`
+    : "";
   verdicts["every module"] =
-    idle.length || unchanged.length
+    idleBroken.length || unchangedBroken.length
       ? fail(
-          `Installed modules that never ran: ${idle.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchanged.join(", ") || "none"}.`,
+          `Installed modules that never ran: ${idleBroken.join(", ") || "none"}; modules whose records never changed in ${years} year(s): ${unchangedBroken.join(", ") || "none"}.${unobservedNote}`,
         )
-      : pass(`all ${engines.length} engines ran and changed their records`);
+      : gatedIdle.length
+        ? unobserved(unobservedNote.trim())
+        : pass(`all ${engines.length} engines ran and changed their records`);
   const missing = [
     ...(worldRacesOpen(coreAPI(core)) ? [] : ["the world's races"]),
     ...[WORLD_LEGISLATING_MODULE_ID, OUTCOME_WEB_MODULE_ID].filter(
@@ -534,6 +570,25 @@ function playWorld(seed: string) {
   const unchangedBudgets = passedBudgets.filter(
     (bill) =>
       !budgets.some((adopted) => {
+        // A mid-year amendment (a local body's budget-line bill) reaches
+        // spending through the budget it amends: that budget names the bill
+        // and the government's enacted record carries a change on one of the
+        // bill's lines in that fiscal year.
+        if (
+          adopted.adoptedBy.includes(`amended by ${String(bill.number)}`) &&
+          ((bill.provisions as { line?: string; value?: number }[]) ?? []).some(
+            (p) =>
+              p.line &&
+              p.value &&
+              lineChangedInYear(
+                api,
+                adopted.governmentId,
+                adopted.fiscalYear,
+                p.line,
+              ) !== 0,
+          )
+        )
+          return true;
         if (
           adopted.adoptedOn < String(bill.introduced) ||
           // Amendments after adoption are appended ("; amended by ...").
@@ -824,10 +879,14 @@ function playWorld(seed: string) {
   const dwellings = rowsOf(core, "housing", "dwellings");
   // A former home (evicted, foreclosed or sold) keeps the last rent or value
   // of how the household held it (src/core2/housing-former-home.ts).
-  const unpriced = dwellings.filter((d) =>
-    d.tenure === "rent" || d.formerTenure === "rent"
-      ? !Number(d.rentMinor)
-      : !Number(d.valueMinor),
+  // A group-quarters room (a cell, a barracks bed, a dormitory double) is the
+  // institution's, held by no household's rent or value, so it has neither.
+  const unpriced = dwellings.filter(
+    (d) =>
+      d.tenure !== "group" &&
+      (d.tenure === "rent" || d.formerTenure === "rent"
+        ? !Number(d.rentMinor)
+        : !Number(d.valueMinor)),
   );
   const renters = dwellings.filter((d) => d.tenure === "rent");
   // A rented home is required only where the records expect a renter

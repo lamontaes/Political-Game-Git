@@ -59,7 +59,7 @@ def optional(name):
 
 
 def row(jurisdiction, level, series, value, effective, end, source, estimate,
-        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED):
+        tier="general", unit=None, terms=None, note=None, retrieved=RETRIEVED, calibration=False):
     out = {
         "jurisdiction": jurisdiction,
         "level": level,
@@ -72,6 +72,8 @@ def row(jurisdiction, level, series, value, effective, end, source, estimate,
         "retrieved": retrieved,
         "estimate": bool(estimate),
     }
+    if calibration:
+        out["calibration"] = True
     if unit:
         out["unit"] = unit
     if terms is not None:
@@ -161,6 +163,37 @@ def payroll_taxes(rows):
     rows.append(row("US", "federal", "medicare-tax", 1.45, "2013-01-01", FOREVER,
                     "26 U.S.C. 3101(b)(1); additional 0.9% on wages over $200,000 for a single filer, 26 U.S.C. 3101(b)(2)",
                     False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
+
+
+def campaign_finance(rows):
+    """The federal limit on an individual's gift to a candidate, from the campaign finance research."""
+    finance = load(RESEARCH / "campaigns/campaign-finance-2026.json")["federal"]["individualToCandidate"]
+    rows.append(row("US", "federal", "federal-campaign-contribution-limit", finance["usd"], "2025-01-01", FOREVER,
+                    f"52 U.S.C. 30116(a)(1)(A); {finance['source']} {finance['sourceUrl']}",
+                    finance["estimate"], unit="USD/election",
+                    terms={"basis": finance["basis"], "cycle": finance["cycle"]},
+                    retrieved=finance["retrievedDate"]))
+    # Each state's limit on a gift to a candidate, by office, where the research gives a number
+    # ("unlimited" and "set by locality" have no amount to hold and keep the research's own answer).
+    limits = load(RESEARCH / "campaigns/campaign-finance-2026.json")["limits"]
+    for state, offices in sorted(limits.items()):
+        for office, series in STATE_CONTRIBUTION_SERIES.items():
+            item = offices.get(office)
+            if not isinstance(item, dict) or not isinstance(item.get("usd"), (int, float)):
+                continue
+            rows.append(row(state, "state", series, item["usd"], "2025-01-01", FOREVER,
+                            "; ".join(x for x in (item.get("source"), item.get("sourceUrl"), offices.get("statute")) if x),
+                            bool(item.get("estimate", False)), unit="USD/election",
+                            terms={"basis": item.get("basis", offices.get("basis", "n/a"))},
+                            retrieved="2026-10-12"))
+
+
+STATE_CONTRIBUTION_SERIES = {
+    "governor": "state-contribution-limit-governor",
+    "stateSenate": "state-contribution-limit-state-senate",
+    "stateHouse": "state-contribution-limit-state-house",
+    "local": "state-contribution-limit-local",
+}
 
 
 def business_taxes(rows):
@@ -331,7 +364,7 @@ def sales_taxes(rows):
                         note=place.get("note")))
         if place.get("localAllowed") and place.get("avgLocalRate") is not None:
             rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2026-01-01",
-                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent",
+                            FOREVER, place.get("avgLocalRateSource", source), True, unit="percent", calibration=True,
                             terms={"spreadLow": place.get("localRateMin"), "spreadHigh": place.get("localRateMax"),
                                    "appliesAs": "the state's average local rate: this place's own rate is not sampled"}))
         for sample in place.get("samples", []):
@@ -463,7 +496,7 @@ def start_phases(rows):
                         retrieved=sales["retrievedOn"]))
         if later.get(state, {}).get("localAllowed") and later[state].get("avgLocalRate") is not None:
             rows.append(row(state, "state", "local-sales-tax-average", place["avgLocalRate"], "2025-01-01",
-                            FOREVER, sales["sourceUrl"], True, unit="percent",
+                            FOREVER, sales["sourceUrl"], True, unit="percent", calibration=True,
                             terms={"spreadLow": later[state].get("localRateMin"), "spreadHigh": place["maxLocalRate"],
                                    "appliesAs": "the state's average local rate: this place's own rate is not sampled"},
                             retrieved=sales["retrievedOn"]))
@@ -538,6 +571,7 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    campaign_finance(rows)
     death_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
@@ -546,14 +580,17 @@ def main():
     start_phases(rows)
     rows = dated(rows)
     by_jurisdiction = {}
+    calibrations = {}
     for item in rows:
         key = item.pop("jurisdiction")
-        by_jurisdiction.setdefault(key, []).append(item)
+        target = calibrations if item.pop("calibration", False) else by_jurisdiction
+        target.setdefault(key, []).append(item)
     document = {
         "id": "starting-law-in-force-2026",
         "about": "Law in force at every level for each place, from the sourced research files. Built by scripts/research/build-starting-law.py; edit the research, not this file.",
         "built": RETRIEVED,
         "jurisdictions": dict(sorted(by_jurisdiction.items())),
+        "calibrations": dict(sorted(calibrations.items())),
         "propertyTax": property_taxes(),
     }
     OUT.parent.mkdir(parents=True, exist_ok=True)

@@ -13,14 +13,31 @@
  * - additive (income and sales tax): every level's tax applies together.
  * - single (property tax, benefit amounts): one level sets it.
  */
+import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import {
   lawInForceFromCandidates,
   type LawCandidate,
 } from "../rules/laws/law-in-force";
 import { minimumWageSettingFromFacts } from "../rules/laws/minimum-wage-setting";
 import type { LawChain, LawLevelName, LawRowInput } from "./laws-starting";
+import { governmentUnit } from "./reference/government-units";
 
 export type LawDoctrine = "floor" | "additive" | "single";
+
+// Federal authority alone does not establish preemption. Each conflicting
+// value and its statutory basis are explicit in the shared question data.
+const QUESTION_POWERS = questionPowers.questions as Readonly<
+  Record<
+    string,
+    {
+      federalPreemption?: {
+        whenValue: number;
+        source: string;
+        excludedStateKeys?: readonly string[];
+      };
+    }
+  >
+>;
 
 export const LAW_SERIES: Readonly<Record<string, LawDoctrine>> = {
   "minimum-wage": "floor",
@@ -73,6 +90,37 @@ export function inTownChain(
   return chain.levels.some((level) => level.jurisdiction === jurisdiction);
 }
 
+/** The law key of the government an office serves, including outside offices. */
+export function officeLawJurisdiction(
+  chain: Pick<LawChain, "levels">,
+  office: {
+    readonly level: LawLevelName;
+    readonly jurisdiction: string;
+    readonly coversTown?: boolean;
+  },
+): string {
+  if (office.level === "federal") return "US";
+  if (office.level === "state" || office.level === "township")
+    return office.jurisdiction;
+  const unit = governmentUnit(office.jurisdiction);
+  const city = chain.levels[chain.levels.length - 1]!.jurisdiction;
+  if (office.level === "county") {
+    const own = unit?.countyGeoid ? `county:${unit.countyGeoid}` : null;
+    if (office.coversTown === false) return own ?? office.jurisdiction;
+    if (own && inTownChain(chain, own)) return own;
+    // Some county-level bodies make city law where the chain has no county.
+    return (
+      chain.levels.find((level) => level.level === "county")?.jurisdiction ??
+      city
+    );
+  }
+  return office.coversTown !== false
+    ? city
+    : unit?.placeGeoid
+      ? `place:${unit.placeGeoid}`
+      : office.jurisdiction;
+}
+
 export function inForceOn(row: LawRowInput, date: string): boolean {
   return (
     row.effectiveDate <= date && (row.endDate === null || date < row.endDate)
@@ -92,6 +140,23 @@ function tierFits(row: LawRowInput, chain: LawChain): number {
   return row.tier === "general" ? 1 : 0;
 }
 
+/** Later acts replace older acts; the phases inside one bill follow their dates. */
+export function lawRowIsLater(row: LawRowInput, prior: LawRowInput): boolean {
+  const enacted = row.terms?.enactedBy !== undefined;
+  const priorEnacted = prior.terms?.enactedBy !== undefined;
+  if (enacted !== priorEnacted) return enacted;
+  const order = Number(row.terms?.enactedSequence ?? 0);
+  const priorOrder = Number(prior.terms?.enactedSequence ?? 0);
+  const sameBill =
+    row.terms?.enactedByBill !== undefined &&
+    row.terms.enactedByBill === prior.terms?.enactedByBill;
+  if (enacted && !sameBill && order !== priorOrder) return order > priorOrder;
+  return (
+    row.effectiveDate > prior.effectiveDate ||
+    (row.effectiveDate === prior.effectiveDate && order > priorOrder)
+  );
+}
+
 function levelRow(
   rows: readonly LawRowInput[],
   jurisdiction: string,
@@ -100,10 +165,18 @@ function levelRow(
   date: string,
 ): LawRowInput | null {
   let best: LawRowInput | null = null;
+  let enacted: LawRowInput | null = null;
   let bestFit = 0;
   for (const row of rows) {
     if (row.jurisdiction !== jurisdiction || row.level !== level) continue;
     if (!inForceOn(row, date)) continue;
+    // An act replaces the opening phases, including later dated phases.
+    // Find the latest act in this pass without allocating and sorting rows.
+    if (
+      row.terms?.enactedBy !== undefined &&
+      (!enacted || lawRowIsLater(row, enacted))
+    )
+      enacted = row;
     // A county ordinance that covers only unincorporated areas skips a city.
     if (chain.incorporated && row.terms?.coversUnincorporatedOnly === true)
       continue;
@@ -119,19 +192,6 @@ function levelRow(
       bestFit = fit;
     }
   }
-  // A statute enacted in play amends the level's law outright: from its
-  // effective date it replaces any older row, tiered or not, and it stands
-  // against a row the data dated later (the seed is not a prewritten future
-  // that ignores what the town decided); only a later enactment replaces it.
-  const enacted = rows
-    .filter(
-      (row) =>
-        row.jurisdiction === jurisdiction &&
-        row.level === level &&
-        row.terms?.enactedBy !== undefined &&
-        inForceOn(row, date),
-    )
-    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
   return enacted ?? best;
 }
 
@@ -216,10 +276,24 @@ export function resolveLawInForce(input: {
   readonly chain: LawChain;
   readonly date: string;
   readonly rows: readonly LawRowInput[];
+  /** Survey fallback, used only when no actual law supplies the amount. */
+  readonly calibrationRows?: readonly LawRowInput[];
   readonly authorityRows?: readonly LawRowInput[];
   readonly enactedAuthority?: readonly EnactedAuthority[];
   /** For sales tax: the state's average local rate, when the place has no local row. */
   readonly localAverage?: readonly LawRowInput[];
+  /**
+   * For the income tax: the state's grant of local income-tax authority in
+   * force on the date (a row at 1 grants, at 0 withdraws), or null when the
+   * state has no row. A town's tax is set aside while the state's row says no.
+   */
+  readonly localTaxGrant?: LawRowInput | null;
+  /**
+   * For a policy question: the state bars its places from making their own
+   * rule (the research's `preempts`). A town's or county's row is then set
+   * aside, so a lower level never overrules a higher one.
+   */
+  readonly statePreempts?: boolean;
 }): LawInForceAnswer {
   const { series, chain, date, rows } = input;
   const doctrine = LAW_SERIES[series] ?? "single";
@@ -240,12 +314,40 @@ export function resolveLawInForce(input: {
   );
   if (federalForState) {
     const index = levels.findIndex((l) => l.level === "federal");
-    levels[index] = {
-      ...levels[index]!,
-      jurisdiction: chain.stateKey,
-      row: federalForState,
-    };
+    const general = levels[index]!.row;
+    const sameAct =
+      general?.terms?.enactedByBill !== undefined &&
+      general.terms.enactedByBill === federalForState.terms?.enactedByBill;
+    // Research keeps the state's particular federal amount. An explicit
+    // nationwide amount enacted later replaces it under the same act-order
+    // rule as every other law. A specific section of that same act remains
+    // its exception, regardless of the order the sections were written.
+    const laterGeneralAct =
+      general?.terms?.enactedBy !== undefined &&
+      !sameAct &&
+      lawRowIsLater(general, federalForState);
+    if (!laterGeneralAct)
+      levels[index] = {
+        ...levels[index]!,
+        jurisdiction: chain.stateKey,
+        row: federalForState,
+      };
   }
+
+  // A combined survey amount is not one government's statute. It supplies
+  // the initial estimate only until an actual dated law supplies this series.
+  if (!levels.some((l) => l.row) && input.calibrationRows)
+    for (const [index, l] of levels.entries()) {
+      const estimate = levelRow(
+        input.calibrationRows,
+        l.jurisdiction,
+        l.level,
+        chain,
+        date,
+      );
+      if (estimate) levels[index] = { ...l, row: estimate };
+    }
+
   if (series === "sales-tax" && input.localAverage) {
     const hasLocal = levels.some(
       (l) => (l.level === "city" || l.level === "county") && l.row,
@@ -325,6 +427,15 @@ export function resolveLawInForce(input: {
             ...l,
             setAside: "the territory's own income tax applies in its place",
           };
+    // A town's income tax stands only while the state's grant does: when a
+    // state law takes the power away, the town's tax stops on that date.
+    if (series === "income-tax" && input.localTaxGrant?.value === 0)
+      for (const [index, l] of levels.entries())
+        if (l.row && l.level !== "federal" && l.level !== "state")
+          levels[index] = {
+            ...l,
+            setAside: "state law gives its places no income-tax power",
+          };
     const applying = levels.filter(
       (l) => l.row && l.row.value !== null && !l.setAside,
     );
@@ -333,7 +444,40 @@ export function resolveLawInForce(input: {
       : null;
     governing = applying[applying.length - 1]?.row ?? null;
   } else {
-    const applying = [...levels].reverse().find((l) => l.row);
+    // The same sourced rule governs opening and enacted federal law. A
+    // repeal ceases to preempt, so the lower level's existing answer returns.
+    const preemption = QUESTION_POWERS[series]?.federalPreemption;
+    if (preemption?.excludedStateKeys?.includes(chain.stateKey))
+      for (const [index, l] of levels.entries())
+        if (l.level === "federal" && l.row)
+          levels[index] = {
+            ...l,
+            setAside:
+              "this federal requirement does not cover the jurisdiction",
+          };
+    const mandate =
+      preemption &&
+      levels.find(
+        (l) =>
+          l.level === "federal" &&
+          !l.setAside &&
+          l.row?.value === preemption.whenValue,
+      );
+    if (mandate)
+      for (const [index, l] of levels.entries())
+        if (l !== mandate && l.row)
+          levels[index] = {
+            ...l,
+            setAside: "federal law requires this in every state",
+          };
+    if (input.statePreempts === true)
+      for (const [index, l] of levels.entries())
+        if (l.row && l.level !== "federal" && l.level !== "state")
+          levels[index] = {
+            ...l,
+            setAside: "state law bars its places from making this rule",
+          };
+    const applying = [...levels].reverse().find((l) => l.row && !l.setAside);
     governing = applying?.row ?? null;
     value = governing?.value ?? null;
   }

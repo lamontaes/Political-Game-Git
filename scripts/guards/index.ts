@@ -105,6 +105,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/kit-only-ui.test.ts"),
   },
   {
+    id: "no-steering",
+    rule: "A measure moves because something in the world caused it: no step code pulls it toward a level, a researched figure or a higher place's value, or clamps an outcome to a range; every parameter row names its role; the known lists only shrink.",
+    readMore:
+      "tests/guards/no-steering.test.ts; the owner's rule that real ranges are not targets",
+    command: vitest("tests/guards/no-steering.test.ts"),
+  },
+  {
     id: "canned-content",
     rule: "No hand-written player text in code; removed canned content stays removed.",
     readMore: ".claude/skills/player-screen-text/SKILL.md",

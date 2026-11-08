@@ -14,7 +14,13 @@
  *             `none`); `calibration.json` ties traits to bearings.
  *   register  the class of the bank's register (`registerClasses` in
  *             `calibration.json`): public address, private talk, broadcast,
- *             narration.
+ *             narration. The class belongs to the bank, never to a kind of
+ *             scene, so a grade reaches every line of the same pattern, voice
+ *             and register across the whole game (owner, Nov 8, 2:10 p.m.:
+ *             English engine updates "should impact the entire game, with it
+ *             working specifically for scenes"). Each line still plays only
+ *             where its own scene's slot calls for it; the grade only moves
+ *             its weight against the other lines of that slot.
  *
  * Pieces sharing all three form a group. A group's grades add up (good +1,
  * bad or fix -1, a grade shared with other parts of a line counts half), and

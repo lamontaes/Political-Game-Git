@@ -221,3 +221,29 @@ export function wordOwnResult(
     }
   );
 }
+
+/**
+ * A law another state passed, told as the press tells one: its name on the
+ * bill catalog, the state, and the day it was enacted. Null for a law the
+ * catalog has no name for, which stays a record.
+ */
+export function wordNationLaw(
+  core: CoreState,
+  law: {
+    readonly id: string;
+    readonly series: string;
+    readonly date: string;
+    readonly stateName: string;
+  },
+): WordedStory | null {
+  NAMES ??= policyNames();
+  const measure = NAMES[law.series];
+  if (!measure) return null;
+  const ids = [law.id] as EntityId[];
+  const fact = (text: string) => ({ text, sourceRecordIds: ids });
+  return worded(core, law.id, "vote-or-law", law.id, {
+    measure: fact(`${measure} in ${law.stateName}`),
+    date: fact(spokenDate(law.date)),
+    enacted: fact("yes"),
+  });
+}

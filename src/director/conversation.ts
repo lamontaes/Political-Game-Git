@@ -43,7 +43,16 @@ import {
 } from "../core2/kernel/dates";
 import { ADDRESS_FACT } from "./opening-facts";
 import { stableHash } from "../core2/kernel/ids";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  CALIBRATION,
+  movePairFactor,
+  type CalibrationTable,
+} from "../english/calibration";
+import {
+  corePlaceByJurisdictionId,
+  searchCorePlaces,
+  type CorePlace,
+} from "../core2/place-lookup";
 import { P } from "../core2/parameters";
 import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import { CRIME_EVENT, CRIME_MODULE_ID } from "../core2/modules/crime";
@@ -121,6 +130,8 @@ const LONG_AGO_YEARS = (
 
 export interface ConversationData {
   version: string;
+  /** The owner's grades the offered replies are weighed by; the shipped table by default. */
+  calibration?: CalibrationTable;
   toldEvent: string;
   lieEvent: string;
   minutesPerExchange: number;
@@ -186,7 +197,7 @@ const REPLY_MOVES = (
  * The move the player's answer to a line of this kind makes: "note" for one
  * that only takes the line in ("Oh, okay."), which the talk does not answer.
  */
-function replyMoveOf(kind: string, choice: string): string {
+export function replyMoveOf(kind: string, choice: string): string {
   if (
     REPLY_MOVES.notes.some(
       (note) => choice === note || choice.startsWith(`${note}:`),
@@ -387,8 +398,14 @@ function recentMoments(
   director: Director | undefined,
   personId: PersonId,
 ) {
-  const moments = director?.ledger.people.get(personId)?.moments ?? [];
+  const book = director?.ledger.people.get(personId);
   const since = addDays(makeIsoDate(core.date), -recentDays());
+  // Someone the director does not watch (a relative living elsewhere) has
+  // no book; what happened to them is still on record, read from their own
+  // events (the core's index by person, never the whole log), so a talk
+  // with them has their news (words-talk-husk-acquaintances-empty).
+  if (!book) return recordedMoments(core, personId, since);
+  const moments = book.moments;
   const out = [];
   for (let at = moments.length - one; at >= zero; at -= one) {
     const moment = moments[at]!;
@@ -396,6 +413,50 @@ function recentMoments(
     if (moment.date <= core.date) out.push(moment);
   }
   return out;
+}
+
+/**
+ * A person's own recorded events within the window, newest first, read as
+ * the moments a book would hold: the event is the cause, its other people
+ * the counterparts.
+ */
+function recordedMoments(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+  since: string,
+): Moment[] {
+  const out: Moment[] = [];
+  for (const id of core.logByPerson.get(personId) ?? []) {
+    const row = core.durableLog.get(id as never);
+    if (!row || row.date <= since || row.date > core.date) continue;
+    // Only what happened to them (the owner's Q7 happenings): a speech they
+    // heard or a vote they cast is not their news.
+    const label = `feeling:event:${row.kind}`;
+    if (
+      !(CONVERSATION_RULES.happenings?.prefixes ?? []).some((prefix) =>
+        label.startsWith(prefix),
+      )
+    )
+      continue;
+    out.push({
+      id: `record:${row.id}`,
+      personId,
+      date: row.date,
+      label,
+      causeId: row.id,
+      causeKind: `event:${row.kind}`,
+      counterpartIds: row.personIds.filter((other) => other !== personId),
+      selfNamed: true,
+      // Not appraised for someone unwatched: weighed as the least a book
+      // keeps, so it is news but never outranks an appraised moment.
+      impact: DEFAULT_DIRECTOR_DATA.parameters.directorMomentFloor!.value,
+      channels: [],
+      hindsight: zero,
+      hindsightAt: row.date,
+      echoes: [],
+    });
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date));
 }
 
 /**
@@ -1750,6 +1811,16 @@ function raiseSubject(
       kind: then.kind,
       act: said || subject.kind === "own-work" ? "tell" : "ask",
       ...row,
+      // The line stands on its subject's records too, even when the words
+      // need none of its facts ("We're being evicted." cites the eviction).
+      sourceRecordIds: [
+        ...new Set([
+          ...row.sourceRecordIds,
+          ...Object.values(subject.facts).flatMap(
+            (fact) => fact.sourceRecordIds,
+          ),
+        ]),
+      ],
     });
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
@@ -2323,10 +2394,43 @@ function awayPlaceOf(
         )
         .flatMap(([, ids]) => [...ids].slice(zero, one)),
     );
-  return person
-    ? { placeId: person.placeId, recordId: person.householdId }
+  if (person) return { placeId: person.placeId, recordId: person.householdId };
+  // No one the world holds lives elsewhere (a played town holds its own
+  // people, and the rest of the country only as counts by place): another town
+  // of the player's state, which the place records name. The pick among equals
+  // is a stable ordering by the conversation's key, never a roll.
+  const home = corePlaceByJurisdictionId(player.placeId as never);
+  const state = home?.stateJurisdictionKey;
+  if (!state) return null;
+  let towns = TOWNS_OF_STATE.get(state);
+  if (!towns) {
+    towns = searchCorePlaces("", Number.MAX_SAFE_INTEGER, {
+      stateJurisdictionKey: state,
+      scope: "locality",
+    });
+    TOWNS_OF_STATE.set(state, towns);
+  }
+  const town = towns
+    .filter(
+      (row) =>
+        row.context.jurisdiction.id !== player.placeId &&
+        row.context.jurisdiction.id !== player.countyId,
+    )
+    .sort((a, b) =>
+      stableHash(`${key}:${a.key}`).localeCompare(
+        stableHash(`${key}:${b.key}`),
+      ),
+    )[zero];
+  return town
+    ? {
+        placeId: town.context.jurisdiction.id,
+        recordId: town.context.jurisdiction.id,
+      }
     : null;
 }
+
+/** Each state's towns, read once: the places a false answer about home can name. */
+const TOWNS_OF_STATE = new Map<string, readonly CorePlace[]>();
 
 /** The kinds the player can raise: the other person has words to reply with. */
 function raisable(data: ConversationData, kind: string): boolean {
@@ -2570,7 +2674,13 @@ function offerChoices(
         "conversation:ack:reply",
       );
   }
-  conversation.choices = rankChoices(core, playerId, conversation.choices);
+  // The other person's last line, by the move it made: a question asks.
+  const before = conversation.lines.at(-one);
+  conversation.choices = rankChoices(core, playerId, conversation.choices, {
+    kind: last.kind,
+    ...(before ? { previous: asksQuestion(before) ? "ask" : before.act } : {}),
+    table: data.calibration ?? CALIBRATION,
+  });
   // The scales: a question about the player's own record they could deny.
   const asked = conversation.lines.at(-one);
   if (
@@ -2613,7 +2723,19 @@ function rankChoices(
   core: Readonly<CoreState>,
   playerId: PersonId,
   pool: readonly ConversationChoice[],
+  after: { kind: string; previous?: string; table: CalibrationTable },
 ): ConversationChoice[] {
+  // The owner's grade of each reply's move after the other person's line
+  // (`movePairs`, "ask>note"): a pair graded unnatural is offered after the
+  // ones that read right, one graded natural before them (owner, Oct 29:
+  // calibration reaches every line). Ungraded, every factor is 1 and the
+  // order is the reach order below.
+  const pair = (row: ConversationChoice) =>
+    movePairFactor(
+      after.previous,
+      replyMoveOf(after.kind, row.move),
+      after.table,
+    );
   const reach = replyReach(core, playerId);
   const carries = (row: ConversationChoice) =>
     !!row.raises || !!row.tail || asksQuestion(row);
@@ -2632,7 +2754,10 @@ function rankChoices(
           : zero;
   const ranked = pool
     .map((row, at) => ({ row, at }))
-    .sort((a, b) => place(a.row) - place(b.row) || a.at - b.at)
+    .sort(
+      (a, b) =>
+        pair(b.row) - pair(a.row) || place(a.row) - place(b.row) || a.at - b.at,
+    )
     .map(({ row }) => row);
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
   // Four replies are four answers, never one reworded (owner, Oct 27, 4 PM

@@ -38,18 +38,14 @@
 import data from "./data/estates.json" with { type: "json" };
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { outsideGovernment } from "./outside-governments";
-import {
-  corePlaceByJurisdictionId,
-  coreStateKeyOfPlaceholderId,
-} from "./place-lookup";
-import type { EntityId } from "./kernel/brands";
+import { LAWS_MODULE_ID } from "./modules/laws";
+import { coreStateKeyOfPlaceholderId } from "./place-lookup";
 import {
   assessEstateTaxes,
   assessInheritanceTax,
   GOVERNMENT_HEIR,
   type DeathTax,
 } from "./laws-death-taxes";
-import { LAWS_MODULE_ID, lawChain } from "./modules/laws";
 import { appliedTo, lawApplied } from "./law-reach/applied";
 import { closenessBetween } from "./closeness";
 import { leanedYes } from "./trait-decisions";
@@ -71,6 +67,7 @@ import type {
   PersonId,
   PersonState,
 } from "./types";
+import { placeRow, placeStateKey } from "./place-map";
 
 export const ESTATES_MODULE_ID = "core2-estates-v1";
 const PROBATE_CLOSES = "probate-closes";
@@ -138,13 +135,13 @@ function escheatTo(
 }
 
 /** The decedent's state: where they are recorded, or the town's own state. */
-function stateOf(api: CoreAPI, person: Readonly<PersonState>): string | null {
-  if (/^US-[A-Z]{2}$/.test(person.placeId)) return person.placeId;
-  const own = api.state.modules.has(BUDGETS_MODULE_ID)
-    ? governments(api).find((row) => row.level === "state")
-    : undefined;
-  if (own) return own.id;
-  return api.state.modules.has(LAWS_MODULE_ID) ? lawChain(api).stateKey : null;
+function taxStateOf(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): string | null {
+  const own = placeRow(person.placeId);
+  if (own?.level === "state") return own.id;
+  return placeStateKey(api.state.placeMetadata?.placeKey);
 }
 
 /**
@@ -163,14 +160,13 @@ function appliedTarget(
 
 /** The state a counted place is in: its own id, the state a city is in, else the town's. */
 function countedStateOf(api: CoreAPI, placeId: string): string | null {
-  if (/^US-[A-Z]{2}$/.test(placeId)) return placeId;
   const placeholder = coreStateKeyOfPlaceholderId(placeId);
-  if (placeholder) return placeholder;
-  const own = corePlaceByJurisdictionId(
-    placeId as EntityId,
-  )?.stateJurisdictionKey;
-  if (own) return own;
-  return lawChain(api).stateKey || null;
+  if (placeholder && !placeRow(placeId)) return placeholder;
+  return (
+    placeStateKey(placeId) ??
+    placeStateKey(api.state.placeMetadata?.placeKey) ??
+    null
+  );
 }
 
 /** The treasury a tax is paid to: the government's own where this world keeps it, else an outside government. */
@@ -679,7 +675,7 @@ function distribute(
   // estate goes whole to the state). Each heir's share then pays their
   // state's inheritance tax by their relation to the decedent.
   const inherits = trust || Boolean(will) || heirs.length > 0;
-  const stateKey = stateOf(api, person);
+  const stateKey = taxStateOf(api, person);
   const taxes: DeathTax[] = [];
   // A trust's transfers carry their own ids beside probate's.
   const part = trust ? ":trust" : "";

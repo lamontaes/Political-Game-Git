@@ -561,9 +561,9 @@
         },
         "US-KS": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://www.bottlebill.org/proposed-laws/",
-          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam). No statute was found that bars a county or city from its own container-deposit rule, so places are not barred."
         },
         "US-KY": {
           "answer": "no",
@@ -786,9 +786,9 @@
         },
         "US-TN": {
           "answer": "no",
-          "preempts": true,
+          "preempts": false,
           "source": "https://www.bottlebill.org/proposed-laws/",
-          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam)."
+          "note": "Weak: not on the Container Recycling Institute's complete 2026 list of U.S. deposit programs (10 states and Guam). No statute was found that bars a county or city from its own container-deposit rule, so places are not barred."
         },
         "US-TX": {
           "answer": "no",
@@ -2626,6 +2626,303 @@
           "preempts": true,
           "source": "https://www3.epa.gov/airquality/greenbook/ancl.html",
           "note": "No county is designated nonattainment for fine (PM-2.5) or coarse (PM-10) particulates in the EPA Green Book as of 9/30/2026."
+        }
+      }
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "source": "https://www.davispolk.com/insights/client-update/epa-repeals-power-plant-greenhouse-gas-rule-and-proposes-eliminating-all",
+      "note": "The question asks whether federal law limits power plant carbon. Clean Air Act sec. 111 (42 U.S.C. 7411) gives EPA the authority, and EPA repealed most of its 2024 power plant rules on September 14, 2026 (91 Fed. Reg. 58,954, effective November 16, 2026): \"Emission guidelines for existing coal-fired steam generating units are repealed in their entirety\". Congress has set no limit by statute, so the answer is no.",
+      "answers": {
+        "US": {
+          "answer": "no",
+          "source": "https://www.davispolk.com/insights/client-update/epa-repeals-power-plant-greenhouse-gas-rule-and-proposes-eliminating-all",
+          "cite": "42 U.S.C. 7411"
+        }
+      }
+    },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "source": "https://www.electricchoice.com/map-deregulated-energy-markets/ ; https://www.eia.gov/todayinenergy/detail.php?id=55820",
+      "note": "Fetched Nov 8, 2026: electricchoice.com (its table of 20 jurisdictions with retail choice, citing EIA Form 861 and state utility commissions, updated Nov 5, 2026) and EIA Today in Energy (Mar 15, 2023: 13 states and D.C. with active statewide or districtwide residential retail choice, Texas mandatory, four limited). The question asks whether residential customers may choose their electricity supplier; a program closed or capped to almost nobody, or open to business customers only, is no.",
+      "answers": {
+        "US-AL": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-AK": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-AZ": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No retail competition: the Arizona Auditor General found in 2008 that 'electric competition never materialized in Arizona', and the Corporation Commission closed the docket in 2013."
+        },
+        "US-AR": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-CA": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential direct access is suspended: closed to new customers since 2001. The 52.2% on competitive supply is community choice aggregation (opt-out), which this question does not count."
+        },
+        "US-CO": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-CT": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Connecticut. Full choice, opened 2000; 16.7% of homes."
+        },
+        "US-DE": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Delaware. Full choice, opened 1999; 8.8% of homes (Delaware PSC, Jul 2026)."
+        },
+        "US-DC": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in the District of Columbia. Full choice, opened 2002; 10.2% of homes."
+        },
+        "US-FL": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-GA": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-HI": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-ID": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-IL": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Illinois. Full choice, opened 2002; 24.0% of homes (Illinois Commerce Commission, Aug 2026)."
+        },
+        "US-IN": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-IA": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-KS": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-KY": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-LA": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-ME": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Maine. Full choice, opened 2000; 8.4% of homes (Maine PUC, Aug 2026)."
+        },
+        "US-MD": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Maryland. Full choice, opened 2000; 0.09% of homes (Maryland PSC, Aug 2026): open, but almost nobody shops."
+        },
+        "US-MA": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Massachusetts. Full choice, opened 1998; 75.8% of homes on competitive supply or town aggregation (Mass. DOER, Jun 2026)."
+        },
+        "US-MI": {
+          "answer": "no",
+          "source": "https://www.eia.gov/todayinenergy/detail.php?id=55820",
+          "note": "Limited: competitive supply is capped at 10% of each utility's retail sales (2008) and the program is fully subscribed (5,517 enrolled, 5,101 waiting at the end of 2025); EIA lists Michigan as limited, largely non-residential."
+        },
+        "US-MN": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-MS": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-MO": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-MT": {
+          "answer": "no",
+          "source": "https://www.eia.gov/todayinenergy/detail.php?id=55820",
+          "note": "Limited, effectively closed: Montana deregulated by S.B. 390 (1997) but reintegrated generation by the Electric Utility Industry Generation Reintegration Act (2007) (NCSL, 2017); 2 homes on competitive supply (EIA Form 861, 2025)."
+        },
+        "US-NE": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-NV": {
+          "answer": "no",
+          "source": "https://www.eia.gov/todayinenergy/detail.php?id=55820",
+          "note": "Limited: large commercial and industrial customers (1 MW and over) by application through the 704B process; no residential choice."
+        },
+        "US-NH": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in New Hampshire. Full choice, opened 1998; 37.1% of homes on competitive supply (EIA Form 861, 2025)."
+        },
+        "US-NJ": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in New Jersey. Full choice, opened 1999; 6.4% of homes (NJ BPU, Sep 2026)."
+        },
+        "US-NM": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-NY": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in New York. Full choice, opened 1998; 8.6% of homes."
+        },
+        "US-NC": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-ND": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-OH": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Ohio. Full choice, opened 2001; 67.4% of homes on competitive supply (EIA Form 861, 2025)."
+        },
+        "US-OK": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-OR": {
+          "answer": "no",
+          "source": "https://www.eia.gov/todayinenergy/detail.php?id=55820",
+          "note": "Limited: commercial and industrial customers may choose; residential choice is not available (0 homes)."
+        },
+        "US-PA": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Pennsylvania. Full choice, opened 1999; 21.0% of homes (PA PUC, Sep 2026)."
+        },
+        "US-RI": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Rhode Island. Full choice, opened 1998; 27.4% of homes (RI PUC, Sep 2026)."
+        },
+        "US-SC": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-SD": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-TN": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-TX": {
+          "answer": "yes",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "Residential customers may buy electricity from a competitive supplier in Texas. Full choice, opened 2002: residents in the ERCOT area must choose a retail electricity provider; co-ops and municipal utilities are excluded."
+        },
+        "US-UT": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-VT": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-VA": {
+          "answer": "no",
+          "source": "https://www.eia.gov/todayinenergy/detail.php?id=55820",
+          "note": "Limited: EIA lists Virginia's choice as largely non-residential; the 100% renewable exception for residential switching closed when the SCC approved Dominion's own renewable tariff in 2020; 0 residential homes."
+        },
+        "US-WA": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-WV": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-WI": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-WY": {
+          "answer": "no",
+          "source": "https://www.electricchoice.com/map-deregulated-energy-markets/",
+          "note": "No residential retail electric choice: the state is on neither EIA's list of states with active or limited retail choice (13 states and D.C. active; Michigan, Nevada, Oregon and Virginia limited) nor on the Electric Choice list of 20 jurisdictions with retail choice."
+        },
+        "US-PR": {
+          "answer": "no",
+          "source": "https://ieefa.org/wp-content/uploads/2018/08/Retail-Choice_August-2018.pdf",
+          "note": "Electricity is supplied by a monopoly utility (IEEFA, Aug 2018); no source found for residential choice. ESTIMATED FROM AVERAGE of the territories."
+        },
+        "US-GU": {
+          "answer": "no",
+          "source": "https://database.aceee.org/territory/utilities-summary",
+          "note": "Electricity is provided by the Guam Power Authority, a single public corporation (ACEEE). ESTIMATED FROM AVERAGE: no source states the absence of choice outright."
+        },
+        "US-VI": {
+          "answer": "no",
+          "source": "https://database.aceee.org/territory/utilities-summary",
+          "note": "Generation and distribution are managed by the Water and Power Authority (ACEEE). ESTIMATED FROM AVERAGE: no source states the absence of choice outright."
+        },
+        "US-AS": {
+          "answer": "no",
+          "source": "https://database.aceee.org/territory/utilities-summary",
+          "note": "Not read directly; a single government utility serves the territory. ESTIMATED FROM AVERAGE of the territories."
+        },
+        "US-MP": {
+          "answer": "no",
+          "source": "https://database.aceee.org/territory/utilities-summary",
+          "note": "Not read directly; the Commonwealth Utilities Corporation is a single government utility. ESTIMATED FROM AVERAGE of the territories."
         }
       }
     }

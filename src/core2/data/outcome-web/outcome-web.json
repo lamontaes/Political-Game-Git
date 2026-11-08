@@ -442,6 +442,13 @@
       "field": "",
       "unitScale": 1
     },
+    "federal.deficit-change-pct-of-gdp": {
+      "owner": "OPUS-GOV",
+      "record": "the federal budget row in force (the budgets module): its outlays less its receipts, summed over its lines, against the base row for the same fiscal year (the Treasury's statement), as percentage points of what the nation produces (the states' BEA output, data/research/federal/defense-contracts-by-state-fy2024.json)",
+      "reader": "federal-deficit-change",
+      "field": "",
+      "unitScale": 1
+    },
     "program.snap-maximum-change-pct": {
       "owner": "OPUS-GOV",
       "record": "the SNAP one-person maximum allotment in force (the federal snap-maximum law row), against the one in force at the opening, as a percent",

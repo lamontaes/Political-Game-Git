@@ -34,9 +34,9 @@ import {
   makeIsoDate,
 } from "./kernel/dates";
 import {
-  countyLandSharesForPlace,
-  countyPopulationSharesForPlace,
-} from "./reference/government-units";
+  placeCountyLandShares,
+  placeCountyPopulationShares,
+} from "./place-map";
 import {
   HOUSEHOLD_MIX_META,
   householdMixForJurisdiction,
@@ -219,10 +219,10 @@ const GENERATED_PROVENANCE = {
 /** Geography is distinct from government: a county area need not have a county council. */
 function countyContexts(place: CorePlace): readonly CountyContext[] {
   const population = place.sourceGeoid
-    ? countyPopulationSharesForPlace(place.sourceGeoid)
+    ? placeCountyPopulationShares(place.sourceGeoid)
     : [];
   const land = place.sourceGeoid
-    ? new Map(countyLandSharesForPlace(place.sourceGeoid))
+    ? new Map(placeCountyLandShares(place.sourceGeoid))
     : new Map<string, number>();
   const rows: CountyContext[] = [];
   for (const [geoid, populationShare] of population) {
@@ -600,7 +600,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
   );
   stopgap("SG-P8-family-network-coverage");
-  stopgap("SG-P8-person-trait-diversity");
   const gaps = new Set<string>([
     `Opening vintage: ${startedAt} household and population estimates are calibrated from the latest source vintages, which calibrate the world without dating it.`,
     "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",

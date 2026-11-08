@@ -16,6 +16,10 @@
  * it returns and the ordinary scheduler stages the situation type whose
  * cause carries the row's label.
  */
+import {
+  INTEREST_GROUPS_MODULE_ID,
+  meetingsOn,
+} from "../core2/modules/elections";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
@@ -71,6 +75,12 @@ export interface CircumstanceRow {
    * hold it back.
    */
   lived?: boolean;
+  /**
+   * The scene comes ahead of the day's other scenes from circumstance (the
+   * floor before the roll comes before the word in the hallway after the
+   * sitting); only one scene a day reaches the player.
+   */
+  before?: boolean;
   /** The kind of place it happens at: the situation type's setting. */
   place: string;
   pool: readonly string[];
@@ -243,6 +253,52 @@ function bodyOfRecord(
   return bill?.bodyOfficeId;
 }
 
+/** Whether the player filed in the contest and someone else won it. */
+function ranAndLost(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contestId: string | undefined,
+  winnerId: string | undefined,
+): boolean {
+  if (!contestId || !winnerId || winnerId === playerId) return false;
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return false;
+  return (
+    coreAPI(core as CoreState)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+  ).some((filing) => filing.contestId === contestId);
+}
+
+/**
+ * How many contests the player filed in and lost on an earlier day than the
+ * count at hand (the count's record names someone else). The races settled
+ * on the same ballot are one election, not a habit of losing.
+ */
+export function earlierLosses(
+  core: Readonly<CoreState>,
+  playerId: PersonId,
+  contestId: string | undefined,
+): number {
+  if (!core.modules.has(ELECTIONS_MODULE_ID)) return zero;
+  const settled = core.durableLog.get(`election-result:${contestId}` as never);
+  if (!settled) return zero;
+  const beforeDate = settled.date;
+  return (
+    coreAPI(core as CoreState)
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]) as unknown as { contestId: string }[]
+  ).filter((filing) => {
+    if (filing.contestId === contestId) return false;
+    const result = core.durableLog.get(
+      `election-result:${filing.contestId}` as never,
+    );
+    const winner = result?.facts?.winnerId;
+    return !!winner && winner !== playerId && result.date < beforeDate;
+  }).length;
+}
+
 function playerHolds(
   rule: string,
   core: Readonly<CoreState>,
@@ -290,6 +346,17 @@ function playerHolds(
           .query("byPerson", [playerId]) as unknown as { contestId: string }[]
       ).some((filing) => filing.contestId === contestId);
     }
+    case "lost-again":
+      // The player ran in the contest the record settled, lost it, and has
+      // lost another before.
+      return (
+        ranAndLost(
+          core,
+          playerId,
+          record.facts.contestId,
+          record.facts.winnerId,
+        ) && earlierLosses(core, playerId, record.facts.contestId) > zero
+      );
     case "named-in-it":
       // The record is the player's own (their school year's end).
       return record.personIds.includes(playerId);
@@ -376,6 +443,31 @@ function poolOf(
     return classmatesOf(core, playerId).map((id) => ({ id, named: false }));
   if (source === "new-coworker")
     return record.personIds.map((id) => ({ id, named: true }));
+  if (source === "lobbied-against") {
+    // stopgapId: SG-WORDS-lobby-remembers-writeback
+    // The lobbyists of the groups that met the voter on this bill and whose
+    // way on it the voter's vote went against (an employers' group is against
+    // the bill unless the meeting says otherwise).
+    const billId = record.facts.billId;
+    const vote = record.facts.vote;
+    const voterId = record.personIds[zero];
+    if (
+      !billId ||
+      !voterId ||
+      (vote !== "yes" && vote !== "no") ||
+      !core.modules.has(INTEREST_GROUPS_MODULE_ID)
+    )
+      return [];
+    const cast = vote === "yes" ? P.one : P.negativeOne;
+    return meetingsOn(coreAPI(core as CoreState), billId)
+      .filter(
+        (meeting) =>
+          meeting.memberId === voterId &&
+          meeting.lobbyistId !== null &&
+          (meeting.side ?? P.negativeOne) * cast < zero,
+      )
+      .map((meeting) => ({ id: meeting.lobbyistId as PersonId, named: false }));
+  }
   if (source.startsWith("fact:")) {
     // The person a fact of the record names (a message's candidate).
     const id = record.facts[source.slice("fact:".length)];

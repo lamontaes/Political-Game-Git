@@ -27,15 +27,23 @@
  * each member's. The session's filings, hearings and votes are counted
  * together on its floor day.
  */
+import type { GovernmentLevel } from "../government-level";
 import { townLean } from "./campaigns";
 import questionScopes from "../../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import geography from "../../../data/research/geography/state-reference.json" with { type: "json" };
 import federalAnswers from "../data/legislature/federal-answers.json" with { type: "json" };
 import congressSessions from "../data/legislature/congress-sessions.json" with { type: "json" };
+import {
+  budgetsOf,
+  fiscalYearOf,
+  governments,
+  lineChangedInYear,
+} from "./budgets";
 import { townConcernShare } from "./meetings";
-import { sessionYear } from "../state-session-calendar";
+import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
+import { stateActEffectiveDate } from "./laws";
 import { leaderOf, presidingOfficer } from "./leadership";
-import { officialStance } from "./officials";
+import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type {
   CoreAPI,
@@ -44,7 +52,7 @@ import type {
   PersonState,
   Source,
 } from "../types";
-import { nextMeeting } from "../office-day-calendar";
+import { nextMeeting } from "./offices";
 import {
   addDays,
   makeIsoDate,
@@ -56,23 +64,29 @@ import {
   campaignParameter,
   personStance,
   PLATFORM_QUESTIONS,
-} from "../campaign-views";
+} from "./elections";
 import {
+  enactLaw,
   lastEnactment,
+  lawRows,
   lawChain,
   LAWS_MODULE_ID,
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import type { LawRowInput } from "../laws-starting";
+import type { LawRowInput } from "./laws";
+import { policySeriesAtLevel } from "./laws";
+import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import type { OfficeLevel } from "../offices-local";
-import { partySide } from "../appointments";
-import { decisionLean, termOfLean } from "../trait-decisions";
+import type { OfficeLevel } from "./offices";
+import { partySide } from "./offices";
+import { decisionLean, termOfLean } from "./people";
 import {
   authorityFor,
   beyondPower,
   billJurisdiction,
+  bodyJurisdiction,
+  lawKeysOf,
   bodyOf,
   draftBill,
   executiveOf,
@@ -83,6 +97,7 @@ import {
   members,
   POLICY_QUESTIONS,
   proposeAsExecutive,
+  reachesTown,
   FEDERAL_SENATE,
   LEGISLATURE_MODULE_ID,
   registerFloorDateReader,
@@ -135,9 +150,11 @@ const JURISDICTIONS = geography.places as Readonly<
 function questionForLevel(
   api: CoreAPI,
   question: string,
-  level: "federal" | "state" | "county" | "city",
+  level: GovernmentLevel,
+  /** The government asking; the player's own state unless an outside legislature sits. */
+  stateKey: string = lawChain(api).stateKey,
 ): boolean {
-  const state = lawChain(api).stateKey;
+  const state = stateKey;
   const kind =
     JURISDICTIONS[state.slice(state.lastIndexOf("-") + 1)]?.jurisdictionKind;
   const levels = QUESTION_SCOPES[question]?.levels ?? [];
@@ -159,9 +176,12 @@ export function levelMayDecide(
   level: OfficeLevel,
   question: string,
   value = 1,
+  stateKey?: string,
 ): boolean {
+  // A township is read as the town's own level (SG-GOV-township-law-level: the law chain has no township level).
+  if (level === "township") api.stopgap("SG-GOV-township-law-level");
   const own = level === "township" ? "city" : level;
-  if (!questionForLevel(api, question, own)) return false;
+  if (!questionForLevel(api, question, own, stateKey)) return false;
   const provision: Provision = { kind: "policy-question", question, value };
   return own === "federal" || own === "state"
     ? !beyondPower(provision, own)
@@ -174,7 +194,13 @@ export const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
   state: {
     schemaVersion: 1,
-    tables: { sessions: {}, legislativeSessions: {}, nextMeetings: {} },
+    tables: {
+      sessions: {},
+      legislativeSessions: {},
+      nextMeetings: {},
+      /** Roll calls built on demand for another government's law, kept once seen. */
+      rollCalls: {},
+    },
   },
   onCalendarWork: (api, work) => onWork(api, work),
 };
@@ -189,12 +215,9 @@ export function openWorldLegislating(core: CoreState): void {
   const api = coreAPI(core);
   // The town's council and its county board meet on their own.
   for (const office of townBodies(api)) scheduleMeeting(api, office);
-  // Congress and the state's legislature open their next session (or the one
-  // already sitting, today). Every other place's chambers are seated (the
-  // offices engine's `seatOutsideOffices`) but do not sit yet.
-  // stopgapId: SG-GOV-other-legislatures-not-sitting
-  api.stopgap("SG-GOV-other-legislatures-not-sitting");
-  for (const jurisdiction of ["US", lawChain(api).stateKey])
+  // Congress and every legislature in the session calendar open their next
+  // session (or the one already sitting, today), each on its own dates.
+  for (const jurisdiction of ["US", ...sessionPlaceKeys()])
     scheduleOpening(api, jurisdiction, core.date, true);
 }
 
@@ -227,18 +250,13 @@ export function answerIn(
   /** Count acts already enacted that haven't taken effect yet. */
   enacted = false,
 ): number | null {
-  const rows = (
-    api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [stateKey, question]) as unknown as LawRowInput[]
-  )
+  const rows = lawRows(api, question, stateKey)
     .filter((r) => enacted || r.effectiveDate <= api.state.date)
     .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate));
   if (rows[0]) return rows[0].value === 1 ? 1 : -1;
   const answer =
     stateKey === "US"
-      ? FEDERAL_ANSWERS[question]?.answer
+      ? FEDERAL_ANSWERS[policySeriesAtLevel(question, "federal")]?.answer
       : POLICY_QUESTIONS[question]?.answers[stateKey]?.answer;
   return answer === "yes" ? 1 : answer === "no" ? -1 : null;
 }
@@ -297,12 +315,9 @@ function ownRow(
   jurisdiction: string,
   question: string,
 ): number | null {
-  const row = [
-    ...(api
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]),
-  ].sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+  const row = [...lawRows(api, question, jurisdiction)].sort((a, b) =>
+    b.effectiveDate.localeCompare(a.effectiveDate),
+  )[0];
   return row ? (row.value === 1 ? 1 : -1) : null;
 }
 
@@ -332,7 +347,7 @@ export interface SessionBill {
 /**
  * What moves a member to carry a change: their views and, at the constituent
  * weight, how their constituents lean (a town member's town, a state or
- * federal member's own seat until district views are modeled), the same
+ * federal official's own district, from their officials row), the same
  * parts their vote weighs (`legislature.ts`), plus how their traits lean
  * between filing and holding back. Read once per sitting.
  */
@@ -357,7 +372,9 @@ export function filerOf(api: CoreAPI, term: TermRow): Filer {
     term,
     key,
     lean,
-    home: person ? townLean(api) : lean,
+    // A state or federal official's constituents are their own district's;
+    // only a town member answers to the town.
+    home: officialOf(api, key)?.districtLean ?? (person ? townLean(api) : lean),
     person,
     trait: person
       ? decisionLean(
@@ -384,9 +401,10 @@ function lawStanding(
   api: CoreAPI,
   question: string,
   direction: number,
-): { settled: number; reluctance: number } {
-  const settled = settledness(api, question);
-  const last = lastEnactment(api, question);
+  jurisdiction: string,
+): { settled: number; reluctance: number; neighbors: number } {
+  const settled = settledness(api, question, jurisdiction);
+  const last = lastEnactment(api, question, lawKeysOf(api, jurisdiction));
   const reverses = last !== null && (last.value > 0 ? 1 : -1) !== direction;
   return {
     settled,
@@ -395,7 +413,45 @@ function lawStanding(
         Math.max(0, last.margin) *
         ((1 - settled) / 2)
       : 0,
+    neighbors: neighborPull(api, question, direction, jurisdiction),
   };
+}
+
+/** The states bordering each state (Census county adjacency; src/core2/data/places/state-reach.json). */
+const BORDERS = (
+  stateReach as unknown as { states: Record<string, { borders: string[] }> }
+).states;
+
+/**
+ * How the states that border a state stand on a change to a question: the
+ * share with the law the change would make, less the share with the law it
+ * would unmake, from -1 to 1 (0 for a body that is not a state's, or a
+ * question the neighbors' research does not answer). A neighbor's law is its
+ * researched starting law: only the town's state legislates in a played
+ * world, so no neighbor's own acts are recorded.
+ */
+export function neighborPull(
+  api: CoreAPI,
+  question: string,
+  direction: number,
+  jurisdiction: string,
+): number {
+  const neighbors = (
+    BORDERS[jurisdiction.replace(/^US-/, "")]?.borders ?? []
+  ).map((usps) => `US-${usps}`);
+  const answers = POLICY_QUESTIONS[question]?.answers;
+  if (!neighbors.length || !answers) return 0;
+  let net = 0,
+    counted = 0;
+  for (const state of neighbors) {
+    const answer = answers[state]?.answer;
+    if (answer !== "yes" && answer !== "no") continue;
+    // stopgapId: SG-LAWS-neighbor-law-starting
+    api.stopgap("SG-LAWS-neighbor-law-starting");
+    counted += 1;
+    net += (answer === "yes" ? 1 : -1) * direction;
+  }
+  return counted ? net / counted : 0;
 }
 
 /** A member's own reasons to carry a change on a question, pointing one way. */
@@ -404,13 +460,16 @@ export function filingReason(
   f: Filer,
   question: string,
   direction: number,
-  law: { settled: number; reluctance: number },
+  law: { settled: number; reluctance: number; neighbors?: number },
 ): number {
   const bare =
     (f.stance(question) +
       campaignParameter("constituentWeight") * personStance(f.home, question)) *
       direction -
-    law.reluctance;
+    law.reluctance +
+    // The states next door: the more of them have the change, the likelier it
+    // is carried (policy diffusion between neighboring states).
+    campaignParameter("neighborLawWeight") * (law.neighbors ?? 0);
   // A taste for change backs changing a settled law, not undoing a fresh one.
   return f.person
     ? bare +
@@ -433,6 +492,12 @@ interface Filed {
   readonly leaderReason: number;
   /** The bill a member filed at the executive's request. */
   readonly drafted?: BillRow;
+  /** A change to one line of the government's budget, in place of a yes-or-no question. */
+  readonly line?: {
+    readonly name: string;
+    readonly deltaMinor: number;
+    readonly of: number;
+  };
 }
 
 /**
@@ -459,6 +524,8 @@ function fileChanges(
     readonly allowed: (question: string, value: number) => boolean;
     /** A change the body turned down recently enough that its rules bar it again. */
     readonly barred: (question: string, direction: number) => boolean;
+    /** A body that votes its own government's budget also takes up amendments to its lines. */
+    readonly lines?: boolean;
   },
 ): Filed[] {
   const filers = input.filers.map((t) => filerOf(api, t));
@@ -476,7 +543,7 @@ function fileChanges(
       if (!input.needsChange(question, direction)) continue;
       if (!input.allowed(question, direction)) continue;
       if (input.barred(question, direction)) continue;
-      const law = lawStanding(api, question, direction);
+      const law = lawStanding(api, question, direction, input.jurisdiction);
       let sponsor: Filer | null = null;
       let best = 0;
       let cosponsors = 0;
@@ -537,6 +604,8 @@ function fileChanges(
       });
     }
   }
+  if (input.lines)
+    filed.push(...fileLines(api, input.jurisdiction, filers, input.barred));
   // The floor leader's calendar: the most backed first, a change weighing
   // more as more of the town's residents live with what it touches; then the
   // leader's own reasons.
@@ -544,7 +613,8 @@ function fileChanges(
   const backing = new Map(
     filed.map((f) => [
       f,
-      f.cosponsors * (1 + weight * townConcernShare(api, f.question)),
+      f.cosponsors *
+        (f.line ? 1 : 1 + weight * townConcernShare(api, f.question)),
     ]),
   );
   filed.sort(
@@ -554,6 +624,104 @@ function fileChanges(
       a.question.localeCompare(b.question),
   );
   return filed;
+}
+
+/**
+ * The amendments members file to the lines of their own government's budget
+ * in force: each member wants a line moved by their stance on it (at a full
+ * stance, the budget-full-stance share of the line, the scale the budget vote
+ * weighs) from where the year's budget started, and files for the gap between
+ * that and what the laws have already changed; members wanting the same
+ * direction join one bill, the most moved sponsoring it at their own size.
+ * A gap under the amendment threshold is not worth the agenda time.
+ * stopgapId: SG-LAWS-local-line-filing-threshold
+ */
+function fileLines(
+  api: CoreAPI,
+  governmentId: string,
+  filers: readonly Filer[],
+  barred: (question: string, direction: number) => boolean,
+): Filed[] {
+  const gov = governments(api).find((g) => g.id === governmentId);
+  if (!gov) return [];
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const budget = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
+  if (!budget) return [];
+  const scale = campaignParameter("budgetFullStanceShare");
+  const minimum = campaignParameter("budgetAmendmentMinShare");
+  const all: { filed: Filed; weight: number }[] = [];
+  for (const [name, now] of Object.entries(budget.spendingMinor)) {
+    const changed = lineChangedInYear(api, gov.id, fy, name);
+    const base = now - changed;
+    if (!(base > 0)) continue;
+    const question = `budget-line:${name}`;
+    for (const direction of [1, -1]) {
+      // A change the body just turned down is not filed again at once.
+      if (barred(question, direction)) continue;
+      let sponsor: Filer | null = null;
+      let best = 0;
+      let wanted = 0;
+      let cosponsors = 0;
+      const gaps: number[] = [];
+      for (const member of filers) {
+        const stance = Math.max(
+          -1,
+          Math.min(
+            1,
+            member.stance(question) +
+              campaignParameter("constituentWeight") *
+                personStance(member.home, question),
+          ),
+        );
+        const gap = (base * scale * stance - changed) * direction;
+        const reason = gap / base - minimum;
+        if (reason <= 0) continue;
+        cosponsors += 1;
+        gaps.push(gap);
+        if (
+          reason > best ||
+          (reason === best && sponsor && member.key < sponsor.key)
+        ) {
+          best = reason;
+          sponsor = member;
+          wanted = Math.round(gap * direction);
+        }
+      }
+      // Where a majority backs a change, the bill asks for what the member
+      // who makes the majority wants, not the most moved member's larger
+      // ask, so the line settles where the body's median member stands and
+      // is not pushed past it and back.
+      const majority = Math.floor(filers.length / 2) + 1;
+      if (sponsor && gaps.length >= majority) {
+        gaps.sort((a, b) => b - a);
+        wanted = Math.round(gaps[majority - 1]! * direction);
+      }
+      if (!sponsor || wanted === 0) continue;
+      all.push({
+        weight: cosponsors * (Math.abs(wanted) / base),
+        filed: {
+          question,
+          direction,
+          sponsor,
+          cosponsors,
+          leaderReason: 0,
+          line: { name, deltaMinor: wanted, of: base },
+        },
+      });
+    }
+  }
+  // A meeting's agenda takes up only so many budget amendments: the ones the
+  // most members back, by the size of the change they want.
+  all.sort(
+    (a, b) =>
+      b.weight - a.weight || a.filed.question.localeCompare(b.filed.question),
+  );
+  const taken = all.slice(
+    0,
+    Math.round(campaignParameter("localBudgetAmendmentsPerMeeting")),
+  );
+  if (taken.length) api.stopgap("SG-LAWS-local-line-filing-threshold");
+  return taken.map((t) => t.filed);
 }
 
 /**
@@ -586,6 +754,7 @@ function holdSession(
     readonly barred: (question: string, direction: number) => boolean;
     /** The meeting these filings wait for: filed now, voted when it closes. */
     readonly holdFor?: string;
+    readonly lines?: boolean;
   },
 ): void {
   const leaderKey = input.leader ? memberKey(input.leader) : null;
@@ -599,13 +768,22 @@ function holdSession(
       draftBill(api, {
         bodyOfficeId: input.body!.id,
         sponsorId: item.sponsor.key,
-        provisions: [
-          {
-            kind: "policy-question",
-            question: item.question,
-            value: item.direction,
-          },
-        ],
+        provisions: item.line
+          ? [
+              {
+                kind: "budget-line",
+                line: item.line.name,
+                value: item.line.deltaMinor,
+                of: item.line.of,
+              },
+            ]
+          : [
+              {
+                kind: "policy-question",
+                question: item.question,
+                value: item.direction,
+              },
+            ],
       });
     const reached = index < floorTime;
     // An earlier bill this sitting may have made this one's law already.
@@ -711,6 +889,7 @@ function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   if (work.kind === "floor-week") floorWeek(api, work);
   if (work.kind === "session-close") closeSession(api, work);
   if (work.kind === "local-meeting") localMeeting(api, work);
+  if (work.kind === "outside-enact") outsideEnact(api, work);
 }
 
 // ---------------------------------------------------------------------------
@@ -905,6 +1084,9 @@ const sessionTable = (api: CoreAPI) =>
 export function legislativeSessionsOf(
   api: CoreAPI,
 ): readonly LegislativeSession[] {
+  // The floor readers are registered once for the process; a world that did
+  // not install this engine has no sessions.
+  if (!api.state.modules.has(WORLD_LEGISLATING_MODULE_ID)) return [];
   return sessionTable(api).rows() as unknown as LegislativeSession[];
 }
 
@@ -922,6 +1104,12 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
   ];
+  // Another government's session is simulated from its people and keeps only
+  // its results (owner, Nov 5: "generate on demand").
+  if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) {
+    openOutsideSession(api, work);
+    return;
+  }
   const federal = jurisdiction === "US";
   const lower = federal
     ? houseOffice(api)
@@ -963,7 +1151,13 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
           needsChange(direction, answerIn(api, jurisdiction, question, true)),
         // A legislature answers only the questions its level may (data).
         allowed: (question, value) =>
-          levelMayDecide(api, federal ? "federal" : "state", question, value),
+          levelMayDecide(
+            api,
+            federal ? "federal" : "state",
+            question,
+            value,
+            federal ? undefined : jurisdiction,
+          ),
         // A new session takes every bill up afresh.
         barred: () => false,
       })
@@ -1040,6 +1234,257 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: { ...work.source, asOf: today },
     sourceRecordIds: [id],
   });
+}
+
+/**
+ * Another government's session (a state the player is not in): its members'
+ * and executive's own views decide what passes, from the people there. A
+ * change carries when every chamber has more members for it than against it
+ * and the executive agrees (or both chambers hold two thirds, which
+ * overrides). Nothing is filed, drafted or voted per member and no event is
+ * written; each result is one law row, put on a day inside the session, with
+ * its counts. The roll call is built when someone asks for it
+ * (`rollCallOf`). stopgapId: SG-GOV-outside-session-result-only
+ */
+function openOutsideSession(
+  api: CoreAPI,
+  work: Readonly<ModuleCalendarWork>,
+): void {
+  api.stopgap("SG-GOV-outside-session-result-only");
+  const [jurisdiction, conveneAt, adjournAt] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+  ];
+  const today = api.state.date;
+  const bodies = [
+    "legislature-lower",
+    "legislature-upper",
+    "legislature-unicameral",
+  ]
+    .map((kind) => chamber(api, jurisdiction, kind))
+    .filter((c): c is NonNullable<typeof c> => c !== null)
+    .filter((c) => c.members.length > 0);
+  const id = `session:${jurisdiction}:${conveneAt}`;
+  const lower = bodies[0];
+  const governor = lower ? executiveOf(api, lower.id).term : undefined;
+  const governorKey = governor ? memberKey(governor) : "";
+  const keys = bodies.map((b) => b.members.map(memberKey));
+  interface Result {
+    readonly question: string;
+    readonly direction: number;
+    readonly counts: readonly { yes: number; no: number }[];
+    readonly margin: number;
+    readonly decision: "signed" | "overridden";
+  }
+  const results: Result[] = [];
+  for (const question of PLATFORM_QUESTIONS) {
+    let best: Result | null = null;
+    for (const direction of [1, -1]) {
+      if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
+        continue;
+      if (!levelMayDecide(api, "state", question, direction, jurisdiction))
+        continue;
+      const counts = keys.map((chamberKeys) => {
+        let yes = 0;
+        let no = 0;
+        for (const key of chamberKeys) {
+          const lean = (officialStance(api, key, question) ?? 0) * direction;
+          if (lean > 0) yes += 1;
+          else if (lean < 0) no += 1;
+        }
+        return { yes, no };
+      });
+      if (!counts.length || !counts.every((c) => c.yes > c.no)) continue;
+      const governorFor = governorKey
+        ? (officialStance(api, governorKey, question) ?? 0) * direction > 0
+        : true;
+      const overrides = counts.every(
+        (c, i) => c.yes * 3 >= keys[i]!.length * 2,
+      );
+      if (!governorFor && !overrides) continue;
+      const margin = Math.min(
+        ...counts.map((c, i) => (c.yes - c.no) / keys[i]!.length),
+      );
+      if (!best || margin > best.margin)
+        best = {
+          question,
+          direction,
+          counts,
+          margin,
+          decision: governorFor ? "signed" : "overridden",
+        };
+    }
+    if (best) results.push(best);
+  }
+  results.sort(
+    (a, b) => b.margin - a.margin || a.question.localeCompare(b.question),
+  );
+  const start = conveneAt > today ? conveneAt : today;
+  const length = Math.max(1, daysBetween(start, adjournAt));
+  const calendar = api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID);
+  const source = {
+    tag: "ESTIMATED" as const,
+    citation: "the session's own calendar",
+    asOf: today,
+    estimatedFrom: work.key,
+  };
+  results.forEach((r, i) => {
+    calendar.schedule({
+      key: `outside-enact:${id}:${i}`,
+      // Never today: the day's work is already done.
+      date: plusDays(
+        start,
+        Math.max(1, Math.floor((length * (i + 1)) / (results.length + 1))),
+      ),
+      kind: "outside-enact",
+      source,
+      sourceRecordIds: [
+        id,
+        jurisdiction,
+        r.question,
+        String(r.direction),
+        r.counts.map((c) => `${c.yes}-${c.no}`).join("/"),
+        bodies.map((b) => b.id).join(","),
+        r.decision,
+        governorKey,
+        String(i + 1),
+        String(r.margin),
+      ],
+    });
+  });
+  sessionTable(api).put({
+    id,
+    jurisdiction,
+    bodyOfficeId: lower?.id ?? null,
+    conveneAt,
+    adjournAt,
+    leader: null,
+    perWeek: 0,
+    // Nothing is taken up bill by bill: no floor week is ever reached.
+    firstFloor: adjournAt,
+    filings: [],
+    bills: [],
+  } as unknown as ModuleRow);
+  calendar.schedule({
+    key: `session-close:${id}`,
+    // A one-day session closes tomorrow: today's work is done.
+    date: adjournAt > today ? adjournAt : plusDays(today, 1),
+    kind: "session-close",
+    source: { ...work.source, asOf: today },
+    sourceRecordIds: [id],
+  });
+}
+
+/** The day an outside result passes: the law row, with its counts, and nothing else. */
+function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const [
+    sessionId,
+    jurisdiction,
+    question,
+    directionText,
+    counts,
+    bodyIds,
+    decision,
+    governorKey,
+    nth,
+    margin,
+  ] = work.sourceRecordIds as [
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+    string,
+  ];
+  const direction = Number(directionText);
+  // The law may have changed since the session opened: then nothing passes.
+  if (!needsChange(direction, answerIn(api, jurisdiction, question, true)))
+    return;
+  const today = api.state.date;
+  const rule = stateActEffectiveDate(jurisdiction, today, today);
+  if (!rule)
+    throw new Error(
+      `No effective-date rule for ${jurisdiction} acts (state-effective-dates.json).`,
+    );
+  const conveneAt = sessionId.slice(sessionId.lastIndexOf(":") + 1);
+  enactLaw(api, {
+    jurisdiction,
+    level: "state",
+    series: question,
+    value: direction > 0 ? 1 : 0,
+    effectiveDate: rule.date,
+    measureId: `${conveneAt.slice(0, 4)}-${nth}`,
+    citation: `${jurisdiction} legislature, session of ${conveneAt} (effective by ${rule.cite})`,
+    terms: {
+      session: sessionId,
+      chambers: counts,
+      bodies: bodyIds,
+      direction,
+      margin: Number(margin),
+      ...(governorKey ? { decidedBy: governorKey } : {}),
+      decision,
+    },
+  });
+}
+
+/**
+ * The roll call of an outside government's law, built when it is asked for
+ * and kept once seen: each chamber's members ranked by how much they favor the
+ * change, the first `yes` of them voting yes and the last `no` voting no, so
+ * the list adds up to the count the law row kept, and the sponsor is the
+ * member who favored it most. The same every time.
+ */
+export function rollCallOf(
+  api: CoreAPI,
+  lawId: string,
+  chamberIndex: number,
+): {
+  readonly chamber: string;
+  readonly yes: readonly string[];
+  readonly no: readonly string[];
+  readonly sponsor: string | null;
+} | null {
+  const cache = api.moduleState(WORLD_LEGISLATING_MODULE_ID).table("rollCalls");
+  const id = `${lawId}|${chamberIndex}`;
+  const seen = cache.get(id) as unknown as
+    | {
+        chamber: string;
+        yes: readonly string[];
+        no: readonly string[];
+        sponsor: string | null;
+      }
+    | undefined;
+  if (seen) return seen;
+  const row = api.moduleState(LAWS_MODULE_ID).table("laws").get(lawId) as
+    LawRowInput | undefined;
+  const terms = row?.terms;
+  if (!row || typeof terms?.session !== "string") return null;
+  const count = String(terms.chambers ?? "").split("/")[chamberIndex];
+  const chamberId = String(terms.bodies ?? "").split(",")[chamberIndex];
+  if (!count || !chamberId) return null;
+  const [yesCount, noCount] = count.split("-").map(Number) as [number, number];
+  const direction = Number(terms.direction) || 1;
+  const ranked = members(api, chamberId)
+    .map((term) => {
+      const key = memberKey(term);
+      return {
+        key,
+        lean: (officialStance(api, key, row.series) ?? 0) * direction,
+      };
+    })
+    .sort((a, b) => b.lean - a.lean || a.key.localeCompare(b.key));
+  const yes = ranked.slice(0, yesCount).map((m) => m.key);
+  const no = ranked
+    .slice(Math.max(yesCount, ranked.length - noCount))
+    .map((m) => m.key);
+  const built = { id, chamber: chamberId, yes, no, sponsor: yes[0] ?? null };
+  cache.put(built as unknown as ModuleRow);
+  return built;
 }
 
 function introduceBill(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
@@ -1411,16 +1856,9 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     .table("offices")
     .get(officeId) as unknown as
     { kind: string; level: OfficeLevel } | undefined;
-  const chain = lawChain(api);
   // Each body legislates for its own government: a county board for its
   // county, a township board for its township, a council for its place.
-  const own =
-    office?.kind === "county-board"
-      ? chain.levels.find((l) => l.level === "county")?.jurisdiction
-      : office?.kind === "township-board"
-        ? chain.levels.find((l) => l.level === "township")?.jurisdiction
-        : chain.levels[chain.levels.length - 1]!.jurisdiction;
-  const jurisdiction = own ?? chain.townPlaceId;
+  const jurisdiction = bodyJurisdiction(api, officeId);
   holdSession(api, {
     key: work.key,
     jurisdiction,
@@ -1428,6 +1866,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     filers: body.members,
     leader,
     ...(hold ? { holdFor: meetingDate } : {}),
+    lines: true,
     // One regular meeting: its agenda time at a policy ordinance's hearing
     // and debate.
     floorDays: 1,
@@ -1438,7 +1877,7 @@ function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     needsChange: (question, direction) =>
       direction > 0
         ? !inForceForTown(api, question)
-        : !!own && ownRow(api, own, question) === 1,
+        : ownRow(api, jurisdiction, question) === 1,
     allowed: (question, value) =>
       levelMayDecide(api, office?.level ?? "city", question, value),
     barred: (question, direction) =>

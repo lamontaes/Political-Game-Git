@@ -1,6 +1,6 @@
 {
   "housingRentIncomeElasticity": {
-    "value": 0.4,
+    "value": 0.7,
     "tag": "TUNABLE",
     "citation": "Income elasticity of housing spending, about 0.3 to 0.7 (Glaeser, Gyourko and Saks 2005; Davis and Ortalo-Magne 2011).",
     "spread": {
@@ -11,7 +11,7 @@
     }
   },
   "housingIncomeOffsetShare": {
-    "value": 0.5,
+    "value": 0.25,
     "tag": "TUNABLE",
     "citation": "Households with little income still pay rent near the low end (HUD Fair Market Rent is the 40th percentile).",
     "spread": {

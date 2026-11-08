@@ -558,7 +558,9 @@ function menusFor(
 ) {
   const lineNames = budgetLineNames();
   const level =
-    bodyLevel === "federal" || bodyLevel === "state" ? bodyLevel : "city";
+    bodyLevel === "federal" || bodyLevel === "state" || bodyLevel === "county"
+      ? bodyLevel
+      : "city";
   const body = bodyOf(api, officeId);
   // A senator's seat is of a state; its lawmaking body is the one US chamber.
   const jurisdiction =

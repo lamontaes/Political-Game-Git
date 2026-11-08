@@ -20,6 +20,9 @@ import { decisionLean } from "../core2/trait-decisions";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { viewOf, viewOn } from "../core2/modules/views";
+import { areaQuestion } from "../core2/modules/people";
+import { placeTermRead } from "../core2/modules/laws";
+import { areaName } from "../english/area-names";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -180,6 +183,9 @@ export function standsOf(core: Readonly<CoreState>, speakerId: PersonId) {
   });
 }
 
+/** What a speech part about the world's areas is a subject of (`area:schools`). */
+const AREA_SUBJECT = "area:";
+
 /** Core parts the speaker could give now, one per subject, each worded from their records. */
 function corePool(
   core: Readonly<CoreState>,
@@ -233,6 +239,38 @@ function corePool(
   }
   for (const subject of ["work", "home", "children", "school"])
     say(subject, subject, {});
+  // The world around them (owner, Nov 8: "start with laws and effects and the
+  // world around you"): the areas of the speaker's town that moved most since
+  // the term began, bad news with the remedy it presses on the town's officials
+  // as a stand, good news as a thing worth saying.
+  const speaker = core.people.get(build.speakerId);
+  if (speaker)
+    for (const read of placeTermRead(
+      coreAPI(core as CoreState),
+      speaker.placeId,
+      core.startedAt,
+    )
+      .filter((row) => areaName(row.area))
+      .sort(
+        (a, b) =>
+          Math.abs(b.slide) - Math.abs(a.slide) || a.area.localeCompare(b.area),
+      )
+      .slice(P.zero, P.two)) {
+      const question = areaQuestion(read.area);
+      say(
+        `${AREA_SUBJECT}${read.area}`,
+        read.slide < P.zero ? "area-worse" : "area-better",
+        {
+          issue: {
+            text: areaName(read.area)!,
+            sourceRecordIds: read.sourceRecordIds,
+          },
+        },
+        read.slide < P.zero && question
+          ? { question, desiredChange: "enact" }
+          : undefined,
+      );
+    }
   return pool;
 }
 
@@ -261,11 +299,22 @@ function rank(
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
   const byReach = (rows: readonly SpeechChoice[]) =>
     speechPartsByReach(rows, reach >= P.zero);
-  const stands = pool.filter((row) => row.stand).slice(P.zero, P.two);
-  const personal = pool.filter((row) => !row.stand);
-  if (!stands.length) return byReach(personal).slice(P.zero, count);
-  const room = count - stands.length;
+  // The world around the speaker is always one of the choices at the core.
+  const world = pool
+    .filter((row) => row.subject.startsWith(AREA_SUBJECT))
+    .slice(P.zero, P.one);
+  const rest = pool.filter((row) => !world.includes(row));
+  const stands = rest.filter((row) => row.stand).slice(P.zero, P.two);
+  const personal = rest.filter((row) => !row.stand);
+  const fixed = [...world];
+  if (!stands.length)
+    return byReach([
+      ...fixed,
+      ...byReach(personal).slice(P.zero, count - fixed.length),
+    ]).slice(P.zero, count);
+  const room = count - stands.length - fixed.length;
   return byReach([
+    ...fixed,
     ...stands,
     ...byReach(personal).slice(P.zero, Math.max(room, P.two)),
   ]).slice(P.zero, count);

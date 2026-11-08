@@ -28,7 +28,7 @@ import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { stopgap } from "../stopgaps";
 import { webLevel, webReach, type Subject } from "../outcome-web-reach";
 import { baseOf } from "../outcome-web-model";
-import { stateOfPlaceKey } from "../places";
+import { placeStateKey } from "../place-map";
 import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
@@ -925,6 +925,8 @@ const PRICE_LAWS = {
   cleanElectricity:
     "us-policy-positions:environment-energy.clean-electricity-standard",
   carbonPrice: "us-policy-positions:environment-energy.price-carbon",
+  retailElectricChoice:
+    "us-policy-positions:environment-energy.allow-retail-electric-choice",
   bottleDeposit: "us-policy-positions:environment-energy.bottle-deposit",
   mileageFee:
     "us-policy-positions:transportation-infrastructure.mileage-fee-replaces-fuel-tax",
@@ -1016,6 +1018,27 @@ function readPriceLaws(api: CoreAPI): void {
       value: p.cleanElectricityPriceShare.value,
     },
     "SG-GOV-REACH-B-energy-price",
+  );
+  // Retail electric choice cuts residential electricity prices in the years
+  // after it opens and the cut fades (Su 2015), so the share runs from the
+  // law's effective date down to nothing over the researched years.
+  // stopgapId: SG-LAWS-retail-choice-price
+  const choice = lawInForce(api, PRICE_LAWS.retailElectricChoice);
+  const choiceYears = choice.governing
+    ? (Date.parse(`${api.state.date}T00:00:00Z`) -
+        Date.parse(`${choice.governing.effectiveDate}T00:00:00Z`)) /
+      (365.25 * 86_400_000)
+    : 0;
+  sync(
+    PRICE_LAWS.retailElectricChoice,
+    {
+      good: "electricity",
+      kind: "share",
+      value:
+        p.retailChoicePriceShare.value *
+        Math.max(0, 1 - choiceYears / p.retailChoiceFadeYears.value),
+    },
+    "SG-LAWS-retail-choice-price",
   );
   sync(
     PRICE_LAWS.carbonPrice,
@@ -1181,7 +1204,7 @@ function webUse(
     const placeKey = (api.state as CoreState).placeMetadata.placeKey ?? "";
     const level =
       webLevel(api, rule.placeId, RECYCLED, subject)?.level ??
-      baseOf(RECYCLED, stateOfPlaceKey(placeKey) ?? "", api.state.seed).value;
+      baseOf(RECYCLED, placeStateKey(placeKey) ?? "", api.state.seed).value;
     return { ...same, redemption: Math.min(1, Math.max(0, level / PERCENT)) };
   }
   if (rule.good === "transit-fare" && rule.kind === "price")

@@ -84,7 +84,7 @@ try {
     await page.locator("#person .sheet-head #person-close").count(),
     1,
   );
-  assert.equal(await page.locator("#person-media.screen-media").count(), 1);
+  assert.equal(await page.locator("#person .strip-screen").count(), 1);
   assert.equal(
     await page.locator(".dossier-detail, .dossier-media").count(),
     0,

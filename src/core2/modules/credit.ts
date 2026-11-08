@@ -6,10 +6,11 @@
  * reprice it. Draws, interest and repayment move through the existing
  * conserving credit writer. Bank books are recorded monthly.
  */
+import { placeStateKey } from "../place-map";
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
-import { countyPopulationSharesForPlace } from "../reference/government-units";
+import { placeCountyPopulationShares } from "../place-map";
 import { corePlaceByKey } from "../place-lookup";
 import { addDays, makeIsoDate, daysBetweenText } from "../kernel/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
@@ -124,7 +125,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   const geoid = place?.sourceGeoid ?? "";
   const county =
     geoid.length === "SSPPPPP".length
-      ? [...countyPopulationSharesForPlace(geoid)].sort(
+      ? [...placeCountyPopulationShares(geoid)].sort(
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
       : geoid;
@@ -146,9 +147,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   if (!(deposits > 0) || !(countyPeople > 0)) {
     // No county deposit row for this place (American Samoa has no FDIC branch): deposits per resident, estimated.
     stopgap("SG-WORLD-credit-island-deposits");
-    const perPerson = fallbackDeposits(
-      place?.stateJurisdictionKey ?? undefined,
-    );
+    const perPerson = fallbackDeposits(placeStateKey(key) ?? undefined);
     if (!perPerson) return undefined;
     deposits = perPerson * townPeople;
     countyPeople = townPeople;
@@ -174,7 +173,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   return {
     organizationId: `organization:bank:${placeId}`,
     placeId,
-    county: county ?? place?.stateJurisdictionKey ?? "",
+    county: county ?? placeStateKey(placeId) ?? "",
     depositsMinor,
     openingEquityMinor: Math.round(
       depositsMinor * p0("creditBankEquityShareOfDeposits"),
@@ -275,8 +274,7 @@ export function smallDollarLenderFor(
   bank: TownBank,
 ): SmallDollarLender | undefined {
   const key = input.placeMetadata?.placeKey;
-  const place = key ? corePlaceByKey(key) : null;
-  const terms = smallDollarTerms(place?.stateJurisdictionKey ?? undefined);
+  const terms = smallDollarTerms(placeStateKey(key) ?? undefined);
   if (!terms) return undefined;
   const households = townHouseholds(input, bank.placeId);
   const borrowers =
@@ -946,10 +944,7 @@ export const CREDIT_MODULE: CoreModule = {
       (row) => row.kind === smallDollarData.lenderKind,
     );
     const terms = smallDollarTerms(
-      core(api).placeMetadata?.placeKey
-        ? (corePlaceByKey(core(api).placeMetadata!.placeKey!)
-            ?.stateJurisdictionKey ?? undefined)
-        : undefined,
+      placeStateKey(core(api).placeMetadata?.placeKey) ?? undefined,
     );
     if (small && terms)
       store(api)

@@ -16,6 +16,8 @@ import { policyAuthority } from "./policy-authority";
 import { POLICY_QUESTIONS } from "./policy-answers";
 import catalog from "../../data/research/powers-catalog/catalog.json" with { type: "json" };
 import mapping from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
+import nacoCounties from "../../data/research/core/naco-2022-county-authority.json" with { type: "json" };
+import { placeRow } from "./place-map";
 import type { CoreAPI } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
@@ -32,11 +34,24 @@ beforeAll(() => {
 
 describe("recorded policy powers", () => {
   it("does not give Congress a question reserved to state law", () => {
-    const result = policyAuthority(
-      api,
-      "us-policy-positions:fiscal.adopt-income-tax",
-      "federal",
-    );
+    // A question the catalog reserves to the states and below: none names the
+    // federal level (the income tax is concurrent since Congress was given the
+    // power to repeal and restore its own).
+    const reserved = Object.entries(
+      (
+        mapping as unknown as {
+          questions: Record<string, { levels: string[] }>;
+        }
+      ).questions,
+    )
+      .filter(([, row]) => row.levels.length && !row.levels.includes("federal"))
+      .map(([question]) => question)
+      .sort()[0]!;
+    expect(
+      reserved,
+      "the catalog reserves some question to the states",
+    ).toBeDefined();
+    const result = policyAuthority(api, reserved, "federal");
     expect(result.allowed).toBe(false);
     expect(result.reason).toBe("level-lacks-power");
     expect(result.source).toContain("question-powers.json");
@@ -220,4 +235,47 @@ describe("recorded policy powers", () => {
       expect(result.source, question).toContain("territory-grant.json");
     }
   }, 600_000);
+
+  it("checks a county's limited power against its state's county authority, from the place map", () => {
+    const zoning = Object.entries(
+      mapping.questions as Record<string, { dial: string; levels: string[] }>,
+    ).find(([, row]) => row.dial === "zoning" && row.levels.includes("county"));
+    expect(zoning).toBeDefined();
+    const state = lawChain(api).stateKey;
+    const usps = state.slice(state.lastIndexOf("-") + 1);
+    const result = policyAuthority(api, zoning![0], "county");
+    const form = placeRow(state)?.form;
+    if (form !== "state") return; // a district or territory reads its own column, never a county cell
+    const row = (
+      nacoCounties.places as Record<
+        string,
+        | { homeRuleOption?: string; dillonsRuleFlexibilities?: string }
+        | undefined
+      >
+    )[usps];
+    const option = row?.homeRuleOption ?? "";
+    // The state's own law on the question (a preemption or a gate) is read first and cites its law record.
+    if (result.source.startsWith("law:")) {
+      expect(result.warning).not.toBe("disputed");
+    } else if (option.startsWith("N/A")) {
+      expect(result).toMatchObject({ allowed: true, warning: "none" });
+      expect(result.source).toContain(
+        `naco-2022-county-authority.json#${usps}`,
+      );
+    } else if (
+      option.startsWith("N -") &&
+      !(row?.dillonsRuleFlexibilities ?? "").includes("Services")
+    ) {
+      expect(result).toMatchObject({
+        allowed: false,
+        reason: "level-lacks-power",
+      });
+      expect(result.source).toContain(
+        `naco-2022-county-authority.json#${usps}`,
+      );
+    } else {
+      // The state's own grant of home rule decides, cited by its law record.
+      expect(result.warning).not.toBe("disputed");
+    }
+  });
 });

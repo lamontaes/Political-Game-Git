@@ -10,6 +10,7 @@ import {
   appliedOn,
   appliedTo,
   lawApplied,
+  lawNoLongerApplies,
   lawReachRuns,
   type AppliedTarget,
 } from "./applied";
@@ -25,7 +26,8 @@ import {
   type BudgetRow,
   type GovernmentRow,
 } from "../modules/budgets";
-import { enactLaw, lawChain, lawInForce } from "../modules/laws";
+import { enactLaw, lawChain, lawInForce, lawRows } from "../modules/laws";
+import { lawRowIsLater } from "../laws-in-force";
 import {
   countedJob,
   residentsRuntime,
@@ -600,8 +602,6 @@ export function payBenefits(
     readonly service: ServiceRow;
     readonly heads: readonly ResidentFacts[];
     readonly modeledShare: number;
-    /** A work requirement in force: who it reaches, and how long it lets them draw. */
-    readonly timeLimit?: AssistanceTimeLimit | null;
   },
 ): Map<string, Record<string, number>> {
   const core = api.state as CoreState;
@@ -615,15 +615,9 @@ export function payBenefits(
   for (const [govId, delta] of Object.entries(input.service.byGovernment)) {
     const gov = governments(api).find((g) => g.id === govId);
     if (!gov || delta <= 0 || !input.heads.length) continue;
-    // The work requirement lets those it reaches draw only for its time limit;
-    // the line's money goes to those still drawing.
-    const limited = timeLimitedNow(api, govId, input.key, input.timeLimit);
-    const drawing = input.heads.filter((h) => !limited.has(h.id));
-    recordDraws(
-      api,
-      input.timeLimit,
-      drawing.map((h) => h.id),
-    );
+    // This is cash assistance from a budget amendment, not SNAP. Only the
+    // food-aid engine applies and consumes 7 USC 2015(o)'s SNAP month limit.
+    const drawing = input.heads;
     const named = drawing.filter((h) => h.named);
     // Real heads: a counted row stands for as many households as its weight says.
     const everyone = drawing.reduce((n, h) => n + (h.scale ?? 1), 0);
@@ -1256,6 +1250,7 @@ export function moveBudget(
   const prior = getRow<MoveRow>(api, "taken", id);
   const stamp = `${input.lawId}#${api.state.date}`;
   if (!input.inForce) {
+    lawNoLongerApplies(api, input.key, gov.id);
     if (!prior || prior.undone || prior.budgetId !== budget.id)
       return prior ?? null;
     for (const [line, delta] of Object.entries(prior.moves))
@@ -1405,6 +1400,8 @@ interface ReserveRow {
   /** The day of the last set-aside, and how many were made that day. */
   readonly setAsideOn?: string;
   readonly setAsidesThatDay?: number;
+  readonly releasedOn?: string;
+  readonly releasesThatDay?: number;
 }
 
 /**
@@ -1428,6 +1425,12 @@ export function holdReserve(
   const accounts = api.accounts();
   const main = accounts.main(gov.organizationId);
   const accountId = `reserve:${gov.organizationId}`;
+  if (!input.inForce) {
+    lawNoLongerApplies(api, input.key, gov.id);
+    // Reading a government with no reserve rule must not create an account.
+    if (!core.cashJournal.accounts.has(accountId))
+      return { held: 0, target: 0 };
+  }
   if (!core.cashJournal.accounts.has(accountId))
     accounts.open({
       id: accountId,
@@ -1437,10 +1440,15 @@ export function holdReserve(
     });
   const held = accounts.balance(accountId);
   const id = `reserve|${input.key}|${gov.id}`;
+  // Keep both counts across repeal and restoration: the same treasury can
+  // set aside and release money more than once today.
+  const prior = getRow<ReserveRow>(api, "taken", id);
   if (!input.inForce) {
+    const releases =
+      prior?.releasedOn === api.state.date ? (prior.releasesThatDay ?? 0) : 0;
     if (held > 0)
       accounts.transfer({
-        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}`,
+        id: `reach-b:reserve-release:${input.key}:${gov.id}:${api.state.date}${releases ? `:${releases + 1}` : ""}`,
         from: accountId,
         to: main,
         amountMinor: held,
@@ -1448,11 +1456,15 @@ export function holdReserve(
         source: source(api, "Minimum reserve balance repealed"),
       });
     putRow(api, "taken", {
+      ...prior,
       id,
       key: input.key,
       governmentId: gov.id,
       accountId,
       targetMinor: 0,
+      ...(held > 0
+        ? { releasedOn: api.state.date, releasesThatDay: releases + 1 }
+        : {}),
     } satisfies ReserveRow);
     return { held: 0, target: 0 };
   }
@@ -1471,7 +1483,6 @@ export function holdReserve(
   // first of the fiscal year, when the treasury's close reads it again); a
   // set-aside the treasury could pay only in part tops up at the second
   // read, under its own transfer id.
-  const prior = getRow<ReserveRow>(api, "taken", id);
   const sameDay = prior?.setAsideOn === api.state.date;
   const count = sameDay ? (prior?.setAsidesThatDay ?? 1) : 0;
   const receipt =
@@ -1487,6 +1498,7 @@ export function holdReserve(
         })
       : null;
   putRow(api, "taken", {
+    ...prior,
     id,
     key: input.key,
     governmentId: gov.id,
@@ -1513,6 +1525,7 @@ export function holdReserve(
 }
 
 interface TaxRow {
+  readonly policyLawId?: string;
   readonly id: string;
   readonly key: string;
   readonly level: string;
@@ -1525,6 +1538,8 @@ interface TaxRow {
   readonly undone: boolean;
   /** This row flattened a starting schedule, rather than adopting a new tax. */
   readonly flattened?: boolean;
+  /** This row removed an existing tax, rather than undoing a new adoption. */
+  readonly removed?: boolean;
 }
 
 function levelRow(api: CoreAPI, level: string): LawRowInput | null {
@@ -1596,37 +1611,51 @@ export function incomeTaxAct(
   const hasTax = !!current && (current.value ?? 0) > 0;
   const scope = input.level === "state" ? "state" : "local";
   if (!input.enacting) {
-    // Repeated reviews leave the flattened schedule (or a later independent act) alone.
-    if (prior?.flattened && !prior.undone) return prior;
-    if (prior?.undone && !prior.flattened) return prior;
+    // Repeated reviews leave the replacement (or a later independent act) alone.
+    if ((prior?.flattened || prior?.removed) && !prior.undone) return prior;
+    if (prior?.undone && !prior.flattened && !prior.removed) return prior;
     if (!prior || prior.undone || !prior.lawRowId) {
-      if (!input.graduated || !hasTax || !graduatedTax(current))
+      if (!hasTax || (input.graduated && !graduatedTax(current)))
         return prior ?? null;
-      // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
-      // question carries no enacted replacement rate or deduction rules.
-      api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
-      const flat = enact(
-        reachParameter(
-          scope === "state"
-            ? "stateFlatIncomeTaxPercent"
-            : "localFlatIncomeTaxPercent",
-        ),
-        "percent-flat",
-        undefined,
-        "flatten",
-      );
+      // Repealing adoption removes the existing tax, including one already
+      // in force at the opening. Its own terms survive for exact restoration;
+      // the withholding reader scales every retained bracket to zero.
+      let replacement: LawRowInput;
+      if (!input.graduated) {
+        replacement = enact(
+          0,
+          current!.unit ?? "percent",
+          current!.terms as Record<string, unknown> | undefined,
+          "remove",
+        );
+      } else {
+        // stopgapId: SG-GOV-REACH-B-flat-tax-replacement — the catalog's binary
+        // question carries no enacted replacement rate or deduction rules.
+        api.stopgap("SG-GOV-REACH-B-flat-tax-replacement");
+        replacement = enact(
+          reachParameter(
+            scope === "state"
+              ? "stateFlatIncomeTaxPercent"
+              : "localFlatIncomeTaxPercent",
+          ),
+          "percent-flat",
+          undefined,
+          "flatten",
+        );
+      }
       const row: TaxRow = {
         id,
+        policyLawId: input.lawId,
         key: input.key,
         level: input.level,
-        lawRowId: flat.id,
+        lawRowId: replacement.id,
         prior: {
           value: current!.value,
           unit: current!.unit ?? null,
           terms: current!.terms as Record<string, unknown>,
         },
         undone: false,
-        flattened: true,
+        ...(input.graduated ? { flattened: true } : { removed: true }),
       };
       putRow(api, "taken", row);
       return row;
@@ -1638,11 +1667,58 @@ export function incomeTaxAct(
         prior.prior?.terms ?? undefined,
         "repeal",
       );
-    const row = { ...prior, undone: true };
+    const row = { ...prior, policyLawId: input.lawId, undone: true };
     putRow(api, "taken", row);
     return row;
   }
-  if (prior?.flattened) {
+  // A fresh adoption can restore a tax separately set to zero by an amount
+  // bill. Read this level's actual enacted history, never another level's
+  // default schedule. A standing review of the same policy cannot undo a
+  // later rate bill.
+  if (
+    !input.graduated &&
+    !hasTax &&
+    prior?.policyLawId !== input.lawId &&
+    (!prior || prior.undone || (!prior.flattened && !prior.removed))
+  ) {
+    let basis: LawRowInput | undefined;
+    for (const row of lawRows(api, "income-tax", at.jurisdiction)) {
+      if (
+        row.level !== at.level ||
+        row.tier !== "general" ||
+        row.effectiveDate > api.state.date ||
+        !(Number(row.value) > 0)
+      )
+        continue;
+      if (!basis || lawRowIsLater(row, basis)) basis = row;
+    }
+    if (basis) {
+      const restored = enact(
+        basis.value!,
+        basis.unit ?? "percent",
+        basis.terms as Record<string, unknown> | undefined,
+        "adopt",
+      );
+      const row: TaxRow = {
+        id,
+        key: input.key,
+        level: input.level,
+        policyLawId: input.lawId,
+        lawRowId: restored.id,
+        undone: false,
+        prior: current
+          ? {
+              value: current.value,
+              unit: current.unit ?? null,
+              terms: (current.terms as Record<string, unknown>) ?? null,
+            }
+          : null,
+      };
+      putRow(api, "taken", row);
+      return row;
+    }
+  }
+  if (prior?.flattened || prior?.removed) {
     // Restore once, only while the replacement is still our own law row.
     if (prior.undone) return prior;
     if (current?.id === prior.lawRowId)
@@ -1652,7 +1728,7 @@ export function incomeTaxAct(
         prior.prior?.terms ?? undefined,
         "restore",
       );
-    const row = { ...prior, undone: true };
+    const row = { ...prior, policyLawId: input.lawId, undone: true };
     putRow(api, "taken", row);
     return row;
   }
@@ -1681,6 +1757,7 @@ export function incomeTaxAct(
   }
   const row: TaxRow = {
     id,
+    policyLawId: input.lawId,
     key: input.key,
     level: input.level,
     lawRowId: written?.id ?? null,

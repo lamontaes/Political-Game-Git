@@ -4,6 +4,7 @@
  * reads the catalog's words itself.
  */
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import { amountWords } from "./bill-sections";
 import billSections from "../../data/english/bill-sections.json" with { type: "json" };
 
 interface Policy {
@@ -32,6 +33,7 @@ export function storyTopicName(topic: string): string | null {
         amounts: Record<string, { subject: string }>;
       }
     ).amounts[topic]?.subject ??
+    amountWords(topic)?.subject ??
     null
   );
 }

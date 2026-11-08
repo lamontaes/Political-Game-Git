@@ -27,6 +27,9 @@ export interface SpeedReceipt {
   readonly rows: readonly YearTiming[];
 }
 
+/** No change makes a year more than 5 percent slower (CTO, Nov 8; the median of three runs is the caller's). */
+export const SLOWER_LIMIT = 1.05;
+
 /** Timing is comparable only for the same route, host and complete years. */
 export function compareYears(
   baseline: SpeedReceipt,
@@ -57,11 +60,11 @@ export function compareYears(
       after.seconds <= 0
     )
       problems.push(`Year ${after.year}: invalid elapsed time`);
-    else if (after.seconds > before.seconds * 1.2)
+    else if (after.seconds > before.seconds * SLOWER_LIMIT)
       problems.push(
         `Year ${after.year}: ${after.seconds.toFixed(3)}s exceeds ${(
-          before.seconds * 1.2
-        ).toFixed(3)}s (120% of main)`,
+          before.seconds * SLOWER_LIMIT
+        ).toFixed(3)}s (105% of main)`,
       );
     if (requireIdentical && before.fingerprint !== after.fingerprint) {
       if (!before.tables || !after.tables)

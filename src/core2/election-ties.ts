@@ -33,6 +33,7 @@ import { holderOf, officialLean, officialOf } from "./modules/officials";
 import type { ModuleRow } from "./module-data";
 import type { OfficeInput } from "./offices-local";
 import type { CoreAPI } from "./types";
+import { placeStateKey } from "./place-map";
 
 interface TieRule {
   readonly method: string;
@@ -76,13 +77,8 @@ export function ruleField(contest: ContestRow): string {
   return "generalElectionTie";
 }
 
-function stateOf(api: CoreAPI): string {
-  return (
-    api
-      .moduleState(ELECTIONS_MODULE_ID)
-      .table("town")
-      .get("town") as unknown as { stateKey: string }
-  ).stateKey;
+function tieState(api: CoreAPI): string {
+  return placeStateKey(api.state.placeMetadata?.placeKey) ?? "";
 }
 
 function keep(api: CoreAPI, row: TieRow): void {
@@ -109,7 +105,7 @@ export function breakElectionTie(
   raceVotes?: number,
 ): string | null {
   const sorted = [...tied].sort();
-  const rule = rules[stateOf(api)]?.[ruleField(contest)];
+  const rule = rules[tieState(api)]?.[ruleField(contest)];
   let method = rule?.method ?? "new-election";
   if (rule?.smallRace && raceVotes !== undefined) {
     // The statute's own line, read from the state's row (data).

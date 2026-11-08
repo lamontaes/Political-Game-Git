@@ -1,0 +1,474 @@
+{
+  "seed": "5b7f20c9e1a43d68",
+  "place": {
+    "seed": "f4da8023d325aacb1ede812d485abb57c439fc53622fa9c9ef3c720fdf141870",
+    "key": "5054325",
+    "name": "Peacham, Vermont",
+    "state": "US-VT"
+  },
+  "window": 365,
+  "after": 31,
+  "results": [
+    {
+      "key": "state-contribution-limit-governor",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "state-contribution-limit-governor 4480 -> 4928 at state (law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c) effective 2025-01-21",
+      "lawIds": [
+        "law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c",
+        "law:US-VT:state:state-contribution-limit-governor:general:2025-01-01",
+        "law:US-VT:state:state-contribution-limit-governor:general:2026-01-22:law-wiring-d24ec12c-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US-VT:state:state-contribution-limit-governor:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c",
+          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c",
+          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-governor:general:2025-01-21:law-wiring-d24ec12c"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 66
+    },
+    {
+      "key": "state-contribution-limit-state-senate",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "state-contribution-limit-state-senate 1680 -> 1848 at state (law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd) effective 2025-01-21",
+      "lawIds": [
+        "law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd",
+        "law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-01",
+        "law:US-VT:state:state-contribution-limit-state-senate:general:2026-01-22:law-wiring-85f760cd-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd",
+          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd",
+          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-senate:general:2025-01-21:law-wiring-85f760cd"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 70
+    },
+    {
+      "key": "state-contribution-limit-state-house",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "state-contribution-limit-state-house 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246) effective 2025-01-21",
+      "lawIds": [
+        "law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246",
+        "law:US-VT:state:state-contribution-limit-state-house:general:2025-01-01",
+        "law:US-VT:state:state-contribution-limit-state-house:general:2026-01-22:law-wiring-741c0246-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US-VT:state:state-contribution-limit-state-house:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246",
+          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246",
+          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-state-house:general:2025-01-21:law-wiring-741c0246"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 68
+    },
+    {
+      "key": "state-contribution-limit-local",
+      "kind": "amount",
+      "family": "government",
+      "inForceAtOpening": false,
+      "change": "state-contribution-limit-local 1120 -> 1232 at state (law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d) effective 2025-01-21",
+      "lawIds": [
+        "law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d",
+        "law:US-VT:state:state-contribution-limit-local:general:2025-01-01",
+        "law:US-VT:state:state-contribution-limit-local:general:2026-01-22:law-wiring-5f05fd0d-undo"
+      ],
+      "openingReach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reach": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "reachAtEnd": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "inPlay": [],
+      "applied": {
+        "rows": 0,
+        "withAmount": 0,
+        "sample": []
+      },
+      "readers": {
+        "src/core2/modules/campaigns.ts:2886": 562,
+        "src/core2/life.ts:573": 5
+      },
+      "openingRow": "law:US-VT:state:state-contribution-limit-local:general:2025-01-01",
+      "money": {
+        "direct": [],
+        "diff": [],
+        "diffKinds": 0,
+        "cited": [],
+        "controlCited": [],
+        "own": {
+          "targets": 0,
+          "among": "reached",
+          "pairs": [],
+          "paid": 0,
+          "pick": null,
+          "sample": [],
+          "near": []
+        }
+      },
+      "web": {
+        "links": [],
+        "fired": [],
+        "firedCount": 0,
+        "windowDays": 365,
+        "cause": [],
+        "reenacted": null
+      },
+      "heard": {
+        "people": 70,
+        "sample": [
+          "person_268117cb5f71fce9:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d",
+          "person_59a1c7080fc385db:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d",
+          "person_5867fb5d85359ef3:printed:outlet:cable:0:national:law-took-effect:law:US-VT:state:state-contribution-limit-local:general:2025-01-21:law-wiring-5f05fd0d"
+        ]
+      },
+      "afterUndo": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "afterUndoChanged": {
+        "fullPeople": 0,
+        "countedGroups": 0,
+        "countedPeople": 0,
+        "households": 0,
+        "organizations": 0,
+        "governments": 0,
+        "other": 0,
+        "open": 0,
+        "ended": 0,
+        "sample": []
+      },
+      "seconds": 73
+    }
+  ]
+}

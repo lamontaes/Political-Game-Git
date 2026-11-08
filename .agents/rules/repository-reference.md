@@ -25,7 +25,6 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 - `npm run spelling` (American English), `npm run wording:check` (player wording), `npm run report:check -- <file>` (owner reports).
 - `npm run agent:preflight`, `npm run agent:test-cadence`: workspace facts, and focused commands for changed files. `npm run test:skill-ops`: the instruction-file contract (skills, mirrors, these rules).
 - `npm run storage -- status | workspace --owner <o> | run <operation> -- <command> | check --path <folder>`: the workspace and disk guard. It protects the owner's Mac; cloud sessions set `OCD_STORAGE_OVERRIDE` (see `storage-and-workspaces.md`).
-- Art: `npm run validate:art`, `npm run inventory:art`, `npm run qa:art`, `npm run derive:scene-tiers`, `npm run intake:pg-modular`, `npm run measure:arms`.
 
 ## Working rules
 
@@ -44,7 +43,7 @@ Commands and lasting technical constraints. `AGENTS.md` holds the rules; consult
 - **No repository upscaling:** the pipeline never enlarges a raster. An external upscale is a candidate master only with its lineage declared, and that lineage follows every derived tier.
 - **Lived-in, not legible:** anything the simulation owns (names, seals, bill numbers, headlines, dates, results, portraits) belongs in a declared dynamic surface slot, never baked into the picture.
 - **Art identity is not a world label:** a scene family describes what the art depicts. What the world calls it comes from the world's records, never from a filename or tag.
-- Adding a room is authoring data, never scene-specific screen code. See `docs/systems/scene-authoring-pipeline.md` and `docs/systems/art-assets.md`.
+- Adding a room is authoring data, never scene-specific screen code. Backdrops enter through `scripts/backdrops/` and `art/backdrops/manifest.json`.
 
 ## Coding-agent operations
 

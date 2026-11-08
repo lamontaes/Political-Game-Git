@@ -8,7 +8,12 @@ import { billForm, type BillRow } from "../core2/modules/legislature";
 import { coreAPI } from "../core2/state";
 import seriesPowers from "../core2/data/legislature/series-powers.json" with { type: "json" };
 import { storyTopicName } from "./policy-names";
-import { BILL_SECTIONS, composeBill, valueWords } from "./bill-sections";
+import {
+  amountWords,
+  BILL_SECTIONS,
+  composeBill,
+  valueWords,
+} from "./bill-sections";
 
 // A bill's sections are worded from the record (owner, Oct 14, 2026: bill
 // text is real; a local measure has its own form). The words come from
@@ -26,7 +31,7 @@ describe("the bill-sections data", () => {
   it("words every policy and law series on the bill catalog", () => {
     for (const [key, description] of Object.entries(policyNames())) {
       const id = key.replace(/^[a-z]+(?:-[a-z]+)*:/, "");
-      const row = BILL_SECTIONS.policies[id] ?? BILL_SECTIONS.amounts[id];
+      const row = BILL_SECTIONS.policies[id] ?? amountWords(key);
       expect(row, `${key} (${description}) needs a row`).toBeTruthy();
       expect(row!.subject.length, key).toBeGreaterThan(3);
       expect(row!.purpose.length, key).toBeGreaterThan(3);

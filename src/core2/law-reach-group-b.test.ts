@@ -10,6 +10,7 @@ import { createHash } from "node:crypto";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
 import { repealStartingAnswers } from "./law-test-start";
+import { POLICY_QUESTIONS } from "./policy-answers";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -276,6 +277,20 @@ function jurisdictionOf(level: string): string {
 
 /** Enact a law row at a level, effective tomorrow, and run past it. */
 function enact(series: string, value: number, level: string, unit?: string) {
+  // A lower level's income tax takes effect only where the state grants its
+  // places the power (law levels), so the state acts first.
+  if (
+    level !== "state" &&
+    level !== "federal" &&
+    value > 0 &&
+    (series === "income-tax" ||
+      series.endsWith("fiscal.adopt-income-tax") ||
+      series.endsWith("fiscal.graduated-income-tax")) &&
+    lawInForce(api, "local-income-tax-authority").levels.find(
+      (l) => l.level === "state",
+    )?.row?.value !== 1
+  )
+    enact("local-income-tax-authority", 1, "state");
   measure += 1;
   enactLaw(api, {
     jurisdiction: jurisdictionOf(level),
@@ -620,7 +635,12 @@ describe("law reach, group B: every policy reaches people through its engine", (
   const householdRecords = [Q("fiscal.exempt-groceries-from-sales-tax")];
   for (const key of householdRecords)
     it(`${key}: every household reached (its head carries the terms); employers bound; repeal ends it`, () => {
-      enact(key, 1, LOCAL);
+      // Where the state bars its places from the rule, only the state makes it.
+      const at = POLICY_QUESTIONS[key]?.answers[lawChain(api).stateKey]
+        ?.preempts
+        ? "state"
+        : LOCAL;
+      enact(key, 1, at);
       expect(reached(key), `${where} ${key}`).toBe(householdsWithAdults());
       const def = groupBPolicy(key)!;
       for (const row of openPeople(key))
@@ -632,7 +652,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
         households: reached(key),
         employers: openOrgs(key).length,
       };
-      enact(key, 0, LOCAL);
+      enact(key, 0, at);
       expectEnded(key);
     });
 

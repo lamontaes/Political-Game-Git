@@ -5,6 +5,7 @@
 // moves by the yeses. Usage: SEED=<seed> node src/bench/endorsement-meeting.browser.mjs [screenshot-dir]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
+import { chooseTrailAct } from "./trail-act.mjs";
 import { fileWhenFilingOpens } from "./start-life.mjs";
 import { openCampaignTrail } from "./campaign-trail.mjs";
 
@@ -52,9 +53,7 @@ try {
   const ask = page.waitForResponse(
     (r) => new URL(r.url()).pathname === "/api/campaign/act",
   );
-  await page
-    .locator("#sheet-body.place-view button", { hasText: /^Endorsements$/ })
-    .click();
+  await (await chooseTrailAct(page, /^Endorsements$/)).click();
   const result = await (await ask).json();
   const asked = result.answers;
   console.log(
@@ -79,10 +78,9 @@ try {
   for (const [at, answer] of asked.entries()) {
     assert.equal(said[at].text, answer.line, `ask ${at + 1}`);
     assert.equal(said[at].who, answer.name, `who ${at + 1}`);
-    assert.ok(
-      !/undefined|\{/.test(answer.line) && answer.line.includes(answer.name),
-      answer.line,
-    );
+    // The name is the speaker label above the line, not part of it
+    // (campaign-asks-spoken.test.ts keeps the family name out of the line).
+    assert.ok(!/undefined|\{/.test(answer.line), answer.line);
   }
   assert.match(
     said.at(-1).text,
