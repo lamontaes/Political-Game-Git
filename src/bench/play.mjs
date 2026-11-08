@@ -30,6 +30,7 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
 import { devScenePanel } from "./ui/dev-scene.mjs";
@@ -2077,6 +2078,10 @@ async function showPerson(person) {
   if (memory) secondColumn.push(memory);
   if (devModeOn())
     secondColumn.push(
+      await devRecordsSection({
+        personId: person.personId,
+        labels: controls.devRecords,
+      }),
       await devPersonSection({
         personId: person.personId,
         labels: controls.devPerson,
