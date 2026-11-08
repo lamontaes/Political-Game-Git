@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: claimed
+status: in-pr
 claimed-by: astra/federal-income-adoption
-pr:
+pr: #7352
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T01:48:46.519Z
