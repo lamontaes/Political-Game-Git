@@ -1280,6 +1280,9 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * its counts. The roll call is built when someone asks for it
  * (`rollCallOf`). stopgapId: SG-GOV-outside-session-result-only
  */
+/** What an outside session's calendar entry carries for the governor when no one holds the office. */
+const NO_GOVERNOR = "no-governor";
+
 function openOutsideSession(
   api: CoreAPI,
   work: Readonly<ModuleCalendarWork>,
@@ -1381,7 +1384,8 @@ function openOutsideSession(
         r.counts.map((c) => `${c.yes}-${c.no}`).join("/"),
         bodies.map((b) => b.id).join(","),
         r.decision,
-        governorKey,
+        // A calendar record id is never empty: a state with no governor seated says so.
+        governorKey || NO_GOVERNOR,
         String(i + 1),
         String(r.margin),
       ],
@@ -1460,7 +1464,9 @@ function outsideEnact(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       bodies: bodyIds,
       direction,
       margin: Number(margin),
-      ...(governorKey ? { decidedBy: governorKey } : {}),
+      ...(governorKey && governorKey !== NO_GOVERNOR
+        ? { decidedBy: governorKey }
+        : {}),
       decision,
     },
   });
