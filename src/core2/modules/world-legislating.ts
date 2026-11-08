@@ -178,6 +178,8 @@ export function levelMayDecide(
   value = 1,
   stateKey?: string,
 ): boolean {
+  // A township is read as the town's own level (SG-GOV-township-law-level: the law chain has no township level).
+  if (level === "township") api.stopgap("SG-GOV-township-law-level");
   const own = level === "township" ? "city" : level;
   if (!questionForLevel(api, question, own, stateKey)) return false;
   const provision: Provision = { kind: "policy-question", question, value };

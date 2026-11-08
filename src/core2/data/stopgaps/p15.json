@@ -81,7 +81,9 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "NCES EDGE school attendance boundaries (SABS) with the household's location, private school (PSS) and homeschool shares by state, and historical CCD directories for each cohort's years.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "No per-child seeded pick exists in the code any more and src/core2/data/opening-schools.json is gone: a school-age person attends the school of their place (schoolOfPlace, src/core2/modules/school.ts) on the weekdays the school-days rule gives (SG-CORE-school-days stands for the rest)."
   },
   {
     "id": "SG-P15-coworker-groups",

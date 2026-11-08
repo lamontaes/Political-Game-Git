@@ -162,7 +162,16 @@ export const OFFICIALS_MODULE: CoreModule = {
     if (event.kind === "took-office") {
       const winner = event.personIds[0];
       if (winner) tookOffice(api, winner, seatId);
-      else seatUnheldFiller(api, seatId);
+      else {
+        seatUnheldFiller(api, seatId);
+        // A holder the offices engine seated by identity alone (a vacancy's filler, a
+        // successor) is a person from the day they take the seat, not the first time it is read.
+        for (const term of api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[])
+          holderOf(api, term);
+      }
     }
     leaveEndedTerms(api, seatId);
   },
