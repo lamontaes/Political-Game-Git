@@ -44,3 +44,28 @@ for (const row of serviceChargeShares(api) as any[])
     "target/mo",
     row.targetMonthlyMinor,
   );
+import { townPayers } from "../../src/core2/budgets-service-charges";
+import { lawChain } from "../../src/core2/modules/laws";
+const tp = townPayers(api, lawChain(api).townPlaceId);
+console.log(
+  "full payers",
+  tp.people.size,
+  "counted",
+  [...tp.counted.values()],
+  "firms",
+  tp.firms.size,
+  "dwellings",
+  tp.dwellings,
+);
+const rt: any = (
+  await import("../../src/core2/modules/residents")
+).residentsRuntime(world.core);
+for (const id of [...tp.firms].slice(0, 5)) {
+  const f = rt.flows.get(`outside-costs:${id}`);
+  console.log(
+    "firm flow",
+    id.slice(-8),
+    f?.amountMinor,
+    JSON.stringify(f?.cadence),
+  );
+}

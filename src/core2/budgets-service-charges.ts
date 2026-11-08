@@ -109,7 +109,7 @@ interface TownPayers {
   readonly dwellings: number;
 }
 
-function townPayers(api: CoreAPI, townPlaceId: string): TownPayers {
+export function townPayers(api: CoreAPI, townPlaceId: string): TownPayers {
   const core = api.state as CoreState;
   const people = new Set<string>();
   for (const home of core.households.values()) {
