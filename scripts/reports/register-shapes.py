@@ -64,6 +64,13 @@ for c in ORDER:
         f"| {NAMES[c]} | {len(ts)} | {statistics.mean(w):.1f} | {statistics.median(w):.0f} | "
         f"{short:.0%} | {ask:.0%} | {con:.0%} | {i_say:.0%} | {you_say:.0%} |"
     )
+EVASION = r"(get ahead of|speculate|question for|speak for itself|too early to say|haven't seen the final|still reading|more (to say )?(after|when|next))"
+press = rows["press"]
+evasive = sum(1 for t in press if re.search(EVASION, t, re.I))
+evasion_note = (
+    f"In the press kind, {evasive} of {len(press)} lines use a set evasion of the briefing formulas "
+    f"({evasive / len(press):.1%}); the briefing card measures 24 percent of substantive answers."
+)
 lines += [
     "",
     "## What it shows",
@@ -73,6 +80,8 @@ lines += [
     "## What is still open",
     "",
     "A hallway word, a floor exchange, a press answer and a resident's question read alike in length and manner. A real hallway word is shorter and quieter than a floor exchange, which is more formal (Madam Chair, I yield, the gentleman from). The next step is to give each spoken kind its own devices from the register cards, and to grade by kind so the owner's grades shape them. The register cards' own measured corpora give targets. In ordinary talk about 45 percent of turns are three words or fewer (Santa Barbara Corpus). The hallway has 8 percent, up from 2 percent before tonight's 37 short hallway lines. The floor opens by thanking the chair in 82 percent of turns (Pennsylvania Legislative Journal), a form the banks do not yet have. A press briefing question runs 14 words in the middle and an answer 17. Public comment at a hearing now counts with residents, not the floor.",
+    "",
+    evasion_note,
     "",
     "## How this was made",
     "",
