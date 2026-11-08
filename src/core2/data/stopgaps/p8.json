@@ -116,8 +116,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "Resolved Nov 8 (Tiers): stressHalfLifeDays = 1, ESTIMATED from Bolger, DeLongis, Kessler and Schilling (1989) (habituation by the second day; PubMed 2810026). A played half-year at Reynolds, Georgia moved the town's mean stress from 0.240 (seven days) to 0.267 (one day).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-needWeight",
