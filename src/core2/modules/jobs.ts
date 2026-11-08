@@ -1428,6 +1428,8 @@ function reviewEmployers(api: CoreAPI): void {
           jobsLost: String(jobChangeIds.length),
           projectedStaff: String(projected),
           targetStaff: String(target),
+          // The staff the business has after the cut, from its own jobs: what a story says still work there.
+          staffAfter: String(staffHeads(c, currentJobs(api, row.id))),
           ...(trading
             ? {
                 tradingId: trading.id,

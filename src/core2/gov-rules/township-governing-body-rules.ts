@@ -51,6 +51,8 @@ interface TownCharter {
   readonly memberTitle: string;
   readonly chiefTitle: string | null;
   readonly chiefPresidesOverBody: boolean;
+  /** How sure the reading is: a charter or town page (high), a summary of one (medium). */
+  readonly confidence?: string;
   readonly citation: string;
   readonly url: string;
 }
@@ -140,7 +142,10 @@ export function townshipGoverningBodyRules(
             title: charter.chiefTitle,
             presidesOverBody: charter.chiefPresidesOverBody,
             basis: "named-county",
-            status: "SOURCED",
+            status:
+              charter.confidence === "medium"
+                ? "ESTIMATED FROM AVERAGE"
+                : "SOURCED",
           }
         : {
             kind: "none",

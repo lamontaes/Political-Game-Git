@@ -1,9 +1,8 @@
-/* global window */
 // The Guide (owner, Oct 28: its own menu entry; mock pl-guide): the civic words in a list at
 // the left, the chosen word's article in header strips at the right: what it is, what it
 // means here, and the words it is tied to. The list and the article are the glossary's own
 // records; the screen hands them in.
-import { el } from "./dom.mjs";
+import { el, viewHeight } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { pager } from "./pager.mjs";
 import { searchBox } from "./fields.mjs";
@@ -94,7 +93,7 @@ export function guideScreen({
             },
             rows: Math.max(
               6,
-              Math.min(14, Math.floor((window.innerHeight - 330) / 36)),
+              Math.min(14, Math.floor((viewHeight() - 330) / 36)),
             ),
             columns: 1,
             rowHeight: 34,
