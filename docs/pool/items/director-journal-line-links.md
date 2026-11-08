@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at: 2026-11-04T10:31:45.783Z
 ---
 
-**What.** Split from director-journal-one-story: every Journal line after the first carries a link to the line before it, by cause (its records name the earlier line's records or share a fact such as the contest or bill, never only a person or place), feeling (the mood moved the same way) or time, with the record ids that join them. The joining words and another's turn told through the tie stay on director-journal-one-story.
+**What.** Split from director-journal-one-story: every Journal line after the first carries a link to the line before it, by cause (its records name the earlier line's records or share a fact such as the contest or bill, never only a person or place), feeling (the mood moved the same way) or time, with the record ids that join them. The joining words and another's turn told through the tie stay on director-journal-one-story. This item is the link only, a record of how one line follows another; the words that voice the link are a later piece from the journal bank.
 
 **Rules.** One engine per mechanic: the Journal reads the records; the link decides nothing. No hand-written player text: the joining words come from the journal bank in a later PR.
 

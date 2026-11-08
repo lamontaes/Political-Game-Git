@@ -16,7 +16,7 @@ source: added with npm run pool -- add
 
 **Rules.** This is a game, not a spreadsheet: no new player step; the figure goes where a measurement already prints (path-check's campaign line or the race's results record), not a new screen unless the owner asks. One engine per mechanic: read the campaigns module's pledges table and the voting engine's ballots, never a second count. No dice.
 
-**Done when.** A fresh session replays New Game in Murray, Nebraska at replay 1d3f0e18ca4ba7e5 on main, knocks doors to the election, and reads in a printed log or on a screen the share of door-yes people who voted and the share of other adults who voted for that race; the same line prints in two places drawn from all 56 (place and seed named).
+**Done when.** A fresh session replays New Game in Murray, Nebraska at replay 1d3f0e18ca4ba7e5 on main, knocks doors to the election, and reads in a printed log or on a screen the share of door-yes people who voted and the share of other adults who voted for that race; the same line prints in two places drawn from all 56 (place and seed named). It is read in a played world, with the place and seed named for each.
 
 **Files.** src/bench/path-check.ts, src/core2/modules/campaigns.ts, src/bench/election-night.ts
 

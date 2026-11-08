@@ -7,6 +7,34 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 - None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
+## Nov 8, 2:10 to 2:45 p.m.: the playtest of v0.94.0: grades reach the whole engine, no arrows or pages, one date (owner)
+
+- **Word for word, with times:** `docs/coordination/playtest/2026-11-08-1-verbatim.md`, his answers in `2026-11-08-1.md`, and every point checked against main in `2026-11-08-1-check.md` (#7721). Recorded by the night Coordinator from the CTO's 2:45 p.m. handoff on #7365, while the CTO's account is at 95%: "you're at 95% so go ahead ans send everything over to my other account."
+- **The English engine's reach and grading:** "time after time i bitch about the english engine yet it only updates one scene at a time. i keep saiyng that english engine updates should be reletively frequent and should impact the entire game, with it working specifically for scenes and stuff. this is why it feels like i've seen the same dialogue for 2 weeks." And (about 2:42 p.m.): "i have ruled on adding those lines in multiple times. this is why the entire engine being affected by grading is important. im not grading 6000 lines and 800 conversations individually." So:
+  - A grade reaches every line that shares its pattern, voice and register across the whole game (as #6223 did on Oct 27), while each line still fits its kind of scene. #7435's narrowing to one kind of scene is undone.
+  - New lines keep being added, and small batches come to him to grade.
+  - A rewrite never deletes a line he graded good.
+  - Updates are frequent and reach the whole game.
+- **Scene openers:** "If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton. And then it starts like that."
+- **Addresses:** "you're right inagural is fine. i just hate the way the speech looks which is the english engines fault." The inaugural on Jan 20 stays. The way each address is worded is the fault.
+- **No arrows and no "1 of N" pages anywhere:** "I fucking hate when you put these arrows... like those shitty survey sites." A long list is a list beside its detail. The CTO's "long lists page with arrows" wording is withdrawn.
+- **Patch notes:** a list of builds, each opening to what it added, changed and fixed, like real patch notes. They're never "a huge, big-ass text box."
+- **Loading:** the loading bar comes back. On Oct 28 he meant only a stray piece at its end. The loading screen names each step as it loads.
+- **Budgets in The Political Process's style:** "yes i mean its style." That means real figures, "since last year", and timeline lines on a dark background, with no bar graphs. The Metrics tab he approved on Nov 5 gets a pool item.
+- **A Week:** "3 seconds is too slow."
+- **One date:** "There's one date and there's one time. One date, one time." Every screen reads the world's date, never one set at load.
+- **Glossary underlines approved:** "The underline is working. Awesome. Love it, love it, love it."
+- **CTO calls the owner may overrule (2:45 p.m.):** #7697's other-state budgets, built as the published budget times one growth factor, are sent back. Budgets move from each state's own simulated economy and its own laws.
+- **Coordinator calls the owner may overrule (3:00 p.m., Memory's five fold questions in #7727, answered from AGENTS.md "Speed", Oct 30 01:55, Oct 8 "keep the result, not the reasoning", and no thresholds):**
+  - Voters' heard promises are kept until the candidate's next election, which is the window `voting.ts` reads. Then they fold into the candidate's record of promises made and broken, by area.
+  - Impressions fade on a sliding scale with time since the voter last heard of the candidate, at a researched forgetting rate. A row back at its resting value is dropped, and there's no "N years" cutoff.
+  - Per-place votes stay for races in the player's own chain. Any other closed race folds to its totals and winner once the office's next race has used it.
+  - Campaign gifts fold to yearly totals per candidate after the race closes, as for cash receipts. Each race's endorsement list stays.
+  - The coarse fast-forward for unwatched years is built as well as these folds, not instead of them.
+- **Coordinator calls (2:40 p.m.):**
+  - The state per diem stays an expense payment on its own line, paid once by the treasury that owes it, outside the one payroll.
+  - Layoffs keep the registered JOLTS turnover stopgap until firms have their own demand shocks. Hours are cut first through `api.rehourJob`, then whole people leave from discrete causes: the firm's cash, the owner's retirement, quits and life events.
+
 ## Nov 8 morning: check every ruling against the code; simulate, don't generate; ranges are not targets for anything; the other 49 states move on their own; candidates run because they want to (owner)
 
 - **Word for word, with times:** `docs/coordination/voice-notes/2026-11-08-morning.md` (#7586). What main did against each ruling, file by file: `docs/reports/rulings-check-2026-11-08.md` (76 rulings: 24 done, 39 partly, 13 not done).

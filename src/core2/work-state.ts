@@ -1,6 +1,7 @@
 /** Local CoreAPI writers for the work/time boundary. No per-act global integrity pass. */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { settleWorkResultJournal } from "./work-cash";
+import { parameter } from "./parameters";
 import {
   activityAgeId,
   commitmentCalendar,
@@ -22,6 +23,8 @@ export function emptyWorkRuntime(): WorkRuntime {
   return {
     payChanges: new Map(),
     hourChanges: new Map(),
+    payByQuarter: new Map(),
+    countedPayByQuarter: new Map(),
     payrollCalendars: new Map(),
     payrollCalendarByCommitment: new Map(),
     payrollCalendarByJob: new Map(),
