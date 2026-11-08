@@ -341,6 +341,7 @@
     "fullScreenUnavailable": "Full screen is unavailable.",
     "devMode": "Dev mode",
     "quitToTitle": "Quit to title",
+    "colorBlind": "Color-blind colors",
     "sceneStop": "Scenes that may stop the day",
     "sceneGroups": {
       "political": "Politics",
