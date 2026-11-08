@@ -876,7 +876,6 @@ registerHuskIdentity((core, personId) => {
   return husk
     ? {
         birthDate: husk.identity.birthDate,
-        placeId: husk.identity.placeId,
         traits: husk.identity.traits ?? {},
       }
     : undefined;

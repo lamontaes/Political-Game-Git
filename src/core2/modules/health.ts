@@ -693,47 +693,6 @@ function refreshWebFactors(api: CoreAPI, data: HealthData, row: HealthRuntime) {
 }
 
 /**
- * A husk's death hazard takes the outcome web's factor for their place and age
- * each month, the same factor a person with no household income record takes
- * (no fifth, no coverage, job-loss or long-hours record of their own: a husk
- * has none, so those stay at one). Booked as a segment from today, as for a
- * person.
- */
-function refreshHuskWebFactors(
-  api: CoreAPI,
-  data: HealthData,
-  row: HealthRuntime,
-) {
-  if (Number(api.state.date.slice(8, 10)) !== DEATH_WEB_REFRESH_DAY) return;
-  const core = api.state as CoreState;
-  if (core.husks.size === 0) return;
-  const today = makeIsoDate(api.state.date);
-  for (const id of core.husks.keys()) {
-    const plan = row.plans.get(id);
-    if (!plan || row.cases.get(id)?.onsetEventId) continue;
-    const who = huskIdentityOf(core, id);
-    if (!who) continue;
-    const age = Math.floor(exactAge(api, who.birthDate, today));
-    const web = deathWebFactor(api, who.placeId, age).factor;
-    const last = plan.web.at(-1)?.factor ?? api.parameter("one");
-    if (web === last) continue;
-    plan.web.push({ date: today, factor: web });
-    api.stopgap(data.stopgapId);
-    scheduleOnset(
-      api,
-      data,
-      row,
-      {
-        id,
-        birthDate: who.birthDate,
-        traits: who.traits,
-      } as unknown as PersonState,
-      today,
-    );
-  }
-}
-
-/**
  * The share of people this age in a place who used cannabis in the past
  * month, before personality: the national share (NSDUH) times this world's
  * chronic-conditions factor (the one the adult drug-use condition takes) and
@@ -1095,7 +1054,6 @@ export function createHealthModule(
       if (row.initialized) admitHusks(api, data, row);
       if (row.initialized) {
         refreshWebFactors(api, data, row);
-        refreshHuskWebFactors(api, data, row);
         refreshYouthCannabis(api, data, row);
       }
       const date = makeIsoDate(api.state.date);
