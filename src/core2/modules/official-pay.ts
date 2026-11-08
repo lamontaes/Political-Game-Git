@@ -295,9 +295,65 @@ function keepHousehold(
   });
 }
 
+/**
+ * One paycheck from a government's treasury to an official (a salary or a
+ * part-time seat's stipend): what the treasury holds is paid, the treasury's
+ * spending on the post's line is noted, the law's taxes come out, and what it
+ * could not cover is returned to be paid first on the next payday it can.
+ */
+export function payOfficialPaycheck(
+  api: CoreAPI,
+  input: {
+    readonly id: string;
+    readonly payerId: string;
+    readonly personId: string;
+    readonly dueMinor: number;
+    readonly reasonKey: string;
+    readonly source: Source;
+    readonly jobId: string;
+    readonly fromAt: string;
+    readonly throughAt: string;
+    /** False for a post a non-government payer funds: no treasury line records it. */
+    readonly publicPay?: boolean;
+  },
+): { readonly paidMinor: number; readonly owedMinor: number } {
+  if (input.dueMinor <= 0 || !api.state.people.get(input.personId)?.alive)
+    return { paidMinor: 0, owedMinor: 0 };
+  const accounts = api.accounts();
+  const receipt = accounts.transfer({
+    id: input.id,
+    from: accounts.main(input.payerId),
+    to: accounts.main(input.personId),
+    amountMinor: input.dueMinor,
+    reasonKey: input.reasonKey,
+    partial: true,
+    source: input.source,
+  });
+  if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
+    if (input.publicPay !== false)
+      notePublicPay(api, {
+        id: receipt.id,
+        organizationId: input.payerId,
+        jobId: input.jobId,
+        personId: input.personId,
+        paidMinor: receipt.paidMinor,
+      });
+    withholdPay(api, {
+      id: receipt.id,
+      personId: input.personId,
+      paidMinor: receipt.paidMinor,
+      fromAt: input.fromAt,
+      throughAt: input.throughAt,
+    });
+  }
+  return {
+    paidMinor: receipt.paidMinor,
+    owedMinor: input.dueMinor - receipt.paidMinor,
+  };
+}
+
 /** Pays each official for the days served since their last pay, on the 1st. */
 function payMonth(api: CoreAPI): void {
-  const accounts = api.accounts();
   const today = makeIsoDate(api.state.date);
   // The town's outside account, the same for every official this payday:
   // paying them adds no organization.
@@ -314,38 +370,22 @@ function payMonth(api: CoreAPI): void {
     const dueMinor = earnedMinor + (row.owedMinor ?? 0);
     let owedMinor = 0;
     if (dueMinor > 0 && api.state.people.get(row.personId)?.alive) {
-      const receipt = accounts.transfer({
+      owedMinor = payOfficialPaycheck(api, {
         id: `salary:${row.personId}:${today}`,
-        from: accounts.main(row.payerId),
-        to: accounts.main(row.personId),
-        amountMinor: dueMinor,
+        payerId: row.payerId,
+        personId: row.personId,
+        dueMinor,
         reasonKey: "official.salary",
-        partial: true,
         source: {
           ...row.source,
           asOf: today,
           citation: `${days} days in office at ${row.annualMinor} a year${row.owedMinor ? `, with ${row.owedMinor} still owed from earlier paydays` : ""}. ${row.citation}`,
         },
-      });
-      owedMinor = dueMinor - receipt.paidMinor;
-      if (receipt.paidMinor > 0 && api.state.modules.has(BUDGETS_MODULE_ID)) {
-        // The treasury's spending on the post's line, and the taxes out of the paycheck.
-        if (row.publicPay !== false)
-          notePublicPay(api, {
-            id: receipt.id,
-            organizationId: row.payerId,
-            jobId: `job:office:${row.id}`,
-            personId: row.personId,
-            paidMinor: receipt.paidMinor,
-          });
-        withholdPay(api, {
-          id: receipt.id,
-          personId: row.personId,
-          paidMinor: receipt.paidMinor,
-          fromAt: row.paidFrom,
-          throughAt: addDays(makeIsoDate(through), -1),
-        });
-      }
+        jobId: `job:office:${row.id}`,
+        fromAt: row.paidFrom,
+        throughAt: addDays(makeIsoDate(through), -1),
+        publicPay: row.publicPay,
+      }).owedMinor;
       if (row.spends) spendLivingCost(api, row.personId, days, outside);
     } else if (dueMinor <= 0 && days <= 0) continue;
     if (row.endedOn && row.endedOn <= today && owedMinor === 0)
