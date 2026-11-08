@@ -3499,7 +3499,8 @@
           "answer": "yes",
           "cite": "N.H. RSA 275-H:2 (HB 253, 2020, chapter 31, in force September 22, 2020)",
           "source": "https://legiscan.com/NH/text/HB253/id/2117589",
-          "note": "In force on the January 20, 2025 start: HB 253 (2020) bars state departments and agencies from asking about criminal records on applications, with exceptions for positions that require automatic disqualification under law. Repealed after the start: the 2025 RSA index marks chapter 275-H repealed by 2025, 141:342, II, effective July 1, 2025 (the 2025 budget law); the game's law table does not model that later repeal. Sources conflict on the date: one vendor guide says a 2024 repeal (2024, 259:3, VI, of RSA 21-I:58), unverified. The official gc.nh.gov pages returned no reply to curl, so this rests on search-result excerpts of the RSA index and the bill text, not on the statute page itself."
+          "note": "In force on the January 20, 2025 start: HB 253 (2020) bars state departments and agencies from asking about criminal records on applications, with exceptions for positions that require automatic disqualification under law. Repealed after the start: the 2025 RSA index marks chapter 275-H repealed by 2025, 141:342, II, effective July 1, 2025 (the 2025 budget law); the game's law table does not model that later repeal. Sources conflict on the date: one vendor guide says a 2024 repeal (2024, 259:3, VI, of RSA 21-I:58), unverified. The official gc.nh.gov pages returned no reply to curl, so this rests on search-result excerpts of the RSA index and the bill text, not on the statute page itself.",
+          "estimated": "ESTIMATED: the answer and dates come from search excerpts of the 2025 RSA index and the HB 253 bill text; the statute page could not be fetched and a 2024-repeal claim in one source is unverified."
         },
         "US-NJ": {
           "answer": "yes",
