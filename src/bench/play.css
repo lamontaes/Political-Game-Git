@@ -4067,38 +4067,6 @@ details.entry[open] {
   gap: 10px;
   min-height: 0;
 }
-.journal-page {
-  flex: 1;
-  min-height: 420px;
-  overflow: hidden;
-  padding: 34px 48px;
-  background: var(--paper-cream, #efe4c8);
-  color: var(--paper-ink, #1f1b14);
-  box-shadow: inset 0 0 40px rgba(120, 90, 40, 0.18);
-  font: 18px/1.7 var(--speech);
-}
-.journal-page h2 {
-  margin: 0;
-  text-align: center;
-  font: 700 30px var(--name);
-  color: var(--paper-ink, #1f1b14);
-}
-.journal-page .journal-chapter {
-  margin: 6px 0 0;
-  text-align: center;
-  font-style: italic;
-  opacity: 0.75;
-}
-.journal-page hr {
-  width: 70px;
-  margin: 16px auto 22px;
-  border: 0;
-  border-top: 1px solid var(--paper-rule, rgba(31, 27, 20, 0.38));
-}
-.journal-page p:not(.journal-chapter) {
-  margin: 0 0 14px;
-  text-indent: 1.6em;
-}
 
 /* Travel, to its mock: three large pictured tiles across, two rows to a page, the room's
    picture with a people mark on its corner, the place's name and who is there under it. */
@@ -4161,172 +4129,8 @@ details.entry[open] {
   margin: 0 0 8px;
 }
 /* Columns side by side: each amount over its column, the month under it. */
-.column-chart {
-  margin: 12px 0 0;
-}
-.column-chart-columns {
-  display: flex;
-  align-items: stretch;
-  gap: 12px;
-  height: 190px;
-}
-.column-chart-item {
-  flex: 1 1 0;
-  max-width: 76px;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  gap: 4px;
-}
-.column-chart-well {
-  flex: 1;
-  display: flex;
-  align-items: flex-end;
-}
-.column-chart-bar {
-  width: 100%;
-  border-radius: 2px 2px 0 0;
-  background: linear-gradient(
-    var(--brass-hi),
-    var(--gold) 35%,
-    var(--brass-lo)
-  );
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.35),
-    0 2px 4px rgba(0, 0, 0, 0.4);
-}
-.column-chart-bar.below {
-  background: linear-gradient(#d07a68, var(--red));
-}
-.column-chart-value,
-.column-chart-label {
-  font: 500 11.5px var(--ui);
-  color: var(--text-2);
-  text-align: center;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.column-chart-label {
-  color: var(--text);
-}
-.column-chart figcaption {
-  margin: 8px 0 0;
-  font: 500 12.5px var(--ui);
-  color: var(--text-2);
-}
 /* A ring of the parts of a whole, the whole in its middle, the key beside it. */
-.donut-chart {
-  margin: 0;
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  align-items: center;
-  gap: 18px;
-}
-.donut-center {
-  position: relative;
-  width: 150px;
-  height: 150px;
-}
-.donut-ring svg {
-  width: 150px;
-  height: 150px;
-  transform: rotate(-90deg);
-}
-.donut-track {
-  fill: none;
-  stroke: rgba(0, 0, 0, 0.45);
-  stroke-width: 14;
-}
-.donut-part {
-  fill: none;
-  stroke-width: 14;
-}
-.donut-total {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: 0 36px;
-  text-align: center;
-  font: 600 16px/1.15 var(--ui);
-  color: var(--text-strong);
-}
-.donut-key {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-}
-.donut-key li {
-  display: grid;
-  grid-template-columns: 14px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 9px;
-  font: 500 13.5px var(--ui);
-}
-.donut-swatch {
-  width: 12px;
-  height: 12px;
-  border-radius: 2px;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.6);
-}
-.donut-share {
-  color: var(--text-2);
-  font-variant-numeric: tabular-nums;
-}
 /* The kit's chart colors, in order: muted, never navy. */
-.donut-part.c0 {
-  stroke: #c9a55c;
-}
-.donut-part.c1 {
-  stroke: #4f8a8b;
-}
-.donut-part.c2 {
-  stroke: #9a4a3f;
-}
-.donut-part.c3 {
-  stroke: #6f7f3a;
-}
-.donut-part.c4 {
-  stroke: #7a8796;
-}
-.donut-part.c5 {
-  stroke: #8a6386;
-}
-.donut-part.c6 {
-  stroke: #b08a5a;
-}
-.donut-part.c7 {
-  stroke: #6f6c66;
-}
-.donut-swatch.c0 {
-  background: #c9a55c;
-}
-.donut-swatch.c1 {
-  background: #4f8a8b;
-}
-.donut-swatch.c2 {
-  background: #9a4a3f;
-}
-.donut-swatch.c3 {
-  background: #6f7f3a;
-}
-.donut-swatch.c4 {
-  background: #7a8796;
-}
-.donut-swatch.c5 {
-  background: #8a6386;
-}
-.donut-swatch.c6 {
-  background: #b08a5a;
-}
-.donut-swatch.c7 {
-  background: #6f6c66;
-}
 
 /* Jobs and study (on framed plates): the workplace's painting
    across the top of the job plate, the title in the name type. */
@@ -4502,13 +4306,6 @@ select.release-pick {
 
 /* A short window gives the budgets ring less room. */
 @media (max-height: 780px) {
-  .donut-chart {
-    grid-template-columns: 120px minmax(0, 1fr);
-  }
-  .donut-center {
-    width: 120px;
-    height: 120px;
-  }
 }
 /* The news paper is read inside its own box: the menu itself never scrolls as a page. */
 #sheet-body:has(.paper) {
@@ -5306,6 +5103,7 @@ select.release-pick {
   display: none;
 }
 
+<<<<<<< HEAD
 /* Calendar (Nov 8 play mock, pl-calendar): the month, then Today and Coming up, on strips. */
 .strip-board .board-cols {
   width: 100%;
@@ -5328,4 +5126,36 @@ select.release-pick {
   --kind-election: #7fa3d6;
   --kind-meeting: #8fc79a;
   --kind-holiday: #c4a0d8;
+=======
+/* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
+.journal-text {
+  column-count: 2;
+  column-gap: 32px;
+}
+.journal-text .intro {
+  margin: 0 0 12px;
+  break-inside: avoid-column;
+}
+.journal-text .intro:first-child::first-letter {
+  float: left;
+  margin: 2px 8px 0 0;
+  font:
+    600 58px/0.85 "Playfair Display",
+    Georgia,
+    serif;
+  color: #f2e6c9;
+}
+
+/* Money (Nov 8 play mock, pl-money): the cash in large type over typed rows. */
+.strip-board .money-figure {
+  margin: 0 0 6px;
+  font: 600 44px/1.05 var(--f-ui);
+  font-variant-numeric: lining-nums tabular-nums;
+  color: #fbf6ea;
+}
+.strip-board .dotrows .dotrow {
+  font-family: "Courier Prime", monospace;
+  font-size: 15px;
+  text-transform: none;
+>>>>>>> origin/main
 }
