@@ -314,6 +314,9 @@
     "event": "Event",
     "noEvent": "No event",
     "holdLaw": "Hold the law just passed",
+    "hour": "Hour",
+    "jump": "Jump to hour",
+    "held": "A stop or choice holds the clock; answer it first",
     "run": "Run",
     "events": {
       "bill-passes": "A bill passes",
