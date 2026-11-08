@@ -137,6 +137,18 @@ describe(
               line.outsideMinor +
               (line.chargedMinor ?? 0);
         }
+        // What it invested outside the town above its reserve (SG-GOV-reserve-sweep).
+        closes -= (
+          api
+            .moduleState(BUDGETS_MODULE_ID)
+            .table("reserveSweeps")
+            .rows() as unknown as {
+            governmentId: string;
+            amountMinor: number;
+          }[]
+        )
+          .filter((row) => row.governmentId === gov.id)
+          .reduce((n, row) => n + row.amountMinor, 0);
         // What it paid suppliers outside the town since its last close (a
         // commission's month, an election's costs), not yet in a month.
         closes -= chargedSinceClose(api, gov.id);

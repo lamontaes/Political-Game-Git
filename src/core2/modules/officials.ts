@@ -983,12 +983,17 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
       sourceId: a.seatId,
     });
   };
+  // A tie needs one of its ends among the added, so only the delegations and
+  // bodies the added rows sit in can make one; the rest are not read.
+  const addedStates = new Set(addedRows.map((row) => row.stateKey));
+  const addedBodies = new Set(addedRows.map((row) => row.body));
   const delegations = groupBy(
     rows.filter(
       (row) =>
-        row.bodyKind === "us-house" ||
-        row.bodyKind === "us-senate" ||
-        row.officeKind === "governor",
+        addedStates.has(row.stateKey) &&
+        (row.bodyKind === "us-house" ||
+          row.bodyKind === "us-senate" ||
+          row.officeKind === "governor"),
     ),
     (row) => row.stateKey,
   );
@@ -1000,7 +1005,10 @@ function colleagues(api: CoreAPI, added: ReadonlySet<string>): void {
           members[j]!,
           "served together in the state's delegation",
         );
-  const byBody = groupBy(rows, (row) => row.body);
+  const byBody = groupBy(
+    rows.filter((row) => addedBodies.has(row.body)),
+    (row) => row.body,
+  );
   for (const members of byBody.values()) {
     const leadersBySide = new Map(
       members

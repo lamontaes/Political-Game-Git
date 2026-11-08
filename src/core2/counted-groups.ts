@@ -12,6 +12,7 @@
  * these columns on demand (`personInput`, `householdView`): the stopgap
  * SG-CORE-counted-person-views, retired engine by engine as each reads groups.
  */
+import { ageInYears } from "./kernel/dates";
 import { stopgap } from "./stopgaps";
 import type { FinanceContractInput } from "./finance-types";
 import type { ResidentHouseholdRecord } from "./residents";
@@ -142,11 +143,7 @@ export function ageBandOf(age: number): string {
 }
 
 export function ageOn(birthDate: string, date: string): number {
-  return (
-    Number(date.slice(0, 4)) -
-    Number(birthDate.slice(0, 4)) -
-    (date.slice(5) < birthDate.slice(5) ? 1 : 0)
-  );
+  return ageInYears(birthDate, date);
 }
 
 export function groupId(key: GroupKey): string {
