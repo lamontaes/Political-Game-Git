@@ -1208,6 +1208,13 @@
       "impactParameter": "directorEvictionImpact"
     },
     {
+      "eventKind": "family.quarrel",
+      "channel": "feeling",
+      "impactParameter": "directorKinContactImpact",
+      "scaleFact": "closeness",
+      "minDaysApart": 30
+    },
+    {
       "eventKind": "family.contact",
       "channel": "feeling",
       "impactParameter": "directorKinContactImpact",

@@ -118,5 +118,17 @@
     "addedAt": "2026-11-08",
     "replacement": "An acuity and a place on the health onset record (condition rows), so only sudden episodes are rescued, by whoever is present there.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-quarrel-model",
+    "kind": "partial-model",
+    "file": "src/core2/modules/quarrel.ts",
+    "line": 23,
+    "whatItFakes": "Every missed loan payment is a quarrel with the closest grown housemate, the borrower owing the apology; the pair's traits, who earns what and whether the money was shared are not weighed, and quarrels over anything but money are not written.",
+    "why": "No dispute record exists in the new core; the missed payment is the one money trouble that names a household's member.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A dispute engine weighing the pair's traits, shared money and the household's strain, with quarrels over rules and belief as well as money.",
+    "status": "open"
   }
 ]

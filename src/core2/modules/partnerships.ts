@@ -56,6 +56,7 @@ import { birthCohortGivenName } from "../gov-rules/given-name-cohorts";
 import { livesElsewhere } from "./moves";
 import { reviewMentorship } from "./mentorship";
 import { rescueOnset } from "./rescue";
+import { quarrelOverMoney } from "./quarrel";
 import {
   BIRTHDAY_KIND,
   birthdayGathering,
@@ -930,8 +931,17 @@ export const partnershipsModule: CoreModule = {
     tables: { state: {}, pulls: {}, couples: {}, contacts: {}, jobsSeen: {} },
   },
   // A death ends the person's pull, so the table holds only the living.
-  eventKinds: ["life.death", "scene.reply", "health.serious-illness"],
+  eventKinds: [
+    "life.death",
+    "scene.reply",
+    "health.serious-illness",
+    "credit.payment-missed",
+  ],
   onEvent(api, event) {
+    if (event.kind === "credit.payment-missed") {
+      quarrelOverMoney(api, event);
+      return;
+    }
     if (event.kind === "health.serious-illness") {
       rescueOnset(api, event);
       return;

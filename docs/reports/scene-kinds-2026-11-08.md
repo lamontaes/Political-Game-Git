@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 97 kinds of scene. 4 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 97 kinds of scene. 3 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -21,7 +21,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | race-told | race-told | circumstance:race-result-known via circumstance | public, home, phone | at-cause | bearer, you, about | 92 |  |
 | letter | - | feeling:event:family.contact via partnerships | letter | at-cause | writer, reader | 10 |  |
 | argument | neighbor-argument | ? / awaiting record:dispute-over-money, record:dispute-over-rules, record:dispute-over-belief | home, workplace, school, public | at-cause | side, other-side, witness | 72 |  |
-| apology | owed-apology | NO CAUSE / awaiting record:decision-to-concede | home, other-home, public | next-together | apologizing, wronged | 75 | dead |
+| apology | owed-apology | feeling:event:family.quarrel via partnerships | home, other-home, public | next-together | apologizing, wronged | 75 |  |
 | reach-out | favor-job | circumstance:job-lost-calls via circumstance | phone | at-cause | asking, asked | 17 |  |
 | becoming-friends | - | ? | public, home, other-home | next-together | friend, other-friend | 4 |  |
 | celebration | - | feeling:event:family.married via partnerships; money:job-started; money:job-started / awaiting record:birthday-gathering | home, venue | effective-date | honoree, host, guests | 1 |  |
@@ -114,7 +114,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are return, apology, accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are return, accusation, polling-place. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
 
 ## How this was made
 
