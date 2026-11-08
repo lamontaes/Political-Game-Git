@@ -44,7 +44,10 @@ import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
-import { openWorldLegislating } from "../core2/modules/world-legislating";
+import {
+  openSittingSessions,
+  openWorldLegislating,
+} from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -70,6 +73,8 @@ import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
+import { withCountySample } from "../core2/opening-county-sample";
+import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
 import { recordOpeningStory } from "../director/opening-story";
@@ -247,7 +252,19 @@ function entrantBornNear(
 
 /** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
 export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "opening" | "done";
+  | "people"
+  | "past"
+  | "economy"
+  | "core"
+  | "government"
+  | "elections"
+  | "budgets"
+  | "legislature"
+  | "cabinet"
+  | "workings"
+  | "history"
+  | "opening"
+  | "done";
 type BuildOptions = {
   placeKey?: string;
   minimumPeople?: number;
@@ -441,20 +458,26 @@ function* benchWorldStages(
     // generated route: housing gives counted households rent and mortgage
     // flows, and the core's stand-in owner payouts come off. People it adds
     // (the central bank's board) are named officials and stay full people.
+    // The county's counted sample, weighted to its eligible voters, and years
+    // in place on every household.
+    const countySample = withCountySample(economy, kept);
+    const weights = {
+      ...(countScale !== 1
+        ? { [place.context.jurisdiction.id]: countScale }
+        : {}),
+      ...(countySample ? { [countySample.placeId]: countySample.weight } : {}),
+    };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
         withWorldEconomy(
-          collapseToTwoLevels(withOrigins(economy), {
-            keep: kept,
-            ...(countScale !== 1
-              ? {
-                  weights: {
-                    [place.context.jurisdiction.id]: countScale,
-                  },
-                }
-              : {}),
-          }),
+          collapseToTwoLevels(
+            withOrigins(withYearsInPlace(countySample?.input ?? economy)),
+            {
+              keep: kept,
+              ...(Object.keys(weights).length ? { weights } : {}),
+            },
+          ),
         ),
       ),
     );
@@ -493,11 +516,13 @@ function* benchWorldStages(
   // Officials outside the town are people before anyone files, so state and
   // federal races draw named candidates from them (OPUS-OFFICIALS).
   openOfficials(core);
+  yield "elections";
   openElections(core);
   openCampaigns(core);
   openParties(core);
   openVoting(core);
   openRecord(core);
+  yield "budgets";
   openBudgets(core);
   // Every other state's budget, in the same store, moved by the state's own economy.
   openOutsideBudgets(core);
@@ -508,6 +533,7 @@ function* benchWorldStages(
   openCrime(core);
   openEstates(core);
   openEmployerTaxes(core);
+  yield "legislature";
   openLegislature(core);
   // Each government's body awards the town's public contracts (gov-public-contract-awards).
   openContracts(core);
@@ -515,6 +541,7 @@ function* benchWorldStages(
   // Chambers elect their leaders and seat committees; the executives
   // appoint their department heads and cabinets (OPUS-GOV).
   openLeadership(core);
+  yield "cabinet";
   openExecutive(core, seed);
   // The president's cabinet and the line of succession (OPUS-GOV).
   openSuccession(core);
@@ -524,6 +551,7 @@ function* benchWorldStages(
   // on every bill's vote), other governments' lawmaking, state and federal
   // races elsewhere, ballot measures, recalls, the press, public meetings
   // (debates need the press's outlets) and constituent cases.
+  yield "workings";
   openStaff(core);
   openInterestGroups(core);
   openWorldLegislating(core);
@@ -549,6 +577,7 @@ function* benchWorldStages(
   openPublicSafety(core);
   // The federal courts as a national flow and stock, from the Commission and the Bureau.
   openFederalCourts(core);
+  yield "history";
   // The world has a past (OPUS-CORE): prior elections, voting records, law
   // histories, the year's news and what the public knows, before day one.
   openThePast(core, seed);
@@ -558,6 +587,8 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
+  openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);

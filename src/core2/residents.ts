@@ -450,6 +450,7 @@ export function collapseToTwoLevels(
     const earnedDaysByDue: Record<string, number> = {};
     let period = nextWorkPayrollPeriod(reads, calendar, start, start, units);
     const firstDue = makeIsoDate(period.dueAt);
+    const firstIndex = period.index;
     while (period.fromAt < start) {
       const from = period.fromAt < start ? start : period.fromAt;
       earnedDaysByDue[period.dueAt] =
@@ -480,8 +481,23 @@ export function collapseToTwoLevels(
       const monthly = (group.perDay * DAYS_PER_YEAR) / MONTHS_PER_YEAR;
       const twice =
         calendar.rule === "twice-calendar-month-after-inclusive-period-end";
+      // A payroll paid twice a month pays on the calendar's own two dates (the
+      // first due date and the one after it), never on a day worked out from them.
       const days = twice
-        ? [dayOf(first), ((dayOf(first) + 14) % 28) + 1]
+        ? [
+            dayOf(first),
+            dayOf(
+              makeIsoDate(
+                workPayPeriodAtIndex(
+                  reads,
+                  calendar,
+                  firstIndex + 1,
+                  start,
+                  units,
+                ).dueAt,
+              ),
+            ),
+          ]
         : [dayOf(first)];
       const ids = days.map((_, index) => `residents:wages:${key}:${index}`);
       days.forEach((day, index) =>

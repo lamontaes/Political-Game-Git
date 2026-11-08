@@ -209,7 +209,7 @@
           "policies": [
             {
               "id": "budget:healthAndHospitals",
-              "name": "Spending: health and hospitals",
+              "name": "Spending: healthAndHospitals",
               "kind": "budget-line",
               "line": "healthAndHospitals",
               "operations": ["expand", "restrict"],
@@ -367,7 +367,7 @@
           "policies": [
             {
               "id": "budget:higherEducation",
-              "name": "Spending: higher education",
+              "name": "Spending: higherEducation",
               "kind": "budget-line",
               "line": "higherEducation",
               "operations": ["expand", "restrict"],
@@ -656,7 +656,7 @@
           "policies": [
             {
               "id": "budget:welfareAndMedicaid",
-              "name": "Spending: welfare and Medicaid",
+              "name": "Spending: welfareAndMedicaid",
               "kind": "budget-line",
               "line": "welfareAndMedicaid",
               "operations": ["expand", "restrict"],
@@ -674,8 +674,18 @@
         },
         {
           "name": "Child-care assistance",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:child-care-income-limit",
+              "name": "Child care income limit (family of three)",
+              "kind": "law-amount",
+              "series": "child-care-income-limit",
+              "unit": "USD/month",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            }
+          ]
         },
         {
           "name": "Disability support",
@@ -945,6 +955,22 @@
               "levels": ["federal"]
             },
             {
+              "id": "question:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+              "name": "ban the box public hiring",
+              "kind": "policy-question",
+              "question": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+              "operations": ["enact", "repeal"],
+              "levels": ["state"]
+            },
+            {
+              "id": "law:local-power:ban-the-box-public-hiring",
+              "name": "Local power: ban the box public hiring",
+              "kind": "law-amount",
+              "series": "local-power:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:labor-workforce.local-minimum-wage-authority",
               "name": "local minimum wage authority",
               "kind": "policy-question",
@@ -1028,14 +1054,6 @@
               "kind": "law-amount",
               "series": "local-power:us-policy-positions:labor-workforce.public-sector-collective-bargaining",
               "operations": ["raise", "lower"],
-              "levels": ["state"]
-            },
-            {
-              "id": "question:us-policy-positions:labor-workforce.ban-the-box-public-hiring",
-              "name": "ban the box in public hiring",
-              "kind": "policy-question",
-              "question": "us-policy-positions:labor-workforce.ban-the-box-public-hiring",
-              "operations": ["enact", "repeal"],
               "levels": ["state"]
             },
             {
@@ -1268,7 +1286,7 @@
           "policies": [
             {
               "id": "budget:naturalResources",
-              "name": "Spending: natural resources",
+              "name": "Spending: naturalResources",
               "kind": "budget-line",
               "line": "naturalResources",
               "operations": ["expand", "restrict"],
@@ -1569,6 +1587,15 @@
           "supported": true,
           "policies": [
             {
+              "id": "law:executive-term-limit",
+              "name": "Governor term limit (terms; 0 for none)",
+              "kind": "law-amount",
+              "series": "executive-term-limit",
+              "unit": "terms",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:government-operations.all-mail-voting",
               "name": "all mail voting",
               "kind": "policy-question",
@@ -1656,7 +1683,7 @@
           "policies": [
             {
               "id": "law:state-contribution-limit-governor",
-              "name": "State campaign contribution limit for governor",
+              "name": "State campaign contribution limit: governor",
               "kind": "law-amount",
               "series": "state-contribution-limit-governor",
               "unit": "USD/election",
@@ -1665,7 +1692,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-senate",
-              "name": "State campaign contribution limit for state senate",
+              "name": "State campaign contribution limit: stateSenate",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-senate",
               "unit": "USD/election",
@@ -1674,7 +1701,7 @@
             },
             {
               "id": "law:state-contribution-limit-state-house",
-              "name": "State campaign contribution limit for state house",
+              "name": "State campaign contribution limit: stateHouse",
               "kind": "law-amount",
               "series": "state-contribution-limit-state-house",
               "unit": "USD/election",
@@ -1683,7 +1710,7 @@
             },
             {
               "id": "law:state-contribution-limit-local",
-              "name": "State campaign contribution limit for local office",
+              "name": "State campaign contribution limit: local",
               "kind": "law-amount",
               "series": "state-contribution-limit-local",
               "unit": "USD/election",
