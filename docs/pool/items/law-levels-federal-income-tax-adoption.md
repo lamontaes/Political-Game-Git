@@ -5,11 +5,12 @@ area: laws
 kind: wiring
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/federal-income-adoption
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T01:48:46.519Z
 ---
 
 **What.** The shared adopt-income-tax question is state-only although 26 USC 1 imposes the federal income tax and federal-answers.json already records yes. Load that sourced federal answer through the normal law rows, enable the Congress route, and preserve the real federal tax schedule on repeal and restoration. Check the zero-amount then policy-adoption route too, so Congress cannot silently get the local default flat rate.
