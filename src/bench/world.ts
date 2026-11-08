@@ -70,6 +70,7 @@ import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
 import { representativeSample } from "../core2/representative-sample";
 import { withCountySample } from "../core2/opening-county-sample";
+import { withRoles } from "../core2/opening-roles";
 import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -468,7 +469,7 @@ function* benchWorldStages(
       addTradeArea(
         withWorldEconomy(
           collapseToTwoLevels(
-            withYearsInPlace(countySample?.input ?? economy),
+            withRoles(withYearsInPlace(countySample?.input ?? economy)),
             {
               keep: kept,
               ...(Object.keys(weights).length ? { weights } : {}),

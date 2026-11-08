@@ -216,6 +216,33 @@ export function withCountySample(
       employment.set(home, list);
     });
   }
+  // Each sampled employer is owned by one of the county's adults (generation
+  // of who exists): the adult of 25 or over with the smallest hash for it who
+  // owns no other, so owners are county people the chooser can read.
+  const owners = new Set<string>();
+  const employerIds = [
+    ...new Set(
+      [...employment.values()].flatMap((rows) =>
+        rows.map((row) => row.employerId),
+      ),
+    ),
+  ].sort();
+  const ownerAge = p("votingAge") + p("ownerAgeAfterVoting");
+  for (const employerId of employerIds) {
+    const owner = people
+      .filter(
+        (row) =>
+          !owners.has(row.id) && ageInYears(row.birthDate, start) >= ownerAge,
+      )
+      .sort((a, b) =>
+        stableHash(`${input.seed}:owner:${employerId}:${a.id}`).localeCompare(
+          stableHash(`${input.seed}:owner:${employerId}:${b.id}`),
+        ),
+      )[0];
+    if (!owner) continue;
+    owners.add(owner.id);
+    owner.looks = { ...(owner.looks ?? {}), ownedEmployerId: employerId };
+  }
   // Cash: what a household at its pay keeps in its accounts in this world
   // (the median transaction balance), shared among its adults; a household
   // with no worker keeps that of one median earner.
