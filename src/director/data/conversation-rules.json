@@ -190,6 +190,10 @@
       "alone": "decline",
       "miss": "tell"
     },
+    "address": {
+      "agree": "agree",
+      "doubt": "disagree"
+    },
     "address-view": {
       "agree": "agree",
       "disagree": "disagree",

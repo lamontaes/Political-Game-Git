@@ -18,10 +18,9 @@ try {
   await page.locator("[data-gender=male]").click();
   await page.locator("#cr-random-name").click();
   await page.waitForFunction(() => document.getElementById("cr-given").value);
-  await page.locator("#cr-character-next").click();
   await page.locator("#cr-states button").first().click();
   await page.locator("#cr-towns button").first().click();
-  await page.locator("#cr-look:not([hidden])").waitFor();
+  await page.locator("#cr-screen:not([hidden])").waitFor();
   const swatch = (row, id) =>
     page.locator(`[data-testid=engine-appearance-${row}] [data-swatch=${id}]`);
   if (await swatch("skin", "ebony").count()) {

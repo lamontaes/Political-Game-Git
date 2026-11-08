@@ -38,7 +38,7 @@ try {
   if (!ballot.races.length) {
     await page.locator("#sheet-body .campaigns-screen .record-empty").waitFor();
     assert.equal(
-      await page.locator("#sheet-body .race-cards").count(),
+      await page.locator("#sheet-body .roster").count(),
       0,
       "race cards on an empty ballot",
     );
@@ -47,37 +47,34 @@ try {
     await browser.close();
     process.exit(0);
   }
-  await page.locator("#sheet-body .entry").first().waitFor();
-  // The ballot is race cards on a plate, paged (owner, Oct 29: every menu
-  // like Government); each card opens its race's page.
+  await page.locator("#sheet-body .roster-row").first().waitFor();
+  // The ballot is a roster grouped by election day (the Nov 8 mock); each row opens its
+  // race's page beside it.
   const seen = [];
   for (;;) {
     seen.push(
       ...(await page.evaluate(() =>
-        [...document.querySelectorAll("#sheet-body .race-cards .entry")].map(
-          (e) => ({
-            title: e.querySelector("h3")?.textContent.trim() ?? "",
-            value: e.querySelector(".entry-value")?.textContent.trim() ?? "",
-            contest: e.dataset.contest ?? "",
-            opens: e.tagName === "BUTTON",
-            text: e.innerText,
-          }),
-        ),
+        [...document.querySelectorAll("#sheet-body .roster-row")].map((e) => ({
+          title: e.querySelector("b")?.textContent.trim() ?? "",
+          contest: e.dataset.contest ?? "",
+          opens: e.tagName === "BUTTON",
+          text: e.innerText,
+        })),
       )),
     );
-    const next = page.locator("#sheet-body .race-cards .pager-arrow").nth(1);
+    const next = page.locator("#sheet-body .roster .pager-arrow").nth(1);
     if (!(await next.isVisible()) || !(await next.isEnabled())) break;
     await next.click();
   }
+  const raceRows = seen.filter((s) => s.contest);
   console.log(
-    `${ballot.date}: ${ballot.races.length} races on the ballot; ${seen.length} cards: ${seen.map((s) => `${s.title} (${s.value})`).join(" | ")}`,
+    `${ballot.date}: ${ballot.races.length} races on the ballot; ${raceRows.length} rows: ${raceRows.map((s) => s.title).join(" | ")}`,
   );
-  assert.equal(seen.length, ballot.races.length, "a card per race");
-  const titles = seen.map((s) => s.title);
+  assert.equal(raceRows.length, ballot.races.length, "a row per race");
+  const titles = raceRows.map((s) => s.title);
   assert.equal(new Set(titles).size, titles.length, "a race printed twice");
-  for (const s of seen) {
+  for (const s of raceRows) {
     assert.ok(s.opens, `${s.title}: not clickable`);
-    assert.ok(s.contest, `${s.title}: no contest record`);
     assert.doesNotMatch(
       s.text,
       /\d{4}-\d{2}-\d{2}|contest:|official:|undefined/,
@@ -86,29 +83,28 @@ try {
   // Open the first race with candidates, else the first race: its page shows
   // who runs as face cards, and File for it when the player may file.
   const race = ballot.races.find((r) => r.filers.length > 0) ?? ballot.races[0];
-  // Back to the first page, then forward to the race's card.
-  const back = page.locator("#sheet-body .race-cards .pager-arrow").first();
+  const back = page.locator("#sheet-body .roster .pager-arrow").first();
   while ((await back.isVisible()) && (await back.isEnabled()))
     await back.click();
   for (;;) {
     const card = page.locator(
-      `#sheet-body .race-cards .entry[data-contest="${race.contestId}"]`,
+      `#sheet-body .roster-row[data-contest="${race.contestId}"]`,
     );
     if (await card.count()) {
       await card.click();
       break;
     }
-    await page.locator("#sheet-body .race-cards .pager-arrow").nth(1).click();
+    await page.locator("#sheet-body .roster .pager-arrow").nth(1).click();
   }
-  await page.locator("#sheet-body .race-page").waitFor();
+  await page.locator("#sheet-body .roster-page").waitFor();
   const page2 = await page.evaluate(() => ({
-    people: document.querySelectorAll("#sheet-body .race-page .member-card")
+    people: document.querySelectorAll("#sheet-body .roster-page .member-card")
       .length,
     faces: [
-      ...document.querySelectorAll("#sheet-body .race-page .member-face"),
+      ...document.querySelectorAll("#sheet-body .roster-page .member-face"),
     ].filter((f) => f.style.backgroundImage).length,
     file: document.querySelectorAll(
-      '#sheet-body .race-page [data-testid="file-for-it"]',
+      '#sheet-body .roster-page [data-testid="file-for-it"]',
     ).length,
     text: document.getElementById("sheet-body").innerText,
   }));
@@ -154,7 +150,7 @@ try {
   } else console.log("no race takes a filing today; the hot link is not shown");
   assert.deepEqual(errors, [], "page errors");
   console.log(
-    "ok: Campaigns is the coming ballot as race cards, a race opens its page",
+    "ok: Elections is the coming ballot as a roster, a race opens its page",
   );
 } finally {
   await browser.close();

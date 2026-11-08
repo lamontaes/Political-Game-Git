@@ -116,7 +116,17 @@ export async function devBillsPanel({ labels, onDone }) {
         out.bill.number,
         out.bill.status,
         ...out.tallies.map((t) => `${t.yes}–${t.no}`),
-        ...out.held.map(() => labels.held),
+        ...out.committees
+          .filter((c) => !c.reported)
+          .map((c) =>
+            [
+              c.heard ? labels.lost : labels.held,
+              `${c.yes}–${c.no}`,
+              labels.chair,
+              Number(c.chairPosition).toFixed(2),
+              Number(c.chairTrait).toFixed(2),
+            ].join(" "),
+          ),
         ...(!out.veto && executive !== undefined ? [labels.noVeto] : []),
       ].join(" · ");
     });
