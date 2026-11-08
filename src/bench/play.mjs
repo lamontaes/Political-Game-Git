@@ -620,6 +620,8 @@ async function act(path) {
     if (office) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
+      else if (office.reasonKey === "office-day-federal.floor-vote")
+        await atFloor();
       busy = false;
       return act(
         `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: result.packet.pauseId })}`,
@@ -793,6 +795,54 @@ function atDesk() {
     };
     show("desk", true);
     api("/api/desk").then(draw);
+  });
+}
+
+// The floor vote that holds a member of Congress's clock: each bill on tomorrow's floor with
+// the paper to read and Yes, No, Abstain or Decide for me (the engine never votes for the player).
+function atFloor() {
+  return new Promise((resolve) => {
+    const words = controls.meeting ?? {};
+    const draw = (bills) => {
+      if (!bills.length) return finish();
+      $("desk-items").replaceChildren(
+        ...bills.map((item) =>
+          billBlock(
+            item,
+            [],
+            [
+              ["yes", "no", "abstain", "own"].map((how) => {
+                const b = makeButton({
+                  className: "action",
+                  textContent: words[how] ?? how,
+                });
+                b.addEventListener("click", async () =>
+                  draw(
+                    await post(
+                      `/api/floor?${new URLSearchParams({ billId: item.billId, how })}`,
+                    ),
+                  ),
+                );
+                return b;
+              }),
+            ],
+            (billId) =>
+              openBillPaper(
+                billId,
+                (...nodes) => $("desk-items").replaceChildren(...nodes),
+                () => api("/api/floor").then(draw),
+                controls.bill?.backDesk,
+              ),
+          ),
+        ),
+      );
+    };
+    const finish = () => {
+      show("desk", false);
+      resolve();
+    };
+    show("desk", true);
+    api("/api/floor").then(draw);
   });
 }
 

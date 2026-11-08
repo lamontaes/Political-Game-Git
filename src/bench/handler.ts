@@ -55,6 +55,8 @@ import {
 } from "./bill-stage";
 import {
   deskDecide,
+  floorDecide,
+  floorView,
   deskView,
   meetingAdjourn,
   meetingItem,
@@ -1008,6 +1010,20 @@ export async function benchRequest(
           url.searchParams.get("how") ?? "",
         );
         send(200, deskView(requireCore()));
+        return;
+      }
+      // A floor vote in Congress that holds the player's clock: the bills, and the player's own vote.
+      if (request.method === "GET" && url.pathname === "/api/floor") {
+        send(200, player?.personId ? floorView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/floor") {
+        floorDecide(
+          requireCore(),
+          url.searchParams.get("billId") ?? "",
+          url.searchParams.get("how") ?? "",
+        );
+        send(200, floorView(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
