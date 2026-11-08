@@ -4,6 +4,11 @@
       "source": "data/research/money/state-income-tax-2026.json (2026 brackets): the 9 states with no tax on wages answer no.",
       "note": "",
       "answers": {
+        "US": {
+          "answer": "yes",
+          "source": "https://www.law.cornell.edu/uscode/text/26/1",
+          "cite": "26 U.S.C. 1(a)-(d), (j)"
+        },
         "US-AK": {
           "answer": "no"
         },

@@ -4,8 +4,8 @@
   "questions": {
     "us-policy-positions:fiscal.adopt-income-tax": {
       "dial": "income-tax",
-      "levels": ["state"],
-      "why": "It asks whether the state levies an income tax. A local income tax is levied under state law, and is not this question."
+      "levels": ["federal", "state"],
+      "why": "Each level levies its own income tax. Congress imposes the federal tax under 26 U.S.C. 1, including subsection (j); state income taxes remain concurrent. Local income-tax authority is a separate question under state law."
     },
     "us-policy-positions:fiscal.graduated-income-tax": {
       "dial": "income-tax",

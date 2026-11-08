@@ -218,10 +218,10 @@ async function launch() {
     !titleScreen.seedShown && !titleScreen.placeShown,
   );
   // Patch notes open the release notes (owner, Oct 28: "get them in"); Saved
-  // games wait for the save format.
+  // games open a sheet that lists the life in progress (#7355).
   check(
-    "title: Patch notes is there and opens; Saved games is there, disabled",
-    titleScreen.patchNotes === false && titleScreen.saves === true,
+    "title: Patch notes is there and opens; Saved games is there and opens",
+    titleScreen.patchNotes === false && titleScreen.saves === false,
   );
   check("title: no figure stands on the title", titleScreen.figures === 0);
   check(

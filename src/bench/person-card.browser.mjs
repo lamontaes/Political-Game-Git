@@ -54,49 +54,30 @@ try {
     0,
     "a Talk button",
   );
+  // The approved person card (owner, Nov 7, item 54): the name over a bust, sections as strips.
+  assert.equal(await page.locator("#person .strip-name").innerText(), name);
   assert.equal(
-    await page.locator("#person-media .screen-portrait").getAttribute("src"),
-    card.figureUrl,
+    await page.locator("#person .mxbust img").count(),
+    card.face ? 1 : 0,
+    "the bust follows the card's face",
   );
-  assert.equal(await page.locator("#person-media .screen-backdrop").count(), 0);
   const text = await page.locator("#person").innerText();
   assert.ok(!text.includes("undefined"));
-  // No heading with nothing under it, no date without a label, a capitalized
-  // relation, and where the person lives (owner, Oct 26).
+  // No strip with nothing under it, and a capitalized relation.
   const read = await page.evaluate(() => ({
-    role: document.getElementById("person-role").textContent,
-    empty: [...document.querySelectorAll("#person-facts .label")]
-      .filter((label) => {
-        const next = label.nextElementSibling;
-        return !next || !next.textContent.trim();
-      })
-      .map((label) => label.textContent),
-    home: [...document.querySelectorAll("#person-facts .label")].some((label) =>
-      label.nextElementSibling?.textContent.trim(),
-    ),
-    values: [...document.querySelectorAll("#person-facts .record-value")].map(
-      (value) => ({
-        value: value.textContent.trim(),
-        label: value.previousElementSibling?.textContent.trim() ?? "",
-      }),
-    ),
+    role: document.querySelector("#person .strip-role")?.textContent ?? "",
+    empty: [...document.querySelectorAll("#person .sec")]
+      .filter((sec) => !sec.querySelector(".secbody")?.textContent.trim())
+      .map((sec) => sec.querySelector(".sechead")?.textContent),
+    strips: document.querySelectorAll("#person .sec").length,
   }));
-  assert.deepEqual(read.empty, [], "a heading with nothing under it");
+  assert.deepEqual(read.empty, [], "a strip with nothing under it");
   assert.match(read.role, /^\p{Lu}/u, `relation not capitalized: ${read.role}`);
-  assert.ok(read.home, "the card shows nothing about the person's life");
-  for (const { value, label } of read.values)
-    assert.ok(label, `a value with no label: ${value}`);
+  assert.ok(read.strips >= 1, "the card shows nothing about the person's life");
   // "Last talked" is never shown (owner, Oct 27, 5 PM).
   assert.doesNotMatch(text, /last talked/i, "a Last talked line");
   if (card.tie?.lastContactDate)
     assert.ok(!text.includes(card.tie.lastContactDate));
-  await page.waitForFunction(
-    () => document.querySelector("#person-media .screen-portrait").complete,
-  );
-  const image = await page
-    .locator("#person-media .screen-portrait")
-    .boundingBox();
-  assert.ok(image.height > 600 && image.width > 250, "large side figure");
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: process.argv[2] ?? "test-results/person-card.png",
@@ -104,7 +85,7 @@ try {
   console.log(
     "Person:",
     name,
-    "PASS large record-driven figure, no sample background or raw contact date",
+    "PASS strip card from the record, no raw contact date",
   );
   await page.keyboard.press("Escape");
   await page.locator("#person").waitFor({ state: "hidden" });
@@ -120,22 +101,10 @@ try {
   console.log(
     "PASS keyboard entry opens the talk, the name opens the card, Escape/focus return, unchanged browsing time",
   );
-  // Presentation contract only: deliberately omit artwork without altering the world.
-  await page.route("**/api/known?*", async (route) => {
-    const r = await route.fetch();
-    const json = await r.json();
-    await route.fulfill({
-      json: {
-        ...json,
-        presentation: { portraitUrl: null, backgroundUrl: null },
-      },
-    });
-  });
   await page.locator("#people .talkable").first().press("Enter");
   await page.locator("#talk:not([hidden])").waitFor();
   await page.locator("#talk-name").click();
   await page.locator("#person:not([hidden])").waitFor();
-  assert.equal(await page.locator("#person-media img").count(), 0);
   await page.setViewportSize({ width: 1024, height: 768 });
   const panel = await page.locator("#person").boundingBox();
   assert.ok(
@@ -145,9 +114,7 @@ try {
       panel.y + panel.height <= 768,
   );
   assert.deepEqual(errors, []);
-  console.log(
-    "PASS null-artwork contract leaves clear slots and panel fits smaller viewport",
-  );
+  console.log("PASS the card fits a smaller viewport");
 } finally {
   await browser.close();
 }

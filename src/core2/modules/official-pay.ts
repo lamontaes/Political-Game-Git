@@ -35,6 +35,8 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import { giveLivingCost, spendLivingCost } from "../official-living";
 import payFacts from "../../../data/source/official-office-pay/facts.json" with { type: "json" };
 import { outsideGovernment } from "../outside-governments";
+import { placeStateKey } from "../place-map";
+import { keepsWhy } from "../why-kept";
 
 export const OFFICIAL_PAY_MODULE_ID = "core2-official-pay-v1";
 
@@ -209,9 +211,30 @@ function payerFor(api: CoreAPI, row: OfficialRow): string {
   return outsideGovernment(api, isFederal(row) ? "US" : row.stateKey);
 }
 
+/**
+ * An official of another state is counted, not paid person by person, until
+ * the player knows them or they are in focus (owner, Nov 5: simulate from the
+ * people there, keep only the result, generate on demand; the same people the
+ * "why" records are kept for, `keepsWhy`). Their salary is still the seat's;
+ * the pay row, post, living cost and monthly paycheck start the payday after
+ * they are met, with no back pay. Federal officials and the player's own
+ * state are paid from the start. stopgapId: SG-GOV-outside-officials-counted
+ */
+function countedUntilMet(api: CoreAPI, row: OfficialRow): boolean {
+  if (isFederal(row)) return false;
+  const core = api.state as CoreState;
+  const own = placeStateKey(core.placeMetadata?.placeKey ?? "");
+  if (own === undefined || row.stateKey === own) return false;
+  return !keepsWhy(core, row.id);
+}
+
 function seat(api: CoreAPI, row: OfficialRow): void {
   const person = api.state.people.get(row.id);
   if (!person?.alive || table(api, "pay").get(row.id)) return;
+  if (countedUntilMet(api, row)) {
+    api.stopgap("SG-GOV-outside-officials-counted");
+    return;
+  }
   const salary = officialSalary(row);
   if (!salary) {
     // An office the table has no pay for still has a person with a household to keep, on no pay.
