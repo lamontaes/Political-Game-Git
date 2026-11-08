@@ -133,6 +133,9 @@ async function api(path, method = "GET") {
 const post = (path) => api(path, "POST");
 /** The player card's date, and the time under it: the only place either appears. */
 function setClock(at) {
+  // One date, one time (owner, Nov 8): every screen that says today, News and the
+  // election and government dates included, reads the date the clock last showed.
+  if (me && at.date) me.date = at.date;
   $("card-clock").replaceChildren(
     ...clockLines(
       dateWords(at.date, { weekday: true }),
