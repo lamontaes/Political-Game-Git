@@ -5,13 +5,13 @@ import mapping from "../../data/research/powers-catalog/question-powers.json" wi
 import territoryGrant from "../../data/research/powers-catalog/territory-grant.json" with { type: "json" };
 import nacoCounties from "../../data/research/core/naco-2022-county-authority.json" with { type: "json" };
 import { placeRow } from "./place-map";
-import { POLICY_QUESTIONS } from "./policy-answers";
 import {
   LAWS_MODULE_ID,
   lawChain,
   lawInForce,
   LOCAL_POWER_PREFIX,
   localPowerBarred,
+  localPowerGranted,
 } from "./modules/laws";
 import type { Authority } from "./modules/legislature";
 import type { CoreAPI } from "./types";
@@ -140,6 +140,16 @@ export function policyAuthority(
     // general home-rule grant, after the question's separate statutory gate.
     if (specificGrant?.value === 1)
       return result(true, "state-has-own-law", specificGrant.id);
+    // The state's statute gives its places this power by name (researched
+    // starting grant), independent of general home rule.
+    if (
+      localPowerGranted(api, question, column === "county" ? "county" : "city")
+    )
+      return result(
+        true,
+        "state-has-own-law",
+        `data/research/laws/starting-law-2026#${question}/${lawChain(api).stateKey}/localGrant`,
+      );
     if (
       cell?.may === "UNKNOWN" ||
       (cell?.may === "varies by state" && cell.status === "game-profile")

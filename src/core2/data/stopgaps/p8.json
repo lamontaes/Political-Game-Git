@@ -356,7 +356,7 @@
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior. Resolved Oct 14, 2026 (start/inauguration-2025): the owner ruled every game starts on January 20, 2025 (gameStartDate) and that data calibrates the simulation without defining the game's date, so the ACS 2020–2024, CES, HUD and OEWS vintages now calibrate an opening they nearly coincide with, not a January 2021 one.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "January 2021 source vintages for population, employment, pay, household costs and conditions.",
+    "replacement": "January 2021 source vintages for population, employment, pay, household costs and conditions. Closed Nov 8 (Dev Tester): the dead pointer to this stopgap in data/content.json (openingVintageStopgap), which no code read, is deleted; the owner's Oct 14 ruling stands (every game starts January 20, 2025, and the data vintages calibrate the opening, they do not define its date).",
     "status": "resolved"
   },
   {
