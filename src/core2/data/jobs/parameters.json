@@ -25,7 +25,7 @@
     "value": 0.85,
     "tag": "ESTIMATED",
     "citation": "BLS Current Employment Statistics, average weekly hours of all employees on private payrolls (FRED AWHAETP): firms cut the workweek in a downturn before they cut staff, by a few percent at the 2009 trough against 2007 (figures not fetched in this session; to confirm).",
-    "estimatedFrom": "A 34-hour week is 0.85 of a 40-hour full-time week; hours give way down to that share of a job's full hours before anyone is let go, then the staffing review sheds whole jobs as it did.",
+    "estimatedFrom": "A 34-hour week is 0.85 of a 40-hour full-time week; it is the midpoint of the curve that splits a shortfall between hours and heads: the most the workweek gives is one less this share, approached smoothly as the shortfall deepens, never a floor.",
     "spread": {
       "low": 0.7,
       "high": 0.95,

@@ -1158,14 +1158,19 @@ export function raiseUnfilledPay(
 }
 
 /**
- * An employer whose demand supports fewer jobs than it holds cuts its workers'
- * hours before letting anyone go (the workweek gives way first in a downturn,
- * BLS CES): the share of full hours it runs moves toward target over staff at
- * the staffing gap's pace, down to `jobsHoursFloorShare`, and back to full as
- * demand returns. Each job's full hours are kept the first time it is cut, so
- * the cut is undone exactly and a new hire starts on full hours. Pay follows
- * through the core's own hours seam (`rehourJob`); a controlled character's
- * hours are theirs. Returns the share now run.
+ * An employer whose demand supports fewer jobs than it holds splits the cut
+ * between its workers' hours and their heads, smoothly at every size of gap:
+ * a shortfall of share g of its staff takes g / (1 + g / m) of everyone's
+ * hours, where m is the most the workweek gives (one less
+ * `jobsHoursFloorShare`, the curve's ESTIMATED midpoint: BLS CES average
+ * weekly hours), and the rest of the shortfall falls to heads through the
+ * staffing review's own gap. The more months of losses the firm's books show
+ * (its cash runway going), the smaller m is, so the separations' share rises
+ * as its own records press. Hours return as demand does. Each job's full
+ * hours are kept the first time it is cut, so the cut is undone exactly and
+ * a new hire starts on full hours. Pay follows through the core's own hours
+ * seam (`rehourJob`); a controlled character's hours are theirs. Returns the
+ * share of full hours now run.
  */
 function reviewHours(
   api: CoreAPI,
@@ -1173,14 +1178,20 @@ function reviewHours(
   jobs: readonly JobInput[],
   staff: number,
   target: number,
+  lossMonths: number,
 ): number {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   const applied = row.hoursFactor ?? p("one");
-  const desired =
+  const shortfall =
     staff > p("zero")
-      ? Math.min(p("one"), Math.max(p("jobsHoursFloorShare"), target / staff))
-      : p("one");
+      ? Math.max(p("zero"), p("one") - target / staff)
+      : p("zero");
+  const pressure = lossMonths / (p("one") + lossMonths);
+  const room = (p("one") - p("jobsHoursFloorShare")) * (p("one") - pressure);
+  const cut =
+    shortfall > p("zero") ? (shortfall * room) / (room + shortfall) : p("zero");
+  const desired = p("one") - cut;
   const factor = applied + p("jobsStaffGapActedPerMonth") * (desired - applied);
   const fullHours = store(api).table("fullHours");
   const quantum = p("jobsHoursQuantumHours");
@@ -1266,8 +1277,15 @@ function reviewEmployers(api: CoreAPI): void {
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
         : demandTarget;
-    // Demand that falls short of the staff cuts everyone's hours first, on a sliding scale down to the floor of a full week, and the staff is let go only past it.
-    const hoursFactor = reviewHours(api, row, jobs, staff, target);
+    // Demand that falls short of the staff is split between everyone's hours and their heads, smoothly (see reviewHours).
+    const hoursFactor = reviewHours(
+      api,
+      row,
+      jobs,
+      staff,
+      target,
+      trading?.lossMonths ?? p("zero"),
+    );
     const effectiveStaff = staff * hoursFactor;
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
