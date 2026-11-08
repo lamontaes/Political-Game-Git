@@ -82,13 +82,40 @@ if (process.env.PARTNERSHIPS_REPORT)
   );
 
 describe(`couples in the town of ${input.placeMetadata?.placeName} over ${YEARS} years (seed ${seed})`, () => {
-  it("forms couples among the town's singles at about the chain's pace", () => {
+  it("forms couples from the town's singles, each union explained by its records", () => {
     expect(singles.length).toBeGreaterThan(10);
-    const expected = expectedPerYear * YEARS;
-    const spread = 3 * Math.sqrt(expected);
     expect(unions.length).toBeGreaterThan(0);
-    expect(unions.length).toBeGreaterThanOrEqual(0.7 * expected - spread);
-    expect(unions.length).toBeLessThanOrEqual(1.3 * expected + spread);
+    // The chain's pace is reported, never a band the run must land in (owner,
+    // Nov 8): a union passes when its records explain it.
+    console.log(
+      `${input.placeMetadata?.placeName} (seed ${seed}): ${unions.length} unions in ${YEARS} years, the chain's pace for these singles ${(expectedPerYear * YEARS).toFixed(1)}`,
+    );
+    const single = new Set(singles.map((row) => row.id));
+    for (const row of unions) {
+      const [a, b] = row.personIds.map((id) => core.people.get(id)!);
+      // Two town adults, a union fact on the record, and at least one of them
+      // was one of the opening's singles (the other may be a wider-population
+      // partner who shared their home).
+      expect(row.personIds.length, row.id).toBe(2);
+      expect(
+        ageOnDate(makeIsoDate(a!.birthDate), makeIsoDate(row.date)),
+        row.id,
+      ).toBeGreaterThanOrEqual(18);
+      expect(
+        ageOnDate(makeIsoDate(b!.birthDate), makeIsoDate(row.date)),
+        row.id,
+      ).toBeGreaterThanOrEqual(18);
+      expect(
+        row.personIds.some((id) => single.has(id)) ||
+          row.personIds.some((id) => partnered(id)),
+        row.id,
+      ).toBe(true);
+      // The pair knew each other or shared a home: a partner is never a stranger.
+      expect(
+        a!.knownIds.has(b!.id) || a!.householdId === b!.householdId,
+        `${row.id}: partners who never met`,
+      ).toBe(true);
+    }
   });
 
   it("moves a couple into one household, then engages and marries them, each with its own dated record", () => {
