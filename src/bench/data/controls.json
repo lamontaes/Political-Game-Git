@@ -411,7 +411,9 @@
     "none": "Not set"
   },
   "advanced": {
-    "none": "No one holds an office that matches"
+    "none": "No one holds an office that matches",
+    "heading": "Play as",
+    "playAs": "Play as {name}"
   },
   "title": {
     "continueAs": "Continue as {name}"

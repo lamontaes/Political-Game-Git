@@ -99,6 +99,7 @@ import {
   seatNumbers,
   voteRows,
 } from "./ui/strips.mjs";
+import { playAsList, playAsDetail } from "./ui/play-as.mjs";
 mountPanelHeads();
 mountCloseButtons();
 mountSpeakers();
@@ -5311,6 +5312,23 @@ async function offerPlayAs(life) {
   const holders = await api("/api/advanced/officeholders");
   const labels = controls.advanced;
   const list = $("pick-list");
+  let chosen = null;
+  const choose = async (holder) => {
+    chosen = holder;
+    draw();
+    const { face } = await api(
+      `/api/advanced/officeholder-face?id=${encodeURIComponent(holder.personId)}`,
+    );
+    if (chosen !== holder) return;
+    $("pick-detail").replaceChildren(
+      playAsDetail(holder, {
+        face,
+        labels,
+        levels: controls.levels,
+        onPlay: () => void enterAs(life, holder.personId),
+      }),
+    );
+  };
   const draw = () => {
     const found = holders.filter((h) =>
       `${h.name} ${h.title} ${h.government}`
@@ -5318,25 +5336,21 @@ async function offerPlayAs(life) {
         .includes($("pick-search").value.trim().toLowerCase()),
     );
     list.replaceChildren(
-      ...found.slice(0, 60).map((h) => {
-        const b = makeButton({
-          textContent: `${h.name} · ${h.title}${h.government ? `, ${h.government.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase())}` : ""}${h.party ? ` · ${h.party}` : ""}`,
-        });
-        b.dataset.record = h.termId;
-        b.addEventListener("click", () => void enterAs(life, h.personId));
-        return b;
+      ...playAsList(found.slice(0, 200), {
+        levels: controls.levels,
+        selected: chosen?.personId,
+        onSelect: (holder) => void choose(holder),
       }),
       ...(found.length === 0 ? [noteLine(labels.none)] : []),
     );
   };
   $("pick-search").oninput = draw;
+  $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
-
-/** Steps into one officeholder from today, with no opening address. */
 async function enterAs(life, personId) {
   frontPanel(null);
   const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
