@@ -14,7 +14,7 @@ source: added with npm run pool -- add
 
 **What.** Three campaign browser checks do not pass on a fresh bench. ad-buy stalls on its own 'leave the card and come back' step because openCampaignTrail (src/bench/campaign-trail.mjs) does not bring the Travel list back. plain-text needs a filing seat (same cause as tests-plain-text-no-travel-filing-place). volunteer-shift needs a willing volunteer. There is no dev route that sets up money, a filing seat or a willing volunteer through the game's own code, so each check depends on what the drawn player happens to have (the drawn ad-buy player had $0).
 
-**Rules.** Never change an assertion or loosen a check. Set the precondition through the game's own code or engines (donor calls, filing, a volunteer's trait), not a hand-written fact. One rule, all 56 places.
+**Rules.** Never change an assertion or loosen a check. Set the precondition through the game's own code or engines (donor calls, filing, a volunteer's trait), not a hand-written fact. One rule, all 56 places: each check is shown passing in three drawn places, named with their seeds.
 
 **Done when.** ad-buy, plain-text and volunteer-shift pass in three drawn places named with seeds; the PR names the dev route or helper that sets up money, a filing seat and a willing volunteer. Merge or close tests-plain-text-no-travel-filing-place with it.
 
