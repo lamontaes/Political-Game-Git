@@ -3414,8 +3414,14 @@ const sheets = {
     const books = gov.books;
     const prior = gov.prior;
     const lastOf = (lines, key) => lines?.find((r) => r.line === key)?.minor;
+    // A line the government spends nothing on is not listed (P29): a budget
+    // reads like a real one. The line open stays, so a pick always shows.
+    const spending = latest.spending.filter((r) => r.minor !== 0);
     const opened =
-      latest.spending.find((r) => r.line === budgetLine) ?? latest.spending[0];
+      spending.find((r) => r.line === budgetLine) ??
+      latest.spending.find((r) => r.line === budgetLine) ??
+      spending[0] ??
+      latest.spending[0];
     const lastYear = (minor) =>
       minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
     const stepButtons = steps(opened).map((step) => {
@@ -3446,7 +3452,7 @@ const sheets = {
               1,
               words.departments,
               pager({
-                items: latest.spending.map((r) =>
+                items: spending.map((r) =>
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
