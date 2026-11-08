@@ -63,7 +63,7 @@ for (const [k, v] of Object.entries(by).sort()) {
   unc += u;
   zero += z;
   console.log(
-    `${k.padEnd(34)} n=${String(v.length).padStart(3)} unc=${String(u).padStart(3)} zero=${z} max=${Math.max(...v)} mean=${(v.reduce((a, b) => a + b, 0) / v.length).toFixed(2)} filedMax=${Math.max(...filed[k]!)}`,
+    `${k.padEnd(34)} n=${String(v.length).padStart(3)} unc=${String(u).padStart(3)} zero=${z} max=${Math.max(...v)} mean=${(v.reduce((a, b) => a + b, 0) / v.length).toFixed(2)} filedMax=${Math.max(...filed[k]!)} filedMean=${(filed[k]!.reduce((a, b) => a + b, 0) / v.length).toFixed(2)}`,
   );
 }
 console.log(
