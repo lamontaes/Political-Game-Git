@@ -30,6 +30,7 @@ import {
   members,
   provisionStance,
   reachesTown,
+  registerHearingWitnessProvider,
   registerLegislatureHooks,
   votesOn,
   type BillRow,
@@ -887,6 +888,26 @@ function reviewMember(api: CoreAPI, personId: string, question: string): void {
 }
 
 registerStanceListener(reviewMember);
+
+// A hearing on a question hears the residents the interest groups' records show on each side of
+// it, alternating sides: a for-witness, then an against-witness (the stake is the side, as a code).
+registerHearingWitnessProvider((api, _bill, question) => {
+  const sides = groupsHere(api)
+    .filter((group) => group.interest === question)
+    .map((group) => ({
+      side: group.id.endsWith(":against") ? "against" : "for",
+      people: (group.memberPersonIds ?? []).filter(
+        (id) => api.state.people.get(id)?.alive,
+      ),
+    }));
+  const out: { personId: string; stake: string }[] = [];
+  const longest = Math.max(0, ...sides.map((row) => row.people.length));
+  for (let at = 0; at < longest; at += 1)
+    for (const row of sides)
+      if (row.people[at])
+        out.push({ personId: row.people[at]!, stake: row.side });
+  return out;
+});
 
 export function groupsHere(api: CoreAPI): readonly GroupRow[] {
   return table(api, "groups").rows() as unknown as GroupRow[];
