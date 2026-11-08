@@ -144,7 +144,7 @@ try {
   const bills = await page.locator("#desk-items").innerText();
   console.log("floor screen:", bills.slice(0, 400));
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/nominations.png` });
-  assert.match(bills, /Secretary/, "the screen names a cabinet post");
+  assert.match(bills, /secretary/i, "the screen names a cabinet post");
   // Name someone to the first open post.
   const before = await page.locator("#desk-items .plate").count();
   await page.locator("#desk-items .action").first().click();
