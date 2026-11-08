@@ -123,11 +123,12 @@ describe(`an amount law in the paper (seed ${seed})`, () => {
           placeKey: place.key,
         });
         const api = coreAPI(core);
-        const town = lawChain(api).townPlaceId;
+        // The town's own level of law, as the law chain names it.
+        const townLevel = lawChain(api).levels.at(-1);
         const hasReporter = outletsHere(api).some(
           (o) => o.tier === "local" && o.reporterIds.length > 0,
         );
-        if (!town || !hasReporter) {
+        if (!townLevel || !hasReporter) {
           tried.push(`${where}: no town or no reporter`);
           continue;
         }
@@ -136,27 +137,32 @@ describe(`an amount law in the paper (seed ${seed})`, () => {
           [0, "TEST-CITY-TAX-REPEAL", 30],
         ] as const)
           enactLaw(api, {
-            jurisdiction: town,
-            level: "city",
-            series: "local-income-tax-authority",
-            value,
+            jurisdiction: townLevel.jurisdiction,
+            level: townLevel.level,
+            series: "sales-tax",
+            unit: "percent",
+            value: value * 1.5,
             effectiveDate: addDays(makeIsoDate(core.date), effectiveDays),
             measureId,
-            citation: "A city income tax for the press test",
+            citation: "A town sales tax for the press test",
           });
         advanceCore(core, addDays(makeIsoDate(core.date), 60));
         const printed = outletsHere(api).flatMap((outlet) =>
           storiesPrinted(api, outlet.id).filter(
             (story) =>
-              story.kind === "law-took-effect" &&
-              story.topic === "local-income-tax-authority",
+              story.kind === "law-took-effect" && story.topic === "sales-tax",
           ),
         );
-        for (const id of ["TEST-CITY-TAX-NEW", "TEST-CITY-TAX-REPEAL"])
+        for (const id of ["TEST-CITY-TAX-NEW", "TEST-CITY-TAX-REPEAL"]) {
+          const stories = printed.filter((story) => story.wireId.includes(id));
           expect(
-            printed.some((story) => story.wireId.includes(id)),
+            stories.length,
             `${where}: no outlet printed ${id}`,
-          ).toBe(true);
+          ).toBeGreaterThan(0);
+          // A tax that begins or ends moves everything it sets, so readers' care is full.
+          for (const story of stories)
+            expect(story.pick!.readerCare, `${where}: ${id}`).toBe(1);
+        }
         return;
       }
       throw new Error(`no drawn place could print a tax: ${tried.join("; ")}`);
