@@ -400,6 +400,29 @@ export function considerReport(
   };
   if (table(api, "complaints").get(complaint.id)) return null;
   table(api, "complaints").put(complaint as unknown as ModuleRow);
+  // The complaint names whom it accuses: each of them, and the one who made it,
+  // are on the record the director's accusation scene reads.
+  for (const accusedId of accusedBy(complaint, crime))
+    if (api.state.people.has(accusedId))
+      api.emit({
+        id: `justice.accused:${complaint.id}:${accusedId}`,
+        date: api.state.date,
+        kind: "justice.accused",
+        personIds: [accusedId, reporterId],
+        placeId: town(api),
+        publicRecord: false,
+        source: {
+          tag: "SOURCED",
+          citation: "A complaint to the prosecutor naming the accused.",
+          asOf: api.state.date,
+        },
+        facts: {
+          crimeId: crime.id,
+          complaintId: complaint.id,
+          accuserId: reporterId,
+          offense: "bribery",
+        },
+      });
   weighInvestigation(api, complaint, crime, prosecutor);
   return complaint;
 }

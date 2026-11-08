@@ -94,5 +94,53 @@
     "addedAt": "2026-11-08",
     "replacement": "A trait-decision row for keeping in touch with a relative elsewhere, weighed against the month's typical like the partnering pull.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-mentorship-model",
+    "kind": "partial-model",
+    "file": "src/core2/modules/mentorship.ts",
+    "line": 17,
+    "whatItFakes": "A new hire's mentor is the eldest coworker at least mentorAgeGapYears older; the pair's traits, the work they share and whether the mentor wants to are not weighed. Hires are read from jobs the monthly review has not seen, since the jobs engine writes no hire record.",
+    "why": "No mentorship or hire event exists in the new core; the jobs engine records a hire only as the job itself.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A hire event from the jobs engine, and a trait decision for taking someone on, weighed against the month's typical.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-rescue-acute",
+    "kind": "partial-model",
+    "file": "src/core2/modules/rescue.ts",
+    "line": 23,
+    "whatItFakes": "Every serious illness onset is treated as a sudden episode a housemate meets; slow illnesses (a diagnosis after months) are not told apart, and a visitor or a stranger present is not considered.",
+    "why": "The health engine's onset record carries no acuity or place of onset.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "An acuity and a place on the health onset record (condition rows), so only sudden episodes are rescued, by whoever is present there.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-quarrel-model",
+    "kind": "partial-model",
+    "file": "src/core2/modules/quarrel.ts",
+    "line": 23,
+    "whatItFakes": "Every missed loan payment is a quarrel with the closest grown housemate, the borrower owing the apology; the pair's traits, who earns what and whether the money was shared are not weighed, and quarrels over anything but money are not written.",
+    "why": "No dispute record exists in the new core; the missed payment is the one money trouble that names a household's member.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A dispute engine weighing the pair's traits, shared money and the household's strain, with quarrels over rules and belief as well as money.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LIVES-abroad-arrivals-no-pull",
+    "kind": "partial-model",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 1154,
+    "whatItFakes": "People arriving from abroad come at each state's sourced yearly rate (ACS B07001 line 081) times its people, in the nation's age mix, and settle among the counted places in proportion to who lives there. The size of the flow does not respond to a place's own pull (jobs, rents, wages), so a booming state draws no more than a slack one.",
+    "why": "The sourced rate sizes the outside flow (owner, Nov 8: real rates are not targets, so it is a size, never a refit target); a pull-weighted destination needs the same pull model as the between-state moves applied to arrivals from abroad, which this change did not build.",
+    "addedBy": "Dev Tester (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "Weigh the abroad flow's destination by the same pull the between-state moves use (wages, jobs, prices), scaled from the sourced national size so a place's own conditions draw more or fewer newcomers; the within-US gravity fit is not applied to it.",
+    "status": "open"
   }
 ]

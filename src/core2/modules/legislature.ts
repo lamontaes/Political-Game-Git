@@ -3128,8 +3128,12 @@ export function learnStake(
     api.relationship(bill.sponsorId, memberId, "contact", 0.05);
   const position = memberPosition(api, billId, memberId);
   const learner = learnerId ?? bill.sponsorId;
-  // Kept for the player and the people they deal with, as reasons are.
-  if (!keepsWhy(api.state as CoreState, learner)) return position;
+  // Kept for the player (the character the player controls, as a played official is) and the people they deal with, as reasons are.
+  if (
+    !keepsWhy(api.state as CoreState, learner) &&
+    snapshotExplicitControlV1(api.state).personId !== learner
+  )
+    return position;
   table(api, "learnedStakes").put({
     id: `stake:${billId}|${memberId}|${learner}`,
     billId,
@@ -5530,6 +5534,18 @@ export function castMemberVote(
     id: `${billId}|${memberId}${override ? "|override" : ""}`,
     vote,
   } as unknown as ModuleRow);
+}
+
+/** A member's vote left to their own position on the bill, cast by the same rule as any member's; returns the position and the vote. */
+export function castOwnPositionVote(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+): { readonly position: number; readonly vote: "yes" | "no" | "abstain" } {
+  const position = memberPosition(api, billId, memberId).total;
+  const vote = position > 0 ? "yes" : position < 0 ? "no" : "abstain";
+  castMemberVote(api, billId, memberId, vote);
+  return { position, vote };
 }
 
 /**
