@@ -40,7 +40,7 @@ He chose every item here on Nov 5 while hovering mocks. The live reference is ht
 
 ## Words
 
-- **American English only.** Never "ward" (use the place's record: district, at large), councillor, organise, colour, local authority, elected member. Check sample text in mocks too: "I know these are mock-ups, but take off" ward.
+- **American English only.** Never "ward" (use the place's record: district, at large), and no British words or spellings (no "-ise" or "-our" endings, no "local authority" or "elected member"). Check sample text in mocks too: "I know these are mock-ups, but take off" ward.
 - The game's title never appears in anything outsiders see.
 
 ## Layout he ruled
