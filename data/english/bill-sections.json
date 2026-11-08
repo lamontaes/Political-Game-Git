@@ -521,6 +521,14 @@
       "raiseTo": "the federal share of Medicaid costs shall be raised to {value}",
       "lowerTo": "the federal share of Medicaid costs shall be lowered to {value}"
     },
+    "child-care-income-limit": {
+      "subject": "the family income limit for child care assistance",
+      "purpose": "set the most a family of three may earn a month and still receive child care assistance",
+      "raise": "the family income limit for child care assistance shall be raised from {before} to {value}",
+      "lower": "the family income limit for child care assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the family income limit for child care assistance shall be raised to {value}",
+      "lowerTo": "the family income limit for child care assistance shall be lowered to {value}"
+    },
     "snap-maximum": {
       "subject": "the maximum monthly food assistance benefit",
       "purpose": "set the maximum monthly food assistance benefit",
