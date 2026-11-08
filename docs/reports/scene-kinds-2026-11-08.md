@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 92 kinds of scene. 11 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 93 kinds of scene. 11 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## Every kind
 
@@ -9,7 +9,7 @@ The game has 92 kinds of scene. 11 of them cannot start yet, because nothing in 
 | concession-taken | concession-taken | cause:event:concession via press | phone | at-cause | winner, you | 45 |  |
 | departure | - | feeling:event:justice.imprisoned; circumstance:moved-away-farewell via circumstance / awaiting record:deployment | home | effective-date | leaving, staying, others | 0 |  |
 | return | - | NO CAUSE / awaiting record:release-from-jail, record:homecoming, record:moving-back | home | effective-date | returning, waiting | 0 | dead |
-| news-arrives | - | feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:life.death; money:job-ended; feeling:event:justice.imprisoned; money:job-ended; feeling:event:health.serious-illness; circumstance:price-moved-street via circumstance; circumstance:story-read-home via circumstance; circumstance:national-news-work via circumstance; circumstance:death-known-street via circumstance; circumstance:rent-news-street via circumstance; circumstance:national-news-street via circumstance / awaiting record:diagnosis-disclosed, record:acceptance, record:result | home, phone | at-cause | bearer, receiver, about | 4 |  |
+| news-arrives | - | feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:life.death; feeling:event:family.partnered; feeling:event:family.separated; money:job-ended; feeling:event:justice.imprisoned; money:job-ended; feeling:event:health.serious-illness; circumstance:price-moved-street via circumstance; circumstance:story-read-home via circumstance; circumstance:national-news-work via circumstance; circumstance:death-known-street via circumstance; circumstance:rent-news-street via circumstance; circumstance:national-news-street via circumstance / awaiting record:diagnosis-disclosed, record:acceptance, record:result | home, phone | at-cause | bearer, receiver, about | 4 |  |
 | race-told | race-told | circumstance:race-result-known via circumstance | public, home, phone | at-cause | bearer, you, about | 92 |  |
 | letter | - | NO CAUSE / awaiting record:contact-from-someone-away | letter | at-cause | writer, reader | 0 | dead |
 | argument | neighbor-argument | ? / awaiting record:dispute-over-money, record:dispute-over-rules, record:dispute-over-belief | home, workplace, school, public | at-cause | side, other-side, witness | 72 |  |
@@ -86,6 +86,7 @@ The game has 92 kinds of scene. 11 of them cannot start yet, because nothing in 
 | concession-received | concession-received | cause:event:election-result via elections | phone | at-cause | loser, you | 88 |  |
 | action-confront | town-hall-question | cause:event:civic.protest via public-action; cause:event:civic.strike via public-action | public | at-cause | protester, you | 73 |  |
 | town-hall-question | town-hall-question | cause:event:town-hall via meetings | venue, public | at-cause | resident, you | 73 |  |
+| office-doubt | office-doubt | circumstance:office-doubt via circumstance | home | at-cause | relative, you | 29 |  |
 | interview-invite | invite-interview | cause:event:interview-invited via press | phone | at-cause | reporter, you | 34 |  |
 | interview-sitting | - | cause:event:interview-accepted via press | public | at-cause | reporter, you | 4 |  |
 | debate-sitting | - | cause:event:debate-accepted via meetings | public | at-cause | host, you | 4 |  |
