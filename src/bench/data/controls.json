@@ -418,26 +418,8 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "notRegistered": "You are not registered with a party. Joining one lets you file under its name.",
-    "agreement": "Views fit",
-    "fit": [
-      {
-        "atLeast": 0.6,
-        "label": "Close"
-      },
-      {
-        "atLeast": 0.2,
-        "label": "Mostly"
-      },
-      {
-        "atLeast": -0.2,
-        "label": "Mixed"
-      },
-      {
-        "atLeast": -1,
-        "label": "Far apart"
-      }
-    ]
+    "me": "Me",
+    "mine": "Mine"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -637,7 +619,8 @@
     "books": "The books",
     "otherLines": "Other",
     "fiscalYear": "fiscal year",
-    "priorities": "Your priorities"
+    "priorities": "Your priorities",
+    "partiesTitle": "Parties"
   },
   "results": {
     "you": "You",

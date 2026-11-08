@@ -3270,23 +3270,6 @@ details.entry[open] {
   fill: var(--gold);
   fill-opacity: 1;
 }
-.map-legend {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 22px;
-  margin: 0 0 20px;
-  padding: 0;
-  list-style: none;
-  font: 15px var(--ui);
-}
-.map-swatch {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  margin-right: 8px;
-  background: var(--party, var(--text-3));
-  vertical-align: -1px;
-}
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
   --party: #3f6fb5;
