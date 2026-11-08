@@ -29,3 +29,25 @@ export function promoteHusk(
   }
   return undefined;
 }
+
+type IdentityOf = (
+  core: CoreState,
+  personId: PersonId,
+) =>
+  { birthDate: string; traits: Readonly<Record<string, number>> } | undefined;
+
+const identities: IdentityOf[] = [];
+
+/** Engines that can say who a husk is (birth date and traits) register here, so the health engine can book its illness and death. */
+export function registerHuskIdentity(provider: IdentityOf): void {
+  if (!identities.includes(provider)) identities.push(provider);
+}
+
+/** Who a husk is, if an engine holds its record. */
+export function huskIdentityOf(core: CoreState, personId: PersonId) {
+  for (const provider of identities) {
+    const found = provider(core, personId);
+    if (found) return found;
+  }
+  return undefined;
+}

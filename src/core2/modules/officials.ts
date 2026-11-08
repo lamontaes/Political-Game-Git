@@ -26,7 +26,7 @@ import senateClasses from "../../../data/research/offices/senate-classes-2026.js
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import stateResearchJson from "../../../data/research/offices/state-offices.json" with { type: "json" };
 import { coreAPI, fillInIdentity, registerModule } from "../state";
-import { registerHuskPromoter } from "../husk-promoters";
+import { registerHuskIdentity, registerHuskPromoter } from "../husk-promoters";
 import type { RecordedIdentity } from "../state";
 import type {
   CoreAPI,
@@ -757,7 +757,7 @@ function seatAll(
     // Another state's official is a recorded husk until something opens
     // them (`promoteOutsideOfficial`); the row below holds what they are
     // built from. The player's state and the nation's seats are full people.
-    // stopgapId: SG-SPEED-outside-legislators-do-not-die
+    // stopgapId: SG-SPEED-outside-legislators-health-without-web
     const husk = isOutsideState(api, spec.stateKey, spec.body, spec.bodyKind);
     if (husk) recordHusk(api.state as CoreState, recorded, api.state.date);
     else
@@ -870,6 +870,16 @@ function promoteOutsideOfficial(
   return person;
 }
 registerHuskPromoter(promoteOutsideOfficial);
+registerHuskIdentity((core, personId) => {
+  if (!core.modules.has(OFFICIALS_MODULE_ID)) return undefined;
+  const husk = officialOf(coreAPI(core), personId)?.husk;
+  return husk
+    ? {
+        birthDate: husk.identity.birthDate,
+        traits: husk.identity.traits ?? {},
+      }
+    : undefined;
+});
 
 function officialIdentity(api: CoreAPI, seed: string, spec: Spec) {
   const drawn = drawOfficialIdentity({

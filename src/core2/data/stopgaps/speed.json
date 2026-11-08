@@ -12,15 +12,15 @@
     "status": ""
   },
   {
-    "id": "SG-SPEED-outside-legislators-do-not-die",
+    "id": "SG-SPEED-outside-legislators-health-without-web",
     "kind": "partial-model",
     "file": "src/core2/modules/officials.ts",
     "line": 760,
-    "whatItFakes": "Another state's legislators are recorded husks until something opens them, and a husk has no health record, so none of them dies, falls ill or retires between elections (vacancies from outside deaths: 19 against 149 over two years in Dickey, North Dakota, seed n8g7).",
-    "why": "Building 6,700 full people at the opening made 43 percent of a small town's year (owner, Nov 5: generate on demand); the death of a person nobody has opened needs the health engine's death path run for a husk.",
+    "whatItFakes": "Another state's legislators are husks until opened; each gets the health engine's seeded line, conditions and base hazard, so they fall ill and die on the days a person would, but without the outcome web's and their own records' factors on that hazard, which a person has. Vacancies from outside deaths run 188 against 149 over two years in Dickey, North Dakota (seed n8g7).",
+    "why": "Building 6,700 full people at the opening made 43 percent of a small town's year (owner, Nov 5: generate on demand).",
     "addedBy": "speed",
     "addedAt": "2026-11-08",
-    "replacement": "Each husk official gets the same hazard profile and seeded line the health engine gives a person, a death day is booked on a due-date index, and on that day the person is built and dies through the health engine's own path, so the vacancy and special election follow.",
+    "replacement": "The health engine's web and own-record factors are read for a husk's booked onset the way they are for a person, from the husk's seat and identity.",
     "status": "open"
   }
 ]
