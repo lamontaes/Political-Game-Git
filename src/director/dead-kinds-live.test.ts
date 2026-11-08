@@ -27,7 +27,7 @@ import type { Director } from "./ledger";
 // The seed is fresh each run (GOLDEN_PATH_SEED pins one) except for the
 // return, which waits on a release the justice engine writes only when a
 // sentence ends: that one replays the place and seed the record count found
-// it in (scripts/dialogue-batch/event-count.ts, seed "storydead:0").
+// it in (scripts/dialogue-batch/event-count.ts, seed "storydead:2").
 //
 //   return      justice.released (justice): a person comes home from prison
 //   apology     floor-debate (legislature): the member who argued the other side
@@ -74,10 +74,10 @@ function clean(text: string, here: string) {
 }
 
 describe("the dead scene kinds start from records an engine writes", () => {
-  it(`the return: a person released from prison comes home to their kin (DC, seed storydead:0)`, () => {
+  it(`the return: a person released from prison comes home to their kin (Hope Valley, seed storydead:2)`, () => {
     setBookkeeping(false);
-    const place = drawPlace("storydead:0", "event-count");
-    const where = `${place.name} (${place.key}), seed storydead:0`;
+    const place = drawPlace("storydead:2", "event-count");
+    const where = `${place.name} (${place.key}), seed storydead:2`;
     const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,

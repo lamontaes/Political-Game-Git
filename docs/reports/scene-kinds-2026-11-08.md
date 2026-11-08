@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 97 kinds of scene. 5 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 97 kinds of scene. 1 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## What changed for the player tonight
 
@@ -16,12 +16,12 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 |---|---|---|---|---|---|---|---|
 | concession-taken | concession-taken | cause:event:concession via press | phone | at-cause | winner, you | 45 |  |
 | departure | - | feeling:event:justice.imprisoned; circumstance:moved-away-farewell via circumstance / awaiting record:deployment | home | effective-date | leaving, staying, others | 0 |  |
-| return | - | NO CAUSE / awaiting record:release-from-jail, record:homecoming, record:moving-back | home | effective-date | returning, waiting | 0 | dead |
+| return | - | feeling:event:justice.released via justice; feeling:event:justice.released via justice / awaiting record:homecoming, record:moving-back | home | effective-date | returning, waiting | 7 |  |
 | news-arrives | - | feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:housing.eviction; feeling:event:life.death; feeling:event:family.partnered; feeling:event:family.separated; money:job-ended; feeling:event:justice.imprisoned; money:job-ended; feeling:event:health.serious-illness; circumstance:price-moved-street via circumstance; circumstance:story-read-home via circumstance; circumstance:national-news-work via circumstance; circumstance:death-known-street via circumstance; circumstance:rent-news-street via circumstance; circumstance:national-news-street via circumstance / awaiting record:diagnosis-disclosed, record:acceptance, record:result | home, phone | at-cause | bearer, receiver, about | 4 |  |
 | race-told | race-told | circumstance:race-result-known via circumstance | public, home, phone | at-cause | bearer, you, about | 92 |  |
 | letter | - | feeling:event:family.contact via partnerships | letter | at-cause | writer, reader | 10 |  |
 | argument | neighbor-argument | ? / awaiting record:dispute-over-money, record:dispute-over-rules, record:dispute-over-belief | home, workplace, school, public | at-cause | side, other-side, witness | 72 |  |
-| apology | owed-apology | NO CAUSE / awaiting record:decision-to-concede | home, other-home, public | next-together | apologizing, wronged | 75 | dead |
+| apology | owed-apology | circumstance:debate-afterward via circumstance / awaiting record:decision-to-concede | home, other-home, public | next-together | apologizing, wronged | 75 |  |
 | reach-out | favor-job | circumstance:job-lost-calls via circumstance | phone | at-cause | asking, asked | 17 |  |
 | becoming-friends | - | ? | public, home, other-home | next-together | friend, other-friend | 4 |  |
 | celebration | - | feeling:event:family.married via partnerships; money:job-started; money:job-started / awaiting record:birthday-gathering | home, venue | effective-date | honoree, host, guests | 1 |  |
@@ -41,8 +41,8 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 | visit | - | feeling:event:justice.imprisoned; feeling:event:health.serious-illness; feeling:event:health.serious-illness; feeling:event:justice.held-before-trial; circumstance:held-known-visit via circumstance / awaiting record:serious-illness, record:nursing-home | venue | next-together | visitor, cannot-come | 0 |  |
 | arrival | housemate-arrives | circumstance:new-housemate via circumstance / awaiting record:stepparent-arrives, record:housemate-moves-in | home | effective-date | household, newcomer | 97 |  |
 | care | care-visit | feeling:event:health.serious-illness | home, other-home | effective-date | caregiver, cared-for | 38 |  |
-| advice | mentor-advice | WAITS: next-step; WAITS: relationship:mentorship:*:formed | school, home, other-home | next-together | adviser, deciding | 105 | dead |
-| accusation | conflict-accuse | NO CAUSE / awaiting record:incident-at-school-or-work, record:suspicion | school, workplace, public | at-cause | accuser, accused, witnesses | 19 | dead |
+| advice | mentor-advice | circumstance:mentor-weighs-in via circumstance | school, home, other-home | next-together | adviser, deciding | 105 |  |
+| accusation | conflict-accuse | circumstance:bribe-accused via circumstance / awaiting record:incident-at-school-or-work | school, workplace, public | at-cause | accuser, accused, witnesses | 39 |  |
 | warning | protest-warning | circumstance:organizing-warning via circumstance / awaiting record:arrears, record:eviction-notice, record:conflict-escalating | home, phone, letter | at-cause | warning, at-risk | 15 |  |
 | reconciliation | ally-return | ? / awaiting record:help-after-quarrel | home, other-home, public | next-together | one, other | 17 |  |
 | polling-place | poll-problem | director producer: polling-place.ts stages it on the eve of the election | venue | at-cause | voter, workers, neighbors | 65 |  |
@@ -114,7 +114,7 @@ A bribe offered to you is now your choice to take, hand back or report, and a re
 
 ## Kinds that cannot start
 
-The kinds that cannot start are return, apology, rescue, advice, accusation. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
+The kinds that cannot start are rescue. Most wait on the lives of the player and the people around them: a date, a proposal, a breakup, a letter, a return. The others wait on an incident or a suspicion that no engine records.
 
 ## How this was made
 
