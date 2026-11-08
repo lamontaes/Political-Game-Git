@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 237 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 238 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -192,6 +192,7 @@ New on Nov 3:
 | #7346 | A pool note: rally listeners were measured and there is nothing to run as a group (docs only)                                                                                                                              | Quinter, Kansas                  | 7b6e02e5d10eca12 |
 | #7348 | Files a new speed item: year 1 keeps 404 thousand records on main against 179 thousand on Nov 4, most of them law effects (docs only; the bot closed the new item on merge and the desk set it back to open)               | Viola, Delaware                  | 3597fe0cea1d5c3d |
 | #7349 | A pool note: the year-1 record growth comes from other states' officials, first added by #7290 (docs only)                                                                                                                 | Glendale Heights, Illinois       | d2adb7d2a5886092 |
+| #7351 | A pool note: skipping outside officials' pay rows takes 12 s and about 90 thousand records off year 1 (docs only)                                                                                                          | Caney, Oklahoma                  | a6a119327854c715 |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
