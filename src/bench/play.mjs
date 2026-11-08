@@ -4210,6 +4210,18 @@ const sheets = {
                 title: v.title,
                 result: `${v.passed ? labels.passed : labels.failed} · ${fill(labels.yesCount, { n: v.yes })}, ${fill(labels.noCount, { n: v.no })}`,
                 when: short(v.date),
+                ...(v.openable
+                  ? {
+                      onOpen: () =>
+                        openBillPaper(
+                          v.billId,
+                          (...nodes) =>
+                            $("sheet-body").replaceChildren(...nodes),
+                          () => openSheet("government"),
+                          labels.backToGovernment,
+                        ),
+                    }
+                  : {}),
               })),
             ),
           ]
