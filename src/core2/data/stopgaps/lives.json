@@ -82,5 +82,17 @@
     "addedAt": "2026-11-01",
     "replacement": "people-partnership-counted (with its parts people-partnership-counted-leave-home and people-partnership-counted-pair-and-split): the counted households partner and part by partneringPerYear and separatingPerYear times their count, merging and splitting counted households.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-kin-contact-traits",
+    "kind": "partial-model",
+    "file": "src/core2/modules/kin-contact.ts",
+    "line": 29,
+    "whatItFakes": "Relatives elsewhere write in proportion to closeness alone; the writer's traits (a letter writer or not) do not move how often.",
+    "why": "No decision row for staying in touch exists in data/content/trait-decisions.json; the people engine's contact-known-person action reaches only town residents.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A trait-decision row for keeping in touch with a relative elsewhere, weighed against the month's typical like the partnering pull.",
+    "status": "open"
   }
 ]

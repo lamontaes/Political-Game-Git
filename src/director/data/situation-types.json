@@ -648,8 +648,21 @@
       ],
       "setting": ["letter"],
       "timing": "at-cause",
-      "causes": [],
-      "awaiting": ["record:contact-from-someone-away"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.contact",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.contact",
+          "bind": {
+            "writer": "counterpart",
+            "reader": "subject"
+          }
+        }
+      ],
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
@@ -1047,8 +1060,20 @@
       ],
       "setting": ["home"],
       "timing": "effective-date",
-      "causes": [],
-      "awaiting": ["record:birthday-gathering", "record:holiday-calendar"],
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:family.gathering-missed",
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "family.gathering-missed",
+          "bind": {
+            "household": "household",
+            "absent": "counterpart"
+          }
+        }
+      ],
       "tag": {
         "key": "loss",
         "endpoint": "personal",
