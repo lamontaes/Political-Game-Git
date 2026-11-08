@@ -1157,6 +1157,12 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
             PEOPLE_TRAITS.length,
           ).map(({ label, line }) => ({ label, line }))
         : [],
+    // Where they place themselves politically, as the views engine's label, for someone the
+    // viewer knows (the same people as the traits above).
+    view:
+      (family || housemate || tie) && core.modules.has(VIEWS_MODULE_ID)
+        ? (viewOf(coreAPI(core), otherId as PersonId)?.label ?? null)
+        : null,
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,
     work:
