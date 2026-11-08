@@ -2258,9 +2258,10 @@
     },
     {
       "stateKey": "US-MT",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
-      "estimate": true
+      "preempts": true,
+      "source": "Mont. Code Ann. 7-1-111(2), https://mca.legmt.gov/bills/mca/title_0070/chapter_0010/part_0010/section_0110/0070-0010-0010-0110.html (read in full Nov 8, 2026); minimum wage is Mont. Code Ann. 39-3-404",
+      "estimate": false,
+      "note": "A local government unit with self-government powers \"is prohibited from exercising ... any power that applies to or affects the provisions of 7-33-4128 or Title 39, except that subject to those provisions, it may exercise any power of a public employer with regard to its employees.\" The state minimum wage is in Title 39, chapter 3, part 4 (39-3-404); no section of that part delegates a local wage power (39-3-401 to 39-3-409 read)."
     },
     {
       "stateKey": "US-NJ",
@@ -2316,10 +2317,10 @@
     },
     {
       "stateKey": "US-ND",
-      "preempts": false,
-      "source": "https://www.epi.org/preemption-map/ (EPI Workers' rights preemption map; page blocked to this reader, list reconstructed)",
-      "estimate": true,
-      "note": "No express preemption statute confirmed; no local minimum wage exists. Local government authority may be limited by Dillon's rule or home-rule limits."
+      "preempts": true,
+      "source": "N.D. Cent. Code 34-06-23(2), https://ndlegis.gov/cencode/t34c06.pdf (read in full Nov 8, 2026)",
+      "estimate": false,
+      "note": "\"A political subdivision may not enact, maintain, or enforce by charter, ordinance, purchase agreement, contract, regulation, rule, or resolution a living wage mandate in an amount greater than the applicable minimum wage rate of this state.\" A living wage mandate is a requirement that an employer pay a wage rate not otherwise required by state or federal law (34-06-23(1)(c)); a political subdivision includes a city, county, township or school district (34-06-23(1)(d))."
     },
     {
       "stateKey": "US-SD",
