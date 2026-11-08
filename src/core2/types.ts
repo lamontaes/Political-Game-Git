@@ -645,6 +645,19 @@ export interface WorkRuntime {
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
   >;
+  /** A named worker's gross pay by quarter, the current one and the last five completed, oldest first (pay-by-quarter.ts). */
+  payByQuarter: Map<
+    PersonId,
+    readonly { readonly quarter: string; readonly grossMinor: number }[]
+  >;
+  /** A counted group's pay for one worker of it, by quarter, per group and employer: "<group id>|<employer id>". */
+  countedPayByQuarter: Map<
+    string,
+    readonly {
+      readonly quarter: string;
+      readonly perWorkerGrossMinor: number;
+    }[]
+  >;
   /** Dated changes to a job's hours by job (rehourJob), newest last. */
   hourChanges: Map<
     string,
