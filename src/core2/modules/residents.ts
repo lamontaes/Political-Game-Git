@@ -147,6 +147,8 @@ interface FlowState extends ResidentFlowInput {
 export type ResidentsRecipe = Omit<ResidentsInput, "households" | "flows">;
 
 export interface ResidentsRuntime {
+  /** The world these residents live in, for the pay level their unplaced workers' pay follows. */
+  core: CoreState;
   input: ResidentsRecipe;
   flows: Map<string, FlowState>;
   due: Map<IsoDate, Set<string>>;
@@ -343,12 +345,19 @@ export function householdIncome(
   );
 }
 
-/** What one of a counted household's unplaced workers earns a year: its place's pool's rate. */
+/** What one of a counted household's unplaced workers earns a year: its place's pool's rate at the place's pay level today. */
 export function unplacedPayPerWorker(
   rt: ResidentsRuntime,
   h: CountedHousehold,
 ): number {
-  return rt.unplacedPerWorker.get(unplacedPoolOf(h.placeId, !!h.quarters)) ?? 0;
+  // The pool's opening pay, moved with the place's pay level since (national
+  // hourly earnings times its region's pay), as the wage flows it is paid
+  // through already are (`payIndexed`), so income read on a screen and income
+  // paid agree.
+  return (
+    (rt.unplacedPerWorker.get(unplacedPoolOf(h.placeId, !!h.quarters)) ?? 0) *
+    payLevel(rt.core, h.placeId)
+  );
 }
 
 /** What keys a counted household to its group today. */
@@ -707,6 +716,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     sellerMonth: new Map(),
     outsideByPlace: new Map(),
     unplacedPerWorker: new Map(),
+    core,
     retirementLevel: new Map(),
     funds: new Map(),
     funded: false,
