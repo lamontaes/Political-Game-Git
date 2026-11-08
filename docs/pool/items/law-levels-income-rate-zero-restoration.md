@@ -5,11 +5,12 @@ area: laws
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: astra/income-rate-zero-restoration
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T01:20:45.196Z
 ---
 
 **What.** The numeric income-tax bill writer scales every retained bracket to zero when a bill sets the top rate to zero. A later bill restoring a positive rate sees an all-zero schedule and keeps collecting zero. Preserve the schedule needed for restoration while the existing withholding reader applies a zero active rate, so an income tax can be repealed and passed again through the amount route.
