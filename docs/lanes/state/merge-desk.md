@@ -1,6 +1,6 @@
 # Merge desk
 
-Merge desk report, Nov 3 and 4, 2026 (cloud session). 246 pull requests merged. Newest state at the top of each section.
+Merge desk report, Nov 3 and 4, 2026 (cloud session). 247 pull requests merged. Newest state at the top of each section.
 
 **Stopped by the owner, Nov 4, 2:37 p.m. Eastern, at 161 merged; resumed on the owner's word at about 2:53 p.m. Eastern (relayed by the CTO). The desk merges One Map's PRs, and from Nov 5, 05:22 UTC also State Sessions' (every other state holds sessions), on the owner's approval relayed by the CTO. From Nov 5, about 5:15 p.m. Eastern, also the Cleanup session's three PRs (the old art pipeline, the Oct 14 mocks, the green mannequin plates with the old mocks), on the same check; the art pipeline PR also needs `npm run build` to succeed on its merged head. From Nov 7, 2:30 p.m. Eastern (CTO), also Astra's PRs (a Codex builder on Congress and law reversals; branches `astra/`, line 2 `Session: Astra (Codex)`), on the same check. From Nov 7, 9:30 p.m. Eastern (CTO), also the Fixer's PRs (a Claude cloud session; branches `fixer/`, line 2 `Session: Fixer`), on the same check. #7354, the owner's approved mocks, is the owner's to merge. Lanes 1, 3, 4 and 5 are stopped and Lane 2 is off, so #7110 and #7127 stay open, and skills PRs #7233, #7254 and #7264 stay with the CTO.**
 
@@ -208,6 +208,7 @@ New on Nov 3:
 | #7351 | A pool note: skipping outside officials' pay rows takes 12 s and about 90 thousand records off year 1 (docs only)                                                                                                                                                       | Caney, Oklahoma                  | a6a119327854c715 |
 | #7359 | About 7,500 officials of other states stay counted until the player knows them, instead of each getting a job, account and paycheck at the opening; year 1 of the timed town runs 37.6 s, not 51.7 s (the desk moved a `reason` line into the body of its release note) | Powdersville, South Carolina     | a1badf252363e059 |
 | #7360 | A pool note: with #7359, Montpelier finishes four years (105, 260, 197 and 1,012 s); the election year's growth is mostly campaign causes and relationships (docs only; same release-note mend)                                                                         | Williamsburg, Kentucky           | b02f20bc6b515bb3 |
+| #7361 | A pool note: keeping folded causes only for the player's circle changed nothing in either timed town (docs only; its Notes conflict joined both sides, and the same release-note mend)                                                                                  | Angie, Louisiana                 | 31634587e1d0751b |
 
 ## Lane PRs merged on Nov 4 (126), on the owner's word ("You may merge lane PRs that pass the new-game check")
 
