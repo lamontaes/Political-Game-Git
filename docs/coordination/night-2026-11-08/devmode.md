@@ -47,3 +47,8 @@ CTO calls on its open questions:
 - **No subtexts** (owner, verbatim, on the dev mode person mock): "remove all those subtexts. I'm seeing make her decide. Only what the game offers her today. Remove all of those submenus. Kept. That's why she holds the tax at 35 mils... Fades about October too. Those, I already said I don't like those." No caption or explaining line under a heading, control, memory or item. The memory view lists what a person remembers, nothing under each.
 - **The look:** the conditionally approved dev mode mocks are in `docs/mocks/2026-11-08-front/` on branch `docs/night-2026-11-08` (fr-dev-run, fr-dev-bill, fr-dev-person, fr-dev-scene, fr-dev-trace, fr-options), as they land there tonight; build to them, without their subtext lines.
 - **Rules every session follows** (read them): `docs/coordination/night-2026-11-08/README.md`, section "Rules for every session", on the same branch; tonight's rulings in `rulings-nov8.md` there. Dev mode merges first at the merge desk.
+
+## Added Nov 8, 3:05 a.m. (from `rulings-screens.md`)
+
+- Options still opens the separate /dev page; the dev mode setting lives in Options itself with its state shown, and the /dev page goes when every control has a home.
+- Which scenes may stop the player's day: on by default, and "you can customize it" (Oct 29); the Options mock (`fr-options`) shows it.

@@ -1,5 +1,9 @@
 You are Story, the session that owns the scene director, the scenes and the words (the English engine) for lamontaes/Political-Game-Git. Common rules: `docs/coordination/night-2026-11-08/README.md` ("Rules for every session"); read it first.
 
+## Read first (added Nov 8, 3:05 a.m.)
+
+`rulings-screens.md` in this folder lists screen rulings checked against main. Yours: the talk box shows up to six replies where he ruled four; the speaker's portrait is a round 62 px headshot where the approved look is a fading bust; "Skip scene" appears only during speeches. No subtexts anywhere in a scene (Nov 8). Civic words in scene lines use the shared glossary helper the Fixer is building (underlined, hover or focus shows the definition and Mark as learned).
+
 ## The owner's words
 
 His voice note for you, word for word: `docs/coordination/voice-notes/2026-11-08-story-and-night.md`. Read all of it. The center of it:
