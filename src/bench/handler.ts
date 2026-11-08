@@ -112,6 +112,7 @@ import {
   setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
+import { officeCases, decideCase } from "./office-cases";
 import {
   openConversation,
   say,
@@ -1689,6 +1690,30 @@ export async function benchRequest(
         return;
       }
       // Election day at the polls: the ballot, marked race by race, or left.
+      if (request.method === "GET" && url.pathname === "/api/office/cases") {
+        send(
+          200,
+          officeCases(
+            requireCore(),
+            url.searchParams.get("id") ?? player?.personId ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/case") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        const decision = url.searchParams.get("decision");
+        send(
+          200,
+          decideCase(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("caseId") ?? "",
+            decision === "help" ? "help" : "decline",
+          ),
+        );
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/polling-place") {
         send(
           200,

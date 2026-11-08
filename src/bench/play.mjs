@@ -2677,6 +2677,52 @@ async function seatRows() {
   const result = seatResult
     ? [plate(null, line(seatResult), ...seatText.map((t) => line(t)))]
     : [];
+  // Office hours: the residents' cases the cases engine opened for this official, each with the
+  // two answers the engine offers; a decision runs the engine's own `handleCase`.
+  const caseWords = controls.officeCases ?? {};
+  const open = await api(
+    `/api/office/cases?id=${encodeURIComponent(me.id)}`,
+  ).catch(() => []);
+  const cases = open.length
+    ? [
+        stripSection(
+          1,
+          labels.officeHours,
+          ...open.map((c) => {
+            const answer = (decision, text) => {
+              const b = makeButton({ textContent: text });
+              b.addEventListener("click", async () => {
+                await post(
+                  `/api/office/case?${new URLSearchParams({ caseId: c.id, decision })}`,
+                );
+                openSheet("office");
+              });
+              return b;
+            };
+            return el(
+              "div",
+              { className: "desk-bill" },
+              peopleSentence([
+                {
+                  name: c.name,
+                  onOpen: () => {
+                    closeSheet();
+                    showPerson({ personId: c.personId });
+                  },
+                },
+              ]),
+              line(
+                `${caseWords.problems?.[c.problem] ?? ""} · ${caseWords.by} ${dateWords(c.respondBy)}`,
+              ),
+              buttonRow(
+                answer("help", caseWords.help),
+                answer("decline", caseWords.decline),
+              ),
+            );
+          }),
+        ),
+      ]
+    : [];
   return [
     stripBoard({
       className: "office-board",
@@ -2710,7 +2756,7 @@ async function seatRows() {
           ...draftNodes,
           ...(left.length ? [stripSection(3, labels.left, ...left)] : []),
         ],
-        [...parts.budget, ...parts.deals],
+        [...cases, ...parts.budget, ...parts.deals],
       ],
     }),
   ];
@@ -3730,6 +3776,26 @@ const sheets = {
           el(
             "div",
             { className: "roster-side" },
+            ...(race.lastTime
+              ? [
+                  stripSection(
+                    3,
+                    labels.lastTime,
+                    dotRows([
+                      {
+                        label: dateWords(race.lastTime.date, {
+                          year: me.date,
+                        }),
+                        value: race.lastTime.winner,
+                      },
+                      {
+                        label: labels.share,
+                        value: `${race.lastTime.sharePercent} ${labels.percent}`,
+                      },
+                    ]),
+                  ),
+                ]
+              : []),
             stripSection(
               2,
               labels.dates,
