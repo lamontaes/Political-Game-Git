@@ -40,7 +40,7 @@ import {
 } from "./budgets";
 import { townConcernShare } from "./meetings";
 import { sessionPlaceKeys, sessionYear } from "../state-session-calendar";
-import { stateActEffectiveDate } from "../state-effective-date";
+import { stateActEffectiveDate } from "./laws";
 import { leaderOf, presidingOfficer } from "./leadership";
 import { officialOf, officialStance } from "./officials";
 import { coreAPI, registerModule } from "../state";
@@ -51,7 +51,7 @@ import type {
   PersonState,
   Source,
 } from "../types";
-import { nextMeeting } from "../office-day-calendar";
+import { nextMeeting } from "./office-day";
 import {
   addDays,
   makeIsoDate,
@@ -63,7 +63,7 @@ import {
   campaignParameter,
   personStance,
   PLATFORM_QUESTIONS,
-} from "../campaign-views";
+} from "./elections";
 import {
   enactLaw,
   lastEnactment,
@@ -73,13 +73,13 @@ import {
   questionSettled,
   type SettledQuestion,
 } from "./laws";
-import type { LawRowInput } from "../laws-starting";
-import { policySeriesAtLevel } from "../policy-answers";
+import type { LawRowInput } from "./laws";
+import { policySeriesAtLevel } from "./laws";
 import stateReach from "../data/places/state-reach.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
-import type { OfficeLevel } from "../offices-local";
-import { partySide } from "../appointments";
-import { decisionLean, termOfLean } from "../trait-decisions";
+import type { OfficeLevel } from "./offices";
+import { partySide } from "./offices";
+import { decisionLean, termOfLean } from "./people";
 import {
   authorityFor,
   beyondPower,

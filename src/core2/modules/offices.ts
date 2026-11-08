@@ -1874,3 +1874,9 @@ function officesCalendarWork(
     status: "filled",
   } as unknown as ModuleRow);
 }
+
+// Re-exported so other engine families import through this entry, not the file (families guard).
+export { casesOpenFor, handleCase } from "./constituent-cases";
+export type { OfficeLevel } from "../offices-local";
+export { partySide } from "../appointments";
+export { TERM_AREAS, placeTermRead, type AreaRead } from "../term-read";
