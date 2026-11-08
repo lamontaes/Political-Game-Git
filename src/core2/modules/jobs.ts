@@ -642,6 +642,14 @@ export function bandRatio(index: number, seed: string): number {
   );
 }
 
+/** The fraction of a place's expected seekers the opening has rounded away so far, by place. */
+const owedAtOpening = new WeakMap<CoreState, Map<string, number>>();
+function openingOwed(c: CoreState): Map<string, number> {
+  let owed = owedAtOpening.get(c);
+  if (!owed) owedAtOpening.set(c, (owed = new Map()));
+  return owed;
+}
+
 /**
  * The seekers each age band holds in each place: a band's jobs held times its
  * rate over one minus its rate, the place's rate scaled by the band's ratio.
@@ -665,10 +673,17 @@ function bandQuotas(
     ]);
   }
   const quotas = new Map<string, number>();
-  for (const rows of byPlace.values()) {
+  const owed = openingOwed(core(api));
+  for (const [placeId, rows] of byPlace) {
+    // The named and the counted are two calls on one place's rate: the
+    // fraction one call rounds away is carried into the next, so together
+    // they hold the place's whole expected count (2.6% of 102 workers is
+    // three seekers, not one and one).
+    const exact = rows.reduce((sum, row) => sum + row.exact, 0);
+    const whole = Math.round(exact + (owed.get(placeId) ?? 0));
+    owed.set(placeId, exact + (owed.get(placeId) ?? 0) - whole);
     let left =
-      Math.round(rows.reduce((sum, row) => sum + row.exact, 0)) -
-      rows.reduce((sum, row) => sum + Math.floor(row.exact), 0);
+      whole - rows.reduce((sum, row) => sum + Math.floor(row.exact), 0);
     for (const row of rows) quotas.set(row.key, Math.floor(row.exact));
     for (const row of [...rows].sort(
       (a, b) => (b.exact % 1) - (a.exact % 1) || a.key.localeCompare(b.key),
