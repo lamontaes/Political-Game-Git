@@ -2644,7 +2644,7 @@ async function openBillPaper(billId, show, back, backLabel) {
           ? `${floor.takenUp ?? ""} ${dateWords(paper.floorDate)}`
           : null,
         paper.decision
-          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.passedOn ? ` · ${dateWords(paper.decision.passedOn)}` : ""}`
+          ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
           : null,
       ],
     }),

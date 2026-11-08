@@ -453,7 +453,12 @@ export function billPaper(core: CoreState, billId: string) {
     decision:
       bill.status === "drafted"
         ? null
-        : { status: bill.status, passedOn: bill.passedOn ?? null },
+        : {
+            status: bill.status,
+            passedOn: bill.passedOn ?? null,
+            // The day the bill's fate was decided: it passed, or a vote or a committee ended it.
+            decidedOn: bill.passedOn ?? bill.failedOn ?? null,
+          },
   };
 }
 
