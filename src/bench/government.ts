@@ -19,6 +19,7 @@ import { choosesPresident } from "../core2/electorate-places";
 import { federalOffices } from "../core2/offices-state";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
+import { LAW_SERIES } from "../core2/laws-in-force";
 import {
   checkEligibility,
   fileCandidacy,
@@ -251,6 +252,8 @@ export function governmentView(core: CoreState, personId: string) {
     law: lawHere(api).map((row) => ({
       series: row.series,
       yesNo: !AMOUNT_SERIES.includes(row.series),
+      // An additive tax is each level's own law; the screen lists them apart.
+      additive: LAW_SERIES[row.series] === "additive",
       value: row.value,
       unit: row.unit,
       estimate: row.estimate,
@@ -443,6 +446,9 @@ export function localRaces(core: CoreState) {
         title: raceTitle(contest.title, contest.district),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
+        // The day filing opens, from the contest's record: null where the
+        // place's records give no opening day.
+        filingOpens: contest.filingOpens ?? null,
         filingClosed: contest.filingDeadline < core.date,
         // Filing is open today: the office takes a filing for it, by the
         // elections engine's one window (`filingWindowOpen`).

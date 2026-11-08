@@ -135,3 +135,34 @@ describe(`partnerships of people living elsewhere over a year in ${input.placeMe
     }
   });
 });
+
+// A move-in or a split writes through the household writer, which refuses to
+// leave a household with only children on its books (a dead adult still on
+// them does not count): the engine asks the same question first, so it never
+// reaches the refusal (Money's year-4 run, Ripley, Tennessee).
+describe("who can leave a household", () => {
+  const person = (id: string, birthDate: string, alive: boolean) =>
+    ({ id, birthDate, alive, householdId: "home" }) as never;
+  const fake = (members: ReturnType<typeof person>[]) =>
+    ({
+      state: {
+        date: "2027-01-01",
+        playerId: undefined,
+        households: new Map([
+          ["home", { id: "home", memberIds: members.map((m) => m.id) }],
+        ]),
+        people: new Map(members.map((m) => [m.id, m])),
+      },
+    }) as never;
+  it("refuses to leave only the dead on the books, or a child; allows leaving a living adult", async () => {
+    const { canLeave } = await import("./modules/partnerships");
+    const mover = person("mover", "1990-01-01", true);
+    const child = person("child", "2018-01-01", true);
+    const deadParent = person("parent", "1960-01-01", false);
+    expect(canLeave(fake([mover, child, deadParent]), mover, 18)).toBe(false);
+    // Only a dead member left on the books: the writer still counts them.
+    expect(canLeave(fake([mover, deadParent]), mover, 18)).toBe(false);
+    const adult = person("adult", "1985-01-01", true);
+    expect(canLeave(fake([mover, child, adult]), mover, 18)).toBe(true);
+  });
+});
