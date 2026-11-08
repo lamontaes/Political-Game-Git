@@ -125,6 +125,8 @@ registerStopKinds([
   { kind: "state-floor-vote", byDefault: true },
   // An order the governor's staff brings for signature: issued or set aside by the player, not the character.
   { kind: "executive-order", byDefault: true },
+  // A disaster the governor may declare a state of emergency for: the player's to answer, never the character's.
+  { kind: "emergency", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -523,6 +525,7 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
   }
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
   if (entry.kind === "executive-order") return "executive-order";
+  if (entry.kind === "emergency") return "emergency";
   return null;
 }
 

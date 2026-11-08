@@ -625,7 +625,10 @@ async function act(path) {
     if (office) {
       if (office.reasonKey === "office-day.meeting") await inMeeting();
       else if (office.reasonKey === "office-day.desk") await atDesk();
-      else if (office.reasonKey === "office-day.executive-order")
+      else if (
+        office.reasonKey === "office-day.executive-order" ||
+        office.reasonKey === "office-day.emergency"
+      )
         await atOrders();
       else if (
         office.reasonKey === "office-day-federal.floor-vote" ||
