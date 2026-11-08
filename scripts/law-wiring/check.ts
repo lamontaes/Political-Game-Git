@@ -75,8 +75,17 @@ const arg = (name: string) => {
   const i = process.argv.indexOf(`--${name}`);
   return i >= 0 ? process.argv[i + 1] : undefined;
 };
-/** Days each law runs before it is graded (--days lengthens it for laws whose event comes later). */
-const WINDOW = Number(arg("days") ?? 35);
+/**
+ * Days each law runs before it is graded: --days (35 by default), lengthened
+ * in main() to run every built link of the laws checked past its own lag, so a
+ * link is never graded before its lag ends (Dev Tester, Nov 8: raise-tariffs
+ * read "partly" only because the run was shorter than its 12-month lag).
+ */
+let WINDOW = Number(arg("days") ?? 35);
+/** The days a link needs: its lag in months, a month for the law to take effect, and the month after it reads. */
+export function windowForLag(lagMonths: number): number {
+  return Math.ceil(lagMonths * 31) + 35;
+}
 
 /** A place drawn from all 56 by seed (as tests/golden-path/place.ts). */
 export function drawLawPlace(seed: string) {
@@ -1587,6 +1596,21 @@ function main(): void {
   if (process.argv.includes("--draw")) {
     console.log(JSON.stringify(drawn));
     return;
+  }
+  // Run each built link of these laws past its own lag (read from the link row).
+  const longestLag = Math.max(
+    0,
+    ...laws.flatMap((law) =>
+      webLinksOf(law)
+        .filter((w) => linkCoverage(w).wired)
+        .map((w) => w.lagMonths ?? 0),
+    ),
+  );
+  if (windowForLag(longestLag) > WINDOW) {
+    console.error(
+      `law-wiring: window ${WINDOW} -> ${windowForLag(longestLag)} days, so the longest built link (${longestLag} months) is read after its lag`,
+    );
+    WINDOW = windowForLag(longestLag);
   }
   const out =
     arg("out") ??
