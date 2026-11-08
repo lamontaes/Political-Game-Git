@@ -49,6 +49,7 @@ import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { select, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
+import { fitUiScale, uiScale, viewHeight, viewWidth } from "./ui/dom.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
@@ -176,6 +177,8 @@ function row(label, value) {
  * the dock instead, so no reply sits under the card.
  */
 function clearDock() {
+  // Measured in the real window, placed in the scaled one.
+  const k = uiScale();
   const game = $("game").getBoundingClientRect();
   const dock = $("dock").getBoundingClientRect();
   const width = Math.max(
@@ -183,10 +186,12 @@ function clearDock() {
       (box) => box.offsetWidth,
     ),
   );
-  const left = game.left + (game.width - width) / 2;
+  const left = game.left / k + (game.width / k - width) / 2;
   $("game").style.setProperty(
     "--chat-bottom",
-    left < dock.right + 8 ? `${Math.ceil(game.bottom - dock.top + 8)}px` : "",
+    left < dock.right / k + 8
+      ? `${Math.ceil((game.bottom - dock.top) / k + 8)}px`
+      : "",
   );
 }
 // A box shown or resized, or the card widened, sets it again.
@@ -394,11 +399,18 @@ function showTipAt(node, { term, short, key }) {
   $("tip-short").textContent = short;
   $("tip-learned").hidden = !key;
   show("tip", true);
-  const box = node.getBoundingClientRect();
+  // The box is measured in the real window; the tip is placed in the scaled one.
+  const rect = node.getBoundingClientRect();
+  const k = uiScale();
+  const box = {
+    left: rect.left / k,
+    top: rect.top / k,
+    bottom: rect.bottom / k,
+  };
   const tip = $("tip");
-  tip.style.left = `${Math.min(box.left, window.innerWidth - tip.offsetWidth - 16)}px`;
+  tip.style.left = `${Math.min(box.left, viewWidth() - tip.offsetWidth - 16)}px`;
   tip.style.top =
-    box.bottom + tip.offsetHeight + 12 < window.innerHeight
+    box.bottom + tip.offsetHeight + 12 < viewHeight()
       ? `${box.bottom + 6}px`
       : `${box.top - tip.offsetHeight - 6}px`;
 }
@@ -3292,10 +3304,7 @@ const sheets = {
     return [
       plate(
         null,
-        lifeTimeline(
-          life,
-          Math.max(3, Math.floor((window.innerHeight - 300) / 64)),
-        ),
+        lifeTimeline(life, Math.max(3, Math.floor((viewHeight() - 300) / 64))),
       ),
     ];
   },
@@ -3309,7 +3318,7 @@ const sheets = {
         chapters,
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
-        rows: Math.max(4, Math.floor((window.innerHeight - 360) / 54)),
+        rows: Math.max(4, Math.floor((viewHeight() - 360) / 54)),
         words: {
           page: controls.politics.page,
           previous: controls.politics.previousPage,
@@ -3464,7 +3473,7 @@ const sheets = {
                   }),
                 ),
                 render: (node) => node,
-                rows: Math.max(4, Math.floor((window.innerHeight - 380) / 56)),
+                rows: Math.max(4, Math.floor((viewHeight() - 380) / 56)),
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
@@ -3671,7 +3680,7 @@ const sheets = {
     return [
       patchNotesScreen({
         title: labels.builds,
-        rows: Math.max(4, Math.floor((window.innerHeight - 340) / 54)),
+        rows: Math.max(4, Math.floor((viewHeight() - 340) / 54)),
         words: {
           page: controls.politics.page,
           previous: controls.politics.previousPage,
@@ -4317,10 +4326,7 @@ const sheets = {
     // How many rows of cards fit under the room's picture in this window:
     // the panel never scrolls, so a short window pages sooner.
     const rowsFor = (taken, most) =>
-      Math.max(
-        1,
-        Math.min(most, Math.floor((window.innerHeight - taken) / 72)),
-      );
+      Math.max(1, Math.min(most, Math.floor((viewHeight() - taken) / 72)));
     const pageWords = {
       page: labels.page,
       previous: labels.previousPage,
@@ -4800,7 +4806,7 @@ const sheets = {
                   }),
                 rows: Math.max(
                   1,
-                  Math.min(5, Math.floor((window.innerHeight - 420) / 72)),
+                  Math.min(5, Math.floor((viewHeight() - 420) / 72)),
                 ),
                 columns: 2,
                 rowHeight: 64,
@@ -5202,6 +5208,9 @@ document.addEventListener("fullscreenchange", () => {
   const checkbox = document.querySelector('[data-testid="options-fullscreen"]');
   if (checkbox) checkbox.checked = Boolean(document.fullscreenElement);
 });
+
+fitUiScale();
+window.addEventListener("resize", fitUiScale);
 
 // ---- New life ----
 // The title screen: a national scene or event, full window, that moves on with
