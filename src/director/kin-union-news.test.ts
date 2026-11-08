@@ -34,14 +34,24 @@ describe("a relative's marriage or split is news at home", () => {
     const api = coreAPI(core);
     const player = core.people.get(playerId!)!;
     if (!director.ledger.people.has(playerId!)) director.watch(core, playerId!);
-    // A living relative of the player who is not in the player's household.
+    // Single adults only: the partnerships writer refuses anyone else, and the
+    // partnerships engine now partners the town's people in play too.
+    const partnered = new Set<string>();
+    for (const link of core.familyLinks.values())
+      if (link.kind === "partner")
+        for (const id of link.personIds) partnered.add(id);
+    const adult = (born: string) =>
+      Number(core.date.slice(0, 4)) - Number(born.slice(0, 4)) >= 20;
+    // A living single adult relative of the player who is not in the player's household.
     const relative = [...player.familyIds]
       .map((id) => core.people.get(id as PersonId))
       .find(
         (row) =>
           row?.alive &&
           row.householdId !== player.householdId &&
-          row.id !== playerId,
+          row.id !== playerId &&
+          !partnered.has(row.id) &&
+          adult(row.birthDate),
       );
     expect(
       relative,
@@ -52,7 +62,9 @@ describe("a relative's marriage or split is news at home", () => {
         row.alive &&
         row.id !== relative!.id &&
         row.householdId !== relative!.householdId &&
-        row.id !== playerId,
+        row.id !== playerId &&
+        !partnered.has(row.id) &&
+        adult(row.birthDate),
     )!;
     for (const together of [true, false]) {
       // The same scene with the same people is not staged again inside the repeat window.

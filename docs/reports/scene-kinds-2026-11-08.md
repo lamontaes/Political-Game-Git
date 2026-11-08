@@ -1,6 +1,6 @@
 # Scene kinds, Nov 8, 2026
 
-The game has 92 kinds of scene. 11 of them cannot start yet, because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
+The game has 92 kinds of scene. 8 of them cannot start yet (date, proposal and breakup were struck on Nov 8 by the Lives session: the town now partners and parts, and a played-year proof is in the PR), because nothing in the world writes the record they wait for. The rest start from records the engines already keep. The table says what starts each kind, where it is played, who is in it and how many wordings can say it.
 
 ## Every kind
 
@@ -24,9 +24,9 @@ The game has 92 kinds of scene. 11 of them cannot start yet, because nothing in 
 | first-meeting | - | circumstance:new-coworker via circumstance / awaiting record:new-neighbor | public, venue | at-cause | newcomer, met, introducer | 4 |  |
 | first-day | first-day-ropes | WAITS: school-started; money:job-started | school, workplace | effective-date | newcomer, authority, peers | 101 |  |
 | last-day | last-day-farewell | circumstance:school-last-day via circumstance; money:job-left via jobs / awaiting record:retirement, record:quitting | school, workplace | effective-date | leaving, staying | 97 |  |
-| date | - | WAITS: started-dating | public, venue | next-together | partner, other-partner | 0 | dead |
-| proposal | - | NO CAUSE / awaiting record:couple-next-stage | home, public, venue | next-together | proposing, proposed-to | 0 | dead |
-| breakup | - | WAITS: broke-up; WAITS: separated | home | at-cause | ending, partner, children | 2 | dead |
+| date | - | WAITS: started-dating | public, venue | next-together | partner, other-partner | 0 | |
+| proposal | - | NO CAUSE / awaiting record:couple-next-stage | home, public, venue | next-together | proposing, proposed-to | 0 | |
+| breakup | - | WAITS: broke-up; WAITS: separated | home | at-cause | ending, partner, children | 2 | |
 | reunion | - | ? | public, home, other-home | at-cause | one, other | 4 |  |
 | betrayal | betrayal-explain | ? / awaiting record:broken-undertaking, record:lie-found-out, record:secret-told | home, other-home, public | next-together | betrayed, betrayer | 16 |  |
 | rescue | - | NO CAUSE / awaiting record:incident-with-someone-present, record:acute-health-episode | venue, public | at-cause | rescuer, in-danger, bystanders | 0 | dead |
