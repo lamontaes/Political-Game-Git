@@ -1255,12 +1255,6 @@
       "source": "How much less qualified each later candidate in a governor's cabinet shortlist is than the one before.",
       "spread": [0.05, 0.2]
     },
-    "cabinetLeanSpread": {
-      "value": 0.25,
-      "tag": "TUNABLE",
-      "source": "Share of the governor-side lean each later cabinet candidate gives up: governors draw shortlists from their own coalition but not all of it sits at the governor's own position (NGA cabinet appointment surveys).",
-      "spread": [0.1, 0.4]
-    },
     "confirmationTolerance": {
       "value": 1.5,
       "tag": "TUNABLE",
