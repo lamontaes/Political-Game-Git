@@ -181,6 +181,8 @@
     "defeat": "Defeat",
     "held": "Held by the chair",
     "petition": "Members sign a discharge petition",
+    "chairHears": "Chair hears the bill",
+    "noRoute": "Chair left it unheard, no discharge route here",
     "discharged": "Discharged",
     "notDischarged": "Not discharged",
     "lost": "Lost in committee",

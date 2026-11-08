@@ -182,6 +182,16 @@ try {
     await page.locator('select[aria-label="Answer"]').waitFor();
     await page.locator('[data-testid="dev-repeal"]').waitFor();
     await page.locator('[data-testid="dev-petition"]').waitFor();
+    // The chair is cast to hear the bill, and the bill is passed again through it.
+    // (set in one step: the sheet may still be redrawing from the last pass)
+    assert.equal(
+      await page.evaluate(() => {
+        const box = document.querySelector('[data-testid="dev-chair-hears"]');
+        box.checked = true;
+        return box.checked;
+      }),
+      true,
+    );
     // The official's answer is picked: takes.
     await page
       .locator('select[aria-label="Official\'s answer"]')

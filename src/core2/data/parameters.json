@@ -6915,6 +6915,11 @@
       "citation": "States' minimum n-size for reporting, All4Ed 2018: from 10 to 30 students."
     }
   },
+  "disasterStatutoryFederalShare": {
+    "value": 0.75,
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs under a major disaster declaration is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1))."
+  },
   "disasterFederalShareWhenStatesShare": {
     "value": 0.5,
     "tag": "ESTIMATED",
