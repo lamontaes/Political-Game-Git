@@ -4,6 +4,9 @@
 // right, each a header strip of its own depth under a broken gold outline.
 // Every screen of that look builds from these parts, never its own markup.
 import { el } from "./dom.mjs";
+import { pager } from "./pager.mjs";
+import { partyClass as partyClassOf } from "./map.mjs";
+import { makeButton } from "./button.mjs";
 
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
@@ -28,19 +31,23 @@ const COLUMN_PX = 320;
  * is the card's face record (the figure's url and size, and its head
  * [top, middle, width] in the figure's pixels).
  */
-export function bust(face, alt) {
+export function bust(face, alt, column = COLUMN_PX) {
   if (!face) return el("div", { className: "mxglow" });
   const [top, middle, width] = face.head;
-  const k = HEAD_PX / width;
+  const scale = column / COLUMN_PX;
+  const k = (HEAD_PX * scale) / width;
   const image = el("img", { src: face.url, alt });
   Object.assign(image.style, {
     height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(COLUMN_PX / 2 - middle * k)}px`,
-    top: `${Math.round(12 - top * k)}px`,
+    left: `${Math.round(column / 2 - middle * k)}px`,
+    top: `${Math.round(12 * scale - top * k)}px`,
   });
   const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 + BUST_BELOW_HEAD * HEAD_PX)}px`;
-  return el("div", { className: "mxglow" }, frame);
+  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
+  frame.style.width = `${column}px`;
+  const glow = el("div", { className: "mxglow" }, frame);
+  glow.style.width = `${column}px`;
+  return glow;
 }
 
 /**
@@ -146,4 +153,233 @@ export function dotRows(rows) {
       ),
     ),
   );
+}
+
+/**
+ * The budget board: a row of tabs and a fiscal-year line over three columns of
+ * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
+ * Courier Prime capitals at the right of the tabs.
+ */
+export function stripBoard({ tabs, fiscal, columns }) {
+  return el(
+    "div",
+    { className: "strip-screen strip-board strips ol-g" },
+    el(
+      "div",
+      { className: "board-top" },
+      ...(tabs ? [tabs] : []),
+      ...(fiscal
+        ? [el("span", { className: "bfy", textContent: fiscal })]
+        : []),
+    ),
+    el(
+      "div",
+      { className: `board-cols${columns.length === 2 ? " two" : ""}` },
+      ...columns.map((sections) =>
+        el("div", { className: "mx3col" }, ...sections),
+      ),
+    ),
+  );
+}
+
+/** One typed row with a leader and, under it, a smaller line: the money rows of a budget page. */
+export function typedRow(label, value, note) {
+  return el(
+    "div",
+    { className: "dl" },
+    el(
+      "div",
+      { className: "dotrow typed" },
+      el("span", { className: "dotlabel", textContent: label }),
+      el("span", { className: "dotleader" }),
+      el("span", { className: "dotvalue", textContent: value }),
+    ),
+    ...(note ? [el("p", { className: "bmsub", textContent: note })] : []),
+  );
+}
+
+/** A department in the list: its name and amount, and who heads it when the record says. */
+export function departmentRow({ name, amount, head, selected, onSelect }) {
+  const row = el(
+    "div",
+    { className: `bsdept pick${selected ? " sel" : ""}` },
+    el("b", { textContent: name }),
+    el("em", { textContent: amount }),
+    ...(head ? [el("span", { textContent: head })] : []),
+  );
+  row.tabIndex = 0;
+  row.setAttribute("role", "button");
+  row.addEventListener("click", onSelect);
+  row.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      onSelect();
+    }
+  });
+  return row;
+}
+
+/**
+ * A leader: a bust at the left, the name big beside it, the party and post under
+ * it, then a line (the mock's mayor and governor). `onOpen` opens their card.
+ */
+export function leaderBlock({ face, name, party, post, line, onOpen }) {
+  const nameNode = nameLink(name, onOpen);
+  nameNode.className = "leader-name pick";
+  return el(
+    "div",
+    { className: "leader" },
+    bust(face, name, 200),
+    el(
+      "div",
+      { className: "leader-text" },
+      nameNode,
+      el(
+        "p",
+        { className: "leader-post" },
+        ...(party
+          ? [
+              el("span", { className: "leader-party", textContent: party }),
+              " · ",
+            ]
+          : []),
+        post,
+      ),
+      ...(line ? [el("p", { className: "intro", textContent: line })] : []),
+    ),
+  );
+}
+
+/** Seats as big numbers, each in its party's color: `parts` are { party, seats, label }. */
+export function seatNumbers(parts, vacant) {
+  return el(
+    "div",
+    { className: "seat-numbers" },
+    ...parts.map((part) =>
+      el(
+        "div",
+        { className: `seat-number ${partyClassOf(part.party)}` },
+        el("b", { textContent: String(part.seats) }),
+        el("span", { textContent: part.label }),
+      ),
+    ),
+    ...(vacant
+      ? [
+          el(
+            "div",
+            { className: "seat-number party-none" },
+            el("b", { textContent: String(vacant.count) }),
+            el("span", { textContent: vacant.label }),
+          ),
+        ]
+      : []),
+  );
+}
+
+/** Roll calls in type: the title, the result and the count, the date under it. */
+export function voteRows(rows) {
+  return el(
+    "div",
+    { className: "vote-rows" },
+    ...rows.map((row) => typedRow(row.title, row.result, row.when)),
+  );
+}
+
+/** A saved life as a strip: its name over a bust, the game's date and the Load button. */
+export function savedLifeRow({ name, face, date, load }) {
+  return el(
+    "div",
+    { className: "strip-screen strip-wrap strips ol-g saves-row" },
+    stripSection(
+      1,
+      name,
+      bust(face, name, 300),
+      el("p", { className: "save-date", textContent: date }),
+      el("div", { className: "acts" }, load),
+    ),
+  );
+}
+
+/** One setting: its small-capitals label over its toggle. */
+export function settingRow(label, control) {
+  return el(
+    "div",
+    { className: "setting" },
+    el("span", { className: "setting-label", textContent: label }),
+    control,
+  );
+}
+
+/** The options board: columns of strips, each { title, rows } with its controls in order. */
+export function optionsBoard({ columns }) {
+  return stripBoard({
+    columns: columns.map((sections, column) =>
+      sections.map((section, at) =>
+        stripSection(
+          Math.min(column + at + 1, 5),
+          section.title,
+          ...section.rows,
+        ),
+      ),
+    ),
+  });
+}
+
+/** The Quit to title button, alone on its row. */
+export function quitButton(label, onQuit) {
+  const button = makeButton({ className: "action", textContent: label });
+  button.dataset.testid = "quit-to-title";
+  button.addEventListener("click", onQuit);
+  return el("div", { className: "acts" }, button);
+}
+
+/**
+ * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
+ * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
+ */
+export function patchNotesScreen({ builds, title, words, rows }) {
+  const holder = el("div");
+  let chosen = builds[0];
+  const draw = () =>
+    holder.replaceChildren(
+      stripBoard({
+        columns: [
+          [
+            stripSection(
+              1,
+              title,
+              pager({
+                items: builds.map((build) =>
+                  departmentRow({
+                    name: build.name,
+                    amount: build.when,
+                    selected: build === chosen,
+                    onSelect: () => {
+                      chosen = build;
+                      draw();
+                    },
+                  }),
+                ),
+                render: (node) => node,
+                rows,
+                columns: 1,
+                rowHeight: 52,
+                gap: 2,
+                words,
+                className: "bsdepts",
+              }),
+            ),
+          ],
+          (chosen?.groups ?? []).map((group, at) =>
+            stripSection(
+              Math.min(at + 2, 5),
+              group.heading,
+              ...group.notes.map((note) => introText(note)),
+            ),
+          ),
+        ],
+      }),
+    );
+  draw();
+  return holder;
 }

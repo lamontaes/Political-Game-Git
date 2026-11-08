@@ -13,6 +13,7 @@
  * Views come from a stand-in until OPUS-PEOPLE's views engine lands
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
+import { fastForward } from "../fast-forward";
 import { townOutsideOf } from "../opening-outside-market";
 import { candidateIdentity } from "../candidate-identity";
 import {
@@ -842,6 +843,19 @@ function keepCause(api: CoreAPI, cause: CauseRow): void {
     table(api, "causes").put(cause as unknown as ModuleRow);
 }
 
+/**
+ * What a fact learned through a cause names as its source. The player's
+ * circle and people in focus keep the cause itself; for everyone else the
+ * cause folds into the voter's summary row for the candidate (CTO, Nov 8:
+ * other places keep only the result, detail is built on demand), so the fact
+ * names that row.
+ */
+function causeSourceId(api: CoreAPI, cause: CauseRow): string {
+  return keepsWhy(api.state as CoreState, cause.voterId)
+    ? cause.id
+    : `${cause.voterId}|${cause.candidateId}`;
+}
+
 function reach(
   api: CoreAPI,
   campaign: CampaignRow,
@@ -901,7 +915,11 @@ function reach(
       key: `candidate:${campaign.candidateId}`,
       value: campaign.contestId,
       learnedAt: date,
-      sourceId: cause.id,
+      // The player's circle and people in focus keep the cause itself as the
+      // fact's source; for everyone else the cause folds into the voter's
+      // summary row for this candidate (CTO, Nov 8: keep only the result,
+      // build detail on demand), so the fact points at that row.
+      sourceId: causeSourceId(api, cause),
       access:
         act === "retold" ? "told" : act.endsWith("ad") ? "public" : "perceived",
     });
@@ -4086,7 +4104,7 @@ export function makeStatements(
         key: promiseId,
         value: "heard",
         learnedAt: api.state.date,
-        sourceId: cause.id,
+        sourceId: causeSourceId(api, cause),
         access: input.faceToFace ? "perceived" : "public",
       });
   }
@@ -5312,7 +5330,8 @@ function foldCauses(
           (firstDoor === null || row.date < firstDoor)
         )
           firstDoor = row.date;
-        if (sources.has(row.id)) folded.put(row as unknown as ModuleRow);
+        if (sources.has(row.id) && keepsWhy(core, voterId))
+          folded.put(row as unknown as ModuleRow);
         causes.remove(row.id);
       }
       summaries.put({
@@ -6253,6 +6272,8 @@ function campaignWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       races.remove(race.id);
       continue;
     }
+    // stopgapId: SG-SPEED-fast-forward-campaigns (a development switch: no turns, no doors)
+    if (fastForward()) continue;
     // A campaign works harder as election day nears: far out its people
     // turn to it now and then, in the last weeks every few days. While its
     // petitions circulate, the nearer day is the filing deadline.

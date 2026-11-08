@@ -21,7 +21,7 @@ const executiveView = () =>
       document
         .querySelector(".split-screen .chamber-line")
         ?.textContent.trim() ?? "",
-    bars: document.querySelectorAll(".split-screen .party-bar").length,
+    bars: document.querySelectorAll(".split-screen .seat-numbers").length,
     cards: document.querySelectorAll(".split-screen .member-card").length,
   }));
 try {

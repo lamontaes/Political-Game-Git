@@ -12,6 +12,7 @@ import { moneySince, watchMoney } from "../core2/tooling/money-watch";
 import { bookkeeping } from "../core2/bookkeeping";
 import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
@@ -54,6 +55,17 @@ import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
 
 /** The mark every dev-mode write carries. */
+/** The events a run can stop on, each as the record kinds the game logs when it happens. */
+export const RUN_EVENTS = {
+  "bill-passes": ["bill-presented"],
+  "bill-fails": ["bill-failed"],
+  election: ["election-result"],
+  death: ["life.death"],
+  "law-takes-effect": ["law-took-effect"],
+  scene: [],
+} as const;
+export type RunEvent = keyof typeof RUN_EVENTS;
+
 export const DEV_MODE = "dev-mode";
 /** The core record kind each dev-mode change leaves. */
 export const DEV_MODE_RECORD = "dev-mode-change";
@@ -674,6 +686,63 @@ export class DevMode {
     return { from, to: this.core.date, ms: Date.now() - started };
   }
 
+  /**
+   * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
+   * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
+   */
+  runUntil(input: { days?: number; event?: RunEvent; cap?: number }) {
+    const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
+    const limit = Math.min(input.days ?? cap, cap);
+    const kinds = input.event ? RUN_EVENTS[input.event] : undefined;
+    if (input.event && !kinds && input.event !== "scene")
+      throw new Error("Unknown event.");
+    const count = () =>
+      (kinds ?? []).reduce(
+        (n, kind) => n + (this.core.logByKind.get(kind)?.size ?? 0),
+        0,
+      );
+    const sceneCount = () =>
+      this.director?.ledger.people.get(this.player?.personId ?? "")?.moments
+        .length ?? 0;
+    const seen = new Set(
+      (kinds ?? []).flatMap((kind) => [
+        ...(this.core.logByKind.get(kind) ?? []),
+      ]),
+    );
+    const sceneBefore = sceneCount();
+    const before = count();
+    const from = this.core.date;
+    let days = 0;
+    let reason: "days" | "event" | "cap" = "days";
+    let records: string[] = [];
+    while (days < limit) {
+      this.advance(addDays(makeIsoDate(this.core.date), 1));
+      days += 1;
+      if (input.event === "scene" && sceneCount() > sceneBefore) {
+        reason = "event";
+        break;
+      }
+      if (kinds && count() > before) {
+        reason = "event";
+        records = kinds.flatMap((kind) =>
+          [...(this.core.logByKind.get(kind) ?? [])].filter(
+            (id) => !seen.has(id),
+          ),
+        );
+        break;
+      }
+    }
+    if (reason === "days" && input.event) reason = "cap";
+    return {
+      from,
+      to: this.core.date,
+      days,
+      reason,
+      event: input.event ?? null,
+      records: records.slice(0, 20),
+    };
+  }
+
   // 4. Trace --------------------------------------------------------------
 
   /** A record's causes as the core's saved-trace resolver (and the director) know them. */
@@ -686,6 +755,50 @@ export class DevMode {
       ...this.player.trace(id),
       record: this.core.durableLog.get(id) ?? law ?? null,
     };
+  }
+
+  /**
+   * What a person remembers: each event they lived through that their knowledge still holds, when
+   * they learned it and when the monthly pass forgets it (the first of a month once its retention
+   * window is past). The player keeps everything; a held drive keeps its source event.
+   */
+  memory(personId: string) {
+    const core = this.core;
+    const known = core.knowledgeByPerson.get(personId);
+    if (!personOrFillIn(core, personId)) throw new Error("No such person.");
+    const retention = parameter(
+      "experiencedKeyRetentionDays",
+      core.data.parameters,
+    );
+    const held = new Set(
+      [...(core.people.get(personId)?.drives.values() ?? [])].map(
+        (drive) => drive.sourceEventId,
+      ),
+    );
+    const fadesOn = (learnedAt: string) => {
+      let day = addDays(makeIsoDate(learnedAt), retention + 1);
+      while (!day.endsWith("-01")) day = addDays(makeIsoDate(day), 1);
+      return day;
+    };
+    const rows = [];
+    for (const [key, fact] of known ?? [])
+      if (key.startsWith("event:") && key.endsWith(":experienced"))
+        rows.push({
+          eventId: fact.value,
+          kind: core.durableLog.get(fact.value)?.kind ?? null,
+          learnedAt: fact.learnedAt,
+          fadesOn:
+            personId === core.playerId || held.has(fact.value)
+              ? null
+              : fadesOn(fact.learnedAt),
+          keptBy:
+            personId === core.playerId
+              ? "player"
+              : held.has(fact.value)
+                ? "drive"
+                : null,
+        });
+    return rows.sort((a, b) => b.learnedAt.localeCompare(a.learnedAt));
   }
 
   /** A person's records: money, job, views, drives, health, relationships and the director's ledger. */

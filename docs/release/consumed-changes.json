@@ -1,6 +1,36 @@
 {
   "entries": [
     {
+      "version": "0.93.0",
+      "releasedOn": "2026-11-08",
+      "revision": "05169c0f17dd1068d8dbf0ff0fa535f2897456c3",
+      "changeIds": [
+        "devmode-options-setting",
+        "gov-trace-summary-for-strangers",
+        "law-levels-wage-lists-reconciled",
+        "laws-federal-deficit-borrowing-cost",
+        "laws-proof-incorporated-town",
+        "legislation-bill-stage"
+      ]
+    },
+    {
+      "version": "0.92.0",
+      "releasedOn": "2026-11-08",
+      "revision": "e688017ed9bb0706cad5333fa05c6a99e53fcc94",
+      "changeIds": ["fixer-screen-government"]
+    },
+    {
+      "version": "0.91.0",
+      "releasedOn": "2026-11-08",
+      "revision": "3e73c4c87479cf6070908f07d8604fbfb445197e",
+      "changeIds": [
+        "fixer-screen-budgets",
+        "gov-outside-officials-counted",
+        "pool-montpelier-circle-cut-note",
+        "pool-montpelier-year4-note"
+      ]
+    },
+    {
       "version": "0.90.0",
       "releasedOn": "2026-11-08",
       "revision": "54a741886d8bbfa228b757d395ec2dfceceb6678",
