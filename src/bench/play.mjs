@@ -5432,7 +5432,6 @@ async function offerPlayAs(life) {
   $("pick-search").oninput = draw;
   draw();
   show("front-status", false);
-  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
@@ -5596,7 +5595,5 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
     frontPanel(person ? "cr-look" : "front-new");
-  } finally {
-    document.querySelector("#front .progress").hidden = true;
   }
 }
