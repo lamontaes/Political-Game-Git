@@ -75,6 +75,8 @@ import {
   workLeans,
 } from "../past";
 import { townOutsideOf } from "../opening-outside-market";
+import { townJobRate, townPayPercentile } from "../town-pay";
+import type { EntityId } from "../kernel/brands";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import { meetAtWork } from "../encounters";
 import { lawApplied } from "../law-reach/applied";
@@ -2097,9 +2099,26 @@ function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
     seeker.referenceHourlyMinor,
   );
   if (!outside || !template) return;
+  // The pay a new hire in their kind of work gets in the region: BLS OEWS
+  // (the metro or state area the place is in) at the starting percentile, as
+  // the opening prices its jobs, moved with the place's pay level since.
+  const oews = template.occupationClassification
+    ? townJobRate(
+        template.occupationClassification,
+        seeker.placeId as EntityId,
+        townPayPercentile(p("zero"), c.seed),
+        undefined,
+        c.seed,
+      )
+    : null;
+  if (!oews)
+    // stopgapId: SG-LABOR-regional-job-town-roles (no OEWS wage covers the occupation: the town's nearest role sets the pay)
+    stopgap("SG-LABOR-regional-job-town-roles");
   const hourlyMinor = Math.max(
     wageFloor(api),
-    payFor(api, template.organizationId, template),
+    oews
+      ? Math.round(oews.hourlyMinor * payLevel(api, seeker.placeId))
+      : payFor(api, template.organizationId, template),
   );
   const counted = isCounted(api, seeker.personId);
   const person = c.people.get(seeker.personId);
@@ -2129,8 +2148,6 @@ function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
         }),
       ]).selected!.definition.id === jobsData.actions.accept.id;
   if (!accepts) return;
-  // stopgapId: SG-LABOR-regional-job-town-roles (the regional job's role and pay are the town's nearest role, not an occupational wage table)
-  stopgap("SG-LABOR-regional-job-town-roles");
   const jobId = startRegionalWork(c, seeker.personId, hourlyMinor);
   if (!jobId) return;
   if (counted)
