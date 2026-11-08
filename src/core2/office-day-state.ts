@@ -39,6 +39,7 @@ import { stableHash, pairKey } from "./kernel/ids";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   appointStatePost,
+  statePostsToFill,
   appointmentsIn,
   clemencyAuthority,
   GOVERNOR_DECIDES_CLEMENCY,
@@ -128,6 +129,8 @@ registerStopKinds([
   { kind: "executive-order", byDefault: true },
   // A disaster the governor may declare a state of emergency for: the player's to answer, never the character's.
   { kind: "emergency", byDefault: true },
+  // A cabinet post that stands open: the governor the player plays names who fills it.
+  { kind: "appointment", byDefault: true },
 ]);
 
 // ---------------------------------------------------------------- data
@@ -280,6 +283,7 @@ export type StateEntryKind =
   | "state-of-the-state"
   | "executive-order"
   | "emergency"
+  | "appointment"
   | "budget-proposal"
   | "legislative-leaders"
   | "clemency";
@@ -437,6 +441,13 @@ export function stateDay(
       tag: "SOURCED",
       citation: `Disaster ${offer.hazardRecordId}: the state's emergency powers`,
     });
+  // The first open cabinet post: the governor names who fills it (one at a time).
+  const open = statePostsToFill(api, office.personId)[0];
+  if (workday && open)
+    add("appointment", open.key, {
+      tag: "SOURCED",
+      citation: `Cabinet post ${open.key}: the governor appoints, the chamber confirms`,
+    });
   if (workday)
     for (const order of pendingGovernorOrders(api, office.personId))
       add("executive-order", order.order, {
@@ -527,6 +538,7 @@ export function stopKindOf(api: CoreAPI, entry: StateDayEntry): string | null {
   if (entry.kind === "state-of-the-state") return "state-of-the-state";
   if (entry.kind === "executive-order") return "executive-order";
   if (entry.kind === "emergency") return "emergency";
+  if (entry.kind === "appointment") return "appointment";
   return null;
 }
 
@@ -547,6 +559,13 @@ export type StateChoice =
     }
   | { readonly kind: "attend"; readonly attend: boolean }
   | { readonly kind: "emergency"; readonly declare: boolean }
+  /** The person named to an open cabinet post; left out, the governor's own first choice stands. */
+  | {
+      readonly kind: "appointment";
+      readonly personId?: string;
+      /** True leaves the post open for now; it comes back to the desk tomorrow. */
+      readonly leave?: boolean;
+    }
   | { readonly kind: "clemency"; readonly grant: boolean }
   | {
       readonly kind: "office-hours";
@@ -781,6 +800,21 @@ export function actOn(
       const declared = answerEmergencyOffer(api, entry.subject, chosen.declare);
       if (declared.emergencyId) recordIds.push(declared.emergencyId);
       reasons["authority"] = "state-emergency-power";
+      break;
+    }
+    case "appointment": {
+      chosen = choice ?? { kind: "appointment" };
+      if (chosen.kind !== "appointment")
+        throw new Error("Choose who fills the post.");
+      const row = chosen.leave
+        ? null
+        : appointStatePost(api, {
+            executiveId: entry.holderId,
+            post: entry.subject,
+            ...(chosen.personId ? { personId: chosen.personId } : {}),
+          });
+      if (row) recordIds.push(row.id);
+      reasons["authority"] = "state-cabinet-appointment";
       break;
     }
     case "executive-order": {

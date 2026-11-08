@@ -967,7 +967,10 @@
     "decline": "Set it aside",
     "emergency": "State of emergency",
     "emergency-issue": "Declare it",
-    "emergency-decline": "Let it pass"
+    "emergency-decline": "Let it pass",
+    "post-own": "Decided for me",
+    "post-issue": "Name them",
+    "post-decline": "Leave it open"
   },
   "officeCases": {
     "help": "Help",
