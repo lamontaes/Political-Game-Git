@@ -12,7 +12,6 @@
  */
 import { worldRateFactor } from "./world-base-rates";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { SERIOUS_EPISODE_REMAINING_DAYS } from "./death-causes";
 import {
   bookCountedIllness,
   countedCourseDays,
@@ -51,7 +50,10 @@ import {
   removeCountedPerson,
   residentsRuntime,
 } from "./modules/residents";
-import { assignDeathCause } from "./death-cause";
+import {
+  assignDeathCause,
+  SERIOUS_EPISODE_REMAINING_DAYS,
+} from "./death-cause";
 import { settleCountedEstate } from "./estates";
 import { deathWebFactor } from "./health-web";
 import type { ResidentHouseholdRecord } from "./residents";
