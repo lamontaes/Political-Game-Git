@@ -481,7 +481,7 @@ Mac builds (`release-package.yml` on main) were started after 8, 20, 26 and 34 m
 
 - **Make the new-game check the rule.** The required checks on main are still `validate` and `golden-path`, not the one check. To make GitHub match ruling 2: `gh api -X PATCH repos/lamontaes/Political-Game-Git/branches/main/protection/required_status_checks -F strict=false -f 'contexts[]=new game'` (the job's name is `new game`; check the exact name GitHub shows).
 
-**Left for the CTO:** #7370 (Legislation's `legislation-screens` skill) #7389 (Story's `term-read` skill) #7393 (Speed's `speed-work` lines) and #7410 (Dev Mode's `wiring-audit` line) are skills PRs; skills PRs stay with the CTO. #7421 (the Coordinator's `crew-messages` line) too.
+**Left for the CTO:** #7370 (Legislation's `legislation-screens` skill) #7389 (Story's `term-read` skill) #7393 (Speed's `speed-work` lines) and #7410 (Dev Mode's `wiring-audit` line) are skills PRs; skills PRs stay with the CTO. #7421 (the Coordinator's `crew-messages` line) and #7428 (the Dev Tester's `dev-tester` skill) too.
 
 **Waiting on the CTO's word:** #7424 comes from a "Jobs and economy" session on a `jobs/` branch, which the Nov 8 list did not name; the desk merges it once the CTO adds `jobs/`.
 
