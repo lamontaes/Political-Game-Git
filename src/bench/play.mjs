@@ -30,7 +30,11 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devRecordsSection } from "./ui/dev-records.mjs";
+import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
+import { devWatchSections } from "./ui/dev-watch.mjs";
+import { devScenePanel } from "./ui/dev-scene.mjs";
 import { devRunPanel } from "./ui/dev-run.mjs";
 import {
   devModeOn,
@@ -38,14 +42,14 @@ import {
   restoreDevMode,
   setDevMode,
 } from "./ui/dev-setting.mjs";
-import { listRow, personRow, factRow, noteLine } from "./ui/list-row.mjs";
+import { listRow, factRow, noteLine } from "./ui/list-row.mjs";
 import { fillArtwork, picture as pictureFrame } from "./ui/picture.mjs";
 import { select, searchBox, optionsOf, numberBox } from "./ui/fields.mjs";
 import { lookRow } from "./ui/look-row.mjs";
 import { termWord } from "./ui/term.mjs";
 import { watchTerms } from "./ui/term-mark.mjs";
 import { recordScreen } from "./ui/screen.mjs";
-import { listScreen, listEntry } from "./ui/list-screen.mjs";
+import { listEntry } from "./ui/list-screen.mjs";
 import { roomPeople, clockLines } from "./ui/room.mjs";
 import { calendarScreen } from "./ui/calendar.mjs";
 import {
@@ -60,6 +64,7 @@ const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 import { newsBoard } from "./ui/news-board.mjs";
 import { el } from "./ui/dom.mjs";
 import { rosterScreen } from "./ui/roster-screen.mjs";
+import { travelScreen } from "./ui/travel-screen.mjs";
 import { peopleWeb } from "./ui/people-web.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
@@ -2071,6 +2076,18 @@ async function showPerson(person) {
       })
     : null;
   if (memory) secondColumn.push(memory);
+  if (devModeOn())
+    secondColumn.push(
+      await devRecordsSection({
+        personId: person.personId,
+        labels: controls.devRecords,
+      }),
+      await devPersonSection({
+        personId: person.personId,
+        labels: controls.devPerson,
+        onDone: () => refresh(),
+      }),
+    );
   if (request !== personRequest) return;
   $("person-facts").replaceChildren(
     stripScreen({
@@ -3232,6 +3249,22 @@ const sheets = {
         },
       }),
       devRunPanel({ labels: controls.devRun, onDone: () => refresh() }),
+      ...(devModeOn()
+        ? [
+            await devWatchSections({
+              labels: controls.devWatch,
+              playerId: me.id,
+            }),
+          ]
+        : []),
+      ...(devModeOn()
+        ? [
+            await devScenePanel({
+              labels: controls.devScene,
+              onDone: () => refresh(),
+            }),
+          ]
+        : []),
     ];
   },
   async news() {
@@ -3559,154 +3592,76 @@ const sheets = {
       organizationId: part.filing.id,
     }));
     const destinations = [...trails, ...counters, ...places];
-    // Why each card is listed, from the player's own record: where they work,
-    // what they can do there, where they serve, where they file. Never what
-    // someone they know does there (owner, Oct 28, point 27: "things do not
-    // pop up because someone the player knows does them").
-    const OWN = new Set(["work", "action", "serve"]);
-    const reasonLine = (p) =>
-      p.trail
-        ? ""
-        : p.filing
-          ? labels.reasons.filing
-          : p.reasons
-              .filter((r) => OWN.has(r.kind))
-              .map((r) =>
-                r.kind === "action"
-                  ? `${labels.reasons.action} ${(controls.actions?.[r.recordId] ?? "").toLowerCase()}`
-                  : labels.reasons[r.kind],
-              )
-              .join(" · ");
-    // Open while someone works there now, by their own hours; else closed.
-    const hereLine = (p) =>
-      p.trail
-        ? (p.trail.contest?.title ?? "")
-        : p.filing
-          ? labels.filing
-          : p.presentCount
-            ? `${labels.open} · ${p.presentNames.join(", ")}`
-            : labels.closed;
-    // A card opens the place's own view: its picture, what you do there, who
-    // works there, then Go (owner, Oct 28, point 28).
-    const showPlace = async (p) => {
-      if (p.trail) return trailView(p.trail);
-      // An office keeps its clerk's hours: the card says when it next opens.
+    // What you can do at a place is the core's own offers for it: bare action names.
+    const doHere = (p) =>
+      p.trail || p.filing
+        ? []
+        : p.reasons
+            .filter((r) => r.kind === "action")
+            .map((r) => controls.actions?.[r.recordId] ?? "")
+            .filter(Boolean);
+    const town = me.placeName.split(",")[0];
+    const groupOf = (p) =>
+      p.trail ? labels.groupTrail : p.filing ? labels.groupFiling : town;
+    // A place's detail loads when it is chosen: an office keeps its clerk's hours.
+    const detailOf = (p) => async () => {
       const hours = p.filing
         ? await api(
             `/api/filing/hours?filedWith=${encodeURIComponent(p.filedWith)}`,
           )
         : {};
-      const picture = p.presentation?.imageUrl;
       const opensLine = hours.opens
         ? labels.opensAt
             .replace("{day}", dateWords(hours.opens.date, { weekday: true }))
             .replace("{time}", timeWords(hours.opens.minuteOfDay))
         : "";
-      // A filing office says what you do there in a sentence, never a list of
-      // seats by their holders' names (owner, Nov 1: "It says what you do
-      // here. And then it's just a list of people's names."); the clerk asks
-      // which race at the counter.
-      const doHere = p.filing
-        ? [...(opensLine ? [{ text: opensLine }] : [])]
-        : reasonLine(p)
-          ? reasonLine(p)
-              .split(" · ")
-              .map((text) => ({ text }))
-          : [];
-      // The counter's role, from the office's record ("(counter: director)").
-      const role = p.filing
-        ? (p.filedWith.match(/\(counter: ([^)]*)\)/)?.[1] ?? "")
-        : "";
       const known = new Set((p.known ?? []).map((k) => k.name));
-      const people = p.filing
-        ? role
-          ? [{ text: words(role) }]
-          : []
-        : [
-            ...(p.known ?? []).map((k) => ({
-              node: personRow({
-                name: k.name,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: k.personId });
-                },
-              }),
-            })),
-            ...p.presentNames
-              .filter((name) => !known.has(name))
-              .map((name) => ({ text: name })),
-            ...(p.staff
-              ? [{ text: `${p.staff} ${labels.staff}`, tone: "small" }]
-              : []),
-          ];
-      const go = {
-        actions: [
-          {
-            label: labels.go,
-            testid: "place-go",
-            onClick: () =>
-              p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+      const who = peopleSentence([
+        ...(p.known ?? []).map((k) => ({
+          name: k.name,
+          onOpen: () => {
+            closeSheet();
+            showPerson({ personId: k.personId });
           },
-        ],
+        })),
+        ...p.presentNames
+          .filter((name) => !known.has(name))
+          .map((name) => ({ name })),
+      ]);
+      return {
+        openLabel: labels.openLabel,
+        open: p.filing
+          ? opensLine || labels.filing
+          : p.presentCount
+            ? labels.open
+            : labels.closed,
+        who,
+        does: doHere(p),
       };
-      $("sheet-body").replaceChildren(
-        ...recordScreen({
-          heading: { name: p.name, meta: hereLine(p) },
-          // Go sits under the picture, in view whatever the office takes: an
-          // office with fifteen races runs past the window, and the sheet's
-          // own page-turner then turns the races, never the way in.
-          sections: [
-            { items: [picture ? { picture } : null, go] },
-            ...(doHere.length
-              ? [{ title: labels.whatYouDo, items: doHere }]
-              : []),
-            ...(people.length
-              ? [{ title: labels.whoWorks, items: people }]
-              : []),
-          ],
-        }),
-      );
-      $("sheet-body").classList.add("place-view");
     };
-    return listScreen({
-      search: { placeholder: labels.search },
-      layout: "tiles",
-      pages: {
-        rows: 2,
-        columns: 3,
-        // Two rows of tiles that fit the window: short windows take shorter tiles.
-        rowHeight: window.innerHeight >= 860 ? 262 : 214,
-        gap: 14,
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
+    return travelScreen({
+      labels,
+      words: {
+        page: controls.politics.page,
+        previous: controls.politics.previousPage,
+        next: controls.politics.nextPage,
       },
-      entries: (query) =>
-        destinations
-          .filter((p) =>
-            p.name.toLowerCase().includes(query.trim().toLowerCase()),
-          )
-          .map((p) => ({
-            title: p.name,
-            picture: p.presentation?.imageUrl,
-            lines: [],
-            badge: Boolean(p.trail) || p.filing || p.presentCount > 0,
-            label: p.name,
-            onSelect: () => showPlace(p),
-            // The record behind the reason, for the specs; never shown as text.
-            data: {
-              reason: (p.trail
-                ? [p.trail.filing.id]
-                : p.filing
-                  ? [p.filedWith]
-                  : p.reasons.length
-                    ? p.reasons.map((r) => r.recordId)
-                    : [p.organizationId]
-              ).join(" "),
-            },
-          })),
+      entries: destinations.map((p) => ({
+        group: groupOf(p),
+        title: p.name,
+        filing: Boolean(p.filing),
+        picture: p.presentation?.imageUrl,
+        ...(p.trail
+          ? { onOpen: () => trailView(p.trail) }
+          : {
+              load: detailOf(p),
+              go: {
+                label: `${labels.go} ${p.name}`,
+                onClick: () =>
+                  p.filing ? openFiling(p.filedWith) : visit(p.organizationId),
+              },
+            }),
+      })),
     });
   },
   async politics() {

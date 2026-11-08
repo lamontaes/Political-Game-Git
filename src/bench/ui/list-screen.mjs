@@ -1,4 +1,3 @@
-/* global document */
 // The list screen: the menu type of every screen that is a searchable list of entries
 // (the Guide, Issues, Travel). A screen is a definition and this renderer draws it;
 // change the type here and every list screen changes.
@@ -7,7 +6,7 @@
 // promise of them), size?, layout?, labelOf? }. `labelOf` draws a fact's label (a Guide
 // term word); a plain bold label by default. `pages` ({ rows, columns, rowHeight, gap, words })
 // cuts the entries into pages under arrows, never a scroll (owner, Oct 29); `layout` is
-// "cards" (a grid of cards), "tiles" (cards with a larger picture, paged) or "rows" (the
+// "cards" (a grid of cards) or "rows" (the
 // default). An entry:
 //   { title, value?, lede?, lines?: [text], note?, facts?: [[label, value]], picture?,
 //     nodes?: [node], opens?, open?, onSelect?, label?, data? }
@@ -22,26 +21,6 @@ import { factRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";
 
 const boldLabel = (text) => el("b", { textContent: text });
-
-// The mark on a picture's corner: two heads and shoulders, line art like the rail's icons.
-function peopleMark() {
-  const ns = "http://www.w3.org/2000/svg";
-  const svg = document.createElementNS(ns, "svg");
-  svg.setAttribute("viewBox", "0 0 24 24");
-  svg.setAttribute("aria-hidden", "true");
-  svg.setAttribute("class", "entry-badge");
-  for (const d of [
-    "M9 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6z",
-    "M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5",
-    "M16 10a2.5 2.5 0 1 0 0-5",
-    "M17 14c2.2.3 3.5 2 3.5 4.5",
-  ]) {
-    const path = document.createElementNS(ns, "path");
-    path.setAttribute("d", d);
-    svg.append(path);
-  }
-  return svg;
-}
 
 function entry(e, labelOf = boldLabel) {
   const head = [
@@ -68,8 +47,6 @@ function entry(e, labelOf = boldLabel) {
           "div",
           { className: "entry-art" },
           picture({ src: e.picture, className: "entry-picture" }),
-          // A mark on the picture's corner: people are there to talk to.
-          ...(e.badge ? [peopleMark()] : []),
         ),
       ]
     : [];
