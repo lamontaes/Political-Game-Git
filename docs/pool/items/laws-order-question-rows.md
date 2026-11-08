@@ -5,9 +5,9 @@ area: laws
 kind: feature
 priority: 2
 size: L
-status: claimed
+status: done
 claimed-by: legislation/order-question-rows
-pr:
+pr: #7567
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T14:59:28.770Z
