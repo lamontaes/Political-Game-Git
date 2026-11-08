@@ -5565,15 +5565,31 @@ function showLook(view) {
   $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
-      lookRow(row, {
-        onPick: (id, swatch) => void pickColor(id, swatch),
-        onMove: (id, by) => void moveLook(id, by),
-        arrowLabel: (by, r) =>
-          controls.creator[by < 0 ? "previous" : "next"].replace(
-            "{row}",
-            r.label.toLowerCase(),
-          ),
-      }),
+      lookRow(
+        // A color steps with arrows like every other look (the Nov 8 creator mock: "arrows
+        // like The Political Process"); its swatch dot stays beside the name.
+        row.swatches
+          ? {
+              ...row,
+              swatches: undefined,
+              swatch: row.swatches.find((x) => x.chosen)?.color,
+            }
+          : row,
+        {
+          onMove: (id, by) => {
+            const colors = row.swatches;
+            if (!colors) return void moveLook(id, by);
+            const here = colors.findIndex((x) => x.chosen);
+            const next = colors[(here + by + colors.length) % colors.length];
+            void pickColor(id, next.id);
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      ),
     ),
   );
   $("cr-reset").disabled =
