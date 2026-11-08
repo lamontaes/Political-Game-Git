@@ -1021,7 +1021,12 @@ function councilBudget(
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
   const roll = (kept: readonly Provision[]) => {
     const trial = { ...bill, provisions: kept } as BillRow;
-    const tallies: { chamber: string; yes: number; no: number }[] = [];
+    const tallies: {
+      chamber: string;
+      title: string;
+      yes: number;
+      no: number;
+    }[] = [];
     const rows: ModuleRow[] = [];
     for (const chamber of chambers.chambers) {
       let yes = 0;
@@ -1048,7 +1053,14 @@ function councilBudget(
           position: { ...position, total },
         } as unknown as ModuleRow);
       }
-      tallies.push({ chamber, yes, no });
+      // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
+      const named = bodyOf(api, chamber);
+      tallies.push({
+        chamber,
+        title: named?.bodyName ?? named?.governmentName ?? "",
+        yes,
+        no,
+      });
       const cloture =
         chamber === FEDERAL_SENATE &&
         yes <

@@ -134,6 +134,8 @@ export interface BudgetAdoption {
   readonly body?: string;
   readonly tallies?: readonly {
     chamber: string;
+    /** The chamber's own name from its body record (House, Senate, Assembly...). */
+    title: string;
     yes: number;
     no: number;
   }[];
