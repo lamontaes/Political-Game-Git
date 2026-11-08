@@ -5726,6 +5726,7 @@ async function offerPlayAs(life) {
   $("pick-detail").replaceChildren();
   draw();
   show("front-status", false);
+  document.querySelector("#front .progress").hidden = true;
   frontPanel("front-pick");
   for (const id of placeControls) $(id).disabled = false;
 }
@@ -5820,6 +5821,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
   show("front-status", true);
+  const bar = document.querySelector("#front .progress");
+  bar.hidden = false;
+  bar.firstElementChild.style.width = "0";
   try {
     const settings = custom ? worldSettings() : undefined;
     // Outside Custom world, a fresh seed draws the world.
@@ -5827,6 +5831,16 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
+    // The server builds the world in six steps; a step is named while it runs and the bar
+    // fills one sixth for each step finished.
+    const STEPS = [
+      "people",
+      "past",
+      "economy",
+      "core",
+      "government",
+      "opening",
+    ];
     // A poll still in flight when the build ends leaves the line alone.
     let built = false;
     // The world's story plays once the world exists (playLoadingStory).
@@ -5839,8 +5853,10 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       const p = await api("/api/newlife/progress").catch(() => undefined);
       if (p?.story) playStory();
       if (!p || built) return;
-      // The step in plain words; no bar and no counts (owner, Oct 27: "There is a weird little
-      // bar at the end"; the Nov 8 loading mock).
+      // The step in plain words, and a bar that shows how many steps are done; no counts.
+      const at =
+        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+      bar.firstElementChild.style.width = `${Math.round((at / STEPS.length) * 100)}%`;
       $("front-status").textContent = controls.loading?.[p.stage] ?? "";
     }, 400);
     let life;
@@ -5851,6 +5867,9 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     } finally {
       clearInterval(poll);
       built = true;
+      // Built: the bar is full and no "Ready" line is left behind.
+      bar.firstElementChild.style.width = "100%";
+      $("front-status").textContent = "";
     }
     // The story plays to its end (or a click) before the life opens.
     await playStory();
@@ -5884,6 +5903,7 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
     if (life.sceneMomentId) await showStory(life.sceneMomentId);
     coachFirstChoices();
   } catch (error) {
+    bar.hidden = true;
     $("front-status").textContent = error.message;
     for (const id of placeControls) $(id).disabled = false;
     frontPanel(person ? "cr-screen" : "front-new");
