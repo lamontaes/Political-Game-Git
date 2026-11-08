@@ -3424,7 +3424,7 @@ const sheets = {
       style: "percent",
       maximumFractionDigits: 1,
     });
-    const sinceLast = (record) => {
+    const sinceLast = (record, { short = false } = {}) => {
       if (record?.changeMinor === undefined || record.changeMinor === null)
         return [];
       const how =
@@ -3432,14 +3432,17 @@ const sheets = {
           ? words.unchanged
           : (record.changeMinor > 0 ? words.increased : words.decreased)
               .replace("{amount}", roundedMoney(Math.abs(record.changeMinor)))
+              // A total's row is the amount alone; a line's carries its share too.
               .replace(
-                "{pct}",
-                pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
+                short ? " ({pct})" : "{pct}",
+                short
+                  ? ""
+                  : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
               );
       return [typedRow(words.sinceLastYear, how)];
     };
-    const history = (record) => {
-      const line = trendLine(record?.history);
+    const history = (record, size) => {
+      const line = trendLine(record?.history, size);
       return line ? [line] : [];
     };
     // Last year is a row of its own with the figure on the same line, never a note under.
@@ -3520,17 +3523,17 @@ const sheets = {
               gov.name,
               typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
               ...lastYear(prior?.revenueMinor),
-              ...sinceLast(latest.totals?.revenue),
-              ...history(latest.totals?.revenue),
+              ...sinceLast(latest.totals?.revenue, { short: true }),
+              ...history(latest.totals?.revenue, { height: 36 }),
               typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
               ...lastYear(prior?.spendingMinor),
-              ...sinceLast(latest.totals?.spending),
-              ...history(latest.totals?.spending),
+              ...sinceLast(latest.totals?.spending, { short: true }),
+              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
               ),
-              ...sinceLast(latest.totals?.balance),
+              ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
