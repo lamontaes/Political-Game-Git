@@ -304,7 +304,13 @@ export function openLaws(core: CoreState): LawChain {
   return chain;
 }
 
-/** Questions on federal law (answered once for the nation). */
+/**
+ * Questions on federal law (answered once for the nation). Eight of them have
+ * a starting answer and a bill-paper route but no engine reads them yet: the
+ * debt limit, immigration levels, student loan forgiveness, the disaster cost
+ * share, national data privacy, D.C. statehood, federal mandatory minimums and
+ * the members' stock trading ban. stopgapId: SG-LAWS-federal-position-no-reader
+ */
 const FEDERAL_QUESTION_PREFIX = "us-federal-positions:";
 
 type WageStep = {
