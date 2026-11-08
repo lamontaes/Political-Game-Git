@@ -575,5 +575,29 @@
     "addedAt": "2026-11-08",
     "replacement": "Weights fitted to how often real bribe approaches are small, large, from a friend, repeated or desperate (the corruption literature's cases), checked against the played years, or read straight from the corruption engine's own reasons once it keeps one for each.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-mentor-is-officeholder",
+    "kind": "missing-data",
+    "file": "src/director/circumstance.ts",
+    "line": 1,
+    "whatItFakes": "The adviser in the advice scene (the day after a party's chair asks the player to run) is a seated officeholder of that party who lives in the player's town and has held a seat for a year or more, the closest and most sociable of them. The world records no mentorship between two people, so the one who weighs in is chosen by the seat they hold and the party they share, not by a tie that says they mentored the player.",
+    "why": "The mentorship relationship is not an engine's record yet (nothing writes relationship:mentorship in a played year); the party's ask is the real cause and the known officeholders are real people the records name.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A relationship engine row for a mentor, written when an officeholder takes an interest in a newcomer; the circumstance reads it instead of the seat held.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-bribe-accuser-anyone-close",
+    "kind": "missing-data",
+    "file": "src/director/data/circumstances.json",
+    "line": 1,
+    "whatItFakes": "The accusation after the press carries a taken bribe is put by the person with the highest tie and sociability among the official's family, household and acquaintances. The press records who reads a story, but not who among the official's circle did, nor what each of them has at stake, so the one who asks is the closest, not the one with a reason.",
+    "why": "The corruption engine records the report (scandal.reported) and the news engine records readers per story, but the two are not joined to the official's circle.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
+    "status": "open"
   }
 ]
