@@ -23,6 +23,7 @@ import {
   PLACE_COUNTY_RELATIONS_ROWS,
 } from "./place-county-relations.generated";
 import { createStableId } from "../kernel/ids";
+import consolidated from "../data/reference/consolidated-county-governments.json" with { type: "json" };
 import placeMatches from "../data/reference/government-unit-place-matches.json" with { type: "json" };
 import countyReadings from "../../../data/research/local-government/county-governing-bodies.json" with { type: "json" };
 import acsPlaces from "../../../data/research/money/place-population-acs-2024.json" with { type: "json" };
@@ -176,6 +177,13 @@ function load(): Index {
       byCounty.set(unit.countyGeoid, unit);
     }
   }
+  // A consolidated city-county government is listed as a municipality that
+  // covers its whole county area; it is the county's government.
+  for (const { publisherId, countyGeoid } of consolidated.units) {
+    const unit = byId.get(`gus2025:${publisherId}`);
+    if (unit && !byCounty.has(countyGeoid))
+      byCounty.set(countyGeoid, { ...unit, unitType: "county", countyGeoid });
+  }
   index = { byId, byPlace, byState, byCounty };
   return index;
 }
@@ -188,6 +196,21 @@ export function governmentUnit(id: string): GovernmentUnitIdentity | null {
       ? municipioUnit(id.slice("municipio:".length))
       : null)
   );
+}
+
+/**
+ * The consolidated city-county government of a county area, where the listing
+ * matches it to its seat (so the seat has its own municipal body): the
+ * municipal government a place with none of its own inside that county answers
+ * to. Null elsewhere.
+ */
+export function consolidatedMunicipalityForCounty(
+  countyGeoid: string,
+): GovernmentUnitIdentity | null {
+  const row = consolidated.matchedUnits.find(
+    (unit) => unit.countyGeoid === countyGeoid,
+  );
+  return row ? (load().byId.get(`gus2025:${row.publisherId}`) ?? null) : null;
 }
 
 /** The municipal government(s) of a Census place; empty for a statistical place. */

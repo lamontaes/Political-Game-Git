@@ -8,7 +8,7 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { listRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";
-import { plate } from "./plate.mjs";
+import { stripBoard, stripSection } from "./strips.mjs";
 import { dateWords, monthWords } from "../../english/plain-words.mjs";
 
 // The icon each kind of dated thing shows on its day.
@@ -88,10 +88,9 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
     });
   let month = new Date(`${date.slice(0, 7)}-01T12:00:00`);
   let selected = date;
-  const root = el("div", { className: "calendar-layout" });
-  const monthBox = el("section", { className: "calendar-month" });
+  const monthBox = el("div", { className: "calendar-month" });
   const dayBox = el("div", { className: "calendar-day" });
-  const side = el("section", { className: "calendar-side" });
+  const side = el("div", { className: "calendar-side" });
   const button = (label, fn, className) => {
     const b = makeButton({
       textContent: label,
@@ -137,10 +136,9 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
         )
       : [el("p", { className: "calendar-empty", textContent: labels.nothing })];
     dayBox.replaceChildren(
-      plate(
-        null,
-        el("span", { className: "label", textContent: weekday }),
-        el("h3", { textContent: dayWords(selected) }),
+      stripSection(
+        2,
+        `${weekday}, ${dayWords(selected)}`,
         el("p", {
           className: "calendar-distance",
           textContent: distance(selected),
@@ -174,27 +172,27 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
       return row;
     };
     side.replaceChildren(
-      el("h3", {
-        className: "calendar-side-head",
-        textContent: labels.upcoming,
-      }),
-      pager({
-        items: ahead,
-        render: rowOf,
-        rows: Math.max(
-          4,
-          Math.min(12, Math.floor((window.innerHeight - 260) / 56)),
-        ),
-        columns: 1,
-        rowHeight: 52,
-        gap: 4,
-        words: {
-          page: labels.page,
-          previous: labels.previousPage,
-          next: labels.nextPage,
-        },
-        className: "calendar-pager",
-      }),
+      stripSection(
+        3,
+        labels.upcoming,
+        pager({
+          items: ahead,
+          render: rowOf,
+          rows: Math.max(
+            4,
+            Math.min(12, Math.floor((window.innerHeight - 480) / 56)),
+          ),
+          columns: 1,
+          rowHeight: 52,
+          gap: 4,
+          words: {
+            page: labels.page,
+            previous: labels.previousPage,
+            next: labels.nextPage,
+          },
+          className: "calendar-pager",
+        }),
+      ),
     );
   };
   const select = (iso) => {
@@ -269,7 +267,8 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
         );
       grid.append(cell);
     }
-    monthBox.replaceChildren(header, grid);
+    monthBox.replaceChildren(stripSection(1, "", header, key, grid));
+    monthBox.querySelector(".sechead").remove();
   };
   const key = el("nav", {
     className: "calendar-key",
@@ -305,6 +304,7 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
   drawMonth();
   drawDay();
   drawSide();
-  root.append(key, monthBox, dayBox, side);
+  const root = stripBoard({ columns: [[monthBox], [dayBox, side]] });
+  root.classList.add("calendar-board");
   return root;
 }

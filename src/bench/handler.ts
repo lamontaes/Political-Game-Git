@@ -45,7 +45,22 @@ import {
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
+  billStage,
+  callAmendmentVote,
+  callOverrideVote,
+  chooseOverrideVote,
+  chooseOwnVote,
+  followedBills,
+  keepStaffRedraft,
+  staffRedraft,
+  moveOwnAmendment,
+} from "./bill-stage";
+import {
   deskDecide,
+  floorDecide,
+  floorView,
+  ordersDecide,
+  ordersView,
   deskView,
   meetingAdjourn,
   meetingItem,
@@ -53,6 +68,8 @@ import {
   meetingSceneView,
   colleagueDeal,
   nameHeadPick,
+  nominationDecide,
+  nominationsView,
   budgetLinePick,
   officeView,
 } from "./office";
@@ -65,7 +82,13 @@ import {
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
-import { backdropFile, backdropPath, benchScene } from "./scene";
+import {
+  backdropFile,
+  backdropPath,
+  benchScene,
+  faceOf,
+  scenePlace,
+} from "./scene";
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
@@ -93,6 +116,7 @@ import {
   setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
+import { officeCases, decideCase } from "./office-cases";
 import {
   openConversation,
   say,
@@ -721,6 +745,19 @@ export async function benchRequest(
         send(200, officeholders(requireCore()));
         return;
       }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/advanced/officeholder-face"
+      ) {
+        const core = requireCore();
+        const id = url.searchParams.get("id") ?? "";
+        send(200, {
+          face: core.people.has(id)
+            ? faceOf(core, id, scenePlace(core, id).place)
+            : null,
+        });
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/goto") {
         send(
           200,
@@ -847,6 +884,116 @@ export async function benchRequest(
         );
         return;
       }
+      // Where a bill is: its committee record, what members told you, the floor and override by name.
+      if (request.method === "GET" && url.pathname === "/api/bill/stage") {
+        send(
+          200,
+          billStage(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // Bills before the state's chambers and Congress, followed from home.
+      if (request.method === "GET" && url.pathname === "/api/bills/following") {
+        send(200, followedBills(requireCore(), player?.personId));
+        return;
+      }
+      // The staff's redraft of one section, and the sponsor keeping it.
+      if (request.method === "GET" && url.pathname === "/api/bill/redraft") {
+        send(
+          200,
+          staffRedraft(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/bill/redraft") {
+        send(
+          200,
+          keepStaffRedraft(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // An amendment on a bill's section, and the body's vote on it.
+      if (request.method === "POST" && url.pathname === "/api/bill/amend") {
+        send(
+          200,
+          moveOwnAmendment(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            Number(url.searchParams.get("index")),
+            url.searchParams.get("direction") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/bill/amendment-vote"
+      ) {
+        send(
+          200,
+          callAmendmentVote(
+            requireCore(),
+            url.searchParams.get("amendmentId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // The override of a veto: the player's own vote, and the body taking the message up.
+      if (request.method === "POST" && url.pathname === "/api/bill/override") {
+        send(
+          200,
+          chooseOverrideVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            url.searchParams.get("vote") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      if (
+        request.method === "POST" &&
+        url.pathname === "/api/bill/override-call"
+      ) {
+        send(
+          200,
+          callOverrideVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
+      // The player's own vote on a bill before its floor day (the member's own choice).
+      if (request.method === "POST" && url.pathname === "/api/bill/vote") {
+        send(
+          200,
+          chooseOwnVote(
+            requireCore(),
+            url.searchParams.get("billId") ?? "",
+            url.searchParams.get("vote") ?? "",
+            player?.personId,
+          ),
+        );
+        return;
+      }
       // The officeholder's day (OFFICE-LOCAL): the meeting scene, the desk and the stops.
       if (request.method === "GET" && url.pathname === "/api/meeting") {
         send(
@@ -916,6 +1063,50 @@ export async function benchRequest(
           url.searchParams.get("how") ?? "",
         );
         send(200, deskView(requireCore()));
+        return;
+      }
+      // A floor vote in Congress that holds the player's clock: the bills, and the player's own vote.
+      if (request.method === "GET" && url.pathname === "/api/floor") {
+        send(200, player?.personId ? floorView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/floor") {
+        floorDecide(
+          requireCore(),
+          url.searchParams.get("billId") ?? "",
+          url.searchParams.get("how") ?? "",
+        );
+        send(200, floorView(requireCore()));
+        return;
+      }
+      // Orders the governor's staff brings for signature, and the player's decision on each.
+      if (request.method === "GET" && url.pathname === "/api/orders") {
+        send(200, player?.personId ? ordersView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/orders") {
+        ordersDecide(
+          requireCore(),
+          url.searchParams.get("entryId") ?? "",
+          url.searchParams.get("how") ?? "",
+          url.searchParams.get("nomineeId") ?? undefined,
+        );
+        send(200, ordersView(requireCore()));
+        return;
+      }
+      // The president's open cabinet posts, and the player's nomination for one.
+      if (request.method === "GET" && url.pathname === "/api/nominations") {
+        send(200, player?.personId ? nominationsView(requireCore()) : []);
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/nominations") {
+        nominationDecide(
+          requireCore(),
+          url.searchParams.get("post") ?? "",
+          url.searchParams.get("nomineeId") ?? undefined,
+          url.searchParams.get("how") === "leave",
+        );
+        send(200, nominationsView(requireCore()));
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/office") {
@@ -1533,6 +1724,30 @@ export async function benchRequest(
         return;
       }
       // Election day at the polls: the ballot, marked race by race, or left.
+      if (request.method === "GET" && url.pathname === "/api/office/cases") {
+        send(
+          200,
+          officeCases(
+            requireCore(),
+            url.searchParams.get("id") ?? player?.personId ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/case") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        const decision = url.searchParams.get("decision");
+        send(
+          200,
+          decideCase(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("caseId") ?? "",
+            decision === "help" ? "help" : "decline",
+          ),
+        );
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/polling-place") {
         send(
           200,

@@ -84,12 +84,14 @@ import { householdStateOf } from "./modules/counted-moves";
 import {
   ENDED_BY_REQUIREMENT,
   lawChain,
+  lawInForce,
   LAWS_MODULE_ID,
   medicaidCoverageSpells,
   payMedicaidCare,
 } from "./modules/laws";
 import { webReach, type WebReach } from "./modules/outcome-web";
 import { householdIncome, residentsRuntime } from "./modules/residents";
+import { WEB_LINKS } from "./modules/laws";
 import { parameter, type Parameter } from "./parameters";
 import {
   livingCostsRegionForState,
@@ -116,6 +118,13 @@ const q = (key: string) => parameter(key, PARAMETERS);
 
 /** What a member's care is covered by, as the coverage engine and the law reach record it. */
 export type BillPlan = "employer" | "medicaid" | "medicare" | "none";
+
+const DRUG_NEGOTIATION =
+  "us-federal-positions:health.medicare-drug-price-negotiation";
+/** The researched cut in a Medicare member's out-of-pocket drug costs while Medicare negotiates prices (CMS, 2024). */
+const DRUG_LINK = WEB_LINKS.find(
+  (link) => link.key === "drug-negotiation-to-out-of-pocket",
+)!;
 
 const SHARE_KEY: Readonly<Record<BillPlan, string>> = {
   employer: "medicalPatientShareEmployer",
@@ -471,6 +480,12 @@ function billMembers(
   const medicaidShare = q(SHARE_KEY.medicaid);
   const perMonth =
     api.parameter("minorPerDollar") / api.parameter("monthsPerYear");
+  // Medicare's negotiated drug prices cut what its members pay while the
+  // federal law is in force (the engine decides the cause from the law itself).
+  const drugs =
+    lawInForce(api, DRUG_NEGOTIATION).value === one
+      ? one + (DRUG_LINK.size ?? 0)
+      : one;
   const out = new Map<string, BilledMember[]>();
   for (const h of households) {
     const size = h.members.length;
@@ -483,7 +498,9 @@ function billMembers(
       h.members.map((m) => {
         const cost =
           (perMember * perMonth * (care(m.careNeed) / norm)) / average;
-        const billMinor = Math.round(cost * q(SHARE_KEY[m.plan]));
+        const billMinor = Math.round(
+          cost * q(SHARE_KEY[m.plan]) * (m.plan === "medicare" ? drugs : one),
+        );
         const added = billMinor - Math.round(cost * medicaidShare);
         return {
           personId: m.personId,

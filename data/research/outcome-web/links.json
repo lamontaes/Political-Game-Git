@@ -56,6 +56,10 @@
       "value": 0,
       "note": "Zero by definition: the measure is the extra defense contracts a state draws over what the federal national defense line paid at its base (the Treasury's fiscal 2025 outlays), and the earnings the research measured go with the contracts the state already drew, so only a line above or below its base moves earnings."
     },
+    "federal.deficit-change-pct-of-gdp": {
+      "value": 0,
+      "note": "Zero by definition: the measure is the federal deficit's distance from the base budget row (the Treasury's fiscal 2025 statement), as points of what the nation produces, and the borrowing cost the research measured goes with the deficit at that base, so only a budget above or below it moves what a state pays to borrow."
+    },
     "budget.parks-added-pct": {
       "value": 0,
       "note": "Zero by definition: the measure is the town's parks spending above its Census base, and the base outcome the research measured (access to exercise opportunities) goes with that base spending, so only spending above or below it moves access."
@@ -3931,7 +3935,8 @@
       "evidence": "provisional",
       "from": "law:us-federal-positions:health.medicare-drug-price-negotiation",
       "to": "health.drug-out-of-pocket",
-      "range": [-0.1, -0.06]
+      "range": [-0.1, -0.06],
+      "carriedBy": "the medical bills' monthly pass (billMembers in src/core2/medical-bills.ts), which reads the federal Medicare drug price negotiation law in force (lawInForce) and multiplies each Medicare member's bill by one plus this row's size, so the cause is decided from the law itself and the web does not also run it"
     },
     {
       "key": "federal-loan-cap-to-high-cost-loans",

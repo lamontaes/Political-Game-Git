@@ -60,6 +60,18 @@ CATEGORY_SUBJECT = {
     "education": "education",
     "environment-energy": "energy-environment",
     "fiscal": "taxes-finance",
+    # Federal questions (us-federal-positions) use short category names.
+    "trade": "foreign-trade",
+    "budget": "taxes-finance",
+    "immigration": "immigration",
+    "emergencies": "justice",
+    "science-communications": "technology",
+    "territories-culture": "government",
+    "justice-rights": "justice",
+    "government": "government",
+    "energy-environment": "energy-environment",
+    "housing": "housing",
+    "health": "healthcare",
     "government-operations": "government",
     "health-human-services": "healthcare",
     "housing-land-use": "housing",
@@ -72,11 +84,14 @@ CATEGORY_SUBJECT = {
 
 # Topic placement by words in the question key; the subject's first topic otherwise.
 TOPIC_WORDS = [
+    ("debt-limit", "Debt and borrowing"), ("admit-more", "Entry and visas"), ("forgive", "Student aid"), ("states-share-disaster", "Emergency management and disaster recovery"),
+    ("national-data-privacy", "Data protection"), ("statehood", "Constitutional and institutional reform"), ("mandatory-minimum", "Criminal law and sentencing"), ("stock-trading", "Ethics and conflicts"),
+    ("tariff", "Trade and customs"), ("voucher", "Affordable and public housing"), ("power-plant", "Air and emissions"),
     ("minimum-wage", "Wages and working hours"), ("paid-family-leave", "Paid and unpaid leave"),
     ("collective-bargaining", "Unions and collective bargaining"), ("right-to-work", "Unions and collective bargaining"),
     ("voter", "Elections and representation"), ("voting", "Elections and representation"), ("redistricting", "Elections and representation"),
     ("term-limits", "Constitutional and institutional reform"), ("lobbying", "Ethics and conflicts"), ("local-authority", "Local-government powers"),
-    ("medicaid", "Coverage and insurance"), ("work-requirement", "Cash assistance"),
+    ("medicare-drug", "Medicines and medical products"), ("medicaid", "Coverage and insurance"), ("work-requirement", "Cash assistance"),
     ("handgun", "Firearms and weapons rules"), ("carry", "Firearms and weapons rules"), ("stand-your-ground", "Firearms and weapons rules"), ("child-access", "Firearms and weapons rules"),
     ("police", "Policing"), ("bail", "Courts and legal aid"), ("juvenile", "Juvenile justice"), ("voting-after-sentence", "Prisons, probation and reentry"), ("immigration", "Policing"),
     ("rent", "Rental rules"), ("eviction", "Rental rules"), ("inclusionary", "Affordable and public housing"), ("multifamily", "Planning and zoning"),
@@ -99,6 +114,24 @@ BUDGET_LINES = {
     "administration": ("government", "Agencies and public employment"),
 }
 
+# The federal budget's lines (data/research/money/federal-budget-fy2025.json, the
+# Treasury's statement) Congress changes in an appropriations act, each under the
+# topic whose subject it funds. A line shares its id with a state line of the
+# same name only when it is the same line; these are the nation's own.
+FEDERAL_BUDGET_LINES = {
+    "nationalDefense": ("defense-veterans", "Readiness and procurement", "National defense"),
+    "veterans": ("defense-veterans", "Veterans' healthcare", "Veterans benefits and services"),
+    "internationalAffairs": ("foreign-trade", "Foreign aid", "International affairs and foreign aid"),
+    "agriculture": ("agriculture", "Farm support and insurance", "Agriculture programs"),
+    "transportation": ("infrastructure", "Transportation", "Federal transportation"),
+    "education": ("education", "Student aid", "Federal education programs"),
+    "communityAndRegionalDevelopment": ("housing", "Neighborhood redevelopment", "Community and regional development"),
+    "incomeSecurity": ("assistance", "Cash assistance", "Income security programs"),
+    "medicare": ("healthcare", "Coverage and insurance", "Medicare"),
+    "health": ("healthcare", "Public health", "Federal health programs"),
+    "socialSecurity": ("assistance", "Retirement and survivor benefits", "Social Security"),
+}
+
 SERIES = {
     "minimum-wage": ("labor", "Wages and working hours", "Minimum wage", "minor/hour"),
     "income-tax": ("taxes-finance", "Taxes", "Income tax rate", "percent"),
@@ -118,6 +151,11 @@ SERIES = {
     "social-security-tax": ("assistance", "Retirement and survivor benefits", "Social Security tax rate", "percent-of-wages"),
     "medicare-tax": ("healthcare", "Coverage and insurance", "Medicare tax rate", "percent-of-wages"),
     "medicaid-match": ("healthcare", "Coverage and insurance", "Medicaid federal match", "percent"),
+    "state-contribution-limit-governor": ("government", "Campaign finance", "State campaign contribution limit: governor", "USD/election"),
+    "state-contribution-limit-state-senate": ("government", "Campaign finance", "State campaign contribution limit: stateSenate", "USD/election"),
+    "state-contribution-limit-state-house": ("government", "Campaign finance", "State campaign contribution limit: stateHouse", "USD/election"),
+    "state-contribution-limit-local": ("government", "Campaign finance", "State campaign contribution limit: local", "USD/election"),
+    "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),
@@ -142,6 +180,11 @@ def main():
         subjects[subject]["topics"][topic]["policies"].append({
             "id": f"budget:{line}", "name": f"Spending: {line}", "kind": "budget-line", "line": line,
             "operations": ["expand", "restrict"], "levels": ["state", "county", "city"],
+        })
+    for line, (subject, topic, name) in FEDERAL_BUDGET_LINES.items():
+        subjects[subject]["topics"][topic]["policies"].append({
+            "id": f"budget:federal:{line}", "name": f"Spending: {name}", "kind": "budget-line", "line": line,
+            "operations": ["expand", "restrict"], "levels": ["federal"],
         })
     questions = []
     for path in sorted(glob.glob(str(ROOT / "data/research/laws/starting-law-2026/*.json"))):

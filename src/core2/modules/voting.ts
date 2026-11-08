@@ -222,6 +222,8 @@ export interface BallotRow {
     readonly pledge?: number;
   };
   readonly choice: string | null;
+  /** In an at-large race with several seats, every candidate the voter picked (the first is `choice`); absent in a one-seat race. */
+  readonly choices?: readonly string[];
   /** Each candidate's appeal to this voter, and its parts. */
   readonly appeal: Readonly<
     Record<
@@ -3021,6 +3023,8 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       date,
       voted: t.votes,
       choice,
+      // At large, every candidate the voter picked, the first being `choice`.
+      ...(choices.length > 1 ? { choices } : {}),
       toldPollster: told,
       ...(why
         ? {
@@ -4888,12 +4892,25 @@ function seatRace(
       .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[]
   )[0];
   const code = (seat.district ?? "00").padStart(2, "0");
+  // A seat emptied by a death or resignation is the last holder's side: the
+  // seat's lean is read from that party, so a special election's even count
+  // keeps the seat there instead of naming no winner.
+  const lastHolder = holder
+    ? undefined
+    : (
+        offices
+          .table("terms")
+          .query("bySeatStatus", [seat.id, "ended"]) as unknown as TermRow[]
+      )
+        .filter((term) => term.party)
+        .sort((a, b) => String(a.endDate).localeCompare(String(b.endDate)))
+        .at(-1);
   return {
     seatId: seat.id,
     office: office.kind,
     usps: stateKey.slice(3),
     code,
-    incumbentParty: holder?.party ?? null,
+    incumbentParty: holder?.party ?? lastHolder?.party ?? null,
     leanSource: house
       ? "2024 House vote in the district"
       : seat.district === null

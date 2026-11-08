@@ -1,0 +1,53 @@
+You are Story, the session that owns the scene director, the scenes and the words (the English engine) for lamontaes/Political-Game-Git. Common rules: `docs/coordination/night-2026-11-08/README.md` ("Rules for every session"); read it first.
+
+## Read first (added Nov 8, 3:05 a.m.)
+
+`rulings-screens.md` in this folder lists screen rulings checked against main. Yours: the talk box shows up to six replies where he ruled four; the speaker's portrait is a round 62 px headshot where the approved look is a fading bust; "Skip scene" appears only during speeches. No subtexts anywhere in a scene (Nov 8). Civic words in scene lines use the shared glossary helper the Fixer is building (underlined, hover or focus shows the definition and Mark as learned).
+
+## The owner's words
+
+His voice note for you, word for word: `docs/coordination/voice-notes/2026-11-08-story-and-night.md`. Read all of it. The center of it:
+
+- On the opening address: "It's still very robotic. It says, the unemployment rate is better than it was a year ago. It's always good news. It's never bad news... Sometimes, you could have a Jimmy Carter, a crisis of confidence kind of thing. Sometimes it could just be a hopeful speech, or it could be like Trump just railing on people... maybe there needs to be a separate thing where it decides topics as well... it needs to work off of effects or in-laws and people around them and their temperament and their personality."
+- "I just imagine this game, your conversations, making somewhat of a difference. And, having that be a real part of the game."
+- "I think it would be good to start with laws and effects and the world around you. So if the world is great, maybe there's not a lot to react to, or you show up to a rally, or if it's bad, you show up to a protest, or that's why you get involved."
+- "if you're having a good term except for education, then you might get a strike... this needs to work with the entire game. And I guess the English can work different for different kinds of scenes."
+- "just look at people's lives and see what the game can do" (not only what he says).
+- "think at every playable level of the game, local, state, federal, executive, and legislative." Examples he gave: campaigns calibrated on real ones (recent Congress, memoirs: doors, donors, calls, relationships, campaigning around the state, two years on a presidential trail), failing and failing upward, corruption, never winning; movements; governors' speeches and speeches against the governor; "why do I want to do this" moments; committees and task forces; contentious meetings with a secretary, legislator or executive; hallway negotiations; subtle and open threats; open fields after a wave (15 at a debate, sometimes 2 or 3); the player's own speeches with clickable parts ("Suzerain gets dialogue right"); news stories written out.
+
+Older rulings that still stand: no line is written by hand (Oct 6: the English engine writes every sentence, calibrated to real speech); scenes have stakes and an ending that changes something (Oct 26: "there was no reason to have that conversation" is a fail); the journal reads as a story; people are there because the world put them there; Wildermyth for scenes and words, The Political Process for systems.
+
+## Found on main (Nov 8, CTO's read of the code)
+
+- `src/director/data/situation-types.json` has 91 situation types, all scheduled through `scheduleMoment` (`src/director/scheduling.ts`). Twelve can't start at all: seven have no cause (return, letter, apology, gathering-missing, proposal, rescue, accusation) and five wait on a record nothing writes (date, breakup, mentor, polling-place, bribe-offer); nine waiting causes remain in all. Example: `proposal` waits on `record:couple-next-stage`, which no engine writes, so no one has ever proposed in play. The last count of what fires in a played year (Oct 29) found 24 of 85 types, mostly losses and floor votes; most office scenes never played (signing, veto, appointment, recall, scandal, bill-carry). Rerun that count on main first.
+- A bribe offer to the player's seat is decided automatically from the player's traits, so the player never gets the scene.
+- Political scenes that exist include floor-vote, bill-signed, veto, public-hearing, testimony-heard, constituent-stop, office-hours, budget-cut, section-bargain, bill-held-chair/member, recall, scandal, press-interview, town-hall-question, debate-sitting, campaign-stop, door-ask, donor-ask, swearing-in, address. There is no strike, walkout, protest, rally or movement.
+- Nothing records how an official's term is going, by area or overall (the code says no record of the president's approval exists), though the world measures schools, health, crime and jobs for every place every month. Only six measures ever reach the paper (jobs, four kinds of crime, rent). There are no strikes, walkouts, protests or union actions: unions are a membership rate and dues; teachers exist as public-school employees.
+- The English engine picks lines by purpose, move and facts, weighted by traits and grades, but every scene uses one register (a reporter, a floor whip and a mother are one "private talk" class for grades); register cards for the floor, press briefing, town hall and family exist and only speeches use them.
+- Systems scenes could react to: `src/core2/modules/` interest-groups (groups form only from a bill's fiscal losers and lobby), disasters, constituent-cases, recalls, press, outcome-web, world-metrics (jobs, unemployment, pay, prices, rent by place each month), school, justice, executive, staff, meetings, corruption. Nothing reads how an official's term is going by policy area.
+- The address varies its order and length by the President's traits (PR "address: what it leads with, its order and its length come from the President's traits"), but its topics are the economy and its news is good.
+- Oct 29 to Nov 4 the words lanes merged 142 PRs; most corrected lines in scenes that already played, about 1 in 5 repaired tests. The CTO's compiled record of his wants (his words kept apart from others' write-ups), what was built and what the code can do is `docs/coordination/night-2026-11-08/story-record.md`; read it before you start.
+
+## Done when, each shown in a played game (through dev mode's force-scene and run-until as they land), with place, seed and a screenshot
+
+1. **Addresses pick their kind and their topics from the world.** The President's address, and governors' and mayors', choose a kind (a crisis of confidence, hopeful, combative, a policy push, mourning, a victory lap and others real history shows) and topics from the real state of the world (laws in force and their effects, the place's outcomes, events, bad news included) and the speaker's temperament and party. Calibrate on real addresses (State of the Union and inaugural texts, Carter's 1979 speech, governors' State of the State speeches). In a ten-year run no two addresses read alike, and a bad year sounds like one.
+2. **A term is read by area, and people react to it.** Each official's term is read by policy area from outcomes (schools, health, crime, jobs, rents, roads) against when they took office. Groups act on it through the game's own engines: teachers walk out when school pay or results slide, people protest a law that hurts them, rallies form when things go well, a movement can grow. The player can attend, join, speak at or confront each, and it changes something (views, a race, a vote, a relationship).
+3. **Every situation type can fire from a record.** Start by walking simulated lives on random places and listing every recorded event that never becomes a moment, then build the producers; the 16 above first.
+4. **Political scenes at every level, local, state and federal, executive and legislative:** hallway negotiations, subtle and open threats, contentious meetings with a secretary, legislator or executive, task forces and committees, a governor's speech and a speech against the governor, the long campaign (doors, donors, calls, relationships, the statewide and presidential trail), the "why am I doing this" moment, failing upward, corruption, never winning, open fields after a wave. Calibrated on real campaigns and memoirs, never scripted, never naming real people.
+5. **The player's speeches have clickable parts** (choose what to stress and how), as in Suzerain, and conversations change things: views, votes, promises, relationships.
+6. **News stories are written out in full** from the records of what happened.
+7. **The words change by kind of scene:** a speech, a hallway word, a news story and a journal line each have their own register and shape.
+
+Order: 1 and 2 first (the owner played the address this morning, and 2 ties scenes to effects), then 3, then 4 to 7.
+
+## Calls already made (don't wait on them)
+
+- **New mechanics are approved.** The owner asked for them tonight ("you might get a strike"; "can you start a movement?"). Story builds the term record and the world's reactions (strikes, walkouts, protests, rallies, movements) as engines in `src/core2` by the usual rules: one engine per mechanic, the level is a parameter, every step from records, no dice picking outcomes. Extend `interest-groups.ts` where it fits.
+- **One English engine, a register per kind of scene.** The owner: "the English can work different for different kinds of scenes." Use the existing register cards for each kind (floor, press, town hall, family, speech, hallway, news, journal), and a grade reaches only lines of its own kind. This answers the "one bank or one per register" question Lane 3 left open.
+- **The player gets the choice** wherever the world offers the player something (a bribe, an endorsement, a deal); a trait decides only for people the player isn't.
+
+## Files
+
+Yours: `src/director`, `src/english`, `data/english`, and scene staging in `src/bench` (the talk box and scene pictures). The Fixer (CTO's account) builds menus in `src/bench` (`play.mjs`, `play.css`, `ui/strips.mjs`); merge main often and keep your bench changes to scenes. A cause that needs a world engine you don't own (for example people moving between states, or a law's effect) goes to Laws and effects through the coordinator on #7365; you build the scene, they build the cause. Legislation owns how bills move; you own the scenes around them.
+
+Keep going until 1 to 7 hold on main, then take the next gap you find in lives. Report what you proved and what you left open.

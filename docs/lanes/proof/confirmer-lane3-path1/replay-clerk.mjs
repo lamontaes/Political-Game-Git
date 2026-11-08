@@ -96,7 +96,6 @@ try {
   await page.locator("#cr-day").selectOption({ index: 9 });
   await page.waitForFunction(() => document.getElementById("cr-year").options.length > 1);
   await page.locator("#cr-year").selectOption("1985");
-  await page.locator("#cr-character-next").click();
   await page.locator("#cr-states .item").first().waitFor();
   await page.locator("#cr-state-search").fill(stateName);
   await page.locator("#cr-states .item", { hasText: stateName }).first().click();
