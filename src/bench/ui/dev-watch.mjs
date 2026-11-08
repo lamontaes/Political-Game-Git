@@ -34,8 +34,9 @@ const evidenceIds = (e) =>
 
 /** The sections. `labels` is controls.devWatch; `playerId` the player, for the golden path. */
 export async function devWatchSections({ labels, playerId }) {
-  const [view, progress] = await Promise.all([
+  const [view, loans, progress] = await Promise.all([
     get("/api/dev/watch"),
+    get("/api/dev/loans"),
     get(
       `/api/progress${playerId ? `?id=${encodeURIComponent(playerId)}` : ""}`,
     ),
@@ -127,6 +128,35 @@ export async function devWatchSections({ labels, playerId }) {
       ),
     ),
   );
+  const lenders = loans.length
+    ? stripSection(
+        11,
+        labels.loans,
+        el(
+          "div",
+          { className: "scroll dev-loans" },
+          table(
+            [
+              { name: labels.record, value: (r) => idLink(r.id, open) },
+              { name: labels.asked, value: (r) => moneyWords(r.askedMinor) },
+              { name: labels.lent, value: (r) => moneyWords(r.principalMinor) },
+              {
+                name: labels.factor,
+                value: (r) =>
+                  r.webFactor === null ? "" : Number(r.webFactor).toFixed(3),
+              },
+              { name: labels.links, value: (r) => r.webLinks.join(", ") },
+              {
+                name: labels.web,
+                value: (r) =>
+                  r.webRecordId ? idLink(r.webRecordId, open) : "",
+              },
+            ],
+            loans,
+          ),
+        ),
+      )
+    : null;
   const path = stripSection(
     10,
     labels.path,
@@ -166,5 +196,12 @@ export async function devWatchSections({ labels, playerId }) {
       ),
     ),
   );
-  return el("div", { className: "dev-only dev-watch" }, watch, path, trace);
+  return el(
+    "div",
+    { className: "dev-only dev-watch" },
+    watch,
+    ...(lenders ? [lenders] : []),
+    path,
+    trace,
+  );
 }
