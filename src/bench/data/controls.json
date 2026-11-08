@@ -468,7 +468,6 @@
     "seats": "Seats",
     "members": "Members",
     "whoRuns": "Who runs {name}",
-    "seats": "Seats",
     "seat": "seat",
     "yourMembers": "Your members",
     "leaders": "Leaders",
@@ -583,7 +582,6 @@
     "partyCount": "{n} {party}",
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
-    "members": "Members",
     "officers": "Officers",
     "page": "{page} of {pages}",
     "previousPage": "Previous page",
@@ -698,7 +696,8 @@
   },
   "guide": {
     "search": "Search",
-    "none": "No term matches that."
+    "none": "No term matches that.",
+    "resetLearned": "Underline learned terms again"
   },
   "patchNotes": {
     "release": "Release",

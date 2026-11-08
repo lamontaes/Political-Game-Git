@@ -30,18 +30,31 @@ try {
     const line = document.createElement("p");
     line.id = "term-check";
     line.textContent =
-      "The governor may use a veto after presentment, and a veto override needs more votes.";
+      "The governor may use a veto after presentment, a veto override needs more votes, and the aldermen met.";
     document.getElementById("front").append(line);
   });
   await page.locator("#term-check .term").first().waitFor();
   const marked = await page.locator("#term-check .term").allInnerTexts();
   console.log(`underlined: ${marked.join(" | ")}`);
-  assert.ok(marked.length >= 2, "civic terms in a sentence are underlined");
+  assert.ok(marked.length >= 4, "civic terms in a sentence are underlined");
+  assert.ok(
+    marked.some((text) => /^governor$/i.test(text)),
+    "an office name is a term",
+  );
+  assert.ok(
+    marked.some((text) => /^aldermen$/i.test(text)),
+    "a plural finds its term",
+  );
   assert.ok(
     marked.some((text) => /veto override/i.test(text)),
     "the longest term wins: Veto override, not Veto",
   );
+  // The keyboard reaches a term too: focus opens the card, Escape closes it.
   const first = page.locator("#term-check .term").first();
+  await first.focus();
+  await page.locator("#tip:not([hidden])").waitFor();
+  await page.keyboard.press("Escape");
+  await page.locator("#tip").waitFor({ state: "hidden" });
   await first.hover();
   await page.locator("#tip:not([hidden])").waitFor();
   const tip = await page.locator("#tip").innerText();

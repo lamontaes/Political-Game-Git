@@ -384,6 +384,7 @@ api("/api/guide?q=").then((rows) => {
     hooks: {
       onHover: (node, key) => showTip(node, key),
       onLeave: hideTipSoon,
+      onClose: () => show("tip", false),
       onOpen: (text) => {
         show("tip", false);
         guideQuery = text;
@@ -438,11 +439,28 @@ $("tip-learned").addEventListener("click", () => {
   } catch {
     // Without storage the underline returns next session.
   }
-  for (const node of document.querySelectorAll(".term"))
-    if (node.textContent.trim().toLowerCase() === tipTerm.key)
+  // Learned everywhere: every underline of the term, under any plural, goes at once.
+  for (const node of document.querySelectorAll(
+    `[data-term-key="${tipTerm.key}"], .term`,
+  ))
+    if (
+      node.dataset.termKey === tipTerm.key ||
+      node.textContent.trim().toLowerCase() === tipTerm.key
+    )
       node.classList.remove("term");
   show("tip", false);
 });
+/** The Guide's reset: every term the player marked learned is underlined again. */
+function resetLearned() {
+  learned.clear();
+  try {
+    localStorage.removeItem(LEARNED_KEY);
+  } catch {
+    // Without storage there is nothing kept to clear.
+  }
+  for (const node of document.querySelectorAll("[data-term-key]"))
+    node.classList.add("term");
+}
 /**
  * A label shown on screen, underlined when the whole label is a Guide term
  * (never a search through prose): hover shows its definition, and clicking
@@ -3240,7 +3258,14 @@ const sheets = {
     drawArticle();
     return [
       splitScreen({
-        controls: [search],
+        controls: [
+          search,
+          makeButton({
+            className: "action small",
+            textContent: controls.guide.resetLearned,
+            onclick: resetLearned,
+          }),
+        ],
         main: [cards],
         side: [{ title: null, nodes: [article] }],
         className: "guide-screen",
