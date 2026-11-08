@@ -32,30 +32,31 @@ describe("a grade reaches the pieces that share its pattern, voice and register"
     expect(JSON.parse(readFileSync(REACH_FILE, "utf8"))).toEqual(built);
   });
 
-  it("scene talk has a register per kind of scene: a floor line, a hallway word, a press answer and a town-hall reply never share a group", () => {
-    const kinds = new Map<string, Set<string>>();
+  it("scene talk has one register: a floor line, a hallway word, a press answer and a town-hall reply of the same move and bearing share a group", () => {
+    const sceneClasses = CALIBRATION.sceneClasses!;
+    const purposeOf = new Map<string, string>();
+    for (const part of JSON.parse(
+      readFileSync("data/english/parts/scene-talk.json", "utf8"),
+    ).parts as { key: string; uses: { purpose?: string }[] }[]) {
+      const purpose = part.uses.find(
+        (use) => use.purpose && use.purpose !== "*",
+      )?.purpose;
+      if (purpose) purposeOf.set(part.key, purpose);
+    }
+    const kindsByGroup = new Map<string, Set<string>>();
     for (const [key, piece] of pieces) {
       if (piece.bank !== "scene-talk") continue;
-      const kind =
-        classes[`scene-talk:${piece.purpose}`] ?? classes["scene-talk"]!;
       const group = groupKey(piece, classes);
-      expect(group.endsWith(`|${kind}`), key).toBe(true);
-      kinds.set(kind, (kinds.get(kind) ?? new Set()).add(group));
+      expect(group.endsWith(`|${classes["scene-talk"]}`), key).toBe(true);
+      const purpose = purposeOf.get(key);
+      const kind = (purpose && sceneClasses[purpose]) || "private";
+      kindsByGroup.set(group, (kindsByGroup.get(group) ?? new Set()).add(kind));
     }
-    expect([...kinds.keys()].sort()).toEqual(
-      ["election", "floor", "hallway", "private", "press", "town-hall"].sort(),
+    // A group holds lines of several kinds of scene, so a grade on one reaches the others.
+    const widest = Math.max(
+      ...[...kindsByGroup.values()].map((set) => set.size),
     );
-    // The same move and bearing is a group of its own in each kind of scene.
-    const moves = new Set<string>();
-    for (const groups of kinds.values())
-      for (const group of groups) {
-        const [move, bearing] = group.split("|");
-        const inKind = [...kinds.values()].filter((set) =>
-          [...set].some((g) => g.startsWith(`${move}|${bearing}|`)),
-        ).length;
-        if (inKind > 1) moves.add(`${move}|${bearing}`);
-      }
-    expect(moves.size).toBeGreaterThan(0);
+    expect(widest).toBeGreaterThanOrEqual(4);
   });
 
   // Across banks: a grade said in one bank moves the same pattern in another

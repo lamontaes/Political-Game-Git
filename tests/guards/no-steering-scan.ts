@@ -69,9 +69,18 @@ export const SHAPES: readonly { name: string; pattern: RegExp }[] = [
   },
 ];
 
+/**
+ * A line that is a person's own perception, not a measure moved by the step,
+ * carries a `// perception: <reason>` comment on the line above it (owner,
+ * Nov 8, 10:20 a.m.: candidates run because they think they have a chance). The
+ * marked line is left out of the count; the comment must say why.
+ */
+const PERCEPTION = /^[ \t]*\/\/ perception: \S.*\n[^\n]*\n/gm;
+
 /** Steering shapes in one file's source, comments removed. */
 export function steeringCount(source: string): number {
   const code = source
+    .replace(PERCEPTION, "")
     .replace(/\/\*[\s\S]*?\*\//g, " ")
     .replace(/(^|[^:"'`\\])\/\/[^\n]*/g, "$1");
   return SHAPES.reduce(
