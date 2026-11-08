@@ -235,6 +235,18 @@ export interface HouseholdInput {
   placeId: PlaceId;
   memberIds: readonly PersonId[];
   source: Source;
+  /** The day the household moved into its place (years in place, from the opening's mover rates). */
+  since?: IsoDate;
+  /**
+   * Workers of a sampled household outside the town: the county employer
+   * (a sector group of the county's recorded employment) each works at.
+   * Registered stopgap SG-LIVES-county-sample-employers.
+   */
+  employment?: readonly {
+    personId: PersonId;
+    employerId: string;
+    sector: string;
+  }[];
   /**
    * A group-quarters room (a dormitory double, a cell, a barracks room, a
    * nursing-home room): its type. Absent for a household.
@@ -632,6 +644,19 @@ export interface WorkRuntime {
   payChanges: Map<
     string,
     readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
+  >;
+  /** A named worker's gross pay by quarter, the current one and the last five completed, oldest first (pay-by-quarter.ts). */
+  payByQuarter: Map<
+    PersonId,
+    readonly { readonly quarter: string; readonly grossMinor: number }[]
+  >;
+  /** A counted group's pay for one worker of it, by quarter, per group and employer: "<group id>|<employer id>". */
+  countedPayByQuarter: Map<
+    string,
+    readonly {
+      readonly quarter: string;
+      readonly perWorkerGrossMinor: number;
+    }[]
   >;
   /** Dated changes to a job's hours by job (rehourJob), newest last. */
   hourChanges: Map<
