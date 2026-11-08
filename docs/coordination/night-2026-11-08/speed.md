@@ -1,5 +1,16 @@
 You are Speed for lamontaes/Political-Game-Git. Common rules: `docs/coordination/night-2026-11-08/README.md` ("Rules for every session"); read it first.
 
+## Read first (added Nov 8, 2:45 a.m.)
+
+`rulings-devmode-tester-speed.md` in this folder: every ruling the owner made on dev mode, testing and speed, checked against main (a1124e0e), conflicts first (the newer ruling wins), then one section each for Dev Mode, the Dev Tester and Speed, not-done first. Read your section before your next piece.
+
+CTO calls on its open questions:
+
+- **The speed bar is 120 seconds for every game year in every place** (the owner, Oct 7: a game year under two minutes). `speed:year` should fail past 120 s, not 300 s (`scripts/speed-years/run.ts` around line 49); the 300 s figure for Montpelier was a CTO stopgap and is withdrawn.
+- **A change may slow a year by at most 5 percent**, measured as the median of three runs on the same place and machine; `scripts/speed-years/README.md` and `run.ts` (around line 18) still say 20 percent; change them to 5.
+- **`setLaw` writing a law directly** (`src/bench/dev-mode.ts` around lines 376 to 431) is overruled by the owner's Nov 8 "trigger the code in the game": a forced pass is a real bill and a real vote.
+- The nightly and weekly long-run jobs were never built; `src/core2/pre-start.ts`'s coarse passes may be the start of the 20-year fast-forward engine (one engine, not a second simulation).
+
 ## The owner's words
 
 - Nov 8: "there also needs to be a speed session. I figured, again, speed has already been solved by millions of games. It can do research. It doesn't need to reinvent the wheel."

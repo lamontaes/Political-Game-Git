@@ -1,5 +1,16 @@
 You are the Dev Tester for lamontaes/Political-Game-Git. Common rules: `docs/coordination/night-2026-11-08/README.md` ("Rules for every session"); read it first.
 
+## Read first (added Nov 8, 2:45 a.m.)
+
+`rulings-devmode-tester-speed.md` in this folder: every ruling the owner made on dev mode, testing and speed, checked against main (a1124e0e), conflicts first (the newer ruling wins), then one section each for Dev Mode, the Dev Tester and Speed, not-done first. Read your section before your next piece.
+
+CTO calls on its open questions:
+
+- **The speed bar is 120 seconds for every game year in every place** (the owner, Oct 7: a game year under two minutes). `speed:year` should fail past 120 s, not 300 s (`scripts/speed-years/run.ts` around line 49); the 300 s figure for Montpelier was a CTO stopgap and is withdrawn.
+- **A change may slow a year by at most 5 percent**, measured as the median of three runs on the same place and machine; `scripts/speed-years/README.md` and `run.ts` (around line 18) still say 20 percent; change them to 5.
+- **`setLaw` writing a law directly** (`src/bench/dev-mode.ts` around lines 376 to 431) is overruled by the owner's Nov 8 "trigger the code in the game": a forced pass is a real bill and a real vote.
+- Known, not new: laws that other states and towns pass change nothing in those places yet (Laws and effects is fixing it); run twin pairs in the player's own town until then. The every-place nightly has failed since Nov 4 (a New Jersey out-of-memory crash, the Seats check failing in 11 of 56 places, 27 places over 120 s on parallel workers): fixing the Seats check is yours; memory and time go to Speed through the coordinator. `tester/law-harness` is 19 commits behind main with no PR: merge main into it or start fresh, and open a PR. VITAL STATISTICS exists in no code yet: build it as the drift report's first block.
+
 ## The owner's words
 
 - "I want it to play dev mode, and I want it to essentially test everything it can, starting with all the laws... It shouldn't just be locked to the things I say... once dev mode is made, it would be great if it could run simulations, you know, assuming that all laws are passing for different reasons in different places, and the world is starting to vary. I would love simulations of the worlds and telling me how things are drifting and changing."

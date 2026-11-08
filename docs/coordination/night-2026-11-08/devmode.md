@@ -31,6 +31,17 @@ Rules: branches start with `devmode/`. PR line 1 `Pool item: <id or none>`; line
 
 Stop when 1 to 9 hold on main. Report what you proved, with places and seeds, and what you left open.
 
+## Read first (added Nov 8, 2:45 a.m.)
+
+`rulings-devmode-tester-speed.md` in this folder: every ruling the owner made on dev mode, testing and speed, checked against main (a1124e0e), conflicts first (the newer ruling wins), then one section each for Dev Mode, the Dev Tester and Speed, not-done first. Read your section before your next piece.
+
+CTO calls on its open questions:
+
+- **The speed bar is 120 seconds for every game year in every place** (the owner, Oct 7: a game year under two minutes). `speed:year` should fail past 120 s, not 300 s (`scripts/speed-years/run.ts` around line 49); the 300 s figure for Montpelier was a CTO stopgap and is withdrawn.
+- **A change may slow a year by at most 5 percent**, measured as the median of three runs on the same place and machine; `scripts/speed-years/README.md` and `run.ts` (around line 18) still say 20 percent; change them to 5.
+- **`setLaw` writing a law directly** (`src/bench/dev-mode.ts` around lines 376 to 431) is overruled by the owner's Nov 8 "trigger the code in the game": a forced pass is a real bill and a real vote.
+- At 07:05 UTC no `devmode/` branch existed yet and every control was still on the separate /dev page; the faint "Customize the world" ring is still on every screen (it goes when dev mode is a setting in Options). Play as works only for officeholders, and there is no watch-only start.
+
 ## Added Nov 8, 2:20 a.m.
 
 - **No subtexts** (owner, verbatim, on the dev mode person mock): "remove all those subtexts. I'm seeing make her decide. Only what the game offers her today. Remove all of those submenus. Kept. That's why she holds the tax at 35 mils... Fades about October too. Those, I already said I don't like those." No caption or explaining line under a heading, control, memory or item. The memory view lists what a person remembers, nothing under each.
