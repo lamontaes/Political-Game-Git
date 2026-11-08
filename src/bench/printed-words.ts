@@ -531,8 +531,18 @@ class Reader {
     if (!officeId) return null;
     const office = this.table(OFFICES_MODULE_ID, "offices")?.get(
       officeId,
-    ) as unknown as { bodyName?: string } | undefined;
-    return office?.bodyName ?? null;
+    ) as unknown as { bodyName?: string; jurisdiction?: string } | undefined;
+    const name = office?.bodyName ?? null;
+    if (!name) return null;
+    // A state's chamber is named with its state ("Connecticut House of Representatives"): the
+    // record's body name alone ("House of Representatives") does not say which one voted.
+    const usps = /^US-([A-Z]{2})$/.exec(office?.jurisdiction ?? "")?.[1];
+    const state = usps ? coreStateName(usps) : null;
+    return state &&
+      !name.includes(state) &&
+      !/^(Legislature|United States)\b/.test(name)
+      ? `${state} ${name}`
+      : name;
   }
   /**
    * The town's own name ("Stockport"), or a state's ("Ohio") by its key. A
@@ -1990,10 +2000,10 @@ function businessExtras(
   const industry = read.industry(id);
   const extras: Facts = industry ? { industry: read.fact(industry, id) } : {};
   if (kind === "staff-cut") {
-    // The staff the employer plans for after the cut, which its staffing
-    // review kept on the record (the staff it has changes day to day).
-    const planned = Math.round(num(f.targetStaff) ?? 0);
-    if (planned > 1) extras.staff = read.fact(count(planned), id);
+    // The staff the business has after the cut, which its jobs engine kept on
+    // the record with the event (the staff it has changes day to day).
+    const staff = Math.round(num(f.staffAfter) ?? 0);
+    if (staff > 1) extras.staff = read.fact(count(staff), id);
   }
   if (kind === "owner-changed") {
     const handover = read.row<{

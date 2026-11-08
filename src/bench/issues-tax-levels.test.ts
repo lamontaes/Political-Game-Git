@@ -1,8 +1,8 @@
 /**
  * Politics → Issues labels each tax by who sets it
  * (pool item play-stop-06-texas-shows-local-income-tax). A card's figure is
- * the law in force across every level (an income tax's federal and state top
- * rates added), so its name says no level; each level's row names the
+ * the law in force at each level (an income tax lists the federal and the state
+ * rate apart, never their sum), so its name says no level; each level's row names the
  * government whose seats set it, and a stand-in from another series (a
  * state's average local sales tax) says what it is. In a Texas town no state
  * or local income tax is shown above zero. Played in the world the player
@@ -12,8 +12,8 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { governmentView } from "./government";
 import { buildBenchWorld } from "./world";
+import { governmentView } from "./government";
 import { policyNames } from "./words";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -60,6 +60,8 @@ it(`each tax on Issues names who sets it, seed ${seed}`, () => {
     }
   }
   const income = view.law.find((l) => l.series === "income-tax")!;
+  // The screen lists each level's own rate; the sum is never shown as one.
+  expect(income.additive, where).toBe(true);
   process.stdout.write(
     `issues tax levels: ${where}: ${names["income-tax"]} ${income.value}; ${income.levels
       .filter((l) => l.row)

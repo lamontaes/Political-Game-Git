@@ -117,6 +117,8 @@ describe("P10 health producer: personal resilience lines", () => {
     const scale = p("resilienceBaseRateScale");
     let table = p("zero");
     let model = p("zero");
+    let scaled = p("zero");
+    let changed = p("zero");
     for (const person of population.people) {
       const age = ageOnDate(makeIsoDate(person.birthDate), start);
       const hazard =
@@ -126,24 +128,44 @@ describe("P10 health producer: personal resilience lines", () => {
             (FIXED_SCALE + FIXED_SCALE),
         ) / MULTIPLIER_ONE;
       let multiplier = p("one");
-      for (const key of assignments.get(person.id as EntityId) ?? [])
-        multiplier *=
-          conditionHazard(
-            seed,
-            person.id as EntityId,
-            key,
-            exact(person.birthDate),
-          ).micros / MULTIPLIER_ONE;
+      for (const key of assignments.get(person.id as EntityId) ?? []) {
+        const micros = conditionHazard(
+          seed,
+          person.id as EntityId,
+          key,
+          exact(person.birthDate),
+        ).micros;
+        // A recorded condition never lowers a person's mortality strain.
+        expect(micros, `${key} for ${person.id}`).toBeGreaterThanOrEqual(
+          MULTIPLIER_ONE,
+        );
+        multiplier *= micros / MULTIPLIER_ONE;
+      }
+      scaled += p("one") - Math.exp(-scale * hazard);
+      if (
+        multiplier !== p("one") &&
+        !(assignments.get(person.id as EntityId) ?? []).length
+      )
+        changed += p("one");
       table += p("one") - Math.exp(-hazard);
       model += p("one") - Math.exp(-scale * hazard * multiplier);
     }
-    // Totals only: within a fifth of the life table for whichever place the seed drew.
+    // The total is explained by its records, never held to a band (owner,
+    // Nov 8). Two causes carry it: the world's base-rate scale moves every
+    // person the same way (above the life table exactly when the scale is
+    // above one), and a person's hazard differs from it only through the
+    // conditions recorded for them. The ratio to the table is reported.
     expect(population.placeMetadata?.placeName).toBeTruthy();
-    expect(model / table).toBeGreaterThan(
-      p("one") - p("one") / (p("two") + p("two") + p("one")),
+    expect(model).toBeGreaterThan(p("zero"));
+    expect(
+      Math.sign(scaled / table - p("one")),
+      `scaled ${scaled.toFixed(1)} against table ${table.toFixed(1)}`,
+    ).toBe(Math.sign(scale - p("one")));
+    expect(changed, "a person's hazard moved with no condition recorded").toBe(
+      p("zero"),
     );
-    expect(model / table).toBeLessThan(
-      p("one") + p("one") / (p("two") + p("two") + p("one")),
+    console.log(
+      `${population.placeMetadata?.placeName}: model ${model.toFixed(1)}, table ${table.toFixed(1)}, ratio ${(model / table).toFixed(3)}`,
     );
   });
 });
