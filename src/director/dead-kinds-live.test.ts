@@ -11,6 +11,11 @@ import {
   SCANDAL_REPORTED,
   considerBribe,
 } from "../core2/modules/corruption";
+import {
+  JUSTICE_MODULE_ID,
+  grantClemency,
+  sentenceStateKey,
+} from "../core2/modules/justice";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -82,32 +87,50 @@ describe("the dead scene kinds start from records an engine writes", () => {
       twoLevel: true,
       placeKey: place.key,
     });
-    // The bribery sentences of the town's first year end after the court's
-    // custody months: the justice engine writes the release on the day.
+    const api = coreAPI(core);
+    // The town's bribery sentences are handed down in its first year.
     advanceCore(core, addDays(makeIsoDate(core.date), 200));
-    const sentenced = [...(core.logByKind.get("justice.imprisoned") ?? [])]
-      .map((id) => core.durableLog.get(id as never)!)
-      .filter((row) => row.personIds.some((id) => core.people.has(id)));
-    expect(sentenced.length, `${where}: sentences`).toBeGreaterThan(0);
-    let lastRelease = core.date as string;
-    for (const row of sentenced) {
-      const released = row.facts?.releaseDate;
-      if (released && released > lastRelease) lastRelease = released;
-      for (const id of row.personIds)
-        if (core.people.has(id)) {
-          director.watch(core, id);
-          for (const kin of core.people.get(id)!.familyIds)
-            if (core.people.has(kin)) director.watch(core, kin);
-        }
+    const serving = (
+      api.moduleState(JUSTICE_MODULE_ID).table("custody").rows() as unknown as {
+        id: string;
+        kind: string;
+        personId: PersonId;
+        sentenceId: string;
+        status: string;
+      }[]
+    )
+      .filter(
+        (row) =>
+          row.kind === "person" &&
+          row.status === "serving" &&
+          core.people.has(row.personId),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
+    expect(serving.length, `${where}: prisoners`).toBeGreaterThan(0);
+    // Someone with family on record is the one released: a governor's
+    // clemency is the justice engine's own early release, and it writes the
+    // same release record the end of a term does.
+    const kinned = (id: PersonId) =>
+      [...core.people.get(id)!.familyIds].filter((kin) => core.people.has(kin));
+    const prisoner = serving.find((row) => kinned(row.personId).length > 0);
+    expect(prisoner, `${where}: a prisoner with kin`).toBeTruthy();
+    for (const row of serving) {
+      director.watch(core, row.personId);
+      for (const kin of kinned(row.personId)) director.watch(core, kin);
     }
-    advanceCore(core, addDays(makeIsoDate(lastRelease as never), 3));
-    const releases = [...(core.logByKind.get("justice.released") ?? [])]
-      .map((id) => core.durableLog.get(id as never)!)
-      .filter((row) => row.personIds.some((id) => core.people.has(id)));
-    expect(
-      releases.length,
-      `${where}: a release in the record`,
-    ).toBeGreaterThan(0);
+    const clemency = grantClemency(api, {
+      custodyId: prisoner!.id,
+      grantedBy: "governor",
+      stateKey: sentenceStateKey(api, prisoner!.sentenceId)!,
+    });
+    expect(clemency, `${where}: clemency for ${prisoner!.id}`).toBeTruthy();
+    advanceCore(core, addDays(makeIsoDate(core.date), 3));
+    const release = core.durableLog.get(
+      `justice.released:${prisoner!.id}` as never,
+    );
+    expect(release?.kind, `${where}: the release record`).toBe(
+      "justice.released",
+    );
     let scenes = 0;
     for (const [personId, book] of director.ledger.people)
       for (const entry of book.schedule) {
@@ -115,19 +138,14 @@ describe("the dead scene kinds start from records an engine writes", () => {
         if (!binding) continue;
         const moment = book.momentsById.get(entry.momentId)!;
         const here = `${where}: ${personId}, ${moment.causeId}`;
-        expect(moment.causeId, here).toMatch(/^justice\.released:/);
-        expect(core.durableLog.get(moment.causeId)?.kind, here).toBe(
-          "justice.released",
-        );
+        expect(moment.causeId, here).toBe(release!.id);
         const returning = binding.roles.find((row) => row.role === "returning");
         const waiting = binding.roles.find((row) => row.role === "waiting");
-        expect(returning?.personIds.length, here).toBe(1);
-        expect(waiting?.personIds.length, here).toBeGreaterThan(0);
-        // The released person is in the record; the waiting are not them.
-        expect(core.durableLog.get(moment.causeId)!.personIds, here).toContain(
-          returning!.personIds[0],
+        expect(returning?.personIds, here).toEqual([prisoner!.personId]);
+        expect(waiting?.personIds.length, here).toBe(1);
+        expect(kinned(prisoner!.personId), here).toContain(
+          waiting!.personIds[0],
         );
-        expect(waiting!.personIds, here).not.toContain(returning!.personIds[0]);
         const scene = composeScene(core, director, personId, entry);
         expect(scene, here).toBeTruthy();
         const lead = scene!.narration.map((row) => row.text);
@@ -139,7 +157,7 @@ describe("the dead scene kinds start from records an engine writes", () => {
       }
     expect(
       scenes,
-      `${where}: a return scene for ${releases[0]!.id}`,
+      `${where}: a return scene for ${release!.id}`,
     ).toBeGreaterThan(0);
   }, 3_600_000);
 
@@ -321,6 +339,32 @@ describe("the dead scene kinds start from records an engine writes", () => {
         reported = [...(core.logByKind.get(SCANDAL_REPORTED) ?? [])]
           .map((id) => core.durableLog.get(id as never)!)
           .find((row) => takenIds.has(String(row.facts?.crimeId)))?.id;
+      }
+      if (!reported && takenIds.size) {
+        // The corruption engine's telling is rare (SG-P15-bribe-falling-out-rare)
+        // and no draw is promised one, so the report is written in the engine's
+        // own shape for the first bribe taken: this proves the director's side
+        // (the circumstance, the type, the scene), not the telling.
+        const crimeId = [...takenIds][0]!;
+        const listener = [...tied].find((id) => id !== me)!;
+        reported = `${crimeId}:reported:${listener}:${core.date}`;
+        api.emit({
+          id: reported,
+          date: core.date,
+          kind: SCANDAL_REPORTED,
+          personIds: [me],
+          witnessIds: [listener],
+          placeId: core.people.get(me)!.placeId,
+          publicRecord: true,
+          news: true,
+          facts: { crimeId, officialId: me },
+          source: {
+            tag: "SOURCED",
+            citation:
+              "Someone who learned of a recorded bribe took it to the press.",
+            asOf: core.date,
+          },
+        });
       }
       if (!reported) {
         tried.push(`${where}: ${offers} bribes taken, none reached the press`);

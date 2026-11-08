@@ -4569,73 +4569,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.other-is-back-and-the-house-is-full-again",
+      "key": "scene-words.lead-return-other.other-is-here-and-for-a-moment-nobody-knows-what-to-say",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "{other} is back, and the house is full again.",
-      "uses": [
-        {
-          "move": "lead-return-other",
-          "subject": "lead",
-          "role": "return",
-          "choice": "other"
-        }
-      ],
-      "bearing": "glad",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-return-other.after-all-the-waiting-other-is-back",
-      "move": "lead-return-other",
-      "kind": "spoken",
-      "text": "After all the waiting, {other} is back.",
-      "uses": [
-        {
-          "move": "lead-return-other",
-          "subject": "lead",
-          "role": "return",
-          "choice": "other"
-        }
-      ],
-      "bearing": "relieved",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-return-other.other-stands-in-the-doorway-back-at-last",
-      "move": "lead-return-other",
-      "kind": "spoken",
-      "text": "{other} stands in the doorway, back at last.",
-      "uses": [
-        {
-          "move": "lead-return-other",
-          "subject": "lead",
-          "role": "return",
-          "choice": "other"
-        }
-      ],
-      "bearing": "relieved",
-      "origin": "authored",
-      "author": "Story (Claude Code), civic-prose",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "narrate"
-      }
-    },
-    {
-      "key": "scene-words.lead-return-other.other-has-come-back-and-nobody-knows-where-to-start",
-      "move": "lead-return-other",
-      "kind": "spoken",
-      "text": "{other} has come back, and nobody knows where to start.",
+      "text": "{other} is here, and for a moment nobody knows what to say.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4653,10 +4590,73 @@
       }
     },
     {
-      "key": "scene-words.lead-return-alone.the-one-you-waited-for-is-back",
+      "key": "scene-words.lead-return-other.nobody-has-slept-well-and-other-has-been-up-since-before-light",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "Nobody has slept well, and {other} has been up since before light.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-lets-out-a-breath-that-sounds-like-weeks",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} lets out a breath that sounds like weeks.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "relieved",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-other.other-says-the-name-first-and-the-room-goes-quiet-to-hear-it",
+      "move": "lead-return-other",
+      "kind": "spoken",
+      "text": "{other} says the name first, and the room goes quiet to hear it.",
+      "uses": [
+        {
+          "move": "lead-return-other",
+          "subject": "lead",
+          "role": "return",
+          "choice": "other"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.lead-return-alone.the-door-opens-and-the-waiting-is-over",
       "move": "lead-return-alone",
       "kind": "spoken",
-      "text": "The one you waited for is back.",
+      "text": "The door opens, and the waiting is over.",
       "uses": [
         {
           "move": "lead-return-alone",
@@ -4674,10 +4674,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-alone.someone-who-has-been-gone-a-long-while-is-back",
+      "key": "scene-words.lead-return-alone.it-is-quiet-in-the-house-and-then-it-is-not",
       "move": "lead-return-alone",
       "kind": "spoken",
-      "text": "Someone who has been gone a long while is back.",
+      "text": "It is quiet in the house, and then it is not.",
       "uses": [
         {
           "move": "lead-return-alone",
