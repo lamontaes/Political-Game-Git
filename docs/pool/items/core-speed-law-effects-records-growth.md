@@ -14,9 +14,9 @@ source: added with npm run pool -- add
 
 **What.** Four years of Upper Witter Gulch (key 0879800, seed 5a1c0de7a11ce5e1, speed:year --exclusive) on Nov 8 main: year 1 keeps 404,109 records (most in core2-law-effects-v1.applied), year 4 takes 118.8 to 128 s with 962,745 records and 4.5 GB process. The Nov 4 code kept 178,878 records in year 1 and ran year 4 in 95.2 s with 745,850 records. Find which commit added the rows and what reads them.
 
-**Rules.** Fold or stop keeping rows no engine reads after the day they post; the records proof must stay identical in every table but the one dropped; one run, one number.
+**Rules.** Replace, never layer: the rows dropped are deleted, not left beside a new copy. An effect is a read, not a record: a row no other engine reads at the moment it decides or pays is dropped once it posts. One run, one number: the records proof must stay identical in every table but the one dropped.
 
-**Done when.** Year 1 record count back near Nov 4's with the proof identical outside the dropped table; year 4 of Upper Witter Gulch and Montpelier measured before and after on the same machine.
+**Done when.** In Upper Witter Gulch (key 0879800, seed 5a1c0de7a11ce5e1) a played world run of speed:year with --exclusive keeps year 1 near Nov 4's 179,000 records with the records proof identical outside the dropped table, naming the table and the commit that added its rows by record id; year 4 of Upper Witter Gulch and Montpelier are measured before and after on the same machine.
 
 **Files.** src/core2/modules/law-effects.ts
 
