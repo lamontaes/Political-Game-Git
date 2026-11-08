@@ -465,18 +465,13 @@
     "townMoves": "{in} moved in, {out} moved out this year"
   },
   "people": {
-    "all": "All",
+    "title": "My people",
+    "household": "Home",
     "family": "Family",
     "friends": "Friends",
     "work": "Work",
-    "politics": "Politics",
-    "household": "Household",
-    "other": "Other connections",
-    "search": "Search people",
-    "list": "List",
-    "web": "Web",
-    "card": "View person",
-    "talk": "Talk"
+    "politics": "Town",
+    "other": "Others"
   },
   "news": {
     "title": "News",

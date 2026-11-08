@@ -57,7 +57,7 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
-import { peopleWeb } from "./ui/people-web.mjs";
+import { peopleScreen } from "./ui/people-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
@@ -1963,23 +1963,22 @@ function closePerson() {
   $("game").classList.remove("person-open");
   personOpener?.focus();
 }
-async function showPerson(person) {
-  const request = ++personRequest;
-  const opener = document.activeElement;
+/**
+ * The approved person card's strip screen for one person, built from their known record
+ * (owner, Nov 7, item 54, "perfect"). Shown in its own panel by showPerson and inside the
+ * People screen beside the roster. Returns null when the person is gone.
+ */
+async function personCardNode(
+  person,
+  stillWanted = () => true,
+  openOther = (other) => showPerson(other),
+) {
   const c = await api(
     `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
   );
   await controlsReady;
-  if (request !== personRequest) return;
-  personOpener = opener;
-  closeSheet();
+  if (!stillWanted()) return null;
   const labels = controls.person;
-  // The approved person card (owner, Nov 7, item 54, "perfect"; the mock's per-hale): the
-  // You build about them. Their name over a bust; who they are, how you see them (only the
-  // leanings you could know, no strength), what is between you, their people and their
-  // public record, each under its header strip. "What people say about her" waits for a
-  // record of what people say (stopgap in the PR body).
-  $("person-name").textContent = c.name;
   const known = c.publicKnowledge;
   const stance = voteWords();
   const pronoun = c.pronouns;
@@ -2028,7 +2027,7 @@ async function showPerson(person) {
     (c.colleagues ?? []).map((k) => ({
       name: k.name,
       relation: k.office,
-      onOpen: () => showPerson({ personId: k.personId }),
+      onOpen: () => openOther({ personId: k.personId }),
     })),
   );
   const firstColumn = [
@@ -2073,9 +2072,10 @@ async function showPerson(person) {
       })
     : null;
   if (memory) secondColumn.push(memory);
-  if (request !== personRequest) return;
-  $("person-facts").replaceChildren(
-    stripScreen({
+  if (!stillWanted()) return null;
+  return {
+    name: c.name,
+    node: stripScreen({
       name: c.name,
       role,
       face: c.face ?? null,
@@ -2083,7 +2083,17 @@ async function showPerson(person) {
         ? [firstColumn, secondColumn]
         : [firstColumn],
     }),
-  );
+  };
+}
+async function showPerson(person) {
+  const request = ++personRequest;
+  const opener = document.activeElement;
+  const card = await personCardNode(person, () => request === personRequest);
+  if (!card) return;
+  personOpener = opener;
+  closeSheet();
+  $("person-name").textContent = card.name;
+  $("person-facts").replaceChildren(card.node);
   show("person", true);
   $("game").classList.add("person-open");
   $("person-close").focus();
@@ -2716,31 +2726,12 @@ const sheets = {
         ],
       });
     }
-    const people = [...records.values()];
-    return peopleWeb({
-      people,
+    return peopleScreen({
+      people: [...records.values()],
       household,
-      self: {
-        name: me.card.name,
-        face: me.card.face,
-        // The saved look, as the card and Who you are read it: not whatever room's figure.
-        figureUrl: portraitUrl(),
-      },
-      inRoom: new Set((me.scene?.people ?? []).map((p) => p.personId)),
       labels,
-      pageWords: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
-      onCard: (person) => {
-        closeSheet();
-        showPerson(person);
-      },
-      onTalk: (person) => {
-        closeSheet();
-        talkTo(person.personId);
-      },
+      card: (person, stillWanted, openOther) =>
+        personCardNode(person, stillWanted, openOther),
     });
   },
   /**
