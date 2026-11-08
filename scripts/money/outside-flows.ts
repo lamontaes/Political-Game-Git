@@ -34,7 +34,7 @@ api.accounts = () => {
     const from = own(t.from),
       to = own(t.to);
     if (from || to) {
-      const k = `${to ? "into" : "out of"} ${(to ?? from)!.slice(0, 28)} ${String(t.reasonKey).replace(/:.*/, "")}`;
+      const k = `${to ? "into" : "out of"} ${(to ?? from)!.slice(-6)} ${String(t.reasonKey).replace(/:.*/, "")}`;
       flows.set(k, (flows.get(k) ?? 0) + (to ? 1 : -1) * r.paidMinor);
     }
     return r;
