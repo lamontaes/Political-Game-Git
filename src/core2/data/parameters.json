@@ -6922,9 +6922,9 @@
   },
   "disasterFederalShareWhenStatesShare": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "citation": "The share of eligible public assistance costs the federal government pays once Congress passes a law having states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). No published bill or rule sets a lower share.",
-    "estimatedFrom": "An even federal and state split, 50 percent: the lowest share the cost-shifting proposals name in words (states bear half) and a sliding step down from the 75 percent floor. Replace it from the first enacted text.",
+    "tag": "SOURCED",
+    "citation": "The federal share of eligible public assistance costs once the states share more of disaster costs. Today the federal share is not less than 75 percent (Stafford Act, 42 U.S.C. 5172(b)(1) and 5170b(b)). FEMA's head said the cost share would move to 50 percent federal, 50 percent state: \"It's 75/25 right now, but 50/50's coming\" (David Richardson, FEMA staff town hall, May 15, 2025, as reported by Reuters in Insurance Journal, https://www.insurancejournal.com/news/national/2025/05/15/823980.htm). The FEMA Review Council later recommended a 50 percent federal floor. No enacted bill sets it, so the stated plan is the size.",
+    "estimatedFrom": "The administration's stated 50/50 plan; replace it from the first enacted text.",
     "stopgapId": "SG-LAWS-disaster-share-size",
     "spread": {
       "low": 0.25,
