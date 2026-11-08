@@ -1,6 +1,16 @@
 {
   "entries": [
     {
+      "version": "0.88.2",
+      "releasedOn": "2026-11-08",
+      "revision": "20a2ef0988a1c29d995da78cf985f1ef87dc98ec",
+      "changeIds": [
+        "law-levels-income-rate-zero-restoration",
+        "pool-law-effects-growth",
+        "pool-officials-notes"
+      ]
+    },
+    {
       "version": "0.88.1",
       "releasedOn": "2026-11-08",
       "revision": "74626c996a0a0b4f348e3c3752d373cbc157a456",
