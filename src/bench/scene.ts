@@ -624,6 +624,8 @@ interface Looks {
   id: string;
   birthDate: string;
   gender?: string;
+  /** Where the person's family comes from (looks.origin), when recorded. */
+  origin?: string;
   /** The seed of the person's appearance record, when it holds one. */
   seed?: string;
   /** The look chosen in the creator (the player), when there is one. */
@@ -669,6 +671,7 @@ export function looksOf(core: CoreState, id: string): Looks | null {
       id: person.id,
       birthDate: person.birthDate,
       ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+      ...(person.looks?.origin ? { origin: person.looks.origin } : {}),
       ...(person.looks?.appearanceSeed
         ? { seed: person.looks.appearanceSeed }
         : {}),
@@ -897,6 +900,7 @@ function whoOf(core: CoreState, id: string, looks: Looks): Who {
     id,
     birthDate: looks.birthDate,
     ...(looks.gender ? { gender: looks.gender } : {}),
+    ...(looks.origin ? { origin: looks.origin } : {}),
     official: isOfficial(core, id),
     // The world's seed with their appearance record's seed (their id where
     // they have none): the same person looks the same all through one world

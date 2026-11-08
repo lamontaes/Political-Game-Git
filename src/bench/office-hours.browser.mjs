@@ -161,16 +161,6 @@ try {
     // on whichever page of Travel it falls.
     const card = page.locator(".travel-tile[data-filing]").first();
     await page.locator(".travel-tile").first().waitFor();
-    for (
-      let p = 0;
-      p < 10 &&
-      !(await card.isVisible()) &&
-      (await page
-        .locator("#sheet-body .pager-arrow:last-child:not([disabled])")
-        .count());
-      p += 1
-    )
-      await page.locator("#sheet-body .pager-arrow").last().click();
     await card.waitFor();
     await card.click();
     await page.getByTestId("place-go").waitFor();
