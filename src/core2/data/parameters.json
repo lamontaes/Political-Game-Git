@@ -8057,5 +8057,27 @@
       "unit": "hours",
       "citation": "The hours a short call takes; closeness fades by half-life, so the effect is read in the played year's tie levels."
     }
+  },
+  "mentorAgeGapYears": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Years older a coworker must be to take a new hire under their wing (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 7,
+      "high": 15,
+      "unit": "years",
+      "citation": "Checked against how many hires in a played year get a mentor next to the hires the jobs engine records."
+    }
+  },
+  "mentorFirstHours": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Hours together a mentor's first sit-down with a new hire counts as on their coworker tie (SG-LIVES-mentorship-model).",
+    "spread": {
+      "low": 0.5,
+      "high": 8,
+      "unit": "hours",
+      "citation": "A first-week sit-down; closeness fades by half-life so the effect is read in the played year."
+    }
   }
 }

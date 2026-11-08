@@ -94,5 +94,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A trait-decision row for keeping in touch with a relative elsewhere, weighed against the month's typical like the partnering pull.",
     "status": "open"
+  },
+  {
+    "id": "SG-LIVES-mentorship-model",
+    "kind": "partial-model",
+    "file": "src/core2/modules/mentorship.ts",
+    "line": 17,
+    "whatItFakes": "A new hire's mentor is the eldest coworker at least mentorAgeGapYears older; the pair's traits, the work they share and whether the mentor wants to are not weighed. Hires are read from jobs the monthly review has not seen, since the jobs engine writes no hire record.",
+    "why": "No mentorship or hire event exists in the new core; the jobs engine records a hire only as the job itself.",
+    "addedBy": "Lives (night crew, Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "A hire event from the jobs engine, and a trait decision for taking someone on, weighed against the month's typical.",
+    "status": "open"
   }
 ]

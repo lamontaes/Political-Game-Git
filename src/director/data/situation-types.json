@@ -1835,7 +1835,13 @@
           "opener": "adviser"
         },
         {
-          "awaitingProducer": "relationship:mentorship:*:formed",
+          "match": {
+            "label": "feeling:event:work.mentorship-formed",
+            "selfNamed": true,
+            "counterpart": "some"
+          },
+          "causeEngine": "partnerships",
+          "causeRecord": "work.mentorship-formed",
           "bind": {
             "deciding": "subject",
             "adviser": "counterpart"
