@@ -9,6 +9,7 @@ import {
   amendmentsOn,
   billForm,
   billOf,
+  bodyOf,
   castMemberVote,
   executiveLean,
   moveAmendment,
@@ -65,8 +66,18 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     .get(billId) as unknown as BillRow | undefined;
   if (!bill) throw new Error("That bill is not before any body.");
   const offices = api.moduleState(OFFICES).table("offices");
+  // A body's own name (the House of Representatives, a council), else its office's title.
   const title = (id: string) =>
-    (offices.get(id) as { title?: string } | undefined)?.title ?? "";
+    bodyOf(api, id)?.bodyName ??
+    (offices.get(id) as { title?: string } | undefined)?.title ??
+    "";
+  const you =
+    asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId ?? "";
+  // The player's own name leads a roll, so a long roll still shows where they voted.
+  const youFirst = <T extends { memberId: string }>(rows: T[]): T[] => [
+    ...rows.filter((r) => r.memberId === you),
+    ...rows.filter((r) => r.memberId !== you),
+  ];
   const named = (row: { memberId: string; vote: string }): NamedVote => ({
     memberId: row.memberId,
     personId: core.people.has(row.memberId) ? row.memberId : null,
@@ -93,8 +104,10 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
       })
       .filter((entry) => entry.cast.length > 0)
       .map(({ chamber, cast }) => {
-        const yes = cast.filter((row) => row.vote === "yes").map(named);
-        const no = cast.filter((row) => row.vote === "no").map(named);
+        const yes = youFirst(
+          cast.filter((row) => row.vote === "yes").map(named),
+        );
+        const no = youFirst(cast.filter((row) => row.vote === "no").map(named));
         // The result in words from the English engine's bank, by the roll call's own counts.
         const carried = yes.length > no.length;
         const key = carried
