@@ -16,3 +16,4 @@ Newest last. The full voice note is `docs/coordination/voice-notes/2026-11-08-st
 12. **One coordinator, Opus; the sessions Sonnet** (Nov 8). The coordinator starts the sessions and checks them about every hour; the merge desk stays on the CTO's account.
 13. **Keep it moving, within reason** (Nov 8): split a slow session into two or three, start another merge desk or fixer if needed; "I don't want to wake up to 20 sessions, but keep things moving."
 14. **Skills, proactively** (Nov 8): "remember to make and update skills proactively."
+15. **Twenty years in seconds** (Nov 8, about 1:58 a.m.): "And FYI, for the speed session, for a 20-year thing, I'm fine with it simulating everything as long as it makes sense in the end. Like, I would love if 20 years only took, 5 seconds, It took as long as it took for you to do 20 years. Click 20 years." A coarse fast-forward is fine if the result makes sense; detail is built on demand.
