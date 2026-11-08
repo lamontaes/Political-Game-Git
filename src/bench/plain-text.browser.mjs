@@ -129,7 +129,7 @@ try {
   // The filing counter: the first office in Travel that takes filings.
   const counter = async (who) => {
     await sheet("travel");
-    const go = page.locator("#sheet-body .entry", { hasText: /You file here/ });
+    const go = page.locator(".travel-tile[data-filing]");
     await go.first().waitFor();
     let opened = false;
     for (let i = 0; i < (await go.count()) && !opened; i++) {
