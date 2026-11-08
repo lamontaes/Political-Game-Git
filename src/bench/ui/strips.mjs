@@ -132,7 +132,11 @@ export function peopleSentence(people) {
   const line = el("p", { className: "hispeople" });
   people.forEach((person, at) => {
     if (at) line.append(", ");
-    line.append(nameLink(person.name, person.onOpen));
+    line.append(
+      person.onOpen
+        ? nameLink(person.name, person.onOpen)
+        : el("span", { className: "nm", textContent: person.name }),
+    );
     if (person.relation) line.append(` (${person.relation.toLowerCase()})`);
   });
   return line;
@@ -160,10 +164,10 @@ export function dotRows(rows) {
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
  * Courier Prime capitals at the right of the tabs.
  */
-export function stripBoard({ tabs, fiscal, columns }) {
+export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
     "div",
-    { className: "strip-screen strip-board strips ol-g" },
+    { className: `strip-screen strip-board strips ol-g ${className}` },
     el(
       "div",
       { className: "board-top" },

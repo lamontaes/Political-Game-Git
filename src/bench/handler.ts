@@ -78,7 +78,13 @@ import {
   openBenchFilingVisit,
   type BenchFilingVisit,
 } from "./filing";
-import { backdropFile, backdropPath, benchScene } from "./scene";
+import {
+  backdropFile,
+  backdropPath,
+  benchScene,
+  faceOf,
+  scenePlace,
+} from "./scene";
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
 import { TITLE_ROTATE_SECONDS, titleRotation } from "./title";
@@ -106,6 +112,7 @@ import {
   setColor,
 } from "./appearance";
 import { pollingScene } from "./polling";
+import { officeCases, decideCase } from "./office-cases";
 import {
   openConversation,
   say,
@@ -732,6 +739,19 @@ export async function benchRequest(
         url.pathname === "/api/advanced/officeholders"
       ) {
         send(200, officeholders(requireCore()));
+        return;
+      }
+      if (
+        request.method === "GET" &&
+        url.pathname === "/api/advanced/officeholder-face"
+      ) {
+        const core = requireCore();
+        const id = url.searchParams.get("id") ?? "";
+        send(200, {
+          face: core.people.has(id)
+            ? faceOf(core, id, scenePlace(core, id).place)
+            : null,
+        });
         return;
       }
       if (request.method === "GET" && url.pathname === "/api/goto") {
@@ -1670,6 +1690,30 @@ export async function benchRequest(
         return;
       }
       // Election day at the polls: the ballot, marked race by race, or left.
+      if (request.method === "GET" && url.pathname === "/api/office/cases") {
+        send(
+          200,
+          officeCases(
+            requireCore(),
+            url.searchParams.get("id") ?? player?.personId ?? "",
+          ),
+        );
+        return;
+      }
+      if (request.method === "POST" && url.pathname === "/api/office/case") {
+        if (!player?.personId) throw new Error("Choose a resident first.");
+        const decision = url.searchParams.get("decision");
+        send(
+          200,
+          decideCase(
+            requireCore(),
+            player.personId,
+            url.searchParams.get("caseId") ?? "",
+            decision === "help" ? "help" : "decline",
+          ),
+        );
+        return;
+      }
       if (request.method === "GET" && url.pathname === "/api/polling-place") {
         send(
           200,

@@ -30,6 +30,10 @@ export const CORRUPTION_MODULE_ID = "corruption";
 export const SCANDAL_REPORTED = "scandal.reported";
 /** A bribe offered to the player's seat: the cause record of the bribe-offer scene. */
 export const BRIBE_OFFERED = "corruption.bribe-offered";
+/** An official turned a bribe down (the player or anyone else), a record other engines and the director read. */
+export const BRIBE_REFUSED = "corruption.bribe-refused";
+/** The person who offered it pressed the official again after the refusal. */
+export const BRIBE_PRESSED = "corruption.bribe-pressed";
 const offerEventId = (crimeId: string) => `${BRIBE_OFFERED}:${crimeId}`;
 const SOURCE_KIND = "corruption:bribe";
 const PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -285,6 +289,7 @@ export function considerBribe(api: CoreAPI, ask: BribeAsk): CrimeRecord | null {
       { cause: "bribe-taken", sourceId: id },
     );
   }
+  if (!record.taken) afterRefusal(api, record, tie, heardOf.length);
   // Both parties hold the act; no one else does.
   for (const personId of [ask.offererId, ask.officialId])
     api.observe(personId, {
@@ -371,6 +376,108 @@ function takePendingBribe(api: CoreAPI, crimeId: string): void {
     });
 }
 
+/**
+ * A bribe turned down is a record (BRIBE_REFUSED), and the person who offered
+ * it weighs pressing the official again (BRIBE_PRESSED) with the same chooser
+ * and the same temperament that made the offer: what the favor is worth to
+ * them against a year of their living costs, and how little they have to
+ * lose with this official (one minus their tie). No roll decides it. Whoever
+ * reads the second record (the director's scene, the official's journal)
+ * learns of the pressure from it.
+ */
+function afterRefusal(
+  api: CoreAPI,
+  crime: CrimeRecord,
+  tie: number,
+  heardOf: number,
+): void {
+  const offerer = api.state.people.get(crime.offererId);
+  const official = api.state.people.get(crime.officialId);
+  if (!offerer?.alive || !official?.alive) return;
+  const facts = {
+    bribeId: crime.id,
+    favor: favorOf(crime.subjectId),
+    ...(favorOf(crime.subjectId) === "vote" ? { billId: crime.subjectId } : {}),
+  };
+  api.emit({
+    id: `${BRIBE_REFUSED}:${crime.id}`,
+    date: api.state.date,
+    kind: BRIBE_REFUSED,
+    personIds: [crime.offererId],
+    witnessIds: [crime.officialId],
+    placeId: official.placeId,
+    facts,
+    source: {
+      tag: "SOURCED",
+      asOf: api.state.date,
+      citation: `A bribe turned down (${crime.id}).`,
+    },
+  });
+  const values = {
+    ...offerValues(api, offerer, crime.amountMinor, tie, heardOf),
+    leverage:
+      c(api, "corruptionLeanLeverageWeight") * (api.parameter("one") - tie),
+  };
+  const press = decide(
+    api,
+    crime.offererId,
+    "offer",
+    values,
+    `${crime.id}:press`,
+  );
+  if (!press.yes) return;
+  api.emit({
+    id: `${BRIBE_PRESSED}:${crime.id}`,
+    date: api.state.date,
+    kind: BRIBE_PRESSED,
+    personIds: [crime.offererId],
+    witnessIds: [crime.officialId],
+    placeId: official.placeId,
+    facts,
+    source: {
+      tag: "SOURCED",
+      asOf: api.state.date,
+      citation: `The person who offered a bribe pressed the official after the refusal (${crime.id}); their reasons: ${JSON.stringify(press.values)}.`,
+    },
+  });
+}
+
+/**
+ * The player, pressed again after turning a bribe down, said they would
+ * report it (the scene's ending `said-you-would-report`): the press learns of
+ * the offer from the person it was made to, and runs it as the exposure of
+ * the person who made it, through the same scandal record the engine uses for
+ * a taken bribe. Said once for the offer, however the scene is replayed.
+ */
+function reportPressedOffer(
+  api: CoreAPI,
+  facts: Readonly<Record<string, string>>,
+): void {
+  if (facts.ending !== "said-you-would-report") return;
+  const crimeId = (facts.causeId ?? "").slice(`${BRIBE_PRESSED}:`.length);
+  const crime = crimeRecord(api, crimeId);
+  const offerer = crime && api.state.people.get(crime.offererId);
+  if (!crime || !offerer?.alive) return;
+  const reporterId = crime.officialId;
+  api.emit({
+    id: `${crime.id}:offer-reported:${reporterId}`,
+    date: api.state.date,
+    kind: SCANDAL_REPORTED,
+    personIds: [crime.offererId],
+    witnessIds: [reporterId],
+    placeId: offerer.placeId,
+    publicRecord: true,
+    news: true,
+    facts: { crimeId: crime.id, offererId: crime.offererId, attempt: "yes" },
+    source: {
+      tag: "SOURCED",
+      citation:
+        "An official told the press of a bribe they turned down and the person who pressed them after it.",
+      asOf: api.state.date,
+    },
+  });
+}
+
 /** The player turned it down (handed it back, said they would report it): the offer is over. */
 function refusePendingBribe(api: CoreAPI, crimeId: string): void {
   const record = crimeRecord(api, crimeId);
@@ -378,6 +485,12 @@ function refusePendingBribe(api: CoreAPI, crimeId: string): void {
   const refused: CrimeRecord = { ...record };
   delete (refused as { pending?: true }).pending;
   table(api, "crimes").put(refused as unknown as { id: string });
+  afterRefusal(
+    api,
+    refused,
+    closeness(api, refused.offererId, refused.officialId),
+    refused.heardOf?.length ?? api.parameter("zero"),
+  );
   for (const personId of [refused.offererId, refused.officialId])
     api.observe(personId, {
       key: `crime:${refused.id}`,
@@ -489,6 +602,10 @@ export const corruptionModule: CoreModule = {
   eventKinds: ["scene.reply"],
   onEvent(api, event) {
     const facts = event.facts ?? {};
+    if (facts.typeKey === "bribe-pressed" && facts.ending) {
+      reportPressedOffer(api, facts);
+      return;
+    }
     if (facts.typeKey !== "bribe-offer" || !facts.ending) return;
     const crimeId = (facts.causeId ?? "").slice(`${BRIBE_OFFERED}:`.length);
     if (facts.ending === "took-it") takePendingBribe(api, crimeId);

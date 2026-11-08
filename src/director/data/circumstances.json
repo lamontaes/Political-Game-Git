@@ -289,6 +289,35 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "lobby-remembers",
+      "recordKinds": ["office.voted"],
+      "playerNamed": true,
+      "afterDays": 2,
+      "place": "seat",
+      "pool": ["lobbied-against"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "two days after the player voted against the way of a group that lobbied them on the bill, the group's lobbyist, who remembers",
+      "typeKey": "lobby-remembers",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "office-doubt",
+      "recordKinds": ["civic.protest", "civic.strike"],
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "heard-it",
+      "cast": "the day after a crowd formed against the town's term, someone the player lives with, who saw it in the player's face, scored on tie and sociability",
+      "typeKey": "office-doubt",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",

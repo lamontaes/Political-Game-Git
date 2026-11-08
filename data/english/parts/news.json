@@ -12344,6 +12344,72 @@
         "move": "deliver-news",
         "key": "news-received"
       }
+    },
+    {
+      "key": "news.exposed.records-show-name-offered-a-public-official-money-for-a",
+      "move": "exposed",
+      "kind": "written",
+      "text": "Records show {name} offered a public official money for a favor, and the official turned it down.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.an-official-told-the-paper-that-name-offered-a-bribe",
+      "move": "exposed",
+      "kind": "written",
+      "text": "An official told the paper that {name} offered a bribe, records show.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["offered"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.exposed.name-the-office-offered-a-bribe-to-a-public-official",
+      "move": "exposed",
+      "kind": "written",
+      "text": "{name}, the {office}, offered a bribe to a public official, records show.",
+      "uses": [
+        {
+          "move": "exposed",
+          "subject": "news",
+          "role": "exposed",
+          "choice": "lede",
+          "requiresFacts": ["offered", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
     }
   ]
 }

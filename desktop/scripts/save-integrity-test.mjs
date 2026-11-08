@@ -121,7 +121,6 @@ async function newLifeAndKeep(page) {
   await page.getByTestId("start-normal").click();
   await page.getByTestId("creator-stage-character").waitFor();
   await chooseStartAge(page, 31);
-  await page.getByTestId("creator-continue-character").click();
   await page.getByTestId("creator-stage-place").waitFor();
   await page.getByTestId("place-search").fill("Kentu");
   await page
