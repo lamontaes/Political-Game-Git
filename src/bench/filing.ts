@@ -225,6 +225,7 @@ export function openBenchFilingVisit(
           visit,
           clerkRow,
           filedHere(core, playerId, filedWith),
+          minuteOfDay,
         )
       : [],
     backdrop,

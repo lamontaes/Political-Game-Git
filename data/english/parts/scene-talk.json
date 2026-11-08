@@ -29,6 +29,7 @@
     "candidate": "Present when the person in the scene filed for office, from the filing record.",
     "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
     "kid": "The household's new child, by name, from the household record.",
+    "startsOn": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
     "when": "When a filing was made, said as the director says a date, from the filing record.",
     "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
@@ -127930,10 +127931,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.all-right-office-let-s-get-you-started",
+      "key": "scene-talk.state-tell-running.all-right-you-re-running-for-office-let-s-get-you-started",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "All right, {office}. Let's get you started.",
+      "text": "All right, you're running for {office}. Let's get you started.",
       "uses": [
         {
           "subject": "scene",
@@ -155349,6 +155350,15 @@
         "move": "warn",
         "key": "threat"
       }
-    }
+    },
+    {"key": "scene-talk.narrate-narrate.startson-you-head-to-the-posts-office-to-ask-about-running-name", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}, you head to the {post}'s office to ask about running. {name} comes over to the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-walk-in-to-ask-for-the-papers-to-run-and", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}. You walk in to ask for the papers to run, and {name}, the {post}, is already at the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-step-into-the-posts-office-and-ask-for-name", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}, you step into the {post}'s office and ask for {name}.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-head-to-the-posts-office-to-pick-up-the-papers", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}, you head to the {post}'s office to pick up the papers for {office}. {name} pulls them from a drawer.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-head-to-the-posts-office-and-speak-to-name-to", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}. You head to the {post}'s office and speak to {name}, to ask what running for {office} takes.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-take-your-petition-back-to-the-posts-office-name-holds", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}, you take your petition back to the {post}'s office. {name} holds out a hand for it.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-come-back-to-name-at-the-posts-counter-with-your", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}. You come back to {name} at the {post}'s counter with your petition in a folder.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-you-stop-by-the-posts-office-your-name-is-already-on", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}, you stop by the {post}'s office. Your name is already on the ballot, and {name} looks up and nods.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.startson-name-the-post-waves-you-over-though-there-is-nothing-left", "move": "narrate-narrate", "kind": "spoken", "text": "{startsOn}. {name}, the {post}, waves you over, though there is nothing left for you to file.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["startsOn", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}}
   ]
 }
