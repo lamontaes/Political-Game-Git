@@ -961,8 +961,20 @@ function entryRateFeedback(api: CoreAPI, placeId: string): number {
   }
   const town = cache.byPlace.get(placeId);
   if (!town || town.seekers + town.jobs <= 0) return 0;
-  const ownRate =
+  const nowRate =
     (api.parameter("macroHundred") * town.seekers) / (town.seekers + town.jobs);
+  // The town's rate is read smoothed over a few months, so one month's swing
+  // (a whole age band looking at once) does not set the next month's pull.
+  const kept = store(api).table("state").get(`rate:${placeId}`) as
+    { month: string; rate: number } | undefined;
+  const month = c.date.slice(0, "YYYY-MM".length);
+  let ownRate = kept?.rate ?? nowRate;
+  if (!kept || kept.month !== month) {
+    ownRate += (nowRate - ownRate) / api.parameter("jobsEntryRateMonths");
+    store(api)
+      .table("state")
+      .put({ id: `rate:${placeId}`, month, rate: ownRate } as never);
+  }
   const regionRate =
     unemploymentGap(api, placeId) +
     api.parameter("macroNaturalUnemploymentPct");
