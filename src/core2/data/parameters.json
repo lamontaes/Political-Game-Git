@@ -8374,6 +8374,7 @@
   },
   "partyActiveShare": {
     "value": 0.05,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Share of adults who work or volunteer for a party, candidate or campaign. Pew Research Center, November 2020 post-election survey (n=11,818): 5 percent (pewresearch.org/short-reads/2020/12/14/key-findings-about-voter-engagement-in-the-2020-election). ANES 2020 (codebook, unweighted): 3.5 percent did other work for a party or candidate and 5.5 percent go to political meetings, rallies, speeches or dinners. Figures as reported in a search summary of those pages (not the pages themselves); check the weighted estimates before relying on the exact percentages.",
     "estimatedFrom": "One national share for every county; the survey does not publish county shares, and the ANES figures are the codebook's unweighted frequencies.",
@@ -8389,6 +8390,7 @@
   },
   "ownerAgeAfterVoting": {
     "value": 7,
+    "role": "opening",
     "tag": "TUNABLE",
     "citation": "Years after voting age before the engine lets someone be drawn as an employer's owner (25 in all). No source was fetched for owners' ages: this floor only keeps students and the youngest adults from owning firms, and the draw within it is a hash, not an age curve. Source it from the Census Bureau's Annual Business Survey owner-age table.",
     "stopgapId": "SG-LIVES-civic-roles-not-recorded",
