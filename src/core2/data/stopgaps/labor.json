@@ -116,11 +116,11 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/jobs.ts",
     "line": 1,
-    "whatItFakes": "A town resident who finds work in the wider labor market takes a regional job whose role and pay are the town's own nearest role to what they were paid (moved by the region's pay level), not a wage from an occupational table for their metro area.",
-    "why": "The repository holds no BLS OES wage-by-occupation-and-area table; the town's roles carry real pay for the place, and the regional job is paid from the place's outside account through the same payroll.",
+    "whatItFakes": "A town resident's regional job is priced from the BLS OEWS wage for the occupation of the town role nearest to what they were paid (metro or state area, starting percentile, moved with the place's pay level). Where OEWS publishes no wage for that occupation, the town's own nearest role sets the pay. The occupation is the town role's, not the person's own job history.",
+    "why": "The seeker row keeps only the last pay, not the occupation of the last job, so the occupation is taken from the town role nearest in pay.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "BLS OES (May 2024) median hourly wage by SOC occupation for the person's metro area or the state's nonmetropolitan area, read for the occupation of their last job.",
+    "replacement": "Keep the occupation of the last job on the seeker row and price the regional job from it.",
     "status": "open"
   }
 ]

@@ -3970,6 +3970,8 @@ export interface CommitteeRecord {
   readonly chairId: string;
   readonly memberIds: readonly string[];
   readonly heard: boolean;
+  /** The hearing was a decision cast for the chair (a dev pick), not the chair's own position and temperament. */
+  readonly chairPicked?: true;
   /**
    * Why the chair heard or held the bill: their position on it and what
    * their temperament adds to holding a hearing (heard when the sum is not
@@ -4158,6 +4160,26 @@ export function signDischarge(
   } as unknown as ModuleRow);
 }
 
+/**
+ * A decision cast for a committee's chair on whether to hear a bill, before the committee meets (the
+ * player's, or a dev pick). The committee reads it in place of the chair's own position and
+ * temperament, as it reads a signature cast for a member of a discharge petition.
+ */
+export function castChairHearing(
+  api: CoreAPI,
+  billId: string,
+  chamber: string,
+  hear: boolean,
+): void {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  const seats = committeeSeats(api, bill, chamber);
+  if (!seats) return;
+  table(api, "choices").put({
+    id: `${billId}|${memberKey(seats.chair)}|hear`,
+    hear,
+  } as unknown as ModuleRow);
+}
+
 /** An engine says who testifies on a question: the people its records show are concerned with it. */
 export function registerHearingWitnessProvider(
   provider: HearingWitnessProvider,
@@ -4188,7 +4210,12 @@ function committeeStage(
     memberKey(chair),
     chairPosition.total,
   );
-  const heard = chairPosition.total + hearingTrait >= 0;
+  const castHear = table(api, "choices").get(
+    `${bill.id}|${memberKey(chair)}|hear`,
+  ) as unknown as { hear: boolean } | undefined;
+  const heard = castHear
+    ? castHear.hear
+    : chairPosition.total + hearingTrait >= 0;
   // The chair's reasons are kept on the committee record; no scene or story
   // reads them yet. stopgapId: SG-LAW-held-bill-chair-reasons-unread
   api.stopgap("SG-LAW-held-bill-chair-reasons-unread");
@@ -4283,6 +4310,7 @@ function committeeStage(
     chairId: memberKey(chair),
     memberIds: roster.map(memberKey),
     heard,
+    ...(castHear ? { chairPicked: true as const } : {}),
     chairReasons: { position: chairPosition, hearingTrait },
     votes,
     witnesses,
