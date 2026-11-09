@@ -13,6 +13,7 @@ import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { composeLocalAddress } from "./local-address";
 import { spoken, stateInSentence } from "./words";
+import { openConversation } from "./conversation";
 import { purposeScene } from "./purpose-scene";
 import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
 
@@ -110,6 +111,7 @@ let played: Played | undefined;
 function playedYear(): Played {
   if (played) return played;
   const scenes: Played["scenes"] = [];
+  const talks: Played["talks"] = [];
   const world = stageWorldHeld({
     id: "reads-wrong",
     seed,
@@ -119,6 +121,24 @@ function playedYear(): Played {
         .get(staged.watchedId as PersonId)
         ?.schedule.find((row) => row.momentId === staged.momentId);
       if (!entry) return;
+      // The talk the scene hands to, as the game opens it for the one it is staged for.
+      const watcher = staged.watchedId as PersonId;
+      const other = staged.castIds.find((id) => id !== watcher);
+      if (other) {
+        const moment = director.ledger.people
+          .get(watcher)
+          ?.momentsById.get(staged.momentId);
+        const opened = openConversation(core, watcher, other as PersonId, {
+          director,
+          occasionId: staged.momentId,
+          presentIds: staged.castIds as PersonId[],
+        });
+        talks.push({
+          typeKey: staged.typeKey,
+          label: moment?.label ?? "",
+          kinds: opened.lines.map((line) => line.kind),
+        });
+      }
       const result = purposeScene(
         core,
         director,
@@ -140,6 +160,7 @@ function playedYear(): Played {
   played = {
     where: `${place.name} (${place.key}), seed ${seed}`,
     scenes,
+    talks,
   };
   return played;
 }
@@ -222,3 +243,13 @@ it(`a mayor's and a governor's address name the town and the state, never "this 
   }
   throw new Error(`no address could be composed in ${tried.join("; ")}`);
 }, 600_000);
+
+it(`a scene's talk never asks about news it has not said (seed ${seed})`, () => {
+  const { where, talks } = playedYear();
+  expect(talks.length, where).toBeGreaterThan(0);
+  for (const talk of talks)
+    expect(
+      talk.kinds,
+      `${where}: ${talk.typeKey} (${talk.label})`,
+    ).not.toContain("news");
+}, 1_200_000);
