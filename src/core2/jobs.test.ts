@@ -10,6 +10,7 @@ import {
   acceptJobOffer,
   acceptScore,
   declineJobOffer,
+  firmStaffing,
   jobOffersFor,
   moveLabel,
   quitScore,
@@ -405,6 +406,18 @@ describe("jobs", () => {
     expect(core.people.get(hired)!.jobId).toMatch(/^job:position:/);
     expect(money(core)).toBe(total);
     expect(p("jobsStaffGapActedPerMonth")).toBeGreaterThan(0);
+  });
+  it("reads a firm's service level: staff against what its demand needs, below one while it is short", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    withBooks(core, 2);
+    expect(firmStaffing(api, employer)).toBeUndefined();
+    advanceCore(core, "2021-02-10");
+    const read = firmStaffing(api, employer)!;
+    expect(read.target).toBeGreaterThan(read.staff);
+    expect(read.serviceLevel).toBeGreaterThan(0);
+    expect(read.serviceLevel).toBeLessThan(1);
+    expect(read.serviceLevel).toBeCloseTo(read.staff / read.target, 9);
   });
   it("fills a declined player opening with the next willing applicant", () => {
     const fixture = input();
