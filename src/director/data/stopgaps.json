@@ -692,5 +692,17 @@
     "addedAt": "2026-11-09",
     "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
     "status": "open"
+  },
+  {
+    "id": "SG-STORY-study-scene-members-only",
+    "kind": "missing-data",
+    "file": "src/director/circumstance.ts",
+    "line": 1,
+    "whatItFakes": "A study committee's formation and its report stage a scene only for the committee's own chair and members. The rest of the body hears the chair's speech (the speech.heard record moves their stances) and the paper tells both events, but no scene is staged for a member who does not sit on the committee, and a chair who is the player hears no line about their own speech moving the others. A member of a body that sits elsewhere (a U.S. House study, with the played town's people in other towns) is not staged either: the scene is set at the member's seat in the played town, as the floor debate is.",
+    "why": "The committee is the cause the records name (the chair and the members it was drawn from); a scene for every listener in the body would be a second reading of the same speech, and the speech's own scene (speech-afterward) is built for a campaign speech.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A scene for a member of the body who heard the chair's report, cast from the speech.heard record, once the committee's finding is shown to be read by a vote (the next roll call on the bill).",
+    "status": "open"
   }
 ]

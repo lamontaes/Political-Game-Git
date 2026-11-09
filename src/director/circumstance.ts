@@ -20,7 +20,10 @@ import {
   INTEREST_GROUPS_MODULE_ID,
   meetingsOn,
 } from "../core2/modules/elections";
-import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
+import {
+  LEGISLATURE_MODULE_ID,
+  type StudyRow,
+} from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
@@ -256,6 +259,19 @@ function bodyOfRecord(
   return bill?.bodyOfficeId;
 }
 
+/** The study committee a record names (legislature.ts referToStudy), or undefined. */
+function studyOf(
+  core: Readonly<CoreState>,
+  record: Pick<QueuedRecord, "facts">,
+): StudyRow | undefined {
+  const studyId = record.facts.studyId;
+  if (!studyId || !core.modules.has(LEGISLATURE_MODULE_ID)) return undefined;
+  return coreAPI(core as CoreState)
+    .moduleState(LEGISLATURE_MODULE_ID)
+    .table("studies")
+    .get(studyId) as unknown as StudyRow | undefined;
+}
+
 /** Whether the player filed in the contest and someone else won it. */
 function ranAndLost(
   core: Readonly<CoreState>,
@@ -366,6 +382,14 @@ function playerHolds(
     case "same-body": {
       const body = bodyOfRecord(core, record);
       return !!body && standing.officeIds.has(body);
+    }
+    case "on-study": {
+      // The player chairs the study committee the record names or sits on it.
+      const study = studyOf(core, record);
+      return (
+        !!study &&
+        (study.chairId === playerId || study.memberIds.includes(playerId))
+      );
     }
     default:
       if (rule.startsWith("listed:"))
@@ -528,6 +552,21 @@ function poolOf(
           (meeting.side ?? P.negativeOne) * cast < zero,
       )
       .map((meeting) => ({ id: meeting.lobbyistId as PersonId, named: false }));
+  }
+  if (source === "study-members") {
+    // stopgapId: SG-STORY-study-scene-members-only
+    // The study committee's chair first, then its members: whoever sits on it
+    // with the player (legislature.ts referToStudy, from the closest opponents).
+    const study = studyOf(core, record);
+    return study
+      ? [
+          { id: study.chairId as PersonId, named: true },
+          ...study.memberIds.map((id) => ({
+            id: id as PersonId,
+            named: false,
+          })),
+        ]
+      : [];
   }
   if (source.startsWith("fact:")) {
     // The person a fact of the record names (a message's candidate).

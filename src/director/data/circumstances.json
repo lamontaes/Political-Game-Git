@@ -363,6 +363,37 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "study-formed-member",
+      "recordKinds": ["study-formed"],
+      "playerNamed": true,
+      "afterDays": 1,
+      "lived": true,
+      "place": "seat",
+      "pool": ["study-members"],
+      "where": "pool",
+      "player": "on-study",
+      "cast": "the day after the body formed a study committee on a bill it could not settle (the vote day is the floor's own), its chair, or a fellow member when the player chairs it, telling a member what it is charged with",
+      "typeKey": "study-formed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
+      "id": "study-reported-member",
+      "recordKinds": ["study-reported"],
+      "playerNamed": true,
+      "lived": true,
+      "place": "seat",
+      "pool": ["study-members"],
+      "where": "pool",
+      "player": "on-study",
+      "cast": "the committee's chair, or a fellow member when the player chairs it, on what the committee found and what the chair's speech to the body moved",
+      "typeKey": "study-reported",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceHallwayImpact",
+      "everyParameter": "directorCircumstanceHallwayEveryDays"
+    },
+    {
       "id": "held-known-visit",
       "recordKinds": ["justice.held-before-trial"],
       "place": "venue",

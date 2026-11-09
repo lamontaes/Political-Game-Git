@@ -8318,6 +8318,248 @@
         "key": "news-received"
       }
     },
+    {
+      "key": "headlines.study-formed.name-to-chair-study-of-designation",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} to chair study of {designation}",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-formed.study-committee-formed-on-designation",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "Study committee formed on {designation}",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-formed.body-sends-designation-to-study-committee",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{body} sends {designation} to study committee",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["body", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-formed.study-committee-to-take-up-issue",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "Study committee to take up {issue}",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-formed.name-to-lead-committee-studying-issue",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} to lead committee studying {issue}",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "headline",
+          "role": "study-formed",
+          "choice": "headline",
+          "requiresFacts": ["name", "issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-backs-designation",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee backs {designation}",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["finding-for", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-comes-down-against-designation",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee comes down against {designation}",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["finding-against", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.names-committee-backs-designation",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "{name}'s committee backs {designation}",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["finding-for", "name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.names-committee-finds-against-designation",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "{name}'s committee finds against {designation}",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["finding-against", "name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.study-committee-reports-on-designation",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Study committee reports on {designation}",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.study-reported.committee-studying-issue-reports-back",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "Committee studying {issue} reports back",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "headline",
+          "role": "study-reported",
+          "choice": "headline",
+          "requiresFacts": ["issue"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
     {"key": "headlines.cabinet-nominated.name-named-for-office", "move": "cabinet-nominated", "kind": "written", "text": "{name} named for {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
     {"key": "headlines.cabinet-nominated.name-is-the-presidents-pick-for-office", "move": "cabinet-nominated", "kind": "written", "text": "{name} is the president's pick for {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},
     {"key": "headlines.cabinet-nominated.president-nominates-name-to-be-office", "move": "cabinet-nominated", "kind": "written", "text": "President nominates {name} to be {office}", "uses": [{"move": "cabinet-nominated", "subject": "headline", "role": "cabinet-nominated", "choice": "headline"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "headline", "key": "news-received"}},

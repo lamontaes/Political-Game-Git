@@ -331,6 +331,15 @@ export const STORY_KINDS = {
     headline: ["floor-debate"],
     lede: ["floor-debate"],
   },
+  // A study committee formed on a bill the body could not settle, and its report.
+  "study-formed": {
+    headline: ["study-formed"],
+    lede: ["study-formed"],
+  },
+  "study-reported": {
+    headline: ["study-reported"],
+    lede: ["study-reported"],
+  },
   "local-address": {
     headline: ["local-address"],
     lede: ["local-address"],

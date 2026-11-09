@@ -13054,6 +13054,292 @@
         "key": "news-received"
       }
     },
+    {
+      "key": "news.study-formed.name-will-chair-a-study-committee-on-designation-which-is-to",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} will chair a study committee on {designation}, which is to report by {date}.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "designation", "date"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.a-study-committee-of-number-members-will-take-up-designation-with",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "A study committee of {number} members will take up {designation}, with {name} in the chair.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["number", "designation", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.the-study-committee-on-designation-has-until-date-to-report-with",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "The study committee on {designation} has until {date} to report, with {name} chairing.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["designation", "date", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-chairs-a-new-committee-studying-issue-to-report-on-designation",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} chairs a new committee studying {issue}, to report on {designation} by {date}.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "issue", "designation", "date"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.the-body-has-named-number-members-to-study-designation-with-name",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "The {body} has named {number} members to study {designation}, with {name} in the chair.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["body", "number", "designation", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-formed.name-will-chair-a-study-committee-on-designation",
+      "move": "study-formed",
+      "kind": "written",
+      "text": "{name} will chair a study committee on {designation}.",
+      "uses": [
+        {
+          "move": "study-formed",
+          "subject": "news",
+          "role": "study-formed",
+          "choice": "lede",
+          "requiresFacts": ["name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-study-committee-name-chairs-found-for-designation-and-gave-its",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The study committee {name} chairs found for {designation} and gave its report to the body.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["finding-for", "name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-study-committee-name-chairs-found-against-designation-and-gave-its",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The study committee {name} chairs found against {designation} and gave its report to the body.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["finding-against", "name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.after-its-term-the-committee-studying-issue-reported-for-designation-with",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "After its term, the committee studying {issue} reported for {designation}, with {name} presenting.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["finding-for", "issue", "designation", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.after-its-term-the-committee-studying-issue-reported-against-designation-with",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "After its term, the committee studying {issue} reported against {designation}, with {name} presenting.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["finding-against", "issue", "designation", "name"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.name-gave-the-body-the-committees-report-on-designation",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "{name} gave the body the committee's report on {designation}.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["name", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-committees-members-leaned-for-designation-by-the-end-of-their",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The committee's members leaned for {designation} by the end of their study.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["finding-for", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.study-reported.the-committees-members-leaned-against-designation-by-the-end-of-their",
+      "move": "study-reported",
+      "kind": "written",
+      "text": "The committee's members leaned against {designation} by the end of their study.",
+      "uses": [
+        {
+          "move": "study-reported",
+          "subject": "news",
+          "role": "study-reported",
+          "choice": "lede",
+          "requiresFacts": ["finding-against", "designation"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
     {"key": "news.cabinet-nominated.by-has-picked-name-to-be-office-and-the-senate-votes-next", "move": "cabinet-nominated", "kind": "written", "text": "{by} has picked {name} to be {office}, and the Senate votes next.", "uses": [{"move": "cabinet-nominated", "subject": "news", "role": "cabinet-nominated", "choice": "lede", "requiresFacts": ["by"]}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "deliver-news", "key": "news-received"}},
     {"key": "news.cabinet-nominated.name-is-the-presidents-choice-for-office-pending-a-senate-vote", "move": "cabinet-nominated", "kind": "written", "text": "{name} is the president's choice for {office}, pending a Senate vote.", "uses": [{"move": "cabinet-nominated", "subject": "news", "role": "cabinet-nominated", "choice": "lede"}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "deliver-news", "key": "news-received"}},
     {"key": "news.cabinet-nominated.by-named-name-to-be-office-the-nomination-goes-to-the-senate", "move": "cabinet-nominated", "kind": "written", "text": "{by} named {name} to be {office}. The nomination goes to the Senate.", "uses": [{"move": "cabinet-nominated", "subject": "news", "role": "cabinet-nominated", "choice": "lede", "requiresFacts": ["by"]}], "origin": "authored", "author": "Story (Claude Code)", "date": "2026-11-09", "tag": {"move": "deliver-news", "key": "news-received"}},
