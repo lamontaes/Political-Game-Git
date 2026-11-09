@@ -56,6 +56,8 @@
     "against": "Present when the visitor lobbied against the bill, from the lobbying record.",
     "winner": "Whoever won the race a count settled, by name, from the election result record.",
     "employer": "The employer making a job offer, from the jobs engine's offer record.",
+    "school": "A school the two share, by name: the one they were both at in one school year, or the one their children attend, from the school engine's attended rows.",
+    "hometown": "The town the speaker lives in when it is not the town of the scene, from the speaker's person record.",
     "position": "The position offered, with its article (\"a server\"), from the offer record's title.",
     "pay": "The pay offered by the hour (\"$18.50\"), from the offer record.",
     "owed": "What a household owes in back rent, as people say it (\"about $400\"), from the notice record.",
@@ -168358,6 +168360,2182 @@
       "tag": {
         "move": "warn",
         "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-just-started-as-position-at-employer-and-has-come-over-to-say-hello",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has just started as {position} at {employer} and has come over to say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-just-started-in-the-same-job-as-yours-at-employer-and-has-come-over-to-say-hello",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has just started in the same job as yours at {employer} and has come over to say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "same-job"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-the-two-of-you-were-at-school-the-same-year",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has just started at {employer}, and the two of you were at {school} the same year.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "schoolmate", "school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-the-kids-from-your-two-houses-are-at-school-together",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has just started at {employer}, and the kids from your two houses are at {school} together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "kids-school", "school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-belongs-to-the-party-like-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has just started at {employer} and belongs to the {party}, like you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "party"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-new-on-the-job-and-has-come-over-to-say-hello",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is new on the job and has come over to say hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hi-i-m-name-i-just-started-at-employer-and-you-re-first-right",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hi, I'm {name}. I just started at {employer}, and you're {first}, right?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.excuse-me-are-you-first-i-m-name-and-i-m-new-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Excuse me, are you {first}? I'm {name}, and I'm new here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-just-started-as-position-at-employer-what-s-the-part-of-the-job-nobody-warns-you-about",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I just started as {position} at {employer}. What's the part of the job nobody warns you about?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-still-finding-my-way-around-employer-would-you-have-a-few-minutes-to-show-me-how-things-run",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm still finding my way around {employer}. Would you have a few minutes to show me how things run?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-told-me-you-do-the-same-job-i-do-at-employer-so-you-re-the-one-to-ask-what-do-you-wish-somebody-had-told-you-when-you-started",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They told me you do the same job I do at {employer}, so you're the one to ask. What do you wish somebody had told you when you started?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "same-job"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-think-you-and-i-have-the-same-job-at-employer-would-you-show-me-how-you-handle-the-part-nobody-explains",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I think you and I have the same job at {employer}. Would you show me how you handle the part nobody explains?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "same-job"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-live-in-hometown-so-i-don-t-know-the-town-here-yet-is-there-a-good-place-near-employer-to-get-lunch",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I live in {hometown}, so I don't know the town here yet. Is there a good place near {employer} to get lunch?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "position", "hometown"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.somebody-at-employer-mentioned-you-re-with-the-party-same-as-me-do-you-know-where-the-local-members-meet",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Somebody at {employer} mentioned you're with the {party}, same as me. Do you know where the local members meet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "party"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-with-the-party-and-i-ve-been-meaning-to-find-the-local-members-would-you-know-who-to-talk-to",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm with the {party}, and I've been meaning to find the local members. Would you know who to talk to?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "party"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.did-you-go-to-school-i-did-and-i-think-we-were-in-the-same-year-who-else-from-then-is-still-around-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Did you go to {school}? I did, and I think we were in the same year. Who else from then is still around here?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "schoolmate", "school"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.my-child-child-goes-to-school-and-i-think-someone-in-your-house-does-too-do-you-know-how-pickup-works-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My child, {child}, goes to {school}, and I think someone in your house does too. Do you know how pickup works there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "requiresFacts": ["employer", "kids-school", "school", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-new-here-and-i-don-t-know-how-things-work-yet-could-you-spare-a-few-minutes-to-show-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm new here and I don't know how things work yet. Could you spare a few minutes to show me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-know-anyone-here-yet-who-would-you-tell-a-new-person-to-get-to-know-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't know anyone here yet. Who would you tell a new person to get to know first?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-i-m-glad-to-help-you-get-settled",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure. I'm glad to help you get settled.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.of-course-everybody-needs-somebody-to-show-them-the-ropes-when-they-start",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Of course. Everybody needs somebody to show them the ropes when they start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-find-me-before-you-leave-today-and-i-ll-make-the-time",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will. Find me before you leave today and I'll make the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-help-you-get-your-feet-under-you-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll help you get your feet under you this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-need-to-know-first-so-you-can-settle-in",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need to know first, so you can settle in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-did-you-pick-me-to-ask",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why did you pick me to ask?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-don-t-have-the-time-to-do-this-right-just-now-find-me-tomorrow-and-ask-me-again",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I don't have the time to do this right just now. Find me tomorrow and ask me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-you-re-right-i-ll-make-the-time",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, you're right. I'll make the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-give-me-until-tomorrow",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it, I promise. Give me until tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-keep-going-right-now-we-ll-pick-it-back-up-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't keep going right now. We'll pick it back up tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-that-s-easy-enough-i-ll-help-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, that's easy enough. I'll help you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-take-care-of-it-and-i-ll-check-on-you-afterward",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take care of it, and I'll check on you afterward.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-think-about-whether-i-m-the-right-person-to-help-and-i-ll-tell-you-tomorrow",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me think about whether I'm the right person to help, and I'll tell you tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-that-already-makes-my-first-day-easier",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That already makes my first day easier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-good-i-appreciate-you-taking-the-time",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright, good. I appreciate you taking the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-remember-that-you-offered",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll remember that you offered.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.when-you-say-you-will-when-do-you-mean-i-d-like-to-plan-around-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "When you say you will, when do you mean? I'd like to plan around it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-appreciate-that-can-you-give-me-a-day-so-i-m-not-waiting-around",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I appreciate that. Can you give me a day, so I'm not waiting around?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-understand-but-i-d-like-to-know-when-to-come-find-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I understand, but I'd like to know when to come find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-that-s-fair-i-ll-find-you-when-you-re-free",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright, that's fair. I'll find you when you're free.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-a-few-minutes-whenever-you-have-them-and-a-straight-answer-you-seemed-like-someone-who-d-give-me-one",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just a few minutes whenever you have them, and a straight answer. You seemed like someone who'd give me one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-i-d-like-to-know-who-to-ask-when-something-goes-wrong-and-you-seemed-like-the-right-person",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly I'd like to know who to ask when something goes wrong, and you seemed like the right person.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival",
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-your-time-i-ll-see-you-around",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for your time. I'll see you around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-remember-that-you-helped-me-get-started",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll remember that you helped me get started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-let-you-get-back-to-your-day",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll let you get back to your day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-check-back-with-you-tomorrow-if-that-s-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll check back with you tomorrow, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "introduction",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-around-a-lot-lately-and-has-something-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been around a lot lately, and has something to ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-both-work-at-employer-and-name-has-been-looking-for-a-chance-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You both work at {employer}, and {name} has been looking for a chance to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-at-school-the-same-year-as-you-and-has-something-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was at {school} the same year as you, and has something to ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["schoolmate", "school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-in-the-party-same-as-you-and-has-something-to-ask",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is in the {party}, same as you, and has something to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-two-houses-have-kids-at-school-and-name-has-something-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your two houses have kids at {school}, and {name} has something to ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["kids-school", "school"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hey-first-do-you-have-a-minute-i-wanted-to-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hey, {first}. Do you have a minute? I wanted to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-glad-i-found-you-first-i-ve-been-meaning-to-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm glad I found you, {first}. I've been meaning to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-come-over-for-dinner-on-saturday-first-i-d-like-to-cook-for-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you come over for dinner on Saturday, {first}? I'd like to cook for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-watching-the-game-at-my-place-on-sunday-first-do-you-want-to-come-over-and-watch-it-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm watching the game at my place on Sunday, {first}. Do you want to come over and watch it with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-help-moving-a-couch-on-saturday-first-and-you-re-the-first-person-i-thought-of-could-you-come-by",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need help moving a couch on Saturday, {first}, and you're the first person I thought of. Could you come by?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-going-out-of-town-next-weekend-first-could-you-check-on-my-place-and-bring-in-the-mail",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm going out of town next weekend, {first}. Could you check on my place and bring in the mail?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-had-a-rough-couple-of-weeks-first-would-you-have-dinner-with-me-and-let-me-talk-it-through",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've had a rough couple of weeks, {first}. Would you have dinner with me and let me talk it through?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.my-cousin-is-visiting-on-saturday-first-and-i-want-you-to-meet-them-would-you-have-lunch-with-us",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My cousin is visiting on Saturday, {first}, and I want you to meet them. Would you have lunch with us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-driving-in-from-hometown-on-saturday-anyway-first-would-you-want-to-get-lunch",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm driving in from {hometown} on Saturday anyway, {first}. Would you want to get lunch?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.a-few-of-us-from-employer-are-getting-a-drink-after-work-on-friday-first-would-you-come",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A few of us from {employer} are getting a drink after work on Friday, {first}. Would you come?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.could-you-cover-for-me-at-employer-on-thursday-afternoon-first-i-ll-do-the-same-for-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Could you cover for me at {employer} on Thursday afternoon, {first}? I'll do the same for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-going-to-the-next-meeting-of-the-party-first-do-you-want-to-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm going to the next meeting of the {party}, {first}. Do you want to come with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["party"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.a-few-people-from-our-year-at-school-are-getting-together-first-would-you-come-with-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "A few people from our year at {school} are getting together, {first}. Would you come with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["schoolmate", "school"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.could-you-pick-up-my-child-child-from-school-on-thursday-first-i-ll-return-the-favor",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Could you pick up my child, {child}, from {school} on Thursday, {first}? I'll return the favor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "requiresFacts": ["kids-school", "school", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-d-be-glad-to",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, I'd be glad to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.sure-you-can-count-on-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Sure, you can count on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-make-it-work-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make it work. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I will do it, and you won't have to remind me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-do-you-need-me",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When do you need me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-made-you-think-of-me-for-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What made you think of me for it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-take-that-on-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I wish I could, but I can't take that on right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-make-that-work-this-time",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but I can't make that work this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, you're right. I'll make it work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-look-at-what-i-have",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it, I promise. Let me look at what I have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-sorry-but-i-can-t-stay-and-argue-about-it-let-s-pick-it-back-up-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm sorry, but I can't stay and argue about it. Let's pick it back up tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, that makes sense. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll be there, and you can count on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-hope-you-ll-understand",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but I still can't do it. I hope you'll understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-knew-i-could-ask-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I knew I could ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-makes-my-week-easier",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That makes my week easier.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-ll-hold-up-my-end-too",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll hold up my end too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-ll-really-do-it-i-d-like-to-know-i-can-plan-around-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll really do it? I'd like to know I can plan around it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-thank-you-for-telling-me-straight",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright, I understand. Thank you for telling me straight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-thought-of-you-first-first-can-you-tell-me-what-s-in-the-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I thought of you first, {first}. Can you tell me what's in the way?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever time you have this week would be fine. I thought of you because you're easy to be around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Soon, if you can, and I thought of you because I trust you with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-first-i-ll-see-you-soon",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I'll see you soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-remember-this-first-you-can-ask-me-for-the-same",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll remember this, {first}. You can ask me for the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-we-ll-talk-again-soon",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll talk again soon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-check-in-with-you-tomorrow-about-it-if-that-s-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll check in with you tomorrow about it, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "friend-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, first meeting and friends purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
       }
     }
   ]

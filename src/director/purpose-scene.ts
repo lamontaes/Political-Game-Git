@@ -80,6 +80,7 @@ import {
 import type { Fact } from "../english/scene-talk-words";
 import { chooseVariant, type VariantChoice } from "./arc-variant";
 import { custodyFacts } from "./custody-facts";
+import { meetingFacts } from "./meeting-facts";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -563,6 +564,14 @@ function composeBinding(
   // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
   for (const [key, fact] of Object.entries(
     custodyFacts(core, record, askerId, askedId),
+  ))
+    facts[key] = fact;
+  // A first meeting or a tie that grew (the jobs, school and parties engines'
+  // records): the employer, the job, the school, the children at one school,
+  // the party and the town the two share or do not. stopgapId:
+  // SG-WORDS-meeting-no-club-records, SG-WORDS-meeting-promise-unread
+  for (const [key, fact] of Object.entries(
+    meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
     facts[key] = fact;
   // A damaged home (disasters.ts, the day its aid is paid): the kind of home,
