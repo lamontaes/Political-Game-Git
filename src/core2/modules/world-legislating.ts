@@ -981,8 +981,24 @@ function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
  * body's next regular meeting; a legislature's or Congress's next floor week
  * in the session now sitting, or the first of its next session.
  */
-function nextSitting(api: CoreAPI, bodyOfficeId: string): Sitting | null {
+function nextSitting(
+  api: CoreAPI,
+  bodyOfficeId: string,
+  after?: string,
+): Sitting | null {
   const today = api.state.date;
+  // The sitting after a given day, for a town or county body that meets on its
+  // own rule: a bill posted too late for the notice law waits for it.
+  if (after !== undefined) {
+    const held = api
+      .moduleState(WORLD_LEGISLATING_MODULE_ID)
+      .table("nextMeetings")
+      .get(bodyOfficeId);
+    const next = held
+      ? nextMeeting(api, bodyOfficeId, after, lawChain(api).countyGeoids[0])
+      : null;
+    return next ? { date: next.date, source: next.rule.source } : null;
+  }
   const meeting = api
     .moduleState(WORLD_LEGISLATING_MODULE_ID)
     .table("nextMeetings")
