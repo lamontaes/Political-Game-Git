@@ -12,10 +12,11 @@ import {
   memberKey,
   members,
   type BillRow,
+  billForm,
 } from "../core2/modules/legislature";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
-import { billPageView } from "./bill-stage";
+import { billPageView, billStage } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
 import { DevMode } from "./dev-mode";
 import { BenchPlayer } from "./player";
@@ -365,6 +366,70 @@ describe(`the bill page's view (seed ${seed})`, () => {
     }
     throw new Error(
       `no drawn place showed a sitting for a drafted state bill (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
+
+  it("offers an amendment only on a section that has a law in force to move from", () => {
+    const tried: string[] = [];
+    for (let i = 0; i < 8; i += 1) {
+      const draw = drawPlace(`${seed}:amendable:${i}`, "bill-page-amendable");
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const api = coreAPI(world.core);
+      const dev = new DevMode(
+        world.core,
+        world.director,
+        new BenchPlayer(world.core, world.director),
+        world.placeId,
+      );
+      const chamber = dev
+        .lawmakingBodies()
+        .find((b) => b.level === "state" && b.members.length > 0);
+      if (!chamber) {
+        tried.push(`${draw.name}: no state chamber`);
+        continue;
+      }
+      // A bill on every catalog series the chamber may set: those the law gives no value to move
+      // from must not be offered, the rest must be.
+      let checked = 0;
+      for (const row of dev.laws().series.slice(0, 40)) {
+        let bill;
+        try {
+          bill = dev.introduce({
+            bodyOfficeId: chamber.id,
+            sponsorId: chamber.members[0]!.key,
+            series: row.series,
+            value:
+              typeof row.combined === "number" && row.combined > 0
+                ? row.combined * 1.2
+                : 1,
+          }).bill;
+        } catch {
+          continue;
+        }
+        if (bill.status === "blocked") continue;
+        const stage = billStage(world.core, bill.id);
+        const sections = billForm(api, bill).sections;
+        for (const index of stage.sectionsAmendable)
+          expect(
+            sections[index]?.before.value,
+            `${draw.name} ${row.series}: section ${index + 1} is offered an amendment`,
+          ).not.toBeNull();
+        checked += 1;
+      }
+      if (!checked) {
+        tried.push(`${draw.name}: no bill the chamber may set`);
+        continue;
+      }
+      console.log(
+        `amendable sections: ${draw.name} (${draw.key}, seed ${draw.seed}) ${checked} bills checked`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place had bills to check (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 900_000);
 });

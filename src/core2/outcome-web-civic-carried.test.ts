@@ -62,21 +62,22 @@ describe("votes, approval and press links and the engines that decide them", () 
       "src/core2/electorate-inputs.ts",
       "candidateReasons",
     );
-    expect(row.carriedBy).toContain("nationalEconomyChange");
+    expect(row.carriedBy).toContain("approvalGapPoints");
     const inputs = read("src/core2/electorate-inputs.ts");
-    expect(inputs).toMatch(/export function nationalEconomyChange\(/);
-    expect(inputs).toMatch(/national: nationalEconomyChange\(api\)/);
-    // The president's party loses by the tide's economy term (the one
-    // formula `tideAgainstPresident` the count and the decision to run read).
     expect(inputs).toMatch(
-      /const economy = candidate\.presidentsParty\s+\?\s+-tide\.economy\s+:\s+0;/,
+      /approvalGapPoints: approvalGapPoints\(api, input\.electionDate\)/,
     );
     expect(inputs).toMatch(
-      /p\("unemploymentShare"\) \* national\.unemploymentChange/,
+      /const economy = candidate\.presidentsParty \? -tide\.economy : 0;/,
     );
-    expect(inputs).toMatch(
-      /p\("inflationShare"\) \* national\.inflationChange/,
+    expect(inputs).toMatch(/p\("approvalVoteShare"\) \*\s+approvalGapPoints/);
+    // The decision to run reads the same tide.
+    expect(read("src/core2/modules/candidacy.ts")).toMatch(
+      /approvalGapPoints\(api, race\.electionDate\)/,
     );
+    const opinion = read("src/core2/modules/national-opinion.ts");
+    expect(opinion).toMatch(/opinionParameter\("pointsPerUnemploymentPoint"\)/);
+    expect(opinion).toMatch(/opinionParameter\("pointsPerInflationPoint"\)/);
   });
 
   it("carries the election laws' turnout links by the law reach the voting engine reads, so no law moves turnout twice", () => {
