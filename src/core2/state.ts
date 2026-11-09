@@ -12,6 +12,8 @@ import { bookkeeping } from "./bookkeeping";
 import {
   keptDecision,
   isShortDetailKind,
+  queueCampaignRecord,
+  CAMPAIGN_RECORD_KINDS,
   queueCircleEntry,
   queueShortEntry,
   queueDecisionDetail,
@@ -773,6 +775,8 @@ export function retainLog(
       core.date,
       row.id,
     );
+  else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
+    queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);

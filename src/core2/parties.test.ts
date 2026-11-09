@@ -21,7 +21,7 @@ import {
   type FilingRow,
 } from "./modules/elections";
 import { knockDoors, openCampaigns } from "./modules/campaigns";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import {
   PARTIES_MODULE_ID,
   openParties,

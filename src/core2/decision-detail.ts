@@ -60,6 +60,32 @@ export function queueShortEntry(
   queue.push([date, id]);
 }
 
+/**
+ * The public log rows of campaign gifts and endorsements, dropped
+ * `campaignRecordRetentionMonths` after the day. The money and the answers
+ * stay in the campaigns engine's own tables (`money`, `gifts`, `endorsements`);
+ * the news printed the day it happened and a scene reads the row within days.
+ */
+const campaignQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-campaign-queue", campaignQueues);
+
+/** The public campaign record kinds whose log rows go after a year. */
+export const CAMPAIGN_RECORD_KINDS: ReadonlySet<string> = new Set([
+  "campaign-gift",
+  "campaign-endorsed",
+]);
+
+/** A public campaign gift or endorsement row, to drop when a year old. */
+export function queueCampaignRecord(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = campaignQueues.get(core);
+  if (!queue) campaignQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
+
 /** The player's own routine acts and weighed choices, with their full scores, to condense once a year old. */
 const playerQueues = new WeakMap<CoreState, [string, string][]>();
 registerWorldMapPart("core2-decision-detail-player-queue", playerQueues);
@@ -253,6 +279,7 @@ export function condenseCircleDecisions(core: CoreState): void {
   const queue = queues.get(core);
   if (!queue?.length) {
     dropOldCircleActs(core, dropQueues);
+    dropOldCircleActs(core, campaignQueues, "campaignRecordRetentionMonths");
     return dropOldCircleActs(core, entryQueues);
   }
   const before = daysAgo(
@@ -296,6 +323,7 @@ export function condenseCircleDecisions(core: CoreState): void {
   }
   if (done) queue.splice(0, done);
   dropOldCircleActs(core, dropQueues);
+  dropOldCircleActs(core, campaignQueues, "campaignRecordRetentionMonths");
   dropOldCircleActs(core, entryQueues);
 }
 
@@ -324,13 +352,13 @@ function condensePlayerDecisions(core: CoreState): void {
 function dropOldCircleActs(
   core: CoreState,
   queues: WeakMap<CoreState, [string, string][]>,
+  window = "circleActRetentionMonths",
 ): void {
   const drops = queues.get(core);
   if (!drops?.length) return;
   const cutoff = new Date(`${core.date}T00:00:00Z`);
   cutoff.setUTCMonth(
-    cutoff.getUTCMonth() -
-      parameter("circleActRetentionMonths", core.data.parameters),
+    cutoff.getUTCMonth() - parameter(window, core.data.parameters),
   );
   const before = cutoff.toISOString().slice(0, 10);
   let done = 0;

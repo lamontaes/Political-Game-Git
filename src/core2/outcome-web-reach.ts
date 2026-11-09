@@ -98,28 +98,45 @@ export function nationalMeanWeight(linkKey: string): number {
  */
 export type WebHost = Pick<CoreAPI, "state" | "moduleState">;
 
-/** Each place's latest web month, read once a day however many subjects ask. */
-const LATEST = new WeakMap<
+/**
+ * The web's answers kept for the day, one store for every reader (the latest
+ * month, a cause mix, a death factor). The stamp is the date and the web
+ * module's writes so far, so a month the web writes after the first read is
+ * seen by the next read the same day, never a stale answer.
+ */
+const DAY_CACHES = new WeakMap<
   object,
-  { date: string; rows: Map<string, WebMonth | null> }
+  { stamp: string; named: Map<string, Map<string, unknown>> }
 >();
+
+export function webDayCache<T>(api: WebHost, name: string): Map<string, T> {
+  const core = api.state as CoreState;
+  const writes = core.modules.has(OUTCOME_WEB_MODULE_ID)
+    ? api.moduleState(OUTCOME_WEB_MODULE_ID).writes
+    : 0;
+  const stamp = `${core.date}|${writes}`;
+  let cache = DAY_CACHES.get(core);
+  if (!cache || cache.stamp !== stamp) {
+    cache = { stamp, named: new Map() };
+    DAY_CACHES.set(core, cache);
+  }
+  let rows = cache.named.get(name);
+  if (!rows) cache.named.set(name, (rows = new Map()));
+  return rows as Map<string, T>;
+}
 
 function latestRow(api: WebHost, placeId: string): WebMonth | null {
   const core = api.state as CoreState;
   if (!core.modules.has(OUTCOME_WEB_MODULE_ID)) return null;
-  let cache = LATEST.get(core);
-  if (!cache || cache.date !== core.date) {
-    cache = { date: core.date, rows: new Map() };
-    LATEST.set(core, cache);
-  }
-  if (cache.rows.has(placeId)) return cache.rows.get(placeId)!;
+  const rows = webDayCache<WebMonth | null>(api, "latest");
+  if (rows.has(placeId)) return rows.get(placeId)!;
   let latest: WebMonth | null = null;
   for (const row of api
     .moduleState(OUTCOME_WEB_MODULE_ID)
     .table("months")
     .query("byPlace", [placeId]) as unknown as readonly WebMonth[])
     if (!latest || row.month > latest.month) latest = row;
-  cache.rows.set(placeId, latest);
+  rows.set(placeId, latest);
   return latest;
 }
 

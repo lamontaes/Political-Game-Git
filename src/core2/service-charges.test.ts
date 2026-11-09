@@ -12,6 +12,7 @@ import { setBookkeeping } from "./bookkeeping";
 import {
   serviceChargeShares,
   serviceChargesPaidBy,
+  townPayers,
 } from "./budgets-service-charges";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -21,6 +22,7 @@ import {
   budgetInForce,
   outsideRevenueMonthly,
 } from "./budgets-treasury";
+import { lawChain } from "./modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 import charges from "../../data/research/money/service-charges-2022.json" with { type: "json" };
@@ -82,6 +84,24 @@ it("moves the town's part of each government's charges from households' living c
           byService.reduce((n, [, v]) => n + v, 0),
           where,
         ).toBe(full.paidMinor);
+        // Sewer and trash is charged by use: what was paid for it is at most
+        // the town's dwellings and firms times their flat charges, and it
+        // reaches the treasury wherever the place's budget has the service.
+        if (row.sewerPerDwellingMinor > 0) {
+          const use = townPayers(api, lawChain(api).townPlaceId);
+          const capacity =
+            (use.dwellings * row.sewerPerDwellingMinor +
+              use.firms.size * row.sewerPerFirmMinor) *
+            1.001;
+          const sewer = full.byService["sewerage-and-solid-waste"] ?? 0;
+          expect(sewer, `${where} ${row.governmentId} sewer`).toBeGreaterThan(
+            0,
+          );
+          expect(
+            sewer,
+            `${where} ${row.governmentId} sewer within use`,
+          ).toBeLessThanOrEqual(capacity);
+        }
         for (const [service] of byService)
           if (row.governmentId.startsWith("US-")) continue;
           else expect(services.has(service), `${where} ${service}`).toBe(true);
@@ -122,6 +142,7 @@ it("moves the town's part of each government's charges from households' living c
           payerId: string;
           amountMinor: number;
           installmentMinor: number;
+          baseIndex: number;
           townPaidMinor: number;
         }[]
       ).filter(
@@ -139,8 +160,15 @@ it("moves the town's part of each government's charges from households' living c
           row.id.startsWith("treasury-charges:chargesAndFees:service-users:"),
           row.id,
         ).toBe(true);
-        expect(row.installmentMinor, row.id).toBe(twelfth);
-        expect(row.amountMinor + row.townPaidMinor, row.id).toBe(twelfth);
+        // The plan's twelfth moved by the economy's wage bill since the plan began.
+        const moved = Math.round(twelfth * row.baseIndex);
+        expect(
+          Math.abs(row.installmentMinor - moved),
+          row.id,
+        ).toBeLessThanOrEqual(1);
+        expect(row.amountMinor + row.townPaidMinor, row.id).toBe(
+          row.installmentMinor,
+        );
       }
       // The town's households paid their part, which came off an installment.
       expect(

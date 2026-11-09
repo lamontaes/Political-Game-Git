@@ -45,7 +45,7 @@ import {
 } from "./modules/press";
 import type { ModuleRow } from "./module-data";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";

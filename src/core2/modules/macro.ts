@@ -336,7 +336,7 @@ function open(api: CoreAPI): MacroStateRow {
       inflationPct: chosen.inflationPct ?? last.inflationPct,
       outputGapPct:
         -p("macroOkunOutputPerUnemploymentPoint") *
-        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+        (unemploymentPct - last.naturalUnemploymentPct),
       policyRatePct,
       primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
     };

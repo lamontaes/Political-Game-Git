@@ -40,6 +40,7 @@ import {
   bodyOf,
   bodyRow,
   castMemberVote,
+  castOwnPositionVote,
   chambersOf,
   signDischarge,
   castChairHearing,
@@ -724,35 +725,62 @@ export class DevMode {
     });
   }
 
-  /** A member introduces a bill at a body: the game's own draftBill, one law-amount section. */
+  /**
+   * A member introduces a bill at a body: the game's own draftBill. Either one law-amount section
+   * named by `series` and `value`, or a shown bill (`billId`) brought to this body with its own
+   * sections and its own sponsor (the sponsor sits in this body, else its first member sponsors).
+   */
   introduce(input: {
     bodyOfficeId: string;
-    sponsorId: string;
-    series: string;
-    value: number;
+    sponsorId?: string;
+    series?: string;
+    value?: number;
     unit?: string;
+    billId?: string;
   }) {
-    if (!lawSeriesCatalog(this.api).includes(input.series))
-      throw new Error(`Unknown law series: ${input.series}`);
-    if (!Number.isFinite(input.value)) throw new Error("A bill needs a value.");
-    // A policy question (a yes or no the law answers) is a section of its own kind.
-    const provision: Provision = POLICY_QUESTIONS[input.series]
-      ? { kind: "policy-question", question: input.series, value: input.value }
-      : {
-          kind: "law-amount",
-          series: input.series,
-          value: input.value,
-          ...(input.unit ? { unit: input.unit } : {}),
-        };
+    let provisions: Provision[];
+    let sponsorId = input.sponsorId;
+    if (input.billId) {
+      const shown = this.api
+        .moduleState(LEGISLATURE_MODULE_ID)
+        .table("bills")
+        .get(input.billId) as unknown as BillRow | undefined;
+      if (!shown) throw new Error("No such bill.");
+      provisions = shown.provisions.map((p) => ({ ...p }));
+      const roster = members(this.api, input.bodyOfficeId);
+      if (!roster.length) throw new Error("That body has no members.");
+      sponsorId ??= roster.some((term) => memberKey(term) === shown.sponsorId)
+        ? shown.sponsorId
+        : memberKey(roster[0]!);
+    } else {
+      const { series, value } = input;
+      if (!series || !lawSeriesCatalog(this.api).includes(series))
+        throw new Error(`Unknown law series: ${series}`);
+      if (value === undefined || !Number.isFinite(value))
+        throw new Error("A bill needs a value.");
+      if (!sponsorId) throw new Error("A bill needs a sponsor.");
+      // A policy question (a yes or no the law answers) is a section of its own kind.
+      provisions = [
+        POLICY_QUESTIONS[series]
+          ? { kind: "policy-question", question: series, value }
+          : {
+              kind: "law-amount",
+              series,
+              value,
+              ...(input.unit ? { unit: input.unit } : {}),
+            },
+      ];
+    }
     const bill = draftBill(this.api, {
       bodyOfficeId: input.bodyOfficeId,
-      sponsorId: input.sponsorId,
-      provisions: [provision],
+      sponsorId: sponsorId!,
+      provisions,
     });
     return {
       mark: this.mark("introduce", [bill.id], {
         billId: bill.id,
-        sponsorId: input.sponsorId,
+        sponsorId: sponsorId!,
+        ...(input.billId ? { from: input.billId } : {}),
       }),
       bill,
     };
@@ -768,8 +796,10 @@ export class DevMode {
    */
   decideAt(
     billId: string,
-    margin: number,
+    margin: number | undefined,
     options: {
+      /** Members voting as named (key to vote); the rest vote by `margin`, or by their own position where there is none. */
+      votes?: Readonly<Record<string, "yes" | "no" | "abstain">>;
       sign?: boolean;
       overrideMargin?: number;
       /** Every member signs a discharge petition for the bill before the committee meets. */
@@ -798,25 +828,53 @@ export class DevMode {
           ) ||
           memberKey(a).localeCompare(memberKey(b)),
       );
-    const vote = (chamber: string, wanted: number, override: boolean) => {
+    const vote = (
+      chamber: string,
+      wanted: number | undefined,
+      override: boolean,
+    ) => {
       const roster = bySeniority(
         members(api, chamber),
         new Set(committeeMemberKeys(api, billId, chamber)),
       );
-      const yes = Math.max(
-        0,
-        Math.min(roster.length, Math.round((roster.length + wanted) / 2)),
-      );
-      roster.forEach((term, index) =>
-        castMemberVote(
-          api,
-          billId,
-          memberKey(term),
-          index < yes ? "yes" : "no",
-          override,
-        ),
-      );
-      return { chamber, yes, no: roster.length - yes };
+      // Members named in `votes` vote as named, a dev's decision; the others fill the margin
+      // (negative to defeat), or vote their own position where no margin was given.
+      const named = options.votes ?? {};
+      const free = roster.filter((term) => !named[memberKey(term)]);
+      const namedYes = roster.filter(
+        (term) => named[memberKey(term)] === "yes",
+      ).length;
+      const namedNo = roster.filter(
+        (term) => named[memberKey(term)] === "no",
+      ).length;
+      let yes = 0;
+      if (wanted !== undefined) {
+        const total = Math.round((roster.length + wanted) / 2);
+        yes = Math.max(0, Math.min(free.length, total - namedYes));
+      }
+      let ownYes = 0;
+      let ownNo = 0;
+      free.forEach((term, index) => {
+        if (wanted === undefined) {
+          const own = castOwnPositionVote(api, billId, memberKey(term)).vote;
+          if (own === "yes") ownYes += 1;
+          else if (own === "no") ownNo += 1;
+        } else
+          castMemberVote(
+            api,
+            billId,
+            memberKey(term),
+            index < yes ? "yes" : "no",
+            override,
+          );
+      });
+      for (const term of roster) {
+        const cast = named[memberKey(term)];
+        if (cast) castMemberVote(api, billId, memberKey(term), cast, override);
+      }
+      return wanted === undefined
+        ? { chamber, yes: namedYes + ownYes, no: namedNo + ownNo }
+        : { chamber, yes: namedYes + yes, no: namedNo + free.length - yes };
     };
     const chambers = chambersOf(api, bill);
     // Whether this body has an executive with a veto: a county board, or a mayor where the state
@@ -865,7 +923,14 @@ export class DevMode {
     return {
       mark: this.mark("decide", [billId], {
         billId,
-        margin: String(margin),
+        ...(margin !== undefined ? { margin: String(margin) } : {}),
+        ...(options.votes
+          ? {
+              votes: Object.entries(options.votes)
+                .map(([key, cast]) => `${key}:${cast}`)
+                .join(","),
+            }
+          : {}),
         ...(options.sign !== undefined ? { sign: String(options.sign) } : {}),
         ...(options.overrideMargin !== undefined
           ? { overrideMargin: String(options.overrideMargin) }
