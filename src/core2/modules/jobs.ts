@@ -1960,6 +1960,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
+  const conditions = new Map<string, ReturnType<typeof regionalConditions>>();
   const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
@@ -1979,7 +1980,12 @@ function reviewRegionalFinds(api: CoreAPI): void {
         person && !isCounted(api, person.id)
           ? workLeans(c, person).applyLean
           : p("zero");
-      const at = regionalConditions(api, seeker.placeId);
+      let at = conditions.get(seeker.placeId);
+      if (!at)
+        conditions.set(
+          seeker.placeId,
+          (at = regionalConditions(api, seeker.placeId)),
+        );
       const birth =
         person?.birthDate ?? residentFacts(c, seeker.personId)?.birthDate;
       const age = birth
@@ -2002,7 +2008,8 @@ function reviewRegionalFinds(api: CoreAPI): void {
           .put({ ...seeker, regionalPull: pull } as never);
     }
   }
-  for (const seeker of found) hireRegional(api, seeker);
+  const memo: RegionalMemo = { outside: new Map(), rows: new Map() };
+  for (const seeker of found) hireRegional(api, seeker, memo);
 }
 
 /** The private employers' live jobs the turnover pull reads, named and counted, by id. */
@@ -2161,7 +2168,34 @@ function regionalTemplate(
   api: CoreAPI,
   placeId: string,
   referenceHourlyMinor: number,
+  memo?: RegionalMemo,
 ): JobInput | undefined {
+  const c = core(api);
+  let rows = memo?.rows.get(placeId);
+  if (!rows) {
+    rows = regionalRows(api, placeId);
+    memo?.rows.set(placeId, rows);
+  }
+  if (!rows.length) return undefined;
+  const target =
+    referenceHourlyMinor > 0
+      ? referenceHourlyMinor
+      : rows[Math.floor(rows.length / 2)]!.hourlyMinor!;
+  return rows.reduce((best, row) =>
+    Math.abs((row.hourlyMinor ?? 0) - target) <
+    Math.abs((best.hourlyMinor ?? 0) - target)
+      ? row
+      : best,
+  );
+}
+
+/** What one review of regional finds looks up once per place: its outside account and its private employers' live jobs, pay ordered. */
+interface RegionalMemo {
+  outside: Map<string, ReturnType<typeof townOutsideOf>>;
+  rows: Map<string, JobInput[]>;
+}
+
+function regionalRows(api: CoreAPI, placeId: string): JobInput[] {
   const c = core(api);
   const rows: JobInput[] = [];
   const consider = (job: JobInput) => {
@@ -2178,31 +2212,30 @@ function regionalTemplate(
   };
   for (const job of c.jobs.values()) consider(job);
   for (const job of residentsRuntime(c)?.jobs.values() ?? []) consider(job);
-  if (!rows.length) return undefined;
   rows.sort(
     (a, b) =>
       (a.hourlyMinor ?? 0) - (b.hourlyMinor ?? 0) || a.id.localeCompare(b.id),
   );
-  const target =
-    referenceHourlyMinor > 0
-      ? referenceHourlyMinor
-      : rows[Math.floor(rows.length / 2)]!.hourlyMinor!;
-  return rows.reduce((best, row) =>
-    Math.abs((row.hourlyMinor ?? 0) - target) <
-    Math.abs((best.hourlyMinor ?? 0) - target)
-      ? row
-      : best,
-  );
+  return rows;
 }
 
-function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
+function hireRegional(
+  api: CoreAPI,
+  seeker: SeekerRow,
+  memo?: RegionalMemo,
+): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const outside = townOutsideOf(c.organizations.values(), seeker.placeId);
+  let outside = memo?.outside.get(seeker.placeId);
+  if (!outside) {
+    outside = townOutsideOf(c.organizations.values(), seeker.placeId);
+    if (outside) memo?.outside.set(seeker.placeId, outside);
+  }
   const template = regionalTemplate(
     api,
     seeker.placeId,
     seeker.referenceHourlyMinor,
+    memo,
   );
   if (!outside) return;
   // The pay a new hire in their kind of work gets in the region: BLS OEWS
