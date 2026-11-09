@@ -12,9 +12,9 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** The research-data-has-reader guard is red on main: data/research/executive/orders-and-vacancies-2026-11.json (executive orders, legal limits, vacancy rules) and data/research/justice/bop-federal-offenses-2026.json (federal offenses and Bureau of Prisons terms) have no reader in src/ or scripts/. The awaiting-reader list may only shrink, so they cannot be allowlisted; each needs the code that should read it.
+**What.** The research-data-has-reader guard is red on main: data/research/executive/orders-and-vacancies-2026-11.json (executive orders, legal limits, vacancy rules) and data/research/justice/bop-federal-offenses-2026.json (federal offenses and Bureau of Prisons terms) have no reader in src/ or scripts/. The awaiting-reader list may only shrink, so they cannot be allowlisted; each needs the code that should read it. Until each file has a reader it is data nobody uses, which the standing rule on effects counts as a placeholder.
 
-**Rules.** an-effect-is-a-read, research-habit
+**Rules.** An effect is a read, not a record: a file counts only when production code reads it at the moment it decides, such as an order's legal limit or a sentence's term. Research before building: the readers use the researched values and never decide an outcome from them alone.
 
 **Done when.** tests/guards/research-data-has-reader.test.ts passes with both files read by production code (or one honestly allowlisted as raw source by the CTO) and each reader named by record id.
 

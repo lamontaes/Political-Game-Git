@@ -19,6 +19,7 @@ import { choosesPresident } from "../core2/electorate-places";
 import { federalOffices } from "../core2/offices-state";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 import { lawChain } from "../core2/modules/laws";
+import { LAW_SERIES } from "../core2/laws-in-force";
 import {
   checkEligibility,
   fileCandidacy,
@@ -39,7 +40,7 @@ import {
   partyAgreement,
   partyTie,
 } from "../core2/modules/parties";
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
 import { ownRace } from "./results";
 
 const LOCAL_LEVELS = new Set(["city", "township", "county"]);
@@ -251,6 +252,8 @@ export function governmentView(core: CoreState, personId: string) {
     law: lawHere(api).map((row) => ({
       series: row.series,
       yesNo: !AMOUNT_SERIES.includes(row.series),
+      // An additive tax is each level's own law; the screen lists them apart.
+      additive: LAW_SERIES[row.series] === "additive",
       value: row.value,
       unit: row.unit,
       estimate: row.estimate,
@@ -443,6 +446,9 @@ export function localRaces(core: CoreState) {
         title: raceTitle(contest.title, contest.district),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
+        // The day filing opens, from the contest's record: null where the
+        // place's records give no opening day.
+        filingOpens: contest.filingOpens ?? null,
         filingClosed: contest.filingDeadline < core.date,
         // Filing is open today: the office takes a filing for it, by the
         // elections engine's one window (`filingWindowOpen`).
@@ -452,6 +458,10 @@ export function localRaces(core: CoreState) {
         // Whether the player may run for it (the offices the player runs
         // for, player-offices.json): the screen offers to file only then.
         playerMayFile: playerMayFileFor(api, contest.id),
+        // The first rule that stops the player filing, other than the dates
+        // (the window shows those): the page says it plainly and offers no
+        // filing, from the same eligibility check the clerk reads.
+        cannotFile: cannotFileFor(api, core.playerId, contest.id),
         // The last election for the seat, from its holder's term record.
         lastTime: lastTimeOf(api, contest.id),
         filers,
@@ -562,6 +572,28 @@ function ofVotingAge(core: CoreState, personId: string): boolean {
   return Boolean(
     person && ageOnDate(person.birthDate, core.date) >= parameter("votingAge"),
   );
+}
+
+/** The rules that stop a filing for reasons about the person, not the calendar. */
+const PERSON_RULES = ["residency", "minimum-age", "district-residency"];
+
+/**
+ * Why the player cannot file for a race, as record data (the rule, what it
+ * asks and what the records show), or null where nothing but the dates stands
+ * in the way.
+ */
+function cannotFileFor(
+  api: CoreAPI,
+  playerId: string | null | undefined,
+  contestId: string,
+): { rule: string; required: string; actual: string } | null {
+  if (!playerId) return null;
+  const unmet = checkEligibility(api, playerId, contestId).find(
+    (row) => !row.met && PERSON_RULES.includes(row.rule),
+  );
+  return unmet
+    ? { rule: unmet.rule, required: unmet.required, actual: unmet.actual }
+    : null;
 }
 
 export function fileForOffice(

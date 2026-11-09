@@ -177,6 +177,10 @@ engine can look it up and obey it.
 - Claim before building; one item at a time. Never merge your own PR; the
   mergers merge.
 
+## Fetching pages in a cloud session
+
+WebFetch can fail on DNS in a cloud session while `curl -sSL --max-time 30` through the container's proxy works (en.wikipedia.org returns 200). Some government sites (cga.ct.gov) refuse automated clients with an error page: then use WebSearch's quoted text or the same document on a mirror such as eCode360 or the town's own site, and never work around a refusal further. Save each page you quote and keep its quoted line and URL in the row; mark a row ESTIMATED when the text you hold is a summary and not the statute or charter itself. When `git fetch` hangs under load, read a pull request's state with `gh api repos/<owner>/<repo>/pulls/<n>`.
+
 ## The prompt
 
 > Read AGENTS.md and .agents/skills/researcher/SKILL.md in lamontaes/Political-Game-Git, then docs/pool/INDEX.md and the CTO section of docs/coordination/LEADS-2026-10-24.md.
