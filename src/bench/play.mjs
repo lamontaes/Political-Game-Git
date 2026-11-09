@@ -3821,6 +3821,7 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
+        photoOf: storyPhoto,
       }),
     ];
   },
