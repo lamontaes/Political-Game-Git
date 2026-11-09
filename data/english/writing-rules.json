@@ -1,6 +1,6 @@
 {
   "schema": "english-writing-rules/1",
-  "about": "What the owner's grades and voice notes taught, and what shipped games teach, as rules the words work reads before it writes or chooses a line (owner, Nov 9, 12:45 a.m.: \"so that these shitty lines don't happen again\"). A rule with features is also a lesson on the grade map (src/english/grade-map.ts): each feature takes the strength given on every line that holds it, in the rule context. A rule with no features is checked by the writer and the grounding reviewer, not by the map. Sources: the owner's quotes with their files, and docs/research/dialogue/2026-11-09-how-games-write-dialogue.md.",
+  "about": "What the owner's grades and voice notes taught, and what shipped games teach, as rules the words work reads before it writes or chooses a line (owner, Nov 9, 12:45 a.m.: \"so that these shitty lines don't happen again\"). A rule with features is also a lesson on the grade map (src/english/grade-map.ts): each feature takes the strength given on every line that holds it, in the rule context. A rule with no features is checked by the writer and the grounding reviewer, not by the map. Sources: the owner's quotes with their files, and docs/research/dialogue/ (how games write dialogue).",
   "rules": [
     {
       "id": "names-something-specific",
@@ -11,7 +11,7 @@
           "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 1"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 1"
         }
       ],
       "features": {
@@ -29,7 +29,7 @@
           "file": "owner ruling, Nov 8 (CTO brief for the Nov 9 Story run)"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 3"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 3"
         }
       ],
       "features": {
@@ -47,7 +47,7 @@
           "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 4"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 4"
         }
       ],
       "features": {
@@ -68,7 +68,7 @@
           "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 1"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 1"
         }
       ],
       "features": {
@@ -84,7 +84,7 @@
           "file": "owner ruling, Nov 8, 2:22 p.m. (CTO brief): this is why it feels like i've seen the same dialogue for 2 weeks"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 16"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 16"
         }
       ],
       "features": {
@@ -97,7 +97,7 @@
       "rule": "No stock phrase a script reaches for when there is nothing to say (\"moving forward\", \"at the end of the day\", \"I hear you\").",
       "sources": [
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 16"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 16"
         }
       ],
       "features": {
@@ -109,7 +109,7 @@
       "rule": "No line explains its own subtext or tells the player what to feel.",
       "sources": [
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 12"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 12"
         }
       ],
       "features": {
@@ -191,7 +191,7 @@
           "file": "docs/coordination/OWNER-DECISIONS.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 15"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 15"
         }
       ],
       "features": {}
@@ -216,7 +216,7 @@
           "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 6"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 6"
         }
       ],
       "features": {}
@@ -241,10 +241,10 @@
           "file": "docs/coordination/OWNER-DECISIONS.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 7"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 7"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 8"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 8"
         }
       ],
       "features": {}
@@ -291,10 +291,10 @@
           "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 9"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 9"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 10"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 10"
         }
       ],
       "features": {}
@@ -319,7 +319,7 @@
           "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 16"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 16"
         }
       ],
       "features": {
@@ -342,13 +342,13 @@
       "rule": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
       "sources": [
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 2"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 2"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 13"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 13"
         },
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 14"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 14"
         }
       ],
       "features": {}
@@ -358,7 +358,7 @@
       "rule": "The most specific matching line wins: a line tied to the speaker's trait and the situation outranks a generic one.",
       "sources": [
         {
-          "research": "docs/research/dialogue/2026-11-09-how-games-write-dialogue.md, rule 5"
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 5"
         }
       ],
       "features": {}
