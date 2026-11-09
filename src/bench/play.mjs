@@ -75,6 +75,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billFigures } from "./ui/bill-figures.mjs";
 import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
@@ -491,11 +492,14 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-// Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+// Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
-    return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+    // A rate per hour or day keeps its cents; a plain amount reads rounded, as Budgets does.
+    return unit.includes("/")
+      ? `${moneyWords(Number(value))}/${unit.split("/")[1]}`
+      : roundedMoney(Number(value));
   // A rate as a person would say it: at most two decimals (a combined sales
   // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
@@ -960,7 +964,7 @@ function atOrders() {
             item.kind === "budget"
               ? item.lines.map((row) =>
                   labeled(
-                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    `${row.name} ${roundedMoney(row.amountMinor)}`,
                     select({
                       options: [-20, -10, 0, 10, 20].map((pct) => {
                         const minor = Math.round((row.amountMinor * pct) / 100);
@@ -2546,7 +2550,7 @@ async function officeParts() {
           paged(
             v.budget.lines.map((row) =>
               labeled(
-                `${row.name} ${moneyWords(row.amountMinor)}`,
+                `${row.name} ${roundedMoney(row.amountMinor)}`,
                 select({
                   options: [-20, -10, 0, 10, 20].map((pct) => {
                     const minor = Math.round((row.amountMinor * pct) / 100);
@@ -2679,6 +2683,7 @@ async function openBillPaper(billId, show, back, backLabel) {
   const stage = await api(
     `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
   );
+  const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
   const backButton = makeButton({
@@ -2693,7 +2698,27 @@ async function openBillPaper(billId, show, back, backLabel) {
       title: paper.title,
       sponsor: `${words.sponsor ?? ""} ${paper.sponsor}`,
       sectionsLabel: words.sections ?? "",
+      whereLabel: words.where ?? "",
+      billLabel: words.bill ?? "",
+      voteLabel: words.vote ?? "",
       estimateLabel: words.estimate ?? "",
+      // The budget lines the bill sets, this year beside last year's.
+      extra: billFigures({
+        view,
+        textOf: (index) => paper.sections[index]?.text ?? paper.title,
+        money: roundedMoney,
+        percent: (value) =>
+          new Intl.NumberFormat("en-US", {
+            style: "percent",
+            maximumFractionDigits: 1,
+          }).format(value / 100),
+        words,
+      }),
+      // Each chamber's result as the English engine words it, from the stage view.
+      votes: [...stage.floor, ...stage.override].map((entry) => ({
+        big: entry.result,
+        text: entry.chamberTitle,
+      })),
       blank: billEstimate(paper, { estimate: {} }),
       sections: paper.sections.map((section) => ({
         text: section.text ?? paper.title,
