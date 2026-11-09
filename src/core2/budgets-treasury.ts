@@ -763,6 +763,8 @@ export interface TreasuryMonthRow {
   readonly date: string;
   readonly budgetId: string;
   readonly revenueFromOutsideMinor: number;
+  /** Everything the treasury collected this month: the outside lump, its named payers' installments, its town's payers and aid received. */
+  readonly collectedMinor: number;
   /** Wages of the government's opening employers the treasury couldn't cover, in all, at the close. */
   readonly publicPayShortfallMinor: number;
   readonly aidReceivedMinor: number;
@@ -1108,6 +1110,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   );
   const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
+  const namedCollected = new Map<string, number>();
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
@@ -1186,6 +1189,10 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         baseIndex,
         townPaidMinor: credited,
       } as unknown as ModuleRow);
+      namedCollected.set(
+        gov.id,
+        (namedCollected.get(gov.id) ?? 0) + receipt.paidMinor + credited,
+      );
     }
   }
   const providers = providersIndex(api);
@@ -1231,6 +1238,10 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         budgetId: budget.id,
         revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+        collectedMinor:
+          (fromOutside.get(gov.id) ?? 0) +
+          (namedCollected.get(gov.id) ?? 0) +
+          (aidReceived.get(gov.id) ?? 0),
         publicPayShortfallMinor: publicPayShortfallOf(api, gov),
         aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
         aidPaidMinor: carrier ? held : 0,
@@ -1560,6 +1571,11 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       budgetId: budget.id,
       revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+      collectedMinor:
+        (fromOutside.get(gov.id) ?? 0) +
+        (namedCollected.get(gov.id) ?? 0) +
+        Object.values(inTown).reduce((a, b) => a + b, 0) +
+        (aidReceived.get(gov.id) ?? 0),
       publicPayShortfallMinor: publicPayShortfallOf(api, gov),
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
       aidPaidMinor: aidPaid,
