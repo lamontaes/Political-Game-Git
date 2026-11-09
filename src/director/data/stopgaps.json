@@ -692,5 +692,17 @@
     "addedAt": "2026-11-09",
     "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
     "status": "open"
+  },
+  {
+    "id": "SG-STORY-home-damaged-cast",
+    "kind": "missing-data",
+    "file": "src/director/purpose-scene.ts",
+    "line": 1,
+    "whatItFakes": "The talk over a damaged home (circumstance home-damaged) is cast only from the people who live with the player. The damaged-home record names no lender, landlord, insurer or aid office, so none is cast, and a player who lives alone is told nothing of it. A home the counted population lost has no named head and no scene.",
+    "why": "The disasters engine keeps the home's kind, the aid paid and the repairs paid and owed, but no mortgage, policy or case worker, and the housing engine's lender is not tied to a damaged home.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "The housing engine names the home's lender or landlord on the damaged-home row; the row's pool then casts that party (or the aid office's worker) beside the household.",
+    "status": "open"
   }
 ]

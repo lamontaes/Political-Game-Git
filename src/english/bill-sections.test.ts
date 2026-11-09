@@ -295,3 +295,46 @@ describe("a bill composed from the played world", () => {
     expect(made).toBeNull();
   });
 });
+
+describe("a clause words both its values in the law row's unit", () => {
+  // A section that names no unit (a seat's draft) takes the law row's unit on both sides of
+  // "from ... to ...", across the unit kinds: dollars an hour, percent, dollars a week.
+  const cases = [
+    {
+      series: "minimum-wage",
+      unit: "minor/hour",
+      was: 725,
+      now: 1500,
+      say: ["from $7.25 an hour", "to $15 an hour"],
+    },
+    {
+      series: "sales-tax",
+      unit: "percent",
+      was: 4,
+      now: 6,
+      say: ["from 4 percent", "to 6 percent"],
+    },
+    {
+      series: "unemployment-weekly-maximum",
+      unit: "USD/week",
+      was: 427,
+      now: 500,
+      say: ["from $427 a week", "to $500 a week"],
+    },
+  ] as const;
+  for (const c of cases)
+    it(`${c.series} (${c.unit})`, () => {
+      const text = composeBill({
+        id: "bill:fixture",
+        number: "2026-5",
+        form: {
+          kind: "act",
+          enactingClause: "Be it enacted by the Legislature",
+        },
+        provisions: [{ kind: "law-amount", series: c.series, value: c.now }],
+        before: [{ value: c.was, unit: c.unit, statute: null }],
+      } as unknown as Parameters<typeof composeBill>[0])!.sections[0]!;
+      expect(text, c.series).toContain(c.say[0]);
+      expect(text, c.series).toContain(c.say[1]);
+    });
+});

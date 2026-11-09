@@ -35,6 +35,11 @@ import {
   recordEmployerBound,
   recordHiredUnderBan,
 } from "../jobs-age-bias";
+import {
+  recordBiasAt,
+  recordRanking,
+  recordHiredUnderBan as recordHiredWithRecordUnderBan,
+} from "../jobs-record-bias";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
@@ -566,6 +571,8 @@ function startSeeking(
   employed: boolean,
   reasonKey: string,
   referenceHourlyMinor: number,
+  /** Progress already made toward finding work when the search is first seen (the opening's jobless are partway through their spells). */
+  regionalPull?: number,
 ): void {
   if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
@@ -590,7 +597,9 @@ function startSeeking(
       referenceHourlyMinor: prior?.referenceHourlyMinor ?? referenceHourlyMinor,
       ...(prior?.regionalPull !== undefined
         ? { regionalPull: prior.regionalPull }
-        : {}),
+        : regionalPull !== undefined
+          ? { regionalPull }
+          : {}),
     });
   if (!employed && !prior) {
     store(api)
@@ -845,7 +854,14 @@ function openSeekers(api: CoreAPI): void {
       .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
       .slice(0, quotas.get(key) ?? 0)
       .forEach((person) =>
-        startSeeking(api, person.id, false, OPENING_UNEMPLOYED, 0),
+        startSeeking(
+          api,
+          person.id,
+          false,
+          OPENING_UNEMPLOYED,
+          0,
+          openingProgress(c, person.id),
+        ),
       );
   }
 }
@@ -918,16 +934,29 @@ function openCountedSeekers(api: CoreAPI): void {
     (a, b) => a.share - b.share || a.personId.localeCompare(b.personId),
     quotas,
   ))
-    store(api).table("countedSeekers").put({
-      id: row.personId,
-      isSeeker: true,
-      personId: row.personId,
-      placeId: row.placeId,
-      employed: false,
-      since: c.date,
-      reasonKey: OPENING_UNEMPLOYED,
-      referenceHourlyMinor: 0,
-    });
+    store(api)
+      .table("countedSeekers")
+      .put({
+        id: row.personId,
+        isSeeker: true,
+        personId: row.personId,
+        placeId: row.placeId,
+        employed: false,
+        since: c.date,
+        reasonKey: OPENING_UNEMPLOYED,
+        referenceHourlyMinor: 0,
+        regionalPull: openingProgress(c, row.personId),
+      });
+}
+
+/**
+ * How far along finding work an opening's jobless person already is: a point
+ * on their spell from the world's seed and their id, as the turnover pulls
+ * seed theirs (generation of who exists, no roll). Everyone starting at zero
+ * would have the whole opening cohort find work in the same month.
+ */
+function openingProgress(c: CoreState, personId: string): number {
+  return new SeededRng(c.seed).fork(`opening-pull:${personId}`).next();
 }
 
 /** A job's role: its occupation, or its title where it has none. */
@@ -2808,7 +2837,8 @@ export function reviewJobless(api: CoreAPI): void {
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
       offer("look", person.id, {
-        baseline: p("jobsEnterBaseline"),
+        // The baseline is the cost of starting to look: someone already looking has paid it.
+        baseline: seeking ? p("jobsContinueBaseline") : p("jobsEnterBaseline"),
         ...(enter ? { web: enter } : {}),
         // A dependent's own living cost is carried by the household, so the
         // pressure is how few days the household's money covers its costs.
@@ -3175,10 +3205,27 @@ function runWeek(api: CoreAPI): void {
     const birthOf = (personId: string) =>
       c.people.get(personId)?.birthDate ??
       residentFacts(c, personId)?.birthDate;
+    // A public employer that may ask about a criminal record weighs an applicant
+    // with a conviction down; a ban-the-box law in the town takes that off.
+    const recordBias = recordBiasAt(
+      api,
+      position.organizationId,
+      position.placeId,
+    );
     const weighed = (seeker: SeekerRow, penalized: boolean) => {
       const born = penalized && bias ? birthOf(seeker.personId) : undefined;
-      return fit(seeker) - (born && bias ? bias.penaltyOf(born) : 0);
+      return (
+        fit(seeker) -
+        (born && bias ? bias.penaltyOf(born) : 0) -
+        (recordBias && !recordBias.ban
+          ? recordBias.penaltyOf(seeker.personId)
+          : 0)
+      );
     };
+    // Under a ban-the-box law: who the penalty would have chosen, to tell whether the ban changed the hire.
+    const unbanned = (seeker: SeekerRow) =>
+      weighed(seeker, !bias?.ban) -
+      (recordBias?.ban ? recordBias.penaltyOf(seeker.personId) : 0);
     const pick = (pool: readonly SeekerRow[], penalized: boolean) => {
       let top = pool[0]!;
       for (const row of pool) {
@@ -3199,6 +3246,17 @@ function runWeek(api: CoreAPI): void {
     // ranking, picking whom the scan would. Where no ranking stands
     // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
     // ranking and throws on any difference.
+    // A public opening's ranking is kept by record: each applicant's place and weight, and whether a conviction is on their record, so the law's reach reads in the order itself.
+    if (recordBias)
+      recordRanking(
+        api,
+        recordBias,
+        position.id,
+        pool.map((row) => ({
+          personId: row.personId,
+          weight: weighed(row, !bias?.ban),
+        })),
+      );
     const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
     const penalizedOrder =
       order && bias?.ban
@@ -3292,6 +3350,33 @@ function runWeek(api: CoreAPI): void {
           `job:${position.id}:${best.personId}`;
       }
       if (!placed) continue;
+      if (recordBias?.ban && recordBias.hasRecord(best.personId)) {
+        // Would the penalty have chosen someone else among those still in the pool?
+        const rivals = applicants.filter(
+          (row) =>
+            row !== best && !c.jobs.has(`job:${position.id}:${row.personId}`),
+        );
+        if (
+          rivals.some((row) => unbanned(row) > unbanned(best)) &&
+          !isCounted(api, best.personId)
+        )
+          recordHiredWithRecordUnderBan(
+            api,
+            recordBias,
+            {
+              personId: best.personId,
+              organizationId: position.organizationId,
+            },
+            Math.round(
+              position.hourlyMinor *
+                ((
+                  c.jobs.get(position.templateJobId) ??
+                  residentsRuntime(c)?.jobs.get(position.templateJobId)
+                )?.hoursDaily ?? 0) *
+                p("jobsDaysPerYear"),
+            ),
+          );
+      }
       if (overruled && bias)
         recordHiredUnderBan(
           api,
@@ -3981,10 +4066,14 @@ export function reviewCountedEntry(api: CoreAPI): void {
         }
         days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
       }
+      const seeking = seekers.get(personId) as SeekerRow | undefined;
       const result = chooseAct(c, personId, [
         offer("wait", personId, {}),
         offer("look", personId, {
-          baseline: p("jobsEnterBaseline"),
+          // The baseline is the cost of starting to look: someone already looking has paid it.
+          baseline: seeking
+            ? p("jobsContinueBaseline")
+            : p("jobsEnterBaseline"),
           // The outcome web's pull toward being at work for this person's groups.
           web: participationShift(
             api,
@@ -4003,7 +4092,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
         personId,
         "countedSeekers",
         result.selected!.definition.id === jobsData.actions.look.id,
-        seekers.get(personId) as SeekerRow | undefined,
+        seeking,
         () =>
           seekers.put({
             id: personId,

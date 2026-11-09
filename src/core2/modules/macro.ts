@@ -38,6 +38,7 @@ import {
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
+import { firmStaffing } from "./jobs";
 import { residentCounts } from "./residents";
 import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
@@ -238,6 +239,7 @@ function publishConditions(
       api.state as CoreState,
       placeId,
       prices * (row.realOutput / opening.realOutput) * region.demand,
+      (organizationId) => firmStaffing(api, organizationId)?.serviceLevel,
     );
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,

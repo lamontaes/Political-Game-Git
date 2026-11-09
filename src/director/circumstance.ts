@@ -79,6 +79,13 @@ export interface CircumstanceRow {
    */
   lived?: boolean;
   /**
+   * The cast may be someone the director cast in another scene from
+   * circumstance lately: the record is the player's own and the household has
+   * few to tell it (a home a disaster damaged is talked over by the one other
+   * person who lives there, however lately the news came to them).
+   */
+  recast?: boolean;
+  /**
    * The scene comes ahead of the day's other scenes from circumstance (the
    * floor before the roll comes before the word in the hallway after the
    * sitting); only one scene a day reaches the player.
@@ -607,7 +614,7 @@ export function circumstancePicks(
     staged: ReadonlySet<string>;
     due: (row: CircumstanceRow) => boolean;
     /** Whether a person may be cast today (not cast again inside the repeat window). */
-    castDue?: (id: PersonId) => boolean;
+    castDue?: (id: PersonId, row: CircumstanceRow) => boolean;
     byKind?: Map<string, CircumstanceRow[]>;
   },
 ): CircumstancePick[] {
@@ -643,7 +650,7 @@ export function circumstancePicks(
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
           if (id === playerId || core.people.get(id)?.alive !== true) continue;
-          if (options.castDue && !options.castDue(id)) continue;
+          if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);
