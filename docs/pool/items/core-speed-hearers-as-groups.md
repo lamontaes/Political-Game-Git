@@ -5,11 +5,12 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/speech-groups
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T15:39:06.480Z
 ---
 
 **What.** A world candidate's campaign speech delivers to every listener one by one (views onEvent, drives respond, a retelling weighed each), which is most of a campaign event's cost in an election year. Hearers nobody watches take it once per group of like hearers (place, lean, age band, how readily they yield), and stanceOn adds the group's stance for its members, so viewOn, votes and the legislature read it through the one store. Design: docs/speed/off-screen-campaigns-as-results.md, stage 1 step 1.
