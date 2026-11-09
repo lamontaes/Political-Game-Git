@@ -14,7 +14,7 @@ import { daysBetweenText } from "../core2/kernel/dates";
 import { careNeedOf } from "../core2/modules/health";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
-import { CASES_MODULE_ID } from "../core2/modules/constituent-cases";
+import { CASES_MODULE_ID } from "../core2/modules/offices";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { dollars } from "../english/bill-sections";
 import { spanSaid } from "../english/span-words";
