@@ -146,7 +146,7 @@ it("a worker whose hours were cut in the quarter before a layoff draws the same 
       tried.push(`${where}: the worker left before the cut`);
       continue;
     }
-    cutWorld.rehourJob(
+    coreAPI(cutWorld).rehourJob(
       job.id,
       Math.max(0.5, Math.round(((job.hoursDaily ?? 8) / 3) * 2) / 2),
       {
