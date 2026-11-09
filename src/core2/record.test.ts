@@ -47,7 +47,7 @@ import {
   votesOf,
 } from "./modules/record";
 import { openPress } from "./modules/press";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { setKeepEveryonesWhy } from "./why-kept";

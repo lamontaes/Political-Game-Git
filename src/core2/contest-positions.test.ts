@@ -26,7 +26,7 @@ import geography from "../../data/research/geography/state-reference.json" with 
 import questionPowers from "../../data/research/powers-catalog/question-powers.json" with { type: "json" };
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { contestPositions } from "./contest-positions";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";

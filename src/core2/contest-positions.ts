@@ -19,7 +19,8 @@
  * view read. A line nobody leans on (no recorded axis) is left out, as no
  * stance on it can form.
  */
-import { PLATFORM_QUESTIONS, questionAxis } from "./campaign-views";
+import { questionAxis } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { BUDGETS_MODULE_ID, budgetsOf, governments } from "./modules/budgets";
 import { OFFICES_MODULE_ID } from "./modules/offices";
 import { levelMayDecide } from "./modules/world-legislating";
