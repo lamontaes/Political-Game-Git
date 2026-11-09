@@ -141,7 +141,10 @@ it("a worker whose hours were cut in the quarter before a layoff draws the same 
     const layoffDate = addDays(start, 455);
     advanceCore(cutWorld, cutDate);
     advanceCore(steadyWorld, cutDate);
-    const held = (core: typeof cutWorld) => core.jobs.get(job.id);
+    const held = (core: typeof cutWorld) => {
+      const row = core.jobs.get(job.id);
+      return row && row.endsAt === undefined ? row : undefined;
+    };
     if (!held(cutWorld) || !held(steadyWorld)) {
       tried.push(`${where}: the worker left before the cut`);
       continue;
