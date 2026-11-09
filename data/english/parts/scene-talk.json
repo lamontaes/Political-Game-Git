@@ -168390,7 +168390,7 @@
       "key": "scene-talk.narrate-narrate.name-has-just-started-in-the-same-job-as-yours-at-employer-and-has-come-over-to-say-hello",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has just started in the same job as yours at {employer} and has come over to say hello.",
+      "text": "{name} just started at {employer} doing the same job you do, and has come over to say hello.",
       "uses": [
         {
           "subject": "scene",
@@ -168438,7 +168438,7 @@
       "key": "scene-talk.narrate-narrate.name-has-just-started-at-employer-and-the-kids-from-your-two-houses-are-at-school-together",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has just started at {employer}, and the kids from your two houses are at {school} together.",
+      "text": "{name} has just started at {employer}, and your kids and theirs are at {school} together.",
       "uses": [
         {
           "subject": "scene",
@@ -168758,7 +168758,7 @@
       "key": "scene-talk.state-request.my-child-child-goes-to-school-and-i-think-someone-in-your-house-does-too-do-you-know-how-pickup-works-there",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My child, {child}, goes to {school}, and I think someone in your house does too. Do you know how pickup works there?",
+      "text": "My kid {child} goes to {school}, and I think one of yours does too. Do you know how pickup works there?",
       "uses": [
         {
           "subject": "scene",
@@ -168854,7 +168854,7 @@
       "key": "scene-talk.reply-agree.of-course-everybody-needs-somebody-to-show-them-the-ropes-when-they-start",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Of course. Everybody needs somebody to show them the ropes when they start.",
+      "text": "Of course. Somebody did the same for me when I started.",
       "uses": [
         {
           "subject": "scene",
@@ -168969,7 +168969,7 @@
       "key": "scene-talk.reply-deflect.i-don-t-have-the-time-to-do-this-right-just-now-find-me-tomorrow-and-ask-me-again",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I don't have the time to do this right just now. Find me tomorrow and ask me again.",
+      "text": "I don't have time right now. Find me tomorrow and ask me again.",
       "uses": [
         {
           "subject": "scene",
@@ -169552,7 +169552,7 @@
       "key": "scene-talk.narrate-narrate.your-two-houses-have-kids-at-school-and-name-has-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Your two houses have kids at {school}, and {name} has something to ask you.",
+      "text": "{name} has kids at {school} with yours, and has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -169893,7 +169893,7 @@
       "key": "scene-talk.state-request.could-you-pick-up-my-child-child-from-school-on-thursday-first-i-ll-return-the-favor",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Could you pick up my child, {child}, from {school} on Thursday, {first}? I'll return the favor.",
+      "text": "Could you pick {child} up from {school} on Thursday, {first}? I'll return the favor.",
       "uses": [
         {
           "subject": "scene",
@@ -169987,7 +169987,7 @@
       "key": "scene-talk.reply-promise.i-will-do-it-and-you-won-t-have-to-remind-me",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I will do it, and you won't have to remind me.",
+      "text": "I'll do it, and you won't have to remind me.",
       "uses": [
         {
           "subject": "scene",
@@ -170396,7 +170396,7 @@
       "key": "scene-talk.follow-answer.whatever-time-you-have-this-week-would-be-fine-i-thought-of-you-because-you-re-easy-to-be-around",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever time you have this week would be fine. I thought of you because you're easy to be around.",
+      "text": "Whenever works for you. I thought of you because you're easy to be around.",
       "uses": [
         {
           "subject": "scene",
@@ -170421,7 +170421,7 @@
       "key": "scene-talk.follow-answer.soon-if-you-can-and-i-thought-of-you-because-i-trust-you-with-it",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Soon, if you can, and I thought of you because I trust you with it.",
+      "text": "As soon as you can. I thought of you because I trust you.",
       "uses": [
         {
           "subject": "scene",
