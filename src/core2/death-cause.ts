@@ -15,7 +15,7 @@
  */
 import causeData from "./data/health/death-causes.json" with { type: "json" };
 import { ssa2023AnnualProbability } from "./health-mortality-table";
-import { webReach, type Subject } from "./outcome-web-reach";
+import { webDayCache, webReach, type Subject } from "./outcome-web-reach";
 import { registerWorldMapPart } from "./snapshot";
 import type { CoreAPI, CoreState } from "./types";
 
@@ -150,11 +150,6 @@ export interface CauseMix {
   readonly recordId: string | null;
 }
 
-const CACHE = new WeakMap<
-  object,
-  { date: string; rows: Map<string, CauseMix> }
->();
-
 /**
  * The web's factor on every cause for a person of this age and income fifth,
  * cached by place, age and fifth for the day. The hazard factor is the base
@@ -166,15 +161,10 @@ export function causeMix(
   age: number,
   incomeFifth?: number,
 ): CauseMix {
-  const core = api.state as CoreState;
-  let cache = CACHE.get(core);
-  if (!cache || cache.date !== core.date) {
-    cache = { date: core.date, rows: new Map() };
-    CACHE.set(core, cache);
-  }
+  const cache = webDayCache<CauseMix>(api, "cause-mix");
   const whole = Math.max(0, Math.floor(age));
   const key = `${placeId}|${whole}|${incomeFifth ?? "-"}`;
-  const found = cache.rows.get(key);
+  const found = cache.get(key);
   if (found) return found;
   const subject: Subject = {
     age: whole,
@@ -203,7 +193,7 @@ export function causeMix(
   for (const cause of CAUSES)
     shares[cause.id] = (base[cause.id]! * causeFactors[cause.id]!) / factor;
   const result: CauseMix = { factor, shares, causeFactors, recordId };
-  cache.rows.set(key, result);
+  cache.set(key, result);
   return result;
 }
 
