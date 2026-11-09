@@ -47,20 +47,35 @@ it(`posts the job of a firm's last worker again after they are hired away (seed 
           .filter((row) => OWN_ENDINGS.includes(row.kind))
           .map((row) => row.jobId),
       );
-      const live = new Set<string>();
-      for (const job of core.jobs.values())
-        if (!job.endsAt) live.add(job.organizationId);
+      // Heads the firm had left on the day a job ended outside the jobs engine: its full jobs still running then, and its counted jobs now.
+      const countedLive = new Map<string, number>();
       for (const job of residentsRuntime(core)?.jobs.values() ?? [])
-        if (!job.endsAt) live.add(job.organizationId);
+        if (!job.endsAt)
+          countedLive.set(
+            job.organizationId,
+            (countedLive.get(job.organizationId) ?? 0) + 1,
+          );
+      const leftAfter = (job: {
+        id: string;
+        organizationId: string;
+        endsAt?: string;
+      }) =>
+        [...core.jobs.values()].filter(
+          (other) =>
+            other.id !== job.id &&
+            other.organizationId === job.organizationId &&
+            (other.endsAt === undefined || other.endsAt > job.endsAt!),
+        ).length + (countedLive.get(job.organizationId) ?? 0);
       const cutoff = addDays(makeIsoDate(core.date), -45);
-      // A firm still open with no live job, whose last full job ended outside the jobs engine in time to be posted again.
+      const opened = addDays(makeIsoDate(start), 1);
+      // A firm still open whose last job ended outside the jobs engine, after the opening day, in time to be posted again.
       const cases = [...core.jobs.values()].filter(
         (job) =>
           job.endsAt !== undefined &&
           makeIsoDate(job.endsAt) <= cutoff &&
-          makeIsoDate(job.endsAt) >= makeIsoDate(start) &&
+          makeIsoDate(job.endsAt) >= opened &&
           !own.has(job.id) &&
-          !live.has(job.organizationId) &&
+          leftAfter(job) === 0 &&
           core.organizations.get(job.organizationId)?.kind === "employer" &&
           core.finance.businesses.get(job.organizationId) !== undefined &&
           !core.finance.businesses.get(job.organizationId)!.closedAt,
