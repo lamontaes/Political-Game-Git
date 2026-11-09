@@ -24,6 +24,7 @@ import { bookkeeping } from "./bookkeeping";
 import { placeStateKey } from "./place-map";
 import { residentsRuntime } from "./modules/residents";
 import {
+  ageOn,
   type CountedHousehold,
   type CountedStore,
   isDemoted,
@@ -48,6 +49,40 @@ export interface CountedVoter {
   readonly hourlyMinor: number;
   /** Real voters this record stands for (its household's weight; one where the town opened at its own count). */
   readonly weight: number;
+  /** How active they are in a party, 0 to 1 (absent where they take no part). */
+  readonly partyActivity?: number;
+  /** The county employer they own, where they own one. */
+  readonly ownedEmployerId?: string;
+  /** Civic roles they hold (a board, the party committee), where the place's records name them. */
+  readonly civicRoles?: readonly string[];
+  /** Whole years their household has lived in its place (absent where unrecorded). */
+  readonly yearsInPlace?: number;
+  /** The sampled county employer they work at, where the county's sample holds one. */
+  readonly employerId?: string;
+}
+
+const employerOf = (
+  employment: NonNullable<CountedHousehold["employment"]>,
+  id: string,
+) => {
+  const row = employment.find((work) => work.personId === id);
+  return row ? { employerId: row.employerId } : {};
+};
+
+/** A counted member's roles, read from their record (opening-roles.ts). */
+function rolesOf(store: CountedStore, m: number) {
+  const text = (key: string) => {
+    const at = store.roleIx[key]?.[m];
+    return at ? store.text(at) : undefined;
+  };
+  const party = text("partyActivity");
+  const owned = text("ownedEmployerId");
+  const civic = text("civicRoles");
+  return {
+    ...(party ? { partyActivity: Number(party) } : {}),
+    ...(owned ? { ownedEmployerId: owned } : {}),
+    ...(civic ? { civicRoles: civic.split(",") } : {}),
+  };
 }
 
 const cache = new WeakMap<CoreState, { date: string; rows: CountedVoter[] }>();
@@ -195,6 +230,9 @@ export function countedResidents(core: CoreState): readonly CountedVoter[] {
       weeklyMinutes: minutes.get(id) ?? 0,
       hourlyMinor: hourly.get(id) ?? 0,
       weight: store.weightOf(h),
+      ...(h.since ? { yearsInPlace: ageOn(h.since, core.date) } : {}),
+      ...(h.employment ? employerOf(h.employment, id) : {}),
+      ...rolesOf(store, m),
     });
     slot[m] = walked.length - 1;
   });

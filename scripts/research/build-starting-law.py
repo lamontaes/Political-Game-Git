@@ -196,6 +196,21 @@ STATE_CONTRIBUTION_SERIES = {
 }
 
 
+def governor_term_limits(rows):
+    """Each state's governor term limit, in terms (0 for none), from the state office research."""
+    places = load(RESEARCH / "offices/state-offices.json")["places"]
+    for state, place in sorted(places.items()):
+        for executive in place.get("executives", []):
+            if executive["key"] != "governor":
+                continue
+            limit = executive.get("termLimit") or {}
+            kind = limit.get("kind")
+            terms = limit.get("terms") if kind in ("consecutive", "lifetime") else 0
+            rows.append(row(state, "state", "executive-term-limit", terms or 0, "2026-01-01", FOREVER,
+                            executive.get("citation") or "State constitution", False, unit="terms",
+                            terms={"kind": kind or "none"}, note=limit.get("notes"), retrieved="2026-11-08"))
+
+
 def child_care(rows):
     """Each state's CCDF initial income eligibility limit for a family of three (dollars a month)."""
     data = load(RESEARCH / "laws/ccdf-income-limits-2025.json")
@@ -581,6 +596,7 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    governor_term_limits(rows)
     campaign_finance(rows)
     child_care(rows)
     death_taxes(rows)

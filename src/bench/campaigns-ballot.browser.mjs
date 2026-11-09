@@ -51,7 +51,7 @@ try {
   // The ballot is a roster grouped by election day (the Nov 8 mock); each row opens its
   // race's page beside it.
   const seen = [];
-  for (;;) {
+  {
     seen.push(
       ...(await page.evaluate(() =>
         [...document.querySelectorAll("#sheet-body .roster-row")].map((e) => ({
@@ -62,9 +62,6 @@ try {
         })),
       )),
     );
-    const next = page.locator("#sheet-body .roster .pager-arrow").nth(1);
-    if (!(await next.isVisible()) || !(await next.isEnabled())) break;
-    await next.click();
   }
   const raceRows = seen.filter((s) => s.contest);
   console.log(
@@ -83,19 +80,9 @@ try {
   // Open the first race with candidates, else the first race: its page shows
   // who runs as face cards, and File for it when the player may file.
   const race = ballot.races.find((r) => r.filers.length > 0) ?? ballot.races[0];
-  const back = page.locator("#sheet-body .roster .pager-arrow").first();
-  while ((await back.isVisible()) && (await back.isEnabled()))
-    await back.click();
-  for (;;) {
-    const card = page.locator(
-      `#sheet-body .roster-row[data-contest="${race.contestId}"]`,
-    );
-    if (await card.count()) {
-      await card.click();
-      break;
-    }
-    await page.locator("#sheet-body .roster .pager-arrow").nth(1).click();
-  }
+  await page
+    .locator(`#sheet-body .roster-row[data-contest="${race.contestId}"]`)
+    .click();
   await page.locator("#sheet-body .roster-page").waitFor();
   const page2 = await page.evaluate(() => ({
     people: document.querySelectorAll("#sheet-body .roster-page .member-card")
