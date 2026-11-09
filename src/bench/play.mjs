@@ -2673,7 +2673,27 @@ async function openBillPaper(billId, show, back, backLabel) {
       title: paper.title,
       sponsor: `${words.sponsor ?? ""} ${paper.sponsor}`,
       sectionsLabel: words.sections ?? "",
+      whereLabel: words.where ?? "",
+      billLabel: words.bill ?? "",
+      voteLabel: words.vote ?? "",
       estimateLabel: words.estimate ?? "",
+      // The budget lines the bill sets, this year beside last year's.
+      extra: billFigures({
+        view,
+        textOf: (index) => paper.sections[index]?.text ?? paper.title,
+        money: roundedMoney,
+        percent: (value) =>
+          new Intl.NumberFormat("en-US", {
+            style: "percent",
+            maximumFractionDigits: 1,
+          }).format(value / 100),
+        words,
+      }),
+      // Each chamber's result as the English engine words it, from the stage view.
+      votes: [...stage.floor, ...stage.override].map((entry) => ({
+        big: entry.result,
+        text: entry.chamberTitle,
+      })),
       blank: billEstimate(paper, { estimate: {} }),
       sections: paper.sections.map((section) => ({
         text: section.text ?? paper.title,
@@ -2689,18 +2709,6 @@ async function openBillPaper(billId, show, back, backLabel) {
           ? `${words.decided ?? ""}: ${floor.status?.[paper.decision.status] ?? ""}${paper.decision.decidedOn ? ` · ${dateWords(paper.decision.decidedOn)}` : ""}`
           : null,
       ],
-    }),
-    // The budget lines the bill sets, this year beside last year's.
-    ...billFigures({
-      view,
-      textOf: (index) => paper.sections[index]?.text ?? paper.title,
-      money: roundedMoney,
-      percent: (value) =>
-        new Intl.NumberFormat("en-US", {
-          style: "percent",
-          maximumFractionDigits: 1,
-        }).format(value / 100),
-      words,
     }),
     // Where the bill is: the committee's record, what members told you, the floor and
     // the override, each member by name (ui/bill-stage.mjs).
