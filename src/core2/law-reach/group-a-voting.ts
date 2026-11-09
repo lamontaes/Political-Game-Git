@@ -17,10 +17,6 @@
  */
 import { placeStateKey } from "../place-map";
 import { lawInForce, yesLevels } from "../modules/laws";
-import {
-  executiveTermLimit,
-  termLimitReachedBy,
-} from "../executive-term-limits";
 const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
 import {
   PHOTO_ID,
@@ -45,9 +41,14 @@ export {
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
-import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  executiveTermLimit,
+  termLimitReachedBy,
+  type TermRow,
+} from "../modules/offices";
 import { ELECTIONS_MODULE_ID } from "../modules/elections";
 import {
   convictionsOf,
@@ -845,7 +846,15 @@ function payRedistrictingCommission(api: CoreAPI, source: Source): void {
     amountMinor: -paid,
   });
 }
-registerMonthlyProgram(payRedistrictingCommission);
+
+/**
+ * Registers the commission's monthly payment with the budgets engine. Called
+ * from `registerGroupA` (the law reach's init), never at module load: the
+ * budgets module's registry may not be built yet when this file is imported.
+ */
+export function registerVotingMonthlyProgram(): void {
+  registerMonthlyProgram(payRedistrictingCommission);
+}
 
 /**
  * The town's ward lines were drawn (the districts engine's only line-drawing

@@ -152,7 +152,14 @@ it("the opening's seekers, named and counted, follow the place's labor force by 
         ratioHere += count * ratio(Number(index));
       }
       const mean = jobsHere > 0 ? ratioHere / jobsHere : 1;
-      let expected = 0;
+      // The opening's employment target also holds working-age members at work outside a recorded job
+      // (they take a commuter job once their household is filled in): jobs of the place's labor force at the band-average rate.
+      let unplacedHere = 0;
+      for (const h of residentsRuntime(core)!.store.liveHouseholds())
+        if (h.placeId === placeId)
+          unplacedHere +=
+            h.unplacedWorkers / residentsRuntime(core)!.store.weightOf(h);
+      let expected = unplacedHere * (placeRate / (100 - placeRate));
       for (const [key, count] of held) {
         const [otherPlace, index] = key.split("|") as [string, string];
         if (otherPlace !== placeId) continue;

@@ -119,6 +119,7 @@ import {
 import WEEKDAYS from "./data/weekdays.json" with { type: "json" };
 import { workSpansOnDateV1 } from "../core2/work-spans-v1";
 import { properName, spoken, spokenWhen } from "./words";
+import { learnView, viewKey, viewSubjectOf } from "./view-learned";
 
 const zero = P.zero;
 const one = P.one;
@@ -220,6 +221,14 @@ export interface Subject {
   aboutId?: string;
   /** The stage its own line is said in, from its record (a layoff, a closure). */
   stage?: string;
+  /**
+   * How much it weighs as a talk's topic when the speaker's willingness to
+   * raise it is what decides (where they stand politically), not a recorded
+   * event; zero when small talk outweighs it.
+   */
+  weight?: number;
+  /** What the listener learns once it is said: the knowledge key and the records it cites. */
+  learned?: { key: string; recordIds: readonly string[] };
 }
 
 /** Which mined sentence said a line, and what picked it (for reports and grading). */
@@ -549,6 +558,9 @@ function topicWeight(
       DEFAULT_DIRECTOR_DATA.parameters.directorTalkAddressImpact!.value
     );
   }
+  // Where they stand politically weighs what their willingness makes it, and
+  // only when that outweighs the small talk that would lead instead.
+  if (subject.weight !== undefined) return subject.weight;
   let weight = zero;
   for (const moment of recentMoments(core, director, holderId))
     if (isAbout(subject, moment, data) && moment.impact > weight)
@@ -1403,6 +1415,21 @@ export function subjectsBetween(
         facts: { take: take.fact },
       });
   }
+  // Where the speaker stands politically, from the views engine's record of
+  // their lean, said only as far as their tie to the listener and their
+  // temperament allow (`./view-learned`). Once said, the listener knows it.
+  const stand = viewSubjectOf(core, speakerId, listenerId);
+  if (stand)
+    out.push({
+      id: `own-view:${speakerId}`,
+      kind: "own-view",
+      stage: stand.stage,
+      weight: stand.weight,
+      facts: {
+        stand: { text: "", sourceRecordIds: [stand.recordId] },
+      },
+      learned: { key: viewKey(speakerId), recordIds: [stand.recordId] },
+    });
   // At home, the day itself: the weekday, the last time the two spent
   // together and a work day, from records. Raised last, when
   // nothing else opens the talk.
@@ -1825,6 +1852,14 @@ function raiseSubject(
   // Someone both know, or news both may know, is shared: neither raises it again.
   if (subject.kind === "mutual" || subject.kind === "news")
     conversation.used.push(subject.id);
+  // What they said they stand for, the player now knows (and so does anyone
+  // else in the room): the card reads this key.
+  if (subject.learned) {
+    const api = coreAPI(core as CoreState);
+    const sourceId = `conversation:${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.kind}`;
+    for (const hearerId of [playerId, ...conversation.presentIds])
+      learnView(api, hearerId, otherId, subject.learned.recordIds, sourceId);
+  }
   // Theirs, not the player's: no own record the player could lie about.
   const raised: Subject = {
     id: `${otherId}>${subject.id}`,
@@ -2020,6 +2055,8 @@ function mainTopic(
 ): { subject: Subject; asks: boolean } | null {
   const { playerId, otherId, director } = conversation;
   let best: { subject: Subject; asks: boolean; weight: number } | null = null;
+  let standing: { subject: Subject; asks: boolean; weight: number } | null =
+    null;
   // The occasion comes first: a talk a scene opens is about the scene's
   // moment.
   const occasion = conversation.occasion;
@@ -2044,6 +2081,13 @@ function mainTopic(
             SHARED_KINDS.includes(subject.kind)
           ? Number.MAX_VALUE
           : topicWeight(core, director, holderId, subject, data);
+    // Where they stand politically competes with small talk only: any
+    // recorded event, or the address while it is news, leads before it.
+    if (subject.weight !== undefined) {
+      if (weight > zero && (!standing || weight > standing.weight))
+        standing = { subject, asks, weight };
+      return;
+    }
     if (weight > zero && (!best || weight > best.weight))
       best = { subject, asks, weight };
   };
@@ -2052,7 +2096,7 @@ function mainTopic(
       consider(subject, true, playerId);
   for (const subject of subjectsBetween(core, otherId, playerId, director))
     if (data.otherRaises[subject.kind]) consider(subject, false, otherId);
-  return best;
+  return best ?? standing;
 }
 
 /**

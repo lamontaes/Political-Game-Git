@@ -114,12 +114,19 @@ describe("the school years before the start", () => {
     expect(attended.find((row) => row.recordId === after[0]!.id)?.name).toBe(
       "Contract Public Schools",
     );
-    // The card lists the district once, from the year the child started there.
+    // The card lists the district once, from the year the child started
+    // there, with the stage and grade that school year's own record names
+    // (the person card reads both, #7090).
+    const first = attended.find((row) => row.recordId === after[0]!.id)!;
+    expect(first.stage, "the school year's stage").toBeTruthy();
+    expect(typeof first.grade, "the school year's grade").toBe("number");
     expect(schoolsOf(core, "child")).toEqual([
       {
         name: "Contract Public Schools",
         date: after[0]!.date,
         recordId: after[0]!.id,
+        stage: first.stage,
+        grade: first.grade,
       },
     ]);
   });

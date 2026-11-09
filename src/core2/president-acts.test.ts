@@ -48,4 +48,7 @@ it("an unplayed president nominates the cabinet and the Senate votes", () => {
   );
   const held = cabinetOf(api).filter((row) => row.status === "confirmed");
   expect(held.length, `${where}: confirmed secretaries`).toBeGreaterThan(0);
+  process.stdout.write(
+    `nation proof: president acts: ${where}; ${nominated.length} nominations, ${decided.length} Senate votes, ${held.length} confirmed; first ${nominated[0]}\n`,
+  );
 }, 900000);

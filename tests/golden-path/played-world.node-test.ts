@@ -575,7 +575,7 @@ function playWorld(seed: string) {
         // and the government's enacted record carries a change on one of the
         // bill's lines in that fiscal year.
         if (
-          adopted.adoptedBy.includes(`amended by ${String(bill.number)}`) &&
+          adopted.adoptedBy.amendedBy?.includes(String(bill.number)) &&
           ((bill.provisions as { line?: string; value?: number }[]) ?? []).some(
             (p) =>
               p.line &&
@@ -591,10 +591,8 @@ function playWorld(seed: string) {
           return true;
         if (
           adopted.adoptedOn < String(bill.introduced) ||
-          // Amendments after adoption are appended ("; amended by ...").
-          !adopted.adoptedBy
-            .split("; ")[0]!
-            .endsWith(`, ${String(bill.number)}`)
+          // Amendments after adoption are listed apart from the vote's own bill.
+          adopted.adoptedBy.bill?.number !== String(bill.number)
         )
           return false;
         const before = budgetsOf(api, adopted.governmentId)

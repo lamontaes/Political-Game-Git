@@ -27,7 +27,7 @@ import {
 } from "./electorate";
 import { cpsTurnout, stateRightShare, statePlaces } from "./electorate-places";
 import { appealOfShare, electorateParameter } from "./electorate-inputs";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-10-20";

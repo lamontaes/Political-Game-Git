@@ -30,11 +30,11 @@ interface AllowEntry {
  * The waiting list may only shrink. When a file gains its reader and leaves
  * the list, lower this to the new length in the same change; never raise it.
  */
-// 8 from 7: the employer callback-gap table moved here from rawSource,
-// where it skipped the reader guard; it waits for the hiring engine to read it.
-const AWAITING_READER_CEILING = 8;
+// 3 from 8: Python builders (scripts/research/build-*.py) now count as readers,
+// so the files they read left the waiting list.
+const AWAITING_READER_CEILING = 3;
 /** The same for the files found unread on Oct 16 (see `unreadFound`). */
-const UNREAD_FOUND_CEILING = 354;
+const UNREAD_FOUND_CEILING = 38;
 
 const allowlist = JSON.parse(
   readFileSync(

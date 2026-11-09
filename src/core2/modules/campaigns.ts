@@ -67,15 +67,13 @@ import { logistic } from "../kernel/deterministic-math";
 import { OPENING_CARRY } from "../turnout";
 import { transferCash } from "../world-transfer";
 import { medianTransactionBalance } from "../starting-cash";
+import { districtLean, groupAgreement, personLean } from "../campaign-views";
 import {
   campaignParameter,
-  districtLean,
-  groupAgreement,
-  personLean,
   PLATFORM_QUESTIONS,
   platformLead,
   type Stance,
-} from "../campaign-views";
+} from "../campaign-data";
 import {
   candidatePlatform,
   partyLean,

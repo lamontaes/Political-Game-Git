@@ -65,46 +65,65 @@ describe("M3-10 ballot measures", () => {
     const api = coreAPI(core);
     const onBallot = measuresOf(api);
     expect(onBallot.length, `${state} ${key}`).toBeGreaterThan(0);
-    // Only the town's own state's measures are on its ballot.
-    expect(onBallot.every((m) => m.stateKey === state)).toBe(true);
+    // Every state's real measures are on a ballot: the town's own state is
+    // counted with the town's people, any other state by its lean bands.
+    expect(onBallot.some((m) => m.stateKey === state)).toBe(true);
+    const elsewhere = onBallot.filter((m) => m.stateKey !== state);
+    expect(elsewhere.length, "other states' measures").toBeGreaterThan(0);
     advanceCore(core, "2026-11-04");
     const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
-    const report = onBallot.map((m) => {
+    // Another state's measure is decided with no named voter here and, when
+    // approved, becomes that state's law.
+    for (const m of elsewhere) {
       const result = measureResult(api, m.id)!;
       expect(result, m.title).not.toBeNull();
-      expect(
-        result.named.yes + result.named.no + result.named.blank,
-      ).toBeGreaterThan(0);
-      const voter = [...core.people.keys()]
-        .map(
-          (id) =>
-            measureVoteOf(api, m.id, id) as {
-              choice: string | null;
-              reasons: { support: number };
-            } | null,
-        )
-        .find((v) => v?.choice === "yes" || v?.choice === "no")!;
-      // A voter's choice follows their own view of the question.
-      expect(Math.sign(voter.reasons.support)).toBe(
-        voter.choice === "yes" ? 1 : -1,
-      );
+      expect(result.named.yes + result.named.no + result.named.blank).toBe(0);
+      expect(result.groups.yes + result.groups.no).toBeGreaterThan(0);
       const enacted = (
-        laws.query("bySeries", [state, m.question]) as unknown as {
+        laws.query("bySeries", [m.stateKey, m.question]) as unknown as {
           terms?: { enactedBy?: string };
         }[]
       ).some((r) => r.terms?.enactedBy === m.id);
-      expect(enacted).toBe(result.approved && m.enactsOnApproval);
-      return {
-        title: m.title,
-        question: m.question,
-        yesMeans: m.yesMeans,
-        named: result.named,
-        groups: result.groups,
-        yesShare: Math.round(result.yesShare * 1000) / 10,
-        approved: result.approved,
-        effectiveDate: result.effectiveDate,
-      };
-    });
+      expect(enacted, m.title).toBe(result.approved && m.enactsOnApproval);
+    }
+    const report = onBallot
+      .filter((m) => m.stateKey === state)
+      .map((m) => {
+        const result = measureResult(api, m.id)!;
+        expect(result, m.title).not.toBeNull();
+        expect(
+          result.named.yes + result.named.no + result.named.blank,
+        ).toBeGreaterThan(0);
+        const voter = [...core.people.keys()]
+          .map(
+            (id) =>
+              measureVoteOf(api, m.id, id) as {
+                choice: string | null;
+                reasons: { support: number };
+              } | null,
+          )
+          .find((v) => v?.choice === "yes" || v?.choice === "no")!;
+        // A voter's choice follows their own view of the question.
+        expect(Math.sign(voter.reasons.support)).toBe(
+          voter.choice === "yes" ? 1 : -1,
+        );
+        const enacted = (
+          laws.query("bySeries", [state, m.question]) as unknown as {
+            terms?: { enactedBy?: string };
+          }[]
+        ).some((r) => r.terms?.enactedBy === m.id);
+        expect(enacted).toBe(result.approved && m.enactsOnApproval);
+        return {
+          title: m.title,
+          question: m.question,
+          yesMeans: m.yesMeans,
+          named: result.named,
+          groups: result.groups,
+          yesShare: Math.round(result.yesShare * 1000) / 10,
+          approved: result.approved,
+          effectiveDate: result.effectiveDate,
+        };
+      });
     govReport(
       "ballot-measures",
       JSON.stringify({ seed, state, place: key, measures: report }),

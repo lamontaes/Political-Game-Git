@@ -49,6 +49,13 @@ export const enum MemberState {
   Moved = 3,
 }
 
+/** The `looks` keys that carry a person's roles (opening-roles.ts), kept for counted members as for named people. */
+export const ROLE_KEYS = [
+  "partyActivity",
+  "ownedEmployerId",
+  "civicRoles",
+] as const;
+
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**
  * How a counted household holds its home; "none" is a household an eviction
@@ -219,6 +226,12 @@ export class CountedStore {
   readonly recipeIx: number[] = [];
   /** Where each member's family comes from (looks.origin). */
   readonly originIx: number[] = [];
+  /** The roles a member holds in the place's life (`looks` keys in `ROLE_KEYS`), interned by key. */
+  readonly roleIx: Record<string, number[]> = {
+    partyActivity: [],
+    ownedEmployerId: [],
+    civicRoles: [],
+  };
   readonly tierIx: number[] = [];
   state = new Uint8Array(0);
   traits = new Int8Array(0);
@@ -342,6 +355,8 @@ export class CountedStore {
     this.pronounsIx.push(this.intern(person.looks?.pronouns));
     this.recipeIx.push(this.intern(person.looks?.recipeVersion));
     this.originIx.push(this.intern(person.looks?.origin));
+    for (const key of ROLE_KEYS)
+      (this.roleIx[key] ??= []).push(this.intern(person.looks?.[key]));
     this.tierIx.push(this.intern(person.tier));
     this.state = grown(this.state, m + 1, (n) => new Uint8Array(n));
     this.state[m] = MemberState.Counted;
@@ -639,6 +654,10 @@ export class CountedStore {
     if (appearance) looks.appearanceSeed = appearance;
     if (recipe) looks.recipeVersion = this.strings[recipe]!;
     if (origin) looks.origin = this.strings[origin]!;
+    for (const key of ROLE_KEYS) {
+      const at = this.roleIx[key]?.[member];
+      if (at) looks[key] = this.strings[at]!;
+    }
     const person: PersonInput = {
       id: this.ids[member]!,
       givenName: this.given[member]!,

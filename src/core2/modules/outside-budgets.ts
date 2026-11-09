@@ -169,7 +169,7 @@ function writeBudget(
     stateKey,
     fiscalYear,
     api.state.date,
-    "state legislature",
+    { kind: "published" },
   );
   const revenue = Object.fromEntries(
     Object.entries(published.revenueMinor).map(([line, v]) => [
