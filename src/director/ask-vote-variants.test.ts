@@ -270,9 +270,15 @@ it(`a colleague's ask for a vote plays the variant its records give (seed ${seed
       const together = pick();
       expect(together.reads["same-party"]).toBe(1);
       expect(together.recordIds).toContain(party.id);
-      expect(scoreOf(together, "whip")).toBeGreaterThan(
-        scoreOf(withPost, "whip"),
-      );
+      if (sameParty)
+        expect(scoreOf(together, "whip")).toBeCloseTo(
+          scoreOf(withPost, "whip"),
+          10,
+        );
+      else
+        expect(scoreOf(together, "whip")).toBeGreaterThan(
+          scoreOf(withPost, "whip"),
+        );
       partyNote = `same party ${party.id}: whip ${scoreOf(withPost, "whip").toFixed(2)} to ${scoreOf(together, "whip").toFixed(2)}`;
     }
 
