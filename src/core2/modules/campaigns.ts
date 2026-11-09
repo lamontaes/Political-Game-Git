@@ -24,6 +24,7 @@ import {
 } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
+import { registerDerivedCache } from "../snapshot";
 import { discretionaryHours } from "./work";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
@@ -4305,6 +4306,7 @@ export function makeStatements(
         topic: statement.question,
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
+        groupUnwatched: true,
       }),
     );
   }
@@ -5221,6 +5223,72 @@ export function answerPollReason(
  * toward a candidate but avoids conflict says "no opinion". True support is
  * never reported, only what people said.
  */
+type PollFrameEntry = {
+  readonly id: string;
+  readonly traits: Readonly<Record<string, number>>;
+  readonly birthDate: string;
+};
+/**
+ * The counted adults of a town, sorted by id, read once a day for each change
+ * to the counts (the store's `version` moves with every change to who is
+ * counted or grouped). Whoever was filled in since is dropped when read.
+ */
+const countedPollFrames = new WeakMap<
+  object,
+  { key: string; store: object; entries: readonly PollFrameEntry[] }
+>();
+registerDerivedCache(countedPollFrames);
+const byId = (a: PollFrameEntry, b: PollFrameEntry) => a.id.localeCompare(b.id);
+
+/**
+ * A poll's frame: the town's full adults and its counted adults, in id order
+ * (the order the full list sorted by id gives).
+ */
+function pollFrame(
+  api: CoreAPI,
+  town: string,
+  date: string,
+  adultAge: number,
+): PollFrameEntry[] {
+  const core = api.state as CoreState;
+  const named = [...api.state.people.values()]
+    .filter((p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge)
+    .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate }))
+    .sort(byId);
+  const rt = residentsRuntime(core);
+  if (!rt) return named;
+  const store = rt.store;
+  const key = `${date}|${town}|${adultAge}|${store.version}`;
+  let held = countedPollFrames.get(core);
+  if (held?.store !== store || held.key !== key) {
+    const entries = [...store.liveHouseholds()]
+      .filter((h) => h.placeId === town)
+      .flatMap((h) => store.countedMembers(h))
+      .filter((m) => ageOn({ birthDate: store.born[m]! }, date) >= adultAge)
+      .map((m) => ({
+        id: store.ids[m]!,
+        traits: store.packedTraits(m),
+        birthDate: store.born[m]!,
+      }))
+      .sort(byId);
+    held = { key, store, entries };
+    countedPollFrames.set(core, held);
+  }
+  const counted = held.entries.filter((m) => !api.state.people.has(m.id));
+  // Merge the two id-ordered lists.
+  const out: PollFrameEntry[] = [];
+  let i = 0,
+    j = 0;
+  while (i < named.length || j < counted.length)
+    out.push(
+      j >= counted.length ||
+        (i < named.length && byId(named[i]!, counted[j]!) <= 0)
+        ? named[i++]!
+        : counted[j++]!,
+    );
+  return out;
+}
+
 export function commissionPoll(
   api: CoreAPI,
   input: { readonly filingId: string; readonly sampleSize: number },
@@ -5231,27 +5299,7 @@ export function commissionPoll(
   const date = api.state.date;
   const core = api.state as CoreState;
   // The whole town is the frame: full people and the counted residents.
-  const rt = residentsRuntime(core);
-  const frame = [
-    ...[...api.state.people.values()]
-      .filter(
-        (p) => p.alive && p.placeId === town && ageOn(p, date) >= adultAge,
-      )
-      .map((p) => ({ id: p.id, traits: p.traits, birthDate: p.birthDate })),
-    ...[...(rt?.store.liveHouseholds() ?? [])]
-      .filter((h) => h.placeId === town)
-      .flatMap((h) => rt!.store.countedMembers(h))
-      .filter(
-        (m) =>
-          !api.state.people.has(rt!.store.ids[m]!) &&
-          ageOn({ birthDate: rt!.store.born[m]! }, date) >= adultAge,
-      )
-      .map((m) => ({
-        id: rt!.store.ids[m]!,
-        traits: rt!.store.packedTraits(m),
-        birthDate: rt!.store.born[m]!,
-      })),
-  ].sort((a, b) => a.id.localeCompare(b.id));
+  const frame = pollFrame(api, town, date, adultAge);
   // The pollster is paid per completed interview, from the campaign's money.
   const perInterview = campaignParameter("pollCostPerInterviewMinor");
   const available = core.cashJournal.accounts.get(
