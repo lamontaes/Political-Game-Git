@@ -1694,6 +1694,31 @@ export function drawnResident(
   );
 }
 
+/**
+ * A person drawn like a counted adult of the town aged between `ages` (inclusive): the first such
+ * counted member of the place's counts is the template, and `salt` gives the same person each
+ * time. Null when the counts hold no adult of that age (nobody is drawn). Nothing is stored until
+ * the record is admitted.
+ */
+export function drawnAdult(
+  api: CoreAPI,
+  salt: string,
+  ages: readonly [number, number],
+): ResidentHouseholdRecord | null {
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  if (!store) return null;
+  for (const household of store.households) {
+    for (const member of store.countedMembers(household)) {
+      const birth = store.born[member];
+      if (birth === undefined) continue;
+      const age = ageOn(birth, api.state.date);
+      if (age < ages[0] || age > ages[1]) continue;
+      return drawnResident(api, household.id, store.ids[member]!, salt);
+    }
+  }
+  return null;
+}
+
 /** Each state's or territory's people this month, as the counts hold them (both tiers' counted people). */
 export function countedStatePeople(
   core: CoreState,
