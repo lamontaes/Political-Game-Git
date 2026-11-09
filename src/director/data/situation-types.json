@@ -6325,6 +6325,63 @@
       "stakes": ["home", "rent"]
     },
     {
+      "key": "home-damaged",
+      "note": "The day a disaster's aid is paid to the player's household and the repair bill comes due on the home the disaster damaged (the disasters engine's home-damaged record, filled from the damaged-home row, circumstance row home-damaged), someone they live with brings it to them at home: what the home lost, the aid it was paid and the repairs still owed, as people round a sum. The reply is a scene reply; a promise to see the repairs through is kept on its record and told in the journal.",
+      "roles": [
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "refuse",
+            "warn",
+            "promise"
+          ],
+          "wants": ["help-others", "keep-same"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["promise", "ask", "offer", "deflect"],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:home-damaged"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "disaster.home-damaged",
+          "bind": {
+            "you": "subject",
+            "family": "counterpart"
+          },
+          "opener": "family",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "damage",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "home-damaged",
+      "asker": "family",
+      "asked": "you",
+      "stakes": ["home", "repairs"]
+    },
+    {
       "key": "swearing-in",
       "occasion": "ceremony",
       "note": "The day the offices engine seats the player (its took-office record, from a count, a special election or an appointment), someone the records name gives the oath: the clerk who took the filing or keeps the government's papers, else the holder who left the seat that day, else the body's presiding officer. The player's household and the government's other officeholders are in the room. The player's reply is the oath, a scene reply the journal tells; an office that gives an address (data/swearing-in.json: mayor, county executive, governor, president) goes on to it, and the speech engine records it as heard by the people named in the room, so the views engine moves those it persuades and each may retell it at home. No court is on record, so no judge swears anyone in (SG-WORDS-swearing-in-no-court). It stops the day: taking office is an event, not a status change (owner, Sept 22 and Oct 29).",

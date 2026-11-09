@@ -35,6 +35,8 @@ import {
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
 const VULNERABILITY_STOPGAP = "SG-NATION-vulnerability-proxy";
+/** The record a damaged home's household gets on the declaration date (the story director reads it). */
+export const HOME_DAMAGED_EVENT = "disaster.home-damaged";
 const STATES_SHARE_DISASTER_COSTS =
   "us-federal-positions:emergencies.states-share-disaster-costs";
 const BUILDER_CLASSIFICATION = "enterprise:construction";
@@ -590,13 +592,43 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
       moved = moveCountedHouseholdAway(api, home.householdId, town, {
         disasterRepairShortfall: poolShort,
       });
-    damagedTable(api).put({
+    const filled: DamagedHome = {
       ...home,
       aidMinor: split(aid, i),
       repairsPaidMinor: paid,
       repairsOwedMinor: owed,
       moved,
-    } as unknown as ModuleRow);
+    };
+    damagedTable(api).put(filled as unknown as ModuleRow);
+    // The household learns what the aid came to and what the repairs cost:
+    // a record of its own that the story director reads (the household talks
+    // it over at home). Counted households have no one to tell.
+    const living = (
+      core.households.get(home.householdId)?.memberIds ?? []
+    ).filter((member) => core.people.get(member)?.alive);
+    if (home.headId && living.length)
+      api.emit({
+        id: `event:${HOME_DAMAGED_EVENT}:${home.id}`,
+        date: core.date,
+        kind: HOME_DAMAGED_EVENT,
+        personIds: living,
+        placeId: town,
+        facts: {
+          damagedId: home.id,
+          disasterNumber: String(disaster.number),
+          title: disaster.title,
+          incidentType: disaster.type,
+          homeKind: home.kind,
+          headId: home.headId,
+          valueMinor: String(home.valueMinor),
+          aidMinor: String(filled.aidMinor),
+          repairsPaidMinor: String(filled.repairsPaidMinor),
+          repairsOwedMinor: String(filled.repairsOwedMinor),
+        },
+        source: source(
+          `The damaged home's record for FEMA disaster ${disaster.number} (${disaster.title}): the aid its household was paid and the repairs it paid for, on the declaration date.`,
+        ),
+      });
   });
 }
 
