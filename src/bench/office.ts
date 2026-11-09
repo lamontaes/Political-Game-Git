@@ -341,15 +341,17 @@ function budgetToSend(core: CoreState, personId: string) {
     ? { governmentId: stateEntry.subject, fiscalYearStarts: stateEntry.date }
     : budgetProposalDue(api, officeHost, personId);
   if (!due) return null;
-  const gov = governmentOfJurisdiction(api, due.governmentId);
-  const latest = gov
-    ? [...budgetsOf(api, gov.id)].sort((a, b) => b.fiscalYear - a.fiscalYear)[0]
-    : undefined;
-  if (!gov || !latest) return null;
+  // Another state's budget is kept without a government row of its own.
+  const governmentId =
+    governmentOfJurisdiction(api, due.governmentId)?.id ?? due.governmentId;
+  const latest = [...budgetsOf(api, governmentId)].sort(
+    (a, b) => b.fiscalYear - a.fiscalYear,
+  )[0];
+  if (!latest) return null;
   const changes =
     officeHost.prepared(api, personId, "propose-budget")?.budget?.changes ?? {};
   return {
-    governmentId: gov.id,
+    governmentId,
     fiscalYearStarts: due.fiscalYearStarts,
     lines: Object.entries(latest.spendingMinor)
       .map(([line, amountMinor]) => ({
