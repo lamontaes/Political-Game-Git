@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: story/batch-2
-pr: "#7997"
+pr: #7997
 blocked-on:
 lead: words
 milestone: play-first

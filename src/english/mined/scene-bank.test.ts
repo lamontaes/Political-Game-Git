@@ -9,6 +9,7 @@ import { enrichCivicInputs } from "../../core2/civic-inputs";
 import { initialFocusPeople } from "../../core2/focus";
 import { advanceCore, createLifeCore } from "../../core2/life";
 import { buildPopulation } from "../../core2/population";
+import { openOffices } from "../../core2/modules/offices";
 import { applyCoreEvent } from "../../core2/state";
 import { bringItUp } from "../../director/bring-it-up";
 import { createDirector } from "../../director/ledger";
@@ -27,12 +28,15 @@ import {
  * a drawn place); the closure brought up is a fixture's edge case.
  */
 const seed = process.env.GOLDEN_PATH_SEED ?? "words-scenes";
+// The fixture world is a drawn place (the director's daily address reads the
+// town's offices, which need a place and a state).
+const fixturePlaceKey =
+  process.env.GOLDEN_PATH_PLACE_KEY ??
+  drawPlace(seed, "scene-bank-fixture").key;
 const base = enrichCivicInputs(
   buildPopulation({
     seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
+    placeKey: fixturePlaceKey,
     startedAt: "2021-01-01",
     minimumPeople: 600,
   }),
@@ -48,6 +52,7 @@ const player = base.people.find(
 const input = { ...base, playerId: player.id };
 const director = createDirector({ watch: [...initialFocusPeople(input)] });
 const core = createLifeCore(input, { modules: [director.module] });
+openOffices(core, seed);
 director.start(core);
 advanceCore(core, "2021-02-15");
 

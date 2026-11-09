@@ -296,6 +296,280 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.97.0
+
+_Released November 9, 2026._
+
+### Added
+
+- **A member of Congress sees the House or Senate as their body and can
+  introduce bills there.** Your seat in the U.S. House or Senate now lists that
+  chamber, with its members and what it can pass, and you can draft a bill
+  before it from your seat, as you can at a council or a statehouse.
+
+- **A donor's ask now plays as a small donor, a large donor, a friend or a donor
+  who was put off before** A donor who comes to you after a gift no longer
+  always says the same thing. Someone who gave a little and wants to be heard,
+  someone whose large gift expects something back, a friend who gave, and a
+  donor you put off before each speak in their own lines and offer you their own
+  replies. Which one comes is read from what the records show: the gift against
+  the donor's own year, its share of what others gave, how close the two of you
+  are, and earlier gifts and asks you put off.
+
+- **A department's head is named beside it on the budget screen where the record
+  has one** On the budget screen, a department row names who heads it when the
+  appointments record puts a head on that line.
+
+- **The Metrics tab shows the state, this year beside last** The Metrics tab now
+  has a State page: the state's unemployment, pay and jobs as plain numbers,
+  this year beside last.
+
+- **The climate follows the country's carbon laws** The country now keeps one
+  warming level and a level for each kind of hazard (heat, flood, storm,
+  wildfire, drought). They move only with the carbon price and power-plant
+  carbon rules in force in every state, so a world that repeals a rule warms a
+  little faster and one that prices carbon warms a little slower. Nothing in
+  town reads the levels yet.
+
+- **Disasters elsewhere show up in the state's budget** When a disaster strikes
+  another state, the federal aid FEMA sent for it now shows in that state's
+  budget as federal aid in and relief spending out.
+
+- **Big disasters cost the struck state jobs for years** A disaster that brings
+  in a lot of federal aid now takes a share of the struck state's jobs, fading
+  over the ten years of recovery.
+
+- **The country has an opinion of its president** The country now keeps a
+  monthly approval of its president that rises and falls with the economy, and
+  the president's party does better or worse in every federal and state race as
+  that approval stands.
+
+- **The President issues and reverses orders from their own views** A President
+  who is not played now weighs the federal power-plant carbon rule each month
+  from their own views and issues or revokes it, the same way a governor does
+  for the orders they can give. A Democratic-leaning President can put the rule
+  in force, and a later Republican-leaning President revokes it.
+
+- **The press can tell a cabinet nomination, confirmation and rejection** When
+  the President names someone to the cabinet, the paper says who, for which post
+  and that the Senate votes next. When the Senate votes, it says whether the
+  nominee was confirmed or turned down and, where the record has it, the count.
+
+- **A damaged home is talked over at home** When a disaster damages your home,
+  the day its aid is paid someone who lives with you sits you down: what the
+  repairs cost, what the aid came to and what you still owe, as people round a
+  sum. You can promise to see the repairs through, ask how bad it is, put in
+  your savings or put it off, and what you promise is kept.
+
+- **A party veteran weighs in on running, and someone asks if the bribe is
+  true** The day after the press carries a bribe an official took, someone close
+  to them asks to their face whether it is true. The day after a party asks you
+  to run, a veteran officeholder of that party in your town comes to weigh in.
+
+- **A body that narrowly loses a bill can send it to a study committee that
+  reports later.** When a bill fails narrowly and its closest opponents are less
+  sure than its backers, the body forms a study committee chaired by the
+  sponsor. It reports after its term, and the sponsor gives the finding to the
+  rest of the body, which moves their views on the question.
+
+- **Counties and township boards have department heads at the start of play.** A
+  place run by a county executive, a county board or a township board now has
+  its department heads named at the start, from the same appointment rules a
+  city's use, so the department-heads screen has people to show.
+
+### Improved
+
+- **A bill's page opens with its number and its body's name over the room that
+  body works in** A bill's page now has a header band: the bill's number and the
+  name of the body it sits in ("SB 2 · State Senate") over a picture of the room
+  that body works in, the same picture its Government page shows. A body with no
+  room picture has no band.
+
+- **A budget bill shows this year's and last year's figures** The bill's page
+  lists each budget line it sets with this year's amount and last year's beside
+  it, as plain dotted rows with no bar graph.
+
+- **A bill's page shows how your own representative voted** Under a bill's vote,
+  the page now names your own member in each chamber that voted, with the vote
+  they cast ("Your member: Carrie Middleton, Yes").
+
+- **A bill page shows where it is, Clean copy and Compare, and the vote by
+  party** The bill page says which committee has the bill, who filed it and
+  when, lets you switch between Clean copy and Compare (the law in force struck,
+  the bill inserted), shows the law the bill amends, and breaks each floor vote
+  down by party with those who did not vote.
+
+- **A bill's page is laid out as the legislation mock draws it** A bill's page
+  now has three columns: where it is, the bill typed on the paper, and the
+  estimate with the vote beside it, in the same look as the other Politics
+  pages.
+
+- **A bill's page names the sitting it is in and the day it has until** The bill
+  page lists the sitting the body holds the bill in, the day the bill dies if
+  the floor does not reach it, and each section's own estimate of workers
+  reached and dollars a year.
+
+- **Dev mode acts on the bill you are reading** With dev mode on, a bill's page
+  ends with a Dev mode section: the bodies to introduce it at, how each member
+  votes (named one by one on a board), a margin to pass or fail by, then
+  Introduce, Hold the vote, Sign, Veto and Override.
+
+- **Dev mode's person controls sit in rows with a lit pick** On a person's card,
+  dev mode's actions and the choices the game offers them are rows of buttons,
+  the pick lit, under a "Dev mode" heading.
+
+- **Dev mode's Run panel follows its mock** On the Calendar, dev mode's Run has
+  arrows for the number of days and a row of buttons for what to run until, lit
+  when chosen, then Run. The month keeps its room beside it.
+
+- **Dev mode's Scenes are a row of buttons** Dev mode's Scenes lists each scene
+  the game can start as a button, the chosen one lit, then Make it happen.
+
+- **Dev mode's Trace of a bill's vote reads in words** On a bill's page, dev
+  mode's Trace opens the record (the chambers' rolls, each name a button), why
+  the chosen member voted as they did (each recorded reason and which way and
+  how hard it pulled, in words) and what came of it (where the bill stands and
+  who signed or vetoed it). It replaces the raw reasons text the dev trace used
+  to print for a vote.
+
+- **The loading card names your town from the first step** When you begin a
+  life, the loading card carries the name of the town you chose from the first
+  step of the build, instead of waiting until the world is built.
+
+- **A short-staffed business loses outside customers to its rivals** Customers
+  from outside the town now go to the businesses that can serve them: a business
+  short of the staff its demand needs loses those customers to its rivals of the
+  same kind, so firms in one town no longer rise and fall together.
+
+- **News shows a front-page photo on the lead story of a government acting** The
+  lead story on the News screen carries the front-page photo of the room where
+  its state or local government acts, between its headline and its text, as the
+  opening's news toast already does. Federal stories and stories not about a
+  government acting have none.
+
+- **People can talk about letting customers pick their electricity supplier**
+  The question of letting customers pick their electricity supplier now has a
+  spoken name, like every other question the bill catalog holds, so a person can
+  take a stand on it in plain words.
+
+- **Every scene opens by naming the day, the place and the person** Every scene
+  now starts with one line that says when, where and who: "First thing on June
+  7th, you head to the clerk's office and speak to Maria Patton." A call opens
+  with the phone ringing and who is on it, a letter with who it came from, a
+  visit with who came by. The day is said the way people say it, never as a date
+  code.
+
+- **People tell you where they stand, and the paper does too** The people you
+  are close to, and who follow politics, will sometimes tell you where they
+  stand, in their own voice: a guarded one says it plainly, a glad one says it
+  proudly. Once they have, their card shows it. A letter to the editor does the
+  same for its writer, whether you read it yourself or someone tells you about
+  it. Until one of those happens, a person's card still says you do not know
+  where they stand.
+
+- **A grade on part of a line teaches every line like it** The owner's grades
+  now fall on parts of a line as well as whole lines, with a strength, and build
+  a map of what reads right for each kind of speaker and each kind of scene.
+  Every line in the game is scored against that map, so lines that share a
+  graded part come up more or less often everywhere they play.
+
+- **Lines with filler or stock phrases come up less often** What the owner's
+  grades and voice notes taught, and what shipped games teach, are now writing
+  rules every line is weighed against. Lines that open with filler, ask a
+  question that names nothing, give in at once or reach for a stock phrase come
+  up less often everywhere; lines that name who, what, where and when come up
+  more.
+
+### Fixed
+
+- **A bill's paper offers an amendment only on a section that can be moved**
+  Lower and raise appeared on sections with no law in force to move from, and
+  pressing them answered with an error; they are no longer offered there.
+
+- **Budgets opens for a government whose books list no spending line** Opening
+  Budgets in a place whose local government has no spending lines in its books
+  (a Puerto Rico municipio, for one) failed with an error and showed nothing. It
+  now shows the government's money and who adopted it, with an empty department
+  list.
+
+- **A desk entry that is no longer waiting redraws the desk instead of failing**
+  On the desk (hearings, orders, the budget request), pressing a button for an
+  entry that was no longer waiting, because the day had moved or another stop
+  cleared it, raised an error and left the stale entry on screen. The desk now
+  redraws from what is waiting at that moment.
+
+- **The Government screen lists every measure a body has voted, not three** A
+  council that had voted thirty-seven measures showed three on the Government
+  screen; it now lists the term's record, newest first, up to a page of fifty.
+
+- **Long games in small places no longer run out of memory** Long games in small
+  places no longer run out of memory in an election year: people forget the bare
+  "I lived through this" note a week or two after the day, not three months.
+
+- **A business with several bills pays its sewer and trash charge once a month**
+  A business that pays more than one outside bill no longer pays its sewer and
+  trash charge on each of them.
+
+- **Puerto Rico's towns have budgets** A town in Puerto Rico now has a budget of
+  its own (revenue from its property tax, municipal sales tax and business
+  license tax, and the spending that goes with it), where before its municipio
+  showed zero in and zero out.
+
+- **A short lead story in News no longer breaks a sentence between its two
+  columns** The lead story's text sits in two columns, and a short one used to
+  split a sentence across them ("voted 149 to" in one column, "11." in the
+  next). Each paragraph now stays whole in its column.
+
+- **A long law name in Issues wraps onto a second line without overlapping the
+  next row** In Issues, and every list drawn in the same box, a name too long
+  for one line ("Public sector collective bargaining") was cut off and ran over
+  the row below. A row now grows to hold its wrapped name, and the list still
+  scrolls inside its box.
+
+### Changed
+
+- **Children at home and a job at risk weigh against running** When someone
+  weighs running for office, the children living in their household and the risk
+  to their job and pay (less the cash they have to carry a bad stretch) now
+  count against it, the same way for the people the player follows and the wider
+  population.
+
+- **Party workers, business owners and civic leaders are likelier to run for
+  seats near them** People who are active in a party, own an employer in the
+  county, or hold a civic role now have a stronger pull toward running for the
+  county's and town's seats. In Warrior, Alabama one county seat that drew a
+  single candidate now draws three.
+
+- **Employers cut hours before they cut staff** When a business sells a little
+  less than its staff can make, it cuts everyone's hours (down to about a
+  34-hour week) before letting anyone go, and restores them as sales return; pay
+  follows the hours.
+
+- **Sewer and trash charges fall on those who use them** Sewer and trash charges
+  now fall on the dwellings and businesses that use them, not on every
+  household's living cost alike.
+
+- **A state or county votes its spending from the receipts it collected** A
+  state's or county's next budget spends more after a year that collected more
+  than planned and less after one that collected less.
+
+- **The country's weather follows the climate** After the record of real
+  disasters ends in October 2026, disasters elsewhere in the country come from
+  each state's flood, storm and wildfire history, moved by the warming. A world
+  whose carbon laws warm it faster gets a little more weather. Disasters in your
+  own town do not use it yet.
+
+- **A disaster damages particular homes** When a disaster hits your town,
+  particular homes are damaged, the weakest and cheapest first. Each damaged
+  household gets its share of the aid in its own account and pays its own repair
+  bill, and a household that cannot pay for repairs leaves town.
+
+- **Your town's weather follows the climate** After the record of real disasters
+  ends in October 2026, your town's county gets floods, storms and wildfires
+  from its own history, moved by the warming. When one damages homes, the
+  households there are paid aid and pay for repairs from their own accounts, the
+  same as for a real one.
+
 ## PRE-ALPHA 0.96.0
 
 _Released November 8, 2026._

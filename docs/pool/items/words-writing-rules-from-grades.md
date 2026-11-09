@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: story/writing-rules
-pr: "#7994"
+pr: #7994
 blocked-on:
 lead: words
 milestone: play-first

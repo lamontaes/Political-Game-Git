@@ -598,6 +598,9 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-address-no-reader",
     "kind": "missing-hook",
     "file": "data/english/parts/address.json",
@@ -715,6 +718,18 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "The moment records the minute its setting opened it (ledger openedAt) and composeScene reads that.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-address-kind-policy-pull",
+    "kind": "tunable-calibration",
+    "file": "src/director/address-kind.ts",
+    "line": 66,
+    "whatItFakes": "How strongly a speaker's traits tilt a governor's or mayor's address toward a kind. The mean of the kind's facet values is clamped to -1..1 though the facets run past it (a work-centered, meticulous governor's mean is 1.2), and the policy kind's base (policyBase 0.5, times the full agenda) doubles at the cap, so a speaker with a full list of asks and a work-centered turn scores policy 1.0 against a collapsing term's crisis 0.656 and gives the same address in a good term and a bad one (Greensboro, Maryland, seed f8fc37cc25201edc, official:term:seat:US-MD:governor:2025-01-20).",
+    "why": "Calibration, not a clamp on the score: the policy score is raw (0.5 x work share x (1 + pull)) and, even unclamped (pull 1.2, score 1.1), is above crisis. Whether a full-agenda governor should still name a collapsing term is a Words call on policyBase, the pull scale and the crisis weight, which the owner has not ruled.",
+    "addedBy": "Small fixes session",
+    "addedAt": "2026-11-09",
+    "replacement": "Words checks the address kinds against real State of the State addresses (a crisis term outweighs a long agenda), then sets policyBase and the pull's scale so a bad term can outscore policy for any speaker.",
     "status": "open"
   }
 ]

@@ -13,6 +13,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   fileCandidacy,
@@ -108,6 +109,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
         minimumPeople: 300,
       }),
     );
+    openLaws(core);
     openOffices(core, seed);
     openElections(core);
     openCampaigns(core);
@@ -279,6 +281,7 @@ describe("M2-05 and M2-06 campaigning and polls", { timeout: 180_000 }, () => {
           minimumPeople: 300,
         }),
       );
+      openLaws(core);
       openOffices(core, drawSeed);
       openElections(core);
       openCampaigns(core);

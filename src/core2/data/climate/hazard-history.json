@@ -20,6 +20,7 @@
     "Straight-Line Winds": "storm",
     "Fire": "wildfire"
   },
+  "recordEnd": "2026-10-09",
   "years": 26.771,
   "byCounty": {
     "10001": [[0,0,0,0],[0,0,4,3],[0,0,0,0]],

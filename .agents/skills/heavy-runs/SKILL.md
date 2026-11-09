@@ -20,6 +20,7 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 - **One heavy run at a time** on a 15 to 16 GB container. A second one, or a long save beside it, gets killed for memory.
 - **Give node 8,000 MB:** `NODE_OPTIONS=--max-old-space-size=8000` (or 8192). At 6,500, two of the three heaviest rows died with exit 134 (heap out of memory).
 - **The heavy lock serializes heavy runs only.** Start no light test run, matrix regeneration or typecheck in another copy while an 8 GB run holds it: on Nov 1 the lenders test was killed with "Worker exited unexpectedly" and no heap message while such runs shared the container.
+- **Two Montpelier-size worlds are the limit, with nothing beside them (Nov 9).** Two 5 to 7 GB worlds ran together; adding a `npm run typecheck` or one vitest file got one of them killed three times in a morning. Put every world through one queue (a folder of job scripts run in name order by one runner), and run tests or the typecheck only while at most one world runs.
 - **A test keeps one world in memory at a time.** A helper that returns a world (`api`, `core`) keeps it alive while the next one plays; return the values the caller reads instead. On Nov 1 the public-finance test held two worlds at once and ran past node's default heap on 5 of 7 seeds once the medical bills added rows.
 - **Pull the branch before every row,** and put `git log --oneline -1` in each result line. Branches moved under a run three times on Oct 30 to 31.
 

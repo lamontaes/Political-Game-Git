@@ -29,6 +29,7 @@ import {
 } from "./appointments";
 import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
+import { federalOrderable } from "./modules/executive";
 import { fillInIdentity, personOrFillIn } from "./state";
 import { drawnAdult } from "./modules/counted-moves";
 import { admitCountedHousehold } from "./modules/residents";
@@ -964,15 +965,14 @@ export function travelToTown(
 }
 
 /**
- * The orders the president may issue that an engine can carry. None yet.
- * Stopgap SG-OFFICE-FED-presidential-orders: the executive engine's orders
- * read only a state's powers (`orderableBy`), so the president has no order
- * an engine carries until GOV adds the federal ones.
+ * The orders the president may issue that an engine reads: the executive
+ * engine's federal orders (`federalOrderable`, with the authority for each).
+ * An unplayed President weighs and issues them in president-acts.ts; the
+ * played President has no screen over them yet (stopgap
+ * SG-NATION-federal-axis-proxy).
  */
-export function presidentialOrders(api: CoreAPI): readonly string[] {
-  // stopgapId: SG-OFFICE-FED-presidential-orders
-  api.stopgap("SG-OFFICE-FED-presidential-orders");
-  return [];
+export function presidentialOrders(): readonly string[] {
+  return federalOrderable();
 }
 
 /**

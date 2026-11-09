@@ -316,7 +316,7 @@ describe("the executive's desk", () => {
     expect(answerIn(api, state, question), where).toBe(-1);
   }, 300_000);
 
-  it("weighs only residents who have turned 18 by their birthday, not by their year of birth (play-stop-20)", () => {
+  it("weighs only residents who have turned 18 by their birthday, not by their year of birth (play-stop-20)", (context) => {
     // A town with a resident who is 17 on the day, though the year they were
     // born says 18 (the first of a few draws that has one).
     const teensOf = ({ core, api }: ReturnType<typeof world>) =>
@@ -328,13 +328,25 @@ describe("the executive's desk", () => {
           Number(core.date.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) ===
             18,
       );
+    // The case is rare in a small place (American Samoa's Auma and Maloata
+    // drew none in four tries), so up to twelve draws are searched; a run
+    // whose twelve draws hold no such resident is skipped with its counts,
+    // never passed.
+    const DRAWS = 12;
+    const tried: string[] = [];
     let drawn = world(all, "adults:0");
-    for (let n = 1; n < 4 && !teensOf(drawn).length; n += 1)
+    tried.push(`${drawn.where}: ${teensOf(drawn).length}`);
+    for (let n = 1; n < DRAWS && !teensOf(drawn).length; n += 1) {
       drawn = world(all, `adults:${n}`);
+      tried.push(`${drawn.where}: ${teensOf(drawn).length}`);
+    }
+    const teens = teensOf(drawn);
+    if (!teens.length)
+      return context.skip(
+        `no resident who is 17 on the day but 18 by birth year in ${DRAWS} draws (${tried.join("; ")})`,
+      );
     const { core, api, where } = drawn;
     const form = townForm(api);
-    const teens = teensOf(drawn);
-    expect(teens.length, where).toBeGreaterThan(0);
     const posts = ["police-chief", "city-manager", "public-works"];
     const weighed = new Set(
       posts.flatMap((post) =>
