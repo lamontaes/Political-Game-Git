@@ -1638,6 +1638,22 @@ export function countedHouseholdOf(
     : rt!.store.households[rt!.store.household[m]!];
 }
 
+/** How many people under the voting age live in a counted person's household, for a reader that weighs what a run costs the family. */
+export function countedChildrenOf(
+  core: CoreState,
+  personId: PersonId,
+  adultAge: number,
+): number {
+  const rt = runtimes.get(core);
+  const home = countedHouseholdOf(core, personId);
+  if (!rt || !home) return 0;
+  const year = Number(core.date.slice(0, 4));
+  return rt.store
+    .factsOfHousehold(home)
+    .filter((row) => year - Number(row.birthDate.slice(0, 4)) < adultAge)
+    .length;
+}
+
 /**
  * The flows a filled-in household can be taking its share back from: the
  * pooled wage flows (they name jobs), the pooled retirement and purchase
