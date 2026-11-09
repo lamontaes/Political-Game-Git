@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: story/news-topic-not-outlet
-pr: 8073
+pr: #8073
 blocked-on:
 lead: words
 milestone: play-first
