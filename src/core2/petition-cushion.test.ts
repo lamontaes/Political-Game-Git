@@ -5,7 +5,7 @@
  * minimum, and the cushion is read from its parameter row within its spread.
  */
 import { describe, expect, it } from "vitest";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { signaturesToGather } from "./modules/campaigns";
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
 

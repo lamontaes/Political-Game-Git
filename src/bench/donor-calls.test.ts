@@ -9,7 +9,7 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "./world";
 import { gameStartDate } from "../core2/game-start";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { coreAPI } from "../core2/state";
 import type { CoreState } from "../core2/types";
 import { lawChain } from "../core2/modules/laws";
