@@ -2,7 +2,7 @@
  * Memory stays flat (owner, Oct 12; CTO speed and memory order, Oct 14):
  * every event a person lives through leaves `event:<id>:experienced` in their
  * knowledge, and only two writers read it: the appraisal the same day, and a
- * drive's update, which checks its source event. Once a month a key older
+ * drive's update, which checks its source event. Once a week a key older
  * than `experiencedKeyRetentionDays` goes unless it is the source of a drive
  * the person holds. Forgetting is retention, not a check, so it runs with
  * bookkeeping on as well. The event's own facts stay;
@@ -90,8 +90,18 @@ function forgetUnlessHeld(
   return false;
 }
 
+/**
+ * The days the forgetting pass runs: the 1st, 8th, 15th and 22nd of a month,
+ * weekly, so a key lives its retention window plus up to a week (a monthly
+ * pass kept each key up to a month past the window, and in an election year
+ * the keys of every speech and message piled up; Futiga, American Samoa, seed
+ * dpA, 2030).
+ */
+export const isForgetDay = (date: string): boolean =>
+  ["01", "08", "15", "22"].includes(date.slice(8));
+
 export function forgetOldExperiences(core: CoreState): void {
-  if (!core.date.endsWith("-01")) return;
+  if (!isForgetDay(core.date)) return;
   const before = addDays(
     makeIsoDate(core.date),
     -parameter("experiencedKeyRetentionDays", core.data.parameters),

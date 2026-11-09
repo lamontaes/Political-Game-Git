@@ -47,6 +47,62 @@ for (const row of w.core.durableLog.values()) {
     driveBy.set(k, (driveBy.get(k) ?? 0) + 1);
   }
 }
+const heavy = [...actors].sort((a, b) => b[1] - a[1])[0]?.[0];
+const sample = [...w.core.durableLog.values()].filter(
+  (r) => r.kind === "person.weighed" && r.actorId === heavy,
+);
+const byReason = new Map<string, number>();
+for (const r of sample)
+  byReason.set(r.reasonKey ?? "-", (byReason.get(r.reasonKey ?? "-") ?? 0) + 1);
+console.log(
+  "heaviest actor",
+  heavy,
+  "is player",
+  heavy === w.core.playerId,
+  "reasons",
+  JSON.stringify([...byReason]),
+);
+for (const r of sample.slice(0, 2))
+  console.log(
+    "sample",
+    JSON.stringify({
+      ...r,
+      decision: r.decision
+        ? { reasonKey: r.decision.reasonKey, scores: r.decision.scores?.length }
+        : undefined,
+    }).slice(0, 700),
+  );
+const day = [...w.core.durableLog.values()].filter(
+  (r) =>
+    r.kind === "person.weighed" &&
+    r.date === "2030-10-12" &&
+    r.actorId !== heavy,
+);
+console.log(
+  "2030-10-12 non-player weighed",
+  day.length,
+  "distinct actors",
+  new Set(day.map((r) => r.actorId)).size,
+);
+for (const r of day.slice(0, 3))
+  console.log(
+    "day sample",
+    JSON.stringify({
+      id: r.id,
+      actionId: r.actionId,
+      reasonKey: r.reasonKey,
+      vis: r.visibility,
+      ids: r.personIds.length,
+      witnesses: r.witnessIds?.length,
+    }).slice(0, 400),
+  );
+const perActor = new Map<string, number>();
+for (const r of day)
+  perActor.set(r.actorId ?? "-", (perActor.get(r.actorId ?? "-") ?? 0) + 1);
+console.log(
+  "per actor top",
+  JSON.stringify([...perActor].sort((a, b) => b[1] - a[1]).slice(0, 5)),
+);
 const top = (m: Map<string, number>, k = 14) =>
   [...m].sort((a, b) => b[1] - a[1]).slice(0, k);
 const player = w.core.playerId ? w.core.people.get(w.core.playerId) : undefined;

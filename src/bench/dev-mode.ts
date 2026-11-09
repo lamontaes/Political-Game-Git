@@ -16,6 +16,7 @@ import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
+import { isForgetDay } from "../core2/knowledge-retention";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
   considerBribe,
@@ -1559,7 +1560,7 @@ export class DevMode {
 
   /**
    * What a person remembers: each event they lived through that their knowledge still holds, when
-   * they learned it and when the monthly pass forgets it (the first of a month once its retention
+   * they learned it and when the weekly pass forgets it (the next forget day once its retention
    * window is past). The player keeps everything; a held drive keeps its source event.
    */
   memory(personId: string) {
@@ -1577,7 +1578,7 @@ export class DevMode {
     );
     const fadesOn = (learnedAt: string) => {
       let day = addDays(makeIsoDate(learnedAt), retention + 1);
-      while (!day.endsWith("-01")) day = addDays(makeIsoDate(day), 1);
+      while (!isForgetDay(day)) day = addDays(makeIsoDate(day), 1);
       return day;
     };
     const rows = [];
