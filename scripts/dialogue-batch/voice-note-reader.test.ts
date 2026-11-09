@@ -220,18 +220,32 @@ describe("a voice note on the real batch 2 reaches the grade map", () => {
   });
 });
 
-describe("his batch 2 note of Nov 9, read as the CTO read it", () => {
-  const file = readFileSync(
-    "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md",
-    "utf8",
-  );
-  const words = file.slice(
-    file.indexOf("## His words (verbatim)"),
-    file.indexOf("## The CTO's reading"),
-  );
+// The way he grades batch 2 by voice, written here in our own words: his
+// notes stay off main (owner, Nov 9: "I don't know why like my notes and
+// stuff need to be merged into main"). The habits are his: a part number
+// said alone (".2"), a list ("All 3 of those"), a whole moment ("all of
+// 12"), "second best", a version of his own, and rules said in passing.
+describe("a batch 2 note in his speaking habits", () => {
   const batch = JSON.parse(
     readFileSync("docs/coordination/batches/2026-11-09-batch-2.json", "utf8"),
   ) as { moments: BatchMoment[] };
+  const said = (id: string) =>
+    batch.moments.flatMap((moment) => moment.lines).find((l) => l.id === id)!
+      .line;
+  const words = [
+    "Okay, so let's see. 1.2 is clunky, there's no subject in it.",
+    "3.2 shouldn't even be in there. It shouldn't let you do it if you can't vote.",
+    "4.2, how would they know what the race costs? It'd be like, can we even afford this?",
+    `${said("5.1")} That doesn't make any sense.`,
+    "6.2 and 6.3 are kind of clunky and unnatural.",
+    ".2 and 7.3 are alright. 7.1, I don't really like.",
+    "8.2 is good. 8.3 is also good.",
+    "I like 9.2. 9.1 is probably the second best.",
+    "Not a huge fan of 10.2.",
+    `${said("11.1")} Sure. All 3 of those are good.`,
+    "I like all of 12. .1 is good. 13.2, no. 13.3, that's the second best.",
+    "And I prefer Alright to all right. Look at real-life examples of how people say it.",
+  ].join(" ");
   const { grades, rules } = readVoiceNote(words, batch.moments);
   const net = new Map(
     grades.map((grade) => [
@@ -239,18 +253,13 @@ describe("his batch 2 note of Nov 9, read as the CTO read it", () => {
       grade.spans.reduce((sum, span) => sum + span.strength, 0),
     ]),
   );
-  // The CTO's table: good lines and bad lines (fix, unclear and ungraded left out).
   const good = [
-    "2.2",
-    "3.1",
     "7.2",
     "7.3",
     "8.2",
     "8.3",
     "9.1",
     "9.2",
-    "10.1",
-    "10.3",
     "11.1",
     "11.2",
     "11.3",
@@ -260,45 +269,24 @@ describe("his batch 2 note of Nov 9, read as the CTO read it", () => {
     "13.1",
     "13.3",
   ];
-  const bad = [
-    "1.2",
-    "1.3",
-    "2.1",
-    "2.3",
-    "3.2",
-    "4.1",
-    "4.2",
-    "4.3",
-    "5.1",
-    "5.2",
-    "6.2",
-    "6.3",
-    "7.1",
-    "9.3",
-    "10.2",
-    "13.2",
-  ];
+  const bad = ["1.2", "3.2", "4.2", "5.1", "6.2", "6.3", "7.1", "10.2", "13.2"];
 
-  it("never grades a line the other way from his reading", () => {
-    for (const id of good)
-      expect(net.get(id) ?? 0, id).toBeGreaterThanOrEqual(0);
-    for (const id of bad) expect(net.get(id) ?? 0, id).toBeLessThanOrEqual(0);
-  });
-
-  it("grades at least five in six of the lines he judged", () => {
-    const reached = [...good, ...bad].filter((id) => (net.get(id) ?? 0) !== 0);
-    expect(reached.length / (good.length + bad.length)).toBeGreaterThanOrEqual(
-      5 / 6,
-    );
+  it("grades each line the way he meant it", () => {
+    for (const id of good) expect(net.get(id) ?? 0, id).toBeGreaterThan(0);
+    for (const id of bad) expect(net.get(id) ?? 0, id).toBeLessThan(0);
   });
 
   it("keeps his own versions and the rules he stated", () => {
     expect(
       grades.find((grade) => grade.id === "4.2")?.rewrites?.join(" "),
     ).toMatch(/can we even afford this/i);
-    const said = rules.map((rule) => rule.rule).join(" ");
-    expect(said).toMatch(/I prefer ALRIGHT/);
-    expect(said).toMatch(/shouldn't let you do it if you can't vote/);
-    expect(said).toMatch(/real-life examples/);
+    const stated = rules.map((rule) => rule.rule).join(" ");
+    expect(stated).toMatch(/prefer Alright/);
+    expect(stated).toMatch(/shouldn't let you do it if you can't vote/);
+    expect(stated).toMatch(/real-life examples/);
+  });
+
+  it("reads a line he names by saying where it was", () => {
+    expect(placeSaid("So it was 8.2.")).toEqual({ moment: 8, line: 2 });
   });
 });
