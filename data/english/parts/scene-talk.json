@@ -180732,7 +180732,7 @@
       "key": "scene-talk.narrate-narrate.everyone-has-come-together-to-celebrate-name-who-you-last-quarreled-with-is-here-too-and-wants-a-word",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "Everyone has come together to celebrate. {name}, who you last quarreled with, is here too and wants a word.",
+      "text": "Everyone has come together to celebrate. {name} is here too, and the last time you two talked it ended in a quarrel.",
       "uses": [
         {
           "subject": "scene",
@@ -181195,7 +181195,7 @@
       "key": "scene-talk.reply-ask.what-exactly-do-you-want-me-to-do",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What exactly do you want me to do?",
+      "text": "What do you want me to do?",
       "uses": [
         {
           "subject": "scene",
@@ -181287,7 +181287,7 @@
       "key": "scene-talk.reply-agree.you-make-a-fair-point-so-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You make a fair point, so I'll do it.",
+      "text": "Fair enough. I'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -181359,7 +181359,7 @@
       "key": "scene-talk.reply-agree.that-helps-and-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That helps, and I'll do it.",
+      "text": "Alright, that helps. I'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -181383,7 +181383,7 @@
       "key": "scene-talk.reply-promise.you-can-count-on-me-and-i-ll-do-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "You can count on me, and I'll do it.",
+      "text": "You can count on me.",
       "uses": [
         {
           "subject": "scene",
@@ -181918,7 +181918,7 @@
       "key": "scene-talk.state-request.would-you-reach-out-to-the-relative-who-missed-it-first-it-would-mean-a-lot-to-the-family",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you reach out to the relative who missed it, {first}? It would mean a lot to the family.",
+      "text": "Would you call whoever missed the birthday, {first}? It would mean a lot to the family.",
       "uses": [
         {
           "subject": "scene",
@@ -182351,7 +182351,7 @@
       "key": "scene-talk.reply-agree.you-have-a-point-so-i-ll-get-in-touch-with-them",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "You have a point, so I'll get in touch with them.",
+      "text": "You're right. I'll get in touch with them.",
       "uses": [
         {
           "subject": "scene",
@@ -182423,7 +182423,7 @@
       "key": "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That makes it easier, and I'll do it.",
+      "text": "That makes it easier. I'll do it.",
       "uses": [
         {
           "subject": "scene",
