@@ -23,11 +23,7 @@ import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
-import {
-  LEGISLATURE_MODULE_ID,
-  votesOn,
-  type MemberPosition,
-} from "../core2/modules/legislature";
+import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import type {
   CoreState,
   DecisionReason,
@@ -71,83 +67,6 @@ const nameOf = (core: CoreState, id: string) => {
   const person = core.people.get(id);
   return person ? `${person.givenName} ${person.familyName}` : id;
 };
-
-// ---- A vote ----------------------------------------------------------------
-
-/** The terms of a member's position, in the order the legislature sums them. */
-const TERMS = [
-  "views",
-  "openingViews",
-  "constituents",
-  "sponsor",
-  "deal",
-  "lobby",
-  "party",
-  "wing",
-  "ambition",
-  "press",
-  "trait",
-  "consistency",
-  "bribe",
-] as const;
-
-function positionRows(position: MemberPosition): WhyRow[] {
-  const record = position as unknown as Record<string, unknown>;
-  return [
-    ...TERMS.flatMap((term) =>
-      typeof record[term] === "number"
-        ? [{ label: term, value: number(record[term] as number) }]
-        : [],
-    ),
-    { label: "total (sum of the reasons)", value: number(position.total) },
-  ];
-}
-
-function votePanels(core: CoreState, billId: string, voteId?: string) {
-  const panels: WhyPanel[] = [];
-  const votes = votesOn(coreAPI(core), billId);
-  const rows = table(core, LEGISLATURE_MODULE_ID, "votes").filter(
-    (row) => row.billId === billId,
-  );
-  if (voteId) {
-    const row = rows.find((candidate) => candidate.id === voteId);
-    const position = row?.position as MemberPosition | undefined;
-    panels.push({
-      title: `Why ${nameOf(core, String(row?.memberId ?? ""))} voted ${row?.vote ?? ""}`,
-      rows: position ? positionRows(position) : [],
-      ...(position
-        ? {}
-        : {
-            gap: "The legislature kept no reasons for this vote (the row has no position).",
-          }),
-    });
-  }
-  panels.push({
-    title: `Every member's recorded reasons on ${billId}`,
-    rows: votes.slice(0, MAX_ROWS).map((vote) => {
-      const position = vote.position as MemberPosition | undefined;
-      const terms = position
-        ? TERMS.flatMap((term) => {
-            const value = (position as unknown as Record<string, unknown>)[
-              term
-            ];
-            return typeof value === "number" && Math.abs(value) >= 0.005
-              ? [`${term} ${value > 0 ? "+" : ""}${number(value)}`]
-              : [];
-          }).join(", ")
-        : "no reasons kept";
-      return {
-        label: nameOf(core, vote.memberId),
-        value: `${vote.vote} (total ${position ? number(position.total) : "?"}): ${terms}`,
-        id: `vote:${billId}:${vote.memberId}`,
-      };
-    }),
-    ...(votes.length
-      ? {}
-      : { gap: "No vote has been recorded on this bill yet." }),
-  });
-  return panels;
-}
 
 // ---- A business closing ----------------------------------------------------
 
@@ -638,11 +557,6 @@ export function whyPanels(
   if (!found) return [];
   const record = found.record as Row;
   const facts = (record.facts ?? {}) as Record<string, string>;
-  if (found.engine === `${LEGISLATURE_MODULE_ID}.votes`)
-    return votePanels(core, String(record.billId), id);
-  if (found.engine === `${LEGISLATURE_MODULE_ID}.bills`)
-    return votePanels(core, id);
-  if (typeof facts.billId === "string") return votePanels(core, facts.billId);
   if (found.engine === `${BUSINESS_MODULE_ID}.closures`)
     return closingPanels(core, String(record.organizationId));
   if (found.kind === "business.closed")

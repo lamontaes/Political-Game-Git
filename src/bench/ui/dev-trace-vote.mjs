@@ -8,6 +8,15 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { stripBoard, stripSection } from "./strips.mjs";
 
+/** The word for how hard a reason pulled: the first step whose `upTo` reaches the size, else the last. */
+function strengthWord(steps, magnitude) {
+  const size = Math.abs(magnitude ?? 0);
+  return (
+    steps.find((step) => step.upTo === undefined || step.upTo >= size) ??
+    steps.at(-1)
+  ).word;
+}
+
 /** How many names a roll shows before the control that opens the rest (layout, not a game rule). */
 const SHOWN_NAMES = 12;
 
@@ -77,7 +86,9 @@ export function devTraceVote({
             "div",
             { className: "stage-row" },
             el("b", { textContent: words.reasons[r.reason] ?? "" }),
-            el("span", { textContent: words[r.side] ?? "" }),
+            el("span", {
+              textContent: `${words[r.side] ?? ""}, ${strengthWord(words.strength, r.magnitude)}`,
+            }),
           ),
         ),
       )
