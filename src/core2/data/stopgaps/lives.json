@@ -184,7 +184,7 @@
     "kind": "assumed-data",
     "file": "src/core2/modules/people.ts",
     "line": 277,
-    "whatItFakes": "Every full person at an employer spends workmateHoursPerWeek of their week with their workgroup (about eight people), split evenly among its other members; the pair's shifts, roles and how they get on are not read.",
+    "whatItFakes": "Every full person at an employer spends workmateHoursPerWeek of their week with their workgroup (about eight people), shared among its members in proportion to their closeness plus workmateFamiliarityBase; the pair's shifts, roles and how they get on are not read.",
     "why": "No source read gives time spent with coworkers by person; the time-use companionship figures leave out work, and the jobs engine keeps no shift overlap between two workers.",
     "addedBy": "Tiers (Nov 9)",
     "addedAt": "2026-11-09",

@@ -8405,5 +8405,17 @@
       "unit": "hours a week",
       "citation": "Checked by the share of a circle kept after three years (M0-07), never a target."
     }
+  },
+  "workmateFamiliarityBase": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What a stranger counts as when a worker's week with their group is shared among its members: each member's share is their closeness (0 to 1) plus this, so a close coworker draws up to twice a stranger's time. A prototype choice: people spend more time with people they already like (homophily and reinforcement in friendship formation), but no source read gives the strength.",
+    "stopgapId": "SG-LIVES-workmate-time",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "closeness added to every member's share",
+      "citation": "Checked by the share of a circle kept after three years (M0-07), never a target."
+    }
   }
 }

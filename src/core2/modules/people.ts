@@ -283,21 +283,49 @@ function shareWorkTime(api: CoreAPI): void {
     for (const group of workgroupsAt(core as CoreState, organizationId)) {
       const here = group.filter((id) => core.people.get(id)?.alive);
       if (here.length < p("two")) continue;
-      const each = p("workmateHoursPerWeek") / (here.length - p("one"));
+      // Each worker's week with the group goes to its members in proportion
+      // to how close they already are (plus one, so a stranger is met): time
+      // goes where the tie is, and a newcomer closes the gap slowly. The pair
+      // is credited the mean of the two shares.
+      const seen = new Map<string, number>();
+      const close = (a: string, b: string) => {
+        const key = pairKey(a, b);
+        let value = seen.get(key);
+        if (value === undefined)
+          seen.set(
+            key,
+            (value =
+              closenessBetween(core, a, b) + p("workmateFamiliarityBase")),
+          );
+        return value;
+      };
+      const total = new Map<string, number>();
+      for (const a of here)
+        total.set(
+          a,
+          here.reduce((n, b) => (b === a ? n : n + close(a, b)), p("zero")),
+        );
       for (let left = p("zero"); left < here.length; left += p("one"))
         for (
           let right = left + p("one");
           right < here.length;
           right += p("one")
-        )
+        ) {
+          const a = here[left]!,
+            b = here[right]!;
+          const hours =
+            (p("workmateHoursPerWeek") *
+              (close(a, b) / total.get(a)! + close(a, b) / total.get(b)!)) /
+            p("two");
           api.relationship(
-            here[left]!,
-            here[right]!,
+            a,
+            b,
             "coworker" as Relationship["kind"],
-            each,
+            hours,
             undefined,
             { cause: ENCOUNTERS.causes.workTime, sourceId: organizationId },
           );
+        }
     }
 }
 
