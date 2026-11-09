@@ -11,7 +11,9 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   keptDecision,
+  isShortDetailKind,
   queueCircleEntry,
+  queueShortEntry,
   queueDecisionDetail,
   queueRelationshipDetail,
 } from "./decision-detail";
@@ -766,7 +768,11 @@ export function retainLog(
   // window, the player's own routine ones a year later (condenseCircleDecisions).
   if (row.decision) queueDecisionDetail(core, core.date, row.id);
   else if (row.visibility === "circle" && !row.publicRecord && !row.news)
-    queueCircleEntry(core, core.date, row.id);
+    (isShortDetailKind(row.kind) ? queueShortEntry : queueCircleEntry)(
+      core,
+      core.date,
+      row.id,
+    );
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
