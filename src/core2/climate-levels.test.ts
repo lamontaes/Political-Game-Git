@@ -1,18 +1,20 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { buildBenchWorld } from "../bench/world";
 import declarations from "./data/disasters/declarations.json" with { type: "json" };
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { advanceCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
+import { buildPopulation } from "./population";
 import {
   HAZARDS,
   hazardFactor,
   hazardRate,
+  openClimate,
   recordedHazardRate,
 } from "./modules/climate";
 import { countyCode } from "./modules/disasters";
+import { openLaws } from "./modules/laws";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
@@ -28,10 +30,17 @@ describe(`a county's hazard levels from its recorded history (seed ${seed})`, ()
     let tried = "";
     for (let draw = 0; draw < 200; draw++) {
       const place = drawPlace(`${seed}:levels:${draw}`, "core2-climate");
-      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
-        twoLevel: true,
-        placeKey: place.key,
-      });
+      // A small life core with the laws and the climate: the climate reads no town people.
+      const core = createLifeCore(
+        buildPopulation({
+          seed: place.seed,
+          placeKey: place.key,
+          startedAt: gameStartDate(),
+          minimumPeople: 30,
+        }),
+      );
+      openLaws(core);
+      openClimate(core);
       const county = countyCode(core);
       tried = `${place.name}, ${place.state} (seed ${seed}:levels:${draw})`;
       if (!county) continue;

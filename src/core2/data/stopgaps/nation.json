@@ -82,5 +82,17 @@
     "addedAt": "2026-11-09",
     "replacement": "Counts of NOAA storm episodes (excessive heat, extreme heat, drought) by county, hazard and season in hazard-history.json, built by the same script.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-climate-world-path",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/climate/emissions.json",
+    "line": 1,
+    "whatItFakes": "The rest of the world's fossil CO2 follows a straight line between three published points (38.1 Gt in 2025, 35 in 2035, 30 in 2050, held flat after) and does not respond to any other country's law, price or event; its spread (flat near 38 Gt under current policies) is not run.",
+    "why": "No year-by-year published scenario path was reachable; the IEA pages returned 403 and the points come from a search summary.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "The IEA or IPCC scenario table by year, with other countries' own laws moving their share.",
+    "status": "open"
   }
 ]
