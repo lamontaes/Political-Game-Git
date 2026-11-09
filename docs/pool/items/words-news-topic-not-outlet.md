@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: story/news-topic-not-outlet
-pr: pending
+pr: 8073
 blocked-on:
 lead: words
 milestone: play-first
