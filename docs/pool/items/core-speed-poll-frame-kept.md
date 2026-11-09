@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/poll-frame
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T16:42:42.524Z
 ---
 
 **What.** commissionPoll builds the whole town's frame (every full adult and every counted adult, sorted by id) for each poll; in Gunnison UT's election year polls cost 5 s. Keep the counted part, sorted, for the day and the counted store's version, and merge the full adults in id order.
