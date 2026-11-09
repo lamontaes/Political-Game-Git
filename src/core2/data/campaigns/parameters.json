@@ -402,6 +402,18 @@
       "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
       "spread": [0, 0.5]
     },
+    "studyMembers": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
+      "spread": [3, 9]
+    },
+    "studyTermDays": {
+      "value": 180,
+      "tag": "TUNABLE",
+      "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
+      "spread": [60, 365]
+    },
     "committeeOfTheWholeMaximum": {
       "value": 9,
       "tag": "ESTIMATED",
