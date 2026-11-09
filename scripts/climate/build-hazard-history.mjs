@@ -8,6 +8,7 @@
  * Run: node scripts/climate/build-hazard-history.mjs
  */
 import { readFileSync, writeFileSync } from "node:fs";
+import process from "node:process";
 
 const declarations = JSON.parse(
   readFileSync("src/core2/data/disasters/declarations.json", "utf8"),
