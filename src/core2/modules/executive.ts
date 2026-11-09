@@ -56,7 +56,12 @@ import { leanOf, mayorVeto, memberKey, members } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
-import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
+import {
+  BUDGETS_MODULE_ID,
+  amendBudget,
+  governmentOfJurisdiction,
+  governments,
+} from "./budgets";
 import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
@@ -73,7 +78,10 @@ interface PostSpec {
   readonly confirmedBy: string;
 }
 const RESEARCH = research as unknown as {
-  local: { city: Record<string, PostSpec[]> };
+  local: {
+    city: Record<string, PostSpec[]>;
+    county: Record<string, PostSpec[]>;
+  };
   places: Record<
     string,
     {
@@ -197,6 +205,29 @@ export function townForm(
 }
 
 /**
+ * The posts the place's own executive appoints, from the research file by the government that
+ * runs it (level as data): a city's by its form (mayor, council-manager), a county's where a
+ * county executive sits or, failing one, a board that hires an administrator. A township board
+ * runs its place as a council does. Elected posts (a sheriff, the county executive) are seats,
+ * not appointments.
+ */
+function townPosts(api: CoreAPI): readonly PostSpec[] {
+  const seats = townSeats(api);
+  const held = (kind: string) =>
+    seats.some((s) => s.office.kind === kind && s.holder);
+  const cityRun = held("council") || held("mayor") || held("township-board");
+  const forms = RESEARCH.local;
+  const posts = cityRun
+    ? (forms.city[townForm(api)] ?? [])
+    : held("county-executive")
+      ? (forms.county["county-executive"] ?? [])
+      : held("county-board")
+        ? (forms.county["council-administrator"] ?? [])
+        : [];
+  return posts.filter((spec) => !/voters/.test(spec.appointedBy));
+}
+
+/**
  * Fill the town's department heads and the state's
  * cabinet at the opening (who holds them then; vacancies come later).
  */
@@ -212,17 +243,32 @@ export function openExecutive(core: CoreState, worldSeed: string): void {
   scheduleReview(api, core.date);
 }
 
+/** The seat of the body that governs the place: its council, township board or county board. */
+const BOARD_KINDS = ["council", "township-board", "county-board"];
+
 function townAppointer(api: CoreAPI, by: string): TermRow | null {
   const seats = townSeats(api);
-  const office = /mayor/.test(by) ? "mayor" : "council";
-  return (
-    seats.find((s) => s.office.kind === office && s.holder?.personId)?.holder ??
-    null
-  );
+  // stopgapId: SG-EXECUTIVE-administrator-appoints
+  // A post the county administrator fills is filled in the board's direction: the board's
+  // holder stands in for the administrator as the appointer.
+  const kinds = /county executive/.test(by)
+    ? ["county-executive"]
+    : /mayor/.test(by)
+      ? ["mayor"]
+      : BOARD_KINDS;
+  for (const kind of kinds) {
+    const held = seats.find(
+      (s) => s.office.kind === kind && s.holder?.personId,
+    )?.holder;
+    if (held) return held;
+  }
+  return null;
 }
 
 function councilSides(api: CoreAPI): number[] {
-  const council = townSeats(api).find((s) => s.office.kind === "council");
+  const council = townSeats(api).find((s) =>
+    BOARD_KINDS.includes(s.office.kind),
+  );
   return council
     ? members(api, council.office.id).map((t) => partySide(t.party))
     : [];
@@ -314,7 +360,7 @@ const hasRecord = (record: ReturnType<typeof postRecord>) =>
  * number of years): years in the post's field, years of any work, schooling.
  */
 export function appointmentQualification(
-  person: Readonly<PersonState>,
+  person: Readonly<Pick<PersonState, "traits">>,
   record: ReturnType<typeof postRecord>,
 ): number {
   const temperament =
@@ -357,7 +403,12 @@ export function appointmentQualification(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
+function townPostInput(
+  api: CoreAPI,
+  spec: PostSpec,
+  chosenId?: string,
+  drawn = false,
+) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
@@ -407,22 +458,50 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   );
   const shown = adults.filter((p) => hasRecord(records.get(p.id)!));
   const pool = shown.length ? shown : adults;
+  // The whole town can supply a head: three residents of the wider population drawn for the post
+  // (as for a cabinet), scored by the one rule; only the one named is admitted and filled in.
+  const noRecord = {
+    relatedYears: 0,
+    workYears: 0,
+    schooling: undefined,
+    recordIds: [] as string[],
+  };
+  const residents = drawn
+    ? [0, 1, 2].flatMap((n) => {
+        const record = drawnAdult(
+          api,
+          `town:${town}:${spec.key}:${date}:${n}`,
+          CABINET_AGE,
+        );
+        const resident = record?.people[0];
+        return record && resident ? [{ record, resident }] : [];
+      })
+    : [];
   return {
+    drawnRecords: new Map(residents.map((r) => [r.resident.id, r.record])),
     appointer,
     appointerSide: appointerLean,
     weighing: appointerWeighing(
       api.state as CoreState,
       appointer?.personId ?? undefined,
     ),
-    candidates: pool.map((p) => ({
-      id: p.id,
-      lean: personLean(api.state.people, p, 0),
-      qualification: appointmentQualification(p, records.get(p.id)!),
-      qualificationRecords: records.get(p.id)!.recordIds,
-      known:
-        !!appointer?.personId &&
-        relationships.has(pairKey(appointer.personId, p.id)),
-    })),
+    candidates: [
+      ...pool.map((p) => ({
+        id: p.id,
+        lean: personLean(api.state.people, p, 0),
+        qualification: appointmentQualification(p, records.get(p.id)!),
+        qualificationRecords: records.get(p.id)!.recordIds,
+        known:
+          !!appointer?.personId &&
+          relationships.has(pairKey(appointer.personId, p.id)),
+      })),
+      ...residents.map(({ resident }) => ({
+        id: resident.id,
+        lean: leanOf(api, resident.id, resident),
+        qualification: appointmentQualification(resident, noRecord),
+        known: false,
+      })),
+    ],
   };
 }
 
@@ -435,9 +514,7 @@ export function headCandidates(
   api: CoreAPI,
   post: string,
 ): readonly NominationReasons[] {
-  const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
-    (s) => s.key === post,
-  );
+  const spec = townPosts(api).find((s) => s.key === post);
   if (!spec) return [];
   const input = townPostInput(api, spec);
   if (!input.candidates.length) return [];
@@ -462,7 +539,7 @@ function fillTownPost(
 ): AppointmentRow | null {
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
-  const input = townPostInput(api, spec, chosenId);
+  const input = townPostInput(api, spec, chosenId, !chosenId);
   const appointer = input.appointer;
   if (!input.candidates.length) return null;
   const appointment = nominateAndConfirm({
@@ -476,12 +553,19 @@ function fillTownPost(
     tolerance: campaignParameter("confirmationTolerance"),
   });
   if (!appointment.nomineeId) return null;
+  // A head drawn from the wider population is admitted and filled in only now that they are named.
+  const drawnRecord = input.drawnRecords.get(appointment.nomineeId);
+  let holderId = appointment.nomineeId;
+  if (drawnRecord) {
+    admitCountedHousehold(api.state as CoreState, drawnRecord);
+    holderId = personOrFillIn(api.state as CoreState, holderId)?.id ?? holderId;
+  }
   const row: AppointmentRow = {
     id: `appointment:town:${spec.key}`,
     government: town,
     post: spec.key,
     title: spec.title,
-    holderId: appointment.nomineeId,
+    holderId,
     identity: null,
     appointedBy: appointer ? memberKey(appointer) : spec.appointedBy,
     confirmation: appointment.confirmation,
@@ -515,7 +599,7 @@ function fillTownPost(
   const level =
     govs.find((g) => g.organizationId === employer)?.level ?? "city";
   const post = `town:${spec.key}`;
-  const toFill = (RESEARCH.local.city[townForm(api)] ?? []).filter(
+  const toFill = townPosts(api).filter(
     (other) =>
       lineForPost(level, `town:${other.key}`) === lineForPost(level, post) &&
       (other.key === spec.key ||
@@ -530,6 +614,8 @@ function fillTownPost(
       title: spec.title,
       hourlyMinor: campaignParameter("appointeeHourlyMinor"),
       maxDailyMinor: postPayCapDaily(api, employer, post, toFill),
+      // A county that runs the place has no jobs of its own to follow: its heads follow the town's pay calendar.
+      scheduleFromPlaceId: town,
       citation: `Appointment ${row.id}`,
     });
   return row;
@@ -540,14 +626,15 @@ function appointTownDepartments(api: CoreAPI): void {
   if (
     !townSeats(api).some(
       (s) =>
-        (s.office.kind === "council" || s.office.kind === "mayor") && s.holder,
+        [...BOARD_KINDS, "mayor", "county-executive"].includes(s.office.kind) &&
+        s.holder,
     )
   )
     return;
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
-  for (const spec of RESEARCH.local.city[townForm(api)] ?? []) {
+  for (const spec of townPosts(api)) {
     // The player's own posts wait for their choice (`appoint`).
     if (townAppointer(api, spec.appointedBy)?.personId === playerId) continue;
     fillTownPost(api, spec);
@@ -572,7 +659,7 @@ export function postsToFill(
       })
       .map((row) => row.post),
   );
-  return (RESEARCH.local.city[townForm(api)] ?? [])
+  return townPosts(api)
     .filter(
       (spec) =>
         !held.has(spec.key) &&
@@ -591,9 +678,7 @@ export function appoint(
   api: CoreAPI,
   input: { readonly post: string; readonly personId?: string },
 ): AppointmentRow | null {
-  const spec = (RESEARCH.local.city[townForm(api)] ?? []).find(
-    (s) => s.key === input.post,
-  );
+  const spec = townPosts(api).find((s) => s.key === input.post);
   if (!spec) throw new Error(`No post ${input.post} in this town's government`);
   return fillTownPost(api, spec, input.personId);
 }
@@ -932,13 +1017,18 @@ export function appointmentsIn(
   government: string,
 ): readonly AppointmentRow[] {
   if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-  return (
-    table(api, "appointments").query("byGovernment", [
-      government,
-    ]) as unknown as AppointmentRow[]
-  )
-    .slice()
-    .sort((a, b) => a.id.localeCompare(b.id));
+  // A government is named by its id, its jurisdiction or the key the post was filed under.
+  const named = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governmentOfJurisdiction(api, government)
+    : undefined;
+  const rows = new Map<string, AppointmentRow>();
+  for (const key of new Set([government, named?.id, named?.jurisdictionId]))
+    if (key)
+      for (const row of table(api, "appointments").query("byGovernment", [
+        key,
+      ]) as unknown as AppointmentRow[])
+        rows.set(row.id, row);
+  return [...rows.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /** The governor's candidates for a state post and the chamber that confirms them, as the engine weighs them. */
@@ -1400,7 +1490,7 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
-  const posts = RESEARCH.local.city[townForm(api)] ?? [];
+  const posts = townPosts(api);
   for (const row of appointmentsIn(api, town)) {
     const holder = api.state.people.get(row.holderId);
     if (holder?.alive && holder.placeId === town) continue;

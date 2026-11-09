@@ -258,5 +258,26 @@
     "tag": "TUNABLE",
     "citation": "How much of the gap between the person's real odds and certainty an overconfident person (an enterprising, risk-taking one: the officials engine's ambition formula) fills with hope, 0 to 1. People overestimate their own chances, the more so the bolder they are (Moore and Healy 2008, The trouble with overconfidence, Psychological Review 115(2):502-517). A long shot who files anyway comes from here. Spread 0.25 to 0.75.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyPartyRoleWeight": {
+    "value": 1.5,
+    "tag": "ESTIMATED",
+    "citation": "Weight on how active a person is in a party (0 to 1) in the pull toward running for a seat near them. Party activists, committee members and precinct workers are the pool local candidates come from: people recruited through party and civic networks run far more than those outside them (Lawless and Fox 2010, It Still Takes a Candidate; Maisel and Stone 1997 on potential candidates' political involvement). Checked, not steered, against the uncontested share of county seats.",
+    "estimatedFrom": "Lawless and Fox 2010 and Maisel and Stone 1997 on how political involvement predicts considering a run; spread 0.5 to 3",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyOwnerRoleWeight": {
+    "value": 0.8,
+    "tag": "ESTIMATED",
+    "citation": "Pull toward running for a local seat for a person who owns an employer in the place: owners have a stake in local rules (permits, taxes), more standing, and flexible time (Lawless and Fox 2010 on business owners among potential candidates; local officials are disproportionately business owners and professionals, Hajnal and Trounstine 2014). Checked, not steered. Spread 0.3 to 1.5.",
+    "estimatedFrom": "Lawless and Fox 2010; Hajnal and Trounstine 2014; spread 0.3 to 1.5",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCivicRoleWeight": {
+    "value": 1.0,
+    "tag": "ESTIMATED",
+    "citation": "Pull toward running for a person who holds a civic role (a board, a party committee, a group's office), capped at one role's worth: people already serving on local boards and committees are the main pipeline to elected local office. Checked, not steered. Spread 0.5 to 2.",
+    "estimatedFrom": "Lawless and Fox 2010 on community-organization leaders among potential candidates; spread 0.5 to 2",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }

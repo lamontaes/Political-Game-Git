@@ -1,0 +1,31 @@
+{
+  "id": "ssi-2026",
+  "about": "The federal Supplemental Security Income benefit rate for 2026.",
+  "federalBenefitRate": {
+    "individualDollars": 994,
+    "coupleDollars": 1491,
+    "effectiveDate": "2026-01-01",
+    "colaPercent": 2.8
+  },
+  "sources": [
+    {
+      "url": "https://fhb.hhs.texas.gov/sites/default/files/documents/ccse-bulletin-26-01.pdf",
+      "quote": "Effective January 1, 2026, the maximum SSI payment amount is as follows: Individual: $994 Couple: $1,491 ... RDSI and SSI beneficiaries receive a 2.8 percent COLA increase effective January 1, 2026.",
+      "fetched": "2026-11-08"
+    },
+    {
+      "url": "https://www.ssa.gov/oact/COLA/SSI.html",
+      "quote": "federal benefit rate $994 a month for an eligible individual and $1,491 for an eligible couple (as quoted through a web search; ssa.gov blocks direct fetches)",
+      "fetched": "2026-11-08"
+    }
+  ],
+  "aged": {
+    "url": "https://www.law.cornell.edu/uscode/text/42/1382c",
+    "quote": "(A) is 65 years of age or older, is blind ..., or is disabled"
+  },
+  "incomeExclusion": {
+    "url": "https://www.everycrsreport.com/reports/RS20294.html",
+    "quote": "a general income exclusion of $20 per month that applies to non needs-based income. Monthly earned income exclusions include any unused portion of the $20 general income exclusion, the first $65 of earnings, one-half of earnings over $65"
+  },
+  "retrieved": "2026-11-08"
+}

@@ -1496,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1508,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2186,6 +2186,18 @@
     "status": "open"
   },
   {
+    "id": "SG-EXECUTIVE-administrator-appoints",
+    "kind": "partial-model",
+    "file": "src/core2/modules/executive.ts",
+    "line": 240,
+    "whatItFakes": "In a county whose board hires an administrator who appoints the department heads (research: council-administrator form), the board's seat holder stands in as the appointer of the heads the administrator would pick, so their reasons (loyalty against merit, lean, acquaintance) are the board member's, not the administrator's.",
+    "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
+    "addedBy": "Legislation (town heads for county-run places)",
+    "addedAt": "2026-11-08",
+    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-B-child-care-enrollment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -2207,6 +2219,18 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-ssi-eligibility",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 325,
+    "whatItFakes": "An aged resident (65 or older) is paid the federal SSI benefit rate less countable income, monthly, by the federal Treasury. Not read: blindness and disability (the two other routes to SSI), the resource limit, the earned-income exclusions, who is a couple (a couple draws as two individuals), deeming from a spouse or parent, and state supplements. Countable income is the household's income per member less the $20 general exclusion. Every eligible resident is paid (the share of eligible who apply is ESTIMATED at one).",
+    "why": "The game keeps no disability record, resource (assets) test or application, and state supplements are per state and not in the data.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A disability status and an asset record on the person; the application and the Social Security Administration's own income rules; each state's supplement from its plan.",
     "status": "open"
   },
   {
