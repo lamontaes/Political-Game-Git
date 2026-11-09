@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: story/director-reads-wrong
-pr: pending
+pr: 8078
 blocked-on:
 lead: words
 milestone: play-first
