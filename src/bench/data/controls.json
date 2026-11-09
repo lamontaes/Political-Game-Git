@@ -1006,6 +1006,11 @@
     "signed": "Signed",
     "vetoed": "Vetoed",
     "by": "By",
+    "strength": [
+      { "upTo": 0.25, "word": "slightly" },
+      { "upTo": 0.75, "word": "firmly" },
+      { "word": "strongly" }
+    ],
     "reasons": {
       "views": "Their own views",
       "constituents": "The people they serve",
