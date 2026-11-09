@@ -763,7 +763,7 @@ export interface TreasuryMonthRow {
   readonly date: string;
   readonly budgetId: string;
   readonly revenueFromOutsideMinor: number;
-  /** Everything the treasury collected this month: the outside lump, its named payers' installments, its town's payers and aid received. */
+  /** What the treasury collected this month: the outside lump, its named payers' installments (with what the town paid on them) and aid received. Taxes the town's own payers pay straight into the treasury are not in it (SG-GOV-spending-vote-state-county). */
   readonly collectedMinor: number;
   /** Wages of the government's opening employers the treasury couldn't cover, in all, at the close. */
   readonly publicPayShortfallMinor: number;
@@ -1574,7 +1574,6 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       collectedMinor:
         (fromOutside.get(gov.id) ?? 0) +
         (namedCollected.get(gov.id) ?? 0) +
-        Object.values(inTown).reduce((a, b) => a + b, 0) +
         (aidReceived.get(gov.id) ?? 0),
       publicPayShortfallMinor: publicPayShortfallOf(api, gov),
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
