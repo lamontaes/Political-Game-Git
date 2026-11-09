@@ -108,6 +108,12 @@ export function sceneWordsFromBank(
     settings: Object.fromEntries(
       rows.settings.map((kind) => [kind, variants(bank, "setting", kind)]),
     ),
+    arrivals: Object.fromEntries(
+      (rows.arrivals ?? []).map((kind) => [
+        kind,
+        variants(bank, "arrival", kind, true),
+      ]),
+    ),
     leads: rows.leads.map((typeKey) => ({
       typeKey,
       variants: variants(bank, "lead", typeKey, true),

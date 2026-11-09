@@ -569,8 +569,8 @@
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/arc-variants.json",
     "line": 1,
-    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
-    "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes.",
+    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set; for a donor's ask, the gift against the donor's own year, its share of what others gave, how close the two are, earlier gifts and earlier asks the candidate put off; for a reporter's call, how far the town's shares stand against the member's vote, earlier talks the two had, a quarrel on their tie, stories of scandal against the member, and the reporter's outlet with the bill's level) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
+    "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes. Gaps in the press-comment reads (Nov 9, Story session): the town's view is the electorate's shares on the bill's question (voting.ts electorateSides), which read nothing for a question the survey has no item for, so a vote on such a bill never reads as against the town; no record keeps an outlet's lean toward the member, so a hostile reporter is read from the town, earlier quarrels and the tie alone; press.snubbed and press.attacked name the outlet's staff but not who snubbed them in their people, so they are not read; no record keeps an accusation that the press has not printed, so a chase is read from reported bribes, convictions and press.exposed stories (the last half year); the national press is the reporter's outlet tier (only federal bills cast national reporters) and a state bill reaches it only through the level read; a call about a bill held in committee has no vote of the member's to read.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "Weights fitted to how often real bribe approaches are small, large, from a friend, repeated or desperate (the corruption literature's cases), checked against the played years, or read straight from the corruption engine's own reasons once it keeps one for each.",
@@ -598,6 +598,9 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-address-no-reader",
     "kind": "missing-hook",
     "file": "data/english/parts/address.json",
@@ -739,6 +742,30 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "The housing engine names the home's lender or landlord on the damaged-home row; the row's pool then casts that party (or the aid office's worker) beside the household.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-scene-arrival-time",
+    "kind": "missing-data",
+    "file": "src/director/scene.ts",
+    "line": 1,
+    "whatItFakes": "The minute of the day a scene's opening names (\"first thing\", \"that evening\"). The bench passes the minute it draws the scene at; a caller that gives none gets the moment's stop minute, else the day's start.",
+    "why": "The director's scene carries no minute of its own; the moment records a date, not the hour the setting held it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "The moment records the minute its setting opened it (ledger openedAt) and composeScene reads that.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-address-kind-policy-pull",
+    "kind": "tunable-calibration",
+    "file": "src/director/address-kind.ts",
+    "line": 66,
+    "whatItFakes": "How strongly a speaker's traits tilt a governor's or mayor's address toward a kind. The mean of the kind's facet values is clamped to -1..1 though the facets run past it (a work-centered, meticulous governor's mean is 1.2), and the policy kind's base (policyBase 0.5, times the full agenda) doubles at the cap, so a speaker with a full list of asks and a work-centered turn scores policy 1.0 against a collapsing term's crisis 0.656 and gives the same address in a good term and a bad one (Greensboro, Maryland, seed f8fc37cc25201edc, official:term:seat:US-MD:governor:2025-01-20).",
+    "why": "Calibration, not a clamp on the score: the policy score is raw (0.5 x work share x (1 + pull)) and, even unclamped (pull 1.2, score 1.1), is above crisis. Whether a full-agenda governor should still name a collapsing term is a Words call on policyBase, the pull scale and the crisis weight, which the owner has not ruled.",
+    "addedBy": "Small fixes session",
+    "addedAt": "2026-11-09",
+    "replacement": "Words checks the address kinds against real State of the State addresses (a crisis term outweighs a long agenda), then sets policyBase and the pull's scale so a bad term can outscore policy for any speaker.",
     "status": "open"
   },
   {

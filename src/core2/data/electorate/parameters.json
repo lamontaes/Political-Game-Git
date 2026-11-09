@@ -37,17 +37,11 @@
       "source": "Coverage, a party label and the ballot itself reach voters even for a candidate who spends nothing, so spending counts from a floor of this share of the typical race's spending. Checked against Jacobson's finding that challengers spending almost nothing still win about a third of the two-party vote in districts their party could compete in.",
       "spread": [0.01, 0.2]
     },
-    "unemploymentShare": {
-      "value": 0.008,
+    "approvalVoteShare": {
+      "value": 0.003,
       "tag": "ESTIMATED",
-      "source": "The two-party share the president's party loses per point the national unemployment rate rose since the opening: about 0.5 to 1.5 points (Kramer, American Political Science Review, 1971; Lewis-Beck and Stegmaier, Annual Review of Political Science, 2000).",
-      "spread": [0.003, 0.015]
-    },
-    "inflationShare": {
-      "value": 0.0072,
-      "tag": "ESTIMATED",
-      "source": "The two-party share the president's party loses per point of annual inflation above the opening's: 0.72 points in Fair's presidential vote equation (Fair, Predicting Presidential Elections and Other Things, 2020 update).",
-      "spread": [0.003, 0.01]
+      "source": "The two-party share the president's party gains per point the country's approval of the president stands above its long-run mean. Tufte (American Political Science Review, 1975) finds a 10-point approval change moves the president's party's national midterm House vote about 1.3 points (0.0013 per point); presidential-year and whole-ballot effects are steeper (Abramowitz, PS, 2010), so the middle of 0.0013 to 0.005 is taken.",
+      "spread": [0.0013, 0.005]
     },
     "downBallotNationalShare": {
       "value": 0.5,

@@ -1136,6 +1136,17 @@ function composeBinding(
         setting: binding.setting.kind,
       })
     : null;
+  // What the records gave the variant, for the lines that say it: every read
+  // that came to more than nothing is a fact of the scene, cited to the records
+  // it came from (`read-town-against`, `read-scandal`), so a line about the
+  // town being against the vote plays only where the vote record shows it.
+  if (variant)
+    for (const [name, value] of Object.entries(variant.reads))
+      if (value > P.zero)
+        facts[`read-${name}`] = {
+          text: "yes",
+          sourceRecordIds: [...variant.recordIds],
+        };
   const played =
     variant && variant.purpose !== type.purpose
       ? { ...type, purpose: variant.purpose, family: type.purpose }
