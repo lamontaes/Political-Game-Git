@@ -1626,6 +1626,7 @@
           "bearing": "eager",
           "traits": {},
           "features": [
+            "concedes-at-once",
             "context:general",
             "formality:spoken",
             "length:medium",
@@ -1639,7 +1640,12 @@
               "start": 0,
               "end": 11,
               "text": "Understood.",
-              "features": ["context:general", "formality:plain", "length:tiny"]
+              "features": [
+                "concedes-at-once",
+                "context:general",
+                "formality:plain",
+                "length:tiny"
+              ]
             },
             {
               "start": 12,
@@ -3795,6 +3801,7 @@
           "bearing": "contrite",
           "traits": {},
           "features": [
+            "concedes-at-once",
             "context:general",
             "formality:spoken",
             "length:short",
@@ -3809,6 +3816,7 @@
               "end": 13,
               "text": "You're right.",
               "features": [
+                "concedes-at-once",
                 "context:general",
                 "formality:spoken",
                 "length:tiny",
