@@ -29,7 +29,7 @@ import { P, parameter } from "../core2/parameters";
 import { closenessBetween } from "../core2/closeness";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { outletsHere } from "../core2/modules/press";
-import { votesOf } from "../core2/modules/record";
+import { votesOf } from "../core2/modules/people";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
