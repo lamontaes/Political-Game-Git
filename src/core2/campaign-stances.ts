@@ -38,12 +38,8 @@ import {
   VIEWS_DATA,
   VIEWS_MODULE_ID,
 } from "./modules/views";
-import {
-  campaignParameter,
-  personLean,
-  questionAxis,
-  type Stance,
-} from "./campaign-views";
+import { personLean, questionAxis } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-data";
 
 const clamp = (x: number, lo = -1, hi = 1) => Math.max(lo, Math.min(hi, x));
 const sameLabel = (a: string, b: string) =>

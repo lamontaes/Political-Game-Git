@@ -353,6 +353,43 @@ export async function handleDev(
       );
       return true;
     }
+    // Jump to an hour: the player's own clock moves to that hour (today's, or
+    // tomorrow's when it has passed), through the same wait an office's
+    // opening uses, so the world runs to it and people are where their
+    // schedules put them at that hour. Dev mode's proving ground (owner, Nov 7).
+    case "POST hour": {
+      const input = await body(request);
+      const player = mode.player;
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      const hour = Number(input.hour);
+      if (!Number.isInteger(hour) || hour < 0 || hour > 23)
+        throw new Error("An hour is a whole number from 0 to 23.");
+      const minuteOfDay = hour * 60;
+      const start = player.packet?.at ?? {
+        date: addDays(makeIsoDate(core.date), 1),
+        minuteOfDay: 0,
+      };
+      const target = makeIsoDate(
+        start.minuteOfDay >= minuteOfDay && player.packet
+          ? addDays(makeIsoDate(start.date), 1)
+          : start.date,
+      );
+      const reached = () => {
+        const at = player.packet?.at;
+        return !!at && at.minuteOfDay >= minuteOfDay && at.date >= target;
+      };
+      // A fresh clock first lives to the morning's start; the wait goes on from there.
+      for (let tries = 0; tries < 3 && !reached(); tries += 1) {
+        const moved = player.waitUntil({ date: target, minuteOfDay });
+        if (!moved || player.packet?.kind !== "complete") break;
+      }
+      send(200, {
+        reached: reached(),
+        at: player.packet?.at ?? null,
+        held: player.packet?.kind !== "complete",
+      });
+      return true;
+    }
     case "GET trace":
       send(200, mode.trace(q("id")));
       return true;

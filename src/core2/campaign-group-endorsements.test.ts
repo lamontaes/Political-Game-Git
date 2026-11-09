@@ -56,11 +56,8 @@ import {
 } from "./modules/campaigns";
 import { openParties } from "./modules/parties";
 import { agreementWith, viewOn, viewsModule } from "./modules/views";
-import {
-  campaignParameter,
-  personLean,
-  PLATFORM_QUESTIONS,
-} from "./campaign-views";
+import { personLean } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 
 // Keeps every reached member's recorded cause, not only the player's circle's.
 setKeepEveryonesWhy(true);

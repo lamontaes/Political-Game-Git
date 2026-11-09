@@ -11,7 +11,7 @@
 import { storyDelivered } from "./modules/news";
 import data from "./data/electorate/parameters.json" with { type: "json" };
 import { partySide } from "./appointments";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   electionLawTurnoutCost,
   felonyDisenfranchisedShare,

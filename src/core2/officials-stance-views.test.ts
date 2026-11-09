@@ -11,7 +11,7 @@ import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { OFFICIALS_MODULE_ID, officialStance } from "./modules/officials";
 import { VIEWS_DATA, VIEWS_MODULE_ID } from "./modules/views";
 import { coreAPI } from "./state";
