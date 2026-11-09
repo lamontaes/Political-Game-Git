@@ -19,6 +19,8 @@ claimed-at:
 
 **Done when.** In a played year at a drawn place (name the place, seed and record ids), each of those four scene types opens with a lead that names the cause (the missed gathering, the quarrel, the filing, the accusation) from its cause record, or the type is skipped. The test in `src/director/reads-wrong.test.ts` reads the narration of every staged scene and finds none that names only an arrival.
 
+**Rules.** Wire to the world: the lead reads the cause record that staged the scene, and no sentence is typed in code, so the words come from the scene-words bank.
+
 **Files.** src/director/scene.ts, data/english/parts/scene-words.json, src/director/data/circumstances.json
 
 **Notes.** Found by the director helper of story/director-trade-and-address. Not a gate: the cause is right and the cast is right. Also seen and left alone: the job-offer scene repeated every two weeks for a player who never answers (a jobs-engine matter, offers lapse unanswered), and the grading harness watching 64 locals, which stages scenes no player sees.
@@ -26,3 +28,5 @@ claimed-at:
 **Time box.** 2 hours.
 
 **You will see.** A visit at the house that starts by saying what it is about.
+
+**Screenshot.** The four scenes' opening paragraphs in a played year.
