@@ -171,8 +171,15 @@ describe("M2-07 elections", () => {
       // election), and no one wins on no votes.
       if (result.winnerId === null) {
         const totals = Object.values(result.totals).sort((a, b) => b - a);
+        // An at-large race fills its seats from the top finishers: a seat with
+        // no one ranked for it stays undecided, and so does the last seat when
+        // a tie straddles it (voting.ts atLargeWinner).
+        const seats = atLargeGroup(api, contest!).length;
+        const live = totals.filter((votes) => votes > 0).length;
+        const lastSeatTied =
+          seats > 1 && (live < seats || totals[seats - 1] === totals[seats]);
         expect(
-          totals[0] === 0 || totals[0] === totals[1],
+          totals[0] === 0 || totals[0] === totals[1] || lastSeatTied,
           `${place}: no winner with ${JSON.stringify(result.totals)}`,
         ).toBe(true);
         return;
