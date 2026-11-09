@@ -6,7 +6,7 @@
 // or a date comes from the record, never from here.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { stripBoard, stripSection } from "./strips.mjs";
+import { stripBoard, stripSection, typedRow } from "./strips.mjs";
 
 /** The word for how hard a reason pulled: the first step whose `upTo` reaches the size, else the last. */
 function strengthWord(steps, magnitude) {
@@ -82,13 +82,9 @@ export function devTraceVote({
         2,
         `${labels.why} ${picked.name} ${picked.vote === "yes" ? words.yes : words.no}`,
         ...reasons.map((r) =>
-          el(
-            "div",
-            { className: "stage-row" },
-            el("b", { textContent: words.reasons[r.reason] ?? "" }),
-            el("span", {
-              textContent: `${words[r.side] ?? ""}, ${strengthWord(words.strength, r.magnitude)}`,
-            }),
+          typedRow(
+            words.reasons[r.reason] ?? "",
+            `${words[r.side] ?? ""}, ${strengthWord(words.strength, r.magnitude)}`,
           ),
         ),
       )
