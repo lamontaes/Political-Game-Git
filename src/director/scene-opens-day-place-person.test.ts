@@ -1,4 +1,5 @@
 import { randomBytes } from "node:crypto";
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { storyScene } from "../bench/story";
@@ -121,4 +122,22 @@ describe(`every scene opens on the day, the place and the person in ${where}`, (
     }
     expect(seen, where).toBeGreaterThan(0);
   }, 600_000);
+});
+
+// Owner, Oct 27: "When it says you're in place or person is with you, I hate
+// those. Remove every instance of that from the English engine." An arrival
+// says what the player does ("you head to", "you knock on"), never where they are.
+describe("no arrival says you're in a place or that someone is with you", () => {
+  it("every arrival piece is an action, not a placement", () => {
+    const bank = JSON.parse(
+      readFileSync("data/english/parts/scene-words.json", "utf8"),
+    ) as { parts: { move: string; text: string }[] };
+    const arrivals = bank.parts.filter((part) =>
+      part.move.startsWith("arrival-"),
+    );
+    expect(arrivals.length).toBeGreaterThan(40);
+    for (const part of arrivals) {
+      expect(part.text).not.toMatch(/\byou're (at|in|out)\b|\bis with you\b/);
+    }
+  });
 });

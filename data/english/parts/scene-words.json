@@ -5015,10 +5015,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-other.begins-you-re-home-when-name-stops-in",
+      "key": "scene-words.arrival-home-other.begins-name-stops-in-at-the-house",
       "move": "arrival-home-other",
       "kind": "spoken",
-      "text": "{begins}, you're home when {name} stops in.",
+      "text": "{begins}, {name} stops in at the house.",
       "uses": [
         {
           "move": "arrival-home-other",
@@ -5055,10 +5055,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-other.begins-you-re-at-home-with-name",
+      "key": "scene-words.arrival-home-other.begins-you-sit-down-at-home-with-name",
       "move": "arrival-home-other",
       "kind": "spoken",
-      "text": "{begins}, you're at home with {name}.",
+      "text": "{begins}, you sit down at home with {name}.",
       "uses": [
         {
           "move": "arrival-home-other",
@@ -5075,10 +5075,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.begins-you-re-at-home-with-nothing-pressing",
+      "key": "scene-words.arrival-home-alone.begins-the-house-is-quiet",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at home, with nothing pressing.",
+      "text": "{begins}, the house is quiet.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -5095,10 +5095,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-home-alone.begins-you-re-at-home",
+      "key": "scene-words.arrival-home-alone.begins-you-stay-in",
       "move": "arrival-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at home.",
+      "text": "{begins}, you stay in.",
       "uses": [
         {
           "move": "arrival-home-alone",
@@ -5155,10 +5155,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-other.begins-you-re-at-name-s-house",
+      "key": "scene-words.arrival-other-home-other.begins-you-knock-on-name-s-door",
       "move": "arrival-other-home-other",
       "kind": "spoken",
-      "text": "{begins}, you're at {name}'s house.",
+      "text": "{begins}, you knock on {name}'s door.",
       "uses": [
         {
           "move": "arrival-other-home-other",
@@ -5195,10 +5195,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-other-home-alone.begins-you-re-at-a-neighbor-s-house",
+      "key": "scene-words.arrival-other-home-alone.begins-you-stop-in-at-a-neighbor-s",
       "move": "arrival-other-home-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at a neighbor's house.",
+      "text": "{begins}, you stop in at a neighbor's.",
       "uses": [
         {
           "move": "arrival-other-home-alone",
@@ -5455,10 +5455,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-workplace-other.begins-you-re-at-where-and-name-comes-over",
+      "key": "scene-words.arrival-workplace-other.begins-you-get-to-where-and-name-comes-over",
       "move": "arrival-workplace-other",
       "kind": "spoken",
-      "text": "{begins}, you're at {where}, and {name} comes over.",
+      "text": "{begins}, you get to {where}, and {name} comes over.",
       "uses": [
         {
           "move": "arrival-workplace-other",
@@ -5495,10 +5495,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-workplace-other.begins-you-re-on-the-job-when-name-stops-by",
+      "key": "scene-words.arrival-workplace-other.begins-name-stops-by-while-you-work",
       "move": "arrival-workplace-other",
       "kind": "spoken",
-      "text": "{begins}, you're on the job when {name} stops by.",
+      "text": "{begins}, {name} stops by while you work.",
       "uses": [
         {
           "move": "arrival-workplace-other",
@@ -5535,10 +5535,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-workplace-alone.begins-you-re-at-work-at-where",
+      "key": "scene-words.arrival-workplace-alone.begins-you-head-in-to-work-at-where",
       "move": "arrival-workplace-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at work at {where}.",
+      "text": "{begins}, you head in to work at {where}.",
       "uses": [
         {
           "move": "arrival-workplace-alone",
@@ -5555,10 +5555,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-workplace-alone.begins-you-re-on-the-job",
+      "key": "scene-words.arrival-workplace-alone.begins-you-start-your-shift",
       "move": "arrival-workplace-alone",
       "kind": "spoken",
-      "text": "{begins}, you're on the job.",
+      "text": "{begins}, you start your shift.",
       "uses": [
         {
           "move": "arrival-workplace-alone",
@@ -5655,10 +5655,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-office-alone.begins-you-re-at-where",
+      "key": "scene-words.arrival-office-alone.begins-you-head-to-where",
       "move": "arrival-office-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at {where}.",
+      "text": "{begins}, you head to {where}.",
       "uses": [
         {
           "move": "arrival-office-alone",
@@ -5675,10 +5675,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-office-alone.begins-you-re-at-the-office",
+      "key": "scene-words.arrival-office-alone.begins-you-head-into-the-office",
       "move": "arrival-office-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at the office.",
+      "text": "{begins}, you head into the office.",
       "uses": [
         {
           "move": "arrival-office-alone",
@@ -5695,10 +5695,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-chamber-other.begins-you-re-in-the-chamber-and-name-turns-to-you",
+      "key": "scene-words.arrival-chamber-other.begins-you-walk-into-the-chamber-and-name-turns-to-you",
       "move": "arrival-chamber-other",
       "kind": "spoken",
-      "text": "{begins}, you're in the chamber, and {name} turns to you.",
+      "text": "{begins}, you walk into the chamber, and {name} turns to you.",
       "uses": [
         {
           "move": "arrival-chamber-other",
@@ -5795,10 +5795,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-school-other.begins-you-re-at-where-and-name-finds-you",
+      "key": "scene-words.arrival-school-other.begins-you-walk-into-where-and-name-finds-you",
       "move": "arrival-school-other",
       "kind": "spoken",
-      "text": "{begins}, you're at {where}, and {name} finds you.",
+      "text": "{begins}, you walk into {where}, and {name} finds you.",
       "uses": [
         {
           "move": "arrival-school-other",
@@ -5855,10 +5855,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-school-alone.begins-you-re-at-where",
+      "key": "scene-words.arrival-school-alone.begins-you-walk-into-where",
       "move": "arrival-school-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at {where}.",
+      "text": "{begins}, you walk into {where}.",
       "uses": [
         {
           "move": "arrival-school-alone",
@@ -5875,10 +5875,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-school-alone.begins-you-re-at-school",
+      "key": "scene-words.arrival-school-alone.begins-you-head-to-school",
       "move": "arrival-school-alone",
       "kind": "spoken",
-      "text": "{begins}, you're at school.",
+      "text": "{begins}, you head to school.",
       "uses": [
         {
           "move": "arrival-school-alone",
@@ -5955,10 +5955,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-alone.begins-you-re-out-and-about",
+      "key": "scene-words.arrival-public-alone.begins-you-run-errands-in-town",
       "move": "arrival-public-alone",
       "kind": "spoken",
-      "text": "{begins}, you're out and about.",
+      "text": "{begins}, you run errands in town.",
       "uses": [
         {
           "move": "arrival-public-alone",
@@ -5975,10 +5975,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-public-alone.begins-you-re-out-in-town",
+      "key": "scene-words.arrival-public-alone.begins-you-head-out-into-town",
       "move": "arrival-public-alone",
       "kind": "spoken",
-      "text": "{begins}, you're out in town.",
+      "text": "{begins}, you head out into town.",
       "uses": [
         {
           "move": "arrival-public-alone",
@@ -6015,10 +6015,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-venue-other.begins-you-re-out-in-public-and-name-comes-over",
+      "key": "scene-words.arrival-venue-other.begins-you-head-out-and-name-comes-over",
       "move": "arrival-venue-other",
       "kind": "spoken",
-      "text": "{begins}, you're out in public, and {name} comes over.",
+      "text": "{begins}, you head out, and {name} comes over.",
       "uses": [
         {
           "move": "arrival-venue-other",
@@ -6055,10 +6055,10 @@
       }
     },
     {
-      "key": "scene-words.arrival-venue-alone.begins-you-re-out-and-about",
+      "key": "scene-words.arrival-venue-alone.begins-you-head-out-for-the-evening",
       "move": "arrival-venue-alone",
       "kind": "spoken",
-      "text": "{begins}, you're out and about.",
+      "text": "{begins}, you head out for the evening.",
       "uses": [
         {
           "move": "arrival-venue-alone",
