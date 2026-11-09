@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: memory/counted-ballots
-pr:
+pr: #8070
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-09T19:02:18.538Z
