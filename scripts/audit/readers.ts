@@ -15,7 +15,8 @@ import { fileURLToPath } from "node:url";
 
 export const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), "../..");
 
-const CODE_FILE = /\.(?:ts|tsx|mts|js|mjs|cjs)$/;
+// Python builders read research files too (scripts/research/build-*.py).
+const CODE_FILE = /\.(?:ts|tsx|mts|js|mjs|cjs|py)$/;
 const SKIPPED_DIRS = new Set(["node_modules", "fixtures", "__fixtures__"]);
 /** The checkers name data/research themselves; that is not reading it. */
 const CHECKER_DIR = "scripts/audit/";
@@ -75,6 +76,8 @@ export interface DataReader {
 const SPECIFIER =
   /(?:\bfrom\s*|\bimport\s*\(\s*|\brequire\s*\(\s*|\bnew\s+URL\s*\(\s*)["'`]([^"'`\n]+)["'`]/g;
 const QUOTED = /["'`]([^"'`\n]*data\/research[^"'`\n]*)["'`]/g;
+/** A Python builder's `RESEARCH / "laws/a.json"`: a path under data/research. */
+const PYTHON_RESEARCH = /\bRESEARCH\s*\/\s*["']([^"'\n]+\.json)["']/g;
 
 /**
  * The text with comments blanked out (newlines kept, so line numbers hold):
@@ -176,7 +179,9 @@ export function researchReaders(
         readers.get(file)!.push({ ...reader, how: "directory" });
   };
   for (const file of codeFiles(roots)) {
-    const text = withoutComments(readFileSync(join(REPO_ROOT, file), "utf8"));
+    const raw = readFileSync(join(REPO_ROOT, file), "utf8");
+    // Python comments are `#`; its text is scanned as written.
+    const text = file.endsWith(".py") ? raw : withoutComments(raw);
     if (!text.includes("data/research") && !text.includes(".json")) continue;
     const seen = new Set<string>();
     for (const match of text.matchAll(SPECIFIER)) {
@@ -185,6 +190,13 @@ export function researchReaders(
       seen.add(data);
       add(data, { file, line: lineOf(text, match.index!), how: "import" });
     }
+    if (file.endsWith(".py"))
+      for (const match of text.matchAll(PYTHON_RESEARCH)) {
+        const data = `data/research/${match[1]}`;
+        if (seen.has(data)) continue;
+        seen.add(data);
+        add(data, { file, line: lineOf(text, match.index!), how: "path" });
+      }
     for (const match of text.matchAll(QUOTED)) {
       if (isCitation(text, match.index!, match[1]!)) continue;
       const data = researchPathOf(match[1]!, file);

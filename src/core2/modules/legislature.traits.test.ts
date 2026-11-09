@@ -8,7 +8,7 @@
  * personality flat, against the odds ratio the decision's weight was fitted to.
  */
 import { beforeAll, describe, expect, it } from "vitest";
-import { PLATFORM_QUESTIONS } from "../campaign-views";
+import { PLATFORM_QUESTIONS } from "../campaign-data";
 import type { PersonState } from "../types";
 import {
   playedWorld,
