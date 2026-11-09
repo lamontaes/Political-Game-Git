@@ -165977,7 +165977,7 @@
       "key": "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} and you have a lot to settle now that the prison term is over.",
+      "text": "You and {name} have a lot to settle now that the prison term is over.",
       "uses": [
         {
           "subject": "scene",
@@ -166150,7 +166150,7 @@
       "key": "scene-talk.state-request.how-is-child-i-d-like-to-see-child-and-i-need-somewhere-to-stay-while-i-find-work",
       "move": "state-request",
       "kind": "spoken",
-      "text": "How is {child}? I'd like to see {child}, and I need somewhere to stay while I find work.",
+      "text": "How is {child}? I'd like to see them, and I need somewhere to stay while I find work.",
       "uses": [
         {
           "subject": "scene",
@@ -166413,7 +166413,7 @@
       "key": "scene-talk.reply-promise.i-ll-ask-around-at-work-this-week-somebody-knows-somebody-who-hires",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll ask around at work this week. Somebody knows somebody who hires.",
+      "text": "I'll ask around this week. Somebody knows somebody who hires.",
       "uses": [
         {
           "subject": "scene",
@@ -166950,7 +166950,7 @@
       "key": "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "What we both need is a plan, a place to start and someone in our corner.",
+      "text": "A place to sleep and a job. After that, just you in my corner.",
       "uses": [
         {
           "subject": "scene",
@@ -167269,7 +167269,7 @@
       "key": "scene-talk.narrate-narrate.name-is-in-prison-and-a-guard-watches-the-visit-so-there-is-time-for-only-a-thing-or-two",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} is in prison, and a guard watches the visit, so there is time for only a thing or two.",
+      "text": "{name} is in prison. A guard watches the visit, and there's only time for a thing or two.",
       "uses": [
         {
           "subject": "scene",
@@ -167390,7 +167390,7 @@
       "key": "scene-talk.state-request.child-will-grow-a-lot-in-sentence-please-look-after-child-for-me-and-bring-child-to-see-me-if-you-can",
       "move": "state-request",
       "kind": "spoken",
-      "text": "{child} will grow a lot in {sentence}. Please look after {child} for me, and bring {child} to see me if you can.",
+      "text": "{child} is going to be so much bigger by the time I'm out. Please look after {child} for me, and bring them by if you can.",
       "uses": [
         {
           "subject": "scene",
@@ -167465,7 +167465,7 @@
       "key": "scene-talk.state-request.could-you-call-my-lawyer-and-ask-if-anything-can-be-done-about-the-sentence",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Could you call my lawyer and ask if anything can be done about the {sentence}?",
+      "text": "Could you call my lawyer and ask if anything can be done about my sentence?",
       "uses": [
         {
           "subject": "scene",
@@ -167490,7 +167490,7 @@
       "key": "scene-talk.state-request.tell-the-family-i-m-all-right-first-don-t-tell-them-what-it-s-really-like",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Tell the family I'm all right, {first}. Don't tell them what it's really like.",
+      "text": "Tell the family I'm alright, {first}. Don't tell them what it's really like.",
       "uses": [
         {
           "subject": "scene",
@@ -168166,7 +168166,7 @@
       "key": "scene-talk.follow-answer.child-needs-to-be-fed-and-get-to-school-that-s-all-i-need-from-you",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{child} needs to be fed and get to school. That's all I need from you.",
+      "text": "Start with {child}. Anything for me can wait.",
       "uses": [
         {
           "subject": "scene",
@@ -168192,7 +168192,7 @@
       "key": "scene-talk.follow-answer.the-court-will-give-me-someone-if-i-can-t-find-a-lawyer-but-i-d-rather-have-the-one-i-pick",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "The court will give me someone if I can't find a lawyer, but I'd rather have the one I pick.",
+      "text": "Start with the court clerk. They can tell you who has my case and what it would take.",
       "uses": [
         {
           "subject": "scene",

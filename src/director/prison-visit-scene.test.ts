@@ -294,7 +294,7 @@ it(`a prison visit is about the term and what the person inside asks, from the r
           .flatMap((chapter) => chapter.lines)
           .find((line) => line.momentIds.includes(id!));
         const said = scene.talk.lines.map((row) => row.text).join(" | ");
-        const note = `PRISON VISIT (hand-staged ${mode}) ${where}: ${core.date}, cause ${moment.causeId}, ${personId} visiting ${inside.id}; reply ${id} ending ${reply?.facts?.ending}; journal "${told?.text ?? "(other unnamed)"}"\n  ${narration} | ${said}`;
+        const note = `PRISON VISIT (hand-staged ${mode}) ${where}: ${core.date}, cause ${moment.causeId}, ${personId} visiting ${inside.id}; reply ${id} ending ${reply?.facts?.ending}; journal "${told?.text ?? "(other unnamed)"}"\n  ${said}`;
         if (process.env.SCENE_LOG)
           writeFileSync(process.env.SCENE_LOG, note, { flag: "a" });
         process.stdout.write(`${note}\n`);
