@@ -10,7 +10,7 @@ import { describe, expect, it } from "vitest";
 import { worldWith, type PlayedWorld } from "./tooling/world-with";
 import { coreAPI } from "./state";
 import { adAudience, adTimeForSale, buyAdTime } from "./modules/campaigns";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { countedFollowers, followersOf, outletsHere } from "./modules/press";
 
 const seed = process.env.CAMPAIGN_ADS_SEED || randomBytes(8).toString("hex");

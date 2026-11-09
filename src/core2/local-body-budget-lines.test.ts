@@ -10,6 +10,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { lawChainForPlace } from "./laws-starting";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
+import { bodyRow, members } from "./modules/legislature";
 import { lineBacking } from "./modules/world-legislating";
 import { coreAPI } from "./state";
 
@@ -78,7 +79,7 @@ for (const place of draws) {
         );
         const amended = new Set(
           governments(api).flatMap((g) =>
-            budgetsOf(api, g.id).map((b) => b.adoptedBy),
+            budgetsOf(api, g.id).map((b) => JSON.stringify(b.adoptedBy)),
           ),
         );
         process.stdout.write(
@@ -114,8 +115,13 @@ for (const place of draws) {
         for (const { id: officeId, level, kind } of mid.length
           ? []
           : officeRows) {
-          // A body that sits as a group (a mayor alone does not amend a budget).
-          if (!LOCAL_BODIES.includes(level) || /^mayor|executive/.test(kind))
+          // A body that sits as a group and votes bills (a mayor or a sheriff
+          // alone does not amend a budget).
+          if (
+            !LOCAL_BODIES.includes(level) ||
+            !bodyRow(kind) ||
+            members(api, officeId).length === 0
+          )
             continue;
           const { majority, lines } = lineBacking(api, officeId);
           for (const line of lines) {

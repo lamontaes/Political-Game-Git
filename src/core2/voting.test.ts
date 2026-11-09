@@ -41,7 +41,7 @@ import {
   resultOf,
   type BallotRow,
 } from "./modules/voting";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
