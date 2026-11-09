@@ -1,8 +1,8 @@
 /**
- * Demotion on exit (one model, two tiers). A household filled in from the
- * counts when the player met one of its people goes back into its counted
- * group once it has been out of the player's life for a long while (a
- * parameter): no contact with the player for that long, and nobody in it is
+ * Demotion on exit (one model, two tiers). A household that is full (filled
+ * in from the counts when the player met one of its people, or full from the
+ * opening, a birth or an arrival) goes back into its counted group once it
+ * has been out of the player's life for a long while (a parameter): no contact with the player for that long, and nobody in it is
  * the player's household, family or acquaintance, an official, a public
  * worker or a business owner. Nothing is lost: its money goes to its group's
  * account, its jobs stay on the employers' books as counted jobs at the same
@@ -11,7 +11,7 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
-import { daysBetweenText as daysBetween } from "../kernel/dates";
+import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import {
   COUNTED_PLACE_PREFIX,
@@ -392,6 +392,19 @@ function review(api: CoreAPI): void {
   const days = demotionDays(core.seed);
   sweepLatePay(api);
   const keep = protectedPeople(api);
+  // A household that was never filled in (the opening's full people, the
+  // newly born and the newly arrived) is out of the player's life from the
+  // day the review first sees it, so it goes back by the same rule once it
+  // has been out of it as long (one model, two tiers).
+  for (const home of [...core.households.values()].sort((a, b) =>
+    a.id < b.id ? -1 : 1,
+  ))
+    if (
+      !rt.filledAt.has(home.id) &&
+      !home.placeId.startsWith(COUNTED_PLACE_PREFIX) &&
+      countsKeptAt(rt, home.placeId)
+    )
+      rt.filledAt.set(home.id, makeIsoDate(core.date));
   for (const [householdId, filledAt] of [...rt.filledAt].sort((a, b) =>
     a[0] < b[0] ? -1 : 1,
   )) {
