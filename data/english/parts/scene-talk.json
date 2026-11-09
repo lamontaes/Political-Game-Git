@@ -163758,9 +163758,7 @@
           "role": "narrator",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -163857,9 +163855,7 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -163884,9 +163880,7 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "warm",
@@ -163911,10 +163905,7 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "vote-held",
-            "voted-yes"
-          ]
+          "requiresFacts": ["vote-held", "voted-yes"]
         }
       ],
       "bearing": "curious",
@@ -163939,10 +163930,7 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "vote-held",
-            "voted-no"
-          ]
+          "requiresFacts": ["vote-held", "voted-no"]
         }
       ],
       "bearing": "curious",
@@ -163967,9 +163955,7 @@
           "role": "asker",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "vote-held"
-          ]
+          "requiresFacts": ["vote-held"]
         }
       ],
       "bearing": "calm",
@@ -164018,9 +164004,7 @@
           "role": "asked",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -164045,9 +164029,7 @@
           "role": "asked",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "voted-yes"
-          ]
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "proud",
@@ -164072,9 +164054,7 @@
           "role": "asked",
           "purpose": "press-comment.friendly",
           "key": "routine",
-          "requiresFacts": [
-            "voted-no"
-          ]
+          "requiresFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
@@ -164199,9 +164179,7 @@
           "purpose": "press-comment.friendly",
           "key": "routine",
           "after": "answer",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "curious",
@@ -164668,9 +164646,7 @@
           "purpose": "press-comment.friendly",
           "key": "routine",
           "after": "deflect",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -164893,9 +164869,7 @@
           "role": "narrator",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "guarded",
@@ -164992,10 +164966,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "read-town-against"
-          ]
+          "requiresFacts": ["bill", "read-town-against"]
         }
       ],
       "bearing": "braced",
@@ -165020,9 +164991,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -165047,11 +165016,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "vote-held",
-            "voted-yes",
-            "read-town-against"
-          ]
+          "requiresFacts": ["vote-held", "voted-yes", "read-town-against"]
         }
       ],
       "bearing": "braced",
@@ -165076,11 +165041,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "vote-held",
-            "voted-no",
-            "read-town-against"
-          ]
+          "requiresFacts": ["vote-held", "voted-no", "read-town-against"]
         }
       ],
       "bearing": "braced",
@@ -165105,10 +165066,7 @@
           "role": "asker",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "vote-held"
-          ]
+          "requiresFacts": ["bill", "vote-held"]
         }
       ],
       "bearing": "braced",
@@ -165157,9 +165115,7 @@
           "role": "asked",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "voted-yes"
-          ]
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "proud",
@@ -165184,9 +165140,7 @@
           "role": "asked",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "voted-no"
-          ]
+          "requiresFacts": ["voted-no"]
         }
       ],
       "bearing": "proud",
@@ -165211,9 +165165,7 @@
           "role": "asked",
           "purpose": "press-comment.hostile",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "braced",
@@ -165952,9 +165904,7 @@
           "role": "narrator",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "read-scandal"
-          ]
+          "requiresFacts": ["read-scandal"]
         }
       ],
       "bearing": "guarded",
@@ -166027,9 +165977,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "read-scandal"
-          ]
+          "requiresFacts": ["read-scandal"]
         }
       ],
       "bearing": "braced",
@@ -166078,10 +166026,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "read-scandal"
-          ]
+          "requiresFacts": ["bill", "read-scandal"]
         }
       ],
       "bearing": "braced",
@@ -166106,10 +166051,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "vote-held",
-            "read-scandal"
-          ]
+          "requiresFacts": ["vote-held", "read-scandal"]
         }
       ],
       "bearing": "braced",
@@ -166134,9 +166076,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "read-scandal"
-          ]
+          "requiresFacts": ["read-scandal"]
         }
       ],
       "bearing": "braced",
@@ -166161,10 +166101,7 @@
           "role": "asker",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "read-scandal"
-          ]
+          "requiresFacts": ["bill", "read-scandal"]
         }
       ],
       "bearing": "braced",
@@ -166261,9 +166198,7 @@
           "role": "asked",
           "purpose": "press-comment.scandal",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "steady",
@@ -167027,9 +166962,7 @@
           "role": "narrator",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -167054,9 +166987,7 @@
           "role": "narrator",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "outlet"
-          ]
+          "requiresFacts": ["outlet"]
         }
       ],
       "bearing": "calm",
@@ -167081,9 +167012,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "outlet"
-          ]
+          "requiresFacts": ["outlet"]
         }
       ],
       "bearing": "calm",
@@ -167108,10 +167037,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "outlet"
-          ]
+          "requiresFacts": ["bill", "outlet"]
         }
       ],
       "bearing": "calm",
@@ -167160,9 +167086,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "curious",
@@ -167187,9 +167111,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "curious",
@@ -167214,11 +167136,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "vote-held",
-            "voted-yes"
-          ]
+          "requiresFacts": ["bill", "vote-held", "voted-yes"]
         }
       ],
       "bearing": "curious",
@@ -167243,11 +167161,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill",
-            "vote-held",
-            "voted-no"
-          ]
+          "requiresFacts": ["bill", "vote-held", "voted-no"]
         }
       ],
       "bearing": "curious",
@@ -167320,9 +167234,7 @@
           "role": "asked",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "voted-yes"
-          ]
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "bearing": "steady",
@@ -167347,9 +167259,7 @@
           "role": "asked",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "voted-no"
-          ]
+          "requiresFacts": ["voted-no"]
         }
       ],
       "bearing": "calm",
@@ -167374,9 +167284,7 @@
           "role": "asked",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "calm",
@@ -167402,9 +167310,7 @@
           "purpose": "press-comment.national",
           "key": "routine",
           "after": "answer",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "curious",
@@ -167797,9 +167703,7 @@
           "purpose": "press-comment.national",
           "key": "routine",
           "after": "boast",
-          "requiresFacts": [
-            "bill"
-          ]
+          "requiresFacts": ["bill"]
         }
       ],
       "bearing": "curious",
