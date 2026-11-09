@@ -569,7 +569,7 @@
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/arc-variants.json",
     "line": 1,
-    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
+    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set; for a donor's ask, the gift against the donor's own year, its share of what others gave, how close the two are, earlier gifts and earlier asks the candidate put off) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
     "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
@@ -703,6 +703,18 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "The housing engine names the home's lender or landlord on the damaged-home row; the row's pool then casts that party (or the aid office's worker) beside the household.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-scene-arrival-time",
+    "kind": "missing-data",
+    "file": "src/director/scene.ts",
+    "line": 1,
+    "whatItFakes": "The minute of the day a scene's opening names (\"first thing\", \"that evening\"). The bench passes the minute it draws the scene at; a caller that gives none gets the moment's stop minute, else the day's start.",
+    "why": "The director's scene carries no minute of its own; the moment records a date, not the hour the setting held it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "The moment records the minute its setting opened it (ledger openedAt) and composeScene reads that.",
     "status": "open"
   }
 ]
