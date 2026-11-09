@@ -174,6 +174,8 @@ interface SeekerRow {
   reasons?: Record<string, number>;
   /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
   regionalPull?: number;
+  /** Their finding progress reached one while an opening stood near them: the month of weekly matching that followed was theirs. */
+  localTried?: boolean;
 }
 interface EmployerRow {
   id: string;
@@ -1958,6 +1960,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
+  const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
       .table(table)
@@ -1978,8 +1981,15 @@ function reviewRegionalFinds(api: CoreAPI): void {
       const pull =
         (seeker.regionalPull ?? p("zero")) +
         findPerQuarter(api, at.meanOverNow, lean, age) * month;
-      if (pull >= p("one")) found.push(seeker);
-      else
+      if (pull >= p("one")) {
+        // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
+        // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
+        if (open.has(seeker.placeId) && !seeker.localTried)
+          store(api)
+            .table(table)
+            .put({ ...seeker, regionalPull: pull, localTried: true } as never);
+        else found.push(seeker);
+      } else
         store(api)
           .table(table)
           .put({ ...seeker, regionalPull: pull } as never);
@@ -2713,6 +2723,31 @@ function walkRanking(
   };
 }
 
+/** The openings that can be filled today: each has waited its industry's vacancy duration (posting, applications, interviews, a start date) and none is held for the player's answer. */
+function fillableOpenings(api: CoreAPI): PositionRow[] {
+  const c = core(api);
+  return (
+    store(api)
+      .table("positions")
+      .query("byStatus", ["open"]) as unknown as PositionRow[]
+  ).filter(
+    (row) =>
+      !row.offeredTo &&
+      daysBetweenText(row.openedAt, c.date) >= vacancyDays(api, row),
+  );
+}
+
+/**
+ * One pace for finding any work: a seeker's finding progress (`regionalPull`,
+ * built a month at a time from the CPS spell rate moved by their state's
+ * unemployment, their age and their traits) reaches one when they find a job.
+ * Until then they apply nowhere; at one they take a fillable opening near them
+ * (the weekly matching picks the best fit) or, where none is open, a
+ * regional job.
+ */
+const findingReady = (seeker: SeekerRow): boolean =>
+  (seeker.regionalPull ?? 0) >= 1;
+
 /**
  * Days an opening waits before it can be filled: its industry's JOLTS
  * openings-to-hires ratio in months (src/core2/data/jobs/vacancy-duration.json),
@@ -2746,16 +2781,7 @@ function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   // A position held for the player's answer is no one else's this week.
-  // An opening can be filled only once it has waited its industry's vacancy duration (posting, applications, interviews, a start date).
-  const positions = (
-    store(api)
-      .table("positions")
-      .query("byStatus", ["open"]) as unknown as PositionRow[]
-  ).filter(
-    (row) =>
-      !row.offeredTo &&
-      daysBetweenText(row.openedAt, c.date) >= vacancyDays(api, row),
-  );
+  const positions = fillableOpenings(api);
   if (!positions.length) return;
   const byPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
@@ -2820,7 +2846,7 @@ function runWeek(api: CoreAPI): void {
       controlled(c, person.id)
     )
       continue;
-    consider(seeker, nearby);
+    if (findingReady(seeker)) consider(seeker, nearby);
   }
   // The person the player controls, out of work and of working age, is
   // considered for every opening near them; an employer that picks them makes
@@ -2841,7 +2867,7 @@ function runWeek(api: CoreAPI): void {
       continue;
     }
     const nearby = byPlace.get(seeker.placeId);
-    if (nearby) consider(seeker, nearby);
+    if (nearby && findingReady(seeker)) consider(seeker, nearby);
   }
   // Counted applicants retain their work history. Read it once for this
   // matching round, including jobs hired and ended during play.
