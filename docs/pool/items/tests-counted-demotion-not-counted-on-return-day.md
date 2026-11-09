@@ -12,9 +12,9 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** src/core2/counted-demotion.test.ts, 'demotes it after a long while out of the player's life...', fails on main 56acfdbe2 with GOLDEN_PATH_SEED=df6e76e8e58c78ac7e0fcd05f68ce334 (Lookout Mountain, Georgia): expect(residentPerson(core, id)?.id).toBe(id) gets undefined for person_be97cb8c926abd3c right after the household's demotion is found. Found by the Memory fix session on Nov 9; the same seed fails identically on memory/full-demotion.
+**What.** The test src/core2/counted-demotion.test.ts, "demotes it after a long while out of the player's life...", fails on main 56acfdbe2 with GOLDEN_PATH_SEED=df6e76e8e58c78ac7e0fcd05f68ce334, drawn at Lookout Mountain, Georgia. Right after the household's demotion is found, expect(residentPerson(core, id)?.id).toBe(id) gets undefined for person_be97cb8c926abd3c, so the counts do not hold that person on the day the household returns to them. The Memory fix session found it on Nov 9, and the same seed fails identically on memory/full-demotion, so it is not that branch's change.
 
-**Rules.** A fix lands where the failure reproduces; one rule, all 56 places.
+**Rules.** One model, two tiers (owner, Oct 14): a person returned to the counts must be held by the counted record under their own id from the day they return, as every engine reads them there. One rule, all 56 places: the fix is proven on the failing seed and on fresh draws from all 56 places, never by naming a place.
 
 **Done when.** The test passes on that seed and on 10 fresh draws, with the cause named by record (who the person is, why the counts do not hold them on the return day).
 
