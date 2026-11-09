@@ -17,6 +17,7 @@
  * charged. The filing becomes a record; an unmet rule comes back as
  * structured reasons the English engine words.
  */
+import { bookkeeping } from "../bookkeeping";
 import { registerElectorate } from "../electorate";
 import {
   recordTermLimitFiling,
@@ -1511,6 +1512,21 @@ export function keepPetitionCheck(
       filedWith: filing.filedWith,
     },
   });
+  // Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): once the
+  // clerk has checked a petition, its check keeps what counted (the valid
+  // count and the names struck), and no reader asks for its signatures again
+  // (they are read while it circulates and by the check). In play they go;
+  // kept, they grew from 54,506 rows at year 4 to 132,276 at year 8 at
+  // Montpelier, Vermont (Nov 9, 2026). With bookkeeping on, every row stays.
+  if (!bookkeeping()) {
+    const signatures = table(api, "petitionSignatures");
+    for (const row of [
+      ...(signatures.query("byFiling", [filing.id]) as unknown as {
+        id: string;
+      }[]),
+    ])
+      signatures.remove(row.id);
+  }
   return status;
 }
 
