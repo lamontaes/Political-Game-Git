@@ -24,8 +24,8 @@ import type {
 } from "../types";
 import { engagementOf, NATIONAL_ENGAGEMENT } from "../electorate";
 import { believesClaim, claimFit } from "../heard-claims";
-import { decisionKinds } from "../trait-decisions";
-import { stanceRow, VIEWS_SPEAKER_KEY } from "./views";
+import { decisionKinds } from "../trait-decision-table";
+import { stanceRow, VIEWS_SPEAKER_KEY, VIEWS_SPEAKER_LEAN_KEY } from "./views";
 
 export const SPEECH_MODULE_ID = "speech";
 export const SPEECH_HEARD = "speech.heard";
@@ -45,6 +45,8 @@ export interface SpeechInput {
   topic: string;
   desiredChange: string;
   audienceIds: readonly PersonId[];
+  /** The speaker is still in the wider population: their lean from their counted record. */
+  countedSpeakerLean?: number;
 }
 
 export interface Retelling {
@@ -131,10 +133,16 @@ function movedBy(
 /** A speech is heard by its audience; some listeners retell it at home. */
 export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
   const speaker = api.state.people.get(speech.speakerId);
-  if (!speaker) throw new Error(`No such speaker: ${speech.speakerId}`);
+  if (!speaker && speech.countedSpeakerLean === undefined)
+    throw new Error(`No such speaker: ${speech.speakerId}`);
   const impulse = s(api, "speechImpulse");
   // The views engine moves each listener by the speaker's standing with them.
-  const facts = { [VIEWS_SPEAKER_KEY]: speech.speakerId };
+  const facts = {
+    [VIEWS_SPEAKER_KEY]: speech.speakerId,
+    ...(speech.countedSpeakerLean !== undefined
+      ? { [VIEWS_SPEAKER_LEAN_KEY]: String(speech.countedSpeakerLean) }
+      : {}),
+  };
   const source = {
     tag: "SOURCED" as const,
     citation:
@@ -145,7 +153,8 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
     id: speech.id,
     date: api.state.date,
     kind: SPEECH_HEARD,
-    personIds: [speech.speakerId],
+    // A speaker still in the wider population is named by the event's speaker fact, not as a person.
+    personIds: speaker ? [speech.speakerId] : [],
     witnessIds: speech.audienceIds.filter((id) => id !== speech.speakerId),
     placeId: speech.placeId,
     topic: speech.topic,

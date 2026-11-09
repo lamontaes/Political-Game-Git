@@ -47,25 +47,28 @@ it(`the first filing asks about running a campaign and walks a no through it; a 
     const town = core.people.get(core.playerId!)?.placeId;
     // A grown resident who lives alone, so no household talk leads the scene,
     // with two races they may file for.
-    const player = [...core.people.values()]
-      .filter(
-        (row) =>
-          row.alive &&
-          row.placeId === town &&
-          row.birthDate < "1990-01-01" &&
-          core.households.get(row.householdId)?.memberIds.length === 1 &&
-          // Who has never filed: the question is for a life's first filing.
-          api
-            .moduleState(ELECTIONS_MODULE_ID)
-            .table("filings")
-            .query("byPerson", [row.id]).length === 0,
-      )
-      .sort((a, b) => a.id.localeCompare(b.id))[0];
+    // A grown resident who lives alone and has never filed: the question is
+    // for a life's first filing.
+    const neverFiled = () =>
+      [...core.people.values()]
+        .filter(
+          (row) =>
+            row.alive &&
+            row.placeId === town &&
+            row.birthDate < "1990-01-01" &&
+            core.households.get(row.householdId)?.memberIds.length === 1 &&
+            api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("filings")
+              .query("byPerson", [row.id]).length === 0,
+        )
+        .sort((a, b) => a.id.localeCompare(b.id))[0];
+    const player = neverFiled();
     if (!player) {
       tried.push(`${where}: nobody grown lives alone`);
       continue;
     }
-    const playerId = player.id as PersonId;
+    let playerId = player.id as PersonId;
     core.playerId = playerId;
     director.watch(core, playerId);
     // Races whose counter names someone: the director casts the clerk from
@@ -83,6 +86,22 @@ it(`the first filing asks about running a campaign and walks a no through it; a 
     // by until two races the player may file for are open.
     for (let week = 0; week < 104 && races().length < 2; week += 1)
       advanceCore(core, addDays(makeIsoDate(core.date), 7));
+    // Candidacy files residents who want a seat while the weeks go by; the
+    // player is the one who has not (the game never files for them).
+    const filedSince = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .query("byPerson", [playerId]).length;
+    if (filedSince > 0) {
+      const again = neverFiled();
+      if (!again) {
+        tried.push(`${where}: every grown resident who lives alone had filed`);
+        continue;
+      }
+      playerId = again.id as PersonId;
+      core.playerId = playerId;
+      director.watch(core, playerId);
+    }
     if (races().length < 2) {
       tried.push(
         `${where}: fewer than two races to file for with a clerk on record`,

@@ -34,7 +34,11 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { corePlaceByKey } from "../place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateName,
+} from "../place-lookup";
 import {
   electionsParameter,
   municipalFilingDeadline,
@@ -1101,8 +1105,21 @@ export function checkEligibility(
     {
       rule: "residency",
       met: resident,
-      required: rules.residency ?? "lives in the area the office serves",
-      actual: resident ? "lives here" : "lives elsewhere",
+      // The clerk says where the person must live and where their records
+      // put them, as places (the research note stays the rule's source).
+      required:
+        contest.level === "federal" || contest.level === "state"
+          ? (stateNameOf(api) ??
+            rules.residency ??
+            "lives in the area the office serves")
+          : (corePlaceByKey(api.state.placeMetadata.placeKey ?? "")
+              ?.displayName ??
+            rules.residency ??
+            "lives in the area the office serves"),
+      actual: resident
+        ? "lives here"
+        : (corePlaceByJurisdictionId(person.placeId as never)?.displayName ??
+          "lives elsewhere"),
       source: rules.source,
     },
   ];
@@ -1345,6 +1362,13 @@ export function petitionOf(api: CoreAPI, filingId: string): PetitionRow | null {
   );
 }
 
+/** The town's state, as people name it, or null where the record has none. */
+function stateNameOf(api: CoreAPI): string | null {
+  const key = town(api).stateKey;
+  const name = key ? coreStateName(key.slice("US-".length)) : null;
+  return name ?? null;
+}
+
 /** Open a petitioning filing's petition (the voting engine sizes what its clerk counts). */
 export function openPetition(
   api: CoreAPI,
@@ -1547,3 +1571,5 @@ export {
 export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { countyPlaceIdOf, statePlaces } from "../electorate-places";
