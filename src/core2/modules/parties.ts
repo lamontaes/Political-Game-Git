@@ -27,11 +27,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { corePlaceByKey } from "../place-lookup";
-import {
-  campaignParameter,
-  personLean,
-  PLATFORM_QUESTIONS,
-} from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 import { homeDistanceMiles } from "../home-distance";
 import { viewOn } from "./views";
 import { deliverSpeech, SPEECH_MODULE_ID } from "./speech";

@@ -66,7 +66,7 @@ import {
   reviseBill,
   type Provision,
 } from "./modules/legislature";
-import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";

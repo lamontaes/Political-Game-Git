@@ -1,10 +1,10 @@
-/* global window, localStorage */
+/* global localStorage */
 // The calendar: a compact month of day tiles with a small
 // icon for each thing on the day, the chosen day on a plate of its own between, and Coming up
 // beside it paged inside its box (owner, Oct 29: a menu never scrolls as a page). The screen
 // hands it the day that is today, the dated items in words, the labels from the controls
 // file, and what skipping forward to a day does.
-import { el } from "./dom.mjs";
+import { el, viewHeight } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { listRow } from "./list-row.mjs";
 import { pager } from "./pager.mjs";
@@ -169,16 +169,11 @@ export function calendarScreen({ date, items: every, labels, onAdvance }) {
           render: rowOf,
           rows: Math.max(
             4,
-            Math.min(12, Math.floor((window.innerHeight - 480) / 56)),
+            Math.min(12, Math.floor((viewHeight() - 480) / 56)),
           ),
           columns: 1,
           rowHeight: 52,
           gap: 4,
-          words: {
-            page: labels.page,
-            previous: labels.previousPage,
-            next: labels.nextPage,
-          },
           className: "calendar-pager",
         }),
       ),

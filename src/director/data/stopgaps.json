@@ -598,6 +598,63 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
+    "id": "SG-WORDS-address-no-reader",
+    "kind": "missing-hook",
+    "file": "data/english/parts/address.json",
+    "line": 1,
+    "whatItFakes": "The chair's \"The motion carries.\" sits in a bank that no scene reads.",
+    "why": "No live scene has a chair who calls a vote aloud (floor debate recognizes members; the bill paper words a result in writing). The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A council or floor scene whose chair announces the result of a vote from the vote's record, worded from this piece; pool item words-chair-announces-the-vote.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-hearing-no-reader",
+    "kind": "missing-hook",
+    "file": "data/english/parts/hearing.json",
+    "line": 1,
+    "whatItFakes": "A witness's \"Yes, thank you.\" and thanks to the chair by title (\"Thank you, Chairman.\", \"Thank you, Mr. Chairman.\") sit in a bank that no scene reads.",
+    "why": "The hearing-testify scene carries no chair title or gender fact, so a title line would say Chairman to any chair, and the chair asks no yes-or-no question. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A chair-title fact on the hearing scene and a chair question that a yes answers, reading these pieces; pool item words-hearing-chair-title-and-yes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-legislation-no-reader",
+    "kind": "missing-hook",
+    "file": "data/english/parts/legislation.json",
+    "line": 1,
+    "whatItFakes": "Short titles (\"This Act may be cited as the ...\"), the long title (\"To provide for ..., and for other purposes.\") and the repeal clause (\"... is repealed.\") sit in a bank that no bill text reads.",
+    "why": "The bill text engine (src/english/bill-sections.ts, data/english/bill-sections.json) words every bill in its own local forms and has no short-title, long-title or repeal-clause form. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "Forms in the bill-sections schema that read right for a local bill, taken from these pieces (the federal short-title form only for a federal bill); pool item laws-bill-short-and-long-title-forms.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-minutes-no-reader",
+    "kind": "missing-hook",
+    "file": "data/english/parts/minutes.json",
+    "line": 1,
+    "whatItFakes": "Four lines of a meeting's minutes (\"Participants discussed ...\", \"The staff provided an update on ...\", \"The manager turned next to ...\", \"Voting against this action: ...\") sit in a bank that no engine reads.",
+    "why": "No engine words the minutes of a meeting. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A minutes record for each council or board meeting, worded from these pieces and the meeting's own records; pool item words-meeting-minutes-from-the-record.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-notice-no-reader",
+    "kind": "missing-hook",
+    "file": "data/english/parts/notice.json",
+    "line": 1,
+    "whatItFakes": "The election notice (\"NOTICE OF ELECTION ...\") sits in a bank that no engine prints.",
+    "why": "No engine prints a public notice of an election. The owner graded these lines good (owner, via the CTO, Nov 8: a rewrite never deletes a line he graded good); the engine that read their old bank was deleted, and the line is kept in a bank of its own kind until a scene reads it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-08",
+    "replacement": "A notice printed in the paper and posted by the clerk or board of elections for each contest, worded from this piece and the election's records; pool item words-election-notice-printed.",
     "status": "open"
   }
 ]

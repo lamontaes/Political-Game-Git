@@ -38,7 +38,8 @@ import type {
 import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, publicOffset } from "../campaign-views";
+import { publicOffset } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";
@@ -766,7 +767,6 @@ function seatAll(
     // Another state's official is a recorded husk until something opens
     // them (`promoteOutsideOfficial`); the row below holds what they are
     // built from. The player's state and the nation's seats are full people.
-    // stopgapId: SG-SPEED-outside-legislators-health-without-web
     const husk = isOutsideState(api, spec.stateKey, spec.body, spec.bodyKind);
     if (husk) recordHusk(api.state as CoreState, recorded, api.state.date);
     else
@@ -885,6 +885,7 @@ registerHuskIdentity((core, personId) => {
   return husk
     ? {
         birthDate: husk.identity.birthDate,
+        placeId: husk.identity.placeId,
         traits: husk.identity.traits ?? {},
       }
     : undefined;

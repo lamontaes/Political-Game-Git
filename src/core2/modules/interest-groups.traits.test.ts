@@ -14,7 +14,8 @@ import { coreAPI } from "../state";
 import { drawnRaceWorld, RUN_SEED, weightOf } from "../trait-test-kit";
 import { decisionLean } from "../trait-decisions";
 import { setTraitProbe } from "../trait-probe";
-import { campaignParameter, personLean } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { ownerOf } from "./business";
 import {

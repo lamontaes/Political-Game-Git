@@ -5,6 +5,7 @@ import type {
 } from "./work-payroll-cash";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { drawSavingsToCover } from "./accounts";
+import { withQuarterPay } from "./pay-by-quarter";
 import { cashJournalParameters } from "./cash-host";
 import { FinancePlanningSession, FinanceReadGuard } from "./finance-plan";
 import { ensureFinanceCashModule } from "./finance-cash";
@@ -543,6 +544,16 @@ export function settleWorkPayrollAndNotify(
   r.verify();
   for (const [module, callback] of callbacks)
     callback.call(module, api, actual);
+  // The base period's wage: the paycheck's gross, before withholding.
+  if (returned.paidMinor > 0)
+    core.work.payByQuarter.set(
+      returned.personId,
+      withQuarterPay(
+        core.work.payByQuarter.get(returned.personId),
+        core.date,
+        returned.paidMinor,
+      ),
+    );
   return returned;
 }
 

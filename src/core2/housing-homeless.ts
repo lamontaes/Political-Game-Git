@@ -18,7 +18,11 @@
  */
 import { addDays, makeIsoDate } from "./kernel/dates";
 import shelterData from "./data/housing/shelter-beds.json" with { type: "json" };
-import { currentCloseness } from "./closeness";
+import {
+  currentCloseness,
+  levelFromHours,
+  openingClosenessHours,
+} from "./closeness";
 import { stopgap } from "./stopgaps";
 import {
   householdCash,
@@ -401,7 +405,12 @@ function hostFor(
         const tie = c.relationships.get(pairKey(memberId, relativeId));
         closeness = Math.max(
           closeness,
-          tie ? currentCloseness(c, tie) : api.parameter("relationInitial"),
+          tie
+            ? currentCloseness(c, tie)
+            : levelFromHours(
+                (key) => api.parameter(key),
+                openingClosenessHours(c, memberId, relativeId),
+              ),
         );
       }
       options.push({
@@ -547,7 +556,11 @@ export function placeRemovedHousehold(
     memberIds,
     household.id,
     placeId,
-    !holdsJob && (!household.counted || countedMovesRunning(api)),
+    // The player's household never moves without their choice: a relative's
+    // town is offered only to everyone else (owner's playtest, Nov 8).
+    !holdsJob &&
+      (!household.counted || countedMovesRunning(api)) &&
+      !memberIds.some((id) => id === c.playerId),
   );
   const base = {
     id: household.id,
