@@ -2871,6 +2871,10 @@
               {
                 "key": "memberId",
                 "is": "other"
+              },
+              {
+                "key": "organizerId",
+                "is": "subject"
               }
             ]
           },

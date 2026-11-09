@@ -14,6 +14,11 @@ import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { composeLocalAddress } from "./local-address";
 import { spoken, stateInSentence } from "./words";
+import { personStance } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
+import { resolveMunicipalRecallRule } from "../core2/gov-rules/municipal-ballot-rules";
+import { draftBill, holdVote } from "../core2/modules/legislature";
+import { recallsOf } from "../core2/modules/recalls";
 import { openConversation } from "./conversation";
 import { purposeScene } from "./purpose-scene";
 import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
@@ -312,3 +317,102 @@ it(`every staged scene says why before the first ask: a lead or a line of the ta
       `${where}: ${scene.typeKey} opens on the arrival alone`,
     ).toBeGreaterThan(0);
 }, 1_200_000);
+
+it(`the outcome of a recall is a scene only for the person who organized it (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let draw = 0; draw < 8; draw += 1) {
+    let place = drawPlace(`${seed}:${draw}`, "recall-outcome-cast");
+    for (
+      let redraw = 1;
+      redraw < 60 &&
+      !resolveMunicipalRecallRule(place.state.slice(3)).circulationDays;
+      redraw += 1
+    )
+      place = drawPlace(`${seed}:${draw}:${redraw}`, "recall-outcome-cast");
+    const where = `${place.name} (${place.key}), seed ${seed}:${draw}`;
+    setBookkeeping(false);
+    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const api = coreAPI(core);
+    const council = townSeats(api).filter(
+      (s) =>
+        s.office.kind === "council" &&
+        s.holder?.personId &&
+        core.people.get(s.holder.personId)?.alive,
+    );
+    if (council.length < 2) {
+      tried.push(`${where}: no council of full people`);
+      continue;
+    }
+    const members = new Set(council.map((s) => s.holder!.personId!));
+    core.playerId = [...members].sort()[0]!;
+    for (const id of members) {
+      core.focusPersonIds.add(id as never);
+      director.watch(core, id as never);
+    }
+    // The town's residents are watched too: the outcome is public news.
+    for (const person of [...core.people.values()]
+      .filter(
+        (p) =>
+          p.alive && p.placeId === core.people.get(core.playerId!)!.placeId,
+      )
+      .slice(0, 64))
+      director.watch(core, person.id);
+    const divisive = [...PLATFORM_QUESTIONS].sort(
+      (a, b) =>
+        Math.abs(personStance(1, b)) - Math.abs(personStance(1, a)) ||
+        a.localeCompare(b),
+    );
+    for (const question of divisive) {
+      const bill = draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: council[0]!.holder!.personId!,
+        provisions: [{ kind: "policy-question", question, value: 1 }],
+      });
+      if (bill.status === "blocked") continue;
+      if (
+        ["enacted", "signed", "overridden"].includes(
+          holdVote(api, bill.id).status,
+        )
+      )
+        break;
+    }
+    const start = makeIsoDate(core.date);
+    const open = () =>
+      recallsOf(api).find(
+        (r) => r.status === "circulating" && members.has(r.memberId),
+      );
+    for (let day = 1; day <= 60 && !open(); day += 1)
+      advanceCore(core, addDays(start, day));
+    const recall = open();
+    if (!recall) {
+      tried.push(`${where}: no petition`);
+      continue;
+    }
+    advanceCore(core, addDays(makeIsoDate(recall.due), 2));
+    const outcomeId = [...core.durableLog.keys()].find((id) =>
+      id.startsWith(`recall-outcome:${recall.id}:`),
+    );
+    expect(outcomeId, `${where}: no outcome record`).toBeTruthy();
+    let staged = 0;
+    for (const [personId, book] of director.ledger.people)
+      for (const entry of book.schedule)
+        for (const binding of entry.bindings) {
+          if (
+            binding.typeKey !== "recall" ||
+            !entry.momentId.includes(outcomeId!)
+          )
+            continue;
+          staged += 1;
+          expect(
+            binding.roles.find((row) => row.role === "petitioners")?.personIds,
+            `${where}: ${personId} is cast as the petitioner of ${recall.id}`,
+          ).toEqual([recall.organizerId]);
+        }
+    process.stdout.write(`RECALL OUTCOME ${where}: ${staged} scenes\n`);
+    return;
+  }
+  throw new Error(`no recall in ${tried.join("; ")}`);
+}, 900_000);
