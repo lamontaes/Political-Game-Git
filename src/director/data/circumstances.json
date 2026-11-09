@@ -51,8 +51,8 @@
       "where": "same-household",
       "player": "anyone",
       "cast": "a member of the player's household who read the story, scored on tie and sociability",
-      "typeKey": "news-arrives",
-      "outcome": "conversation.told",
+      "typeKey": "story-read",
+      "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceHomeEveryDays"
     },
@@ -64,8 +64,8 @@
       "where": "same-employer",
       "player": "anyone",
       "cast": "a coworker who read a national outlet's story, scored on tie and sociability",
-      "typeKey": "news-arrives",
-      "outcome": "conversation.told",
+      "typeKey": "story-read",
+      "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceWorkEveryDays",
       "outletTier": "national"
@@ -383,8 +383,8 @@
       "where": "known",
       "player": "anyone",
       "cast": "someone the player knows who is moving away, saying goodbye",
-      "typeKey": "departure",
-      "outcome": "contact",
+      "typeKey": "moving-goodbye",
+      "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceMeetingImpact",
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },

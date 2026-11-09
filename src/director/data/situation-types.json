@@ -233,21 +233,6 @@
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
           }
-        },
-        {
-          "match": {
-            "label": "circumstance:moved-away-farewell"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "person.moved-away",
-          "bind": {
-            "leaving": "counterpart",
-            "staying": "subject",
-            "others": "present"
-          },
-          "opener": "leaving",
-          "setting": ["other-home", "home"],
-          "opening": "farewell"
         }
       ],
       "awaiting": ["record:deployment"],
@@ -487,36 +472,6 @@
           },
           "opener": "bearer",
           "setting": ["public"],
-          "opening": "tell"
-        },
-        {
-          "match": {
-            "label": "circumstance:story-read-home"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "news.read",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "counterpart"
-          },
-          "opener": "bearer",
-          "setting": ["home"],
-          "opening": "tell"
-        },
-        {
-          "match": {
-            "label": "circumstance:national-news-work"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "news.read",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "counterpart"
-          },
-          "opener": "bearer",
-          "setting": ["workplace"],
           "opening": "tell"
         },
         {
@@ -5650,6 +5605,115 @@
       "tag": {
         "key": "threat",
         "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "story-read",
+      "note": "Someone in the player's household (at home) or a coworker (at work) read a printed story, the news engine's read record, and brings it up with the player: which story, from the catalog's name for its topic and the paper that ran it. The player can agree, disagree, ask what it said or put the talk off. A story the catalog cannot name is not talked over (the scene is skipped rather than worded as 'something'). The ending is written on the reply record: a talk put off owes the other a talk and strains the tie.",
+      "purpose": "story-read",
+      "asker": "reader",
+      "asked": "you",
+      "stakes": ["story", "home"],
+      "roles": [
+        {
+          "key": "reader",
+          "fill": "household",
+          "count": "one",
+          "moves": ["tell", "press", "accept", "answer"],
+          "wants": ["speak-out"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home", "workplace"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:story-read-home"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "reader": "counterpart",
+            "you": "subject"
+          },
+          "opener": "reader",
+          "setting": ["home"]
+        },
+        {
+          "match": {
+            "label": "circumstance:national-news-work"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "reader": "counterpart",
+            "you": "subject"
+          },
+          "opener": "reader",
+          "setting": ["workplace"]
+        }
+      ],
+      "tag": {
+        "key": "story-read",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "moving-goodbye",
+      "note": "Someone the player knows has moved away (the moves engine's departure record, circumstance row moved-away-farewell) and comes to say goodbye: where they are going, who goes with them, and why when the records name a reason (an eviction, a job lost or found elsewhere, family, kin who left first, a death at home). The player can comfort them, ask, promise to visit or thank them. A promise to visit is kept on its record and told in the journal; a farewell cut short strains the tie.",
+      "purpose": "moving-goodbye",
+      "asker": "leaving",
+      "asked": "staying",
+      "stakes": ["relative", "home"],
+      "roles": [
+        {
+          "key": "leaving",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "answer", "accept", "thank", "press"],
+          "wants": ["change", "commit"],
+          "bearing": "tender"
+        },
+        {
+          "key": "staying",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["comfort", "ask", "promise", "thank", "leave"],
+          "wants": ["keep-same", "engage"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["other-home", "home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:moved-away-farewell"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "person.moved-away",
+          "bind": {
+            "leaving": "counterpart",
+            "staying": "subject"
+          },
+          "opener": "leaving",
+          "setting": ["other-home", "home"]
+        }
+      ],
+      "tag": {
+        "key": "moving-goodbye",
+        "endpoint": "personal",
         "registers": ["scene-talk", "scene-words"]
       }
     },
