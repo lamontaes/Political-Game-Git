@@ -14,7 +14,7 @@
  */
 import { daysBetweenText as daysBetween } from "./kernel/dates";
 import { residentsRuntime } from "./modules/residents";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   CAMPAIGNS_MODULE_ID,
   causeSummariesOf,

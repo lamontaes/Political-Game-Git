@@ -77,14 +77,8 @@ import {
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  groupStance,
-  personLean,
-  platformLead,
-  type Stance,
-  type StanceProfile,
-} from "../campaign-views";
+import { groupStance, personLean, type StanceProfile } from "../campaign-views";
+import { campaignParameter, platformLead, type Stance } from "../campaign-data";
 import { basePlaces } from "../race-places";
 import { holdoverRule } from "../office-holdover";
 import electionParameters from "../data/elections/parameters.json" with { type: "json" };

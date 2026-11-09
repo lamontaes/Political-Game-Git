@@ -6,7 +6,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { billCatalog } from "./bill-catalog";
 import { setBookkeeping } from "./bookkeeping";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { gameStartDate } from "./game-start";
 import {
   enactLaw,
