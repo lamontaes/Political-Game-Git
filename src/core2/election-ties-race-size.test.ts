@@ -111,15 +111,24 @@ describe("a tie rule that depends on the size of the race", () => {
       ).find(
         (c) =>
           c.electionDate > api.state.date &&
-          ballot(api, c.id).length >= 1 &&
           rules[state]?.[ruleField(c)]?.smallRace !== undefined,
       );
       if (!contest) continue;
       const rule = rules[state]![ruleField(contest)]!;
       const line = rule.smallRace!.atOrBelowVotes;
-      // At the start most races have one filer; the tie needs two names, so
-      // the player stands in as the other (only the rule is under test).
-      const tied = [ballot(api, contest.id)[0]!.personId, player.id];
+      // The tie needs two names: the contest's first filer where it has one,
+      // else another adult of the town, with the player as the other (only the
+      // rule is under test, which reads the contest and the vote count).
+      const other =
+        ballot(api, contest.id)[0]?.personId ??
+        [...full.people]
+          .filter(
+            (p) =>
+              p.id !== player.id &&
+              Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 18,
+          )
+          .sort((a, b) => a.id.localeCompare(b.id))[0]!.id;
+      const tied = [other, player.id];
       const methodAt = (votes: number) => {
         breakElectionTie(api, contest, tied, () => undefined, votes);
         return (

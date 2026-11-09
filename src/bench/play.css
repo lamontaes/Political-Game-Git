@@ -4944,6 +4944,15 @@ select.release-pick {
 .news-story.lead .news-text {
   column-count: 2;
 }
+/* The lead's front-page photo sits between its headline and its text, cut to a fixed band. */
+.news-story.lead .story-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  aspect-ratio: auto;
+  object-fit: cover;
+  margin: 10px 0 12px;
+}
 /* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
 .news-story.lead .news-text > * {
   break-inside: avoid;
@@ -5308,7 +5317,63 @@ body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
 }
 
+/* Dev mode on a bill (fr-dev-bill): each member a name with Yes and No beside it. */
+.dev-bill-member {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+.dev-bill-member .name {
+  font: 600 14px var(--ui);
+  color: #f2e6c9;
+}
+.dev-bill-card .acts {
+  margin: 8px 0;
+}
+
+/* Dev mode's Trace of a vote (fr-dev-trace): the record, why, and what came of it side by side. */
+#sheet-body:has(.dev-trace-vote) {
+  max-width: none;
+}
+.strip-board.dev-trace-vote {
+  width: 1080px;
+  max-width: 100%;
+}
+
 /* The bill page's budget lines fill the paper's column. */
+/* The bill page's header: the body's room with the bill's number and the body's name over it. */
+.bill-band {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  grid-column: 1 / -1;
+  height: 92px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  border: 1px solid var(--brass-lo);
+}
+.bill-band img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.bill-band h2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 18px 16px 8px;
+  font:
+    600 24px "Cinzel",
+    "Playfair Display",
+    serif;
+  color: var(--gold);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+}
 .strip-screen.bill-figures {
   display: block;
   margin: 8px 0;

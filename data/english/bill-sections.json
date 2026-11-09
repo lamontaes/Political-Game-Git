@@ -644,6 +644,14 @@
       "purpose": "decide whether the state pays weekly benefits to workers who lose their jobs through no fault of their own",
       "grant": "the state shall pay weekly unemployment insurance benefits to eligible workers who lose their jobs",
       "withdraw": "the state shall pay no unemployment insurance benefits, and any such program in force shall end"
+    },
+    "meeting-notice-hours": {
+      "subject": "the notice required before a public meeting",
+      "purpose": "set how many hours of public notice a regular meeting of a local body must be given",
+      "raise": "the public notice a regular meeting of a local body requires shall be raised from {before} to {value}",
+      "lower": "the public notice a regular meeting of a local body requires shall be lowered from {before} to {value}",
+      "raiseTo": "the public notice a regular meeting of a local body requires shall be raised to {value}",
+      "lowerTo": "the public notice a regular meeting of a local body requires shall be lowered to {value}"
     }
   },
   "units": {
@@ -653,7 +661,8 @@
     "USD/month": "{dollars} a month",
     "USD/week": "{dollars} a week",
     "years": "{value} years",
-    "USD/election": "{dollars} for each election"
+    "USD/election": "{dollars} for each election",
+    "hours": "{value} hours"
   },
   "cited": "{clause}, amending {statute}"
 }
