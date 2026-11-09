@@ -389,6 +389,8 @@ export interface MeetingReadings {
   unemploymentPct: number;
   /** The unemployment rate the board takes as normal: what the economy has come to treat as normal from the rates it has lived at, not a fixed figure. */
   naturalUnemploymentPct: number;
+  /** The real rate the board takes as neutral: what the economy has come to treat as neutral from the long real rates lived with. */
+  neutralRealRatePct: number;
   policyRatePct: number;
   month: string;
 }
@@ -402,6 +404,7 @@ export function meetingReadings(
     inflationPct: latest.inflationPct - p("macroCpiOverPceWedgePct"),
     unemploymentPct: latest.unemploymentPct,
     naturalUnemploymentPct: latest.naturalUnemploymentPct,
+    neutralRealRatePct: latest.neutralRealRatePct,
     policyRatePct,
     month: latest.month,
   };
@@ -436,7 +439,7 @@ export function memberView(
   const gapResponse =
     p("macroTaylorGapResponse") * (p("one") - p("macroLeanGapShift") * lean);
   const goal = p("macroInflationGoalPct");
-  const neutral = p("macroNeutralRealRatePct") + goal - readings.policyRatePct;
+  const neutral = readings.neutralRealRatePct + goal - readings.policyRatePct;
   const prices =
     (p("one") + inflationResponse) * (readings.inflationPct - goal);
   const jobs =

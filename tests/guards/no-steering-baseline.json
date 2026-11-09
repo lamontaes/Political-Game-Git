@@ -3,7 +3,7 @@
     "src/core2/finance-state.ts": 1,
     "src/core2/health-own.ts": 1,
     "src/core2/housing-mortgages.ts": 1,
-    "src/core2/macro-model.ts": 4,
+    "src/core2/macro-model.ts": 3,
     "src/core2/modules/campaigns.ts": 3,
     "src/core2/modules/employer-taxes.ts": 2,
     "src/core2/modules/jobs.ts": 1,
