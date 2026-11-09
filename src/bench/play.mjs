@@ -3578,7 +3578,8 @@ const sheets = {
     // budget lines by category rather than departments, so each spending line is a
     // department; Last year comes from the government's previous budget; "Asked" is the line
     // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
-    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
+    // record's chief executive; a department's head is the executive's appointee for its line
+    // (budget.ts headsOf).
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3826,6 +3827,7 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
+        photoOf: storyPhoto,
       }),
     ];
   },

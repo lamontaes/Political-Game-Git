@@ -7,7 +7,6 @@ const RESEARCH =
   "data/research/executive/ban-the-box-public-hiring-2025-01.json";
 const LAW = "data/research/laws/starting-law-2026/labor-workforce.json";
 const KEY = "us-policy-positions:labor-workforce.ban-the-box-public-hiring";
-const SCRIPT = "scripts/research/build-ban-the-box-rows.ts";
 
 interface Place {
   place: string;
@@ -22,7 +21,7 @@ interface Place {
 }
 interface Row {
   answer: string;
-  cite: string;
+  cite?: string;
   source?: string;
   note: string;
   estimated?: string;
@@ -44,9 +43,10 @@ export function buildRows(places: Place[]): Record<string, Row> {
     if (p.note) parts.push(p.note);
     const row: Row = {
       answer: found ? p.answer : "no",
-      cite: `${p.citation ? `${p.citation}; ` : ""}derived by ${SCRIPT} from ${RESEARCH}`,
       note: parts.join(" "),
     };
+    // The statute or order itself, as the research recorded it; a build note never goes in a field the player reads.
+    if (p.citation) row.cite = p.citation;
     if (p.url) row.source = p.url;
     if (!found) row.estimated = TERRITORY;
     else if (p.estimatedReason) row.estimated = p.estimatedReason;
