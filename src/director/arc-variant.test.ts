@@ -44,7 +44,11 @@ const FAMILIES = (
   }
 ).families;
 const TYPES = (situationFile as unknown as { types: PurposeType[] }).types;
-const typeOf = (family: string) => TYPES.find((row) => row.key === family)!;
+// A family is a purpose: the type that plays it (a reporter's call is the
+// press-interview type, whose purpose is press-comment).
+const typeOf = (family: string) =>
+  TYPES.find((row) => row.key === family) ??
+  TYPES.find((row) => row.purpose === family)!;
 const played = (family: string, variant: string): PurposeType => {
   const type = typeOf(family);
   const purpose = FAMILIES[family]!.variants[variant]!.purpose;
@@ -88,8 +92,56 @@ const donorFacts: Record<string, Fact> = {
   bill: fact("Bill 14"),
   "donor-bill": fact("Bill 14"),
 };
+// What a reporter's call hands the scene (purpose-scene.ts, press-interview):
+// the bill, the outlet, and the facts the variant's reads add to the scene
+// (`read-<name>`, set only where the read came to more than nothing).
+const pressFacts: Record<string, Fact> = {
+  ...generic,
+  bill: fact("Bill 14"),
+  outlet: fact("the Courier"),
+  "vote-held": fact("Bill 14"),
+  "read-town-against": fact("yes"),
+  "read-scandal": fact("yes"),
+};
+// What a colleague's ask for a vote hands the scene: the bill, the bill the
+// asker already voted for (`earlier`) and the reads that came to something.
+const voteFacts: Record<string, Fact> = {
+  ...generic,
+  bill: fact("Bill 14"),
+  earlier: fact("Bill 9"),
+  "read-holds-post": fact("yes"),
+  "read-same-party": fact("yes"),
+  "read-favor-given": fact("yes"),
+  "read-town-for-bill": fact("yes"),
+  "read-close": fact("yes"),
+};
+// What an office-hours visit hands the scene (constituent-help-facts.ts): the
+// employer lost and how long ago, the rent owed and its day, the pay and the
+// floor, the relative who is ill, and the reads that came to something.
+const helpFacts: Record<string, Fact> = {
+  ...generic,
+  employer: fact("Hartley Foods"),
+  since: fact("two months"),
+  owed: fact("$1,850"),
+  deadline: fact("March 14th"),
+  pay: fact("$6.50"),
+  floor: fact("$7.25"),
+  relative: fact("Dana"),
+  "read-laid-off": fact("yes"),
+  "read-notice-served": fact("yes"),
+  "read-paid-under-floor": fact("yes"),
+  "read-household-illness": fact("yes"),
+};
 const factsOf = (family: string) =>
-  family === "donor-ask" ? donorFacts : generic;
+  family === "donor-ask"
+    ? donorFacts
+    : family === "press-comment"
+      ? pressFacts
+      : family === "ask-vote"
+        ? voteFacts
+        : family === "constituent-help"
+          ? helpFacts
+          : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -125,7 +177,12 @@ const compose = (
 
 describe("a kind with several arcs", () => {
   it("gives each corruption kind at least three variants besides its plain arc", () => {
-    for (const family of ["bribe-offer", "bribe-pressed", "donor-ask"]) {
+    for (const family of [
+      "bribe-offer",
+      "bribe-pressed",
+      "donor-ask",
+      "press-comment",
+    ]) {
       const names = Object.keys(FAMILIES[family]!.variants);
       expect(names.length, family).toBeGreaterThanOrEqual(4);
       expect(names).toContain("plain");
@@ -163,7 +220,32 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-        else
+        else if (family === "press-comment")
+          for (const id of ["on-record", "no-comment"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "ask-vote") {
+          process.stdout.write(
+            `ASK VOTE ENDINGS ${variant}: ${JSON.stringify(talk.endingCounts)}\n`,
+          );
+          // The keeps the engines read (favor-owed, promise, trust-lost,
+          // relationship-strained) come from these endings.
+          for (const id of ["vote-given", "traded"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        } else if (family === "constituent-help") {
+          // The keeps the engines read (promise, meeting-set,
+          // relationship-strained) come from these endings.
+          for (const id of ["will-call", "caseworker"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        } else
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
             where,
@@ -240,7 +322,7 @@ describe("a kind with several arcs", () => {
   it("reads no kind's name: a kind without a row plays its one arc", () => {
     expect(
       chooseVariant(core, {
-        family: "ask-vote",
+        family: "confirm-vote",
         askerId,
         askedId,
         cause: { id: "x", date: core.date, facts: {} },

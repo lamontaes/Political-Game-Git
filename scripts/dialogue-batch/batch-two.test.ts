@@ -44,8 +44,10 @@ describe("batch 2 lets the owner grade part of a line and reaches the whole game
   });
 
   it("graded together, the batch reaches at least 95% of all lines", () => {
-    expect(batch.coverage.reachedByBatch / pieces.size).toBeGreaterThanOrEqual(
-      0.95,
-    );
+    // Measured against the banks as they stood when the batch was made; the
+    // banks grow after, and the grade map reports today's reach.
+    expect(
+      batch.coverage.reachedByBatch / batch.coverage.pieces,
+    ).toBeGreaterThanOrEqual(0.95);
   });
 });
