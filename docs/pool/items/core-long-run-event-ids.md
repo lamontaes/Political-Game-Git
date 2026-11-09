@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/event-ids
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T17:01:18.154Z
 ---
 
 **What.** applyCoreEvent adds every event id to core.eventIds and nothing removes one. Every reader asks about an id built from today's date, a race still ahead (a contest id carries its election day) or an id with no date (a cause group's founding, a scene's reply), so an id whose newest written date is long past is never asked about again. At Montpelier, Vermont (5046000, world seed mont1, fast-forward) the set held 661,212 ids at year 6, 117 MB of live heap measured by removing it.
