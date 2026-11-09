@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/full-demotion
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T10:02:10.556Z
 ---
 
 **What.** A household returned to the counts (counted-demotion.ts) keeps every fact its people knew in core.knowledgeByPerson, and writers that reach people by place or county (news readersOf for a county or state story, among others) go on adding to it. Montpelier, Vermont (5046000, world seed mont1, fast-forward), main 96c1c6b5: people back in the counts held 70,984 facts at year 1, 280,884 at year 2, 561,173 at year 3 and 921,660 at year 4, against 1,066,202 held by full people. No engine reads a counted person's facts.
