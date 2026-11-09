@@ -2,6 +2,8 @@
 // Each year: full people (and what keeps them full), seconds, heap after collection, peak RSS.
 // node --expose-gc --max-old-space-size=8000 --import tsx scripts/dev-tests/memory-fullyears.ts <seed> <placeKey> <years> <label>
 // CORE2_FAST_FORWARD=1 turns on the campaign stride (development only).
+import { appendFileSync } from "node:fs";
+// races.jsonl: RACES_OUT=<file> appends every race winner each year.
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
@@ -164,6 +166,11 @@ const outcomes = () => {
       local.push(`${c.title}: ${r.winnerId}`);
   }
   won.sort();
+  if (process.env.RACES_OUT)
+    appendFileSync(
+      process.env.RACES_OUT,
+      `${JSON.stringify({ date: core.date, won })}\n`,
+    );
   lastDate = core.date;
   return {
     fullAlive,
