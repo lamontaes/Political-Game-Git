@@ -160,5 +160,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-record-bias-public-only",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-record-bias.ts",
+    "line": 32,
+    "whatItFakes": "The penalty an employer puts on an applicant with a conviction, and the ban-the-box law that lifts it, are read only for public employers in the town and only for full (named) applicants. Private employers are not read even where the state's law covers them (California, Connecticut, Colorado and others), and a counted seeker has no personal record to weigh, though the justice engine keeps counted cases. The penalty is one TUNABLE number (4 fit points) for every public employer.",
+    "why": "The justice engine keeps a conviction per named person (convictionsOf) but a counted seeker's record is a count by case, not an applicant's; whether a private employer is covered is in the state row's note, not a field the jobs engine reads.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
+    "status": "open"
   }
 ]

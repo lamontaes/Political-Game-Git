@@ -528,5 +528,16 @@
       "unit": "years",
       "citation": "BLS CPS participation by single year of age, 2015-2019: the fall from 62 to 70 spans about seven to twelve years at the rates of the two bands."
     }
+  },
+  "jobsRecordApplicantPenalty": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Where an employer asks about a criminal record, applicants without one drew 63 percent more callbacks than those with one (5.2 points over a base of 8.2 percent; Agan and Starr 2018, Quarterly Journal of Economics 133(1), about 15,000 fictitious applications). Applied as score points taken off a public employer's fit for an applicant with a conviction on record where no ban-the-box law is in force; four points is four years' experience in the fit score, a little more than the age penalty because the callback gap is larger.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "fit score",
+      "citation": "Where an employer asks about a criminal record, applicants without one drew 63 percent more callbacks than those with one (5.2 points over a base of 8.2 percent; Agan and Starr 2018, Quarterly Journal of Economics 133(1), about 15,000 fictitious applications). Applied as score points taken off a public employer's fit for an applicant with a conviction on record where no ban-the-box law is in force; four points is four years' experience in the fit score, a little more than the age penalty because the callback gap is larger."
+    }
   }
 }
