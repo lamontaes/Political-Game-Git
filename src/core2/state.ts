@@ -20,7 +20,7 @@ import {
   queueRelationshipDetail,
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
-import { queueExperience } from "./knowledge-retention";
+import { isExperiencedKey, queueExperience } from "./knowledge-retention";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
@@ -1014,6 +1014,16 @@ export function coreAPI(core: CoreState): CoreAPI {
     observe(personId, fact) {
       const known = core.knowledgeByPerson.get(personId);
       if (!known) throw new Error(`Knowledge recipient is absent: ${personId}`);
+      // Someone back in the counts learns nothing but the events they take
+      // part in, as no counted person keeps knowledge (two-level rule, Oct
+      // 11): the day's appraisal reads that note and the forgetting pass
+      // drops it within weeks; their record keeps their results, and meeting
+      // them again fills them in to learn anew. Writers that reach them by
+      // place or county (a county story's readers) otherwise grew their
+      // facts for the rest of the run (Montpelier, Vermont, Nov 9: 921,660
+      // facts held by people back in the counts at year 4).
+      const person = core.people.get(personId);
+      if (person && isDemoted(person) && !isExperiencedKey(fact.key)) return;
       makeIsoDate(fact.learnedAt);
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");

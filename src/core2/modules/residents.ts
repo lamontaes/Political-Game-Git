@@ -32,7 +32,10 @@ import type {
   BusinessBooksState,
   ResidentWageShortfall,
 } from "../finance-types";
-import { businessAvailableCredit } from "../finance-state";
+import {
+  businessAvailableCredit,
+  endRecipientIncomeAtDeath,
+} from "../finance-state";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { admitPublicPayAuthority } from "../public-work-pay";
 import type {
@@ -2843,6 +2846,10 @@ export function removeCountedPerson(
   if (kept && isDemoted(kept)) {
     const api = rt.api ?? coreAPI(core);
     api.updatePerson(personId, { alive: false });
+    // The benefit they were granted stops with them: the finance engine reads
+    // an income term's recipient each payday and the household no longer holds
+    // them.
+    endRecipientIncomeAtDeath(core, personId);
     const home = core.households.get(kept.householdId);
     if (home?.memberIds.includes(personId))
       core.households.set(home.id, {

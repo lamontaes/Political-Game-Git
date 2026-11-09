@@ -286,7 +286,7 @@ interface DrivesRuntime {
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
   predicted: Map<PersonId, PredictedChoice>;
-  /** Canonical donation records the cash journal resolves through this module's provider. */
+  /** Canonical donation records the cash journal resolves through this module's provider: in play only while the entry posts. */
   donations: Map<string, DonationRecord>;
 }
 
@@ -1584,13 +1584,21 @@ function payDonation(
     },
     marker: {},
   });
-  api.postJournal({
-    id: `journal:${state.date}:${journal.nextSequence}`,
-    date: state.date,
-    expectedSequence: journal.nextSequence,
-    sourceRef: { kind: data.donationJournalSourceKind, id },
-    postings,
-  });
+  try {
+    api.postJournal({
+      id: `journal:${state.date}:${journal.nextSequence}`,
+      date: state.date,
+      expectedSequence: journal.nextSequence,
+      sourceRef: { kind: data.donationJournalSourceKind, id },
+      postings,
+    });
+  } finally {
+    // The journal reads the canonical record only while the entry posts (as
+    // the accounts engine's pending transfers); kept for every gift it was
+    // 68 MB of a long run's heap (Montpelier, Vermont, year 4: 22,062
+    // records). With bookkeeping on, tests and proofs keep every one.
+    if (!bookkeeping()) runtimeFor(api.state).donations.delete(id);
+  }
   return amount;
 }
 
