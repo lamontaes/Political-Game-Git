@@ -1130,7 +1130,7 @@
       "replies": ["ask", "blame", "accept", "deflect", "lie"],
       "follow": {
         "ask": ["answer"],
-        "blame": ["promise"],
+        "blame": ["promise", "apologize"],
         "accept": ["offer"],
         "deflect": ["press"],
         "agree": ["thank"],
@@ -1141,6 +1141,7 @@
       "again": {
         "answer": ["ask", "blame", "accept", "leave"],
         "promise": ["thank", "accept", "leave"],
+        "apologize": ["accept", "promise", "leave"],
         "offer": ["agree", "refuse", "stall", "leave"],
         "press": ["accept", "ask", "leave"]
       },

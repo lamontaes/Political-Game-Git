@@ -1,6 +1,32 @@
 {
   "entries": [
     {
+      "version": "0.98.0",
+      "releasedOn": "2026-11-09",
+      "revision": "4f89a1de28949a301cc08ff965b638715f68170a",
+      "changeIds": [
+        "ad-viewers-as-groups",
+        "address-kind-pull-stopgap",
+        "ask-vote-variants",
+        "failed-bill-dont-apologize",
+        "golden-path-climate-unopened",
+        "golden-path-m2-05-laws",
+        "local-address-test-responsive-speaker",
+        "memory-demoted-knowledge",
+        "memory-donation-records",
+        "memory-medical-bill-rows",
+        "memory-transfer-ids",
+        "news-topic-not-outlet",
+        "poll-frame-kept-for-the-day",
+        "pool-items-rules-and-text",
+        "press-comment-variants",
+        "register-duplicate-keys-guard",
+        "skills-variant-probes",
+        "speech-hearers-as-groups",
+        "words-voice-note-reader"
+      ]
+    },
+    {
       "version": "0.97.0",
       "releasedOn": "2026-11-09",
       "revision": "dfe9a51007a653dd1bee51cd55e7cb68ef2eebd1",
