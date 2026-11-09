@@ -37,7 +37,6 @@ import {
 } from "../state";
 import { drawnAdult } from "./counted-moves";
 import { admitCountedHousehold } from "./residents";
-import type { ResidentHouseholdRecord } from "../residents";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain } from "./laws";
@@ -611,7 +610,7 @@ function seatCabinetPerson(
   input: {
     readonly state: string;
     readonly spec: PostSpec;
-    readonly record: ResidentHouseholdRecord;
+    readonly record: NonNullable<ReturnType<typeof drawnAdult>>;
     readonly round: string;
     readonly appointmentId: string;
     readonly posts: readonly PostSpec[];
