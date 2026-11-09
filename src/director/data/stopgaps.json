@@ -824,5 +824,41 @@
     "addedAt": "2026-11-09",
     "replacement": "A plans or needs record per person (a move coming, a child to pick up) that the ask reads, so the favor named is the one the records give.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-reunion-ask-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "What the one who comes back wants from the player (to make up after a falling-out, to ask for a work lead, to tell news, to ask for a visit) is worded for every reunion; nothing on a record says this person wants a lead or a visit. How long they were away, where they live and what changed in their life are from records.",
+    "why": "No engine keeps what a person wants from someone they have not seen in years; the ask is the purpose itself, so its lines name only things any returning friend or relative might ask, and lines about a falling-out play only when the pair's thread kept a soured turn.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A wants record per person (work sought, a quarrel to mend, news to tell) that the reunion reads, so the ask is the one the records give.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-letter-ask-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "The ask in a relative's letter (to come visit, to write or call, to hear their news) is worded for every letter; the `family.contact` record holds only who wrote and how close the two are. Where they live, what changed in their life since their last letter, a birthday they missed at the reader's table and their own birthday coming are from records.",
+    "why": "The kin-contact engine writes a contact with no topic; nothing keeps what a relative wants to say, so the ask is the purpose and its lines name only things any relative might ask.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A topic on the contact record (a visit planned, news to share, a favor) drawn from the writer's own life records, so the letter asks what the records give.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-reunion-letter-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "What the player agrees to or promises in a reunion (to meet again, to look out for work, to mend things) or in a letter (to visit, to write back) is written on the reply record as a promise; no engine makes the visit, the meeting or the next letter beyond the contact hours every reply writes.",
+    "why": "The people engine's owed-talk record and a planned visit do not exist yet; no hook reads a scene.reply of typeKey reunion or letter.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types and brings the two together on the day, and kin contact that rises after a kept visit.",
+    "status": "open"
   }
 ]
