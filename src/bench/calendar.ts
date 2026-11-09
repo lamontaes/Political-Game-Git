@@ -29,9 +29,8 @@ export interface CalendarItem {
   recordIds: string[];
 }
 
-/** The levels of the town's own governments, and the kinds of office that are bodies that meet. */
+/** The levels of the town's own governments. */
 const LOCAL_LEVELS: readonly string[] = ["city", "township", "county"];
-const BODY_KINDS: readonly string[] = ["council", "board"];
 
 const ICON_KINDS = [
   "filing-opens",
@@ -178,15 +177,16 @@ export function calendarItems(
   for (const { office } of townSeats(api)) {
     // The town's and county's own councils and boards, not the state's offices
     // that happen to cover the town.
-    if (
-      bodies.has(office.id) ||
-      !LOCAL_LEVELS.includes(office.level) ||
-      !BODY_KINDS.includes(office.kind)
-    )
-      continue;
-    const sitting = nextSittingOf(api, office.id);
-    if (sitting && inWindow(sitting.date))
-      bodies.set(office.id, { title: office.kind, date: sitting.date });
+    if (bodies.has(office.id) || !LOCAL_LEVELS.includes(office.level)) continue;
+    // A seat belongs to a body that meets when the legislature's records name one
+    // (a council, a township board, a county board: the kind names differ by place).
+    const body = bodyOf(api, office.id);
+    const sitting = body ? nextSittingOf(api, office.id) : null;
+    if (body && sitting && inWindow(sitting.date))
+      bodies.set(office.id, {
+        title: body.bodyName ?? body.kind,
+        date: sitting.date,
+      });
   }
   // The bodies the person sits on, at any level (a legislature, Congress): the next day each sits.
   for (const officeId of officeHost.officesOf(api, personId)) {

@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch */
 // The bill at the state legislature (legislation mocks, Nov 8): dev mode introduces a bill in a
 // state chamber and passes it at a margin; the Bills tab lists it and its paper shows the result by
 // name. (Adapted from bill-stage.browser.mjs, whose head drafts a bill from Your office instead.) The
@@ -171,9 +171,17 @@ try {
     .getByRole("button", { name: "Read the bill" })
     .first()
     .waitFor();
+  // Two chambers can each have an "SB 2" with the same title: the bill is found by its place in the
+  // list the Bills tab draws, which is the order the server follows them in.
+  const place = await page.evaluate(async (id) => {
+    const list = await (await fetch("/api/bills/following")).json();
+    return list.findIndex((item) => item.id === id);
+  }, result.billId);
+  assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
   await page
-    .locator("#sheet-body .sec", { hasText: `${result.number} ·` })
+    .locator("#sheet-body")
     .getByRole("button", { name: "Read the bill" })
+    .nth(place)
     .click();
   // The veto message waits for the player's own vote on overriding it.
   await page.getByText("Override the veto", { exact: true }).waitFor();

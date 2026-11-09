@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch */
 // The bill at the state legislature (legislation mocks, Nov 8): dev mode introduces a bill in a
 // state chamber and passes it at a margin; the Bills tab lists it and its paper shows the result by
 // name. (Adapted from bill-stage.browser.mjs, whose head drafts a bill from Your office instead.) The
@@ -98,22 +98,41 @@ try {
       return { status: r.status, value: await r.json() };
     };
     const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
-    const chamber = bodies.find(
+    const chambers = bodies.filter(
       (b) => b.level === "state" && b.members.length > 0,
     );
-    if (!chamber) return { error: "no state chamber" };
-    const sponsor = chamber.members[0].key;
-    const intro = await post("introduce", {
-      bodyOfficeId: chamber.id,
-      sponsorId: sponsor,
-      series: "minimum-wage",
-      value: 1700,
-      unit: "minor/hour",
-    });
-    if (intro.status !== 200) return { error: JSON.stringify(intro.value) };
-    const billId = intro.value.mark?.facts?.billId ?? intro.value.billId;
-    const decided = await post("decide", { billId, margin: 6 });
-    return { chamber: chamber.name, billId, status: decided.status };
+    if (!chambers.length) return { error: "no state chamber" };
+    // A chamber's committee can hold a bill before the floor: try questions and chambers until one
+    // reaches a floor vote (the paper then has a roll to show), as the override check does.
+    const laws = await (await fetch("/api/dev/laws")).json();
+    const series = laws.series.filter(
+      (row) => typeof row.combined === "number" && row.combined > 0,
+    );
+    const tried = [];
+    for (let i = 0; i < 40; i += 1) {
+      const chamber = chambers[i % chambers.length];
+      const row = series[i % series.length];
+      const intro = await post("introduce", {
+        bodyOfficeId: chamber.id,
+        sponsorId: chamber.members[(i * 7) % chamber.members.length].key,
+        series: row.series,
+        value: Math.round(row.combined * 120) / 100,
+        unit: row.levels.find((l) => l.row)?.row.unit,
+      });
+      if (intro.status !== 200) {
+        tried.push(`introduce ${intro.status}`);
+        continue;
+      }
+      const billId = intro.value.mark?.facts?.billId ?? intro.value.billId;
+      const decided = await post("decide", { billId, margin: 6 });
+      const stage = await (
+        await fetch(`/api/bill/stage?billId=${encodeURIComponent(billId)}`)
+      ).json();
+      tried.push(`${chamber.name} ${stage.status} floor ${stage.floor.length}`);
+      if (stage.floor.length)
+        return { chamber: chamber.name, billId, status: decided.status };
+    }
+    return { error: `no bill reached a floor vote: ${tried.join("; ")}` };
   });
   console.log("dev mode:", result);
   assert.ok(!result.error, `dev mode introduced and decided: ${result.error}`);
@@ -132,10 +151,17 @@ try {
   );
   console.log("bills:", listed.slice(0, 3));
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/bills-state.png` });
+  // Two chambers can each have an "SB 2" with the same title: the bill is found by its place in the
+  // list the Bills tab draws, which is the order the server follows them in.
+  const place = await page.evaluate(async (id) => {
+    const list = await (await fetch("/api/bills/following")).json();
+    return list.findIndex((item) => item.id === id);
+  }, result.billId);
+  assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
   await page
     .locator("#sheet-body")
     .getByRole("button", { name: "Read the bill" })
-    .first()
+    .nth(place)
     .click();
   await page.locator(".stage-chamber").first().waitFor();
   const floor = await page.evaluate(() =>

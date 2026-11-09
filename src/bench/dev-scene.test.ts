@@ -106,14 +106,12 @@ describe(`dev scenes: ${where}`, () => {
         "new-baby",
         "cause-invite",
       ];
-      const none = [
-        "return",
-        "apology",
-        "rescue",
-        "accusation",
-        "advice",
-        "polling-place",
-      ];
+      // Five kinds had no cause when this was written; their producers landed (return, apology,
+      // rescue, accusation, advice), so each is now run until its record names the player.
+      const now = ["return", "apology", "rescue", "accusation", "advice"];
+      const none = ["polling-place"];
+      for (const key of now)
+        expect(row(key).recipe, `${where}: ${key} has a way in`).not.toBeNull();
       for (const key of missed)
         expect(row(key).recipe, `${where}: ${key} has a way in`).not.toBeNull();
       for (const key of none)
@@ -131,6 +129,79 @@ describe(`dev scenes: ${where}`, () => {
       const care = dev2.forceScene({ typeKey: "care" });
       expect(care.personId, where).toBe(world2.core.playerId);
       process.stderr.write(`${where}: ${ways}; ${ran.join("; ")}\n`);
+    },
+  );
+
+  it(
+    "casts a forced funeral: who it is for, who is mourned and where, from the director's own records",
+    { timeout: 280_000 },
+    () => {
+      const world3 = buildBenchWorld(seed, gameStartDate(), { twoLevel: true });
+      const player3 = new BenchPlayer(world3.core, world3.director);
+      const dev3 = new DevMode(
+        world3.core,
+        world3.director,
+        player3,
+        world3.placeId,
+      );
+      // The director tells the story of the people it watches: the player and their household.
+      const playerId = world3.core.playerId!;
+      player3.select(playerId);
+      dev3.advance(addDays(makeIsoDate(world3.core.date), 1));
+      const cast = dev3.sceneCast("funeral");
+      expect(
+        cast.for.map((row) => row.id),
+        where,
+      ).toContain(playerId);
+      const mourned = cast.mourned?.[playerId] ?? [];
+      expect(mourned.length, `${where}: someone to mourn`).toBeGreaterThan(0);
+      // Every pick is a person the director has on record; the kinds of place are the type's own.
+      for (const row of mourned)
+        expect(world3.core.people.get(row.id as never)?.alive, where).toBe(
+          true,
+        );
+      expect(cast.where, where).toEqual(["venue"]);
+      // A kind with no mourned person has none to pick; a place the type cannot be set at is refused.
+      expect(dev3.sceneCast("care").mourned, where).toBeNull();
+      expect(
+        () => dev3.forceScene({ typeKey: "funeral", where: "nowhere" }),
+        where,
+      ).toThrow(/cannot be set there/);
+      // The one mourned is the one the health module's illness takes, heard by the one it is for.
+      const pick = mourned[0]!;
+      const out = dev3.forceScene({
+        typeKey: "funeral",
+        forId: playerId,
+        mournedId: pick.id,
+        where: "venue",
+      });
+      expect(out.personId, where).toBe(pick.id);
+      dev3.advance(addDays(makeIsoDate(world3.core.date), 2));
+      expect(
+        [...world3.core.durableLog.values()].some(
+          (row) =>
+            row.personIds.includes(pick.id as never) &&
+            /illness|onset/i.test(row.kind),
+        ),
+        `${where}: the mourned person's illness is on the record`,
+      ).toBe(true);
+      // Someone the player does not know cannot be mourned for them.
+      const stranger = [...world3.core.people.values()].find(
+        (row) =>
+          row.alive &&
+          row.id !== playerId &&
+          !world3.core.people.get(playerId)!.knownIds.has(row.id) &&
+          !world3.core.people.get(playerId)!.familyIds.has(row.id),
+      )!;
+      expect(
+        () =>
+          dev3.forceScene({
+            typeKey: "funeral",
+            forId: playerId,
+            mournedId: stranger.id,
+          }),
+        where,
+      ).toThrow(/would not hear of it/);
     },
   );
 });

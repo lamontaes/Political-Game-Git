@@ -323,6 +323,10 @@
   "devScene": {
     "title": "Scenes",
     "make": "Make it happen",
+    "forPicker": "For",
+    "mourning": "Mourning",
+    "where": "Where",
+    "any": "Any",
     "begun": "Begun for",
     "reasons": {
       "days": "Days passed",
@@ -973,7 +977,20 @@
     "empty": "Nothing is written here yet."
   },
   "metrics": {
+    "state": "Your state",
+    "jobs": "Jobs",
     "city": "Your town",
+    "housing": "Homes",
+    "rentals": "Rental homes",
+    "vacant": "Rentals standing empty",
+    "rent": "Typical monthly rent",
+    "homeValue": "Typical home value",
+    "evictions": "Evictions",
+    "benefits": "Help for the unemployed",
+    "claims": "People claiming now",
+    "budget": "The town's books",
+    "revenue": "Coming in",
+    "spending": "Going out",
     "employed": "People at work",
     "seekers": "People looking for work",
     "openPositions": "Jobs open",

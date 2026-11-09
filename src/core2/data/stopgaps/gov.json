@@ -1496,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1508,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2186,18 +2186,6 @@
     "status": "open"
   },
   {
-    "id": "SG-EXECUTIVE-administrator-appoints",
-    "kind": "partial-model",
-    "file": "src/core2/modules/executive.ts",
-    "line": 240,
-    "whatItFakes": "In a county whose board hires an administrator who appoints the department heads (research: council-administrator form), the board's seat holder stands in as the appointer of the heads the administrator would pick, so their reasons (loyalty against merit, lean, acquaintance) are the board member's, not the administrator's.",
-    "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
-    "addedBy": "Legislation (town heads for county-run places)",
-    "addedAt": "2026-11-08",
-    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-REACH-B-child-care-enrollment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -2243,6 +2231,18 @@
     "addedBy": "Money",
     "addedAt": "2026-11-09",
     "replacement": "The legislature votes each line from the revenue it collected, with its priorities and the law's rainy-day cap (gov-budget-spending-voted-from-revenue).",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-municipal-mix",
+    "kind": "assumed-data",
+    "file": "scripts/research/export-public-budget-bases.py",
+    "line": 0,
+    "whatItFakes": "A Puerto Rico municipio's budget takes the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line (the island's mix), scaled to the municipio's own approved total over its own residents (OGP, all 78), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; each municipio's own revenue lines, spending by function and federal grants are not read; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
+    "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
     "status": "open"
   }
 ]

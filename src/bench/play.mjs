@@ -767,11 +767,9 @@ function inMeeting() {
     };
     const finish = () => {
       show("meeting", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     $("meeting-adjourn").textContent = words.adjourn ?? "";
-    $("game").classList.add("cinema");
     show("meeting", true);
     api("/api/meeting").then(draw);
   });
@@ -1072,7 +1070,6 @@ function electionMorning(scene) {
       );
     const finish = () => {
       show("election-day", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     const ask = (day) => {
@@ -1133,7 +1130,6 @@ function electionMorning(scene) {
           [labels.skipCanvass, () => ask(day)],
         );
       else ask(day);
-      $("game").classList.add("cinema");
       show("election-day", true);
     });
   });
@@ -1176,13 +1172,11 @@ function electionNight(night) {
               `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
             );
             show("returns", false);
-            $("game").classList.remove("cinema");
             resolve();
           },
         }),
       );
     };
-    $("game").classList.add("cinema");
     draw();
     show("returns", true);
   });
@@ -1237,10 +1231,8 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
-    $("game").classList.add("cinema");
     draw(scene);
     show("ballot", true);
   });
@@ -3452,9 +3444,11 @@ const sheets = {
     const figure = (row, value) =>
       row.unit === "dollars"
         ? roundedMoney(Math.round(value * 100))
-        : row.unit === "count"
-          ? Math.round(value).toLocaleString("en-US")
-          : `${value.toFixed(1)} ${words.percent}`;
+        : row.unit === "money"
+          ? roundedMoney(Math.round(value))
+          : row.unit === "count"
+            ? Math.round(value).toLocaleString("en-US")
+            : `${value.toFixed(1)} ${words.percent}`;
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
@@ -3474,12 +3468,15 @@ const sheets = {
             figure(row, row.now),
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
     );
-    return [stripBoard({ columns: [sections] })];
+    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
+    const columns = [[], [], []];
+    sections.forEach((section, at) => columns[at % 3].push(section));
+    return [stripBoard({ columns: columns.filter((c) => c.length) })];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -3580,7 +3577,8 @@ const sheets = {
       minor === undefined
         ? []
         : [typedRow(words.lastYear, roundedMoney(minor))];
-    const stepButtons = steps(opened).map((step) => {
+    // A government whose books list no spending line has no department to open (opened is undefined).
+    const stepButtons = (opened ? steps(opened) : []).map((step) => {
       const button = makeButton({
         className: "action small",
         textContent: step.glyph,
@@ -3613,7 +3611,7 @@ const sheets = {
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
                     head: r.head,
-                    selected: r.line === opened.line,
+                    selected: r.line === opened?.line,
                     onSelect: () => {
                       budgetLine = r.line;
                       void openSheet("budgets");
@@ -3629,20 +3627,27 @@ const sheets = {
               }),
             ),
           ],
-          [
-            stripSection(
-              2,
-              opened.name ?? opened.line,
-              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
-              ...lastYear(lastOf(prior?.spending, opened.line)),
-              ...sinceLast(opened),
-              ...history(opened),
-              ...(opened.askedMinor !== undefined
-                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
-                : []),
-              ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
-            ),
-          ],
+          ...(opened
+            ? [
+                [
+                  stripSection(
+                    2,
+                    opened.name ?? opened.line,
+                    typedRow(
+                      opened.name ?? opened.line,
+                      roundedMoney(opened.minor),
+                    ),
+                    ...lastYear(lastOf(prior?.spending, opened.line)),
+                    ...sinceLast(opened),
+                    ...history(opened),
+                    ...(opened.askedMinor !== undefined
+                      ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                      : []),
+                    ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+                  ),
+                ],
+              ]
+            : []),
           [
             stripSection(
               3,
@@ -3732,6 +3737,7 @@ const sheets = {
         ? [
             await devScenePanel({
               labels: controls.devScene,
+              wordOf: keyWords,
               onDone: () => refresh(),
             }),
           ]

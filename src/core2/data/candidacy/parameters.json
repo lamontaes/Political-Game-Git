@@ -93,9 +93,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyOpenSeatWeight": {
-    "value": 0.5,
+    "value": 0.7,
     "tag": "TUNABLE",
-    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
+    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Raised from 0.5 to 0.7 (inside its spread; 1 put 51 of 1,038 Oneonta adults in one open seat, past the 2% crowding limit of M2-04) on Nov 9, 2026 after an ask-why by record: at Peapack and Gladstone NJ (seed o2, 2 years) the county seats whose holder stood down drew 1.0 filer each against 2.17 for held seats, the reverse of the research; their strongest stayers pulled 1.8 to 2.6 with standing 0.1, reach -0.5 and field -0.5 to -1.0, and only 0.5 of openSeat. Checked as a direction (an open seat draws no fewer than the same office held), not a count. Spread 0.5 to 1.5.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {
@@ -261,6 +261,7 @@
   },
   "candidacyPartyRoleWeight": {
     "value": 1.5,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Weight on how active a person is in a party (0 to 1) in the pull toward running for a seat near them. Party activists, committee members and precinct workers are the pool local candidates come from: people recruited through party and civic networks run far more than those outside them (Lawless and Fox 2010, It Still Takes a Candidate; Maisel and Stone 1997 on potential candidates' political involvement). Checked, not steered, against the uncontested share of county seats.",
     "estimatedFrom": "Lawless and Fox 2010 and Maisel and Stone 1997 on how political involvement predicts considering a run; spread 0.5 to 3",
@@ -268,6 +269,7 @@
   },
   "candidacyOwnerRoleWeight": {
     "value": 0.8,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Pull toward running for a local seat for a person who owns an employer in the place: owners have a stake in local rules (permits, taxes), more standing, and flexible time (Lawless and Fox 2010 on business owners among potential candidates; local officials are disproportionately business owners and professionals, Hajnal and Trounstine 2014). Checked, not steered. Spread 0.3 to 1.5.",
     "estimatedFrom": "Lawless and Fox 2010; Hajnal and Trounstine 2014; spread 0.3 to 1.5",
@@ -275,9 +277,33 @@
   },
   "candidacyCivicRoleWeight": {
     "value": 1.0,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Pull toward running for a person who holds a civic role (a board, a party committee, a group's office), capped at one role's worth: people already serving on local boards and committees are the main pipeline to elected local office. Checked, not steered. Spread 0.5 to 2.",
     "estimatedFrom": "Lawless and Fox 2010 on community-organization leaders among potential candidates; spread 0.5 to 2",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyDependentsWeight": {
+    "value": 0.6,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Most a household's children take from the pull toward running: people with children at home are less likely to consider running, mothers especially, because of the second shift of care work (Lawless and Fox 2010, ch. 4; Fulton and others 2006). The cost grows with each child and flattens (candidacyDependentsHalf is the number of children at half the maximum). Checked, not steered. Spread 0.2 to 1.2.",
+    "estimatedFrom": "Lawless and Fox 2010; Fulton and others 2006 on family responsibilities and political ambition; spread 0.2 to 1.2",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyDependentsHalf": {
+    "value": 2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "The number of children at home at which the family cost reaches half its maximum; a sliding curve, not a cutoff. Spread 1 to 4.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyJobRiskWeight": {
+    "value": 0.5,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Most a run can cost a person with a job and thin savings: a campaign costs time away from work and, for an employee, a risk to the job and pay that cash on hand (the runway of living costs, candidacyMeansRunwayDays) softens. Occupational flexibility and financial cushion shape who can afford to run (Carnes 2018, White-Collar Government; Lawless and Fox 2010 on time and money). Checked, not steered. Spread 0.2 to 1.",
+    "estimatedFrom": "Carnes 2018 and Lawless and Fox 2010 on who can afford to run; spread 0.2 to 1",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }
