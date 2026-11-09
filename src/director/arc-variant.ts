@@ -458,6 +458,9 @@ function readOf(
         core,
         spec.against === "asker-year" ? input.askerId : input.askedId,
       );
+      // No year of living costs on record reads as nothing, never as a gift
+      // that dwarfs a year of zero.
+      if (year <= P.zero) return P.zero;
       return clamp(value / (value + year * (spec.of?.value ?? P.one) + P.one));
     }
     if (spec.scale) return clamp(value / (value + spec.scale.value));

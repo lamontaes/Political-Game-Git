@@ -1248,11 +1248,6 @@
             {
               "read": "close",
               "weight": 0.9
-            },
-            {
-              "read": "town-against",
-              "weight": 0.2,
-              "low": true
             }
           ],
           "pull": [
@@ -1454,7 +1449,7 @@
             },
             {
               "read": "exposed-before",
-              "weight": 1.0
+              "weight": 1.6
             }
           ],
           "pull": [
