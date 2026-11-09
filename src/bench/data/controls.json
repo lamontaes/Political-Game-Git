@@ -325,13 +325,11 @@
     "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
-    "waits": "Runs the world until it happens",
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
       "cap": "Cap reached"
-    },
-    "noPath": "No engine writes its cause yet"
+    }
   },
   "devPerson": {
     "title": "Health",
@@ -557,7 +555,10 @@
     "whatICanDo": "What I can do there"
   },
   "time": {
-    "week": "Week"
+    "hour": "Hour",
+    "day": "Day",
+    "week": "Week",
+    "continue": "Continue"
   },
   "calendar": {
     "previousMonth": "Previous month",
@@ -589,7 +590,8 @@
     "liberal": "Liberal",
     "moderate": "Moderate",
     "conservative": "Conservative",
-    "veryConservative": "Very conservative"
+    "veryConservative": "Very conservative",
+    "notSure": "Not sure yet"
   },
   "who": {
     "age": "Age",
@@ -934,6 +936,24 @@
     "title": "My story",
     "empty": "Nothing is written here yet."
   },
+  "metrics": {
+    "city": "Your town",
+    "employed": "People at work",
+    "seekers": "People looking for work",
+    "openPositions": "Jobs open",
+    "nation": "The country",
+    "unemployment": "Unemployment",
+    "inflation": "Price growth",
+    "pay": "Average hourly pay",
+    "mortgage": "30-year mortgage rate",
+    "policyRate": "The central bank's rate",
+    "percent": "%",
+    "lastYear": "Last year",
+    "up": "up",
+    "down": "down",
+    "same": "no change",
+    "since": "since last year"
+  },
   "titles": {
     "people": "People",
     "who": "You",
@@ -948,6 +968,7 @@
     "issues": "Issues",
     "calendar": "Calendar",
     "budgets": "Budgets",
+    "metrics": "Metrics",
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",

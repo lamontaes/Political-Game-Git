@@ -64,6 +64,9 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+// A views label (the views engine's key, "veryLiberal") in the player's words (controls.leanWords).
+const leanWord = (label) =>
+  controls.leanWords?.[label === "not-sure" ? "notSure" : label] ?? "";
 import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
@@ -520,14 +523,17 @@ const controlsReady = api("/api/controls").then((value) => {
       el.dataset.label
         .split(".")
         .reduce((node, key) => node?.[key], controls) ?? "";
+  $("hour").textContent = controls.time?.hour ?? "";
   $("week").textContent = controls.time?.week ?? "";
+  $("day").textContent = controls.time?.day ?? "";
+  $("continue").textContent = controls.time?.continue ?? "";
   return value;
 });
 
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
-  $("day").disabled = $("week").disabled = busy || open;
+  $("hour").disabled = $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
 }
@@ -1241,6 +1247,13 @@ for (const mode of ["day", "week"])
     hideNewsToast();
     return act(`/api/advance?mode=${mode}`);
   });
+// Hour lets an hour go by where the player stands (the clock's own wait, /api/wait):
+// the people at a place are those there at that hour, so waiting is how a player
+// lets the shift change. A scene the director fires stops it there, as with Day.
+$("hour").addEventListener("click", () => {
+  hideNewsToast();
+  return act("/api/wait?hours=1");
+});
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 // The first count a life is opened with is already read: a reload starts with
 // nothing unread, and only what arrives after it lights the dot (P12).
@@ -2316,11 +2329,7 @@ async function personCardNode(
           stripSection(
             2,
             controls.who.views,
-            introText(
-              c.view
-                ? c.view.charAt(0).toUpperCase() + c.view.slice(1)
-                : controls.who.viewUnknown,
-            ),
+            introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
           ),
         ]
       : []),
@@ -3115,13 +3124,7 @@ const sheets = {
               : []),
             // Where the player places themselves politically: the views engine's own label.
             ...(c.view
-              ? [
-                  stripSection(
-                    2,
-                    labels.views,
-                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
-                  ),
-                ]
+              ? [stripSection(2, labels.views, introText(leanWord(c.view)))]
               : []),
             ...(c.traitLines?.length
               ? [
@@ -3373,6 +3376,43 @@ const sheets = {
       ],
     });
   },
+  // How the place is doing (owner, Nov 5, ruling 23: "Keep it, call it Metrics"): plain numbers,
+  // this year beside last, no charts. Every figure is the record's; the words are control names.
+  async metrics() {
+    const view = await api("/api/metrics");
+    const words = controls.metrics;
+    const figure = (row, value) =>
+      row.unit === "dollars"
+        ? roundedMoney(Math.round(value * 100))
+        : row.unit === "count"
+          ? Math.round(value).toLocaleString("en-US")
+          : `${value.toFixed(1)} ${words.percent}`;
+    const sections = view.sections.map((section, at) =>
+      stripSection(
+        at + 1,
+        words[section.key],
+        ...section.rows.map((row) => {
+          const moved = row.before === null ? null : row.now - row.before;
+          const direction =
+            moved === null
+              ? ""
+              : Math.abs(moved) < 0.05
+                ? words.same
+                : moved > 0
+                  ? words.up
+                  : words.down;
+          return typedRow(
+            words[row.key],
+            figure(row, row.now),
+            row.before === null
+              ? ""
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+          );
+        }),
+      ),
+    );
+    return [stripBoard({ columns: [sections] })];
+  },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
@@ -3579,13 +3619,10 @@ const sheets = {
                   stripSection(
                     5,
                     words.whoWrote,
+                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
+                    // Screens words it from the record with the Budgets labels.
                     introText(
-                      [
-                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                        latest.adoptedBy,
-                      ]
-                        .filter(Boolean)
-                        .join(", "),
+                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
                     ),
                   ),
                 ]
@@ -5000,6 +5037,7 @@ const groups = {
     "issues",
     "bills",
     "budgets",
+    "metrics",
   ],
   who: ["who", "jobs", "history"],
 };
@@ -5064,6 +5102,7 @@ async function openSheet(tab) {
     "strip-sheet",
     tab === "who" ||
       tab === "budgets" ||
+      tab === "metrics" ||
       tab === "journal" ||
       tab === "money" ||
       tab === "campaign" ||
