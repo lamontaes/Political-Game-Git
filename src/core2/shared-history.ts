@@ -134,7 +134,8 @@ export function workgroupOf(
 /**
  * An employer's workgroups: its staff split into groups by the same seeded
  * draw `workgroupOf` reads (each person's group is a function of the world's
- * seed, the employer and their id), each group sorted by id. Read once per
+ * seed, the employer and their id; a power of two groups, each splitting in
+ * two as the staff doubles), each group sorted by id. Read once per
  * employer by anything that credits the time a workgroup spends together.
  */
 export function workgroupsAt(
@@ -147,10 +148,17 @@ export function workgroupsAt(
     .filter((row) => !row.endsAt && core.people.has(row.personId))
     .map((row) => row.personId);
   const staff = [...new Set(listed)];
-  const groups = Math.max(
-    p("one"),
-    Math.ceil(listed.length / p("openingCoworkerGroupSize")),
-  );
+  // The number of groups doubles as the staff doubles, so a group splits in
+  // two and nobody is moved to a stranger's group when one person joins or
+  // leaves (a count that moved with every eighth hire would reshuffle who
+  // works beside whom).
+  const groups =
+    p("two") **
+    Math.ceil(
+      Math.log2(
+        Math.max(p("one"), listed.length / p("openingCoworkerGroupSize")),
+      ),
+    );
   const group = (id: PersonId) =>
     Number.parseInt(
       stableHash(JSON.stringify([core.seed, organizationId, id])).slice(
