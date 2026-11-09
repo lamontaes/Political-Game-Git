@@ -194,7 +194,8 @@ function wordsOf(
       : old != null && p.value < old;
     // The value the law had, in its own unit when the record gives one.
     const slots = {
-      value: valueWords(p.value, p.unit),
+      // A section that names no unit takes the law row's, never a default percent.
+      value: valueWords(p.value, p.unit ?? was?.unit ?? undefined),
       before: old != null ? valueWords(old, was?.unit ?? p.unit) : "",
     };
     const words =
