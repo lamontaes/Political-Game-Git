@@ -19,6 +19,17 @@ import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
 import type { BenchPlayer } from "./player";
 
+/** The per-member votes a dev call names ({ memberKey: "yes" | "no" | "abstain" }); anything else is left out. */
+function memberVotes(
+  raw: unknown,
+): Record<string, "yes" | "no" | "abstain"> | undefined {
+  if (!raw || typeof raw !== "object") return undefined;
+  const out: Record<string, "yes" | "no" | "abstain"> = {};
+  for (const [key, cast] of Object.entries(raw))
+    if (cast === "yes" || cast === "no" || cast === "abstain") out[key] = cast;
+  return Object.keys(out).length ? out : undefined;
+}
+
 export interface DevWorld {
   core?: CoreState;
   director?: Director;
@@ -225,10 +236,12 @@ export async function handleDev(
         200,
         mode.introduce({
           bodyOfficeId: String(input.bodyOfficeId),
-          sponsorId: String(input.sponsorId),
-          series: String(input.series),
-          value: Number(input.value),
+          sponsorId:
+            input.sponsorId === undefined ? undefined : String(input.sponsorId),
+          series: input.series === undefined ? undefined : String(input.series),
+          value: input.value === undefined ? undefined : Number(input.value),
           unit: input.unit === undefined ? undefined : String(input.unit),
+          billId: input.billId === undefined ? undefined : String(input.billId),
         }),
       );
       return true;
@@ -305,15 +318,20 @@ export async function handleDev(
       const input = await body(request);
       send(
         200,
-        mode.decideAt(String(input.billId), Number(input.margin), {
-          sign: typeof input.sign === "boolean" ? input.sign : undefined,
-          discharge: input.discharge === true,
-          chairHears: input.chairHears === true,
-          overrideMargin:
-            input.overrideMargin === undefined
-              ? undefined
-              : Number(input.overrideMargin),
-        }),
+        mode.decideAt(
+          String(input.billId),
+          input.margin === undefined ? undefined : Number(input.margin),
+          {
+            votes: memberVotes(input.votes),
+            sign: typeof input.sign === "boolean" ? input.sign : undefined,
+            discharge: input.discharge === true,
+            chairHears: input.chairHears === true,
+            overrideMargin:
+              input.overrideMargin === undefined
+                ? undefined
+                : Number(input.overrideMargin),
+          },
+        ),
       );
       return true;
     }
