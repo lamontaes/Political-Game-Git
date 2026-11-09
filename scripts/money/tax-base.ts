@@ -31,3 +31,30 @@ for (let y = 1; y <= years; y++) {
     `year ${y} (${2025 + y}): ${inYear.length} installments, base index min ${Math.min(...idx).toFixed(4)} max ${Math.max(...idx).toFixed(4)}, installments total ${inYear.reduce((n, r) => n + r.installmentMinor, 0)}`,
   );
 }
+
+const api2: any = coreAPI(world.core);
+const all = api2
+  .moduleState("core2-budgets-v1")
+  .table("taxPayments")
+  .rows() as any[];
+console.log(
+  "Installments in dollars (minor units over 100), by government, line, payer and date, first and last year:",
+);
+for (const r of all
+  .filter(
+    (x) =>
+      String(x.date).startsWith("2026") ||
+      String(x.date).startsWith(String(2025 + years)),
+  )
+  .sort((a, b) => String(a.date).localeCompare(String(b.date)))
+  .filter((x) => x.line === "corporateIncomeTax" || x.line === "exciseTaxes"))
+  console.log(
+    String(r.date),
+    String(r.governmentId).slice(0, 22).padEnd(22),
+    String(r.line).padEnd(20),
+    String(r.payerName).padEnd(32),
+    "installment $",
+    Math.round(r.installmentMinor / 100),
+    "base index",
+    Number(r.baseIndex ?? 1).toFixed(4),
+  );
