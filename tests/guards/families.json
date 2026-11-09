@@ -85,7 +85,8 @@
       "name": "Legislative bodies",
       "entry": [
         "src/core2/modules/legislature.ts",
-        "src/core2/modules/meetings.ts"
+        "src/core2/modules/meetings.ts",
+        "src/core2/modules/world-panels.ts"
       ],
       "paths": [
         "src/core2/modules/legislature.ts",
@@ -109,7 +110,8 @@
         "src/core2/modules/offices.ts",
         "src/core2/modules/officials.ts",
         "src/core2/modules/office-day.ts",
-        "src/core2/modules/president-acts.ts"
+        "src/core2/modules/president-acts.ts",
+        "src/core2/government-jurisdictions.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -265,7 +267,9 @@
         "src/core2/trait-decision-table.ts",
         "src/core2/modules/views.ts",
         "src/core2/household-cost.ts",
-        "src/core2/husk-promoters.ts"
+        "src/core2/husk-promoters.ts",
+        "src/core2/closeness.ts",
+        "src/core2/trait-decisions.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -401,7 +405,11 @@
     {
       "id": "news",
       "name": "News and the press",
-      "entry": ["src/core2/modules/news.ts", "src/core2/modules/press.ts"],
+      "entry": [
+        "src/core2/modules/news.ts",
+        "src/core2/modules/press.ts",
+        "src/core2/modules/news-listeners.ts"
+      ],
       "paths": [
         "src/core2/modules/news.ts",
         "src/core2/modules/press.ts",

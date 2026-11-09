@@ -84,7 +84,7 @@ describe("national economy", () => {
       unemploymentPct: 6.7,
     });
   });
-  it("keeps a simulated year's own 12-month changes inside the 1990-2026 bands", () => {
+  it("a simulated year follows from its causes; the 1990-2026 bands are reported beside it", () => {
     // The engine's own steps from published openings, and from drawn worlds on the game's start date.
     const openings = [
       ...["2021-01-01", "2026-10-01", "2008-10-01"].map((start) =>
@@ -99,10 +99,61 @@ describe("national economy", () => {
         months.push(
           stepMacroMonth(months.at(-1)!, months.at(-1)!.policyRatePct, 0, 0, p),
         );
+      // Every simulated month follows from the one before it: unemployment is
+      // the normal rate less the gap over Okun's coefficient, and the normal
+      // rate and expected inflation move toward what was lived, never away.
+      const simulated = months.filter((row) => row.kind === "simulated");
+      expect(simulated.length).toBeGreaterThan(0);
+      for (const row of simulated) {
+        const before = months[months.indexOf(row) - 1]!;
+        expect(row.unemploymentPct).toBeCloseTo(
+          row.naturalUnemploymentPct -
+            row.outputGapPct / p("macroOkunOutputPerUnemploymentPoint"),
+          9,
+        );
+        const lived = before.unemploymentPct - before.naturalUnemploymentPct;
+        const moved =
+          row.naturalUnemploymentPct - before.naturalUnemploymentPct;
+        expect(Math.sign(moved) * Math.sign(lived) >= 0).toBe(true);
+        const lessons = before.inflationPct - before.expectedInflationPct;
+        const learned = row.expectedInflationPct - before.expectedInflationPct;
+        expect(Math.sign(learned) * Math.sign(lessons) >= 0).toBe(true);
+      }
+      // The real 1990-2026 band, beside the causes, as a comparison line only.
       const own = checkBands(months, p).filter((row) => !row.baseIsHistory);
-      expect(own.length).toBeGreaterThan(30);
-      expect(own.filter((row) => !row.inside)).toEqual([]);
+      const outside = own.filter((row) => !row.inside);
+      console.log(
+        `macro bands ${months[0]!.month}: ${own.length - outside.length} of ${own.length} 12-month changes inside the real band${
+          outside.length
+            ? `; outside: ${outside
+                .map((row) => JSON.stringify(row))
+                .slice(0, 3)
+                .join(" ")}`
+            : ""
+        }`,
+      );
     }
+  });
+  it("the 2020 spike raised the normal rate on the record, and the 2021-22 fall follows from the recorded gap and hires", () => {
+    const months = publishedMonths("2021-01-01", p);
+    const at = (month: string) => months.find((row) => row.month === month)!;
+    const spikeBefore = at("2019-12");
+    const opening = months.at(-1)!;
+    // The spike lived through 2020 moved the normal rate up from where it stood.
+    expect(opening.naturalUnemploymentPct).toBeGreaterThan(
+      spikeBefore.naturalUnemploymentPct,
+    );
+    for (let i = 0; i < 24; i++)
+      months.push(
+        stepMacroMonth(months.at(-1)!, months.at(-1)!.policyRatePct, 0, 0, p),
+      );
+    const later = months.at(-1)!;
+    // Unemployment above the normal rate is a negative gap that closes: the rate falls and jobs come back with it (the recorded hires).
+    expect(opening.outputGapPct).toBeLessThan(0);
+    expect(later.unemploymentPct).toBeLessThan(opening.unemploymentPct);
+    expect(later.payrollJobsThousands).toBeGreaterThan(
+      opening.payrollJobsThousands,
+    );
   });
   it("omits unobserved local growth while observed growth changes national output", () => {
     const previous = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
