@@ -193,6 +193,14 @@ interface EmployerRow {
   salesStaff?: number;
   /** The share of its jobs' full hours the employer runs now (1 is full hours). */
   hoursFactor?: number;
+  /** The last staffing review's readings, for the business engine (`firmStaffing`). */
+  staffing?: {
+    staff: number;
+    target: number;
+    projected: number;
+    observedStaff: number;
+    at: string;
+  };
   /** A new business's template for its first roles. */
   templateFromId?: string;
   /** The staff mix at the opening: each role's head count and a job to copy for it. */
@@ -1561,10 +1569,53 @@ function reviewEmployers(api: CoreAPI): void {
         need,
         salesStaff,
         hoursFactor,
+        staffing: {
+          staff: effectiveStaff,
+          target,
+          projected,
+          observedStaff,
+          at: c.date,
+        },
         withdrawCarry: carry,
         leavers: gap > 0 ? leavers : [],
       });
   }
+}
+
+/** What an employer's last staffing review read, in jobs: who works there (hours-weighted), what its demand needs, and the two demand readings that make the target. */
+export interface FirmStaffing {
+  readonly staff: number;
+  readonly target: number;
+  readonly projected: number;
+  readonly observedStaff: number;
+  /** Staff against what its demand needs, between zero and one: an understaffed firm serves less of its customers. */
+  readonly serviceLevel: number;
+  /** The date of the review it was read at. */
+  readonly at: string;
+}
+
+/**
+ * The one read the business engine takes of a firm's staffing (owner, Nov 9:
+ * firms diverge by service level): the employer's last review, or none for a
+ * firm the jobs engine does not run or has not yet reviewed. The service level
+ * is staff over target, one where the firm is fully staffed.
+ */
+export function firmStaffing(
+  api: CoreAPI,
+  organizationId: string,
+): FirmStaffing | undefined {
+  if (!api.state.modules.has(JOBS_MODULE_ID)) return undefined;
+  const row = store(api).table("employers").get(organizationId) as
+    EmployerRow | undefined;
+  const read = row?.staffing;
+  if (!read) return undefined;
+  return {
+    ...read,
+    serviceLevel:
+      read.target > api.parameter("zero")
+        ? Math.min(api.parameter("one"), read.staff / read.target)
+        : api.parameter("one"),
+  };
 }
 
 /**
