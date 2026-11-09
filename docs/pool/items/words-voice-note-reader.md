@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: story/voice-note-reader
-pr: pending
+pr: "#8053"
 blocked-on:
 lead: words
 milestone: play-first
