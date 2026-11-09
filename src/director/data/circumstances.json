@@ -609,6 +609,22 @@
       "outcome": "scene.reply",
       "impactParameter": "directorCircumstanceNewsImpact",
       "everyParameter": "directorCircumstanceHomeEveryDays"
+    },
+    {
+      "id": "home-damaged",
+      "recordKinds": ["disaster.home-damaged"],
+      "playerNamed": true,
+      "lived": true,
+      "recast": true,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "named-in-it",
+      "cast": "the day a disaster's aid is paid and the repair bill comes due on the player's damaged home, someone they live with, scored on tie and sociability",
+      "typeKey": "home-damaged",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceNewsImpact",
+      "everyParameter": "directorCircumstanceHomeEveryDays"
     }
   ]
 }

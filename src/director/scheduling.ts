@@ -655,9 +655,14 @@ function bindType(
   book: PersonLedger,
   moment: Moment,
   library: SituationLibrary,
+  preferred?: string,
 ): SceneBinding | { failure: string; detail: string } {
   let failure: { failure: string; detail: string } | undefined;
-  const settings = cause.setting ?? type.setting;
+  const own = cause.setting ?? type.setting;
+  const settings =
+    preferred && own.includes(preferred)
+      ? [preferred, ...own.filter((kind) => kind !== preferred)]
+      : own;
   for (const settingKind of settings) {
     const taken = new Set<PersonId>();
     const roles: SceneBinding["roles"] = [];
@@ -746,6 +751,11 @@ export function scheduleMoment(
      * becomes a journal line and stops nothing.
      */
     allowedKinds?: ReadonlySet<string>;
+    /**
+     * A kind of place tried first for a type (situation-type key to setting
+     * kind), set by dev mode's force-scene; the type's own order follows.
+     */
+    preferredSettings?: ReadonlyMap<string, string>;
   },
   library: SituationLibrary = SITUATION_LIBRARY,
 ): ScheduleEntry {
@@ -758,7 +768,15 @@ export function scheduleMoment(
   for (const type of library.types)
     for (const cause of type.causes) {
       if (!causeMatches(cause, book, moment, core)) continue;
-      const bound = bindType(type, cause, core, book, moment, library);
+      const bound = bindType(
+        type,
+        cause,
+        core,
+        book,
+        moment,
+        library,
+        options.preferredSettings?.get(type.key),
+      );
       if ("failure" in bound)
         coverage ??= {
           momentId: moment.id,
