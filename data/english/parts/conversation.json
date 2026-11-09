@@ -1494,7 +1494,7 @@
       "key": "conversation.greet-answer-fine.all-right",
       "move": "greet-answer-fine",
       "kind": "spoken",
-      "text": "All right.",
+      "text": "Alright.",
       "uses": [
         {
           "move": "greet-answer-fine",
@@ -16449,7 +16449,7 @@
       "key": "conversation.job-hope-reply-answer-brief.all-right-let-me-know-how-it-goes",
       "move": "job-hope-reply-answer-brief",
       "kind": "spoken",
-      "text": "All right. Let me know how it goes.",
+      "text": "Alright. Let me know how it goes.",
       "uses": [
         {
           "move": "job-hope-reply-answer-brief",
@@ -18862,7 +18862,7 @@
       "key": "conversation.eviction-where-reply-answer-ok.all-right-we-ll-make-it-work",
       "move": "eviction-where-reply-answer-ok",
       "kind": "spoken",
-      "text": "All right. We'll make it work.",
+      "text": "Alright. We'll make it work.",
       "uses": [
         {
           "move": "eviction-where-reply-answer-ok",
@@ -22416,7 +22416,7 @@
       "key": "conversation.interview-take-plain-reply-take.all-right-ill-put-that-down",
       "move": "interview-take-plain-reply-take",
       "kind": "spoken",
-      "text": "All right. I'll put that down.",
+      "text": "Alright. I'll put that down.",
       "uses": [
         {
           "move": "interview-take-plain-reply-take",
@@ -22605,7 +22605,7 @@
       "key": "conversation.interview-take-brief-reply-take.that-was-quick-all-right",
       "move": "interview-take-brief-reply-take",
       "kind": "spoken",
-      "text": "That was quick. All right.",
+      "text": "That was quick. Alright.",
       "uses": [
         {
           "move": "interview-take-brief-reply-take",
@@ -22710,7 +22710,7 @@
       "key": "conversation.interview-take-declined-reply-take.nothing-on-that-one-all-right",
       "move": "interview-take-declined-reply-take",
       "kind": "spoken",
-      "text": "Nothing on that one. All right.",
+      "text": "Nothing on that one. Alright.",
       "uses": [
         {
           "move": "interview-take-declined-reply-take",
@@ -23615,7 +23615,7 @@
       "key": "conversation.debate-take-declined-reply-take.youd-rather-not-say-all-right",
       "move": "debate-take-declined-reply-take",
       "kind": "spoken",
-      "text": "You'd rather not say? All right.",
+      "text": "You'd rather not say? Alright.",
       "uses": [
         {
           "move": "debate-take-declined-reply-take",

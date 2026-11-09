@@ -22,7 +22,7 @@ import type {
   RunningGrade,
 } from "../../src/english/calibration";
 import { buildReach, type PieceMakeup } from "../../src/english/grade-reach";
-import { writeGradeMap } from "./grade-map";
+import { VOICE_VERDICT, writeGradeMap } from "./grade-map";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -681,10 +681,54 @@ export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
   return pieces;
 }
 
+/**
+ * Adds the owner's voice-note grades (span-grade files) to a fold: a line his
+ * words grade clearly good counts as good, clearly bad as bad, by the sum of
+ * its spans. A line he graded part of keeps its part grades on the grade map
+ * only. The batch is listed once, by the file's `batch`.
+ */
+export function withVoiceGrades(
+  fold: PartGradeLedger,
+  gradeDir = GRADE_DIR,
+): PartGradeLedger {
+  if (!existsSync(gradeDir)) return fold;
+  const parts: Record<string, PartGradeCounts> = { ...fold.parts };
+  const batches = [...fold.batches];
+  for (const name of readdirSync(gradeDir)
+    .filter((entry) => entry.endsWith(".json"))
+    .sort()) {
+    const path = join(gradeDir, name);
+    if (!isSpanGradeFile(path)) continue;
+    const file = JSON.parse(readFileSync(path, "utf8")) as {
+      batch?: string;
+      grades: { key: string; spans: { strength: number }[] }[];
+    };
+    const id = `${file.batch ?? basename(name, ".json")}:voice`;
+    if (!batches.includes(id)) batches.push(id);
+    for (const row of file.grades) {
+      const net = row.spans.reduce((sum, span) => sum + span.strength, 0);
+      if (Math.abs(net) < VOICE_VERDICT) continue;
+      const counts = (parts[row.key] ??= {
+        good: 0,
+        bad: 0,
+        fix: 0,
+        sharedGood: 0,
+        sharedBad: 0,
+        sharedFix: 0,
+      });
+      parts[row.key] =
+        net > 0
+          ? { ...counts, good: counts.good + 1 }
+          : { ...counts, bad: counts.bad + 1 };
+    }
+  }
+  return { ...fold, batches, parts };
+}
+
 function main() {
   const graded = readGradedBatches();
   const ledger = withKept(
-    foldGrades(graded),
+    withVoiceGrades(foldGrades(graded)),
     existsSync(LEDGER_FILE)
       ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
       : undefined,

@@ -4567,7 +4567,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll do it.",
+      "text": "Alright. I'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -5060,6 +5060,30 @@
       }
     },
     {
+      "key": "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry",
+      "move": "reply-withdraw",
+      "kind": "spoken",
+      "text": "I know what I said, but circumstances have changed. I can't. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "withdraw",
+          "role": "asked",
+          "purpose": "confirm-vote",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "withdraw",
+        "key": "vote-wanted"
+      }
+    },
+    {
       "key": "scene-talk.reply-withdraw.i-ve-thought-it-over-i-can-t-vote-for-bill-after-all",
       "move": "reply-withdraw",
       "kind": "spoken",
@@ -5335,7 +5359,7 @@
       "key": "scene-talk.reply-relent.all-right-you-win-i-m-in",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. You win. I'm in.",
+      "text": "Alright. You win. I'm in.",
       "uses": [
         {
           "subject": "scene",
@@ -5635,7 +5659,7 @@
       "key": "scene-talk.reply-relent.all-right-put-it-on-the-calendar-i-d-rather-have-the-argument-in-the-open",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. Put it on the calendar. I'd rather have the argument in the open.",
+      "text": "Alright. Put it on the calendar. I'd rather have the argument in the open.",
       "uses": [
         {
           "key": "favor-asked",
@@ -6159,7 +6183,7 @@
       "key": "scene-talk.reply-answer.all-right-put-this-down-exactly-as-i-say-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "All right. Put this down exactly as I say it.",
+      "text": "Alright. Put this down exactly as I say it.",
       "uses": [
         {
           "after": "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond",
@@ -6496,7 +6520,7 @@
       "key": "scene-talk.reply-accept.all-right-i-ll-handle-it-myself",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. I'll handle it myself.",
+      "text": "Alright. I'll handle it myself.",
       "uses": [
         {
           "subject": "scene",
@@ -6544,7 +6568,7 @@
       "key": "scene-talk.reply-accept.all-right-i-got-you-i-ll-take-care-of-it",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right, I got you. I'll take care of it.",
+      "text": "Alright, I got you. I'll take care of it.",
       "uses": [
         {
           "key": "news-received",
@@ -7840,7 +7864,7 @@
       "key": "scene-talk.reply-accept.all-right-tell-me-what-we-do-now",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. Tell me what we do now.",
+      "text": "Alright. Tell me what we do now.",
       "uses": [
         {
           "subject": "scene",
@@ -8549,7 +8573,7 @@
       "key": "scene-talk.follow-accept.all-right-i-had-to-ask",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I had to ask.",
+      "text": "Alright. I had to ask.",
       "uses": [
         {
           "subject": "scene",
@@ -8808,7 +8832,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-find-the-votes-somewhere-else",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll find the votes somewhere else.",
+      "text": "Alright. I'll find the votes somewhere else.",
       "uses": [
         {
           "subject": "scene",
@@ -8934,7 +8958,7 @@
       "key": "scene-talk.follow-accept.all-right-we-have-a-deal",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. We have a deal.",
+      "text": "Alright. We have a deal.",
       "uses": [
         {
           "subject": "scene",
@@ -9624,7 +9648,7 @@
       "key": "scene-talk.follow-accept.all-right-i-got-you-i-ll-leave-room-in-case-you-call",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right, I got you. I'll leave room in case you call.",
+      "text": "Alright, I got you. I'll leave room in case you call.",
       "uses": [
         {
           "key": "routine",
@@ -13552,7 +13576,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-look-at-it-again",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll look at it again.",
+      "text": "Alright. I'll look at it again.",
       "uses": [
         {
           "subject": "scene",
@@ -13576,7 +13600,7 @@
       "key": "scene-talk.reply-agree.all-right-set-up-the-meeting",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Set up the meeting.",
+      "text": "Alright. Set up the meeting.",
       "uses": [
         {
           "subject": "scene",
@@ -15341,7 +15365,7 @@
       "key": "scene-talk.follow-accept.all-right-i-m-trusting-you-on-that",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'm trusting you on that.",
+      "text": "Alright. I'm trusting you on that.",
       "uses": [
         {
           "after": "lie",
@@ -17820,7 +17844,7 @@
       "key": "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. Send it over when it's ready.",
+      "text": "Alright. Send it over when it's ready.",
       "uses": [
         {
           "subject": "scene",
@@ -17945,7 +17969,7 @@
       "key": "scene-talk.reply-accept.all-right-let-s-keep-counting",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. Let's keep counting.",
+      "text": "Alright. Let's keep counting.",
       "uses": [
         {
           "subject": "scene",
@@ -20251,7 +20275,7 @@
       "key": "scene-talk.follow-accept.all-right-i-got-you-rest-up",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right, I got you. Rest up.",
+      "text": "Alright, I got you. Rest up.",
       "uses": [
         {
           "after": "decline",
@@ -21746,7 +21770,7 @@
       "key": "scene-talk.follow-accept.all-right-i-m-in-tell-me-what-you-need",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'm in. Tell me what you need.",
+      "text": "Alright. I'm in. Tell me what you need.",
       "uses": [
         {
           "key": "news-received",
@@ -23119,7 +23143,7 @@
       "key": "scene-talk.follow-accept.all-right-i-got-you-i-ll-ask-them",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right, I got you. I'll ask them.",
+      "text": "Alright, I got you. I'll ask them.",
       "uses": [
         {
           "after": "scene-talk.reply-confront.ask-source-what-they-had-for-lunch-with-my-opponent",
@@ -28932,7 +28956,7 @@
       "key": "scene-talk.follow-accept.all-right-i-got-you-if-that-changes-call-me",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right, I got you. If that changes, call me.",
+      "text": "Alright, I got you. If that changes, call me.",
       "uses": [
         {
           "after": "refuse",
@@ -29112,7 +29136,7 @@
       "key": "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "All right. I'll print your denial in full.",
+      "text": "Alright. I'll print your denial in full.",
       "uses": [
         {
           "after": "lie",
@@ -31278,7 +31302,7 @@
       "key": "scene-talk.follow-accept.all-right-that-i-ll-take",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. That I'll take.",
+      "text": "Alright. That I'll take.",
       "uses": [
         {
           "subject": "scene",
@@ -31848,7 +31872,7 @@
       "key": "scene-talk.reply-agree.all-right-once",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Once.",
+      "text": "Alright. Once.",
       "uses": [
         {
           "subject": "scene",
@@ -35415,7 +35439,7 @@
       "key": "scene-talk.reply-promise.all-right-me-have-him-send-it-to-me-directly",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "All right. Me. Have him send it to me directly.",
+      "text": "Alright. Me. Have him send it to me directly.",
       "uses": [
         {
           "subject": "scene",
@@ -35764,7 +35788,7 @@
       "key": "scene-talk.reply-apologize.all-right-i-ll-say-it-at-the-start-of-the-meeting-to-your-face",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "All right. I'll say it at the start of the meeting, to your face.",
+      "text": "Alright. I'll say it at the start of the meeting, to your face.",
       "uses": [
         {
           "after": "scene-talk.follow-press.say-it-out-loud-then-at-the-meeting",
@@ -44650,7 +44674,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-call-tonight",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll call tonight.",
+      "text": "Alright. I'll call tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -46315,7 +46339,7 @@
       "key": "scene-talk.close-thank.all-right-i-ll-give-you-that-one",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "All right. I'll give you that one.",
+      "text": "Alright. I'll give you that one.",
       "uses": [
         {
           "subject": "scene",
@@ -46684,7 +46708,7 @@
       "key": "scene-talk.reply-apologize.all-right-thursday-on-the-record",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "All right. Thursday, on the record.",
+      "text": "Alright. Thursday, on the record.",
       "uses": [
         {
           "subject": "scene",
@@ -48766,7 +48790,7 @@
       "key": "scene-talk.follow-accept.all-right-if-you-re-going-go-all-the-way-i-ll-be-in-your-corner",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. If you're going, go all the way. I'll be in your corner.",
+      "text": "Alright. If you're going, go all the way. I'll be in your corner.",
       "uses": [
         {
           "after": "scene-talk.reply-disagree.everybody-says-next-year-next-year-somebody-else-is-already-in-the-cha",
@@ -48866,7 +48890,7 @@
       "key": "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit",
       "move": "reply-thank",
       "kind": "spoken",
-      "text": "Funerals. All right. I own a black suit.",
+      "text": "Funerals. Alright. I own a black suit.",
       "uses": [
         {
           "subject": "scene",
@@ -51248,7 +51272,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-make-the-call",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll make the call.",
+      "text": "Alright. I'll make the call.",
       "uses": [
         {
           "subject": "scene",
@@ -52115,7 +52139,7 @@
       "key": "scene-talk.reply-agree.all-right-yes-go-sit-down",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Yes. Go sit down.",
+      "text": "Alright. Yes. Go sit down.",
       "uses": [
         {
           "subject": "scene",
@@ -53888,6 +53912,31 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.how-could-i-say-no",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "How could I say no?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "appointment-offer",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
       "tag": {
         "move": "agree",
         "key": "honor"
@@ -57333,7 +57382,7 @@
       "key": "scene-talk.reply-agree.all-right-one-meeting-then-we-ll-see",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. One meeting. Then we'll see.",
+      "text": "Alright. One meeting. Then we'll see.",
       "uses": [
         {
           "subject": "scene",
@@ -59265,7 +59314,7 @@
       "key": "scene-talk.reply-agree.all-right-yes-this-once",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Yes, this once.",
+      "text": "Alright. Yes, this once.",
       "uses": [
         {
           "subject": "scene",
@@ -59733,7 +59782,7 @@
       "key": "scene-talk.reply-agree.all-right-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Yes.",
+      "text": "Alright. Yes.",
       "uses": [
         {
           "subject": "scene",
@@ -64056,7 +64105,7 @@
       "key": "scene-talk.follow-accept.all-right-i-m-listening",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'm listening.",
+      "text": "Alright. I'm listening.",
       "uses": [
         {
           "subject": "scene",
@@ -64106,7 +64155,7 @@
       "key": "scene-talk.reply-accept.all-right-i-ll-hold-you-to-it",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. I'll hold you to it.",
+      "text": "Alright. I'll hold you to it.",
       "uses": [
         {
           "subject": "scene",
@@ -67424,7 +67473,7 @@
       "key": "scene-talk.follow-accept.all-right-that-s-going-in",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. That's going in.",
+      "text": "Alright. That's going in.",
       "uses": [
         {
           "subject": "scene",
@@ -67699,7 +67748,7 @@
       "key": "scene-talk.reply-answer.all-right-it-helps-people-who-need-it-and-i-d-vote-for-it-again",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "All right. It helps people who need it, and I'd vote for it again.",
+      "text": "Alright. It helps people who need it, and I'd vote for it again.",
       "uses": [
         {
           "after": "scene-talk.follow-press.a-statement-doesn-t-answer-questions-you-do",
@@ -68710,7 +68759,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-ask-again-after-the-hearings",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll ask again after the hearings.",
+      "text": "Alright. I'll ask again after the hearings.",
       "uses": [
         {
           "subject": "scene",
@@ -73569,7 +73618,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-take-sorry-for-tonight",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll take sorry, for tonight.",
+      "text": "Alright. I'll take sorry, for tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -74301,7 +74350,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-take-your-word-for-the-record",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll take your word, for the record.",
+      "text": "Alright. I'll take your word, for the record.",
       "uses": [
         {
           "subject": "scene",
@@ -74909,7 +74958,7 @@
       "key": "scene-talk.reply-confess.all-right-two-voted-no-it-still-passed",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. Two voted no. It still passed.",
+      "text": "Alright. Two voted no. It still passed.",
       "uses": [
         {
           "subject": "scene",
@@ -77516,7 +77565,7 @@
       "key": "scene-talk.reply-confess.all-right-it-costs-something-it-s-worth-it",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. It costs something. It's worth it.",
+      "text": "Alright. It costs something. It's worth it.",
       "uses": [
         {
           "subject": "scene",
@@ -77843,7 +77892,7 @@
       "key": "scene-talk.reply-answer.all-right-plainly-i-stand-by-it",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "All right, plainly: I stand by it.",
+      "text": "Alright, plainly: I stand by it.",
       "uses": [
         {
           "subject": "scene",
@@ -79145,7 +79194,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-sign-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll sign it.",
+      "text": "Alright. I'll sign it.",
       "uses": [
         {
           "subject": "scene",
@@ -79420,7 +79469,7 @@
       "key": "scene-talk.close-accept.all-right-i-ll-tell-the-leaders-tonight",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. I'll tell the leaders tonight.",
+      "text": "Alright. I'll tell the leaders tonight.",
       "uses": [
         {
           "subject": "scene",
@@ -81105,7 +81154,7 @@
       "key": "scene-talk.reply-agree.all-right-listening-i-can-do",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Listening I can do.",
+      "text": "Alright. Listening I can do.",
       "uses": [
         {
           "subject": "scene",
@@ -81560,7 +81609,7 @@
       "key": "scene-talk.follow-accept.all-right-thanks-for-hearing-me-out",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. Thanks for hearing me out.",
+      "text": "Alright. Thanks for hearing me out.",
       "uses": [
         {
           "subject": "scene",
@@ -82357,7 +82406,7 @@
       "key": "scene-talk.reply-agree.all-right-put-my-name-down",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Put my name down.",
+      "text": "Alright. Put my name down.",
       "uses": [
         {
           "subject": "scene",
@@ -82807,7 +82856,7 @@
       "key": "scene-talk.reply-agree.all-right-where-do-i-sign",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Where do I sign?",
+      "text": "Alright. Where do I sign?",
       "uses": [
         {
           "subject": "scene",
@@ -84056,7 +84105,7 @@
       "key": "scene-talk.follow-accept.all-right-at-least-that-s-honest",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. At least that's honest.",
+      "text": "Alright. At least that's honest.",
       "uses": [
         {
           "subject": "scene",
@@ -84733,7 +84782,7 @@
       "key": "scene-talk.follow-accept.all-right-then-i-ll-take-it-to-the-state-myself",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. Then I'll take it to the state myself.",
+      "text": "Alright. Then I'll take it to the state myself.",
       "uses": [
         {
           "after": "scene-talk.reply-decline.i-m-not-going-to-pick-a-side-on-a-state-law-at-a-town-hall",
@@ -86422,7 +86471,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-check-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll check it.",
+      "text": "Alright. I'll check it.",
       "uses": [
         {
           "subject": "scene",
@@ -86697,7 +86746,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-take-it-somewhere-else",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll take it somewhere else.",
+      "text": "Alright. I'll take it somewhere else.",
       "uses": [
         {
           "subject": "scene",
@@ -87471,7 +87520,7 @@
       "key": "scene-talk.reply-confess.all-right-i-overstated-it",
       "move": "reply-confess",
       "kind": "spoken",
-      "text": "All right. I overstated it.",
+      "text": "Alright. I overstated it.",
       "uses": [
         {
           "subject": "scene",
@@ -88282,7 +88331,7 @@
       "key": "scene-talk.reply-agree.all-right-your-amendment-goes-in",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Your amendment goes in.",
+      "text": "Alright. Your amendment goes in.",
       "uses": [
         {
           "subject": "scene",
@@ -90212,7 +90261,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-run",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll run.",
+      "text": "Alright. I'll run.",
       "uses": [
         {
           "subject": "scene",
@@ -92115,7 +92164,7 @@
       "key": "scene-talk.close-accept.all-right-i-got-you-i-ll-keep-working",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right, I got you. I'll keep working.",
+      "text": "Alright, I got you. I'll keep working.",
       "uses": [
         {
           "key": "vote-wanted",
@@ -92497,7 +92546,7 @@
       "key": "scene-talk.close-accept.all-right-thanks-for-listening",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Thanks for listening.",
+      "text": "Alright. Thanks for listening.",
       "uses": [
         {
           "after": "leave",
@@ -94081,7 +94130,7 @@
       "key": "scene-talk.close-accept.all-right-we-ll-talk-when-it-s-final",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. We'll talk when it's final.",
+      "text": "Alright. We'll talk when it's final.",
       "uses": [
         {
           "subject": "scene",
@@ -94406,6 +94455,31 @@
       }
     },
     {
+      "key": "scene-talk.state-ask.what-did-you-just-decide-this-without-me-whos-going-to-take-care-of-ch",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What, did you just decide this without me? Who's going to take care of {child}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-time"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.state-ask.you-filed-fine-tell-me-who-has-child-the-nights-you-re-out",
       "move": "state-ask",
       "kind": "spoken",
@@ -94525,6 +94599,31 @@
       "origin": "authored",
       "author": "Scene builder A",
       "date": "2026-10-27",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "I can't do this alone. I need help with phones and door knocking. And honestly, I need someone to keep me honest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
       "tag": {
         "move": "request",
         "key": "news-received"
@@ -94859,7 +94958,7 @@
       "key": "scene-talk.follow-comfort.all-right-tell-me-what-the-account-says-each-month-and-i-ll-stop-counting",
       "move": "follow-comfort",
       "kind": "spoken",
-      "text": "All right. Tell me what the account says each month, and I'll stop counting.",
+      "text": "Alright. Tell me what the account says each month, and I'll stop counting.",
       "uses": [
         {
           "subject": "scene",
@@ -96896,7 +96995,7 @@
       "key": "scene-talk.close-accept.all-right-go-celebrate",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Go celebrate.",
+      "text": "Alright. Go celebrate.",
       "uses": [
         {
           "subject": "scene",
@@ -98207,7 +98306,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-take-it-back-forget-i-came",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll take it back. Forget I came.",
+      "text": "Alright. I'll take it back. Forget I came.",
       "uses": [
         {
           "subject": "scene",
@@ -98637,7 +98736,7 @@
       "key": "scene-talk.reply-accept.all-right-you-made-your-point-leave-it-on-the-desk",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. You made your point. Leave it on the desk.",
+      "text": "Alright. You made your point. Leave it on the desk.",
       "uses": [
         {
           "after": "press",
@@ -98687,7 +98786,7 @@
       "key": "scene-talk.reply-accept.all-right-i-ll-keep-it-don-t-come-here-again",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. I'll keep it. Don't come here again.",
+      "text": "Alright. I'll keep it. Don't come here again.",
       "uses": [
         {
           "subject": "scene",
@@ -99800,7 +99899,7 @@
       "key": "scene-talk.follow-accept.all-right-neither-of-us-says-a-word-about-this",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. Neither of us says a word about this.",
+      "text": "Alright. Neither of us says a word about this.",
       "uses": [
         {
           "after": "confess",
@@ -101919,7 +102018,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-remember-you-said-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll remember you said it.",
+      "text": "Alright. I'll remember you said it.",
       "uses": [
         {
           "subject": "scene",
@@ -104636,7 +104735,7 @@
       "key": "scene-talk.follow-accept.all-right-if-you-change-your-mind-you-have-my-number",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. If you change your mind, you have my number.",
+      "text": "Alright. If you change your mind, you have my number.",
       "uses": [
         {
           "subject": "scene",
@@ -105354,7 +105453,7 @@
       "key": "scene-talk.close-accept.all-right-take-care",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Take care.",
+      "text": "Alright. Take care.",
       "uses": [
         {
           "subject": "scene",
@@ -106077,7 +106176,7 @@
       "key": "scene-talk.follow-accept.all-right-the-offer-stands",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. The offer stands.",
+      "text": "Alright. The offer stands.",
       "uses": [
         {
           "subject": "scene",
@@ -107515,7 +107614,7 @@
       "key": "scene-talk.follow-accept.all-right-i-just-thought-you-should-know",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I just thought you should know.",
+      "text": "Alright. I just thought you should know.",
       "uses": [
         {
           "subject": "scene",
@@ -110439,7 +110538,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-put-bill-on-the-next-agenda",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll put {bill} on the next agenda.",
+      "text": "Alright. I'll put {bill} on the next agenda.",
       "uses": [
         {
           "subject": "scene",
@@ -110727,7 +110826,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-raise-it-with-chair-before-the-next-meeting",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll raise it with {chair} before the next meeting.",
+      "text": "Alright. I'll raise it with {chair} before the next meeting.",
       "uses": [
         {
           "subject": "scene",
@@ -110991,7 +111090,7 @@
       "key": "scene-talk.reply-relent.all-right-you-ve-made-your-case",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. You've made your case.",
+      "text": "Alright. You've made your case.",
       "uses": [
         {
           "subject": "scene",
@@ -111015,6 +111114,39 @@
       "origin": "authored",
       "author": "Words session (scene builder C, pool item words-scene-bill-held-in-committee)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "relent",
+        "key": "favor-asked"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Alright, you've made your case. Put it on the calendar. I'd rather have this argument out in the open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-ask",
+          "key": "favor-asked",
+          "after": "press"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "hearing-push",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
       "tag": {
         "move": "relent",
         "key": "favor-asked"
@@ -111169,7 +111301,7 @@
       "key": "scene-talk.reply-agree.all-right-bring-me-the-changes-and-i-ll-set-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Bring me the changes and I'll set it.",
+      "text": "Alright. Bring me the changes and I'll set it.",
       "uses": [
         {
           "subject": "scene",
@@ -111193,7 +111325,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-go-and-see-chair-then",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. I'll go and see {chair}, then.",
+      "text": "Alright. I'll go and see {chair}, then.",
       "uses": [
         {
           "subject": "scene",
@@ -112596,7 +112728,7 @@
       "key": "scene-talk.reply-promise.all-right-i-ll-call-them-myself-this-week",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "All right. I'll call them myself this week.",
+      "text": "Alright. I'll call them myself this week.",
       "uses": [
         {
           "subject": "scene",
@@ -114246,7 +114378,7 @@
       "key": "scene-talk.reply-agree.all-right-as-long-as-we-both-stick-to-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. As long as we both stick to it.",
+      "text": "Alright. As long as we both stick to it.",
       "uses": [
         {
           "subject": "scene",
@@ -114270,7 +114402,7 @@
       "key": "scene-talk.reply-relent.all-right-stay-and-we-ll-see-how-it-goes",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. Stay, and we'll see how it goes.",
+      "text": "Alright. Stay, and we'll see how it goes.",
       "uses": [
         {
           "subject": "scene",
@@ -114710,7 +114842,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-hold-you-to-it-too",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll hold you to it, too.",
+      "text": "Alright. I'll hold you to it, too.",
       "uses": [
         {
           "subject": "scene",
@@ -115110,7 +115242,7 @@
       "key": "scene-talk.close-accept.all-right-i-hear-you",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. I hear you.",
+      "text": "Alright. I hear you.",
       "uses": [
         {
           "subject": "scene",
@@ -117221,7 +117353,7 @@
       "key": "scene-talk.reply-relent.all-right-i-ll-veto-it",
       "move": "reply-relent",
       "kind": "spoken",
-      "text": "All right. I'll veto it.",
+      "text": "Alright. I'll veto it.",
       "uses": [
         {
           "subject": "scene",
@@ -120363,7 +120495,7 @@
       "key": "scene-talk.follow-accept.all-right-i-won-t-push",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I won't push.",
+      "text": "Alright. I won't push.",
       "uses": [
         {
           "subject": "scene",
@@ -120850,7 +120982,7 @@
       "key": "scene-talk.follow-accept.all-right-but-i-ll-be-asking-again",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. But I'll be asking again.",
+      "text": "Alright. But I'll be asking again.",
       "uses": [
         {
           "subject": "scene",
@@ -121254,7 +121386,7 @@
       "key": "scene-talk.follow-accept.all-right-thank-you-for-hearing-me-out-at-all",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. Thank you for hearing me out at all.",
+      "text": "Alright. Thank you for hearing me out at all.",
       "uses": [
         {
           "subject": "scene",
@@ -122248,7 +122380,7 @@
       "key": "scene-talk.reply-tell.all-right-here-s-my-honest-view-and-it-s-not-complicated",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "All right. Here's my honest view, and it's not complicated.",
+      "text": "Alright. Here's my honest view, and it's not complicated.",
       "uses": [
         {
           "subject": "scene",
@@ -123033,7 +123165,7 @@
       "key": "scene-talk.close-accept.all-right-we-ll-leave-it-there",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. We'll leave it there.",
+      "text": "Alright. We'll leave it there.",
       "uses": [
         {
           "subject": "scene",
@@ -124373,6 +124505,30 @@
       }
     },
     {
+      "key": "scene-talk.reply-tell.of-course-i-care-who-won-theyre-the-ones-who-govern-me",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Of course I care who won. They're the ones who govern me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
       "key": "scene-talk.reply-tell.i-ll-be-watching-what-they-do-with-it",
       "move": "reply-tell",
       "kind": "spoken",
@@ -124391,6 +124547,54 @@
       "origin": "authored",
       "author": "Finisher helper (race told)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-cant-say-im-filled-with-confidence",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I can't say I'm filled with confidence.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.reply-tell.im-a-little-apprehensive",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'm a little apprehensive.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "race-told",
+          "key": "race-heard"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
       "tag": {
         "move": "tell",
         "key": "race-heard"
@@ -124896,7 +125100,7 @@
       "key": "scene-talk.follow-accept.all-right-i-understand",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I understand.",
+      "text": "Alright. I understand.",
       "uses": [
         {
           "subject": "scene",
@@ -125218,7 +125422,7 @@
       "key": "scene-talk.close-accept.all-right-we-ll-leave-it-at-that",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. We'll leave it at that.",
+      "text": "Alright. We'll leave it at that.",
       "uses": [
         {
           "subject": "scene",
@@ -126462,7 +126666,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-hold-it-until-deadline",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll hold it until {deadline}.",
+      "text": "Alright. I'll hold it until {deadline}.",
       "uses": [
         {
           "subject": "scene",
@@ -126724,6 +126928,31 @@
       }
     },
     {
+      "key": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Can we even afford this? It's not like we have a ton of savings, right? How much does this even cost?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "family-filing",
+          "key": "news-received",
+          "requiresFacts": ["stake-money"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "owner-voice",
+      "author": "Owner (batch 2 voice note, Nov 9)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-has-the-bank-statement-out-on-the-kitchen-table-the-savings-cover-cushion-o",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -126777,7 +127006,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-go-out-first-tonight-so-they-hear-it-from-me",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll go out first tonight, so they hear it from me.",
+      "text": "Alright. I'll go out first tonight, so they hear it from me.",
       "uses": [
         {
           "subject": "scene",
@@ -127606,7 +127835,7 @@
       "key": "scene-talk.reply-promise.all-right-i-ll-start-making-calls-first-thing",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "All right. I'll start making calls first thing.",
+      "text": "Alright. I'll start making calls first thing.",
       "uses": [
         {
           "subject": "scene",
@@ -127846,7 +128075,7 @@
       "key": "scene-talk.close-accept.all-right-i-ll-put-it-on-the-fridge-so-we-don-t-forget",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. I'll put it on the fridge so we don't forget.",
+      "text": "Alright. I'll put it on the fridge so we don't forget.",
       "uses": [
         {
           "subject": "scene",
@@ -127942,7 +128171,7 @@
       "key": "scene-talk.state-tell-running.all-right-you-re-running-for-office-let-s-get-you-started",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "All right, you're running for {office}. Let's get you started.",
+      "text": "Alright, you're running for {office}. Let's get you started.",
       "uses": [
         {
           "subject": "scene",
@@ -129561,7 +129790,7 @@
       "key": "scene-talk.close-accept.all-right-good-luck",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Good luck.",
+      "text": "Alright. Good luck.",
       "uses": [
         {
           "subject": "scene",
@@ -130083,7 +130312,7 @@
       "key": "scene-talk.state-accept-terms.all-right",
       "move": "state-accept-terms",
       "kind": "spoken",
-      "text": "All right.",
+      "text": "Alright.",
       "uses": [
         {
           "subject": "scene",
@@ -132276,7 +132505,7 @@
       "key": "scene-talk.reply-agree.all-right-it-s-yours-to-run",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. It's yours to run.",
+      "text": "Alright. It's yours to run.",
       "uses": [
         {
           "subject": "scene",
@@ -135552,7 +135781,7 @@
       "key": "scene-talk.close-accept.all-right-well-figure-it-out",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. We'll figure it out.",
+      "text": "Alright. We'll figure it out.",
       "uses": [
         {
           "subject": "scene",
@@ -136294,7 +136523,7 @@
       "key": "scene-talk.state-take-papers.all-right-i-ll-take-the-papers-and-get-started",
       "move": "state-take-papers",
       "kind": "spoken",
-      "text": "All right. I'll take the papers and get started.",
+      "text": "Alright. I'll take the papers and get started.",
       "uses": [
         {
           "subject": "scene",
@@ -137843,7 +138072,7 @@
       "key": "scene-talk.reply-accept.all-right-congratulations-again",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. Congratulations again.",
+      "text": "Alright. Congratulations again.",
       "uses": [
         {
           "subject": "scene",
@@ -139620,7 +139849,7 @@
       "key": "scene-talk.reply-agree.all-right-tell-me-where-to-be-and-when",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. Tell me where to be and when.",
+      "text": "Alright. Tell me where to be and when.",
       "uses": [
         {
           "subject": "scene",
@@ -139816,7 +140045,7 @@
       "key": "scene-talk.reply-agree.all-right-you-have-my-support",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "All right. You have my support.",
+      "text": "Alright. You have my support.",
       "uses": [
         {
           "subject": "scene",
@@ -140929,7 +141158,7 @@
       "key": "scene-talk.follow-accept.all-right-that-will-do",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. That will do.",
+      "text": "Alright. That will do.",
       "uses": [
         {
           "subject": "scene",
@@ -141572,7 +141801,7 @@
       "key": "scene-talk.follow-accept.all-right-i-wanted-you-to-know-where-we-stand",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I wanted you to know where we stand.",
+      "text": "Alright. I wanted you to know where we stand.",
       "uses": [
         {
           "subject": "scene",
@@ -143216,7 +143445,7 @@
       "key": "scene-talk.follow-accept.all-right-i-just-needed-to-hear-you-say-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I just needed to hear you say it.",
+      "text": "Alright. I just needed to hear you say it.",
       "uses": [
         {
           "subject": "scene",
@@ -144483,7 +144712,7 @@
       "key": "scene-talk.follow-accept.all-right-i-got-you-another-time",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right, I got you. Another time.",
+      "text": "Alright, I got you. Another time.",
       "uses": [
         {
           "key": "colleague-word",
@@ -144967,7 +145196,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-note-that-you-passed",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll note that you passed.",
+      "text": "Alright. I'll note that you passed.",
       "uses": [
         {
           "key": "reporter-word",
@@ -146309,7 +146538,7 @@
       "key": "scene-talk.follow-accept.all-right-ill-be-there-either-way",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll be there either way.",
+      "text": "Alright. I'll be there either way.",
       "uses": [
         {
           "subject": "scene",
@@ -149410,7 +149639,7 @@
       "key": "scene-talk.reply-accept.all-right-if-that-s-where-you-are-begging-won-t-help-either-of-us-i-ll",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. If that's where you are, begging won't help either of us. I'll help work out the rest, but I'm going to be quiet for a bit.",
+      "text": "Alright. If that's where you are, begging won't help either of us. I'll help work out the rest, but I'm going to be quiet for a bit.",
       "uses": [
         {
           "subject": "scene",
@@ -150076,7 +150305,7 @@
       "key": "scene-talk.close-accept.all-right-i-ll-leave-my-key-with-you-when-i-go-and-we-ll-pass-the-pape",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. I'll leave my key with you when I go, and we'll pass the paperwork back and forth. Thank you for doing this the hard way with me.",
+      "text": "Alright. I'll leave my key with you when I go, and we'll pass the paperwork back and forth. Thank you for doing this the hard way with me.",
       "uses": [
         {
           "subject": "scene",
@@ -150201,7 +150430,7 @@
       "key": "scene-talk.close-accept.all-right-go-if-you-need-to-the-lease-and-the-car-will-still-be-here-w",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Go if you need to. The lease and the car will still be here when you want to talk about them.",
+      "text": "Alright. Go if you need to. The lease and the car will still be here when you want to talk about them.",
       "uses": [
         {
           "subject": "scene",
@@ -150890,7 +151119,7 @@
       "key": "scene-talk.follow-accept.all-right-i-wanted-you-to-know-where-i-stand",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I wanted you to know where I stand.",
+      "text": "Alright. I wanted you to know where I stand.",
       "uses": [
         {
           "subject": "scene",
@@ -151037,7 +151266,7 @@
       "key": "scene-talk.close-accept.all-right-first-lets-leave-it-there-for-today",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right, {first}. Let's leave it there for today.",
+      "text": "Alright, {first}. Let's leave it there for today.",
       "uses": [
         {
           "subject": "scene",
@@ -151361,7 +151590,7 @@
       "key": "scene-talk.reply-accept.all-right-ill-take-it-thank-you",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right, I'll take it. Thank you.",
+      "text": "Alright, I'll take it. Thank you.",
       "uses": [
         {
           "subject": "scene",
@@ -152016,7 +152245,7 @@
       "key": "scene-talk.reply-accept.all-right-leave-it-and-let-me-handle-the-rest",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. Leave it, and let me handle the rest.",
+      "text": "Alright. Leave it, and let me handle the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -152524,7 +152753,7 @@
       "key": "scene-talk.reply-accept.all-right-i-trust-you-not-to-make-me-regret-this",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. I trust you not to make me regret this.",
+      "text": "Alright. I trust you not to make me regret this.",
       "uses": [
         {
           "subject": "scene",
@@ -153201,7 +153430,7 @@
       "key": "scene-talk.reply-accept.all-right-just-this-once",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. Just this once.",
+      "text": "Alright. Just this once.",
       "uses": [
         {
           "subject": "scene",
@@ -153637,7 +153866,7 @@
       "key": "scene-talk.reply-accept.all-right-ill-do-what-i-can-for-you",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "All right. I'll do what I can for you.",
+      "text": "Alright. I'll do what I can for you.",
       "uses": [
         {
           "subject": "scene",
@@ -156453,7 +156682,7 @@
       "key": "scene-talk.follow-accept.all-right-that-s-more-than-i-expected-thank-you-for-saying-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. That's more than I expected. Thank you for saying it.",
+      "text": "Alright. That's more than I expected. Thank you for saying it.",
       "uses": [
         {
           "subject": "scene",
@@ -158874,7 +159103,7 @@
       "key": "scene-talk.follow-accept.all-right-thank-you-i-ll-keep-a-list-of-what-goes-where",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. Thank you. I'll keep a list of what goes where.",
+      "text": "Alright. Thank you. I'll keep a list of what goes where.",
       "uses": [
         {
           "subject": "scene",
@@ -159130,7 +159359,7 @@
       "key": "scene-talk.close-accept.all-right-we-ll-sort-out-the-bills-this-week",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. We'll sort out the bills this week.",
+      "text": "Alright. We'll sort out the bills this week.",
       "uses": [
         {
           "subject": "scene",
@@ -159704,7 +159933,7 @@
       "key": "scene-talk.close-accept.all-right-let-s-stop-thinking-about-it-for-a-while",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. Let's stop thinking about it for a while.",
+      "text": "Alright. Let's stop thinking about it for a while.",
       "uses": [
         {
           "subject": "scene",
@@ -163226,7 +163455,7 @@
       "key": "scene-talk.follow-thank.all-right-i-ll-hold-you-to-it",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "All right. I'll hold you to it.",
+      "text": "Alright. I'll hold you to it.",
       "uses": [
         {
           "subject": "scene",
@@ -163501,7 +163730,7 @@
       "key": "scene-talk.follow-accept.all-right-i-ll-bring-what-i-have",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "All right. I'll bring what I have.",
+      "text": "Alright. I'll bring what I have.",
       "uses": [
         {
           "subject": "scene",

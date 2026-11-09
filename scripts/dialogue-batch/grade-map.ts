@@ -35,6 +35,8 @@ import {
 import { netOf } from "../../src/english/grade-reach";
 
 export const MAP_FILE = "data/english/grade-map.json";
+/** The whole-line strength a voice grade needs to count as a verdict in the ledger (apply-grades.ts). */
+export const VOICE_VERDICT = 0.25;
 export const RULES_FILE = "data/english/writing-rules.json";
 const PARTS_DIR = "data/english/parts";
 const GRADE_DIR = "data/english/grades";
@@ -142,6 +144,19 @@ export function spanGrades(
         throw new Error(
           `${join(dir, name)}: span grade names no piece ${row.key}`,
         );
+      // A whole-line verdict from a voice note is folded into the ledger
+      // (apply-grades.ts, withVoiceGrades), which the map reads already.
+      const whole =
+        row.strength === undefined &&
+        (row.spans ?? []).length > 0 &&
+        (row.spans ?? []).every(
+          (span) => span.start <= 0 && span.end >= piece.text.length,
+        );
+      const net = (row.spans ?? []).reduce(
+        (sum, span) => sum + (span.strength ?? 0),
+        0,
+      );
+      if (whole && Math.abs(net) >= VOICE_VERDICT) continue;
       const spans: SpanGrade[] = [];
       if (row.strength !== undefined)
         spans.push({
@@ -172,11 +187,19 @@ export function spanGrades(
 export function readRules(file = RULES_FILE): RuleLesson[] {
   if (!existsSync(file)) return [];
   const rules = JSON.parse(readFileSync(file, "utf8")) as {
-    rules: { id: string; features?: Record<string, number> }[];
+    rules: {
+      id: string;
+      features?: Record<string, number>;
+      register?: string;
+    }[];
   };
   return rules.rules
     .filter((rule) => rule.features && Object.keys(rule.features).length > 0)
-    .map((rule) => ({ id: rule.id, features: rule.features! }));
+    .map((rule) => ({
+      id: rule.id,
+      features: rule.features!,
+      ...(rule.register ? { register: rule.register } : {}),
+    }));
 }
 
 export function mapParameters(table: CalibrationTable): MapParameters {

@@ -26,7 +26,11 @@ describe("batch 2 lets the owner grade part of a line and reaches the whole game
       expect(moment.description.length).toBeGreaterThan(20);
       expect(moment.speaker.length).toBeGreaterThan(2);
       for (const line of moment.lines)
-        expect(pieces.get(line.key)?.text).toBe(line.line);
+        // The batch keeps the lines as he graded them; a lesson applied to
+        // every bank since ("Alright", not "All right") may respell the line.
+        expect(
+          pieces.get(line.key)?.text.replace(/\bAlright\b/g, "All right"),
+        ).toBe(line.line);
     }
     expect(batch.coverage.lines).toBeGreaterThanOrEqual(150);
     expect(batch.coverage.lines).toBeLessThanOrEqual(250);

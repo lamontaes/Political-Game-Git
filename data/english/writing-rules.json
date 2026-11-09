@@ -362,6 +362,96 @@
         }
       ],
       "features": {}
+    },
+    {
+      "id": "no-dangling-fragments",
+      "rule": "No line is a dangling fragment (\"All right. Yes.\", \"You've made your case.\" on its own): a reply says what it agrees to or refuses.",
+      "sources": [
+        {
+          "quote": "I don't like the kind of dangling sentence fragment and stuff. You can take that with the rest of them.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        },
+        {
+          "quote": "Again, that's kind of like the sentence fragment kind of thing.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        }
+      ],
+      "features": {
+        "fragment": -1
+      }
+    },
+    {
+      "id": "every-line-gives-its-context",
+      "rule": "Every line gives its context: the listener knows why it matters to the speaker, a line never leans on an \"it\" or \"they\" the scene has not set up, and a moment's setup makes sense from the player's side.",
+      "sources": [
+        {
+          "quote": "This like no subject in these answers is a little weird.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        },
+        {
+          "quote": "I don't have any context around this race. Like, why is it important to you?",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        },
+        {
+          "quote": "So I filed and I'm telling a friend, but they're asking me. That doesn't make any sense.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        }
+      ],
+      "features": {
+        "context:points-at-unnamed": -1,
+        "context:general": -0.5
+      }
+    },
+    {
+      "id": "no-figures-people-would-not-know",
+      "rule": "People in conversation don't quote figures they wouldn't know (a race's cost, months of savings, a percent); they ask the plain question: \"Can we even afford this?\"",
+      "sources": [
+        {
+          "quote": "4.2, how would they know how much the race costs?",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        },
+        {
+          "quote": "But it'd be like 4.2, can we even afford this? It's not like we have a ton of savings, right? How much does this even cost?",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        }
+      ],
+      "features": {
+        "figure:household": -1
+      },
+      "register": "private"
+    },
+    {
+      "id": "alright-in-dialogue",
+      "rule": "In dialogue, write \"Alright\", not \"All right\".",
+      "sources": [
+        {
+          "quote": "And saying all right, first of all, I don't like all right. I prefer ALRIGHT.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "never-offer-what-the-player-cannot-do",
+      "rule": "Never offer the player what they cannot do: no ballot, vote or filing line when the player cannot vote or file.",
+      "sources": [
+        {
+          "quote": "Number 2 shouldn't even, or 3.2 shouldn't even be in there. It just shouldn't let you do it if you can't vote.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "look-up-how-real-people-say-it",
+      "rule": "Before writing a line, look up how real people say that thing in that situation (transcripts, interviews, oral histories) and write from that, not from a guess.",
+      "sources": [
+        {
+          "quote": "Again, for each of these, 4.1, 4.2, 4.3, etc., look at real-life examples of that and see how real life people talk about it. That will help you.",
+          "file": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md"
+        }
+      ],
+      "features": {}
     }
   ]
 }
