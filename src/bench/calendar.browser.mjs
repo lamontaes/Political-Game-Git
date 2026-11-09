@@ -267,10 +267,13 @@ try {
     if (answered) break;
     // A stop's scene can open its talk a moment after Continue shows, hiding
     // Continue: click whichever is on screen when the click lands.
+    // A button seen a moment ago can be gone by the click (a scene moves on): a missed click is
+    // not a failure, the loop looks again.
     await page
       .locator("#talk-leave:visible, #continue:visible")
       .first()
-      .click();
+      .click({ timeout: 5000 })
+      .catch(() => {});
     await settled();
   }
   const week = page.locator("#week");
