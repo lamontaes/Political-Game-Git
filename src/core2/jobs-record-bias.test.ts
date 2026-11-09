@@ -68,9 +68,7 @@ function townFrom(start: number) {
     const { jobs, publicEmployer } = laidOffIn(build(drawn));
     if (jobs.length >= 29 && publicEmployer) return { n, drawn };
   }
-  throw new Error(
-    `No drawn town for seed ${seed} has twenty-nine workers to lay off and a public employer`,
-  );
+  return undefined;
 }
 
 function convict(api: CoreAPI, personId: string) {
