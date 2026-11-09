@@ -2173,7 +2173,6 @@ function regionalTemplate(
   referenceHourlyMinor: number,
   memo?: RegionalMemo,
 ): JobInput | undefined {
-  const c = core(api);
   let rows = memo?.rows.get(placeId);
   if (!rows) {
     rows = regionalRows(api, placeId);
