@@ -424,23 +424,20 @@
       "spread": [0.3, 0.7]
     },
     "ssiAgedFrom": {
-      "role": "level",
-      "value": 65,
       "role": "law",
+      "value": 65,
       "tag": "SOURCED",
       "source": "42 U.S.C. 1382c(a)(1)(A) (Cornell): \"is 65 years of age or older, is blind ..., or is disabled\". Only the aged part is read; blindness and disability are not."
     },
     "ssiGeneralIncomeExclusionDollars": {
-      "role": "level",
-      "value": 20,
       "role": "law",
+      "value": 20,
       "tag": "SOURCED",
       "source": "CRS RS20294 (https://www.everycrsreport.com/reports/RS20294.html): \"a general income exclusion of $20 per month\"; the earned-income exclusions ($65 and half the rest) are not applied."
     },
     "ssiTakeUpShare": {
-      "role": "level",
-      "value": 1,
       "role": "coefficient",
+      "value": 1,
       "tag": "ESTIMATED",
       "source": "Every aged resident whose income leaves a benefit is paid; the share of eligible who apply is not read. Spread: SSA participation among eligible aged is below 100 percent.",
       "spread": [0.6, 1]
@@ -461,112 +458,134 @@
     },
     "eitcCreditRate0": {
       "value": 0.0765,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 0 qualifying children"
     },
     "eitcEarnedIncomeAmount0": {
       "value": 8680,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 0 qualifying children"
     },
     "eitcPhaseoutThresholdUnmarried0": {
       "value": 10860,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 0 qualifying children"
     },
     "eitcPhaseoutThresholdMarried0": {
       "value": 18140,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 0 qualifying children"
     },
     "eitcPhaseoutRate0": {
       "value": 0.0765,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 0 qualifying children"
     },
     "eitcCreditRate1": {
       "value": 0.34,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 1 qualifying children"
     },
     "eitcEarnedIncomeAmount1": {
       "value": 13020,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 1 qualifying children"
     },
     "eitcPhaseoutThresholdUnmarried1": {
       "value": 23890,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 1 qualifying children"
     },
     "eitcPhaseoutThresholdMarried1": {
       "value": 31160,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 1 qualifying children"
     },
     "eitcPhaseoutRate1": {
       "value": 0.1598,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 1 qualifying children"
     },
     "eitcCreditRate2": {
       "value": 0.4,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 2 qualifying children"
     },
     "eitcEarnedIncomeAmount2": {
       "value": 18290,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 2 qualifying children"
     },
     "eitcPhaseoutThresholdUnmarried2": {
       "value": 23890,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 2 qualifying children"
     },
     "eitcPhaseoutThresholdMarried2": {
       "value": 31160,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 2 qualifying children"
     },
     "eitcPhaseoutRate2": {
       "value": 0.2106,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 2 qualifying children"
     },
     "eitcCreditRate3": {
       "value": 0.45,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 3 qualifying children"
     },
     "eitcEarnedIncomeAmount3": {
       "value": 18290,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 3 qualifying children"
     },
     "eitcPhaseoutThresholdUnmarried3": {
       "value": 23890,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 3 qualifying children"
     },
     "eitcPhaseoutThresholdMarried3": {
       "value": 31160,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 3 qualifying children"
     },
     "eitcPhaseoutRate3": {
       "value": 0.2106,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 3 qualifying children"
     },
     "eitcParticipationShare": {
       "value": 0.79,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: \"the EITC's nonparticipation rate is 21% (the inverse of the 79% participation rate)\"",
       "spread": [0.75, 0.85]
     },
     "eitcQualifyingChildAgeBelow": {
       "value": 19,
+      "role": "law",
       "tag": "SOURCED",
       "source": "26 U.S.C. 152(c)(3): a qualifying child is under 19 (24 if a student); students are not told apart here, so under 19 is a floor."
     }
