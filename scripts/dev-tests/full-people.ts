@@ -11,7 +11,7 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
 import { VOTING_MODULE_ID } from "../../src/core2/modules/voting";
 setBookkeeping(false);
-const [seed = "k7", key] = process.argv.slice(2);
+const [seed = "k7"] = process.argv.slice(2);
 const place = drawPlace(seed, "elections");
 const w = buildBenchWorld(place.seed, gameStartDate(), {
   twoLevel: true,
