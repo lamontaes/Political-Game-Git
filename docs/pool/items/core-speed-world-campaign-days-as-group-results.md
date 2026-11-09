@@ -5,12 +5,13 @@ area: core
 kind: feature
 priority: 1
 size: L
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/campaign-day-groups
 pr:
 blocked-on:
 after: core-speed-message-viewers-as-groups
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T21:44:15.720Z
 ---
 
 **What.** After speeches and paid messages became group results (core-speed-hearers-as-groups, core-speed-message-viewers-as-groups), Gunnison UT's election year (key 4932660, seed n8f6) still spends 35 s in world campaigns, spread thin: campaign day choices 8.9 s (doors, donation asks, events), volunteer door shifts 6.5 s (walkWith 7.2 s: doorChoiceOf 3.2, walkDoors 2.3), polls 5.1 s, group endorsements 4.0 s. Each is a per-person decision by people nobody watches (a door answer, a poll answer, a donation answer). Make a world campaign's doors, polls and asks to unwatched full people a result by hearer group: a group impression row per group and candidate (mean warmth, share who heard of them, share who know the platform), impressionOf reads the group for a member with no row of their own, and voting reads it by the same rule as a counted voter. Design: docs/speed/off-screen-campaigns-as-results.md, stage 3.
