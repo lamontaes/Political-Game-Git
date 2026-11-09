@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/failed-bill-dont-apologize
-pr: pending
+pr: 8075
 blocked-on:
 lead: words
 milestone: play-first
