@@ -11,7 +11,7 @@ pr: "#8056"
 blocked-on:
 lead: words
 milestone: play-first
-source: "owner, Nov 9, about 8:50 a.m., batch 2 voice note (docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md)"
+source: "owner, Nov 9, about 8:50 a.m., batch 2 voice note (cto/voice-batch-2-part-1:docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md)"
 claimed-at: 2026-11-09T14:10:00.000Z
 ---
 
