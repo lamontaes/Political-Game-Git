@@ -155752,10 +155752,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-can-t-let-go-of-story-and-the-piece-in-outlet-is-the-reason",
+      "key": "scene-talk.narrate-narrate.name-cant-let-go-of-story-and-the-story-in-outlet-is",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} can't let go of {story}, and the piece in {outlet} is the reason.",
+      "text": "{name} can't let go of {story}, and the story in {outlet} is the reason.",
       "uses": [
         {
           "subject": "scene",
@@ -155806,10 +155806,10 @@
       }
     },
     {
-      "key": "scene-talk.narrate-narrate.name-has-the-piece-from-outlet-about-story-open-and-keeps-glancing-bac",
+      "key": "scene-talk.narrate-narrate.name-has-the-story-from-outlet-about-story-open-and-keeps-glancing",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has the piece from {outlet} about {story} open, and keeps glancing back at it.",
+      "text": "{name} has the story from {outlet} about {story} open, and keeps glancing back at it.",
       "uses": [
         {
           "subject": "scene",
@@ -155833,10 +155833,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.outlet-had-a-piece-on-story-did-you-read-it",
+      "key": "scene-talk.state-tell.outlet-had-a-story-on-story-did-you-read-it",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{outlet} had a piece on {story}. Did you read it?",
+      "text": "{outlet} had a story on {story}. Did you read it?",
       "uses": [
         {
           "subject": "scene",
@@ -159385,10 +159385,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-i-needed-to-hear-that",
+      "key": "scene-talk.follow-thank.thank-you-i-needed-to-hear-that-today",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I needed to hear that.",
+      "text": "Thank you. I needed to hear that today.",
       "uses": [
         {
           "subject": "scene",
@@ -159410,10 +159410,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.thank-you-that-helps-more-than-you-know",
+      "key": "scene-talk.follow-thank.thank-you-that-helps-more-than-you-know-truly",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. That helps more than you know.",
+      "text": "Thank you. That helps more than you know, truly.",
       "uses": [
         {
           "subject": "scene",
@@ -161590,10 +161590,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.outlet-ran-a-piece-on-the-change-on-story-taking-effect-i-thought-of-y",
+      "key": "scene-talk.state-tell.outlet-ran-a-story-on-the-change-on-story-taking-effect-i",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "{outlet} ran a piece on the change on {story} taking effect. I thought of you when I read it.",
+      "text": "{outlet} ran a story on the change on {story} taking effect. I thought of you when I read it.",
       "uses": [
         {
           "subject": "scene",
