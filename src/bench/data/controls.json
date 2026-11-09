@@ -1154,5 +1154,15 @@
       "looking-for-work": "Looking for work",
       "paid-under-minimum-wage": "Paid under the minimum wage"
     }
+  },
+  "billPage": {
+    "filedBy": "Filed by",
+    "filedOn": "Filed on",
+    "reached": "Taken up",
+    "clean": "Clean copy",
+    "compare": "Compare",
+    "to": "to",
+    "notVoting": "Didn't vote",
+    "noParty": "No party"
   }
 }

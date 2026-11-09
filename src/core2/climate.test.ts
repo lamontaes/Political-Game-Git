@@ -8,7 +8,7 @@ import { buildPopulation } from "./population";
 import { climateNow, HAZARDS, type ClimateMonth } from "./modules/climate";
 import { openClimate } from "./modules/climate";
 import { enactLaw, openLaws, stateLawInForce } from "./modules/laws";
-import { STATES } from "./state-bases";
+import { STATES } from "./modules/budgets";
 import { coreAPI } from "./state";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");

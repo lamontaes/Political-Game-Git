@@ -492,6 +492,8 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
+// A key as a person would say it (a name inside a screen that has its own `words`).
+const keyWords = words;
 // Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
@@ -2685,6 +2687,7 @@ async function openBillPaper(billId, show, back, backLabel) {
   );
   const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
+  const pageWords = controls.billPage ?? {};
   const floor = controls.floor ?? {};
   const backButton = makeButton({
     className: "action",
@@ -2714,15 +2717,55 @@ async function openBillPaper(billId, show, back, backLabel) {
           }).format(value / 100),
         words,
       }),
-      // Each chamber's result as the English engine words it, from the stage view.
-      votes: [...stage.floor, ...stage.override].map((entry) => ({
-        big: entry.result,
-        text: entry.chamberTitle,
-      })),
+      // Where it is: the committee or body that has it, who filed it and the days, from the page view.
+      where: {
+        heading: view.where.committee
+          ? keyWords(view.where.committee)
+          : view.where.bodyTitle,
+        rows: [
+          view.where.filedBy?.name && {
+            label: pageWords.filedBy,
+            value: view.where.filedBy.name,
+          },
+          view.where.filedOn && {
+            label: pageWords.filedOn,
+            value: dateWords(view.where.filedOn),
+          },
+          view.where.reachedChamberOn && {
+            label: pageWords.reached,
+            value: dateWords(view.where.reachedChamberOn),
+          },
+        ].filter(Boolean),
+      },
+      views: { clean: pageWords.clean, compare: pageWords.compare },
+      amendsLabel: words.amends ?? "",
+      // Each chamber's result as the English engine words it, from the stage view, then the floor's
+      // vote by party and those who cast none, from the page view.
+      votes: [...stage.floor, ...stage.override].map((entry) => {
+        const tally = view.tallies.find(
+          (t) => t.stage === "floor" && t.chamber === entry.chamber,
+        );
+        return {
+          big: entry.result,
+          text: entry.chamberTitle,
+          rows: [
+            ...(tally?.byParty ?? []).map((row) => ({
+              label: row.party ? keyWords(row.party) : pageWords.noParty,
+              value: `${row.yes} ${pageWords.to} ${row.no}`,
+            })),
+            ...(tally?.notVoting
+              ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
+              : []),
+          ],
+        };
+      }),
       blank: billEstimate(paper, { estimate: {} }),
       sections: paper.sections.map((section) => ({
         text: section.text ?? paper.title,
         estimate: billEstimate(paper, section),
+        inserted: view.sections[section.index]?.inserted ?? null,
+        struck: view.sections[section.index]?.struck ?? null,
+        amends: view.sections[section.index]?.amends?.citation ?? null,
       })),
       lines: [
         paper.authorityWarning,
@@ -3569,6 +3612,7 @@ const sheets = {
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
+                    head: r.head,
                     selected: r.line === opened.line,
                     onSelect: () => {
                       budgetLine = r.line;
