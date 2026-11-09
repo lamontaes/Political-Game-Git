@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: done
 claimed-by: memory/full-demotion
 pr: #8051
 blocked-on:
