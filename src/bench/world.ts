@@ -56,7 +56,7 @@ import { openMeetings } from "../core2/modules/meetings";
 import { officeDayData, openOfficeDay } from "../core2/office-day-levels";
 import { openPresidentActs } from "../core2/modules/president-acts";
 import { openCases } from "../core2/modules/constituent-cases";
-import { openJustice } from "../core2/modules/justice";
+import { openJustice, seedConvictionHistory } from "../core2/modules/justice";
 import { openPublicSafety } from "../core2/modules/public-safety";
 import { openThePast } from "../core2/past";
 import { peopleData, peopleModules } from "../director/play-modules";
@@ -577,6 +577,8 @@ function* benchWorldStages(
   openPresidentActs(core);
   // Prosecutors, trials and prisons: reads the corruption engine's records.
   openJustice(core);
+  // Some adults carry a felony conviction from before day one (seeded generation of who exists).
+  seedConvictionHistory(core, seed);
   // Ordinary crime, courts, jail, firearm laws and fire service.
   openPublicSafety(core);
   // The federal courts as a national flow and stock, from the Commission and the Bureau.

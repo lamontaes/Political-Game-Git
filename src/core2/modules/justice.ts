@@ -33,8 +33,15 @@
  * placement for their term. A counted case, its sentence and its custody are
  * rows of the same tables as a named defendant's, marked `kind: "counted"`.
  */
-import { registerModule } from "../state";
-import { completedMonthsBetween, makeIsoDate } from "../kernel/dates";
+import { coreAPI, registerModule } from "../state";
+import { seededUnit } from "../seeded";
+import felonyRecordShare from "../../../data/research/justice/felony-record-share-2010.json" with { type: "json" };
+import {
+  addDays,
+  ageInYears,
+  completedMonthsBetween,
+  makeIsoDate,
+} from "../kernel/dates";
 import { decisionLean, decisionTraitWeight } from "../trait-decisions";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -1823,4 +1830,89 @@ export const JUSTICE_MODULE: CoreModule = {
 export function openJustice(core: CoreState): void {
   if (!core.modules.has(JUSTICE_MODULE_ID))
     registerModule(core, JUSTICE_MODULE);
+}
+
+/**
+ * The world's past in the courts: a share of its adults, drawn from the
+ * world's seed, already have a felony conviction on record, finished long ago,
+ * so the engines that read a record (public hiring, the vote, the press) have
+ * residents with one from day one. Seeded generation of who exists, never a
+ * choice in play: nobody's later outcome is rolled. Named people only; a
+ * counted group carries the state's share through the engines that read its
+ * counts (stopgap SG-LABOR-record-bias-public-only for hiring).
+ */
+export function seedConvictionHistory(core: CoreState, seed: string): number {
+  const api = coreAPI(core);
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return 0;
+  const cases = api.moduleState(JUSTICE_MODULE_ID).table("cases");
+  const sentences = api.moduleState(JUSTICE_MODULE_ID).table("sentences");
+  const today = makeIsoDate(core.date);
+  const span = felonyRecordShare.yearsBack;
+  let seeded = 0;
+  for (const person of core.people.values()) {
+    if (!person.alive || person.tier === "husk") continue;
+    if (ageInYears(person.birthDate, core.date) < 18 + span.from) continue;
+    if (
+      seededUnit(seed, `conviction-history:${person.id}`) >=
+      felonyRecordShare.share
+    )
+      continue;
+    // How long ago, from the same seed, but never before the person was an adult.
+    const adultYears = ageInYears(person.birthDate, core.date) - 18;
+    const back = Math.min(
+      span.to,
+      adultYears,
+      span.from +
+        Math.floor(
+          seededUnit(seed, `conviction-history-when:${person.id}`) *
+            (span.to - span.from + 1),
+        ),
+    );
+    const date = addDays(today, -Math.max(span.from, back) * 365);
+    const caseId = `case:history:${person.id}`;
+    const sentenceId = `sentence:history:${person.id}`;
+    const source: Source = {
+      tag: "ESTIMATED",
+      citation: felonyRecordShare.citation,
+      asOf: core.date,
+      estimatedFrom: felonyRecordShare.id,
+    };
+    sentences.put({
+      id: sentenceId,
+      kind: "person",
+      caseId,
+      personId: person.id,
+      date,
+      severity: 0.3,
+      fineMinor: 0,
+      finePaidMinor: 0,
+      forfeitureMinor: 0,
+      forfeiturePaidMinor: 0,
+      treasuryId: null,
+      probationMonths: 0,
+      custodyMonths: 0,
+      releaseDate: date,
+      seatsVacated: [],
+      jobsEnded: [],
+      reasons: { history: 1 },
+      source,
+    } satisfies SentenceRow as unknown as ModuleRow);
+    cases.put({
+      id: caseId,
+      kind: "person",
+      investigationId: `investigation:history:${person.id}`,
+      prosecutorOfficeId: "office:history",
+      defendantId: person.id,
+      crimeIds: ["crime:history"],
+      evidence: 1,
+      date,
+      status: "convicted",
+      plea: true,
+      trialDate: null,
+      reasons: { history: { share: felonyRecordShare.share } },
+      sentenceId,
+    } satisfies CaseRow as unknown as ModuleRow);
+    seeded += 1;
+  }
+  return seeded;
 }

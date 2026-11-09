@@ -4,9 +4,9 @@
  * a conviction against an applicant. Twin worlds of one drawn place and seed,
  * identical but for the law: the same twenty-five workers of private
  * employers are laid off through the business's own layoff, and every other
- * one of them who then looks for work is given a conviction on the justice
- * record (written as the justice engine writes it; the engine convicts too
- * rarely for a year to supply them). The town's government then raises its
+ * one of them who then looks for work and already has a conviction on the
+ * justice record (the world's own history: a share of adults are given one at
+ * opening, seedConvictionHistory) is an applicant with a record. The town's government then raises its
  * police line by four positions' cost through the real budget, so the public
  * employer posts openings that the week's matching fills from whoever applies:
  * more applicants than openings. Ninety days on, a seeker with a record who
@@ -30,16 +30,11 @@ import {
 } from "./law-reach/group-a-records";
 import { advanceCore } from "./life";
 import { amendBudget, governments } from "./modules/budgets";
-import {
-  JUSTICE_MODULE_ID,
-  convictionsOf,
-  type CaseRow,
-  type SentenceRow,
-} from "./modules/justice";
+import { convictionsOf } from "./modules/justice";
 import { JOBS_MODULE_ID, layOffWorker } from "./modules/jobs";
 import { enactLaw, lawChain } from "./modules/laws";
 import { coreAPI } from "./state";
-import type { CoreAPI, CoreState } from "./types";
+import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const LINE = "budget-line:police";
@@ -74,7 +69,7 @@ function setupOf(core: CoreState) {
       );
     })
     .sort((a, b) => a.id.localeCompare(b.id))
-    .slice(0, 25);
+    .slice(0, 80);
   const staffed = employers.some((o) => currentStaff(api, o.id).length > 0);
   return {
     api,
@@ -93,47 +88,6 @@ function townFrom(start: number) {
     if (setupOf(build(drawn)).ok) return { n, drawn };
   }
   return undefined;
-}
-
-function convict(api: CoreAPI, personId: string) {
-  const date = api.state.date;
-  const table = (name: string) =>
-    api.moduleState(JUSTICE_MODULE_ID).table(name);
-  const sentence: SentenceRow = {
-    id: `sentence:test:${personId}`,
-    kind: "person",
-    caseId: `case:test:${personId}`,
-    personId,
-    date,
-    severity: 0.3,
-    fineMinor: 0,
-    finePaidMinor: 0,
-    treasuryId: null,
-    probationMonths: 0,
-    custodyMonths: 0,
-    releaseDate: date,
-    seatsVacated: [],
-    jobsEnded: [],
-    reasons: {},
-    source: { tag: "SOURCED", citation: "test", asOf: date },
-  };
-  const row: CaseRow = {
-    id: sentence.caseId,
-    kind: "person",
-    investigationId: "investigation:test",
-    prosecutorOfficeId: "office:test",
-    defendantId: personId,
-    crimeIds: ["crime:test"],
-    evidence: 1,
-    date,
-    status: "convicted",
-    plea: false,
-    trialDate: null,
-    reasons: {},
-    sentenceId: sentence.id,
-  };
-  table("sentences").put(sentence as never);
-  table("cases").put(row as never);
 }
 
 function twin(ban: boolean, place: { seed: string; key: string }) {
@@ -162,8 +116,8 @@ function twin(ban: boolean, place: { seed: string; key: string }) {
     .filter((s) => s.placeId === town)
     .map((s) => s.personId)
     .sort();
-  const withRecord = seekers.filter((_, i) => i % 2 === 0);
-  for (const id of withRecord) convict(api, id);
+  // The world's own records: laid-off residents who already have a conviction.
+  const withRecord = seekers.filter((id) => convictionsOf(api, id).length > 0);
   // Four positions' cost more for the police: the employer posts the openings.
   amendBudget(api, {
     governmentId: gov!.id,
@@ -191,7 +145,10 @@ it(
       const banned = twin(true, place);
       const open = twin(false, place);
       expect(banned.withRecord, where).toEqual(open.withRecord);
-      expect(banned.withRecord.length, `${where}: seekers`).toBeGreaterThan(1);
+      if (banned.withRecord.length < 1) {
+        tried.push(`${where}: no laid-off resident has a record`);
+        continue;
+      }
       const employer = banned.employers[0]!;
       const biasOf = (w: ReturnType<typeof twin>) =>
         recordBiasAt(w.api, employer.id, employer.placeId);

@@ -1,0 +1,10 @@
+{
+  "id": "felony-record-share-2010",
+  "about": "The share of adults who have a felony conviction on record, read by src/core2/modules/justice.ts seedConvictionHistory to give a share of a new world's adults a conviction before day one (seeded generation of who exists, never a choice in play).",
+  "tag": "ESTIMATED",
+  "share": 0.064,
+  "spread": { "low": 0.05, "high": 0.08 },
+  "citation": "Shannon, Uggen, Schnittker, Thompson, Wakefield and Massoglia, 'The Growth, Scope, and Spatial Distribution of People With Felony Records in the United States, 1948-2010', Demography 54(5):1795-1818 (2017): ex-felons are 6.4 percent of the voting-age population in 2010. The abstract was read in a web search (https://pdxscholar.library.pdx.edu/soc_fac/60); the paper's tables were not.",
+  "estimateNote": "ESTIMATED: one national share for every adult. The paper's state estimates, and the strong differences by sex (about a quarter of African American men), age and place, were not read, so every adult draws against the same share. The spread's ends are the other published national figures between 5 and 8 percent of adults (not read here); check them against the paper before a researcher turns this SOURCED.",
+  "yearsBack": { "from": 2, "to": 25 }
+}
