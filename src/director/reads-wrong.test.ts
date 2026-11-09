@@ -103,6 +103,7 @@ interface Played {
     purpose: string;
     facts: { key: string; text: string; recordIds: string[] }[];
     said: string;
+    narration: string;
   }[];
   /** The kinds of the lines the player's own scenes opened with, by scene. */
 }
@@ -154,6 +155,7 @@ function playedYear(): Played {
         purpose: result.scene.purpose,
         facts: result.scene.facts,
         said: JSON.stringify(result.scene.talk),
+        narration: (_scene?.narration ?? []).map((line) => line.text).join(" "),
       });
     },
   });
@@ -268,4 +270,12 @@ it(`a refusal of a trade answers the trade, and the address promises no reason i
     sceneTalkBank as unknown as { parts: { text: string }[] }
   ).parts.filter((part) => /not mine to give/.test(part.text));
   expect(refusals).toEqual([]);
+}, 1_200_000);
+
+it(`a lead never calls someone "Someone" after the arrival line named them (seed ${seed})`, () => {
+  const { where, scenes } = playedYear();
+  for (const scene of scenes)
+    expect(scene.narration, `${where}: ${scene.typeKey}`).not.toMatch(
+      /Someone is calling/,
+    );
 }, 1_200_000);
