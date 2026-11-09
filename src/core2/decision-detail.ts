@@ -13,6 +13,7 @@
  * and never scans the log.
  */
 import { parameter } from "./parameters";
+import retention from "./data/log-retention.json" with { type: "json" };
 import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { forgetOldExperiences } from "./knowledge-retention";
@@ -33,6 +34,31 @@ registerWorldMapPart(
   "core2-decision-detail-relationship-queue",
   relationshipQueues,
 );
+
+/**
+ * A circle member's routine entries of the kinds in `log-retention.json`
+ * (a drive strengthened by one more speech), dropped after
+ * `circleDecisionDetailDays` like their weighed choices.
+ */
+const shortQueues = new WeakMap<CoreState, [string, string][]>();
+registerWorldMapPart("core2-decision-detail-short-queue", shortQueues);
+const SHORT_KINDS: ReadonlySet<string> = new Set(retention.shortDetailKinds);
+
+/** True for a routine kind that keeps the short detail window. */
+export function isShortDetailKind(kind: string): boolean {
+  return SHORT_KINDS.has(kind);
+}
+
+/** A circle member's short-detail entry, to drop after the detail window. */
+export function queueShortEntry(
+  core: CoreState,
+  date: string,
+  id: string,
+): void {
+  let queue = shortQueues.get(core);
+  if (!queue) shortQueues.set(core, (queue = []));
+  queue.push([date, id]);
+}
 
 /**
  * The public log rows of campaign gifts and endorsements, dropped
@@ -249,6 +275,7 @@ export function condenseCircleDecisions(core: CoreState): void {
   forgetOldExperiences(core);
   condensePlayerDecisions(core);
   condenseRelationshipDecisions(core);
+  dropShortEntries(core);
   const queue = queues.get(core);
   if (!queue?.length) {
     dropOldCircleActs(core, dropQueues);
@@ -339,6 +366,24 @@ function dropOldCircleActs(
     const id = drops[done]![1];
     done++;
     const row = core.durableLog.get(id);
+    if (!row || involvesPlayer(core, row)) continue;
+    forgetEntry(core, row);
+  }
+  if (done) drops.splice(0, done);
+}
+
+/** Drops short-detail entries older than the detail window, except any that name the player. */
+function dropShortEntries(core: CoreState): void {
+  const drops = shortQueues.get(core);
+  if (!drops?.length) return;
+  const before = daysAgo(
+    core,
+    parameter("circleDecisionDetailDays", core.data.parameters),
+  );
+  let done = 0;
+  while (done < drops.length && drops[done]![0] < before) {
+    const row = core.durableLog.get(drops[done]![1]);
+    done++;
     if (!row || involvesPlayer(core, row)) continue;
     forgetEntry(core, row);
   }

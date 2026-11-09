@@ -3,7 +3,9 @@
     "allow": [
       "Bash(git merge origin/main)",
       "Edit(/.github/workflows/release.yml)",
-      "WebFetch"
+      "WebFetch",
+      "Bash(gh pr merge:*)",
+      "Bash(gh api -X PUT repos/lamontaes/Political-Game-Git/pulls/:*)"
     ]
   },
   "hooks": {

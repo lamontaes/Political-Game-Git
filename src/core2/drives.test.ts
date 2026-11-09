@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
+import { setBookkeeping } from "./bookkeeping";
 import {
   DEFAULT_DRIVES_DATA,
   createDrivesModule,
@@ -23,6 +24,7 @@ import termination from "../../data/research/people/termination-claims-1998.json
 import trajectories from "../../data/research/people/trauma-trajectories-2018.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { coreAPI } from "./state";
+import { worldRecords } from "./snapshot";
 import type {
   CoreEventInput,
   CoreModule,
@@ -375,6 +377,34 @@ describe("P10 drives and causes", () => {
     expect(run()).toBe(run());
   });
 
+  it("keeps the forming response's trace in play, and every reinforcement's only with bookkeeping on", () => {
+    const traces = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const core = bereavedCore();
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        coreAPI(core).emit(death(core));
+        const drive = drivesReport(core).drives.find(
+          (row) => row.personId === carerId,
+        )!;
+        return {
+          formations: drive.formations.length,
+          first: JSON.stringify(drive.formations[0]),
+          strength: currentStrength(coreAPI(core), drive),
+        };
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    const kept = traces(true);
+    const play = traces(false);
+    expect(kept.formations).toBeGreaterThan(1);
+    expect(play.formations).toBe(1);
+    // The same drive either way: only the kept history differs.
+    expect(play.first).toBe(kept.first);
+    expect(play.strength).toBe(kept.strength);
+  });
+
   it("a drive fades by its half-life when nothing renews it", () => {
     const core = bereavedCore();
     const api = coreAPI(core);
@@ -475,6 +505,51 @@ describe("P10 drives and causes", () => {
     );
     expect(group.liquidMinor).toBe(groupBefore + amount);
     expect(core.cashJournal.nextSequence).toBe(sequenceBefore + p("one"));
+  });
+
+  it("a donation's canonical record is kept only while it posts in play, and every one with bookkeeping on", () => {
+    const give = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const core = bereavedCore();
+        const api = coreAPI(core);
+        const donor = core.people.get(carerId)!;
+        const before = donor.liquidMinor;
+        const drive = drivesReport(core).drives.find(
+          (row) => row.personId === carerId,
+        )!;
+        createDrivesModule().effectHandlers!.donate!(
+          api,
+          carerId,
+          {
+            definition: DEFAULT_DRIVES_DATA.actions.find(
+              (row) => row.id === "donate-to-cause",
+            )!,
+            targetId: office,
+            driveId: drive.id,
+            availableHours: p("workHours"),
+          },
+          core.date,
+          p("one"),
+          undefined as never,
+        );
+        const runtime = worldRecords(core).parts["core2-drives-runtime"] as {
+          donations: Map<string, unknown>;
+        };
+        return {
+          given: before - donor.liquidMinor,
+          records: runtime.donations.size,
+        };
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    const kept = give(true);
+    const play = give(false);
+    expect(kept.records).toBe(1);
+    expect(play.records).toBe(0);
+    expect(play.given).toBeGreaterThan(p("zero"));
+    expect(play.given).toBe(kept.given);
   });
 
   it("a cause group is offered to whoever learns of it, as a walk of every group on the topic finds", () => {

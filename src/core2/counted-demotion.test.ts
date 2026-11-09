@@ -16,6 +16,7 @@ import { residentPerson, residentsRuntime } from "./modules/residents";
 import { countedMoves } from "./modules/counted-moves";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
+import { isExperiencedKey } from "./knowledge-retention";
 import { generatedOpening } from "./tooling/generated-world";
 import { corePlaceByKey } from "./place-lookup";
 import type { CoreState } from "./types";
@@ -93,6 +94,32 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       expect(isDemoted(person)).toBe(true);
       expect(residentPerson(core, id)?.id).toBe(id);
     }
+    // They hold no knowledge back in the counts (but the events they lived
+    // through, which the forgetting pass drops within weeks) and learn
+    // nothing else while there, as no counted person keeps knowledge.
+    const api = coreAPI(core);
+    const heard = {
+      key: "test:heard-while-counted",
+      value: "yes",
+      learnedAt: core.date,
+      sourceId: "test",
+      access: "public" as const,
+    };
+    for (const id of ids) {
+      expect(
+        [...(core.knowledgeByPerson.get(id)?.keys() ?? [])].filter(
+          (key) => !isExperiencedKey(key),
+        ),
+        `${place.name}: ${id}`,
+      ).toEqual([]);
+      api.observe(id, heard);
+      expect(api.knows(id, heard.key)).toBeUndefined();
+      // Their group's record holds their view while counted: no stance rows.
+      if (core.modules.has("views"))
+        expect(
+          api.moduleState("views").table("stances").query("byPerson", [id]),
+        ).toEqual([]);
+    }
     // Their money went to their group's account, and a last paycheck reaching
     // them after it goes on at the next review; no dollar was lost.
     advanceCore(core, after(300));
@@ -119,6 +146,9 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       expect(isDemoted(back)).toBe(false);
       expect(back.placeId).toBe(record.household.placeId);
       expect(residentPerson(core, ids[0]!)).toBeUndefined();
+      // Filled in again, they learn as anyone full does.
+      api.observe(back.id, { ...heard, learnedAt: core.date });
+      expect(api.knows(back.id, heard.key)?.value).toBe("yes");
     }
     advanceCore(core, after(330));
     expect(total(core)).toBe(start);

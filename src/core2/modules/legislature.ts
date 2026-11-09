@@ -125,7 +125,7 @@ import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decision-table";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import {
   bodyNumbering,
   designation,
@@ -6371,10 +6371,15 @@ export interface Sitting {
   readonly source: Source;
 }
 let sittingReader:
-  ((api: CoreAPI, bodyOfficeId: string) => Sitting | null) | null = null;
-/** The engine that keeps the bodies' calendars says when each sits next. */
+  | ((api: CoreAPI, bodyOfficeId: string, after?: string) => Sitting | null)
+  | null = null;
+/** The engine that keeps the bodies' calendars says when each sits next, or, given a day, the first a town or county body sits after it. */
 export function registerSittingReader(
-  reader: (api: CoreAPI, bodyOfficeId: string) => Sitting | null,
+  reader: (
+    api: CoreAPI,
+    bodyOfficeId: string,
+    after?: string,
+  ) => Sitting | null,
 ): void {
   sittingReader = reader;
 }
@@ -6410,17 +6415,47 @@ export function hasSitting(api: CoreAPI, bodyOfficeId: string): boolean {
   return (sittingReader?.(api, bodyOfficeId) ?? null) !== null;
 }
 
+/** The law series holding the hours of public notice a regular meeting needs. */
+const NOTICE_SERIES = "meeting-notice-hours";
+
 export function scheduleVote(api: CoreAPI, billId: string): string {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
-  const sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  let sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
   if (!sitting)
     throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
+  // The place's public-notice law: a town or county body must post the
+  // meeting's business so many hours ahead, so a bill put on the agenda later
+  // than that waits for the meeting after. A rule in force, read from the law.
+  const notice = lawInForce(api, NOTICE_SERIES);
+  const noticeHours = notice.value ?? 0;
+  const posted = api.state.date;
+  const leadHours = 24 * daysBetweenText(posted, sitting.date);
+  let waited = false;
+  if (noticeHours > 0 && leadHours < noticeHours) {
+    const later = sittingReader?.(api, bill.bodyOfficeId, sitting.date) ?? null;
+    if (later) {
+      sitting = later;
+      waited = true;
+    }
+  }
   api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
     key: `meeting:${billId}`,
     date: sitting.date,
     kind: "council-meeting",
     source: sitting.source,
-    sourceRecordIds: [billId],
+    // The posting day, the notice hours and the law that set them, so a screen
+    // and a proof read why a bill sits where it does.
+    sourceRecordIds: [
+      billId,
+      ...(noticeHours > 0
+        ? [
+            `posted:${posted}`,
+            `notice-hours:${noticeHours}`,
+            `notice-law:${notice.governing?.id ?? NOTICE_SERIES}`,
+            ...(waited ? ["waited-for-notice"] : []),
+          ]
+        : []),
+    ],
   });
   // A body with committees takes the bill to its committee a week ahead of
   // the floor, when the sitting is far enough off to leave a day before it.

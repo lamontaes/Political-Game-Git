@@ -43,6 +43,7 @@ import { openSuccession } from "../core2/modules/succession";
 import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
+import { openNationalOpinion } from "../core2/modules/national-opinion";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
@@ -566,6 +567,8 @@ function* benchWorldStages(
   openCases(core);
   // The town's strikes, protests and rallies, from how its term reads by area.
   openPublicAction(core);
+  // The country's approval of its president, from the economy and what happened.
+  openNationalOpinion(core);
   // What happens in the rest of the country, as results (disasters from FEMA's record).
   openNationalEvents(core);
   openClimate(core);

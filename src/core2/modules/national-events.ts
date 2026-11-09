@@ -32,7 +32,12 @@ import budgetBases from "../../../data/research/money/public-budget-bases.json" 
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { placeStateKey } from "../place-map";
 import { registerModule } from "../state";
-import { hazardOfIncident, stateHazardRate, type Hazard } from "./climate";
+import {
+  hazardOfIncident,
+  RECORD_END,
+  stateHazardRate,
+  type Hazard,
+} from "./climate";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
 export const NATIONAL_EVENTS_MODULE_ID = "national-events";
@@ -41,8 +46,6 @@ const RUN_KIND = "national-events";
 const DUE_KIND = "national-event-due";
 /** The first year of FEMA's record the history is read from. */
 const FIRST_YEAR = 2000;
-/** The last day FEMA's record covers (owner, Oct 16: after it the game keeps making its own weather). */
-const RECORD_END = "2026-10-09";
 
 type Row = [string, string, number, number, number];
 

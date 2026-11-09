@@ -22,7 +22,7 @@ const conditions: RaceConditions = {
   federal: true,
   typicalSpendPerVote: 1,
   raceVotes: 100,
-  national: { unemploymentChange: 0, inflationChange: 0 },
+  approvalGapPoints: 0,
   town: {
     placeId: "fixture:town",
     unemploymentChange: 2,
