@@ -70,8 +70,11 @@ try {
   assert.match(ran, /Days passed/, ran);
   // Scenes: only the types the game can bring about are offered; the rest stay off.
   await page.locator('[data-testid="dev-scene"]').click();
-  await page.waitForFunction(
-    () => document.querySelector(".dev-scene .option-status")?.textContent,
+  // The sheet redraws after a run and rebuilds the line from the last result, so wait for the words.
+  await page.waitForFunction(() =>
+    /Begun for/.test(
+      document.querySelector(".dev-scene .option-status")?.textContent ?? "",
+    ),
   );
   assert.match(
     await page.locator(".dev-scene .option-status").textContent(),
@@ -81,7 +84,7 @@ try {
   // happen take up to a year of days and are proved in dev-scene.test.ts).
   assert.equal(
     await page
-      .locator('.dev-scene select option:text-matches("No engine")')
+      .locator('.dev-scene [data-scene]:text-matches("No engine")')
       .count(),
     0,
     "a scene nothing can start is offered",
@@ -105,8 +108,7 @@ try {
         (r) => new URL(r.url()).pathname === "/api/dev/scene",
       );
       await page.evaluate((picked) => {
-        const select = document.querySelector(".dev-scene select");
-        select.value = picked;
+        document.querySelector(`.dev-scene [data-scene="${picked}"]`).click();
         document.querySelector('[data-testid="dev-scene"]').click();
       }, value);
       await answered;

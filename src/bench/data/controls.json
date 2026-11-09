@@ -322,7 +322,6 @@
   },
   "devScene": {
     "title": "Scenes",
-    "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
     "reasons": {
@@ -332,7 +331,8 @@
     }
   },
   "devPerson": {
-    "title": "Health",
+    "title": "Dev mode",
+    "decide": "Make them decide",
     "fallIll": "Falls seriously ill",
     "layOff": "Laid off by their employer",
     "laidOff": "Laid off",
