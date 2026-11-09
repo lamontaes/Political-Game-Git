@@ -8,6 +8,7 @@
 import { stableHash } from "./kernel/ids";
 import { parameter } from "./parameters";
 import { coreAPI } from "./state";
+import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
 import type { CoreState, IsoDate, JobInput, PersonId } from "./types";
 
@@ -111,6 +112,10 @@ function sharedWork(
   return out;
 }
 
+/** Each employer's number of workgroups, fixed when its staff is first read. */
+const GROUP_COUNTS = new WeakMap<CoreState, Record<string, number>>();
+registerWorldMapPart("core2-workgroup-counts", GROUP_COUNTS);
+
 /**
  * The coworkers someone knows by name from their first day: the others in
  * their workgroup at their employer. An employer's staff splits into groups
@@ -134,8 +139,8 @@ export function workgroupOf(
 /**
  * An employer's workgroups: its staff split into groups by the same seeded
  * draw `workgroupOf` reads (each person's group is a function of the world's
- * seed, the employer and their id; a power of two groups, each splitting in
- * two as the staff doubles), each group sorted by id. Read once per
+ * seed, the employer and their id, over a group count fixed when the
+ * employer's staff was first read), each group sorted by id. Read once per
  * employer by anything that credits the time a workgroup spends together.
  */
 export function workgroupsAt(
@@ -148,17 +153,16 @@ export function workgroupsAt(
     .filter((row) => !row.endsAt && core.people.has(row.personId))
     .map((row) => row.personId);
   const staff = [...new Set(listed)];
-  // The number of groups doubles as the staff doubles, so a group splits in
-  // two and nobody is moved to a stranger's group when one person joins or
-  // leaves (a count that moved with every eighth hire would reshuffle who
-  // works beside whom).
-  const groups =
-    p("two") **
-    Math.ceil(
-      Math.log2(
-        Math.max(p("one"), listed.length / p("openingCoworkerGroupSize")),
-      ),
-    );
+  // An employer's group count is set the first time its staff is read and
+  // kept: later hires and people filled in join the groups that exist, so a
+  // person's workgroup does not change because the staff grew (a count that
+  // followed the staff would reshuffle who works beside whom).
+  let fixed = GROUP_COUNTS.get(core as CoreState);
+  if (!fixed) GROUP_COUNTS.set(core as CoreState, (fixed = {}));
+  const groups = (fixed[organizationId] ??= Math.max(
+    p("one"),
+    Math.ceil(listed.length / p("openingCoworkerGroupSize")),
+  ));
   const group = (id: PersonId) =>
     Number.parseInt(
       stableHash(JSON.stringify([core.seed, organizationId, id])).slice(
