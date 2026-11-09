@@ -59,6 +59,11 @@ function queueKey(
   else queue.byDay.set(learnedAt, [[personId, key]]);
 }
 
+/** Whether a fact key is the note that a person lived through an event (`event:<id>:experienced`). */
+export function isExperiencedKey(key: string): boolean {
+  return key.startsWith(PREFIX) && key.endsWith(SUFFIX);
+}
+
 /** Queues an experienced key as it is written; `api.observe` calls this for every fact. */
 export function queueExperience(
   core: CoreState,

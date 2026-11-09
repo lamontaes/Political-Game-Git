@@ -20,6 +20,7 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { isDemoted } from "../counted-groups";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -937,6 +938,13 @@ export const viewsModule: CoreModule = {
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
     for (const personId of learnedBy) {
+      // Someone back in the counts holds no stance of their own while
+      // counted (two-level rule, Oct 11): their group's record speaks for
+      // them, and meeting them again fills them in from it. Writing theirs
+      // left more stance rows for them than for full people by year 3
+      // (Montpelier, Vermont, Nov 9: 21,093 against 12,880).
+      const hearer = api.state.people.get(personId);
+      if (hearer && isDemoted(hearer)) continue;
       const view = viewOf(api, personId);
       if (!view) continue;
       let desiredChange = event.desiredChange;
