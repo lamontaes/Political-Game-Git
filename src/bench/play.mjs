@@ -3574,13 +3574,10 @@ const sheets = {
                   stripSection(
                     5,
                     words.whoWrote,
+                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
+                    // Screens words it from the record with the Budgets labels.
                     introText(
-                      [
-                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                        latest.adoptedBy,
-                      ]
-                        .filter(Boolean)
-                        .join(", "),
+                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
                     ),
                   ),
                 ]
