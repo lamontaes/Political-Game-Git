@@ -571,6 +571,8 @@ function startSeeking(
   employed: boolean,
   reasonKey: string,
   referenceHourlyMinor: number,
+  /** Progress already made toward finding work when the search is first seen (the opening's jobless are partway through their spells). */
+  regionalPull?: number,
 ): void {
   if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
@@ -595,7 +597,9 @@ function startSeeking(
       referenceHourlyMinor: prior?.referenceHourlyMinor ?? referenceHourlyMinor,
       ...(prior?.regionalPull !== undefined
         ? { regionalPull: prior.regionalPull }
-        : {}),
+        : regionalPull !== undefined
+          ? { regionalPull }
+          : {}),
     });
   if (!employed && !prior) {
     store(api)
@@ -850,7 +854,14 @@ function openSeekers(api: CoreAPI): void {
       .sort((a, b) => days(a) - days(b) || a.id.localeCompare(b.id))
       .slice(0, quotas.get(key) ?? 0)
       .forEach((person) =>
-        startSeeking(api, person.id, false, OPENING_UNEMPLOYED, 0),
+        startSeeking(
+          api,
+          person.id,
+          false,
+          OPENING_UNEMPLOYED,
+          0,
+          openingProgress(c, person.id),
+        ),
       );
   }
 }
@@ -923,16 +934,29 @@ function openCountedSeekers(api: CoreAPI): void {
     (a, b) => a.share - b.share || a.personId.localeCompare(b.personId),
     quotas,
   ))
-    store(api).table("countedSeekers").put({
-      id: row.personId,
-      isSeeker: true,
-      personId: row.personId,
-      placeId: row.placeId,
-      employed: false,
-      since: c.date,
-      reasonKey: OPENING_UNEMPLOYED,
-      referenceHourlyMinor: 0,
-    });
+    store(api)
+      .table("countedSeekers")
+      .put({
+        id: row.personId,
+        isSeeker: true,
+        personId: row.personId,
+        placeId: row.placeId,
+        employed: false,
+        since: c.date,
+        reasonKey: OPENING_UNEMPLOYED,
+        referenceHourlyMinor: 0,
+        regionalPull: openingProgress(c, row.personId),
+      });
+}
+
+/**
+ * How far along finding work an opening's jobless person already is: a point
+ * on their spell from the world's seed and their id, as the turnover pulls
+ * seed theirs (generation of who exists, no roll). Everyone starting at zero
+ * would have the whole opening cohort find work in the same month.
+ */
+function openingProgress(c: CoreState, personId: string): number {
+  return new SeededRng(c.seed).fork(`opening-pull:${personId}`).next();
 }
 
 /** A job's role: its occupation, or its title where it has none. */
@@ -1045,6 +1069,9 @@ function open(api: CoreAPI): void {
   }
   openCountedSeekers(api);
   openSeekers(api);
+  // The adults who would be looking at the opening are found now, partway through their spells, not all at the first monthly review with their progress at zero.
+  reviewCountedEntry(api, true);
+  reviewJobless(api, true);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
@@ -2763,7 +2790,7 @@ function raisePay(api: CoreAPI): void {
 }
 
 /** Jobless working-age adults choose whether to look for work, pushed by how few days their household's money covers. */
-export function reviewJobless(api: CoreAPI): void {
+export function reviewJobless(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     [young, old] = jobsData.workingAge as [number, number];
@@ -2813,7 +2840,8 @@ export function reviewJobless(api: CoreAPI): void {
     const result = chooseAct(c, person.id, [
       offer("wait", person.id, {}),
       offer("look", person.id, {
-        baseline: p("jobsEnterBaseline"),
+        // The baseline is the cost of starting to look: someone already looking has paid it.
+        baseline: seeking ? p("jobsContinueBaseline") : p("jobsEnterBaseline"),
         ...(enter ? { web: enter } : {}),
         // A dependent's own living cost is carried by the household, so the
         // pressure is how few days the household's money covers its costs.
@@ -2837,6 +2865,7 @@ export function reviewJobless(api: CoreAPI): void {
           false,
           jobsData.reasons.startedLooking,
           lastPay(api, person.id),
+          opening ? openingProgress(c, person.id) : undefined,
         ),
     );
   }
@@ -4004,7 +4033,7 @@ function reviewCountedWorkers(
  * household's money covers, the place's unemployment and their traits. The
  * same comparison starts the search and, for someone already looking, ends it.
  */
-export function reviewCountedEntry(api: CoreAPI): void {
+export function reviewCountedEntry(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     rt = residentsRuntime(c);
@@ -4016,6 +4045,12 @@ export function reviewCountedEntry(api: CoreAPI): void {
     if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
   }
   const seekers = store(api).table("countedSeekers");
+  // Counted people who found work in the wider region hold it as a regional job, not a wage flow of the town's: they are at work, not jobless.
+  const abroad = new Set(
+    (
+      store(api).table("regional").rows() as unknown as { personId: string }[]
+    ).map((row) => row.personId),
+  );
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   for (const h of counted.liveHouseholds()) {
@@ -4024,7 +4059,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;
-      if (working.has(personId)) continue;
+      if (working.has(personId) || abroad.has(personId)) continue;
       const age =
         daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
@@ -4041,10 +4076,14 @@ export function reviewCountedEntry(api: CoreAPI): void {
         }
         days = cost > 0 ? liquid / cost : Number.POSITIVE_INFINITY;
       }
+      const seeking = seekers.get(personId) as SeekerRow | undefined;
       const result = chooseAct(c, personId, [
         offer("wait", personId, {}),
         offer("look", personId, {
-          baseline: p("jobsEnterBaseline"),
+          // The baseline is the cost of starting to look: someone already looking has paid it.
+          baseline: seeking
+            ? p("jobsContinueBaseline")
+            : p("jobsEnterBaseline"),
           // The outcome web's pull toward being at work for this person's groups.
           web: participationShift(
             api,
@@ -4063,7 +4102,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
         personId,
         "countedSeekers",
         result.selected!.definition.id === jobsData.actions.look.id,
-        seekers.get(personId) as SeekerRow | undefined,
+        seeking,
         () =>
           seekers.put({
             id: personId,
@@ -4075,6 +4114,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
             reasonKey: jobsData.reasons.startedLooking,
             referenceHourlyMinor: 0,
             reasons: reasonsOf(result),
+            ...(opening ? { regionalPull: openingProgress(c, personId) } : {}),
           } as never),
       );
     }

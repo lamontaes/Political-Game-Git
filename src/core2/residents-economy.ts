@@ -477,6 +477,8 @@ export function scaleOutsideSales(
   core: CoreState,
   placeId: string,
   factor: number,
+  /** A seller's service level now (staff against what its demand needs, 0 to 1), where the jobs engine keeps one. */
+  serviceLevel?: (organizationId: string) => number | undefined,
 ): number {
   const rt = residentsRuntime(core);
   if (!rt || !(factor > 0)) return 0;
@@ -484,9 +486,15 @@ export function scaleOutsideSales(
   if (!bases) outsideBases.set(core, (bases = new Map()));
   let factors = outsideFactors.get(core);
   if (!factors) outsideFactors.set(core, (factors = new Map()));
+  let shares = outsideShares.get(core);
+  if (!shares) outsideShares.set(core, (shares = new Map()));
   const before = factors.get(placeId) ?? 1;
   factors.set(placeId, factor);
   let changed = 0;
+  // Each seller's outside spending before the division, by its kind.
+  const kinds = serviceLevel
+    ? new Map<string, { flow: Flow; raw: number; level: number }[]>()
+    : undefined;
   for (const flow of rt.flows.values()) {
     if (
       flow.kind !== "outside-sales" ||
@@ -501,76 +509,49 @@ export function scaleOutsideSales(
         flow.amountMinor /
           (before * limitOf(core, flow.payeeId) * shareOfFlow(core, flow.id)),
       );
-    flow.amountMinor = Math.round(
-      bases.get(flow.id)! *
-        factor *
-        limitOf(core, flow.payeeId) *
-        shareOfFlow(core, flow.id),
-    );
+    const raw = bases.get(flow.id)! * factor * limitOf(core, flow.payeeId);
+    flow.amountMinor = Math.round(raw * shareOfFlow(core, flow.id));
     changed += 1;
+    const level = kinds && serviceLevel!(flow.payeeId);
+    const book =
+      kinds && level !== undefined
+        ? core.finance.businesses.get(flow.payeeId)
+        : undefined;
+    if (kinds && book && !book.closedAt) {
+      const group = kinds.get(book.kindId) ?? [];
+      group.push({ flow, raw, level: level! });
+      kinds.set(book.kindId, group);
+    }
   }
-  divideOutsideSales(core, placeId);
+  if (kinds) divideOutsideSales(core, kinds, shares);
   return changed;
 }
 
 /**
- * Buyers outside the town divide their spending among the sellers of one
- * kind by what each now charges against its rivals (SG-CORE-outside-share-price-only):
- * a seller's share moves with its price relative to its own opening price,
- * against the kind's average, at the elasticity of substitution between rival
- * sellers (`businessRivalPriceElasticity`, spending moves with price to the
- * power of one less that elasticity). The kind's total is unchanged, so one
- * seller's loss is its rivals' gain; a lone seller keeps all of it.
+ * Buyers outside the town divide their spending among the sellers of one kind
+ * by how much of it each can serve (SG-CORE-outside-share-service-level): a
+ * seller whose staff falls short of what its demand needs serves that share of
+ * its customers, and the rest go to its rivals. The kind's total is unchanged,
+ * so one seller's loss is its rivals' gain; a lone seller keeps all of it.
  */
-function divideOutsideSales(core: CoreState, placeId: string): void {
-  stopgap("SG-CORE-outside-share-price-only", core);
-  const rt = residentsRuntime(core);
-  if (!rt) return;
-  const sigma = core.data.parameters.businessRivalPriceElasticity?.value;
-  if (sigma === undefined) return;
-  const bases = outsideBases.get(core);
-  let shares = outsideShares.get(core);
-  if (!shares) outsideShares.set(core, (shares = new Map()));
-  const groups = new Map<
-    string,
-    { flow: Flow; raw: number; relative: number }[]
-  >();
-  for (const flow of rt.flows.values()) {
-    if (
-      flow.kind !== "outside-sales" ||
-      flow.endedAt ||
-      flow.placeId !== placeId
-    )
-      continue;
-    const book = core.finance.businesses.get(flow.payeeId);
-    const base = bases?.get(flow.id);
-    if (!book || book.closedAt || !(book.anchorPrice > 0) || base === undefined)
-      continue;
-    const raw =
-      base *
-      (outsideFactors.get(core)?.get(placeId) ?? 1) *
-      limitOf(core, flow.payeeId);
-    const group = groups.get(book.kindId) ?? [];
-    group.push({ flow, raw, relative: book.price / book.anchorPrice });
-    groups.set(book.kindId, group);
-  }
-  for (const group of groups.values()) {
+function divideOutsideSales(
+  core: CoreState,
+  kinds: ReadonlyMap<string, { flow: Flow; raw: number; level: number }[]>,
+  shares: Map<string, number>,
+): void {
+  stopgap("SG-CORE-outside-share-service-level", core);
+  for (const group of kinds.values()) {
     const total = group.reduce((n, row) => n + row.raw, 0);
-    if (group.length < 2 || !(total > 0)) {
+    const served = group.reduce((n, row) => n + row.raw * row.level, 0);
+    if (group.length < 2 || !(total > 0) || !(served > 0)) {
       for (const row of group) shares.set(row.flow.id, 1);
       continue;
     }
-    const mean =
-      group.reduce((n, row) => n + row.raw * row.relative, 0) / total;
-    const weights = group.map(
-      (row) => row.raw * (row.relative / mean) ** (1 - sigma),
-    );
-    const sum = weights.reduce((n, w) => n + w, 0);
-    group.forEach((row, i) => {
-      const share = row.raw > 0 ? (weights[i]! * total) / (sum * row.raw) : 1;
-      shares!.set(row.flow.id, share);
+    for (const row of group) {
+      const share = row.raw > 0 ? (row.level * total) / served : 1;
+      shares.set(row.flow.id, share);
       row.flow.amountMinor = Math.round(row.raw * share);
-    });
+    }
   }
 }
 

@@ -5,15 +5,19 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import {
   castMemberVote,
+  FEDERAL_HOUSE,
   holdVote,
   LEGISLATURE_MODULE_ID,
+  bodyOf,
   memberKey,
   members,
   type BillRow,
 } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { billPageView } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
+import { DevMode } from "./dev-mode";
 import { BenchPlayer } from "./player";
 
 // The bill page's one object: the name, the stage and its day, the sponsor, each section's label
@@ -251,4 +255,62 @@ describe(`the bill page's view (seed ${seed})`, () => {
       `no drawn place had a budget bill in its first days (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 1_800_000);
+
+  it("names the player's own representative in each chamber that has the bill, and the vote they cast", () => {
+    const tried: string[] = [];
+    for (let i = 0; i < 6; i += 1) {
+      const draw = drawPlace(`${seed}:rep:${i}`, "bill-page-rep");
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const dev = new DevMode(
+        world.core,
+        world.director,
+        new BenchPlayer(world.core, world.director),
+        world.placeId,
+      );
+      const house = dev.lawmakingBodies().find((b) => b.id === FEDERAL_HOUSE);
+      if (!house) {
+        tried.push(`${draw.name}: no House`);
+        continue;
+      }
+      // A territory's or D.C.'s seat in the House is a delegate's, who casts no floor vote: the
+      // place's own seat records say whether the town has a voting member.
+      const houseKind = bodyOf(coreAPI(world.core), house.id)?.kind;
+      if (
+        !townSeats(coreAPI(world.core)).some(
+          ({ office, holder }) => office.kind === houseKind && holder,
+        )
+      ) {
+        tried.push(`${draw.name}: a delegate, no voting House member`);
+        continue;
+      }
+      const filed = dev.introduce({
+        bodyOfficeId: house.id,
+        sponsorId: house.members[0]!.key,
+        series: "minimum-wage",
+        value: 1500,
+      }).bill;
+      if (filed.status === "blocked") {
+        tried.push(`${draw.name}: blocked`);
+        continue;
+      }
+      dev.decideAt(filed.id, 40, { chairHears: true });
+      const page = billPageView(world.core, filed.id);
+      const mine = page.yourMembers.filter((m) => m.chamber === house.id);
+      expect(mine.length, `${draw.name}: the town's House member`).toBe(1);
+      expect(mine[0]!.name.length, draw.name).toBeGreaterThan(0);
+      expect(["yes", "no", "abstain"], `${draw.name}: their vote`).toContain(
+        mine[0]!.vote,
+      );
+      console.log(
+        `your member: ${draw.name} (${draw.key}, seed ${draw.seed}) ${mine[0]!.title} ${mine[0]!.name} voted ${mine[0]!.vote}`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place showed the town's House member (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });

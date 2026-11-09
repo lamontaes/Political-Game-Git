@@ -60,6 +60,7 @@ export function rosterScreen({
       rows: Math.max(6, Math.min(14, Math.floor((viewHeight() - 330) / 36))),
       columns: 1,
       rowHeight: 34,
+      growRows: true,
       gap: 2,
       className: "roster-pages",
     }),

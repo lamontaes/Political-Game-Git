@@ -99,9 +99,7 @@
     "addedBy": "disasters helper (laws lead)",
     "addedAt": "2026-10-28",
     "replacement": "Deaths from a disaster recorded by the health engine's cause-of-death records within the incident's dates (SHELDUS-style county damages per capita if a source of them is added as data), read as disaster.severe; and a disasters engine that records damage to businesses, public buildings and people, so severity is not one town figure.",
-    "status": "resolved",
-    "resolvedAt": "2026-10-28",
-    "resolution": "Resolved Oct 28: the outcome web reads disaster.severe from the disasters engine's news events (severity from the homes FEMA found damaged per resident, SG-WEB-disaster-severity-damage-proxy), and the housing engine values each home, and prices each purchase and sale, at the home-values link's factor (law-wiring-disasters-web.test.ts)."
+    "status": "open"
   },
   {
     "id": "SG-WEB-voting-graduation-cause",
@@ -683,7 +681,7 @@
     "id": "SG-WEB-unread-finance-past-due-debt",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 200,
+    "line": 194,
     "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); student-debt-relief-to-finances is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -707,7 +705,7 @@
     "id": "SG-WEB-unread-gov-borrowing-cost",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 206,
+    "line": 200,
     "whatItFakes": "newspaper-closure-to-borrowing-cost is not run by the outcome web, so it moves nothing (it has no researched size; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -719,7 +717,7 @@
     "id": "SG-WEB-unread-press-media-trust",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 212,
+    "line": 206,
     "whatItFakes": "press-attacks-to-media-trust is not run by the outcome web, so it moves nothing (no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -743,7 +741,7 @@
     "id": "SG-WEB-unread-disaster-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 224,
+    "line": 218,
     "whatItFakes": "preparedness-to-disaster-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -839,7 +837,7 @@
     "id": "SG-WEB-unread-env-litter",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 236,
+    "line": 230,
     "whatItFakes": "container-deposit-to-litter moves env.litter only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -851,7 +849,7 @@
     "id": "SG-WEB-unread-disaster-flood-damage",
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 242,
+    "line": 236,
     "whatItFakes": "flood-zone-limits-to-damage is not run by the outcome web, so it moves nothing (no measure: the web does not keep disaster.flood-damage and no engine produces it); no person, household or organization record changes.",
     "why": "no measure: the web does not keep disaster.flood-damage and no engine produces it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -986,7 +984,7 @@
     "id": "SG-WEB-unread-farmland-value-per-acre",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 278,
+    "line": 272,
     "whatItFakes": "farm-payments-cut-to-land-values moves farmland.value-per-acre only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -998,7 +996,7 @@
     "id": "SG-WEB-unread-rail-intercity-ridership",
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
-    "line": 284,
+    "line": 278,
     "whatItFakes": "federal-rail-expansion-to-riders moves rail.intercity-ridership only in the outcome web's monthly ledger; no person, household or organization record changes.",
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
@@ -1075,8 +1073,8 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns housing.homelessness multiplies its own person, household or organization rate by webReach(api, placeId, \"housing.homelessness\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Resolved: every link this row named now reaches an engine's own records or is carried by one (scripts/outcome-web/effect-matrix.ts grades it as reaching), so it is off the unwired list.",
+    "status": "resolved"
   },
   {
     "id": "SG-WEB-unread-births-rate",
@@ -1124,6 +1122,18 @@
     "addedBy": "laws lead (claude/laws-medical-debt)",
     "addedAt": "2026-11-01",
     "replacement": "The place's uninsured share for the web's graduation link is read from the coverage records the world keeps (employer plans, Medicare, and the reach's Medicaid coverage records, full and counted), so the expansion and the requirement move it through the same records the bills read.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WEB-rent-burden-steeper-past-32",
+    "kind": "missing-data",
+    "file": "data/research/outcome-web/links.json",
+    "line": 1,
+    "whatItFakes": "rent-burden-to-homelessness runs as one slope from a 22 percent rent burden (0.033 a point, ESTIMATED from GAO-20-433's rent association, spread 0.025 to 0.041); the research says it rises faster past 32 percent, but no published slope for the steeper part was found, so steeperExtraSize is null and the effect does not steepen at 32.",
+    "why": "Colburn and Aldern 2022 give the 22 and 32 percent thresholds in charts only; GAO-20-433 gives a rent-level association and no burden-band slope.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "Read the steeper-part slope from Colburn and Aldern 2022 (Homelessness Is a Housing Problem, UC Press) chapter data or its replication files, and set steeperExtraSize with its spread.",
     "status": "open"
   }
 ]

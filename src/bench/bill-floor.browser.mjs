@@ -110,6 +110,42 @@ try {
       else if (!(await page.locator("#week").isDisabled())) break;
       await page.waitForTimeout(800);
     }
+    // A floor stop needs a bill on the body's next sitting, and a drafted bill is on no agenda: dev
+    // mode introduces one in each state chamber with `schedule: true`, which puts it on the next
+    // sitting, so the player's chamber has a bill for its floor day.
+    const filed = await page.evaluate(async (playerName) => {
+      const post = async (path, body) => {
+        const r = await fetch(`/api/dev/${path}`, {
+          method: "POST",
+          body: JSON.stringify(body),
+        });
+        return r.status;
+      };
+      // Only the chambers the player sits in: a bill in every state chamber (65 or more) crashes the page.
+      const holders = await (await fetch("/api/advanced/officeholders")).json();
+      const me = holders.find((h) => h.name === playerName)?.personId;
+      const bodies = (
+        await (await fetch("/api/dev/lawmaking-bodies")).json()
+      ).filter((b) => b.members.some((m) => m.key === me));
+      const laws = await (await fetch("/api/dev/laws")).json();
+      const row = laws.series.find((r) => r.series === "minimum-wage");
+      let count = 0;
+      for (const body of bodies.filter(
+        (b) => b.level === "state" && b.members.length > 0,
+      )) {
+        const status = await post("introduce", {
+          bodyOfficeId: body.id,
+          sponsorId: body.members[0].key,
+          series: "minimum-wage",
+          value: 1500,
+          unit: row?.levels.find((l) => l.row)?.row.unit,
+          schedule: true,
+        });
+        if (status === 200) count += 1;
+      }
+      return count;
+    }, names[at].split("\n")[0]);
+    console.log(`dev mode scheduled ${filed} bills in the player's chambers`);
     // Play days until the evening before a floor day holds the player for a bill.
     held = false;
     for (let day = 0; day < 90 && !held; day += 1) {
@@ -124,7 +160,13 @@ try {
         const pass = page
           .locator("#desk-items")
           .getByRole("button", { name: /Let the day pass/ });
-        if (await pass.count()) await pass.first().click();
+        // One hearing stop stands for each committee the player sits on, and resuming does not
+        // clear the others: let every one pass before the day moves on.
+        for (let i = 0; i < 20 && (await pass.count()) > 0; i += 1) {
+          await pass.first().click();
+          await page.waitForTimeout(400);
+          if (!(await visible("desk"))) break;
+        }
       }
       // A colleague asks for your vote the evening before: refuse ("I can't vote for it"), the reply
       // that leaves the vote the player's own to cast; agreeing would choose the side asked for.
@@ -138,10 +180,18 @@ try {
         await page.locator("#talk-next").click();
       else if (await visible("talk-leave"))
         await page.locator("#talk-leave").click();
+      // A stop can open its desk between the check and the click, and the desk hides the card
+      // (scene mode): a click that cannot land is let go, and the next turn of the loop meets the desk.
       else if (await visible("continue"))
-        await page.locator("#continue").click();
+        await page
+          .locator("#continue")
+          .click({ timeout: 3000 })
+          .catch(() => {});
       else if (!(await page.locator("#week").isDisabled()))
-        await page.locator("#week").click();
+        await page
+          .locator("#week")
+          .click({ timeout: 3000 })
+          .catch(() => {});
       await page.waitForTimeout(1500);
     }
     if (!held) {

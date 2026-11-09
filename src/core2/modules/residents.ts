@@ -1626,6 +1626,18 @@ export function countedSinceOpening(
   return m !== undefined && m < rt!.store.openingMembers;
 }
 
+/** The id of the counted group a counted person's household stands in today, if any. */
+export function countedGroupIdOf(
+  core: CoreState,
+  personId: PersonId,
+): string | undefined {
+  const rt = runtimes.get(core);
+  const household = countedHouseholdOf(core, personId);
+  return household && household.group >= 0
+    ? rt?.store.groups[household.group]?.id
+    : undefined;
+}
+
 /** The counted household a person belongs to, if they are still counted. */
 export function countedHouseholdOf(
   core: CoreState,

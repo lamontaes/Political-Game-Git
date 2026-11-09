@@ -62,6 +62,55 @@ export interface NamedVote {
   readonly personId: string | null;
   readonly name: string;
   readonly vote: string;
+  /**
+   * Why they voted so, from the position the record kept: each reason that pulled, its side and
+   * its signed magnitude, strongest first. Empty where the record kept none (a vote the player
+   * cast, an official not weighed).
+   */
+  readonly reasons?: readonly {
+    readonly reason: string;
+    readonly side: "for" | "against";
+    readonly magnitude: number;
+  }[];
+}
+
+/** The reasons a position record kept, strongest first, each with its side and signed magnitude. */
+const REASON_KEYS = [
+  "views",
+  "constituents",
+  "sponsor",
+  "deal",
+  "lobby",
+  "party",
+  "wing",
+  "ambition",
+  "press",
+  "trait",
+  "consistency",
+  "bribe",
+  "reply",
+] as const;
+function reasonsOf(
+  position: object | undefined,
+): NonNullable<NamedVote["reasons"]> {
+  const kept = position as
+    Readonly<Record<string, number | undefined>> | undefined;
+  return REASON_KEYS.flatMap((key) => {
+    const n = kept?.[key];
+    return typeof n === "number" && n !== 0
+      ? [
+          {
+            reason: key,
+            side: n > 0 ? ("for" as const) : ("against" as const),
+            magnitude: n,
+          },
+        ]
+      : [];
+  }).sort(
+    (a, b) =>
+      Math.abs(b.magnitude) - Math.abs(a.magnitude) ||
+      a.reason.localeCompare(b.reason),
+  );
 }
 
 /** The side a member has told the player they lean to: from the stake the player learned. */
@@ -89,11 +138,16 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     ...rows.filter((r) => r.memberId === you),
     ...rows.filter((r) => r.memberId !== you),
   ];
-  const named = (row: { memberId: string; vote: string }): NamedVote => ({
+  const named = (row: {
+    memberId: string;
+    vote: string;
+    position?: object;
+  }): NamedVote => ({
     memberId: row.memberId,
     personId: core.people.has(row.memberId) ? row.memberId : null,
     name: personName(core, row.memberId),
     vote: row.vote,
+    ...(row.position ? { reasons: reasonsOf(row.position) } : {}),
   });
 
   const rows = votesOn(api, bill.id) as unknown as {
@@ -102,6 +156,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     chamber?: string;
     override?: boolean;
     tieBreak?: boolean;
+    position?: object;
   }[];
   const chambers = chambersOf(api, bill);
   const byChamber = (override: boolean) =>
@@ -284,21 +339,6 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
   const waiting = deskWaiting(api).some((row) => row.id === bill.id);
   const lean = waiting ? executiveLean(api, bill.id, player) : null;
   const side = (n: number) => (n > 0 ? "for" : n < 0 ? "against" : "none");
-  const REASONS = [
-    "views",
-    "constituents",
-    "sponsor",
-    "deal",
-    "lobby",
-    "party",
-    "wing",
-    "ambition",
-    "press",
-    "trait",
-    "consistency",
-    "bribe",
-    "reply",
-  ] as const;
   const decided = (
     votesOn(api, bill.id) as unknown as {
       memberId: string;
@@ -310,12 +350,7 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     .map((row) => ({
       ...named(row),
       personId: core.people.has(row.memberId) ? row.memberId : null,
-      reasons: REASONS.flatMap((key) => {
-        const n = row.position?.[key];
-        return typeof n === "number" && n !== 0
-          ? [{ reason: key, side: side(n) }]
-          : [];
-      }),
+      reasons: reasonsOf(row.position),
     }));
   const desk = {
     waiting,
@@ -827,6 +862,42 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
       // The day the chamber has until is not in the records yet (each body's session end, by level).
       until: null as string | null,
     },
+    /**
+     * The player's own representatives in each chamber that has the bill: the holders of the seats
+     * that cover the player's town (their district's legislator, a state senator, a member of
+     * Congress, a senator), each with the vote they cast, else null, and what they told the player
+     * if anything. A council or board with no seat for the town's district lists none.
+     */
+    yourMembers: chambersOf(api, bill).flatMap((chamber) => {
+      const kind = bodyOf(api, chamber)?.kind;
+      return townSeats(api)
+        .filter(({ office, holder }) => office.kind === kind && holder)
+        .map(({ office, holder }) => {
+          const memberId = memberKey(holder!);
+          const cast = (
+            votesOn(api, bill.id) as unknown as {
+              memberId: string;
+              vote: string;
+              chamber?: string;
+              override?: boolean;
+            }[]
+          ).find(
+            (row) =>
+              row.memberId === memberId &&
+              row.chamber === chamber &&
+              !row.override,
+          );
+          return {
+            chamber,
+            title: office.title,
+            memberId,
+            personId: core.people.has(memberId) ? memberId : null,
+            name: personName(core, memberId),
+            vote: cast?.vote ?? null,
+            told: stage.told.find((t) => t.memberId === memberId)?.side ?? null,
+          };
+        });
+    }),
     sections,
     totalChangeMinor,
     tallies,

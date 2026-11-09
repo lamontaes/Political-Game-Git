@@ -190,9 +190,7 @@
     "addedBy": "claude/political-game-pool-yucp92-yy",
     "addedAt": "2026-10-20",
     "replacement": "A project record with a start, a cost, milestones the contractor's payments fund and a completion date the funded work reaches, which the office day reads for the ribbon.",
-    "status": "resolved",
-    "resolvedAt": "2026-10-28",
-    "resolution": "Resolved Oct 28: the disasters engine gives each disaster a severity from the homes FEMA found damaged per resident (SG-WEB-disaster-severity-damage-proxy stands for the death toll the research used), the outcome web reads it as disaster.severe, and the moves engine's pull to leave reads the out-migration link's factor (law-wiring-disasters-web.test.ts)."
+    "status": "open"
   },
   {
     "id": "SG-OFFICE-FED-acting-head",
