@@ -18,7 +18,12 @@ const seed = process.argv[2] ?? "sb";
 const draws = Number(process.argv[3] ?? 3);
 setBookkeeping(false);
 for (let i = 0; i < draws; i++) {
-  const draw = drawPlace(seed, process.env.DRAW_PREFIX ? `${process.env.DRAW_PREFIX}${i + Number(process.env.DRAW_FROM ?? 0)}` : `sewer-bounds-${i}`);
+  const draw = drawPlace(
+    seed,
+    process.env.DRAW_PREFIX
+      ? `${process.env.DRAW_PREFIX}${i + Number(process.env.DRAW_FROM ?? 0)}`
+      : `sewer-bounds-${i}`,
+  );
   const { core } = buildBenchWorld(draw.seed, gameStartDate(), {
     twoLevel: true,
     placeKey: draw.key,
