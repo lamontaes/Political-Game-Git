@@ -368,10 +368,20 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     stage,
     desk,
     amendments,
-    /** The sections whose amount an amendment may lower or raise. */
-    sectionsAmendable: bill.provisions
-      .map((p, i) => (p.kind === "policy-question" ? -1 : i))
-      .filter((i) => i >= 0),
+    /**
+     * The sections whose amount an amendment may lower or raise: those with a law in force to move
+     * from, the test `moveOwnAmendment` applies (a section with none had a button and an error).
+     */
+    sectionsAmendable: (() => {
+      const sections = billForm(api, bill).sections;
+      return bill.provisions
+        .map((p, i) =>
+          p.kind === "policy-question" || sections[i]?.before.value == null
+            ? -1
+            : i,
+        )
+        .filter((i) => i >= 0);
+    })(),
     /** The yes-or-no sections an amendment may reverse (the answer struck, its opposite inserted). */
     sectionsReversible: bill.provisions
       .map((p, i) => (p.kind === "policy-question" ? i : -1))
