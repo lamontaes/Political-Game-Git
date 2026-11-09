@@ -28,11 +28,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/national-events.ts",
     "line": 1,
-    "whatItFakes": "The country's disasters are FEMA's recorded 2000-2024 disasters replayed on their own days under one seeded starting shift, cycling every 25 years; after the record ends (Oct 9, 2026) the game does not make its own weather.",
+    "whatItFakes": "Inside the record (to Oct 9, 2026) the country's disasters are FEMA's real ones on their real days. After it they come from the climate's hazard levels (flood, storm, wildfire only: heat and drought have no recorded history), but each takes the detail of a recorded disaster of its state and hazard in turn, so the counties, the aid and the damage it shows are a past disaster's, not the new one's.",
     "why": "The zero-dice guard allows no new draw, and the hazard calendar after the record needs a GENERATION entry in the list-pick inventory and per-county monthly hazard rates, which are not built (owner, Oct 16: both FEMA's records and the world's own conditions; after the records end, the game keeps making its own weather).",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
-    "replacement": "Real FEMA disasters on their real dates while the world's dates fall inside the record (through Oct 9, 2026); after that a hazard calendar generated once at world creation from each county's recorded per-hazard monthly rates (a GENERATION entry), later fed by the world's own conditions (heat, drought).",
+    "replacement": "Detail built on open from the causes: the counties the hazard's level struck, the housing stock, building codes and budgets in force (SG-NATION-disaster-damage-from-causes).",
     "status": "open"
   },
   {
@@ -52,11 +52,11 @@
     "kind": "missing-reader",
     "file": "src/core2/modules/climate.ts",
     "line": 1,
-    "whatItFakes": "The climate keeps one national warming level and each hazard's level month by month from the carbon laws in force, but no disaster reads a level yet: the real FEMA disasters replay as before and a hazard level moves nothing a player can see.",
-    "why": "The owner's weather ruling (Nov 8) is built in three pieces: the links and the warming, each county's hazard levels, then disasters drawn from them; this is the first.",
+    "whatItFakes": "The country's disasters after the record read the climate's hazard levels, but the town's own disasters (the disasters module) still stop at the record's end and no county, season or hazard level reaches a town's own disaster, so a played town gets no new weather from the climate.",
+    "why": "Piece 3 of the owner's weather ruling (Nov 8) covers the country's disasters, built as results; the town's own disasters need damage, aid and a declaration built from causes, which is the next piece.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "Each county's hazard level by season from its recorded history, moved by hazardFactor; disasters drawn month by month from those levels.",
+    "replacement": "The town's county rate (hazardRate) drives its own disasters through the same exposure, with damage from the housing stock.",
     "status": "open"
   },
   {
