@@ -4133,6 +4133,55 @@
         }
       ]
     },
+    "home-damaged": {
+      "state": "deliver-news",
+      "replies": ["promise", "ask", "offer", "deflect"],
+      "follow": {
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "offer": ["accept", "refuse"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "press": ["promise", "offer", "leave"],
+        "answer": ["promise", "offer", "deflect"],
+        "refuse": ["promise", "leave"]
+      },
+      "endings": [
+        {
+          "id": "seeing-it-through",
+          "label": "You said you'd see the repairs through",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["promise"]
+          }
+        },
+        {
+          "id": "chipping-in",
+          "label": "You put in what you have toward the repairs",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["offer"],
+            "asker": ["accept"]
+          }
+        },
+        {
+          "id": "put-off",
+          "label": "You put the repairs off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "left-there",
+          "label": "Left it there",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "rally-word": {
       "state": "request",
       "replies": ["agree", "thank", "promise", "deflect"],
