@@ -5,9 +5,9 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: claimed
+status: done
 claimed-by: money/service-charges-by-use
-pr:
+pr: #7889
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-08T23:25:23.432Z

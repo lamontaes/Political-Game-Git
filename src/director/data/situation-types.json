@@ -1850,6 +1850,19 @@
             "adviser": "counterpart"
           },
           "opener": "adviser"
+        },
+        {
+          "match": {
+            "label": "circumstance:mentor-weighs-in"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "party-asked",
+          "bind": {
+            "deciding": "subject",
+            "adviser": "counterpart"
+          },
+          "opener": "adviser",
+          "setting": ["other-home"]
         }
       ],
       "tag": {
@@ -1907,6 +1920,20 @@
             "witnesses": "present"
           },
           "opener": "accuser"
+        },
+        {
+          "match": {
+            "label": "circumstance:bribe-accused"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "scandal.reported",
+          "sceneKey": "bribe-reported",
+          "bind": {
+            "accuser": "counterpart",
+            "accused": "subject"
+          },
+          "opener": "accuser",
+          "setting": ["public"]
         }
       ],
       "tag": {

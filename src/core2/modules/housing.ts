@@ -1175,17 +1175,17 @@ function rehousedDwelling(
   householdId: string,
   rentMinor: number,
 ): void {
+  const prior = store(api).table("dwellings").get(`dwelling:${householdId}`) as
+    { kind?: string; usps?: string } | undefined;
   store(api)
     .table("dwellings")
     .put({
       id: `dwelling:${householdId}`,
       householdId,
       tenure: "rent",
-      kind:
-        (
-          store(api).table("dwellings").get(`dwelling:${householdId}`) as
-            { kind?: string } | undefined
-        )?.kind ?? "apartment",
+      kind: prior?.kind ?? "apartment",
+      // The household still lives in the same state: its eviction law stays its own.
+      ...(prior?.usps ? { usps: prior.usps } : {}),
       rentMinor,
       since: api.state.date,
       basis: "rehoused",
