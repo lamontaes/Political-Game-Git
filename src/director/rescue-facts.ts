@@ -10,7 +10,7 @@
  */
 import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { familyRelation } from "../core2/closeness";
-import { HEALTH_RESCUED } from "../core2/modules/rescue";
+import { HEALTH_RESCUED } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import type { NewsFact } from "./life-news";
