@@ -73350,6 +73350,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
         },
@@ -73359,6 +73360,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
         },
@@ -73368,6 +73370,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
@@ -73377,6 +73380,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.two-of-us-at-home-and-both-our-jobs-ride-on-it"
         }
@@ -73778,6 +73782,7 @@
           "move": "promise",
           "role": "asker",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "outcome": "resolved"
         }
@@ -73927,7 +73932,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -73951,7 +73956,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -73975,7 +73980,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -84416,6 +84421,7 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84466,6 +84472,7 @@
           "move": "decline",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84491,6 +84498,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84591,6 +84599,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.two-families-moved-out-this-year-nobody-s-moved-in"
         }
@@ -84666,6 +84675,7 @@
           "move": "plea",
           "role": "asker",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.reply-decline.i-m-not-going-to-pick-a-side-on-a-state-law-at-a-town-hall"
         }
@@ -85517,6 +85527,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.written-answers-go-in-a-drawer-will-you-say-it-here-now"
         }
@@ -85592,6 +85603,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.bring-it-how-out-loud-with-my-name"
         }
@@ -85667,6 +85679,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.last-time-it-was-a-form-nobody-wrote-back"
         }
@@ -85742,6 +85755,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.a-list-of-addresses-doesn-t-help-the-people-at-them"
         }
@@ -86069,6 +86083,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "press"
         }
@@ -86195,6 +86210,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "answer"
         }
@@ -86305,6 +86321,7 @@
           "move": "answer",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "ask"
         }
@@ -86830,6 +86847,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.i-rent-and-i-work-for-a-living-i-want-to-know-what-i-d-be-getting"
         }
@@ -87255,7 +87273,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -87279,7 +87297,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -87329,6 +87347,7 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-ask.then-send-it-when-can-we-see-it"
         }

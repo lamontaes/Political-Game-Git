@@ -477,6 +477,13 @@ function composeBinding(
   // A town hall (meetings.ts holdTownHall): the question this resident stood up with,
   // and whether the host's answer to it agreed with the resident's own stand,
   // opposed it, or was not given.
+  // The lines that speak of the hall, the microphone and the next question
+  // play only in a scene the hall's own record staged.
+  if (said.townHallId)
+    facts.townhall = {
+      text: said.townHallId,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.townHallId && core.modules.has(MEETINGS_MODULE_ID)) {
     const api = coreAPI(core as CoreState);
     const hall = api
