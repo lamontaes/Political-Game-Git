@@ -6751,3 +6751,4 @@ export function voteAmendment(api: CoreAPI, amendmentId: string): AmendmentRow {
 
 export type { PersonState };
 export { OFFICES_MODULE_ID };
+export { LEADERSHIP_MODULE_ID } from "./leadership";
