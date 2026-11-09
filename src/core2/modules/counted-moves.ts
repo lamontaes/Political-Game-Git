@@ -155,6 +155,8 @@ export interface Runtime {
   holdNorm: Map<PlaceId, number>;
   /** The people each institution's rooms hold (place and type), seen the first month: its beds. */
   roomCapacity: Map<string, number>;
+  /** Next in line on each institution type's waiting list (admitToRooms). */
+  roomQueue: Map<string, number>;
   serial: number;
   /** After-tax real income by state and wage, for this month (cleared each month). */
   netCache: Map<string, number>;
@@ -406,6 +408,7 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     totals: new Map(),
     holdNorm: new Map(),
     roomCapacity: new Map(),
+    roomQueue: new Map(),
     serial: 0,
     netCache: new Map(),
   };
@@ -1439,18 +1442,17 @@ function admitToRooms(
     }
     let vacancy = known - occupied;
     if (!filled.length) continue;
+    // The waiting list is read in order, never drawn: applicants queue in the
+    // order of the type's own households (by id), and the next room goes to
+    // the next in line.
+    // stopgapId: SG-GQ-waiting-list-order
+    const line = [...filled].sort((a, b) => (a.id < b.id ? -1 : 1));
     for (;;) {
-      const template =
-        filled[
-          Number.parseInt(
-            stableHash(
-              `${core.seed}:room-admit:${key}:${date}:${rt.serial}`,
-            ).slice(0, 8),
-            16,
-          ) % filled.length
-        ]!;
+      const turn = rt.roomQueue.get(key) ?? 0;
+      const template = line[turn % line.length]!;
       const size = store.weightedCount(template);
       if (!(vacancy >= size) || size <= 0) break;
+      rt.roomQueue.set(key, turn + 1);
       const record = drawHousehold(
         api,
         `${date}:${rt.serial}:room`,

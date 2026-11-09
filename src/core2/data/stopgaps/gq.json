@@ -192,5 +192,17 @@
     "addedAt": "2026-11-01",
     "replacement": "Each county's employed over its civilian noninstitutional population by age (ACS PUMS, or B23001 less the county's institutional residents by age from the 2020 Census DHC), read in place of the B23001 rate.",
     "status": "open"
+  },
+  {
+    "id": "SG-GQ-waiting-list-order",
+    "kind": "missing-record",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 1448,
+    "whatItFakes": "An institution's waiting list is the order of its own households by id: the next room goes to the next in line, shaped like that household. No application date or need is recorded, so who is ahead is not read from a record.",
+    "why": "The repository holds no application or need records for an institution's list; a seeded pick would be dice, so the list is read in a fixed order.",
+    "addedBy": "Tiers (Nov 9)",
+    "addedAt": "2026-11-09",
+    "replacement": "A waiting-list record per institution (application date, need): the earliest application first, ties by id, the same for counted rows times their count.",
+    "status": "open"
   }
 ]
