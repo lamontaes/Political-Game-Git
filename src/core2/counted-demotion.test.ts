@@ -16,6 +16,7 @@ import { residentPerson, residentsRuntime } from "./modules/residents";
 import { countedMoves } from "./modules/counted-moves";
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import { isDemoted } from "./counted-groups";
+import { isExperiencedKey } from "./knowledge-retention";
 import { generatedOpening } from "./tooling/generated-world";
 import { corePlaceByKey } from "./place-lookup";
 import type { CoreState } from "./types";
@@ -93,8 +94,9 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       expect(isDemoted(person)).toBe(true);
       expect(residentPerson(core, id)?.id).toBe(id);
     }
-    // They hold no knowledge back in the counts (but the event a drive they
-    // hold stands on) and learn nothing while there, as no counted person does.
+    // They hold no knowledge back in the counts (but the events they lived
+    // through, which the forgetting pass drops within weeks) and learn
+    // nothing else while there, as no counted person keeps knowledge.
     const api = coreAPI(core);
     const heard = {
       key: "test:heard-while-counted",
@@ -104,14 +106,9 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       access: "public" as const,
     };
     for (const id of ids) {
-      const sources = new Set(
-        [...core.people.get(id)!.drives.values()].map(
-          (drive) => `event:${drive.sourceEventId}:experienced`,
-        ),
-      );
       expect(
         [...(core.knowledgeByPerson.get(id)?.keys() ?? [])].filter(
-          (key) => !sources.has(key),
+          (key) => !isExperiencedKey(key),
         ),
         `${place.name}: ${id}`,
       ).toEqual([]);
