@@ -501,6 +501,23 @@ export function sumGradedCoverage(
   return table;
 }
 
+/**
+ * A grade file of span grades (the voice-note reader's output: rows of
+ * `{ key, spans }`). The grade map reads it (`grade-map.ts`); the ledger's
+ * fold of whole-line grades leaves it alone.
+ */
+export function isSpanGradeFile(path: string): boolean {
+  const rows = rowsOf(JSON.parse(readFileSync(path, "utf8")));
+  return (
+    rows.length > 0 &&
+    rows.every(
+      (row) =>
+        typeof (row as { key?: unknown }).key === "string" &&
+        Array.isArray((row as { spans?: unknown }).spans),
+    )
+  );
+}
+
 /** The graded batches on disk, in batch order (batch-2 before batch-10). */
 export function readGradedBatches(
   batchDir = BATCH_DIR,
@@ -511,6 +528,7 @@ export function readGradedBatches(
   return readdirSync(gradeDir)
     .filter((name) => name.endsWith(".json"))
     .sort((a, b) => order(a) - order(b) || a.localeCompare(b))
+    .filter((name) => !isSpanGradeFile(join(gradeDir, name)))
     .map((name) => {
       const batchPath = join(batchDir, basename(name));
       const grades = JSON.parse(

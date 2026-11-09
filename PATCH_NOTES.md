@@ -296,6 +296,74 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.98.0
+
+_Released November 9, 2026._
+
+### Added
+
+- **A colleague's ask for your vote plays four ways: whip, trade, a watched vote
+  or a friend** A colleague who asks for your vote on a bill no longer asks the
+  same way every time. One who holds a post in the body's leadership and shares
+  your party is counting the caucus. One who voted for a bill of yours earlier
+  names it and asks for the vote back. One asking about a bill the town has
+  settled views on says what the town will see. A close friend asks as a friend.
+  Which one asks is read from what the records show: the post the asker holds,
+  the party you share, the earlier bills of yours they voted for, where the
+  electorate stands on the questions the bill changes, and how close the two of
+  you are. A scene where you do the asking plays as before.
+
+- **When a bill fails, your aide may apologize, and you can tell them not to.**
+  After a lost vote, the aide who brings the news may say sorry for the count.
+  You can answer that it isn't theirs to apologize for: you asked people to vote
+  for it, you owe the people it was for, and you'll bring it back next session.
+
+- **A reporter's call about your vote now plays as a friendly beat reporter, a
+  hostile one, a scandal chase or the national press** A reporter who calls
+  about a vote no longer always asks the same way. A reporter who has covered
+  you before and knows you asks plainly and leaves you room. One who is writing
+  about a vote the town stood against asks why you went the other way. One
+  chasing the allegations against you confronts you with them. One from a
+  national outlet asks what it means for a place like yours. Which one calls is
+  read from what the records show: where the town's shares stand against your
+  vote, the talks you and the reporter already had, a quarrel between you, the
+  stories of scandal against you, and the outlet the reporter writes for.
+
+### Improved
+
+- **People who drift out of your life travel lighter** People who drift out of
+  your life and go back into the town's counts no longer carry, or keep
+  collecting, everything they ever heard. Meet them again and they come back as
+  the same person and pick things up from there. Long games hold far less in
+  memory.
+
+- **Gifts to causes leave no second copy behind** A gift someone makes to a
+  cause no longer leaves a second full copy of its paperwork behind once it is
+  paid, so long games hold less in memory. The gift itself, and every dollar, is
+  unchanged.
+
+- **Old medical bills of vanished households are let go** A household that has
+  left the town's records and owes nothing no longer leaves its last medical
+  bill behind for the rest of the game, so long games hold less in memory. Every
+  bill and debt that still matters is kept.
+
+- **Long games remember fewer old payments** The game remembers which payments
+  it already made for the last month or two instead of for the whole game, so
+  long games hold less in memory. Every payment still happens exactly as before.
+
+- **Campaign speeches in a busy election year take less time to simulate.** When
+  a candidate the player is not following gives a speech, the people in the
+  crowd who are strangers to the player now take it in together as groups of
+  like-minded listeners instead of one at a time. The player, their household,
+  the people they know and officeholders still hear every speech for themselves.
+
+### Fixed
+
+- **People passing on news no longer ask "Did you hear about" a newspaper's
+  name.** When someone passes on a story they read, they bring it up by its
+  headline. "Did you hear about" now names only a place that closed, never the
+  outlet that printed the story.
+
 ## PRE-ALPHA 0.97.0
 
 _Released November 9, 2026._

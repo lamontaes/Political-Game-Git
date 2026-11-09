@@ -103,12 +103,26 @@ const pressFacts: Record<string, Fact> = {
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
 };
+// What a colleague's ask for a vote hands the scene: the bill, the bill the
+// asker already voted for (`earlier`) and the reads that came to something.
+const voteFacts: Record<string, Fact> = {
+  ...generic,
+  bill: fact("Bill 14"),
+  earlier: fact("Bill 9"),
+  "read-holds-post": fact("yes"),
+  "read-same-party": fact("yes"),
+  "read-favor-given": fact("yes"),
+  "read-town-for-bill": fact("yes"),
+  "read-close": fact("yes"),
+};
 const factsOf = (family: string) =>
   family === "donor-ask"
     ? donorFacts
     : family === "press-comment"
       ? pressFacts
-      : generic;
+      : family === "ask-vote"
+        ? voteFacts
+        : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -193,7 +207,18 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-        else
+        else if (family === "ask-vote") {
+          process.stdout.write(
+            `ASK VOTE ENDINGS ${variant}: ${JSON.stringify(talk.endingCounts)}\n`,
+          );
+          // The keeps the engines read (favor-owed, promise, trust-lost,
+          // relationship-strained) come from these endings.
+          for (const id of ["vote-given", "traded"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        } else
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
             where,
@@ -270,7 +295,7 @@ describe("a kind with several arcs", () => {
   it("reads no kind's name: a kind without a row plays its one arc", () => {
     expect(
       chooseVariant(core, {
-        family: "ask-vote",
+        family: "confirm-vote",
         askerId,
         askedId,
         cause: { id: "x", date: core.date, facts: {} },

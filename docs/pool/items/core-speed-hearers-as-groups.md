@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: speed/speech-groups
 pr: #8061
 blocked-on:
