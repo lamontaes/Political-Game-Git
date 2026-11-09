@@ -271,6 +271,9 @@ export function hazardRate(
   );
 }
 
+/** The last day FEMA's record of real disasters covers: after it the climate's hazard levels make the weather. */
+export const RECORD_END: string = history.recordEnd;
+
 /** The hazard a FEMA incident type belongs to (flood, storm or wildfire), or none. */
 export function hazardOfIncident(incidentType: string): Hazard | undefined {
   return (history.hazardOfIncidentType as Record<string, Hazard | undefined>)[
