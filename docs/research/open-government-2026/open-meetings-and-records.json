@@ -6,7 +6,23 @@
     "status": "DRAFT, ESTIMATED: every figure comes from web-search result text, never from a statute page read in full (page fetches were blocked in the cloud container). The quote fields are fragments the search results showed, some of them a search tool's paraphrase. Check a row against the statute before it sets a law. No reader yet: the meetings and legislature engines keep no notice period, so this file sits in docs/research and is not data/research.",
     "noticeHours": "Minimum advance public notice before a REGULAR meeting of a local public body, hours; null where the law sets no number (reasonable notice only). 32 of 56 have a number.",
     "recordsDays": "Days to respond to a public-records request; recordsDayKind says business or calendar; null where the law says only promptly or reasonable time. 43 of 56 have a number.",
-    "weakRows": "TX (72 hours approximates a 2025 rule of three business days), VA (72 approximates three working days), WI (24-hour notice not found), PR (records may be 20 business days under Ley 156-2025), GU (records sources disagree), MP (72 hours from a college policy citing the Act), ID and LA (check first), AK and HI (records rules cover state agencies only / a rule not the statute), CA (10 calendar days to decide, not to produce), WY (7 business or 30 calendar days, sources conflict)."
+    "weakRows": "TX (72 hours approximates a 2025 rule of three business days), VA (72 approximates three working days), WI (24-hour notice not found), PR (records may be 20 business days under Ley 156-2025), GU (records sources disagree), MP (72 hours from a college policy citing the Act), ID and LA (check first), AK and HI (records rules cover state agencies only / a rule not the statute), CA (10 calendar days to decide, not to produce), WY (7 business or 30 calendar days, sources conflict).",
+    "estimates": {
+      "noticeHours": {
+        "median": 48.0,
+        "low": 24.0,
+        "high": 72.0,
+        "places": 32,
+        "rule": "a place with no number uses the median of those with one (noticeHoursUsed); noticeHoursEstimate says so"
+      },
+      "recordsDays": {
+        "median": 5,
+        "low": 4.5,
+        "high": 10.0,
+        "places": 43,
+        "rule": "same for records days (recordsDaysUsed); business and calendar days are mixed in the median, recordsDayKind says which each place is"
+      }
+    }
   },
   "rows": {
     "US-AK": {
@@ -19,7 +35,10 @@
       "source": "https://www.law.alaska.gov/doclibrary/APRA.html",
       "quote": "a state agency in the executive branch has 10 working days to provide an initial response",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 10
     },
     "US-AL": {
       "noticeHours": 168,
@@ -31,7 +50,9 @@
       "source": "https://www.smarsh.com/?p=653224",
       "quote": "seven days' notice prior to a regular meeting, 24 hours for a 'special meeting,' and no less than one hour for an 'emergency meeting'",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 168,
+      "recordsDaysUsed": 15
     },
     "US-AR": {
       "noticeHours": null,
@@ -43,7 +64,10 @@
       "source": "https://law.justia.com/codes/arkansas/2020/title-25/chapter-19/section-25-19-106",
       "quote": "Failure of the custodian to respond within three working days shall be considered a denial of the request",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 3
     },
     "US-AS": {
       "noticeHours": null,
@@ -55,7 +79,11 @@
       "source": "https://asbar.org/?p=13736",
       "quote": "NOT FOUND",
       "found": false,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-AZ": {
       "noticeHours": 24,
@@ -67,7 +95,10 @@
       "source": "https://azoca.gov/staging/7968/wp-content/uploads/OML-101.pdf",
       "quote": "Access to a public record is deemed denied if a custodian fails to promptly respond to a request for production of a public record",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-CA": {
       "noticeHours": 72,
@@ -79,7 +110,9 @@
       "source": "https://california.public.law/codes/government_code_section_7922.535",
       "quote": "a regular meeting requires an agenda posted at least 72 hours beforehand",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 10
     },
     "US-CO": {
       "noticeHours": 24,
@@ -91,7 +124,9 @@
       "source": "https://colorado.public.law/statutes/crs_24-72-203",
       "quote": "a 'reasonable time' shall be presumed to be three working days or less",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 3
     },
     "US-CT": {
       "noticeHours": 24,
@@ -103,7 +138,9 @@
       "source": "https://portal.ct.gov/foi/regulations/the-foi-act/section-1206-formerly-sec-121i--denial-of-access-to-public-records-or-meetings--appeals--notice--ord",
       "quote": "Each agency must make available its agenda for each regular meeting at least 24 hours before the meeting to which it refers.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 4
     },
     "US-DC": {
       "noticeHours": 48,
@@ -115,7 +152,9 @@
       "source": "https://dc.gov/foia",
       "quote": "all public bodies are required to respond to a FOIA request within 15 business-days",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 15
     },
     "US-DE": {
       "noticeHours": 168,
@@ -127,7 +166,9 @@
       "source": "https://attorneygeneral.delaware.gov/executive/open-government/",
       "quote": "as soon as possible, but in any event within 15 business days",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 168,
+      "recordsDaysUsed": 15
     },
     "US-FL": {
       "noticeHours": null,
@@ -139,7 +180,11 @@
       "source": "https://m.flsenate.gov/statutes/286.011",
       "quote": "provide reasonable notice of all such meetings",
       "found": false,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-GA": {
       "noticeHours": 24,
@@ -151,7 +196,9 @@
       "source": "https://law.georgia.gov/node/16571",
       "quote": "an agency must produce records responsive to a request within three business days absent exceptional circumstances",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 3
     },
     "US-GU": {
       "noticeHours": 48,
@@ -163,7 +210,9 @@
       "source": "https://guamlegislature.com/FOIA/Open Government Law.pdf",
       "quote": "five working days public notice, and a second public notice at least forty-eight (48) hours prior to the start of the meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 4
     },
     "US-HI": {
       "noticeHours": 144,
@@ -175,7 +224,9 @@
       "source": "https://www.law.cornell.edu/regulations/hawaii/Haw-Code-R-SS-2-71-13",
       "quote": "at least six calendar days before the meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 144,
+      "recordsDaysUsed": 10
     },
     "US-IA": {
       "noticeHours": 24,
@@ -187,7 +238,9 @@
       "source": "https://ipib.iowa.gov/public-records",
       "quote": "The delay shall not exceed 20 calendar days and ordinarily should not exceed 10 business days.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 10
     },
     "US-ID": {
       "noticeHours": 120,
@@ -199,7 +252,9 @@
       "source": "https://ag.idaho.gov/content/uploads/2022/01/Open-Meeting-Law-Jan-2022.pdf",
       "quote": "Regular meetings require notice five calendar days in advance and an agenda 48 hours before the meeting; agency must either grant or deny a resident's request to examine or copy public records within three working days.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 120,
+      "recordsDaysUsed": 3
     },
     "US-IL": {
       "noticeHours": 48,
@@ -211,7 +266,9 @@
       "source": "https://ilga.gov/legislation/ilcs/documents/000501200K2.02.htm",
       "quote": "shall be given at least 48 hours before such meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 5
     },
     "US-IN": {
       "noticeHours": 48,
@@ -223,7 +280,10 @@
       "source": "https://law.justia.com/codes/indiana/title-5/article-14/chapter-1-5/section-5-14-1-5-5",
       "quote": "Public notice of the date, time, and place of meetings ... must be given at least forty-eight hours before the meeting, excluding Saturdays, Sundays, and legal holidays.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-KS": {
       "noticeHours": null,
@@ -235,7 +295,10 @@
       "source": "https://ag.ks.gov/home/showpublisheddocument/74/638454309133670000",
       "quote": "not later than the end of the 3rd business day following date request is received - K.S.A. 45-218(d)",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 3
     },
     "US-KY": {
       "noticeHours": null,
@@ -247,7 +310,10 @@
       "source": "https://ag.ky.gov/Documents/21.06.24%20-%20Open%20Records%20and%20Open%20Meeting%20Advisory%20%28final%29.pdf",
       "quote": "HB 312 amends KRS 61.880(1) so that after June 29, 2021, a public agency must respond to a request to inspect records within five business days.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5
     },
     "US-LA": {
       "noticeHours": 24,
@@ -259,7 +325,9 @@
       "source": "https://law.justia.com/codes/louisiana/2018/code-revisedstatutes/title-44/rs-44-32/",
       "quote": "within three days, exclusive of Saturdays, Sundays, and legal public holidays",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 3
     },
     "US-MA": {
       "noticeHours": 48,
@@ -271,7 +339,9 @@
       "source": "https://malegislature.gov/laws/generallaws/parti/titleiii/chapter30a/section20",
       "quote": "a public body shall post notice of every meeting at least 48 hours prior to the meeting, excluding Saturdays, Sundays and legal holidays",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 10
     },
     "US-MD": {
       "noticeHours": null,
@@ -283,7 +353,10 @@
       "source": "https://mgaleg.maryland.gov/2026RS/Statute_Web/ggp/4-203.pdf",
       "quote": "reasonable advance notice",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 30
     },
     "US-ME": {
       "noticeHours": null,
@@ -295,7 +368,10 @@
       "source": "https://legislature.maine.gov/legis/statutes/1/title1sec408-A.html",
       "quote": "acknowledge receipt of a request made according to this section within 5 working days of receiving the request",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5
     },
     "US-MI": {
       "noticeHours": null,
@@ -307,7 +383,10 @@
       "source": "https://renderpdf.legislature.mi.gov/documents/mcl/pdf/mcl-15-265.pdf",
       "quote": "for a rescheduled regular or a special meeting of a public body, a public notice stating the date, time, and place of the meeting shall be posted at least 18 hours before the meeting.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5
     },
     "US-MN": {
       "noticeHours": null,
@@ -319,7 +398,11 @@
       "source": "https://www.revisor.mn.gov/statutes/cite/13D.04/pdf",
       "quote": "A schedule of the regular meetings of a public body shall be kept on file at its primary offices.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-MO": {
       "noticeHours": 24,
@@ -331,7 +414,9 @@
       "source": "https://ago.mo.gov/get-help/programs-services-from-a-z/sunshine-law/sunshine-law-faqs/",
       "quote": "requests be acted upon as soon as possible, but no later than the third business day following receipt",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 3
     },
     "US-MP": {
       "noticeHours": 72,
@@ -343,7 +428,9 @@
       "source": "https://marianas.edu/PolicyAndProcedure/Board Policy No. 1011 - Meetings.pdf",
       "quote": "public notification of all regular meetings of the Board shall be made 72 hours in advance of the meetings",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 10
     },
     "US-MS": {
       "noticeHours": null,
@@ -355,7 +442,10 @@
       "source": "https://law.justia.com/codes/mississippi/2020/title-25/chapter-61/section-25-61-5/",
       "quote": "No public body shall adopt procedures which will authorize the public body to produce or deny production of a public record later than seven (7) working days from the date of the receipt of the request.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 7
     },
     "US-MT": {
       "noticeHours": null,
@@ -367,7 +457,11 @@
       "source": "https://archive.legmt.gov/bills/MCA/title_0020/chapter_0030/part_0010/section_0030/0020-0030-0010-0030.html",
       "quote": "The procedures must ensure adequate notice and assist public participation before a final agency action is taken (2-3-103(1), MCA).",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-NC": {
       "noticeHours": null,
@@ -379,7 +473,11 @@
       "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_143/Article_33C.html",
       "quote": "This notice shall be posted and mailed, emailed, or delivered at least 48 hours before the time of the meeting.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-ND": {
       "noticeHours": null,
@@ -391,7 +489,11 @@
       "source": "https://attorneygeneral.nd.gov/wp-content/uploads/2024/04/Open-Meetings-Manual.pdf",
       "quote": "Unless otherwise provided by law, public notice must be given in advance",
       "found": false,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-NE": {
       "noticeHours": 24,
@@ -403,7 +505,9 @@
       "source": "https://ago.nebraska.gov/node/20",
       "quote": "public notice of meetings at least 24 hours in advance",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 4
     },
     "US-NH": {
       "noticeHours": 24,
@@ -415,7 +519,9 @@
       "source": "https://www.nhmunicipal.org/sites/default/files/uploads/workshop-materials/2024_recordsmeetings_rtk.pdf",
       "quote": "at least 24 hours' notice before a meeting, not counting Sundays or holidays",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 5
     },
     "US-NJ": {
       "noticeHours": 48,
@@ -427,7 +533,9 @@
       "source": "https://www.nj.gov/grc/public/complaints/time.html",
       "quote": "written advance notice of at least 48 hours, giving the time, date, location and, to the extent known, the agenda",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 7
     },
     "US-NM": {
       "noticeHours": 72,
@@ -439,7 +547,9 @@
       "source": "https://www.spo.state.nm.us/resources/inspection-of-public-records-act-ipra/",
       "quote": "no later than fifteen (15) calendar days after the records custodian receives the inspection request",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 15
     },
     "US-NV": {
       "noticeHours": 72,
@@ -451,7 +561,9 @@
       "source": "https://ag.nv.gov/uploadedFiles/agnvgov/Content/Issues/NPRA Public Records Training 1.28.26.pdf",
       "quote": "written notice must be given at least 3 working days before the meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 5
     },
     "US-NY": {
       "noticeHours": 72,
@@ -463,7 +575,9 @@
       "source": "https://www.nyc.gov/assets/bronxcb8/pdf/Open_Meetings_Law.pdf",
       "quote": "not less than seventy-two hours prior to the meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 5
     },
     "US-OH": {
       "noticeHours": null,
@@ -475,7 +589,11 @@
       "source": "https://ohioattorneygeneral.gov/Legal/Sunshine-Laws/Public-Records-Act",
       "quote": "Ohio does not impose specific requirements for how far in advance notice must be given",
       "found": false,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-OK": {
       "noticeHours": 24,
@@ -487,7 +605,10 @@
       "source": "https://oklahoma.gov/content/dam/ok/en/oag/documents/open-records/2024%20OMA-ORA%20Presentation%20-%20Website.pdf",
       "quote": "Notice posted 48 hours in advance and agenda posted 24 hours prior to meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-OR": {
       "noticeHours": null,
@@ -499,7 +620,10 @@
       "source": "https://oregon.public.law/statutes/ors_192.324",
       "quote": "complete the response as soon as reasonably possible or within fifteen business days from receipt",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 15
     },
     "US-PA": {
       "noticeHours": null,
@@ -511,7 +635,10 @@
       "source": "https://panewsmedia.org/sunshine-act-regular-meeting-notice/",
       "quote": "the schedule must be published at least three days before the first regular meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5
     },
     "US-PR": {
       "noticeHours": null,
@@ -523,7 +650,10 @@
       "source": "https://www.poderjudicial.pr/ta/2023/KLCE202300030-20032023.pdf",
       "quote": "diez (10) días laborables para la entrega de la información, según establece el art. 7 de la Ley Núm. 141-2019",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 10
     },
     "US-RI": {
       "noticeHours": 48,
@@ -535,7 +665,9 @@
       "source": "https://nefac.org/rhode-island-open-meetings/",
       "quote": "at least 48 hours prior to the meeting, excluding weekend and state holidays",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 10
     },
     "US-SC": {
       "noticeHours": 24,
@@ -547,7 +679,9 @@
       "source": "https://www.sccounties.org/sites/default/files/uploads/meetings/newly-elected/freedom_of_information_act.pdf",
       "quote": "10 business days to respond to written FOIA request if documents are two years old or less",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 10
     },
     "US-SD": {
       "noticeHours": 24,
@@ -559,7 +693,9 @@
       "source": "https://atg.sd.gov/docs/OpenMeetingsLaw_2026_PRINTABLE.pdf",
       "quote": "posted for a continuous 24 hours before the meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 10
     },
     "US-TN": {
       "noticeHours": null,
@@ -571,7 +707,10 @@
       "source": "https://comptroller.tn.gov/office-functions/open-records-counsel/open-meetings/frequently-asked-questions/tennessee-open-meetings-act-faqs.html",
       "quote": "Adequate public notice is not defined in the Tennessee Open Meetings Act.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 7
     },
     "US-TX": {
       "noticeHours": 72,
@@ -583,7 +722,9 @@
       "source": "https://txregionalcouncil.org/wp-content/uploads/2020/02/Public-Information-Act-101-2020.pdf",
       "quote": "If you cannot produce information within 10 business days after the date the information is requested, you must certify that fact in writing to the requestor",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 10
     },
     "US-UT": {
       "noticeHours": 24,
@@ -595,7 +736,9 @@
       "source": "https://archives.utah.gov/transparency-services/government-records-access/faq/",
       "quote": "a public body shall give at least 24 hours notice before a meeting",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 24,
+      "recordsDaysUsed": 10
     },
     "US-VA": {
       "noticeHours": 72,
@@ -607,7 +750,9 @@
       "source": "https://foiacouncil.dls.virginia.gov/ref/FOIA%20for%20Local%20Officials%20Powerpoint%20December-2025.htm",
       "quote": "A public body must respond within five working days of receipt of the request. NOTE: Count the day after receipt as Day 1.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 72,
+      "recordsDaysUsed": 5
     },
     "US-VI": {
       "noticeHours": null,
@@ -619,7 +764,11 @@
       "source": "https://media.freedom.press/media/documents/_USVI_Sunshine_letter_2.pdf",
       "quote": "Title 3, § 881, currently contains no time limit for responding to records requests",
       "found": false,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-VT": {
       "noticeHours": 48,
@@ -631,7 +780,9 @@
       "source": "https://legislature.vermont.gov/statutes/section/01/005/00318",
       "quote": "\"promptly\" means immediately, with little or no delay, and, unless otherwise provided in this section, not more than three business days.",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48,
+      "recordsDaysUsed": 3
     },
     "US-WA": {
       "noticeHours": null,
@@ -643,7 +794,10 @@
       "source": "https://mrsc.org/Explore-Topics/public-meetings/OPMA/Open-Public-Meetings-Act-FAQs",
       "quote": "5 business days for initial response (RCW 42.56.520)",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5
     },
     "US-WI": {
       "noticeHours": null,
@@ -655,7 +809,11 @@
       "source": "https://legis.wisconsin.gov/lc/media/1461/2019-public-records-presentation-legislative-staff.pdf",
       "quote": "as soon as practicable and without delay",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     },
     "US-WV": {
       "noticeHours": null,
@@ -667,7 +825,10 @@
       "source": "https://code.wvlegislature.gov/29B-1-3/",
       "quote": "within five days, not counting Saturdays, Sundays or legal holidays",
       "found": true,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5
     },
     "US-WY": {
       "noticeHours": null,
@@ -679,7 +840,11 @@
       "source": "https://library.wyo.gov/downloads/ldo/pdf/boards/2015-Public-Meetings-Act-Summary.pdf",
       "quote": "fair and reasonable advance notice of meetings",
       "found": false,
-      "tag": "ESTIMATED"
+      "tag": "ESTIMATED",
+      "noticeHoursUsed": 48.0,
+      "noticeHoursEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72).",
+      "recordsDaysUsed": 5,
+      "recordsDaysEstimate": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 43 places that have one (5 days; middle half 4.5 to 10)."
     }
   }
 }
