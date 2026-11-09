@@ -33,6 +33,7 @@ import type { ScheduleEntry } from "./scheduling";
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const ATTEMPTS = 6;
 const DAYS = 330;
+const MONTH = 30;
 const LABEL = "circumstance:notice-home";
 
 /** Every path of a tree: the replies chosen, the node it reaches. */
@@ -64,20 +65,27 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
       // The year as it plays: the first full household of two or more the
       // landlord serves, and the day.
       const first = build();
-      advanceCore(first.core, addDays(makeIsoDate(first.core.date), DAYS));
-      const served = (
-        coreAPI(first.core)
-          .moduleState(HOUSING_MODULE_ID)
-          .table("cases")
-          .rows() as unknown as CaseRow[]
-      )
-        .filter(
-          (row) =>
-            !row.counted &&
-            (first.core.households.get(row.householdId)?.memberIds.length ??
-              0) > 1,
+      // A month at a time, stopping at the first household the landlord
+      // serves, so a year is not played where a few weeks show one.
+      const firstServed = () =>
+        (
+          coreAPI(first.core)
+            .moduleState(HOUSING_MODULE_ID)
+            .table("cases")
+            .rows() as unknown as CaseRow[]
         )
-        .sort((a, b) => a.noticeAt.localeCompare(b.noticeAt))[0];
+          .filter(
+            (row) =>
+              !row.counted &&
+              (first.core.households.get(row.householdId)?.memberIds.length ??
+                0) > 1,
+          )
+          .sort((a, b) => a.noticeAt.localeCompare(b.noticeAt))[0];
+      let served: CaseRow | undefined;
+      for (let played = 0; played < DAYS && !served; played += MONTH) {
+        advanceCore(first.core, addDays(makeIsoDate(first.core.date), MONTH));
+        served = firstServed();
+      }
       if (!served) {
         tried.push(`${where}: no household of two served notice`);
         continue;
