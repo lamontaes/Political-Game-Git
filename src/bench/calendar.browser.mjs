@@ -11,7 +11,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
   await ready;
   // Always a fresh life: a continued one has moved on from its opening day.
   {

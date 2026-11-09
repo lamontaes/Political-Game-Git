@@ -4825,6 +4825,8 @@ select.release-pick {
 .calendar-board .calendar-day,
 .calendar-board .calendar-side {
   display: block;
+  /* In a short window the column squeezed Today under its own button, and Coming up sat on it. */
+  flex-shrink: 0;
   margin-bottom: 14px;
 }
 .calendar-board {
