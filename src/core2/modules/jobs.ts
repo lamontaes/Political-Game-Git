@@ -553,17 +553,30 @@ function startSeeking(
 ): void {
   if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
-  store(api).table("seekers").put({
-    id: personId,
-    isSeeker: true,
-    personId,
-    placeId: person.placeId,
-    employed,
-    since: api.state.date,
-    reasonKey,
-    referenceHourlyMinor,
-  });
-  if (!employed) {
+  // A counted seeker met and filled in is one person already out of work: their
+  // search goes on under the named row with its start, reason and pull, never a
+  // second out-of-work record beside the counted one.
+  const prior = employed
+    ? undefined
+    : (store(api).table("countedSeekers").get(personId) as
+        SeekerRow | undefined);
+  if (prior) store(api).table("countedSeekers").remove(personId);
+  store(api)
+    .table("seekers")
+    .put({
+      id: personId,
+      isSeeker: true,
+      personId,
+      placeId: person.placeId,
+      employed,
+      since: prior?.since ?? api.state.date,
+      reasonKey: prior?.reasonKey ?? reasonKey,
+      referenceHourlyMinor: prior?.referenceHourlyMinor ?? referenceHourlyMinor,
+      ...(prior?.regionalPull !== undefined
+        ? { regionalPull: prior.regionalPull }
+        : {}),
+    });
+  if (!employed && !prior) {
     store(api)
       .table("spells")
       .put({
@@ -841,6 +854,8 @@ function openCountedSeekers(api: CoreAPI): void {
   const ageAt = (m: number) =>
     daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
+  let unplaced = 0,
+    placed = 0;
   for (const h of counted.liveHouseholds()) {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
@@ -849,17 +864,31 @@ function openCountedSeekers(api: CoreAPI): void {
       return age >= young && age < old;
     });
     if (!adults.length) continue;
+    // The opening's employment target also puts working-age members of the
+    // household to work outside a recorded job (they take a commuter job
+    // when the household is filled in): they hold jobs, so they are in the
+    // band's jobs and not among the jobless. Whole workers by a running
+    // carry through the households in order, never a roll.
+    const idle = adults.filter((m) => !working.has(counted.ids[m]!));
+    unplaced += Math.min(h.unplacedWorkers / counted.weightOf(h), idle.length);
+    const away = new Set(
+      idle
+        .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!))
+        .slice(0, Math.floor(unplaced) - placed),
+    );
+    placed += away.size;
     const share =
-      adults.filter((m) => working.has(counted.ids[m]!)).length / adults.length;
+      adults.filter((m) => working.has(counted.ids[m]!) || away.has(m)).length /
+      adults.length;
     for (const m of adults) {
       const personId = counted.ids[m]!;
       const placeId = counted.strings[counted.placeIx[m]!]!,
         band = ageBand(ageAt(m));
-      if (working.has(personId)) {
+      if (working.has(personId) || away.has(m)) {
         const key = `${placeId}|${band}`;
         workingBy.set(key, (workingBy.get(key) ?? 0) + 1);
       }
-      if (!working.has(personId) && !inCustody(api, personId))
+      if (!working.has(personId) && !away.has(m) && !inCustody(api, personId))
         candidates.push({ personId, placeId, share, band });
     }
   }

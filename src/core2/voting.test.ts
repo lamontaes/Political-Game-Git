@@ -126,7 +126,7 @@ describe("M2-07 elections", () => {
           ? [process.env.GOLDEN_PATH_PLACE_KEY]
           : []),
         ...Array.from(
-          { length: 8 },
+          { length: 24 },
           (_, n) => randomPlace(n ? `:${n}` : "").key,
         ),
       ];

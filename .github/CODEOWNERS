@@ -273,6 +273,7 @@
 /src/core2/modules/public-action.ts @lamontaes
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
+/src/core2/household-cost.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes

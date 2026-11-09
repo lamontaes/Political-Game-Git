@@ -7,7 +7,7 @@ import { buildBenchWorld } from "../bench/world";
 import { billCatalog } from "./bill-catalog";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
-import { budgetInForce, governments } from "./modules/budgets";
+import { budgetInForce, governmentOfJurisdiction } from "./modules/budgets";
 import { billValueInForce, lawInForce } from "./modules/laws";
 import {
   billJurisdiction,
@@ -202,13 +202,7 @@ for (const place of places) {
         })}\n`,
       );
 
-      const gov =
-        governments(api).find((g) => g.id === jurisdiction) ??
-        governments(api).find(
-          (g) =>
-            core.organizations.get(g.organizationId)?.governmentFacts
-              ?.governmentKey === jurisdiction,
-        );
+      const gov = governmentOfJurisdiction(api, jurisdiction);
       const budget = gov && budgetInForce(api, gov.id);
       const policy = policies.find(
         (p) =>
@@ -270,9 +264,16 @@ for (const place of places) {
       expect(sections[1]!.before.value).toBe(2);
       expect(sections[1]!.after.value).toBe(3);
     }
+    process.stdout.write(
+      `BILL-CHECKED ${place.name}: bodies ${offices.map((o) => `${o.level}:${o.kind}`).join(",")}; state ${stateChecked}, local ${localChecked}, budgets ${budgetsChecked}, draft cards ${draftCardsChecked}\n`,
+    );
     expect(stateChecked, place.name).toBeGreaterThan(0);
-    expect(localChecked, place.name).toBeGreaterThan(0);
     expect(budgetsChecked, place.name).toBeGreaterThan(0);
-    expect(draftCardsChecked, place.name).toBeGreaterThan(0);
+    // A place with no local government of its own (a territory's village)
+    // has the state's bodies only: nothing local to check, and no city card.
+    if (offices.some((o) => ["city", "county", "township"].includes(o.level))) {
+      expect(localChecked, place.name).toBeGreaterThan(0);
+      expect(draftCardsChecked, place.name).toBeGreaterThan(0);
+    }
   }, 240_000);
 }

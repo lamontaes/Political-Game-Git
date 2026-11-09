@@ -63,11 +63,36 @@ export function devRunPanel({ labels, onDone }) {
       run.disabled = false;
     }
   });
+  // Jump to an hour of the day: the player's clock moves there and the world runs to it.
+  const hour = numberBox({ value: 12, min: 0, label: labels.hour });
+  const jump = makeButton({ className: "action" }, labels.jump);
+  jump.dataset.testid = "dev-jump-hour";
+  jump.addEventListener("click", async () => {
+    jump.disabled = true;
+    result.textContent = "";
+    try {
+      const response = await fetch("/api/dev/hour", {
+        method: "POST",
+        body: JSON.stringify({ hour: Number(hour.value) }),
+      });
+      const value = await response.json();
+      if (!response.ok) throw new Error(value.error);
+      result.textContent = value.held
+        ? labels.held
+        : `${value.at.date} · ${Math.floor(value.at.minuteOfDay / 60)}:${String(value.at.minuteOfDay % 60).padStart(2, "0")}`;
+      await onDone();
+    } catch (error) {
+      result.textContent = error.message;
+    } finally {
+      jump.disabled = false;
+    }
+  });
   return el(
     "section",
     { className: "dev-only dev-run" },
     el("h3", { textContent: labels.title }),
     el("div", { className: "dev-run-row" }, days, event, cap, run),
+    el("div", { className: "dev-run-row" }, hour, jump),
     hold.line,
     result,
   );
