@@ -72,6 +72,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -3424,8 +3425,38 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
+    // "Since last year ... up by ..." from the record's own change, and its history as a line
+    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    const pctFormat = new Intl.NumberFormat("en-US", {
+      style: "percent",
+      maximumFractionDigits: 1,
+    });
+    const sinceLast = (record, { short = false } = {}) => {
+      if (record?.changeMinor === undefined || record.changeMinor === null)
+        return [];
+      const how =
+        record.changeMinor === 0
+          ? words.unchanged
+          : (record.changeMinor > 0 ? words.increased : words.decreased)
+              .replace("{amount}", roundedMoney(Math.abs(record.changeMinor)))
+              // A total's row is the amount alone; a line's carries its share too.
+              .replace(
+                short ? " ({pct})" : "{pct}",
+                short
+                  ? ""
+                  : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
+              );
+      return [typedRow(words.sinceLastYear, how)];
+    };
+    const history = (record, size) => {
+      const line = trendLine(record?.history, size);
+      return line ? [line] : [];
+    };
+    // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
-      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+      minor === undefined
+        ? []
+        : [typedRow(words.lastYear, roundedMoney(minor))];
     const stepButtons = steps(opened).map((step) => {
       const button = makeButton({
         className: "action small",
@@ -3478,11 +3509,10 @@ const sheets = {
             stripSection(
               2,
               opened.name ?? opened.line,
-              typedRow(
-                opened.name ?? opened.line,
-                roundedMoney(opened.minor),
-                lastYear(lastOf(prior?.spending, opened.line)),
-              ),
+              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
+              ...lastYear(lastOf(prior?.spending, opened.line)),
+              ...sinceLast(opened),
+              ...history(opened),
               ...(opened.askedMinor !== undefined
                 ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                 : []),
@@ -3493,20 +3523,19 @@ const sheets = {
             stripSection(
               3,
               gov.name,
-              typedRow(
-                words.comingIn,
-                roundedMoney(latest.revenueMinor),
-                lastYear(prior?.revenueMinor),
-              ),
-              typedRow(
-                words.goingOut,
-                roundedMoney(latest.spendingMinor),
-                lastYear(prior?.spendingMinor),
-              ),
+              typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
+              ...lastYear(prior?.revenueMinor),
+              ...sinceLast(latest.totals?.revenue, { short: true }),
+              ...history(latest.totals?.revenue, { height: 36 }),
+              typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
+              ...lastYear(prior?.spendingMinor),
+              ...sinceLast(latest.totals?.spending, { short: true }),
+              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
               ),
+              ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
@@ -5870,14 +5899,20 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    // The server builds the world in six steps; a step is named while it runs and the bar
-    // fills one sixth for each step finished.
+    // The server builds the world in twelve steps (BuildStage in world.ts); a step is named
+    // while it runs and the bar fills one twelfth for each step finished.
     const STEPS = [
       "people",
       "past",
       "economy",
       "core",
       "government",
+      "elections",
+      "budgets",
+      "legislature",
+      "cabinet",
+      "workings",
+      "history",
       "opening",
     ];
     // A poll still in flight when the build ends leaves the line alone.

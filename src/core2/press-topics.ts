@@ -142,6 +142,14 @@ export function wireItem(
     level = String(event.placeId) === `state:${usps}` ? "state" : null;
   } else if (event.placeId === town.stateKey) level = "state";
   if (!level) return null;
+  // Another state's measure result has no place in its news bank yet, so it
+  // would read as local; the law it enacts reaches the national press as the
+  // law (stopgap SG-NATION-outside-measure-news-unworded).
+  if (
+    event.kind === "ballot-measure-result" &&
+    String(event.placeId).startsWith("national:")
+  )
+    return null;
   const people = event.personIds.filter((id) => api.state.people.has(id));
   const officialIds = [
     ...new Set(
