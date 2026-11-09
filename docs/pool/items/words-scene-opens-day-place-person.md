@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: story/scene-opens-day-place-person
-pr: pending
+pr: "#8006"
 lead: words
 blocked-on:
 milestone: play-first
