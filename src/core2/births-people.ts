@@ -3,6 +3,7 @@ import { SeededRng } from "./kernel/rng";
 import { drawCanonicalNamedIdentity } from "./person-names";
 import { generatePersonIdentity } from "./gov-rules/person-identity";
 import { OPENING_KIN } from "./opening-kin";
+import { childOrigin } from "./opening-origin";
 import {
   openingTemperaments,
   type TemperamentSubject,
@@ -82,6 +83,11 @@ function temperamentSubjects(
   return subjects;
 }
 
+/** The origin entry of a newborn's looks, none where neither parent has one. */
+function childLooks(origin: string | undefined): Record<string, string> {
+  return origin ? { origin } : {};
+}
+
 export function buildNewborn(
   api: CoreAPI,
   pregnancyId: string,
@@ -127,7 +133,18 @@ export function buildNewborn(
     familyIds: kin.map((row) => row.otherId),
     knownIds: [],
     source,
-    looks: { gender: identity.gender, pronouns: identity.pronouns },
+    looks: {
+      gender: identity.gender,
+      pronouns: identity.pronouns,
+      // A parent's origin, so the family looks related (owner's playtest, Nov 8).
+      ...childLooks(
+        childOrigin(
+          parents.map((id) => api.state.people.get(id)?.looks?.origin),
+          id,
+          api.state.seed,
+        ),
+      ),
+    },
     pastFacts: [
       {
         id: `${id}:birth`,

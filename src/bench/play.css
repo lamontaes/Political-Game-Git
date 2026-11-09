@@ -15,16 +15,6 @@
   src: url("/fonts/kit12/playfair-display-600.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Courier Prime";
-  font-weight: 400;
-  src: url("/fonts/kit12/courier-prime-400.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Courier Prime";
-  font-weight: 700;
-  src: url("/fonts/kit12/courier-prime-700.ttf") format("truetype");
-}
-@font-face {
   font-family: "Andada Pro";
   font-style: italic;
   font-weight: 400;
@@ -149,18 +139,28 @@ ol {
 }
 
 /* ---- The scene: the art takes center stage ---- */
+/* One scale above 1440x900: the whole game is drawn in a logical window of 1440x900 or
+   more and enlarged to fill the real one (owner, Nov 8, P11). --vw and --vh are that
+   logical window's width and height; play.mjs sets --ui-scale on resize. */
+:root {
+  --ui-scale: 1;
+  --vw: calc(100vw / var(--ui-scale));
+  --vh: calc(100vh / var(--ui-scale));
+}
 #game {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: var(--vw);
+  height: var(--vh);
+  transform: scale(var(--ui-scale));
+  transform-origin: 0 0;
 }
 #stage {
   position: absolute;
   left: 50%;
   top: 50%;
   /* Cover the window at the backdrop's 1672:941 aspect. */
-  width: max(100vw, calc(100vh * 1672 / 941));
-  height: max(100vh, calc(100vw * 941 / 1672));
+  width: max(var(--vw), calc(var(--vh) * 1672 / 941));
+  height: max(var(--vh), calc(var(--vw) * 941 / 1672));
   transform: translate(-50%, -50%);
 }
 #backdrop {
@@ -1053,7 +1053,7 @@ input[type="range"]::-moz-range-thumb {
 }
 /* The creator (the Oct 12 SetupScreen's steps). */
 #front:has(#cr-screen:not([hidden])) {
-  width: min(1180px, 94vw);
+  width: min(1180px, calc(var(--vw) * 0.94));
 }
 #cr-screen {
   grid-template-columns: 250px minmax(0, 1fr) minmax(0, 1fr);
@@ -1286,7 +1286,7 @@ body:not(.dev) .dev-only {
   gap: 11px;
   align-items: center;
   padding: 7px 18px 7px 7px;
-  max-width: calc(100vw - 2 * var(--gutter));
+  max-width: calc(var(--vw) - 2 * var(--gutter));
 }
 /* The card is the date and time, and Day and Week (owner, Oct 27: "There
    doesn't need to be any indicator other than the time and date on the
@@ -1345,7 +1345,7 @@ body:not(.dev) .dev-only {
   left: 50%;
   transform: translateX(-50%);
   bottom: var(--chat-bottom, 26px);
-  width: min(680px, calc(100vw - 2 * var(--gutter)));
+  width: min(680px, calc(var(--vw) - 2 * var(--gutter)));
   padding: 13px 18px 12px;
 }
 .who {
@@ -1479,9 +1479,9 @@ body:not(.dev) .dev-only {
   bottom: auto;
   right: auto;
   width: fit-content;
-  min-width: min(560px, calc(100vw - var(--gutter) - 330px));
-  max-width: min(1040px, calc(100vw - var(--gutter) - 330px));
-  max-height: calc(100vh - var(--gutter) - 26px);
+  min-width: min(560px, calc(var(--vw) - var(--gutter) - 330px));
+  max-width: min(1040px, calc(var(--vw) - var(--gutter) - 330px));
+  max-height: calc(var(--vh) - var(--gutter) - 26px);
 }
 #sheet.fits #sheet-body {
   flex: 0 1 auto;
@@ -1489,7 +1489,7 @@ body:not(.dev) .dev-only {
 #game:not(.in-play) #sheet {
   left: 50%;
   transform: translateX(-50%);
-  width: min(900px, calc(100vw - 2 * var(--gutter)));
+  width: min(900px, calc(var(--vw) - 2 * var(--gutter)));
 }
 /* Options uses the approved compact panel instead of the full-height reader. */
 #game #sheet.options-sheet {
@@ -1498,8 +1498,8 @@ body:not(.dev) .dev-only {
   top: 50%;
   bottom: auto;
   transform: translate(-50%, -50%);
-  width: min(760px, calc(100vw - 2 * var(--gutter)));
-  max-height: calc(100vh - 2 * var(--gutter));
+  width: min(760px, calc(var(--vw) - 2 * var(--gutter)));
+  max-height: calc(var(--vh) - 2 * var(--gutter));
   padding: 30px 40px;
 }
 .options-sheet #sheet-body {
@@ -1797,8 +1797,8 @@ body:not(.dev) .dev-only {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: min(1120px, calc(100vw - 2 * var(--gutter)));
-  height: min(780px, calc(100vh - 2 * var(--gutter)));
+  width: min(1120px, calc(var(--vw) - 2 * var(--gutter)));
+  height: min(780px, calc(var(--vh) - 2 * var(--gutter)));
   display: grid;
   grid-template-columns: minmax(220px, 36%) minmax(0, 1fr);
   column-gap: 26px;
@@ -1854,7 +1854,7 @@ body:not(.dev) .dev-only {
   align-items: flex-start;
 }
 .dossier .heading {
-  font-size: clamp(26px, 2.6vw, 38px);
+  font-size: clamp(26px, calc(var(--vw) * 0.026), 38px);
   line-height: 1.1;
 }
 #person-role {
@@ -2074,9 +2074,9 @@ body:not(.dev) .dev-only {
 #desk {
   top: var(--gutter);
   right: var(--gutter);
-  bottom: calc(9vh + 18px);
+  bottom: calc(calc(var(--vh) * 0.09) + 18px);
   z-index: 6;
-  width: min(560px, calc(100vw - 2 * var(--gutter)));
+  width: min(560px, calc(var(--vw) - 2 * var(--gutter)));
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
@@ -2249,7 +2249,7 @@ body:not(.dev) .dev-only {
 }
 .record-stats strong {
   display: block;
-  font: 600 clamp(18px, 2vw, 30px) var(--name);
+  font: 600 clamp(18px, calc(var(--vw) * 0.02), 30px) var(--name);
   margin-top: 8px;
   overflow-wrap: anywhere;
 }
@@ -2276,7 +2276,7 @@ body:not(.dev) .dev-only {
   display: grid;
   grid-template-columns: minmax(180px, 30%) minmax(0, 1fr);
   grid-template-rows: auto auto minmax(0, 1fr) auto;
-  column-gap: clamp(24px, 3vw, 48px);
+  column-gap: clamp(24px, calc(var(--vw) * 0.03), 48px);
 }
 .character-sheet .sheet-head,
 .character-sheet #sheet-tabs,
@@ -2312,7 +2312,7 @@ body:not(.dev) .dev-only {
 }
 .screen-heading .name {
   margin: 0;
-  font-size: clamp(24px, 2.5vw, 40px);
+  font-size: clamp(24px, calc(var(--vw) * 0.025), 40px);
 }
 .screen-meta,
 .record-note {
@@ -2623,7 +2623,7 @@ details.entry[open] {
 }
 .cash-total {
   display: block;
-  font: 600 clamp(36px, 4vw, 64px) var(--name);
+  font: 600 clamp(36px, calc(var(--vw) * 0.04), 64px) var(--name);
   color: var(--text-strong);
   margin-top: 12px;
 }
@@ -2721,12 +2721,12 @@ details.entry[open] {
 .pick-list {
   display: grid;
   gap: 8px;
-  max-height: 46vh;
+  max-height: calc(var(--vh) * 0.46);
   overflow-y: auto;
   margin: 12px 0;
 }
 #front:has(#front-pick:not([hidden])) {
-  width: min(1100px, 94vw);
+  width: min(1100px, calc(var(--vw) * 0.94));
 }
 #front-pick {
   grid-template-columns: minmax(0, 1fr) 340px;
@@ -2735,7 +2735,7 @@ details.entry[open] {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  max-height: 62vh;
+  max-height: calc(var(--vh) * 0.62);
 }
 .pick-row {
   display: flex;
@@ -2847,7 +2847,7 @@ details.entry[open] {
   margin: 0 auto;
   background: center / 100% 100% no-repeat;
   color: #2b241b;
-  font: 700 clamp(18px, 2.2vw, 38px) / 1 var(--name);
+  font: 700 clamp(18px, calc(var(--vw) * 0.022), 38px) / 1 var(--name);
   letter-spacing: 0.04em;
 }
 .paper-masthead .engraved .plate,
@@ -2869,16 +2869,6 @@ details.entry[open] {
   letter-spacing: 0.05em;
 }
 /* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
-.paper-pages {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: -3px 0;
-}
-/* The shared arrows; the page's words in the paper's ink. */
-#sheet-body .paper-pages .pager-where {
-  color: var(--paper-ink);
-}
 .paper-stories {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
@@ -3103,44 +3093,6 @@ details.entry[open] {
 #news-reader .heading {
   font: 700 34px/1.15 var(--speech);
 }
-/* The districts map on Parties: the state, its counties, the player's own
-   districts and town, each district filled with the color of the party that
-   holds it; the legend's swatches use the same colors. */
-.gov-map {
-  display: block;
-  width: 100%;
-  max-height: 300px;
-  margin: 0 0 12px;
-}
-.gov-map .map-label {
-  fill: var(--text);
-  paint-order: stroke;
-  stroke: rgba(0, 0, 0, 0.7);
-  stroke-width: 0.4em;
-  stroke-linejoin: round;
-  pointer-events: none;
-}
-.gov-map .state {
-  fill: var(--party, rgba(242, 237, 228, 0.06));
-  fill-opacity: 0.18;
-  stroke: var(--brass);
-  stroke-width: 0.4;
-}
-.gov-map .county {
-  fill: none;
-  stroke: rgba(242, 237, 228, 0.25);
-  stroke-width: 0.12;
-}
-.gov-map .yours {
-  fill: var(--party, rgba(214, 189, 132, 0.18));
-  fill-opacity: 0.55;
-  stroke: var(--gold);
-  stroke-width: 0.25;
-}
-.gov-map .yours.place {
-  fill: var(--gold);
-  fill-opacity: 1;
-}
 /* The parties' colors, by the party's name on the record. */
 .party-democratic {
   --party: var(--party-democratic);
@@ -3180,7 +3132,7 @@ details.entry[open] {
 /* The panel is as tall as the screen holds (the mock), never taller than the window. */
 #game.in-play #sheet:has(.split-screen) {
   bottom: auto;
-  max-height: calc(100vh - var(--gutter) - 26px);
+  max-height: calc(var(--vh) - var(--gutter) - 26px);
 }
 #sheet-body:has(> .split-screen) {
   flex: 0 1 auto;
@@ -3248,7 +3200,7 @@ details.entry[open] {
 /* One law's page: its name over the plates. */
 .law-page .split-controls .heading {
   margin: 0;
-  font-size: clamp(24px, 2.4vw, 34px);
+  font-size: clamp(24px, calc(var(--vw) * 0.024), 34px);
 }
 .issue-cards .entry {
   height: 100%;
@@ -3409,19 +3361,6 @@ details.entry[open] {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.member-badge {
-  display: grid;
-  place-items: center;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  font: 700 11px/1 var(--ui);
-  color: #fff;
-  background: var(--party, #6f6c66);
-  box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
 #sheet-body .member-card.large {
   grid-template-columns: 64px max-content auto auto;
   justify-content: start;
@@ -3447,32 +3386,17 @@ details.entry[open] {
   font-size: 17px;
 }
 
-/* The pager: as many cards as fit, the rest a page away. */
+/* The long-list box: the rows that fit, the rest a scroll inside the box (never arrows or page numbers). */
 .pager {
   flex: none;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .pager-grid {
   display: grid;
   align-content: start;
-}
-.pager-controls {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-.pager-controls[hidden] {
-  display: none;
-}
-.pager-where {
-  font: 500 12.5px var(--ui);
-  color: var(--text-2);
-  font-variant-numeric: tabular-nums;
 }
 
 /* Coming up: a gold date and what happens then. */
@@ -3764,20 +3688,6 @@ details.entry[open] {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.timeline .pager-where {
-  font: 600 12px var(--ui);
-  letter-spacing: 0.12em;
-  color: var(--gold);
-}
-.pager-arrow,
-#sheet-body .pager-arrow {
-  min-height: 0;
-  width: 30px;
-  height: 26px;
-  padding: 0;
-  margin: 0;
-  font: 600 18px/1 var(--ui);
-}
 
 /* The journal, to its mock: one cream page of story, paged by chapter under it. */
 #sheet-body:has(.journal-screen) {
@@ -3801,12 +3711,25 @@ details.entry[open] {
 }
 .travel-screen {
   width: 100%;
-  min-width: min(1180px, 88vw);
+  min-width: min(1180px, calc(var(--vw) * 0.88));
   display: grid;
   grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
   gap: 26px;
   align-items: start;
   font-family: var(--ui);
+}
+.patch-detail {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.travel-left {
+  min-height: 0;
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .travel-group {
   margin: 12px 0 6px;
@@ -3922,7 +3845,7 @@ details.entry[open] {
 /* ---- Money (on framed plates): the cash large, each month's
    review as columns, where last month went as a ring with its key ---- */
 .money-figure {
-  font: 900 clamp(40px, 4.4vw, 64px) / 1.05 var(--name);
+  font: 900 clamp(40px, calc(var(--vw) * 0.044), 64px) / 1.05 var(--name);
   color: var(--brass-hi);
   text-shadow: 0 2px 0 rgba(0, 0, 0, 0.6);
   margin: 2px 0 10px;
@@ -3946,7 +3869,7 @@ details.entry[open] {
   margin: 0 0 10px;
 }
 .job-plate .heading {
-  font: 800 clamp(20px, 2vw, 28px) / 1.15 var(--name);
+  font: 800 clamp(20px, calc(var(--vw) * 0.02), 28px) / 1.15 var(--name);
   margin: 0;
 }
 .job-plate .job-employer {
@@ -3979,7 +3902,7 @@ details.entry[open] {
 }
 .race-page .split-controls .heading {
   margin: 0;
-  font-size: clamp(22px, 2.2vw, 32px);
+  font-size: clamp(22px, calc(var(--vw) * 0.022), 32px);
 }
 .race-page .plate .plate {
   display: flex;
@@ -3990,7 +3913,7 @@ details.entry[open] {
 /* Budget (on framed plates): the government, its year and total
    in the name type; three plates in a row; the rings' keys carry amounts. */
 .budget-title {
-  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  font: 800 clamp(18px, calc(var(--vw) * 0.018), 24px) / 1.2 var(--name);
   color: var(--text-strong);
 }
 .budget-adopted {
@@ -4095,7 +4018,7 @@ details.entry[open] {
   grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
 }
 select.release-pick {
-  font: 800 clamp(18px, 1.8vw, 24px) / 1.2 var(--name);
+  font: 800 clamp(18px, calc(var(--vw) * 0.018), 24px) / 1.2 var(--name);
   color: var(--text-strong);
   max-width: 100%;
   padding: 2px 6px;
@@ -4159,7 +4082,7 @@ select.release-pick {
   }
 }
 .split-side {
-  max-height: calc(100vh - 290px);
+  max-height: calc(var(--vh) - 290px);
   overflow-y: auto;
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.55) transparent;
@@ -4215,8 +4138,8 @@ select.release-pick {
   left: 50%;
   transform: translateX(-50%);
   z-index: 7;
-  width: min(920px, calc(100vw - 2 * var(--gutter)));
-  height: min(560px, calc(100vh - 2 * var(--gutter) - 230px));
+  width: min(640px, calc(var(--vw) - 2 * var(--gutter)));
+  height: min(420px, calc(var(--vh) - 2 * var(--gutter) - 230px));
   padding: 20px 24px;
   display: flex;
   flex-direction: column;
@@ -4233,30 +4156,10 @@ select.release-pick {
   flex: 1;
   min-height: 0;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 1fr);
   grid-template-rows: minmax(0, 1fr);
   gap: 24px;
   margin-top: 14px;
-}
-.loading-map {
-  min-height: 0;
-  padding: 0 28px 0 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.loading-map .gov-map {
-  width: 100%;
-  height: 100%;
-  max-height: 100%;
-  overflow: visible;
-}
-.loading-map .county,
-.loading-map .yours {
-  transition: opacity 0.5s ease;
-}
-.loading-map .unfilled {
-  opacity: 0.08;
 }
 .loading-journal {
   min-height: 0;
@@ -4556,7 +4459,7 @@ select.release-pick {
 }
 /* A strip screen fits its height but keeps the window's width, as the mock's panel does. */
 #game.in-play #sheet.fits.strip-sheet {
-  width: calc(100vw - var(--gutter) - 330px);
+  width: calc(var(--vw) - var(--gutter) - 330px);
   max-width: 1280px;
 }
 
@@ -4564,8 +4467,8 @@ select.release-pick {
 #person.dossier {
   display: block;
   height: auto;
-  max-height: calc(100vh - 2 * var(--gutter));
-  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+  max-height: calc(var(--vh) - 2 * var(--gutter));
+  width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #person.dossier .heading {
   position: absolute;
@@ -4614,9 +4517,7 @@ select.release-pick {
   gap: 16px;
 }
 .strip-board .bfy {
-  font:
-    400 15px "Courier Prime",
-    monospace;
+  font: 400 15px var(--ui);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
@@ -4660,7 +4561,7 @@ select.release-pick {
   background: rgba(214, 189, 132, 0.14);
 }
 .strip-screen .dotrow.typed {
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
   font-size: 16px;
   text-transform: none;
 }
@@ -4669,9 +4570,7 @@ select.release-pick {
 }
 .strip-screen .bmsub {
   margin: 0 0 8px;
-  font:
-    400 14px "Courier Prime",
-    monospace;
+  font: 400 14px var(--ui);
   color: var(--muted);
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4703,7 +4602,7 @@ select.release-pick {
   white-space: nowrap;
 }
 #game.in-play #sheet.fits.strip-sheet {
-  width: calc(100vw - 122px - var(--gutter));
+  width: calc(var(--vw) - 122px - var(--gutter));
   max-width: 1320px;
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4814,11 +4713,11 @@ select.release-pick {
   grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
 }
 #game #sheet.options-sheet.strip-sheet {
-  width: min(1280px, calc(100vw - 2 * var(--gutter)));
+  width: min(1280px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #game #sheet.options-sheet.strip-sheet,
 #game #sheet.options-sheet.strip-sheet.fits {
-  width: min(1280px, calc(100vw - 2 * var(--gutter))) !important;
+  width: min(1280px, calc(var(--vw) - 2 * var(--gutter))) !important;
   max-width: none !important;
 }
 
@@ -4839,7 +4738,7 @@ select.release-pick {
 
 /* New game (Nov 8 front mock, fr-new): two cards side by side on a wide panel. */
 #front:has(#front-new:not([hidden])) {
-  width: min(760px, calc(100vw - 2 * var(--gutter)));
+  width: min(760px, calc(var(--vw) - 2 * var(--gutter)));
 }
 #front-new {
   display: grid;
@@ -4936,7 +4835,7 @@ select.release-pick {
   color: #fbf6ea;
 }
 .strip-board .dotrows .dotrow {
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
   font-size: 15px;
   text-transform: none;
 }
@@ -5161,12 +5060,12 @@ select.release-pick {
    room's picture. */
 #ballot,
 #returns {
-  top: 6vh;
+  top: calc(var(--vh) * 0.06);
   left: 50%;
   right: auto;
   bottom: auto;
   transform: translateX(-50%);
-  width: min(1180px, calc(100vw - 2 * var(--gutter)));
+  width: min(1180px, calc(var(--vw) - 2 * var(--gutter)));
 }
 .ballot-paper {
   display: grid;
@@ -5179,13 +5078,11 @@ select.release-pick {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
 }
 .ballot-race {
   margin: 14px 0 2px;
-  font:
-    700 15px "Courier Prime",
-    monospace;
+  font: 700 15px var(--ui);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #f2e6c9;
@@ -5200,9 +5097,7 @@ select.release-pick {
   border: none;
   box-shadow: none;
   color: #f2e6c9;
-  font:
-    600 15px "Courier Prime",
-    monospace;
+  font: 600 15px var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -5264,9 +5159,9 @@ select.release-pick {
   top: auto;
   left: 50%;
   right: auto;
-  bottom: 6vh;
+  bottom: calc(var(--vh) * 0.06);
   transform: translateX(-50%);
-  width: min(1160px, calc(100vw - 2 * var(--gutter)));
+  width: min(1160px, calc(var(--vw) - 2 * var(--gutter)));
   background: rgba(14, 12, 10, 0.94);
   border: none;
 }
@@ -5311,7 +5206,7 @@ select.release-pick {
 
 /* Advanced: the world's start and settings in strips (the Nov 8 front mock, fr-world). */
 #front:has(#front-advanced:not([hidden])) {
-  width: min(900px, 94vw);
+  width: min(900px, calc(var(--vw) * 0.94));
 }
 #front-advanced {
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -5365,4 +5260,33 @@ body.color-blind .meeting-member.vote-no {
 }
 body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
+}
+
+/* A history line on the dark panel: a thin gold line and a dot for the latest year. */
+.trend-line {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin: 6px 0 4px;
+}
+.trend-path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.trend-dot {
+  fill: var(--gold);
+}
+
+/* Budgets' right column can be taller than the sheet (a governor's card and how the budget was
+   adopted): it scrolls inside itself so the sheet never overflows and the department list keeps
+   its rows. */
+.strip-board .board-cols > .mx3col:last-child {
+  max-height: calc(var(--vh) - 330px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }

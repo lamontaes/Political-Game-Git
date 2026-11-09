@@ -57,6 +57,15 @@ it("every counter with a clerk is introduced before the clerk speaks", () => {
       `${clerk.givenName} ${clerk.familyName}`,
     );
     expect(visit.intro.map((l) => l.text).join(" ")).toContain("the ");
+    // The narrator names the day (owner, Nov 8: "it says first thing on June
+    // 7th. You head to the clerk's office and speak to ..."): the part of the
+    // day and the date, said as people say it, from the clock.
+    expect(
+      visit.intro.map((l) => l.text).join(" "),
+      `${filedWith} in ${where}`,
+    ).toMatch(
+      /(First thing on|Late in the morning on|Around noon on|On the afternoon of|Toward evening on|Late on) [A-Z][a-z]+ \d{1,2}(st|nd|rd|th)\b/,
+    );
     for (const line of visit.intro) {
       expect(line.sourceRecordIds.length).toBeGreaterThan(0);
       expect(line.text).not.toMatch(/\{|\}|undefined/);

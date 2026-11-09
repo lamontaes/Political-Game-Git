@@ -11,6 +11,8 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
+import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { advanceCore } from "../core2/life";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import {
   checkEligibility,
@@ -60,19 +62,28 @@ it(`a first visit asks for the papers, the player says only what they chose, and
           row.alive && row.placeId === town && row.birthDate < "1990-01-01",
       )
       .sort((a, b) => a.id.localeCompare(b.id));
-    const pair = grown
-      .map((person) => ({
-        person,
-        contest: playerContests(api).find(
-          (row) =>
-            row.level !== "federal" &&
-            row.level !== "state" &&
-            checkEligibility(api, person.id, row.id).every(
-              (check) => check.met,
-            ),
-        ),
-      }))
-      .find((row) => row.contest);
+    const findPair = () =>
+      grown
+        .map((person) => ({
+          person,
+          contest: playerContests(api).find(
+            (row) =>
+              row.level !== "federal" &&
+              row.level !== "state" &&
+              checkEligibility(api, person.id, row.id).every(
+                (check) => check.met,
+              ),
+          ),
+        }))
+        .find((row) => row.contest);
+    // Filing opens on the place's own days: the weeks go by until a local
+    // race is open to a grown resident (at most two years), read from the
+    // calendar's records, never skipped.
+    let pair = findPair();
+    for (let week = 0; week < 104 && !pair; week += 1) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      pair = findPair();
+    }
     if (!pair) {
       tried.push(`${where}: no local race a grown resident may file for`);
       continue;

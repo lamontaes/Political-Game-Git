@@ -767,7 +767,6 @@ function seatAll(
     // Another state's official is a recorded husk until something opens
     // them (`promoteOutsideOfficial`); the row below holds what they are
     // built from. The player's state and the nation's seats are full people.
-    // stopgapId: SG-SPEED-outside-legislators-health-without-web
     const husk = isOutsideState(api, spec.stateKey, spec.body, spec.bodyKind);
     if (husk) recordHusk(api.state as CoreState, recorded, api.state.date);
     else
@@ -886,6 +885,7 @@ registerHuskIdentity((core, personId) => {
   return husk
     ? {
         birthDate: husk.identity.birthDate,
+        placeId: husk.identity.placeId,
         traits: husk.identity.traits ?? {},
       }
     : undefined;

@@ -44,3 +44,11 @@ The tools and the worked Oval Office are on the art branch under `art/people-roo
 ## Check before showing (`preview.py`)
 
 Fill the room from pack figures on its spots and look at every person at full size: hips on the seat, feet on the floor, nobody on an arm or floating, heads where the spots put them, whole fingers, no sheet-gray rim or trapped gray between an arm and the body, no green left in the empty room, frames with no faces, nobody holding a prop the scene does not call for.
+
+## Plate for a workplace room in an hour (Nov 8, Small fixes)
+
+- A workplace room with no plate draws nobody: `visitPlace` returns its staff in `names` and `unplaced: [{reason: "no-plate"}]`. Find the rooms a town uses with `POST /api/goto/visit?org=<id>` after a dev jump to noon, and read each `backdrop.file` and `unplaced`.
+- For open-floor spots a plate needs only a horizon and a floor row: with the horizon at 40% of the picture height (376 on a 941 picture), a standing person with feet at row `f` is `1.205 * (f - 376)` tall, head top `f - height`, head width `height * 60 / 512`, box width `0.24 * height` (checked against the old coffee-shop spot: feet 801 gives head top 289 and width 60). Pick `pose`, `facing` and `seat` from the pack's real combinations (`stand`, `walk`, `gesture`, `fold` at 0, 45, -45, with seat `none`); keep spots on bare floor, not behind a counter, shelf or desk, and skip seats behind furniture until a `front` mask exists.
+- List another light in `backdrops` only after an edge correlation with the midday painting scores 0.9 or more at 418 by 235 (the lights of one painting score 0.92 to 0.99; a different painting scored 0.03); the general store's morning and rain are other paintings and get no plate.
+- Check the filled room in the running game, not in a test: visit the room at noon and look at feet, scale and overlaps. `people-pack.test.ts` may not load on main.
+- Trap: moving new plate files with `mv *.mannequins.json` moves the existing plates too, and `git add -A` then commits their deletion. Copy files by name and `git add` them by name.

@@ -177,66 +177,7 @@
             <section class="sec strips dp1">
               <h3 class="sechead">The world</h3>
               <div class="secbody">
-                <label class="field"
-                  >Town size
-                  <input
-                    id="set-population"
-                    type="number"
-                    min="100"
-                    max="50000"
-                    step="100"
-                    placeholder="Real"
-                /></label>
-                <label class="field"
-                  >Wages
-                  <input
-                    id="set-wages"
-                    type="number"
-                    min="0.25"
-                    max="4"
-                    step="0.05"
-                    placeholder="Usual"
-                /></label>
-                <label class="field"
-                  >Household savings
-                  <input
-                    id="set-cash"
-                    type="number"
-                    min="0.25"
-                    max="4"
-                    step="0.05"
-                    placeholder="Usual"
-                /></label>
-                <label class="field"
-                  >Outside demand
-                  <input
-                    id="set-demand"
-                    type="number"
-                    min="0.25"
-                    max="4"
-                    step="0.05"
-                    placeholder="Usual"
-                /></label>
-                <label class="field"
-                  >Politics, left to right
-                  <input
-                    id="set-lean"
-                    type="number"
-                    min="-1"
-                    max="1"
-                    step="0.05"
-                    placeholder="Even"
-                /></label>
-                <label class="field"
-                  >Turnout
-                  <input
-                    id="set-turnout"
-                    type="number"
-                    min="0.25"
-                    max="4"
-                    step="0.05"
-                    placeholder="Usual"
-                /></label>
+                <div id="world-rows"></div>
               </div>
             </section>
             <div class="acts">
@@ -520,7 +461,6 @@
       >
         <div id="loading-year" class="loading-year"></div>
         <div class="loading-body">
-          <div id="loading-map" class="loading-map"></div>
           <div
             id="loading-journal"
             class="loading-journal"
