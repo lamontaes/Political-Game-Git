@@ -136,6 +136,8 @@ function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
 function asCounted(
   person: PersonState,
   members: ReadonlySet<PersonId>,
+  /** Facts a live income term of the person stands on (the award they were granted). */
+  keptFacts: ReadonlySet<string>,
 ): PersonInput {
   return {
     id: person.id,
@@ -156,7 +158,9 @@ function asCounted(
     familyIds: [...person.familyIds].filter((id) => members.has(id)),
     knownIds: [],
     ...(person.looks ? { looks: person.looks } : {}),
-    pastFacts: [],
+    pastFacts: (person.pastFacts ?? []).filter((fact) =>
+      keptFacts.has(fact.id),
+    ),
   };
 }
 
@@ -274,6 +278,17 @@ export function demoteHousehold(
     }
   }
   const members = new Set(people.map((p) => p.id));
+  // The award an income term stands on stays on the person's record: the
+  // term outlives the demotion and the finance engine reads the award each
+  // payday (a retired or disabled member's benefit).
+  const awardFacts = new Set<string>();
+  for (const contract of core.finance.contracts.values())
+    if (
+      !contract.endedAt &&
+      contract.recipientIncome &&
+      members.has(contract.recipientIncome.personId)
+    )
+      awardFacts.add(contract.recipientIncome.sourceFactId);
   const record: ResidentHouseholdRecord = {
     household: {
       id: householdId,
@@ -282,7 +297,7 @@ export function demoteHousehold(
       source,
       ...(home.quarters ? { quarters: home.quarters } : {}),
     },
-    people: people.map((p) => asCounted(p, members)),
+    people: people.map((p) => asCounted(p, members, awardFacts)),
     jobs,
     workCommitments: commitments,
     contracts: [],
