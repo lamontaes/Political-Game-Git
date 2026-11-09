@@ -172,5 +172,41 @@
     "addedAt": "2026-11-09",
     "replacement": "Scale each firm's duration by the size gradient of DHI's hires-per-vacancy rate once the establishment-size table is sourced.",
     "status": "open"
+  },
+  {
+    "id": "SG-JOBS-corporate-office-as-service-seller",
+    "kind": "estimated-behavior",
+    "file": "src/core2/data/business-books.json",
+    "line": 1,
+    "whatItFakes": "A regional office of a firm (enterprise:corporate-office) sells its work as professional services to outside buyers, with demand sized from its own payroll like any firm's, in place of being paid by its parent firm's allocation.",
+    "why": "No record names the parent firm of a town's regional office (town-workplaces.ts builds it as a plain town workplace), so there is no payer to allocate from. Left as the old branch-or-institution route it opened with $0 and its staff were never paid (Boulevard CA 0607694, seed pp-a: organization_cd524c66abde5ef1, work-relationship_9f0d2babaf670fc8 earned 347,556, paid 0). With the professional kind it ends the year with cash 9,508,565 and that job is paid.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-09",
+    "replacement": "A named parent-firm allocation: the office is paid by the firm it belongs to, read from firm ownership records, once those exist (world-corporate-office-opens-unfunded).",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-ban-the-box-proof-fixture-convictions",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-record-bias.test.ts",
+    "line": 1,
+    "whatItFakes": "The ban-the-box twin-world proof (src/core2/jobs-record-bias.test.ts) gives half of the town's laid-off seekers a conviction by writing a case and a sentence into the justice tables as the justice engine writes them. The laid-off seekers, the funded police opening and the ranking are played; the convictions are not, because the played justice engine convicts only after a bribery investigation and a drawn town rarely produces one in the months a proof runs.",
+    "why": "The justice engine convicts through investigations of bribery and the cases they bring; ordinary crime in the world does not yet end in a conviction record for a named resident, so a resident with a record who looks for work does not arise in a played year.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "Ordinary crime, arrest and trial in the justice engine ending in convictions for named residents, so the proof draws a place where a resident with a record applies and uses that person.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-record-bias-public-only",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-record-bias.ts",
+    "line": 29,
+    "whatItFakes": "The penalty an employer puts on an applicant with a conviction, and the ban-the-box law that lifts it, are read only for public employers in the town and only for full (named) applicants. Private employers are not read even where the state's law covers them (California, Connecticut, Colorado and others), and a counted seeker has no personal record to weigh, though the justice engine keeps counted cases. The penalty is one ESTIMATED number for every public employer.",
+    "why": "The justice engine keeps a conviction per named person (convictionsOf) but a counted seeker's record is a count by case, not an applicant's; whether a private employer is covered is in the state row's note, not a field the jobs engine reads.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
+    "status": "open"
   }
 ]

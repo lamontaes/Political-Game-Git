@@ -414,10 +414,10 @@
     },
     {
       "classification": "enterprise:corporate-office",
-      "kindId": null,
-      "fundingRoute": "branch-or-institution-budget-required",
-      "citation": "Old TOWN_BUSINESS_WORKPLACES explicitly excludes the regional office.",
-      "stopgapId": "SG-P8-business-books-classification"
+      "kindId": "professional",
+      "fundingRoute": "business",
+      "citation": "A regional office of a firm is a business in NAICS 55 (management of companies and enterprises) whose revenue is the fee its firm and affiliates pay for management and administrative services; it is carried as a professional-services business whose demand is sized from its own payroll, as every firm's is. The old town-business list excluded the regional office; the kind and the missing parent-firm allocation are ESTIMATED.",
+      "stopgapId": "SG-JOBS-corporate-office-as-service-seller"
     },
     {
       "classification": "service:hospital",

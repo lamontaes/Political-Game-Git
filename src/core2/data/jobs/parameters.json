@@ -554,6 +554,18 @@
       "citation": "BLS CPS participation by single year of age, 2015-2019: the fall from 62 to 70 spans about seven to twelve years at the rates of the two bands."
     }
   },
+  "jobsRecordApplicantPenalty": {
+    "value": 4,
+    "tag": "ESTIMATED",
+    "role": "coefficient",
+    "citation": "ESTIMATED from the callback gap for an applicant with a record where the employer asks. Agan and Starr 2018 (Quarterly Journal of Economics 133(1); ban-the-box field experiment, about 15,000 applications): applicants without a record drew 13.4 percent callbacks against 8.2 percent with one, a gap of 39 percent. Pager 2003 (American Journal of Sociology 108(5), matched testers): a record about halved callbacks, a gap of about 50 percent. Converted to fit points at the same rate that sets the age penalty (jobsOlderApplicantPenalty, 3 points for a callback gap of about 30 percent, a tenth of a point per percentage point of gap): 39 percent is 3.9 points, 50 percent is 5. The law's own effect is not a second number: with ban-the-box in force the penalty is not applied (Agan and Starr: callbacks for applicants with a record rose from 8.4 to 11 percent for black and from 8.8 to 15 percent for white applicants at treated employers).",
+    "spread": {
+      "low": 3.9,
+      "high": 5,
+      "unit": "fit score",
+      "citation": "The two studies' callback gaps (39 and about 50 percent) at a tenth of a point per percentage point."
+    }
+  },
   "jobsAbsenceMonthsToDismissal": {
     "value": 1,
     "tag": "TUNABLE",
