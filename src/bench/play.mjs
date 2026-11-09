@@ -3737,6 +3737,7 @@ const sheets = {
         ? [
             await devScenePanel({
               labels: controls.devScene,
+              wordOf: keyWords,
               onDone: () => refresh(),
             }),
           ]

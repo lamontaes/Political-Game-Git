@@ -323,6 +323,10 @@
   "devScene": {
     "title": "Scenes",
     "make": "Make it happen",
+    "forPicker": "For",
+    "mourning": "Mourning",
+    "where": "Where",
+    "any": "Any",
     "begun": "Begun for",
     "reasons": {
       "days": "Days passed",
