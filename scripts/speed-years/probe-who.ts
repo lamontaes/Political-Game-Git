@@ -106,7 +106,9 @@ for (let year = 1; year <= Number(yearsText); year += 1) {
     const p = world.core.people.get(id)!;
     if (id === world.core.playerId) return "player";
     const job = p.jobId ? world.core.jobs.get(p.jobId) : undefined;
-    const org = job ? world.core.organizations.get(job.organizationId) : undefined;
+    const org = job
+      ? world.core.organizations.get(job.organizationId)
+      : undefined;
     if (org && org.kind !== "employer") return `full-${org.kind}`;
     return "full-other";
   };
@@ -118,8 +120,12 @@ for (let year = 1; year <= Number(yearsText); year += 1) {
     e[1] += known.size;
     byHolder.set(k, e);
   }
-  for (const [k, [people, n]] of [...byHolder].sort((a, b) => b[1][1] - a[1][1]))
-    console.log(`  holder ${String(n).padStart(8)} facts ${String(people).padStart(6)} people  ${k}`);
+  for (const [k, [people, n]] of [...byHolder].sort(
+    (a, b) => b[1][1] - a[1][1],
+  ))
+    console.log(
+      `  holder ${String(n).padStart(8)} facts ${String(people).padStart(6)} people  ${k}`,
+    );
   const byTier = new Map<string, number>();
   for (const [id, known] of world.core.knowledgeByPerson)
     for (const key of known.keys()) {
@@ -137,8 +143,7 @@ for (let year = 1; year <= Number(yearsText); year += 1) {
     officeId: string;
     personId: string | null;
   }[])
-    if (t.personId)
-      offices.set(t.officeId, (offices.get(t.officeId) ?? 0) + 1);
+    if (t.personId) offices.set(t.officeId, (offices.get(t.officeId) ?? 0) + 1);
   for (const [k, n] of [...offices].sort((a, b) => b[1] - a[1]).slice(0, 25))
     console.log(`  serving ${String(n).padStart(5)}  ${k}`);
   const heads = new Map<string, { n: number; bytes: number }>();

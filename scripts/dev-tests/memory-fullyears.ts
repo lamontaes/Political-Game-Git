@@ -142,7 +142,10 @@ const outcomes = () => {
   const api = coreAPI(core);
   let fullAlive = 0,
     fullDead = 0;
-  for (const p of core.people.values()) p.alive ? fullAlive++ : fullDead++;
+  for (const p of core.people.values()) {
+    if (p.alive) fullAlive++;
+    else fullDead++;
+  }
   let counted = 0;
   for (const row of residentCounts(core)) counted += row.people;
   let money = 0;

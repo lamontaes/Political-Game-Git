@@ -49,7 +49,8 @@ const { parts, modules } = worldRecords(core);
 const drives: any = parts["core2-drives-runtime"];
 if (drives) {
   let formations = 0;
-  for (const d of drives.drives?.values?.() ?? []) formations += d.formations.length;
+  for (const d of drives.drives?.values?.() ?? [])
+    formations += d.formations.length;
   for (const m of drives.countedByPerson?.values?.() ?? [])
     for (const d of m.values()) formations += d.formations.length;
   console.log(
@@ -77,11 +78,26 @@ const knowledgeBy = (test: (key: string) => boolean) => () => {
   for (const known of core.knowledgeByPerson.values())
     for (const key of [...known.keys()]) if (test(key)) known.delete(key);
 };
-drop("knowledge: event:* experienced", knowledgeBy((k) => k.startsWith("event:")));
-drop("knowledge: promise:*", knowledgeBy((k) => k.startsWith("promise:")));
-drop("knowledge: news:*", knowledgeBy((k) => k.startsWith("news:")));
-drop("knowledge: person:*", knowledgeBy((k) => k.startsWith("person:")));
-drop("knowledge: the rest", knowledgeBy(() => true));
+drop(
+  "knowledge: event:* experienced",
+  knowledgeBy((k) => k.startsWith("event:")),
+);
+drop(
+  "knowledge: promise:*",
+  knowledgeBy((k) => k.startsWith("promise:")),
+);
+drop(
+  "knowledge: news:*",
+  knowledgeBy((k) => k.startsWith("news:")),
+);
+drop(
+  "knowledge: person:*",
+  knowledgeBy((k) => k.startsWith("person:")),
+);
+drop(
+  "knowledge: the rest",
+  knowledgeBy(() => true),
+);
 for (const [id, part] of Object.entries(parts)) {
   if (id === "core2-drives-runtime") continue;
   drop(`part ${id}`, () => {
@@ -112,10 +128,13 @@ for (const field of Object.keys(core)) {
   const v = core[field];
   if (field === "knowledgeByPerson" || field === "modules") continue;
   if (v instanceof Map || v instanceof Set || Array.isArray(v))
-    drop(`core.${field} (${v instanceof Map || v instanceof Set ? v.size : v.length})`, () => {
-      if (Array.isArray(v)) v.length = 0;
-      else v.clear();
-    });
+    drop(
+      `core.${field} (${v instanceof Map || v instanceof Set ? v.size : v.length})`,
+      () => {
+        if (Array.isArray(v)) v.length = 0;
+        else v.clear();
+      },
+    );
   else if (v && typeof v === "object")
     drop(`core.${field} (object)`, () => {
       for (const k of Object.keys(v)) {
