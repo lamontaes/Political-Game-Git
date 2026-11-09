@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #7947
 blocked-on:
 source: added with npm run pool -- add
 ---
