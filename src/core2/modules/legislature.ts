@@ -1024,7 +1024,12 @@ function councilBudget(
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
   const roll = (kept: readonly Provision[]) => {
     const trial = { ...bill, provisions: kept } as BillRow;
-    const tallies: string[] = [];
+    const tallies: {
+      chamber: string;
+      title: string;
+      yes: number;
+      no: number;
+    }[] = [];
     const rows: ModuleRow[] = [];
     for (const chamber of chambers.chambers) {
       let yes = 0;
@@ -1051,7 +1056,14 @@ function councilBudget(
           position: { ...position, total },
         } as unknown as ModuleRow);
       }
-      tallies.push(`${yes}-${no}`);
+      // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
+      const named = bodyOf(api, chamber);
+      tallies.push({
+        chamber,
+        title: named?.bodyName ?? named?.governmentName ?? "",
+        yes,
+        no,
+      });
       const cloture =
         chamber === FEDERAL_SENATE &&
         yes <
@@ -1152,34 +1164,31 @@ function councilBudget(
       return [line.line, line.value];
     }),
   );
-  const votes = tallies.join(", ");
+  // What the vote and the negotiation did, as the record the screens word.
+  const adoption = {
+    body: chambers.body,
+    tallies,
+    bill: { id: bill.id, number: bill.number },
+    amendments: [
+      ...[...halved.entries()]
+        .filter(([line]) => !dropped.includes(line))
+        .map(([line, times]) => ({ line, how: "halved" as const, times })),
+      ...dropped.map((line) => ({
+        line,
+        how: "dropped" as const,
+        times: halved.get(line) ?? 0,
+      })),
+    ],
+  };
   // A passed bill's line changes become the government's enacted lines; a
   // failed one leaves last year's enacted lines in force.
   const budget = adopted
-    ? enactBudget(
-        api,
-        gov,
-        fy,
-        `${chambers.body} vote ${votes}${
-          halved.size || dropped.length
-            ? ` (amended: ${[
-                ...[...halved.entries()]
-                  .filter(([line]) => !dropped.includes(line))
-                  .map(([line, n]) => `${line} cut to 1/${2 ** n}`),
-                ...dropped.map((line) => `${line} dropped`),
-              ].join(", ")})`
-            : ""
-        }, ${bill.number}`,
-        passed,
-      )
-    : carriedBudget(
-        api,
-        gov,
-        fy,
-        desk === "vetoed"
-          ? `carried forward after the executive vetoed ${bill.number} ${votes}`
-          : `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      );
+    ? enactBudget(api, gov, fy, { kind: "vote", ...adoption }, passed)
+    : carriedBudget(api, gov, fy, {
+        kind: "carried",
+        ...adoption,
+        carried: desk === "vetoed" ? "vetoed" : "rejected",
+      });
   clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,

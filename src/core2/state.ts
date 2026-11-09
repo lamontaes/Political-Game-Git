@@ -11,6 +11,8 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   keptDecision,
+  queueCampaignRecord,
+  CAMPAIGN_RECORD_KINDS,
   queueCircleEntry,
   queueDecisionDetail,
   queueRelationshipDetail,
@@ -767,6 +769,8 @@ export function retainLog(
   if (row.decision) queueDecisionDetail(core, core.date, row.id);
   else if (row.visibility === "circle" && !row.publicRecord && !row.news)
     queueCircleEntry(core, core.date, row.id);
+  else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
+    queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
