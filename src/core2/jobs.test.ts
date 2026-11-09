@@ -610,6 +610,66 @@ describe("jobs", () => {
       coreAPI(core).moduleState("jobs").table("seekers").get("y1"),
     ).toMatchObject({ reasonKey: "started-looking", employed: false });
   });
+  it("keeps one out-of-work record for a filled-in counted seeker who starts looking, carrying their search over", () => {
+    const opening = input();
+    // A parent with no money and an 18-year-old whose own living cost the
+    // household carries; neither has worked in this world.
+    const home = "household:young";
+    const parent = {
+      ...person("p1", 0, 0),
+      householdId: home,
+      birthDate: "1975-01-01",
+    };
+    const young = {
+      ...person("y1", 0, 0),
+      householdId: home,
+      birthDate: "2002-06-01",
+      livingCostDailyMinor: 0,
+    };
+    const core = createLifeCore(
+      {
+        ...opening,
+        people: [...opening.people, parent, young],
+        households: [
+          ...opening.households,
+          { id: home, placeId: place, memberIds: ["p1", "y1"], source: src() },
+        ],
+        residents: {
+          version: "core2-residents-v1",
+          source: src(),
+          accounts: [],
+          households: [],
+          flows: [],
+        },
+      },
+      { data, modules: [JOBS_MODULE] },
+    );
+    withBooks(core, 1);
+    const jobs = coreAPI(core).moduleState("jobs");
+    jobs.table("countedSeekers").put({
+      id: "y1",
+      isSeeker: true,
+      personId: "y1",
+      placeId: place,
+      employed: false,
+      since: "2020-12-01",
+      reasonKey: "demand-below-staff",
+      referenceHourlyMinor: 1500,
+      regionalPull: 0.5,
+    } as never);
+    advanceCore(core, "2021-02-02");
+    expect(jobs.table("countedSeekers").get("y1")).toBeUndefined();
+    expect(jobs.table("seekers").get("y1")).toMatchObject({
+      employed: false,
+      since: "2020-12-01",
+      reasonKey: "demand-below-staff",
+    });
+    // The pull built so far is kept and grows on from it, never starting over.
+    expect(
+      (jobs.table("seekers").get("y1") as { regionalPull: number })
+        .regionalPull,
+    ).toBeGreaterThan(0.5);
+  });
   it("introduces a new hire to the full coworkers already working there", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core);

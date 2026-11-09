@@ -70,7 +70,7 @@ describe("the federal budget", () => {
       (b) => b.startsOn === "2026-10-01",
     );
     expect(budget, where).toBeTruthy();
-    expect(budget!.adoptedBy, where).not.toMatch(/carried forward/);
+    expect(["rule", "carried"], where).not.toContain(budget!.adoptedBy.kind);
     govReport(
       "federal-budget",
       JSON.stringify({ where, adoptedBy: budget!.adoptedBy }),

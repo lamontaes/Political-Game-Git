@@ -362,6 +362,20 @@
       "tag": "ESTIMATED",
       "source": "A family's income limit scales from the three-person figure by (size over three) to this power, the square-root equivalence scale used for household incomes; CCDF limits rise with family size by a percentage of the state median income for that size.",
       "spread": [0.3, 0.7]
+    },
+    "energyAssistanceAnnualBenefitDollars": {
+      "value": 301,
+      "role": "coefficient",
+      "tag": "ESTIMATED",
+      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"in FY2014, the most recent year in which data are available, the average heating benefit nationwide was $301, with a range from $78 (Oklahoma) to $1,024 (North Dakota).\" Old (FY2014) and not inflated; the spread is the states' range.",
+      "spread": [78, 1024]
+    },
+    "energyAssistanceTakeUpShare": {
+      "value": 0.16,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"the percentage of eligible households served settled again at 16% in FY2013 and FY2014\" (21% and 22% at the FY2009-FY2010 funding peak).",
+      "spread": [0.14, 0.22]
     }
   },
   "povertyGuidelineByState": {

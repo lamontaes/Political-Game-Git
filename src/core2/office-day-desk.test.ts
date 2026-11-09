@@ -22,7 +22,7 @@ import {
   holdVote,
 } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import {
   deskWaiting,
   leaveDeskToCharacter,

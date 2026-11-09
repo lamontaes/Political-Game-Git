@@ -1,0 +1,65 @@
+{
+  "scene": "construction-site",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "construction-site__midday.jpg",
+  "backdrops": [],
+  "spots": [
+    {
+      "id": "construction-site-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 394,
+        "x": 800.0,
+        "width": 59
+      },
+      "box": [
+        739,
+        394,
+        861,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "construction-site-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 427,
+        "x": 1000.0,
+        "width": 37
+      },
+      "box": [
+        962,
+        427,
+        1038,
+        740
+      ],
+      "feet": 739
+    },
+    {
+      "id": "construction-site-2",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 447,
+        "x": 700.0,
+        "width": 23
+      },
+      "box": [
+        677,
+        447,
+        723,
+        640
+      ],
+      "feet": 639
+    }
+  ]
+}

@@ -680,3 +680,7 @@ export { decisionLean, termOfLean } from "../trait-decisions";
 export type { CashJournalPosting } from "../journal";
 export { makeCase } from "./speech";
 export { areaQuestion } from "./public-action";
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { openingTemperaments } from "../opening-personality";
+export { namedMembers, townHouseholdSkeleton } from "../town-households";
+export { placeEarningsOf } from "../residents";

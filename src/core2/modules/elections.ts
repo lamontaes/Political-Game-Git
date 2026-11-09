@@ -22,7 +22,7 @@ import {
   recordTermLimitFiling,
   termLimitReached,
 } from "../law-reach/group-a-voting";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
@@ -1563,11 +1563,10 @@ export function incumbentOf(api: CoreAPI, contestId: string): TermRow | null {
 }
 
 // Re-exported so other engine families import through this entry, not the file (families guard).
-export {
-  campaignParameter,
-  personStance,
-  PLATFORM_QUESTIONS,
-} from "../campaign-views";
+export { personStance } from "../campaign-views";
+export { campaignParameter, PLATFORM_QUESTIONS } from "../campaign-data";
 export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { countyPlaceIdOf, statePlaces } from "../electorate-places";
