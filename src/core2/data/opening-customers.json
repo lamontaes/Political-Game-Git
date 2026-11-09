@@ -287,6 +287,30 @@
       "exclusiveRecordedKinds": ["household.customer.club-memberships"],
       "stopgapId": "SG-P8-opening-customer-generation",
       "citation": "BLS, The Economics Daily, 'The new year and household spending' (2026), https://www.bls.gov/opub/ted/2026/the-new-year-and-household-spending.htm: social, recreation and health club memberships averaged $272 per consumer unit in 2024 (Consumer Expenditure Survey). Membership component only; national component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "religious-giving",
+      "label": "Contributions to churches and religious organizations",
+      "contractKind": "household.customer.religious-giving",
+      "componentAnnualParameter": "openingCustomerReligiousGivingAnnualNationalUsd",
+      "parentKey": "otherHouseholdExpenses",
+      "supplierClassifications": ["community:congregation"],
+      "supplierOccupations": ["profession:clergy"],
+      "exclusiveRecordedKinds": ["household.customer.religious-giving"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "BLS Consumer Expenditure Surveys 2024, cash contributions (https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm); gifts to the town's own organizations of the kind, split by their recorded payroll. Which organization a household gives to, the size and region shape borrowed from other household expenses, and giving outside the town are ESTIMATED, not measured choices or bills."
+    },
+    {
+      "key": "charitable-giving",
+      "label": "Contributions to charities and community organizations",
+      "contractKind": "household.customer.charitable-giving",
+      "componentAnnualParameter": "openingCustomerCharitableGivingAnnualNationalUsd",
+      "parentKey": "otherHouseholdExpenses",
+      "supplierClassifications": ["community:organizing-nonprofit"],
+      "supplierOccupations": ["profession:community-organizer"],
+      "exclusiveRecordedKinds": ["household.customer.charitable-giving"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "BLS Consumer Expenditure Surveys 2024, cash contributions (https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm); gifts to the town's own organizations of the kind, split by their recorded payroll. Which organization a household gives to, the size and region shape borrowed from other household expenses, and giving outside the town are ESTIMATED, not measured choices or bills."
     }
   ],
   "publicPurchases": {
