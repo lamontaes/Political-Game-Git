@@ -234,6 +234,7 @@ def energy_assistance(rows):
                         retrieved="2026-11-08"))
 
 
+# stopgapId: SG-LAWS-records-response-unread (the same file's recordsDays are not loaded: no records request to read them)
 def meeting_notice(rows):
     """Each place's minimum public notice before a regular meeting of a local body, in hours (data/research/laws/open-meetings-and-records-2026.json)."""
     data = load(RESEARCH / "laws/open-meetings-and-records-2026.json")

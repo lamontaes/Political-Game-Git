@@ -24,7 +24,7 @@ import {
   nextSittingOf,
   scheduleVote,
 } from "./modules/legislature";
-import { enactLaw, lawChain } from "./modules/laws";
+import { enactLaw, lawChain, lawInForce } from "./modules/laws";
 import { townSeats } from "./modules/offices";
 import { coreAPI } from "./state";
 
@@ -136,4 +136,58 @@ it("a bill posted with less notice than the law asks waits for the meeting after
     return;
   }
   throw new Error(`no town body to test: ${tried.join("; ")}`);
+}, 1_800_000);
+
+it("under a place's own state number, a bill posted inside the notice window waits and one posted outside does not", () => {
+  setBookkeeping(false);
+  const tried: string[] = [];
+  let outside: string | undefined;
+  for (let attempt = 0; attempt < 12; attempt += 1) {
+    const place = drawPlace(seed, `meeting-notice-own:${attempt}`);
+    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    const w = world(place.seed, place.key);
+    const api = coreAPI(w.core);
+    const seat = townSeats(api).find(
+      (row) =>
+        row.holder?.personId &&
+        ["city", "county"].includes(row.office.level) &&
+        members(api, row.office.id).length > 1 &&
+        bodyOf(api, row.office.id),
+    );
+    const first = seat ? nextSittingOf(api, seat.office.id) : null;
+    const law = lawInForce(api, SERIES);
+    const hours = law.value ?? 0;
+    if (!seat || !first || !(hours > 0)) {
+      tried.push(`${where}: no town body, meeting or notice law`);
+      continue;
+    }
+    const left = daysBetweenText(w.core.date, first.date);
+    const policy = billCatalog(api, "city")
+      .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+      .find((row) => row.kind === "policy-question" && row.authority.allowed);
+    if (!policy) {
+      tried.push(`${where}: no ordinance the body may draft`);
+      continue;
+    }
+    const bill = draftBill(api, {
+      bodyOfficeId: seat.office.id,
+      sponsorId: seat.holder!.personId!,
+      provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+    });
+    const date = scheduleVote(api, bill.id);
+    const records =
+      api.moduleCalendar(LEGISLATURE_MODULE_ID).get(`meeting:${bill.id}`)
+        ?.sourceRecordIds ?? [];
+    const insideWindow = 24 * left < hours;
+    process.stdout.write(
+      `MEETING-NOTICE-OWN ${where}: ${law.governing?.id} asks ${hours} hours; meeting ${first.date} (${left} days); bill ${bill.id} on ${date}; ${insideWindow ? "inside the window, waits" : "outside the window, stays"}; entry ${JSON.stringify(records)}\n`,
+    );
+    expect(records, where).toContain(`notice-hours:${hours}`);
+    expect(records.includes("waited-for-notice"), where).toBe(insideWindow);
+    expect(date > first.date, where).toBe(insideWindow);
+    if (insideWindow) return;
+    outside = where;
+  }
+  // No drawn town had a meeting inside its window today; the outside case held.
+  expect(outside, `no town checked: ${tried.join("; ")}`).toBeTruthy();
 }, 1_800_000);
