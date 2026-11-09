@@ -35,6 +35,7 @@ import {
   PEOPLE_MIND_VERSION,
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
+import { viewKey } from "../director/view-learned";
 import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
@@ -1164,7 +1165,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
     ...(() => {
       const learned =
         Boolean(publicKnowledge?.positions?.length) ||
-        Boolean(coreAPI(core).knows(viewerId, `person:${otherId}:view`));
+        Boolean(coreAPI(core).knows(viewerId, viewKey(otherId)));
       const label =
         learned && core.modules.has(VIEWS_MODULE_ID)
           ? (viewOf(coreAPI(core), otherId as PersonId)?.label ?? null)
