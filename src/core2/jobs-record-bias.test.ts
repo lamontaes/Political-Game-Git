@@ -134,8 +134,9 @@ it(
   () => {
     let start = 0;
     let witness: string | undefined;
+    let proved = false;
     let lastWhere = "";
-    for (let tries = 0; tries < 4 && !witness; tries++) {
+    for (let tries = 0; tries < 4 && !proved; tries++) {
       const found = townFrom(start);
       if (!found) break;
       const place = found.drawn;
@@ -145,21 +146,19 @@ it(
       const banned = twin(true, place);
       const open = twin(false, place);
       expect(banned.withRecord, where).toEqual(open.withRecord);
-      if (banned.withRecord.length < 1) {
-        tried.push(`${where}: no laid-off resident has a record`);
-        continue;
-      }
       const employer = banned.employers[0]!;
       const biasOf = (w: ReturnType<typeof twin>) =>
         recordBiasAt(w.api, employer.id, employer.placeId);
       expect(biasOf(banned)?.ban, "ban world").toBe(true);
       expect(biasOf(open)?.ban, "no-ban world").toBe(false);
-      const person = banned.withRecord[0]!;
-      expect(convictionsOf(banned.api, person).length).toBe(1);
-      expect(
-        biasOf(open)?.penaltyOf(person),
-        "penalty without the ban",
-      ).toBeGreaterThan(0);
+      const person = banned.withRecord[0];
+      if (person) {
+        expect(convictionsOf(banned.api, person).length).toBe(1);
+        expect(
+          biasOf(open)?.penaltyOf(person),
+          "penalty without the ban",
+        ).toBeGreaterThan(0);
+      }
       for (const w of [banned, open])
         advanceCore(w.core, addDays(makeIsoDate(w.core.date), 90));
       const hired = (w: ReturnType<typeof twin>) =>
@@ -168,9 +167,11 @@ it(
         );
       expect(hired(open).length, "no ban, no application").toBe(0);
       for (const row of hired(banned)) {
-        expect(banned.withRecord, `${row.targetId} has a record`).toContain(
-          row.targetId,
-        );
+        // Full or counted, the person has a record on the world's own history.
+        expect(
+          biasOf(banned)?.hasRecord(row.targetId),
+          `${row.targetId} has a record`,
+        ).toBe(true);
         expect(row.amountMinor).toBeGreaterThan(0);
       }
       // The ranking is read by record: the same applicant for the same opening, weighed in each world.
@@ -211,6 +212,7 @@ it(
         expect(a.fit - b.fit, k).toBeCloseTo(a.record ? penalty : 0, 0);
         if (a.record && example === undefined) {
           example = k;
+          proved = true;
           const [position, person] = k.split("|");
           process.stdout.write(
             `BAN-THE-BOX RANKING ${where}: ${person} has a conviction (case ${convictionsOf(banned.api, person!)[0]!.id}); for opening ${position}: with the law, fit ${a.fit} (law record ${a.id}, place ${a.place} of ${a.of}); without it, fit ${b.fit} (law record ${b.id}, place ${b.place} of ${b.of})\n`,
@@ -240,6 +242,10 @@ it(
         );
       }
     }
+    expect(
+      proved,
+      `no applicant with a record was ranked in the towns tried: ${lastWhere}`,
+    ).toBe(true);
     // Whether the law flipped a hire is reported, not required: a record holder has to compete with equal fit for the same few openings.
     process.stdout.write(
       witness

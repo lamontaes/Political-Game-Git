@@ -35,6 +35,8 @@
  */
 import { coreAPI, registerModule } from "../state";
 import { seededUnit } from "../seeded";
+import { isDemoted } from "../counted-groups";
+import { residentFacts } from "./residents";
 import felonyRecordShare from "../../../data/research/justice/felony-record-share-2010.json" with { type: "json" };
 import {
   addDays,
@@ -1815,9 +1817,22 @@ export const JUSTICE_MODULE: CoreModule = {
       fines: {},
       clemencies: { indexes: { byPerson: { fields: ["personId"] } } },
       pretrial: { indexes: { byPerson: { fields: ["personId"] } } },
+      history: {},
     },
   },
   eventKinds: ["crime.told"],
+  // Someone filled in from the counts has the conviction the counts gave them.
+  onFillIn: (api, { memberIds }) => {
+    const seed = (
+      api.moduleState(JUSTICE_MODULE_ID).table(HISTORY_TABLE).get("seed") as
+        { seed?: string } | undefined
+    )?.seed;
+    if (!seed) return;
+    for (const id of memberIds) {
+      const person = api.state.people.get(id as PersonId);
+      if (person) writeHistory(api, seed, person);
+    }
+  },
   onEvent: (api, event) => onTold(api, event),
   onAfterDay: (api) => intake(api),
   onCalendarWork: (api, work) => justiceWork(api, work),
@@ -1837,82 +1852,136 @@ export function openJustice(core: CoreState): void {
  * world's seed, already have a felony conviction on record, finished long ago,
  * so the engines that read a record (public hiring, the vote, the press) have
  * residents with one from day one. Seeded generation of who exists, never a
- * choice in play: nobody's later outcome is rolled. Named people only; a
- * counted group carries the state's share through the engines that read its
- * counts (stopgap SG-LABOR-record-bias-public-only for hiring).
+ * choice in play: nobody's later outcome is rolled. Every adult draws against
+ * the same key whether they are a full person or in the counts: a full person
+ * has the case written at opening (or when they are filled in), a counted one
+ * reads the same draw (`historyRecordOf`), so a person filled in has the record
+ * the counts already gave them.
  */
-export function seedConvictionHistory(core: CoreState, seed: string): number {
-  const api = coreAPI(core);
-  if (!core.modules.has(JUSTICE_MODULE_ID)) return 0;
-  const cases = api.moduleState(JUSTICE_MODULE_ID).table("cases");
-  const sentences = api.moduleState(JUSTICE_MODULE_ID).table("sentences");
-  const today = makeIsoDate(core.date);
+const HISTORY_TABLE = "history";
+
+function qualifiesForHistory(
+  seed: string,
+  personId: string,
+  birthDate: string,
+  date: string,
+): boolean {
   const span = felonyRecordShare.yearsBack;
+  return (
+    ageInYears(birthDate, date) >= 18 + span.from &&
+    seededUnit(seed, `conviction-history:${personId}`) < felonyRecordShare.share
+  );
+}
+
+function writeHistory(
+  api: CoreAPI,
+  seed: string,
+  person: { id: string; birthDate: string },
+): boolean {
+  const core = api.state as CoreState;
+  const cases = api.moduleState(JUSTICE_MODULE_ID).table("cases");
+  const caseId = `case:history:${person.id}`;
+  if (
+    cases.get(caseId) ||
+    !qualifiesForHistory(seed, person.id, person.birthDate, core.date)
+  )
+    return false;
+  const sentences = api.moduleState(JUSTICE_MODULE_ID).table("sentences");
+  const span = felonyRecordShare.yearsBack;
+  // How long ago, from the same seed, but never before the person was an adult.
+  const adultYears = ageInYears(person.birthDate, core.date) - 18;
+  const back = Math.min(
+    span.to,
+    adultYears,
+    span.from +
+      Math.floor(
+        seededUnit(seed, `conviction-history-when:${person.id}`) *
+          (span.to - span.from + 1),
+      ),
+  );
+  const date = addDays(
+    makeIsoDate(core.date),
+    -Math.max(span.from, back) * 365,
+  );
+  const sentenceId = `sentence:history:${person.id}`;
+  const source: Source = {
+    tag: "ESTIMATED",
+    citation: felonyRecordShare.citation,
+    asOf: core.date,
+    estimatedFrom: felonyRecordShare.id,
+  };
+  sentences.put({
+    id: sentenceId,
+    kind: "person",
+    caseId,
+    personId: person.id,
+    date,
+    severity: 0.3,
+    fineMinor: 0,
+    finePaidMinor: 0,
+    forfeitureMinor: 0,
+    forfeiturePaidMinor: 0,
+    treasuryId: null,
+    probationMonths: 0,
+    custodyMonths: 0,
+    releaseDate: date,
+    seatsVacated: [],
+    jobsEnded: [],
+    reasons: { history: 1 },
+    source,
+  } satisfies SentenceRow as unknown as ModuleRow);
+  cases.put({
+    id: caseId,
+    kind: "person",
+    investigationId: `investigation:history:${person.id}`,
+    prosecutorOfficeId: "office:history",
+    defendantId: person.id,
+    crimeIds: ["crime:history"],
+    evidence: 1,
+    date,
+    status: "convicted",
+    plea: true,
+    trialDate: null,
+    reasons: { history: { share: felonyRecordShare.share } },
+    sentenceId,
+  } satisfies CaseRow as unknown as ModuleRow);
+  return true;
+}
+
+/** Give the world's full adults their seeded conviction history at opening; keeps the seed for those filled in later. */
+export function seedConvictionHistory(core: CoreState, seed: string): number {
+  if (!core.modules.has(JUSTICE_MODULE_ID)) return 0;
+  const api = coreAPI(core);
+  api
+    .moduleState(JUSTICE_MODULE_ID)
+    .table(HISTORY_TABLE)
+    .put({ id: "seed", seed } as unknown as ModuleRow);
   let seeded = 0;
   for (const person of core.people.values()) {
     if (!person.alive || person.tier === "husk") continue;
-    if (ageInYears(person.birthDate, core.date) < 18 + span.from) continue;
-    if (
-      seededUnit(seed, `conviction-history:${person.id}`) >=
-      felonyRecordShare.share
-    )
-      continue;
-    // How long ago, from the same seed, but never before the person was an adult.
-    const adultYears = ageInYears(person.birthDate, core.date) - 18;
-    const back = Math.min(
-      span.to,
-      adultYears,
-      span.from +
-        Math.floor(
-          seededUnit(seed, `conviction-history-when:${person.id}`) *
-            (span.to - span.from + 1),
-        ),
-    );
-    const date = addDays(today, -Math.max(span.from, back) * 365);
-    const caseId = `case:history:${person.id}`;
-    const sentenceId = `sentence:history:${person.id}`;
-    const source: Source = {
-      tag: "ESTIMATED",
-      citation: felonyRecordShare.citation,
-      asOf: core.date,
-      estimatedFrom: felonyRecordShare.id,
-    };
-    sentences.put({
-      id: sentenceId,
-      kind: "person",
-      caseId,
-      personId: person.id,
-      date,
-      severity: 0.3,
-      fineMinor: 0,
-      finePaidMinor: 0,
-      forfeitureMinor: 0,
-      forfeiturePaidMinor: 0,
-      treasuryId: null,
-      probationMonths: 0,
-      custodyMonths: 0,
-      releaseDate: date,
-      seatsVacated: [],
-      jobsEnded: [],
-      reasons: { history: 1 },
-      source,
-    } satisfies SentenceRow as unknown as ModuleRow);
-    cases.put({
-      id: caseId,
-      kind: "person",
-      investigationId: `investigation:history:${person.id}`,
-      prosecutorOfficeId: "office:history",
-      defendantId: person.id,
-      crimeIds: ["crime:history"],
-      evidence: 1,
-      date,
-      status: "convicted",
-      plea: true,
-      trialDate: null,
-      reasons: { history: { share: felonyRecordShare.share } },
-      sentenceId,
-    } satisfies CaseRow as unknown as ModuleRow);
-    seeded += 1;
+    if (writeHistory(api, seed, person)) seeded += 1;
   }
   return seeded;
+}
+
+/**
+ * Whether a person in the counts has a conviction from before day one: the
+ * same seeded draw a full person's case is written from, so filling them in
+ * changes nothing about what the records say. False for a full person (their
+ * case, if any, is in the cases table, read by `convictionsOf`).
+ */
+export function historyRecordOf(api: CoreAPI, personId: PersonId): boolean {
+  if (!api.state.modules.has(JUSTICE_MODULE_ID)) return false;
+  const core = api.state as CoreState;
+  const full = core.people.get(personId);
+  if (full && !isDemoted(full)) return false;
+  const seed = (
+    api.moduleState(JUSTICE_MODULE_ID).table(HISTORY_TABLE).get("seed") as
+      { seed?: string } | undefined
+  )?.seed;
+  if (!seed) return false;
+  const facts = full ?? residentFacts(core, personId);
+  return facts
+    ? qualifiesForHistory(seed, personId, facts.birthDate, core.date)
+    : false;
 }

@@ -8,9 +8,9 @@
  * engine's own: a case that ended in a conviction.
  */
 import { lawApplied } from "./law-reach/applied";
-import { convictionsOf } from "./modules/justice";
+import { convictionsOf, historyRecordOf } from "./modules/justice";
 import { LAWS_MODULE_ID, lawChain, lawInForce } from "./modules/laws";
-import type { CoreAPI } from "./types";
+import type { CoreAPI, PersonId } from "./types";
 
 export const BAN_THE_BOX_KEY =
   "us-policy-positions:labor-workforce.ban-the-box-public-hiring";
@@ -43,7 +43,9 @@ export function recordBiasAt(
   const hasRecord = (personId: string) => {
     let known = records.get(personId);
     if (known === undefined) {
-      known = convictionsOf(api, personId).length > 0;
+      known =
+        convictionsOf(api, personId).length > 0 ||
+        historyRecordOf(api, personId as PersonId);
       records.set(personId, known);
     }
     return known;
