@@ -310,8 +310,11 @@ function basePeriodWages(
   if (!fold?.length || terms.weeklyFraction === undefined || !q) return null;
   const now = quarterOf(c.date);
   const completed = fold.filter((row) => row.quarter < now).slice(-5);
+  // A record shorter than a base year (a world, or a job, under four completed
+  // quarters old) is not the base period: the earlier pay is not on record, so
+  // the lost job's last pay stands until four quarters are.
+  if (completed.length < 4) return null;
   const base = completed.length === 5 ? completed.slice(0, 4) : completed;
-  if (!base.length) return null;
   const gross = base.map((row) => row.grossMinor).sort((a, b) => b - a);
   return {
     wages: gross.slice(0, q).reduce((n, v) => n + v, 0),
