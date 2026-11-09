@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: speed/poll-frame
-pr:
+pr: #8062
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-09T16:42:42.524Z
