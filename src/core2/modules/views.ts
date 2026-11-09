@@ -501,6 +501,8 @@ export function standingWith(
   countedHearer?: Pick<PersonState, "traits">,
   /** The speaker's lean where they are still in the wider population (no view row of their own). */
   countedSpeakerLean?: number,
+  /** A group of hearers' mean closeness to the speaker, in place of one listener's tie (`hearAsGroups`). */
+  groupCloseness?: number,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
@@ -536,8 +538,12 @@ export function standingWith(
       withTerm ? trust : nearTrust,
     );
   }
-  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
-  const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
+  const tie =
+    groupCloseness === undefined
+      ? api.state.relationships.get(pairKey(listener.id, speakerId))
+      : undefined;
+  const closeness =
+    groupCloseness ?? (tie ? currentCloseness(api.state, tie) : v("zero"));
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
       ? ((

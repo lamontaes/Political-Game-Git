@@ -8,8 +8,9 @@
  * they yield to an argument), with the same rule a counted group is moved by
  * (`stanceAfterCase` with an exposure), and each member's view reads the
  * group's stance (`groupShift` in `stanceOn`). Watched means the player, their
- * household and circle, anyone in focus (`keepsWhy`), a state or federal
- * official, or someone with a tie to the speaker; they stay individual.
+ * household and circle, anyone in focus (`keepsWhy`), or a state or federal
+ * official; they stay individual. A hearer's tie to the speaker is carried
+ * into the group as its members' mean closeness to that speaker.
  *
  * A person joins the group they are first heard in and keeps it, so their
  * read is one row. A group's stance is the mean of its members' shifts: each
@@ -17,6 +18,7 @@
  */
 import { ageOnDate } from "./kernel/dates";
 import { pairKey } from "./kernel/ids";
+import { currentCloseness } from "./closeness";
 import { decisionLean } from "./trait-decisions";
 import { keepsWhy } from "./why-kept";
 import {
@@ -41,22 +43,17 @@ export interface HearerGroupRow {
 }
 
 /**
- * Whether a hearer stays a person for this speaker: watched by the player
- * (`keepsWhy`), holding a state or federal seat, or tied to the speaker.
+ * Whether a hearer stays a person: watched by the player (`keepsWhy`: the
+ * player, their household and circle, anyone in focus) or holding a state or
+ * federal seat.
  */
-export function hearsAsPerson(
-  api: CoreAPI,
-  personId: PersonId,
-  speakerId: string,
-): boolean {
+export function hearsAsPerson(api: CoreAPI, personId: PersonId): boolean {
   const state = api.state as CoreState;
   if (state.playerId === undefined || keepsWhy(state, personId)) return true;
-  if (
+  return (
     api.state.modules.has(OFFICIALS_STORE) &&
-    api.moduleState(OFFICIALS_STORE).table("officials").get(personId)
-  )
-    return true;
-  return api.state.relationships.has(pairKey(personId, speakerId));
+    !!api.moduleState(OFFICIALS_STORE).table("officials").get(personId)
+  );
 }
 
 function groupKeyOf(api: CoreAPI, personId: PersonId, view: PersonView) {
@@ -122,6 +119,7 @@ export function hearAsGroups(
     {
       lean: number;
       engagement: number;
+      closeness: number;
       traits: Record<string, number>;
       n: number;
     }
@@ -133,11 +131,14 @@ export function hearAsGroups(
     const groupId = joinGroup(api, personId, view);
     let sums = byGroup.get(groupId);
     if (!sums) {
-      sums = { lean: 0, engagement: 0, traits: {}, n: 0 };
+      sums = { lean: 0, engagement: 0, closeness: 0, traits: {}, n: 0 };
       byGroup.set(groupId, sums);
     }
     sums.lean += view.lean;
     sums.engagement += view.engagement;
+    // How close each is to the speaker today (none for a stranger).
+    const tie = api.state.relationships.get(pairKey(personId, heard.speakerId));
+    if (tie) sums.closeness += currentCloseness(api.state, tie);
     for (const kind in person.traits)
       sums.traits[kind] = (sums.traits[kind] ?? 0) + person.traits[kind]!;
     sums.n += 1;
@@ -175,6 +176,7 @@ export function hearAsGroups(
         heard.desiredChange,
         hearer,
         heard.countedSpeakerLean,
+        sums.closeness / sums.n,
       ),
       speakerId: heard.speakerId,
       keepCauses: false,

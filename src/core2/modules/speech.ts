@@ -162,9 +162,7 @@ export function deliverSpeech(api: CoreAPI, speech: SpeechInput): Retelling[] {
   const grouped =
     speech.groupUnwatched && speech.speakerId !== api.state.playerId;
   const audienceIds = grouped
-    ? speech.audienceIds.filter((id) =>
-        hearsAsPerson(api, id, speech.speakerId),
-      )
+    ? speech.audienceIds.filter((id) => hearsAsPerson(api, id))
     : speech.audienceIds;
   if (grouped && audienceIds.length < speech.audienceIds.length) {
     const asPeople = new Set(audienceIds);
