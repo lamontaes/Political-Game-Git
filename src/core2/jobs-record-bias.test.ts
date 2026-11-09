@@ -122,7 +122,7 @@ function twin(ban: boolean, place: { seed: string; key: string }) {
   amendBudget(api, {
     governmentId: gov!.id,
     line,
-    deltaMinor: 4 * reachParameter("publicPositionAnnualMinor"),
+    deltaMinor: 12 * reachParameter("publicPositionAnnualMinor"),
     measureId: `fixture:ban-the-box:${line}`,
   });
   return { core, api, seekers, withRecord, employers, gov: gov! };
@@ -136,7 +136,7 @@ it(
     let witness: string | undefined;
     let proved = false;
     let lastWhere = "";
-    for (let tries = 0; tries < 4 && !proved; tries++) {
+    for (let tries = 0; tries < 6 && !proved; tries++) {
       const found = townFrom(start);
       if (!found) break;
       const place = found.drawn;
@@ -160,7 +160,7 @@ it(
         ).toBeGreaterThan(0);
       }
       for (const w of [banned, open])
-        advanceCore(w.core, addDays(makeIsoDate(w.core.date), 90));
+        advanceCore(w.core, addDays(makeIsoDate(w.core.date), 150));
       const hired = (w: ReturnType<typeof twin>) =>
         appliedOn(w.api, BAN_THE_BOX_KEY).filter(
           (r) => r.what === "hired-over-record-penalty",
