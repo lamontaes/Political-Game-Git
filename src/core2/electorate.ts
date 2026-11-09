@@ -325,7 +325,7 @@ export function registerElectorate(core: CoreState): void {
   if (!core.modules.has(VIEWS_MODULE_ID)) return;
   const api = coreAPI(core);
   const counted = new Map<string, CountedVoter>();
-  registerViewLeans(core.people, (person, z) => {
+  registerViewLeans(core.people, (person) => {
     if (core.people.has(person.id)) return viewOf(api, person.id)?.lean ?? 0;
     if (!counted.size)
       for (const row of countedResidents(core)) counted.set(row.id, row);
