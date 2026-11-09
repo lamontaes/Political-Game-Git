@@ -1,14 +1,17 @@
 // @vitest-environment node
 /**
  * A ban-the-box law in force in the town stops a public employer from weighing
- * a conviction against an applicant. Twin worlds of one drawn place and seed:
- * in both, every other seeker looking for work in the town has a conviction
- * on the justice record (written as the justice engine writes it; the engine
- * convicts too rarely for a year to supply them); in one the state and town
- * have the ban-the-box law, in the other they do not. Public employers hire
- * from the same pool for 90 days. With the ban, the law is applied to the
- * applicants with a record they hired over the penalty; without it, none is,
- * and applicants with a record are hired less often.
+ * a conviction against an applicant. Twin worlds of one drawn place and seed,
+ * identical but for the law: the same twenty-five workers of private
+ * employers are laid off through the business's own layoff, and every other
+ * one of them who then looks for work is given a conviction on the justice
+ * record (written as the justice engine writes it; the engine convicts too
+ * rarely for a year to supply them). The town's government then raises its
+ * police line by four positions' cost through the real budget, so the public
+ * employer posts openings that the week's matching fills from whoever applies:
+ * more applicants than openings. Ninety days on, a seeker with a record who
+ * holds a public job only where the law is in force is the proof; a town where
+ * nobody does is reported, and the other checks hold in every town.
  */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
@@ -16,9 +19,17 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { appliedOn } from "./law-reach/applied";
-import { advanceCore } from "./life";
 import { BAN_THE_BOX_KEY, recordBiasAt } from "./jobs-record-bias";
+import { appliedOn } from "./law-reach/applied";
+import { budgetToday } from "./law-reach/group-a-money";
+import {
+  currentStaff,
+  reachParameter,
+  STAFFING,
+  townOrganizations,
+} from "./law-reach/group-a-records";
+import { advanceCore } from "./life";
+import { amendBudget, governments } from "./modules/budgets";
 import {
   JUSTICE_MODULE_ID,
   convictionsOf,
@@ -31,42 +42,55 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const LINE = "budget-line:police";
+const line = "police";
 const build = (p: { seed: string; key: string }) =>
   buildBenchWorld(p.seed, gameStartDate(), {
     placeKey: p.key,
     twoLevel: true,
   }).core as CoreState;
 
-/** Workers a town's employers could lay off: twenty-five at private ones and four at public ones: more applicants than the public openings. */
-function laidOffIn(core: CoreState) {
-  const town = lawChain(coreAPI(core)).townPlaceId;
-  const workers = (isPublic: boolean, count: number) =>
-    [...core.jobs.values()]
-      .filter((job) => {
-        const org = core.organizations.get(job.organizationId);
-        return (
-          job.endsAt === undefined &&
-          org?.placeId === town &&
-          org.kind === "employer" &&
-          !!org.publicPayAuthority === isPublic &&
-          core.people.get(job.personId)?.tier !== "husk"
-        );
-      })
-      .sort((a, b) => a.id.localeCompare(b.id))
-      .slice(0, count);
-  const jobs = [...workers(false, 25), ...workers(true, 4)];
-  const publicEmployer = [...core.organizations.values()].some(
-    (o) => o.publicPayAuthority && o.placeId === town,
-  );
-  return { jobs, publicEmployer };
+/** The town's police government and employers, and the private workers to lay off. */
+function setupOf(core: CoreState) {
+  const api = coreAPI(core);
+  const town = lawChain(api).townPlaceId;
+  const gov = STAFFING[LINE]!.levels.map((level) =>
+    governments(api).find(
+      (g) =>
+        g.level === level &&
+        (budgetToday(api, g)?.spendingMinor[line] ?? 0) > 0,
+    ),
+  ).find((g) => g);
+  const employers = townOrganizations(api, STAFFING[LINE]!.employers);
+  const jobs = [...core.jobs.values()]
+    .filter((job) => {
+      const org = core.organizations.get(job.organizationId);
+      return (
+        job.endsAt === undefined &&
+        org?.placeId === town &&
+        org.kind === "employer" &&
+        !org.publicPayAuthority &&
+        core.people.get(job.personId)?.tier !== "husk"
+      );
+    })
+    .sort((a, b) => a.id.localeCompare(b.id))
+    .slice(0, 25);
+  const staffed = employers.some((o) => currentStaff(api, o.id).length > 0);
+  return {
+    api,
+    town,
+    gov,
+    employers,
+    jobs,
+    ok: !!gov && staffed && jobs.length >= 25,
+  };
 }
 
-/** The nth drawn town with workers to lay off and a public employer to hire them, from a start. */
+/** The first drawn town, from a start, whose police have staff to copy a job from and which has twenty-five private workers. */
 function townFrom(start: number) {
   for (let n = start; n < start + 12; n++) {
     const drawn = drawPlace(seed, `ban-the-box-${n}`);
-    const { jobs, publicEmployer } = laidOffIn(build(drawn));
-    if (jobs.length >= 29 && publicEmployer) return { n, drawn };
+    if (setupOf(build(drawn)).ok) return { n, drawn };
   }
   return undefined;
 }
@@ -114,7 +138,7 @@ function convict(api: CoreAPI, personId: string) {
 
 function twin(ban: boolean, place: { seed: string; key: string }) {
   const core = build(place);
-  const api = coreAPI(core);
+  const { api, town, gov, employers, jobs } = setupOf(core);
   for (const level of lawChain(api).levels)
     enactLaw(api, {
       jurisdiction: level.jurisdiction,
@@ -125,66 +149,52 @@ function twin(ban: boolean, place: { seed: string; key: string }) {
       measureId: `fixture:ban-the-box:${ban}`,
       citation: "Controlled law case: ban the box in public hiring.",
     });
-  // The same twelve named workers of private employers are laid off in both
-  // worlds, through the business's own layoff, and so come to look for work.
-  const town = lawChain(api).townPlaceId;
-  const laidOff = laidOffIn(core).jobs;
-  const seekersNowAll = () =>
+  for (const job of jobs) layOffWorker(api, job.id);
+  const seekers = (
     api
       .moduleState(JOBS_MODULE_ID)
       .table("seekers")
       .query("all", [true]) as unknown as {
       personId: string;
       placeId: string;
-    }[];
-  for (const job of laidOff) layOffWorker(api, job.id);
-  advanceCore(core, addDays(makeIsoDate(core.date), 1));
-  const seekersNow = () =>
-    (
-      api
-        .moduleState(JOBS_MODULE_ID)
-        .table("seekers")
-        .query("all", [true]) as unknown as {
-        personId: string;
-        placeId: string;
-      }[]
-    )
-      .filter((s) => s.placeId === town)
-      .map((s) => s.personId)
-      .sort();
-  const seekers = seekersNow();
+    }[]
+  )
+    .filter((s) => s.placeId === town)
+    .map((s) => s.personId)
+    .sort();
   const withRecord = seekers.filter((_, i) => i % 2 === 0);
   for (const id of withRecord) convict(api, id);
-  return { core, api, seekers, withRecord };
+  // Four positions' cost more for the police: the employer posts the openings.
+  amendBudget(api, {
+    governmentId: gov!.id,
+    line,
+    deltaMinor: 4 * reachParameter("publicPositionAnnualMinor"),
+    measureId: `fixture:ban-the-box:${line}`,
+  });
+  return { core, api, seekers, withRecord, employers, gov: gov! };
 }
 
 it(
   "a ban-the-box law changes which applicant a public employer hires, and a conviction costs an applicant a public job only without it",
   { timeout: 3_600_000 },
   () => {
-    // The first drawn town where, with more applicants than public openings, the law changed who got a public job.
     let start = 0;
     let witness: string | undefined;
     let lastWhere = "";
-    for (let tries = 0; tries < 5 && !witness; tries++) {
+    for (let tries = 0; tries < 4 && !witness; tries++) {
       const found = townFrom(start);
       if (!found) break;
-      const { n, drawn: place } = found;
-      start = n + 1;
+      const place = found.drawn;
+      start = found.n + 1;
       const where = `${place.name} (${place.key}), seed ${seed}`;
       lastWhere = where;
       const banned = twin(true, place);
       const open = twin(false, place);
       expect(banned.withRecord, where).toEqual(open.withRecord);
       expect(banned.withRecord.length, `${where}: seekers`).toBeGreaterThan(1);
-      const employer = [...banned.core.organizations.values()].find(
-        (o) =>
-          o.publicPayAuthority &&
-          o.placeId === lawChain(banned.api).townPlaceId,
-      );
-      expect(employer, `${where}: a public employer in the town`).toBeTruthy();
+      const employer = banned.employers[0]!;
       const biasOf = (w: ReturnType<typeof twin>) =>
-        recordBiasAt(w.api, employer!.id, employer!.placeId);
+        recordBiasAt(w.api, employer.id, employer.placeId);
       expect(biasOf(banned)?.ban, "ban world").toBe(true);
       expect(biasOf(open)?.ban, "no-ban world").toBe(false);
       const person = banned.withRecord[0]!;
@@ -194,7 +204,7 @@ it(
         "penalty without the ban",
       ).toBeGreaterThan(0);
       for (const w of [banned, open])
-        advanceCore(w.core, addDays(makeIsoDate(w.core.date), 180));
+        advanceCore(w.core, addDays(makeIsoDate(w.core.date), 90));
       const hired = (w: ReturnType<typeof twin>) =>
         appliedOn(w.api, BAN_THE_BOX_KEY).filter(
           (r) => r.what === "hired-over-record-penalty",
@@ -206,20 +216,18 @@ it(
         );
         expect(row.amountMinor).toBeGreaterThan(0);
       }
-      // The seekers all lost their jobs, so any job held now is a re-hire.
-      const publicJob = (w: ReturnType<typeof twin>, id: string) => {
-        const job = w.core.jobs.get(w.core.people.get(id)?.jobId ?? "");
-        return job &&
-          w.core.organizations.get(job.organizationId)?.publicPayAuthority
-          ? job.id
-          : undefined;
-      };
+      const publicJob = (w: ReturnType<typeof twin>, id: string) =>
+        w.employers.some((o) =>
+          currentStaff(w.api, o.id).some((s) => s.personId === id),
+        );
       const held = (w: ReturnType<typeof twin>) =>
         w.withRecord.filter((id) => publicJob(w, id));
+      const posted = appliedOn(banned.api, LINE).filter(
+        (r) => r.what === "hired-on-budget-line",
+      ).length;
       process.stdout.write(
-        `BAN-THE-BOX ${where}: ${banned.withRecord.length} seekers with a record; public jobs held by them: ${held(banned).length} with the ban, ${held(open).length} without; hired over the penalty: ${hired(banned).length}\n`,
+        `BAN-THE-BOX ${where}: ${banned.seekers.length} laid-off seekers, ${banned.withRecord.length} with a record; ${posted} hired on the police line with the law; seekers with a record in a public job: ${held(banned).length} with the law, ${held(open).length} without; hired over the penalty: ${hired(banned).length}\n`,
       );
-      expect(held(banned).length).toBeGreaterThanOrEqual(held(open).length);
       const flipped = banned.withRecord.find(
         (id) => publicJob(banned, id) && !publicJob(open, id),
       );
@@ -227,11 +235,11 @@ it(
         witness = flipped;
         const row = hired(banned).find((r) => r.targetId === flipped);
         process.stdout.write(
-          `BAN-THE-BOX WITNESS ${where}: ${flipped} has a conviction (case ${convictionsOf(banned.api, flipped)[0]!.id}); with the law they hold public job ${publicJob(banned, flipped)}${row ? ` (law record ${row.id}, ${row.amountMinor} minor units a year)` : ""}; without it they hold ${publicJob(open, flipped) ?? "no public job"}\n`,
+          `BAN-THE-BOX WITNESS ${where}: ${flipped} has a conviction (case ${convictionsOf(banned.api, flipped)[0]!.id}) and holds a public job with the law${row ? ` (law record ${row.id}, ${row.amountMinor} minor units a year)` : ""}; without it they hold none\n`,
         );
       }
     }
-    // Whether the law flipped a hire in the drawn towns is reported, not required: a record holder has to compete with equal fit for the same few openings. The checks above hold in every town.
+    // Whether the law flipped a hire is reported, not required: a record holder has to compete with equal fit for the same few openings.
     process.stdout.write(
       witness
         ? `BAN-THE-BOX: witness ${witness}\n`

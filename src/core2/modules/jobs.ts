@@ -3050,10 +3050,6 @@ function runWeek(api: CoreAPI): void {
     // ranking, picking whom the scan would. Where no ranking stands
     // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
     // ranking and throws on any difference.
-    if (process.env.BTB_DEBUG && recordBias)
-      process.stdout.write(
-        `DEBUG ${recordBias.ban ? "ban" : "open"} ${position.id}: ${pool.length} applicants, ${pool.filter((r) => recordBias.hasRecord(r.personId)).length} with a record, fits ${pool.map((r) => `${recordBias.hasRecord(r.personId) ? "R" : "-"}${fit(r).toFixed(1)}`).join(" ")}\n`,
-      );
     const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
     const penalizedOrder =
       order && bias?.ban
