@@ -95,6 +95,47 @@ export function devRunPanel({ labels, onDone }) {
       run.disabled = false;
     }
   });
+  // Jump to an hour of the day (arrows either side of the hour): the player's clock moves there
+  // and the world runs to it.
+  let hourAt = 12;
+  const hourBox = el("div");
+  const drawHour = () => {
+    const row = lookRow(
+      { id: "hour", label: labels.hour, value: String(hourAt) },
+      {
+        onMove: (_id, by) => {
+          hourAt = Math.min(Math.max(hourAt + by, 0), 23);
+          drawHour();
+        },
+        arrowLabel: (by) => (by < 0 ? labels.fewer : labels.more),
+      },
+    );
+    row.dataset.testid = "dev-hour";
+    hourBox.replaceChildren(row);
+  };
+  drawHour();
+  const jump = makeButton({ className: "action" }, labels.jump);
+  jump.dataset.testid = "dev-jump-hour";
+  jump.addEventListener("click", async () => {
+    jump.disabled = true;
+    result.textContent = "";
+    try {
+      const response = await fetch("/api/dev/hour", {
+        method: "POST",
+        body: JSON.stringify({ hour: hourAt }),
+      });
+      const value = await response.json();
+      if (!response.ok) throw new Error(value.error);
+      result.textContent = value.held
+        ? labels.held
+        : `${value.at.date} · ${Math.floor(value.at.minuteOfDay / 60)}:${String(value.at.minuteOfDay % 60).padStart(2, "0")}`;
+      await onDone();
+    } catch (error) {
+      result.textContent = error.message;
+    } finally {
+      jump.disabled = false;
+    }
+  });
   return el(
     "section",
     { className: "dev-only dev-run" },
@@ -103,6 +144,8 @@ export function devRunPanel({ labels, onDone }) {
     el("h4", { className: "label", textContent: labels.orUntil }),
     el("div", { className: "acts" }, ...eventButtons),
     el("div", { className: "acts" }, holdButton, run),
+    hourBox,
+    el("div", { className: "acts" }, jump),
     result,
   );
 }

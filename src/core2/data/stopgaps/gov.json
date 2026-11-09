@@ -1927,7 +1927,7 @@
     "file": "src/core2/modules/meetings.ts",
     "line": 651,
     "whatItFakes": "A town hall's room, a candidate's forum among them, fills only from the town's full adults (townHallDrives reads townAdults): a resident still in the counted wider population never comes, so a forum in a town of mostly counted residents meets only the people already filled in.",
-    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers) and fills in those who speak.",
+    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers); those who speak stay in the counts until the player opens the bill.",
     "addedBy": "governing builder (campaign-like-real-races, forum)",
     "addedAt": "2026-10-29",
     "replacement": "townHallDrives reads the town's counted adults by the same drive as commentSpeakers does (countedResidents with countedRecordOnly), indexed by place so a weekly town hall does not scan the whole wider population, and holdTownHall fills in each counted resident who comes before the room's causes are written.",
@@ -2195,6 +2195,18 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-energy-assistance-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 325,
+    "whatItFakes": "A household within the home energy assistance income limit (percent of the poverty line for its size) is paid the average yearly benefit, a twelfth a month, times the share of eligible households the program serves; there is no application, no benefit-by-state table and no utility bill the payment offsets, and every state starts at the statute's 150 percent ceiling until its own plan is read.",
+    "why": "The average benefit ($301, FY2014) and the 16% served are national figures (CRS RL31865); the state plans' income limits and benefit tables sit on acf.gov and liheapch.acf.gov, which the build session could not reach.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
     "status": "open"
   }
 ]

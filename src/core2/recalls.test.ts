@@ -25,7 +25,8 @@ import {
   recallRule,
   recallsOf,
 } from "./modules/recalls";
-import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
+import { personStance } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { buildBenchWorld } from "../bench/world";

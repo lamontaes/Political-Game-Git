@@ -17,10 +17,6 @@
  */
 import { placeStateKey } from "../place-map";
 import { lawInForce, yesLevels } from "../modules/laws";
-import {
-  executiveTermLimit,
-  termLimitReachedBy,
-} from "../executive-term-limits";
 const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
 import {
   PHOTO_ID,
@@ -45,9 +41,14 @@ export {
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
-import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  executiveTermLimit,
+  termLimitReachedBy,
+  type TermRow,
+} from "../modules/offices";
 import { ELECTIONS_MODULE_ID } from "../modules/elections";
 import {
   convictionsOf,

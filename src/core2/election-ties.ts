@@ -17,7 +17,7 @@
 import ties from "../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import { pairKey, stableHash } from "./kernel/ids";
 import { bookkeeping } from "./bookkeeping";
-import { campaignParameter, type Stance } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-data";
 import { agreementWith } from "./modules/views";
 import { partySide } from "./appointments";
 import {

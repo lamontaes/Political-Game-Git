@@ -8,6 +8,10 @@ import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
 
+/** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
+const JOURNAL_TWO_COLUMNS = 700;
+const JOURNAL_DROP_CAP = 120;
+
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
  * bronze runs, lit first and deeper down the screen) over `nodes`.
@@ -164,7 +168,7 @@ export function dotRows(rows) {
 /**
  * The budget board: a row of tabs and a fiscal-year line over three columns of
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
- * Courier Prime capitals at the right of the tabs.
+ * capitals at the right of the tabs.
  */
 export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
@@ -460,11 +464,23 @@ export function journalScreen({ chapters, labels, yearOf, rows }) {
                 stripSection(
                   2,
                   chosen.title,
+                  // Two columns and a drop cap only where the words fill them: a short
+                  // chapter is one column and a one-line first paragraph has no drop cap.
                   el(
                     "div",
-                    { className: "journal-text" },
-                    ...chosen.lines.map((line) =>
-                      el("p", { className: "intro", textContent: line.text }),
+                    {
+                      className: `journal-text${
+                        chosen.lines.reduce((n, l) => n + l.text.length, 0) <
+                        JOURNAL_TWO_COLUMNS
+                          ? " one-column"
+                          : ""
+                      }`,
+                    },
+                    ...chosen.lines.map((line, at) =>
+                      el("p", {
+                        className: `intro${at === 0 && line.text.length >= JOURNAL_DROP_CAP ? " lead" : ""}`,
+                        textContent: line.text,
+                      }),
                     ),
                   ),
                 ),
