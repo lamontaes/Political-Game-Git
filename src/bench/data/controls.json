@@ -112,8 +112,7 @@
     "cabinet": "Appointing the cabinet",
     "workings": "Opening the press, courts and meetings",
     "history": "Writing the country's history",
-    "opening": "Preparing the opening",
-    "done": "Ready"
+    "opening": "Preparing the opening"
   },
   "worldSettings": {
     "rows": [
@@ -362,6 +361,9 @@
     "event": "Event",
     "noEvent": "No event",
     "holdLaw": "Hold the law just passed",
+    "hour": "Hour",
+    "jump": "Jump to hour",
+    "held": "A stop or choice holds the clock; answer it first",
     "run": "Run",
     "events": {
       "bill-passes": "A bill passes",
@@ -555,7 +557,9 @@
     "whatICanDo": "What I can do there"
   },
   "time": {
-    "week": "Week"
+    "day": "Day",
+    "week": "Week",
+    "continue": "Continue"
   },
   "calendar": {
     "previousMonth": "Previous month",
@@ -895,7 +899,11 @@
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
     "fiscalYear": "Fiscal year",
-    "asked": "Asked"
+    "asked": "Asked",
+    "sinceLastYear": "Since last year",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "saves": {
     "none": "No life is saved yet.",

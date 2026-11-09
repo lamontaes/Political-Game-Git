@@ -17,7 +17,7 @@ import { BenchPlayer } from "./player";
 import { gameStartDate } from "../core2/game-start";
 import { parameter } from "../core2/parameters";
 import { fileCandidacy, openContests } from "../core2/modules/elections";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { coreAPI } from "../core2/state";
 import {
   declineJobOffer,

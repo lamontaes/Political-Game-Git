@@ -28,7 +28,7 @@ import {
   candidateStance,
   platformScores,
 } from "./campaign-stances";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { contestPositions } from "./contest-positions";
 import { lawChain } from "./modules/laws";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";

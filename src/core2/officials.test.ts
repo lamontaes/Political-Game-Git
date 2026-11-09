@@ -38,7 +38,7 @@ import {
   OFFICIALS_MODULE_ID,
   type CandidateRow,
 } from "./modules/officials";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { partySide } from "./appointments";
 import { realLocalities } from "./places";
 
