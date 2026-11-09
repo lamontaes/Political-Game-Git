@@ -1,7 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { generatedOpening } from "./tooling/generated-world";
-import { createLifeCore } from "./life";
+import { buildBenchWorld } from "../bench/world";
+import { setBookkeeping } from "./bookkeeping";
+import { gameStartDate } from "./game-start";
+import { preStartHistory } from "./pre-start";
 import { residentsRuntime } from "./modules/residents";
 import { fillInPerson } from "./state";
 
@@ -11,23 +13,42 @@ const seed = "7359ad8c4d0c8cc9aaa27b59839b6cee";
 
 describe(`fill-in past is the same every time (seed ${seed})`, () => {
   it("builds the same past on a second fill-in", () => {
+    // The world the player gets: the childhood, schooling and household
+    // history before the start is the engines' records (#6640), so a filled-in
+    // person's past is those records, and a bare core without the engines has
+    // none to give.
+    setBookkeeping(false);
     const place = drawPlace(seed, "core2-residents");
-    const two = generatedOpening(place, { twoLevel: true });
-    const core = createLifeCore(two);
+    const build = () =>
+      buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      }).core;
+    const core = build();
     // One model, two tiers: counted people hold no past; fill-in builds it.
     const record = [...residentsRuntime(core)!.households.values()].find(
       (row) => row.people.length > 1,
     )!;
-    expect(record.people.every((row) => !row.pastFacts?.length)).toBe(true);
-    // The record reads the counts live: once filled in, its people are full people.
     const ids = record.people.map((row) => row.id);
+    expect(
+      ids.every(
+        (id) => !preStartHistory(core, { personId: id as never }).length,
+      ),
+      "counted people hold no past",
+    ).toBe(true);
+    // The record reads the counts live: once filled in, its people are full people.
     fillInPerson(core, ids[0]!);
     expect(record.people).toHaveLength(0);
+    const past = (c: typeof core, id: string) =>
+      JSON.stringify(preStartHistory(c, { personId: id as never }));
     for (const id of ids)
-      expect(core.people.get(id)!.pastFacts?.length).toBeGreaterThan(0);
+      expect(
+        preStartHistory(core, { personId: id as never }).length,
+        `${id}: the history before the start`,
+      ).toBeGreaterThan(0);
     // And the same person comes back on a second fill-in in another world
-    // built from the same opening.
-    const again = createLifeCore(two);
+    // built from the same seed.
+    const again = build();
     fillInPerson(again, ids[0]!);
     const person = (c: typeof core, id: string) => {
       const p = c.people.get(id)!;
@@ -40,6 +61,9 @@ describe(`fill-in past is the same every time (seed ${seed})`, () => {
         actsByKind: undefined,
       });
     };
-    for (const id of ids) expect(person(again, id)).toBe(person(core, id));
+    for (const id of ids) {
+      expect(person(again, id)).toBe(person(core, id));
+      expect(past(again, id)).toBe(past(core, id));
+    }
   }, 600_000);
 });

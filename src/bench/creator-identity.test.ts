@@ -94,6 +94,11 @@ it(`moves a brother or sister born within nine months of the chosen birthday, in
   const siblings = siblingsOf(core, id);
   expect(siblings.length, where).toBeGreaterThan(0);
   const sister = core.people.get(siblings[0]!)!;
+  // Brothers and sisters carrying the player's drawn family name.
+  const drawnFamily = core.people.get(id)!.familyName;
+  const sharing = siblings.filter(
+    (other) => core.people.get(other)!.familyName === drawnFamily,
+  );
   const chosen = addDays(makeIsoDate(sister.birthDate), 7);
   const [year, month, day] = chosen.split("-").map(Number) as [
     number,
@@ -109,6 +114,9 @@ it(`moves a brother or sister born within nine months of the chosen birthday, in
     birthDay: day,
   });
   expect(core.people.get(id)!.birthDate).toBe(chosen);
+  // The chosen surname reaches a sibling living elsewhere too (C27).
+  for (const other of sharing)
+    expect(core.people.get(other)!.familyName, where).toBe("Snider");
   const gap = P.siblingBirthGapDays;
   for (const other of siblings)
     expect(

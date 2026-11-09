@@ -1652,10 +1652,10 @@
       }
     },
     {
-      "key": "journal.office-line-filed.i-ran-for-office",
+      "key": "journal.office-line-filed.i-filed-to-run-for-office-the-election-is-election",
       "move": "office-line-filed",
       "kind": "spoken",
-      "text": "I filed to run for {office}, in an election set for {election}.",
+      "text": "I filed to run for {office}. The election is {election}.",
       "uses": [
         {
           "move": "office-line-filed",
@@ -5431,10 +5431,10 @@
       }
     },
     {
-      "key": "journal.memoir-decided.so-i-ran",
+      "key": "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election",
       "move": "memoir-decided",
       "kind": "spoken",
-      "text": "So I filed to run for {office}, with the election set for {election}.",
+      "text": "So I filed for {office}, with the election set for {election}.",
       "uses": [
         {
           "move": "memoir-decided",
@@ -9750,10 +9750,10 @@
       }
     },
     {
-      "key": "journal.office-line-petition.the-clerk-counted-valid-good-signatures",
+      "key": "journal.office-line-petition.the-clerk-counted-valid-good-signatures-i-needed-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "The clerk counted {valid} good signatures on my petition for {office}. I needed {needed}.",
+      "text": "The clerk counted {valid} good signatures. I needed {needed}.",
       "uses": [
         {
           "move": "office-line-petition",
@@ -9776,10 +9776,10 @@
       }
     },
     {
-      "key": "journal.office-line-petition.my-petition-came-back-from-the-clerk",
+      "key": "journal.office-line-petition.my-petition-came-back-with-valid-good-signatures-against-needed",
       "move": "office-line-petition",
       "kind": "spoken",
-      "text": "My petition for {office} came back from the clerk: {valid} good signatures, against the {needed} I needed.",
+      "text": "My petition came back with {valid} good signatures, against {needed}.",
       "uses": [
         {
           "move": "office-line-petition",

@@ -5850,6 +5850,13 @@
           "role": "address-quote",
           "choice": "context",
           "requiresFacts": ["quote"]
+        },
+        {
+          "move": "local-address-quote",
+          "subject": "news",
+          "role": "local-address-quote",
+          "choice": "context",
+          "requiresFacts": ["quote"]
         }
       ],
       "origin": "authored",
@@ -12716,28 +12723,6 @@
       }
     },
     {
-      "key": "news.local-address-quote.in-the-address-name-said-quote",
-      "move": "local-address-quote",
-      "kind": "written",
-      "text": "In the address, {name} said: \"{quote}\"",
-      "uses": [
-        {
-          "move": "local-address-quote",
-          "subject": "news",
-          "role": "local-address-quote",
-          "choice": "context",
-          "requiresFacts": ["quote"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.public-action.number-people-in-place-gathered-on-date-to-mark-a",
       "move": "public-action",
       "kind": "written",
@@ -12760,10 +12745,10 @@
       }
     },
     {
-      "key": "news.public-action.a-crowd-of-number-turned-out-in-place-on-date",
+      "key": "news.public-action.a-crowd-of-turned-out-in-on-happy-with",
       "move": "public-action",
       "kind": "written",
-      "text": "A crowd of {number} turned out in {place} on {date}, glad of how it has gone with {area}.",
+      "text": "A crowd of {number} turned out in {place} on {date}, happy with {area}.",
       "uses": [
         {
           "move": "public-action",
@@ -12826,10 +12811,10 @@
       }
     },
     {
-      "key": "news.exposed.records-show-name-offered-a-public-official-money-for-a",
+      "key": "news.exposed.records-show-offered-an-official-money-for-a-favor",
       "move": "exposed",
       "kind": "written",
-      "text": "Records show {name} offered a public official money for a favor, and the official turned it down.",
+      "text": "Records show {name} offered an official money for a favor, and was turned down.",
       "uses": [
         {
           "move": "exposed",

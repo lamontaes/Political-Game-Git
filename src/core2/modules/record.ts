@@ -20,7 +20,7 @@ import { votesAreTownNews } from "./officials";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, type Stance } from "../campaign-views";
+import { campaignParameter, type Stance } from "../campaign-data";
 import { viewOn } from "./views";
 import { CAMPAIGNS_MODULE_ID, type PromiseRow } from "./campaigns";
 

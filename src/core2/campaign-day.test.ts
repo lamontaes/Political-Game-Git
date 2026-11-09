@@ -39,12 +39,12 @@ import {
   townHallDrives,
   type TownHallRow,
 } from "./modules/meetings";
+import { personLean } from "./campaign-views";
 import {
   campaignParameter,
-  personLean,
   PLATFORM_QUESTIONS,
   type Stance,
-} from "./campaign-views";
+} from "./campaign-data";
 import type { ModuleRow } from "./module-data";
 import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";

@@ -15,7 +15,8 @@ import {
 } from "./modules/elections";
 import { coreAPI } from "./state";
 import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
-import { campaignParameter, questionAxis } from "./campaign-views";
+import { questionAxis } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   VOTING_MODULE_ID,
   type BallotRow,
