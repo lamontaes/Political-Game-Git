@@ -74,3 +74,31 @@ export function recordHiredUnderBan(
     amountMinor: annualPayMinor,
   });
 }
+
+/**
+ * A public opening's applicants in the order the employer weighs them, kept as
+ * the law's record: one row per applicant naming their place, their fit after
+ * any record penalty, and whether a conviction is on their record. The law is
+ * the one in force when it bars the question, else a standing note that the
+ * penalty applies.
+ */
+export function recordRanking(
+  api: CoreAPI,
+  bias: RecordBias,
+  positionId: string,
+  applicants: readonly { personId: string; weight: number }[],
+): void {
+  const ordered = [...applicants].sort(
+    (a, b) => b.weight - a.weight || a.personId.localeCompare(b.personId),
+  );
+  ordered.forEach((row, index) =>
+    lawApplied(api, {
+      key: BAN_THE_BOX_KEY,
+      lawId: bias.lawId ?? "no-ban-the-box-law",
+      targetId: `${positionId}|${row.personId}`,
+      target: "person",
+      engine: JOBS_ID,
+      what: `ranked-${index + 1}-of-${ordered.length}-fit-${row.weight.toFixed(1)}-${bias.hasRecord(row.personId) ? "record" : "clear"}`,
+    }),
+  );
+}

@@ -216,6 +216,50 @@ it(
         );
         expect(row.amountMinor).toBeGreaterThan(0);
       }
+      // The ranking is read by record: the same applicant for the same opening, weighed in each world.
+      const rankings = (w: ReturnType<typeof twin>) =>
+        new Map(
+          appliedOn(w.api, BAN_THE_BOX_KEY)
+            .filter((r) => r.what.startsWith("ranked-"))
+            .map((r) => {
+              const m =
+                /^ranked-(\d+)-of-(\d+)-fit-(-?[\d.]+)-(record|clear)$/.exec(
+                  r.what,
+                )!;
+              return [
+                r.targetId,
+                {
+                  id: r.id,
+                  place: Number(m[1]),
+                  of: Number(m[2]),
+                  fit: Number(m[3]),
+                  record: m[4] === "record",
+                },
+              ] as const;
+            }),
+        );
+      const withLaw = rankings(banned);
+      const without = rankings(open);
+      const penalty = banned.api.parameter("jobsRecordApplicantPenalty");
+      const shared = [...withLaw.keys()].filter((k) => without.has(k));
+      process.stdout.write(
+        `BAN-THE-BOX ${where}: ${withLaw.size} ranked applicants with the law, ${without.size} without, ${shared.length} the same applicant for the same opening in both\n`,
+      );
+      let example: string | undefined;
+      for (const k of shared) {
+        const a = withLaw.get(k)!;
+        const b = without.get(k)!;
+        expect(a.record, `${k}: same record in both worlds`).toBe(b.record);
+        // A conviction costs the penalty only where the law is not in force.
+        expect(a.fit - b.fit, k).toBeCloseTo(a.record ? penalty : 0, 0);
+        if (a.record && example === undefined) {
+          example = k;
+          const [position, person] = k.split("|");
+          process.stdout.write(
+            `BAN-THE-BOX RANKING ${where}: ${person} has a conviction (case ${convictionsOf(banned.api, person!)[0]!.id}); for opening ${position}: with the law, fit ${a.fit} (law record ${a.id}, place ${a.place} of ${a.of}); without it, fit ${b.fit} (law record ${b.id}, place ${b.place} of ${b.of})\n`,
+          );
+        }
+      }
       const publicJob = (w: ReturnType<typeof twin>, id: string) =>
         w.employers.some((o) =>
           currentStaff(w.api, o.id).some((s) => s.personId === id),

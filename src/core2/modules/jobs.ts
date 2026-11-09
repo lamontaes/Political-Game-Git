@@ -37,6 +37,7 @@ import {
 } from "../jobs-age-bias";
 import {
   recordBiasAt,
+  recordRanking,
   recordHiredUnderBan as recordHiredWithRecordUnderBan,
 } from "../jobs-record-bias";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
@@ -3050,6 +3051,17 @@ function runWeek(api: CoreAPI): void {
     // ranking, picking whom the scan would. Where no ranking stands
     // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
     // ranking and throws on any difference.
+    // A public opening's ranking is kept by record: each applicant's place and weight, and whether a conviction is on their record, so the law's reach reads in the order itself.
+    if (recordBias)
+      recordRanking(
+        api,
+        recordBias,
+        position.id,
+        pool.map((row) => ({
+          personId: row.personId,
+          weight: weighed(row, !bias?.ban),
+        })),
+      );
     const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
     const penalizedOrder =
       order && bias?.ban
