@@ -6,7 +6,8 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { makeCard } from "./card.mjs";
 import { bold, line, prose, heading } from "./text.mjs";
-import { stripSection } from "./strips.mjs";
+import { stripSection, typedRow } from "./strips.mjs";
+import { tabBar, chooseTab } from "./tab.mjs";
 
 /**
  * Today's amount beside the new one: two cells, the law in force as it stands
@@ -47,7 +48,9 @@ const estimateOf = (label, estimate) => [
  * billLabel, estimateLabel, voteLabel, sections: [{ text, estimate: { prose, lines } }], lines:
  * [text] (where it is), votes: [{ big, text }] (each chamber's result, then its details),
  * blank: { prose, lines } (the estimate shown when the bill has no sections), extra: [node]
- * (figures under the estimate) }. An estimate may carry `compare`: { todayLabel, today, newLabel,
+ * (figures under the estimate), where: { heading, rows: [{ label, value }] }, views: { clean, compare }
+ * (the toggle's names), amendsLabel, and each section's `inserted`, `struck` and `amends` (the
+ * citation text) }. An estimate may carry `compare`: { todayLabel, today, newLabel,
  * proposed }.
  */
 export function billPaper(paper) {
@@ -59,12 +62,63 @@ export function billPaper(paper) {
       paper.sections[0]?.estimate ?? paper.blank,
     ),
   );
+  // The bill as typed: Compare strikes the clause the law in force holds and inserts the bill's;
+  // Clean copy shows the bill's alone (the views are the same records, drawn two ways).
+  const views = paper.views;
+  const changes = el("div", { className: "bill-changes" });
+  const drawChanges = (compare) =>
+    changes.replaceChildren(
+      ...paper.sections.flatMap((section) => {
+        if (!section.inserted) return [];
+        return [
+          el(
+            "p",
+            { className: "bill-clause" },
+            ...(compare && section.struck
+              ? [el("s", { textContent: section.struck }), " "]
+              : []),
+            el("u", { textContent: section.inserted }),
+          ),
+          ...(section.amends
+            ? [typedRow(paper.amendsLabel, section.amends)]
+            : []),
+        ];
+      }),
+    );
+  let viewBar = "";
+  if (views) {
+    drawChanges(true);
+    viewBar = tabBar({
+      active: "compare",
+      attr: "view",
+      tabs: [
+        {
+          key: "clean",
+          label: views.clean,
+          onSelect: () => {
+            chooseTab(viewBar, "view", "clean");
+            drawChanges(false);
+          },
+        },
+        {
+          key: "compare",
+          label: views.compare,
+          onSelect: () => {
+            chooseTab(viewBar, "view", "compare");
+            drawChanges(true);
+          },
+        },
+      ],
+    });
+  }
   const typed = el(
     "div",
     { className: "bill-doc ink" },
+    ...(viewBar ? [viewBar] : []),
     heading(paper.spoken, "h2"),
     prose(paper.title),
     line(paper.sponsor),
+    ...(views ? [changes] : []),
     bold(paper.sectionsLabel),
     ...paper.sections.map((section) => {
       const open = makeButton({
@@ -79,10 +133,17 @@ export function billPaper(paper) {
       return open;
     }),
   );
-  const where = paper.lines.filter(Boolean).map((text) => line(text));
+  const where = [
+    ...(paper.where?.heading
+      ? [el("p", { className: "lbig", textContent: paper.where.heading })]
+      : []),
+    ...(paper.where?.rows ?? []).map((row) => typedRow(row.label, row.value)),
+    ...paper.lines.filter(Boolean).map((text) => line(text)),
+  ];
   const votes = (paper.votes ?? []).flatMap((vote) => [
     el("p", { className: "lbig", textContent: vote.big }),
     ...(vote.text ? [line(vote.text)] : []),
+    ...(vote.rows ?? []).map((row) => typedRow(row.label, row.value)),
   ]);
   return el(
     "div",
