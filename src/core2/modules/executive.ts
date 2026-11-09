@@ -29,7 +29,14 @@ import relatedWork from "../../../data/research/executive/post-related-work.json
 import { PROFILE_FACT_KINDS } from "../opening-profile";
 import { schoolingOn } from "./jobs";
 import emergencyData from "../data/executive/emergency.json" with { type: "json" };
-import { coreAPI, fillInIdentity, registerModule } from "../state";
+import {
+  coreAPI,
+  fillInIdentity,
+  personOrFillIn,
+  registerModule,
+} from "../state";
+import { drawnAdult } from "./counted-moves";
+import { admitCountedHousehold } from "./residents";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { enactLaw, lawChain } from "./laws";
@@ -42,18 +49,22 @@ import {
   type NominationReasons,
 } from "../appointments";
 import { drawOfficialIdentity } from "../officials-identity";
-import { campaignParameter, personLean } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { leanOf, mayorVeto, memberKey, members } from "./legislature";
 import { answerIn } from "./world-legislating";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
-import { BUDGETS_MODULE_ID, amendBudget, governments } from "./budgets";
+import {
+  BUDGETS_MODULE_ID,
+  amendBudget,
+  governmentOfJurisdiction,
+  governments,
+} from "./budgets";
 import { federalAidFor } from "./disasters";
 import { lineForPost, postPayCapDaily } from "../budgets-treasury";
 import { startPublicJob } from "../public-payroll";
-import { parameter } from "../parameters";
-import { medianTransactionBalance } from "../starting-cash";
 import { filingRequirements } from "./elections";
 import { localClerkFor } from "./candidacy";
 import { pairKey } from "../kernel/ids";
@@ -349,7 +360,7 @@ const hasRecord = (record: ReturnType<typeof postRecord>) =>
  * number of years): years in the post's field, years of any work, schooling.
  */
 export function appointmentQualification(
-  person: Readonly<PersonState>,
+  person: Readonly<Pick<PersonState, "traits">>,
   record: ReturnType<typeof postRecord>,
 ): number {
   const temperament =
@@ -392,7 +403,12 @@ export function appointmentQualification(
  * or the player, ranked by the appointer's reasons (alignment, qualification,
  * acquaintance). Nothing is written.
  */
-function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
+function townPostInput(
+  api: CoreAPI,
+  spec: PostSpec,
+  chosenId?: string,
+  drawn = false,
+) {
   const appointer = townAppointer(api, spec.appointedBy);
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
@@ -442,22 +458,50 @@ function townPostInput(api: CoreAPI, spec: PostSpec, chosenId?: string) {
   );
   const shown = adults.filter((p) => hasRecord(records.get(p.id)!));
   const pool = shown.length ? shown : adults;
+  // The whole town can supply a head: three residents of the wider population drawn for the post
+  // (as for a cabinet), scored by the one rule; only the one named is admitted and filled in.
+  const noRecord = {
+    relatedYears: 0,
+    workYears: 0,
+    schooling: undefined,
+    recordIds: [] as string[],
+  };
+  const residents = drawn
+    ? [0, 1, 2].flatMap((n) => {
+        const record = drawnAdult(
+          api,
+          `town:${town}:${spec.key}:${date}:${n}`,
+          CABINET_AGE,
+        );
+        const resident = record?.people[0];
+        return record && resident ? [{ record, resident }] : [];
+      })
+    : [];
   return {
+    drawnRecords: new Map(residents.map((r) => [r.resident.id, r.record])),
     appointer,
     appointerSide: appointerLean,
     weighing: appointerWeighing(
       api.state as CoreState,
       appointer?.personId ?? undefined,
     ),
-    candidates: pool.map((p) => ({
-      id: p.id,
-      lean: personLean(api.state.people, p, 0),
-      qualification: appointmentQualification(p, records.get(p.id)!),
-      qualificationRecords: records.get(p.id)!.recordIds,
-      known:
-        !!appointer?.personId &&
-        relationships.has(pairKey(appointer.personId, p.id)),
-    })),
+    candidates: [
+      ...pool.map((p) => ({
+        id: p.id,
+        lean: personLean(api.state.people, p, 0),
+        qualification: appointmentQualification(p, records.get(p.id)!),
+        qualificationRecords: records.get(p.id)!.recordIds,
+        known:
+          !!appointer?.personId &&
+          relationships.has(pairKey(appointer.personId, p.id)),
+      })),
+      ...residents.map(({ resident }) => ({
+        id: resident.id,
+        lean: leanOf(api, resident.id, resident),
+        qualification: appointmentQualification(resident, noRecord),
+        known: false,
+      })),
+    ],
   };
 }
 
@@ -495,7 +539,7 @@ function fillTownPost(
 ): AppointmentRow | null {
   const date = api.state.date;
   const town = lawChain(api).townPlaceId;
-  const input = townPostInput(api, spec, chosenId);
+  const input = townPostInput(api, spec, chosenId, !chosenId);
   const appointer = input.appointer;
   if (!input.candidates.length) return null;
   const appointment = nominateAndConfirm({
@@ -509,12 +553,19 @@ function fillTownPost(
     tolerance: campaignParameter("confirmationTolerance"),
   });
   if (!appointment.nomineeId) return null;
+  // A head drawn from the wider population is admitted and filled in only now that they are named.
+  const drawnRecord = input.drawnRecords.get(appointment.nomineeId);
+  let holderId = appointment.nomineeId;
+  if (drawnRecord) {
+    admitCountedHousehold(api.state as CoreState, drawnRecord);
+    holderId = personOrFillIn(api.state as CoreState, holderId)?.id ?? holderId;
+  }
   const row: AppointmentRow = {
     id: `appointment:town:${spec.key}`,
     government: town,
     post: spec.key,
     title: spec.title,
-    holderId: appointment.nomineeId,
+    holderId,
     identity: null,
     appointedBy: appointer ? memberKey(appointer) : spec.appointedBy,
     confirmation: appointment.confirmation,
@@ -644,25 +695,24 @@ function seatCabinetPerson(
   input: {
     readonly state: string;
     readonly spec: PostSpec;
-    readonly identity: ReturnType<typeof drawOfficialIdentity>;
+    readonly record: NonNullable<ReturnType<typeof drawnAdult>>;
     readonly round: string;
     readonly appointmentId: string;
     readonly posts: readonly PostSpec[];
   },
 ): string {
   const core = api.state as CoreState;
-  const { state, spec, identity } = input;
+  const { spec } = input;
   const prior = table(api, "appointments").get(
     input.appointmentId,
   ) as unknown as AppointmentRow | undefined;
   const priorJob = prior ? core.people.get(prior.holderId)?.jobId : undefined;
   if (priorJob && core.jobs.get(priorJob)?.endsAt === undefined)
     api.endJob(priorJob, input.appointmentId);
-  const personId =
-    `person:cabinet:${state}:${spec.key}${input.round ? `:${input.round}` : ""}`.replace(
-      /:$/,
-      "",
-    );
+  // The one named is admitted from the wider population and filled in: a full person.
+  admitCountedHousehold(core, input.record);
+  const named = input.record.people[0]!.id;
+  const personId = personOrFillIn(core, named)?.id ?? named;
   const employer = (
     api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : []
   ).find((g) => g.level === "state")?.organizationId;
@@ -679,35 +729,6 @@ function seatCabinetPerson(
         ).length,
       )
     : undefined;
-  fillInIdentity(core, {
-    id: personId,
-    givenName: identity.givenName,
-    familyName: identity.familyName,
-    birthDate: identity.birthDate,
-    placeId: state,
-    gender: identity.gender,
-    // What a family at their pay keeps in its accounts (SCF 2022), as the
-    // town's generated residents do; later hires arrive with what they have.
-    ...(maxDailyMinor !== undefined && core.date === core.startedAt
-      ? {
-          openingLiquidMinor: Math.round(
-            medianTransactionBalance(
-              (maxDailyMinor *
-                parameter("daysPerMeanYear", core.data.parameters)) /
-                parameter("minorPerDollar", core.data.parameters),
-              core.seed,
-            ) * parameter("minorPerDollar", core.data.parameters),
-          ),
-        }
-      : {}),
-    source: {
-      tag: "ESTIMATED",
-      asOf: api.state.date,
-      citation: `${spec.title} of ${state}, picked by the governor.`,
-      estimatedFrom:
-        "The research file names the post, not the person; the person is drawn from the world's seed like any invented official.",
-    },
-  });
   if (employer) {
     startPublicJob(api, {
       personId,
@@ -724,10 +745,13 @@ function seatCabinetPerson(
 }
 
 /**
- * The state's cabinet: for each post the governor fills, three fictional
- * people who exist for it (drawn from the world's seed), the governor
- * choosing among them, confirmed by the state senate where required.
+ * The state's cabinet: for each post the governor fills, three residents of the wider
+ * population drawn for it, each leaning by their own record; the governor chooses among them,
+ * confirmed by the state senate where required, and only the one named is admitted.
  */
+/** The ages a cabinet secretary is drawn from, as the governor's picks run (working adults near the top of a career). */
+const CABINET_AGE: readonly [number, number] = [40, 66];
+
 function appointStateCabinet(
   api: CoreAPI,
   worldSeed: string,
@@ -761,30 +785,27 @@ function appointStateCabinet(
   for (const spec of posts) {
     if (!/governor/.test(spec.appointedBy)) continue;
     if (onlyPosts && !onlyPosts.has(spec.key)) continue;
-    const pool = [0, 1, 2].map((n) => {
-      const identity = drawOfficialIdentity({
-        worldSeed,
-        seatKey: `cabinet:${state}:${spec.key}:${round}${n}`,
-        stateUsps: state.slice(3),
-        role: "executive-officeholder-at-opening",
-        referenceDate: date,
-      });
-      return { n, identity };
+    // Three residents of the wider population, drawn for the post; each leans by their own
+    // record, by the one rule a full person leans by (`leanOf`), and only the one named is admitted.
+    const pool = [0, 1, 2].flatMap((n) => {
+      const record = drawnAdult(
+        api,
+        `cabinet:${state}:${spec.key}:${round}${n}`,
+        CABINET_AGE,
+      );
+      const resident = record?.people[0];
+      return record && resident ? [{ n, record, resident }] : [];
     });
+    if (!pool.length) continue;
     const appointment = nominateAndConfirm({
       seatKey: `cabinet:${state}:${spec.key}`,
       appointerSide: side,
       // The governor's own traits weigh loyalty against merit, as they do for
       // a post they fill by name (appointStatePost) and a town head's appointer.
       weighing: appointerWeighing(api.state as CoreState, memberKey(governor)),
-      candidates: pool.map(({ n }) => ({
+      candidates: pool.map(({ n, resident }) => ({
         id: `official:cabinet:${state}:${spec.key}:${round}${n}`,
-        // Candidates for a governor's cabinet come from the governor's side;
-        // how far each sits from it is who they are.
-        lean:
-          side *
-          campaignParameter("identityLeanScale") *
-          (1 - n * campaignParameter("cabinetLeanSpread")),
+        lean: leanOf(api, resident.id, resident),
         qualification:
           campaignParameter("cabinetQualificationBase") +
           campaignParameter("cabinetQualificationStep") * (pool.length - 1 - n),
@@ -796,14 +817,16 @@ function appointStateCabinet(
       tolerance: campaignParameter("confirmationTolerance"),
     });
     if (!appointment.nomineeId) continue;
-    const chosen = pool[Number(appointment.nomineeId.split(":").pop())]!;
+    const chosen = pool.find(
+      (c) => c.n === Number(appointment.nomineeId.split(":").pop()),
+    )!;
     const id = `appointment:${state}:${spec.key}`;
     // The cabinet member the governor picked is a full person on the state's
     // payroll, as the election agency's head is; the one they replace leaves it.
     const holderId = seatCabinetPerson(api, {
       state,
       spec,
-      identity: chosen.identity,
+      record: chosen.record,
       round,
       appointmentId: id,
       posts: posts.filter((p) => /governor/.test(p.appointedBy)),
@@ -815,8 +838,8 @@ function appointStateCabinet(
       title: spec.title,
       holderId,
       identity: {
-        givenName: chosen.identity.givenName,
-        familyName: chosen.identity.familyName,
+        givenName: api.state.people.get(holderId)!.givenName,
+        familyName: api.state.people.get(holderId)!.familyName,
       },
       appointedBy: memberKey(governor),
       confirmation: appointment.confirmation,
@@ -994,13 +1017,18 @@ export function appointmentsIn(
   government: string,
 ): readonly AppointmentRow[] {
   if (!api.state.modules.has(EXECUTIVE_MODULE_ID)) return [];
-  return (
-    table(api, "appointments").query("byGovernment", [
-      government,
-    ]) as unknown as AppointmentRow[]
-  )
-    .slice()
-    .sort((a, b) => a.id.localeCompare(b.id));
+  // A government is named by its id, its jurisdiction or the key the post was filed under.
+  const named = api.state.modules.has(BUDGETS_MODULE_ID)
+    ? governmentOfJurisdiction(api, government)
+    : undefined;
+  const rows = new Map<string, AppointmentRow>();
+  for (const key of new Set([government, named?.id, named?.jurisdictionId]))
+    if (key)
+      for (const row of table(api, "appointments").query("byGovernment", [
+        key,
+      ]) as unknown as AppointmentRow[])
+        rows.set(row.id, row);
+  return [...rows.values()].sort((a, b) => a.id.localeCompare(b.id));
 }
 
 /** The governor's candidates for a state post and the chamber that confirms them, as the engine weighs them. */

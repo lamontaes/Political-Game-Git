@@ -4,10 +4,14 @@
  * is built as the player gets it (`buildBenchWorld`, every module installed)
  * and plays one game year from its opening month. Passes when:
  * (1) two states drawn from the seed change in jobs and in pay between the
- *     opening December and the next December, differently from each other,
- *     and each inside the 5th to 95th percentile of the real December-over-
- *     December state changes (BLS CES state series; the ranges are in
- *     data/research/regional/series/stats.json with their windows);
+ *     opening December and the next December, differently from each other
+ *     (at the published precision). UNCHECKED (owner, Nov 8: real ranges are
+ *     not targets): the 5th to 95th percentile of the real December-over-
+ *     December state changes (BLS CES state series, in
+ *     data/research/regional/series/stats.json) is printed beside the
+ *     changes and the count of states outside it, and never tested, because
+ *     the regional cycle has no recorded cause to test a value against yet
+ *     (Money);
  * (2) the town sits in a region of its own state, and the prices and pay it
  *     was given (the finance conditions every engine reads) are the
  *     nation's moved by that region's own price level and pay since the
@@ -84,16 +88,11 @@ const drawn = [first, second].map((fips) => ({
 }));
 const jobBand = stats.stateOneYearJobGrowthPct,
   payBand = stats.stateOneYearPayGrowthPct;
-for (const row of drawn) {
-  if (!(row.jobsPct > jobBand.p05 && row.jobsPct < jobBand.p95))
-    failures.push(
-      `state ${row.usps} jobs ${row.jobsPct.toFixed(2)}% outside the real one-year spread [${jobBand.p05.toFixed(2)}, ${jobBand.p95.toFixed(2)}] (${jobBand.window})`,
-    );
-  if (!(row.payPct > payBand.p05 && row.payPct < payBand.p95))
-    failures.push(
-      `state ${row.usps} pay ${row.payPct.toFixed(2)}% outside the real one-year spread [${payBand.p05.toFixed(2)}, ${payBand.p95.toFixed(2)}] (${payBand.window})`,
-    );
-}
+// The real spread is printed beside the drawn states' changes below and how
+// many states sat outside it, never tested against (owner, Nov 8: real ranges
+// are not targets). Each state's change is its own region's national-growth
+// times its sector mix, so the cause a value could be tested against is the
+// regional model's, which has none recorded yet (Money).
 // BLS publishes one-year percent changes to one decimal: states that read the same there have not diverged.
 const published = (value: number) => Math.round(value * 10) / 10;
 if (published(drawn[0]!.jobsPct) === published(drawn[1]!.jobsPct))

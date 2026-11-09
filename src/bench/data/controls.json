@@ -106,8 +106,55 @@
     "economy": "Opening the economy",
     "core": "Starting the world",
     "government": "Seating the government",
-    "opening": "Preparing the opening",
-    "done": "Ready"
+    "elections": "Opening the elections",
+    "budgets": "Opening the budgets",
+    "legislature": "Seating the legislature",
+    "cabinet": "Appointing the cabinet",
+    "workings": "Opening the press, courts and meetings",
+    "history": "Writing the country's history",
+    "opening": "Preparing the opening"
+  },
+  "worldSettings": {
+    "rows": [
+      {
+        "id": "population",
+        "label": "Town size",
+        "values": [null, 1000, 2500, 5000, 10000, 25000]
+      },
+      {
+        "id": "wages",
+        "label": "Wages",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      },
+      {
+        "id": "cash",
+        "label": "Household savings",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      },
+      {
+        "id": "demand",
+        "label": "Outside demand",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      },
+      {
+        "id": "lean",
+        "label": "Politics",
+        "values": [-1, -0.5, -0.25, 0, 0.25, 0.5, 1]
+      },
+      {
+        "id": "turnout",
+        "label": "Turnout",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      }
+    ],
+    "usual": "Usual",
+    "real": "Real",
+    "even": "Even",
+    "people": "{n} people",
+    "more": "{n}% more",
+    "less": "{n}% less",
+    "left": "{n} points left",
+    "right": "{n} points right"
   },
   "opening": {
     "news": "News",
@@ -119,6 +166,8 @@
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
     "betweenUs": "Between us",
+    "lifeStory": "{possessive} story",
+    "lifeStoryThey": "Their story",
     "herPeople": "{possessive} people",
     "theirPeople": "Their people",
     "age": "Age",
@@ -152,8 +201,6 @@
     "since": "Since",
     "record": "Record",
     "publicRecordTitle": "Public record",
-    "earlier": "Earlier years",
-    "later": "Later years",
     "seat": "Seat held",
     "closenessWords": [
       "You barely know each other",
@@ -275,19 +322,17 @@
   },
   "devScene": {
     "title": "Scenes",
-    "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
-    "waits": "Runs the world until it happens",
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
       "cap": "Cap reached"
-    },
-    "noPath": "No engine writes its cause yet"
+    }
   },
   "devPerson": {
-    "title": "Health",
+    "title": "Dev mode",
+    "decide": "Make them decide",
     "fallIll": "Falls seriously ill",
     "layOff": "Laid off by their employer",
     "laidOff": "Laid off",
@@ -308,12 +353,11 @@
     }
   },
   "devRun": {
-    "title": "Run until",
-    "days": "Days",
-    "cap": "Cap",
-    "event": "Event",
-    "noEvent": "No event",
+    "title": "Run",
     "holdLaw": "Hold the law just passed",
+    "hour": "Hour",
+    "jump": "Jump to hour",
+    "held": "A stop or choice holds the clock; answer it first",
     "run": "Run",
     "events": {
       "bill-passes": "A bill passes",
@@ -329,7 +373,36 @@
       "days": "Days passed",
       "event": "Event happened",
       "cap": "Cap reached"
-    }
+    },
+    "for": "For",
+    "orUntil": "Or until",
+    "day": "{n} day",
+    "daysValue": "{n} days",
+    "daysName": "days",
+    "fewer": "Fewer days",
+    "more": "More days",
+    "steps": [1, 3, 7, 14, 30, 60, 90, 180, 366, 800],
+    "firstStep": 30,
+    "cap": 1100,
+    "hours": [
+      {
+        "label": "Morning",
+        "hour": 6
+      },
+      {
+        "label": "Midday",
+        "hour": 12,
+        "chosen": true
+      },
+      {
+        "label": "Evening",
+        "hour": 18
+      },
+      {
+        "label": "Night",
+        "hour": 22
+      }
+    ]
   },
   "options": {
     "on": "On",
@@ -464,6 +537,9 @@
     "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
+    "where": "Where it is",
+    "bill": "The bill",
+    "vote": "The vote",
     "estimate": "What it would do",
     "amends": "Amends",
     "from": "from",
@@ -477,7 +553,15 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
-    "none": "Not set"
+    "none": "Not set",
+    "figures": "Budget lines",
+    "thisYear": "This year",
+    "lastYear": "Last year",
+    "sinceLastYear": "Since last year",
+    "totalChange": "Total change",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "advanced": {
     "none": "No one holds an office that matches",
@@ -507,7 +591,10 @@
     "whatICanDo": "What I can do there"
   },
   "time": {
-    "week": "Week"
+    "hour": "Hour",
+    "day": "Day",
+    "week": "Week",
+    "continue": "Continue"
   },
   "calendar": {
     "previousMonth": "Previous month",
@@ -516,9 +603,6 @@
     "upcoming": "Coming up",
     "advance": "Go to this day",
     "nothing": "Nothing is on this day.",
-    "page": "{page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "key": "What the calendar shows",
     "hide": "Hide these",
@@ -535,15 +619,15 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "me": "Me",
-    "mine": "Mine"
+    "me": "Me"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
     "liberal": "Liberal",
     "moderate": "Moderate",
     "conservative": "Conservative",
-    "veryConservative": "Very conservative"
+    "veryConservative": "Very conservative",
+    "notSure": "Not sure yet"
   },
   "who": {
     "age": "Age",
@@ -560,6 +644,7 @@
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
+    "viewUnknown": "You don't know where they stand yet.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -575,9 +660,6 @@
   "news": {
     "title": "News",
     "nation": "Nation",
-    "page": "Page {page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "briefs": "Briefs"
   },
   "jobs": {
@@ -708,9 +790,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "page": "{page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
@@ -805,9 +884,13 @@
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
     "running": "{n} running",
+    "filingOpens": "Filing opens",
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
+    "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
+    "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
+    "cantFile": "You can't file for this race.",
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
@@ -852,7 +935,11 @@
     "whoWrote": "Who wrote it",
     "adoptedBy": "Adopted by",
     "fiscalYear": "Fiscal year",
-    "asked": "Asked"
+    "asked": "Asked",
+    "sinceLastYear": "Since last year",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "saves": {
     "none": "No life is saved yet.",
@@ -883,9 +970,25 @@
   },
   "journal": {
     "title": "My story",
-    "empty": "Nothing is written here yet.",
-    "previous": "Earlier chapters",
-    "next": "Later chapters"
+    "empty": "Nothing is written here yet."
+  },
+  "metrics": {
+    "city": "Your town",
+    "employed": "People at work",
+    "seekers": "People looking for work",
+    "openPositions": "Jobs open",
+    "nation": "The country",
+    "unemployment": "Unemployment",
+    "inflation": "Price growth",
+    "pay": "Average hourly pay",
+    "mortgage": "30-year mortgage rate",
+    "policyRate": "The central bank's rate",
+    "percent": "%",
+    "lastYear": "Last year",
+    "up": "up",
+    "down": "down",
+    "same": "no change",
+    "since": "since last year"
   },
   "titles": {
     "people": "People",
@@ -901,6 +1004,7 @@
     "issues": "Issues",
     "calendar": "Calendar",
     "budgets": "Budgets",
+    "metrics": "Metrics",
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",

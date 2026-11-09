@@ -40,6 +40,7 @@
     },
     "reserveMonthsOfSpending": {
       "value": 1.2,
+      "role": "level",
       "tag": "ESTIMATED",
       "source": "NASBO, Fiscal Survey of the States (fall 2023): states' total balances (rainy-day plus general fund) averaged about 14 percent of general-fund spending, 1.7 months, with a median near 1.2 months across states; a county or city holds less. The treasury keeps this much of its yearly spending; the rest is invested elsewhere (trust funds, securities).",
       "spread": [0.5, 2.0]

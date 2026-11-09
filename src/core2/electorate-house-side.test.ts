@@ -7,7 +7,7 @@
  */
 import { expect, it } from "vitest";
 import corpus from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { housePlace, worldSwing } from "./electorate-places";
 
 /** A world: the House places carry its swing. */

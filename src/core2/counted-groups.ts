@@ -49,6 +49,13 @@ export const enum MemberState {
   Moved = 3,
 }
 
+/** The `looks` keys that carry a person's roles (opening-roles.ts), kept for counted members as for named people. */
+export const ROLE_KEYS = [
+  "partyActivity",
+  "ownedEmployerId",
+  "civicRoles",
+] as const;
+
 export type HouseholdKind = "one-adult" | "adults" | "with-children";
 /**
  * How a counted household holds its home; "none" is a household an eviction
@@ -122,6 +129,10 @@ export interface CountedHousehold {
    * Every reader of a count multiplies by it (`CountedStore.weightOf`).
    */
   weight?: number;
+  /** The day it moved into its place. */
+  since?: IsoDate;
+  /** Its sampled county workers' employers (see HouseholdInput.employment). */
+  employment?: HouseholdInput["employment"];
   /** The district it lives in, where its place has districts. */
   district?: string;
   /** Bumped when its members or their records change (readers' cached views go stale). */
@@ -213,6 +224,14 @@ export class CountedStore {
   readonly genderIx: number[] = [];
   readonly pronounsIx: number[] = [];
   readonly recipeIx: number[] = [];
+  /** Where each member's family comes from (looks.origin). */
+  readonly originIx: number[] = [];
+  /** The roles a member holds in the place's life (`looks` keys in `ROLE_KEYS`), interned by key. */
+  readonly roleIx: Record<string, number[]> = {
+    partyActivity: [],
+    ownedEmployerId: [],
+    civicRoles: [],
+  };
   readonly tierIx: number[] = [];
   state = new Uint8Array(0);
   traits = new Int8Array(0);
@@ -335,6 +354,9 @@ export class CountedStore {
     this.genderIx.push(this.intern(person.looks?.gender));
     this.pronounsIx.push(this.intern(person.looks?.pronouns));
     this.recipeIx.push(this.intern(person.looks?.recipeVersion));
+    this.originIx.push(this.intern(person.looks?.origin));
+    for (const key of ROLE_KEYS)
+      (this.roleIx[key] ??= []).push(this.intern(person.looks?.[key]));
     this.tierIx.push(this.intern(person.tier));
     this.state = grown(this.state, m + 1, (n) => new Uint8Array(n));
     this.state[m] = MemberState.Counted;
@@ -625,11 +647,17 @@ export class CountedStore {
     const gender = this.genderIx[member]!,
       pronouns = this.pronounsIx[member]!,
       recipe = this.recipeIx[member]!,
+      origin = this.originIx[member],
       appearance = this.appearance[member];
     if (gender) looks.gender = this.strings[gender]!;
     if (pronouns) looks.pronouns = this.strings[pronouns]!;
     if (appearance) looks.appearanceSeed = appearance;
     if (recipe) looks.recipeVersion = this.strings[recipe]!;
+    if (origin) looks.origin = this.strings[origin]!;
+    for (const key of ROLE_KEYS) {
+      const at = this.roleIx[key]?.[member];
+      if (at) looks[key] = this.strings[at]!;
+    }
     const person: PersonInput = {
       id: this.ids[member]!,
       givenName: this.given[member]!,
@@ -727,6 +755,10 @@ export class CountedStore {
       ...(facts.weight !== undefined && facts.weight !== 1
         ? { weight: facts.weight }
         : {}),
+      ...(record.household.since ? { since: record.household.since } : {}),
+      ...(record.household.employment
+        ? { employment: record.household.employment }
+        : {}),
     };
     this.households.push(h);
     this.householdOf.set(h.id, index);
@@ -771,6 +803,8 @@ class HouseholdView implements ResidentHouseholdRecord {
         .map((m) => this.store.ids[m]!),
       source: this.h.source,
       ...(this.h.quarters ? { quarters: this.h.quarters } : {}),
+      ...(this.h.since ? { since: this.h.since } : {}),
+      ...(this.h.employment ? { employment: this.h.employment } : {}),
     };
   }
   get people(): readonly PersonInput[] {

@@ -7,80 +7,29 @@ import { makeButton } from "./button.mjs";
 import { picture } from "./picture.mjs";
 import { stripSection } from "./strips.mjs";
 
-const COLUMNS = 3;
-// Tile rows a page holds; a group's heading takes a quarter of a row.
-const ROWS_PER_PAGE = 3;
-const HEADING_ROWS = 0.3;
-
-/** The pages: whole tile rows and group headings, never splitting a heading from its tiles. */
-function paginate(entries) {
+/** The groups, each with its heading and its tiles. */
+function grouped(entries) {
   const groups = [];
   for (const entry of entries) {
     let group = groups.find((g) => g.title === entry.group);
     if (!group) groups.push((group = { title: entry.group, entries: [] }));
     group.entries.push(entry);
   }
-  const pages = [[]];
-  let used = 0;
-  for (const group of groups) {
-    let rest = group.entries;
-    let first = true;
-    while (rest.length) {
-      const room = Math.floor(
-        ROWS_PER_PAGE - used - (first ? HEADING_ROWS : 0) + 1e-9,
-      );
-      if (room < 1) {
-        pages.push([]);
-        used = 0;
-        continue;
-      }
-      const take = rest.slice(0, room * COLUMNS);
-      pages.at(-1).push({
-        title: first ? group.title : undefined,
-        entries: take,
-      });
-      used += (first ? HEADING_ROWS : 0) + Math.ceil(take.length / COLUMNS);
-      rest = rest.slice(take.length);
-      first = false;
-    }
-  }
-  return pages;
+  return groups;
 }
 
 /**
  * `entries`: [{ group, title, picture, onOpen?, load?, go? }]. An entry with `onOpen`
  * opens its own screen when chosen; otherwise `load()` gives { open, who, does } for the
  * detail side (`who` a node or null, `does` an array of texts) and `go` = { label, onClick }.
- * `labels`: { whoIsThere, whatICanDo }. `words`: the pager's words.
+ * `labels`: { whoIsThere, whatICanDo }.
  */
-export function travelScreen({ entries, labels, words }) {
+export function travelScreen({ entries, labels }) {
   const tiles = el("div", { className: "travel-tiles" });
   const detail = el("div", { className: "travel-detail strip-screen strips" });
-  const pages = paginate(entries);
-  let page = 0;
+  const groups = grouped(entries);
   let selected = entries.find((e) => !e.onOpen);
   let request = 0;
-  const previous = makeButton({
-    className: "pager-arrow",
-    textContent: "‹",
-    title: words.previous,
-  });
-  const next = makeButton({
-    className: "pager-arrow",
-    textContent: "›",
-    title: words.next,
-  });
-  previous.setAttribute("aria-label", words.previous);
-  next.setAttribute("aria-label", words.next);
-  const where = el("span", { className: "pager-where" });
-  const controls = el(
-    "div",
-    { className: "pager-controls" },
-    previous,
-    where,
-    next,
-  );
-  controls.hidden = pages.length < 2;
   const choose = (entry) => {
     if (entry.onOpen) return entry.onOpen();
     selected = entry;
@@ -156,34 +105,21 @@ export function travelScreen({ entries, labels, words }) {
   };
   const draw = () => {
     tiles.replaceChildren(
-      ...pages[page].flatMap((block) => [
+      ...groups.flatMap((block) => [
         ...(block.title
           ? [el("h3", { className: "travel-group", textContent: block.title })]
           : []),
         el("div", { className: "travel-grid" }, ...block.entries.map(drawTile)),
       ]),
     );
-    where.textContent = words.page
-      .replace("{page}", String(page + 1))
-      .replace("{pages}", String(pages.length));
-    previous.disabled = page === 0;
-    next.disabled = page >= pages.length - 1;
     drawDetail();
   };
-  previous.addEventListener("click", () => {
-    page = Math.max(0, page - 1);
-    draw();
-  });
-  next.addEventListener("click", () => {
-    page = Math.min(pages.length - 1, page + 1);
-    draw();
-  });
   draw();
   return [
     el(
       "div",
       { className: "travel-screen" },
-      el("div", { className: "travel-left" }, tiles, controls),
+      el("div", { className: "travel-left" }, tiles),
       detail,
     ),
   ];

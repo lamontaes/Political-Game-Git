@@ -28,7 +28,7 @@ import {
   meetingsOn,
   openInterestGroups,
 } from "./modules/interest-groups";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 

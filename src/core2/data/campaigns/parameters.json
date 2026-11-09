@@ -402,12 +402,17 @@
       "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
       "spread": [0, 0.5]
     },
-    "identityLeanScale": {
-      "value": 0.6,
-      "tag": "ESTIMATED",
-      "source": "A named official not filled in yet leans this far toward their seat's party: state legislators' ideal points sit well inside their party's side (Shor and McCarty 2011, state legislative ideology: party medians near +/-0.6 to 0.9 of the scale).",
-      "spread": [0.4, 0.9],
-      "stopgapId": "SG-GOV-official-identity-only"
+    "studyMembers": {
+      "value": 5,
+      "tag": "TUNABLE",
+      "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
+      "spread": [3, 9]
+    },
+    "studyTermDays": {
+      "value": 180,
+      "tag": "TUNABLE",
+      "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
+      "spread": [60, 365]
     },
     "committeeOfTheWholeMaximum": {
       "value": 9,
@@ -1254,12 +1259,6 @@
       "tag": "TUNABLE",
       "source": "How much less qualified each later candidate in a governor's cabinet shortlist is than the one before.",
       "spread": [0.05, 0.2]
-    },
-    "cabinetLeanSpread": {
-      "value": 0.25,
-      "tag": "TUNABLE",
-      "source": "Share of the governor-side lean each later cabinet candidate gives up: governors draw shortlists from their own coalition but not all of it sits at the governor's own position (NGA cabinet appointment surveys).",
-      "spread": [0.1, 0.4]
     },
     "confirmationTolerance": {
       "value": 1.5,

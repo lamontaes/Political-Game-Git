@@ -1,21 +1,29 @@
 /**
  * Every other state's budget, in the one budget store (Nation, Nov 8, 2026).
  * Each state outside the town's chain keeps a budget row for its fiscal
- * year (the same `BudgetRow` the town's state keeps, level as data) built by
- * the budget engine's own `publishedBudgetFor` from the state's Census
- * finances, then moved by what the state's economy has done since the world
- * opened: the state's jobs times its average pay (the regional engine's
- * months, summed over the state's regions) against the opening month. Money
- * does not move here: these are results, read by screens, the news and the
- * state's own comparisons; the lines a legislature's acts change and the
- * state's treasury follow when someone opens that state
+ * year (the same `BudgetRow` the town's state keeps, level as data). The
+ * published row (`publishedBudgetFor`, the state's Census finances) is the
+ * year the world opens on; every later year is built from the state's own
+ * economy and its own laws, line by line, not one factor on the whole:
+ * a tax line is the base it taxes (the state's wage bill, jobs times pay,
+ * from the regional engine's months; property by the state's price level)
+ * times the rate the state's law has in force against the opening's
+ * (`stateLawInForce`: the income, sales and property tax rates, with every
+ * act the state has passed); federal aid follows the Medicaid match in
+ * force; the other revenue lines follow the wage bill. A state balances its
+ * budget, so each spending line moves with the year's revenue. Money does
+ * not move here: these are results, read by screens, the news and the
+ * state's own comparisons; what a legislature's acts add to a spending
+ * line and the state's treasury follow when someone opens that state
  * (stopgap SG-NATION-outside-budget-lines).
  */
+import { stateJurisdictionId } from "../government-jurisdictions";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import { REGIONS } from "../regional-model";
 import type { RegionMonth } from "../regional-model";
 import { registerModule } from "../state";
-import { lawChain } from "./laws";
+import { lawChain, stateLawInForce } from "./laws";
+import { nationalDisasterDetail, NATIONAL_DISASTER } from "./national-events";
 import {
   BUDGETS_MODULE_ID,
   putBudget,
@@ -24,7 +32,7 @@ import {
   type GovernmentRow,
 } from "./budgets";
 import { addDays, makeIsoDate } from "../kernel/dates";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 
 export const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
 const RUN_KIND = "outside-budgets";
@@ -62,8 +70,8 @@ function wageBill(api: CoreAPI, usps: string, month: string): number | null {
   return total > 0 ? total : null;
 }
 
-/** The state's economy now against the opening month: jobs times pay (1 before the engines have a month). */
-export function stateEconomyFactor(api: CoreAPI, usps: string): number {
+/** Jobs times pay in a state now against the opening month (1 before the engines have a month). */
+function wageBillFactor(api: CoreAPI, usps: string): number {
   if (!(api.state as CoreState).modules.has("regional")) return 1;
   const macro = api.moduleState("macro").table("state").get("macro:state") as
     { openingMonth: string; latestMonth: string } | undefined;
@@ -73,6 +81,65 @@ export function stateEconomyFactor(api: CoreAPI, usps: string): number {
   return open && now ? now / open : 1;
 }
 
+/** The state's price level now against the opening month (1 before the engines have a month). */
+function priceFactor(api: CoreAPI, usps: string): number {
+  if (!(api.state as CoreState).modules.has("regional")) return 1;
+  const macro = api.moduleState("macro").table("state").get("macro:state") as
+    { openingMonth: string; latestMonth: string } | undefined;
+  if (!macro) return 1;
+  const months = api.moduleState("regional").table("months");
+  const at = (month: string) => {
+    let sum = 0;
+    let n = 0;
+    for (const region of regionsOf(usps)) {
+      const row = months.get(`${region.id}:${month}`) as unknown as
+        RegionMonth | undefined;
+      if (!row) return null;
+      sum += row.priceLevelPct;
+      n += 1;
+    }
+    return n ? sum / n : null;
+  };
+  const open = at(macro.openingMonth);
+  const now = at(macro.latestMonth);
+  return open && now ? now / open : 1;
+}
+
+/** The state's rate of a tax in force today against the day the world opened (1 where either is none). */
+function rateFactor(api: CoreAPI, stateKey: string, series: string): number {
+  const open = stateLawInForce(
+    api,
+    stateKey,
+    series,
+    api.state.startedAt,
+  ).value;
+  const now = stateLawInForce(api, stateKey, series).value;
+  return open && now ? now / open : 1;
+}
+
+/**
+ * Each revenue line's change since the opening: the base it taxes times the
+ * rate in force. A line with no tax law of its own follows the wage bill.
+ */
+function revenueFactor(api: CoreAPI, stateKey: string, line: string): number {
+  const usps = stateKey.slice("US-".length);
+  const wages = wageBillFactor(api, usps);
+  switch (line) {
+    case "individualIncomeTax":
+      return wages * rateFactor(api, stateKey, "income-tax");
+    case "generalSalesTax":
+      return wages * rateFactor(api, stateKey, "sales-tax");
+    case "propertyTax":
+      return priceFactor(api, usps) * rateFactor(api, stateKey, "property-tax");
+    case "federalAid":
+      return rateFactor(api, stateKey, "medicaid-match");
+    case "intergovernmental":
+      return 1;
+    default:
+      return wages;
+  }
+}
+
 /** The state's government row for the budget engine's base (no treasury: a result, not a payer). */
 function government(stateKey: string, base: StateBase): GovernmentRow {
   return {
@@ -80,6 +147,7 @@ function government(stateKey: string, base: StateBase): GovernmentRow {
     level: "state",
     name: base.name,
     organizationId: "",
+    jurisdictionId: stateJurisdictionId(stateKey) ?? stateKey,
     fiscalYearStart: base.fiscalYearStart,
     residents: residentsOf(base),
     base: "state",
@@ -104,18 +172,30 @@ function writeBudget(
     stateKey,
     fiscalYear,
     api.state.date,
-    "state legislature",
+    { kind: "published" },
   );
-  const g = stateEconomyFactor(api, stateKey.slice("US-".length));
-  const scale = (lines: Readonly<Record<string, number>>) =>
-    Object.fromEntries(
-      Object.entries(lines).map(([line, v]) => [line, Math.round(v * g)]),
-    );
+  const revenue = Object.fromEntries(
+    Object.entries(published.revenueMinor).map(([line, v]) => [
+      line,
+      Math.round(v * revenueFactor(api, stateKey, line)),
+    ]),
+  );
+  const sum = (lines: Readonly<Record<string, number>>) =>
+    Object.values(lines).reduce((n, v) => n + v, 0);
+  // A state balances its budget: spending moves with the year's revenue.
+  const balance = sum(published.revenueMinor)
+    ? sum(revenue) / sum(published.revenueMinor)
+    : 1;
   const budget: BudgetRow = {
     ...published,
-    revenueMinor: scale(published.revenueMinor),
-    spendingMinor: scale(published.spendingMinor),
-    source: `${published.source}; moved by the state's jobs times pay since the opening (factor ${g.toFixed(4)}, the regional engine's months)`,
+    revenueMinor: revenue,
+    spendingMinor: Object.fromEntries(
+      Object.entries(published.spendingMinor).map(([line, v]) => [
+        line,
+        Math.round(v * balance),
+      ]),
+    ),
+    source: `${published.source}; each revenue line moved by the state's own base (jobs times pay, prices) and the tax rate its law has in force against the opening's, spending by the year's revenue (factor ${balance.toFixed(4)})`,
   };
   putBudget(api, budget);
 }
@@ -160,9 +240,47 @@ function schedule(api: CoreAPI): void {
   });
 }
 
+/**
+ * A disaster elsewhere reaches the state's budget: the Public Assistance FEMA
+ * obligated for it (read from the record when the disaster is opened,
+ * `nationalDisasterDetail`) comes in as federal aid and goes out as relief,
+ * in the state's budget for the year the disaster begins. The aid is
+ * obligated after the declaration in fact; it lands on the incident's year
+ * here (stopgap SG-NATION-disaster-damage-from-causes).
+ */
+function disasterAid(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const stateKey = event.facts?.stateKey ?? "";
+  const base = STATES[stateKey];
+  if (!base?.fiscalYearStart || stateKey === lawChain(api).stateKey) return;
+  const aid = nationalDisasterDetail(api, event.id)?.publicAssistanceMinor ?? 0;
+  if (aid <= 0) return;
+  const year = fiscalYearOn(api.state.date, base.fiscalYearStart);
+  const row = api
+    .moduleState(BUDGETS_MODULE_ID)
+    .table("budgets")
+    .get(`budget:${stateKey}:${year}`) as unknown as BudgetRow | undefined;
+  if (!row) return;
+  putBudget(api, {
+    ...row,
+    revenueMinor: {
+      ...row.revenueMinor,
+      federalAid: (row.revenueMinor.federalAid ?? 0) + aid,
+    },
+    spendingMinor: {
+      ...row.spendingMinor,
+      otherPrograms: (row.spendingMinor.otherPrograms ?? 0) + aid,
+    },
+    source: `${row.source}; plus the federal aid for disaster ${event.facts?.disasterNumber ?? event.id} (${event.id})`,
+  });
+}
+
 export const OUTSIDE_BUDGETS_MODULE: CoreModule = {
   id: OUTSIDE_BUDGETS_MODULE_ID,
   state: { schemaVersion: 1, tables: { state: {} } },
+  eventKinds: [NATIONAL_DISASTER],
+  onEvent(api, event) {
+    disasterAid(api, event);
+  },
   onCalendarWork(api, work) {
     if (work.kind !== RUN_KIND) return;
     run(api, false);

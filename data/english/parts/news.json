@@ -3,6 +3,7 @@
   "register": "news",
   "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, the Federal Register, federal oral histories), with record words as slots.",
   "slots": {
+    "starts": "The day a law takes effect, as people say it, from the law record.",
     "subject": "The business or office that closed, from the event record.",
     "name": "A person, by name, from the records.",
     "place": "A place, from the place records.",
@@ -171,6 +172,485 @@
     }
   },
   "parts": [
+    {
+      "key": "news.law-amount-passed.passed-a-law-on-raising-the-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} passed a law on {date} raising the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.on-a-new-law-set-the-at-up-from",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "On {date}, a new {place} law set the {measure} at {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.congress-passed-a-law-on-raising-the-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress passed a law on {date} raising the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["up", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.on-a-new-federal-law-set-the-at-up",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "On {date}, a new federal law set the {measure} at {to}, up from {from}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["up", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.passed-a-law-on-cutting-the-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} passed a law on {date} cutting the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.a-law-passed-on-lowers-the-in-to-from",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "A law passed on {date} lowers the {measure} in {place} to {to}, from {from}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.on-a-new-law-set-the-at-down-from",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "On {date}, a new {place} law set the {measure} at {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.congress-passed-a-law-on-cutting-the-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress passed a law on {date} cutting the {measure} from {from} to {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["down", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.on-a-new-federal-law-set-the-at-down",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "On {date}, a new federal law set the {measure} at {to}, down from {from}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["down", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.a-law-passed-on-keeps-the-in-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "A law passed on {date} keeps the {measure} in {place} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.passed-a-law-on-setting-the-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} passed a law on {date} setting the {measure} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.a-law-passed-on-sets-the-in-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "A law passed on {date} sets the {measure} in {place} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.congress-passed-a-law-on-setting-the-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress passed a law on {date} setting the {measure} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.on-a-new-federal-law-set-the-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "On {date}, a new federal law set the {measure} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-amount-passed.congress-passed-a-law-on-keeping-the-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress passed a law on {date} keeping the {measure} at {to}.",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "news",
+          "role": "law-amount-passed",
+          "choice": "lede",
+          "requiresFacts": ["same", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-passed.passed-the-on",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{place} passed the {law} on {date}.",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "news",
+          "role": "law-passed",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-passed.the-became-law-in-on",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "The {law} became law in {place} on {date}.",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "news",
+          "role": "law-passed",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-passed.congress-passed-the-on",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "Congress passed the {law} on {date}.",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "news",
+          "role": "law-passed",
+          "choice": "lede",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-passed.the-became-law-on",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "The {law} became law on {date}.",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "news",
+          "role": "law-passed",
+          "choice": "lede"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-when.it-takes-effect-on",
+      "move": "law-when",
+      "kind": "written",
+      "text": "It takes effect on {starts}.",
+      "uses": [
+        {
+          "move": "law-when",
+          "subject": "news",
+          "role": "law-when",
+          "choice": "context",
+          "requiresFacts": ["starts"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-when.it-will-take-effect-on",
+      "move": "law-when",
+      "kind": "written",
+      "text": "It will take effect on {starts}.",
+      "uses": [
+        {
+          "move": "law-when",
+          "subject": "news",
+          "role": "law-when",
+          "choice": "context",
+          "requiresFacts": ["starts"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "news.law-when.the-new-rule-starts-on",
+      "move": "law-when",
+      "kind": "written",
+      "text": "The new rule starts on {starts}.",
+      "uses": [
+        {
+          "move": "law-when",
+          "subject": "news",
+          "role": "law-when",
+          "choice": "context",
+          "requiresFacts": ["starts"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "deliver-news",
+        "key": "news-received"
+      }
+    },
     {
       "key": "news.life-death.name-died-on-date",
       "move": "life-death",
@@ -5368,6 +5848,13 @@
           "move": "address",
           "subject": "news",
           "role": "address-quote",
+          "choice": "context",
+          "requiresFacts": ["quote"]
+        },
+        {
+          "move": "local-address-quote",
+          "subject": "news",
+          "role": "local-address-quote",
           "choice": "context",
           "requiresFacts": ["quote"]
         }
@@ -12236,28 +12723,6 @@
       }
     },
     {
-      "key": "news.local-address-quote.in-the-address-name-said-quote",
-      "move": "local-address-quote",
-      "kind": "written",
-      "text": "In the address, {name} said: \"{quote}\"",
-      "uses": [
-        {
-          "move": "local-address-quote",
-          "subject": "news",
-          "role": "local-address-quote",
-          "choice": "context",
-          "requiresFacts": ["quote"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08",
-      "tag": {
-        "move": "deliver-news",
-        "key": "news-received"
-      }
-    },
-    {
       "key": "news.public-action.number-people-in-place-gathered-on-date-to-mark-a",
       "move": "public-action",
       "kind": "written",
@@ -12280,10 +12745,10 @@
       }
     },
     {
-      "key": "news.public-action.a-crowd-of-number-turned-out-in-place-on-date",
+      "key": "news.public-action.a-crowd-of-turned-out-in-on-happy-with",
       "move": "public-action",
       "kind": "written",
-      "text": "A crowd of {number} turned out in {place} on {date}, glad of how it has gone with {area}.",
+      "text": "A crowd of {number} turned out in {place} on {date}, happy with {area}.",
       "uses": [
         {
           "move": "public-action",
@@ -12346,10 +12811,10 @@
       }
     },
     {
-      "key": "news.exposed.records-show-name-offered-a-public-official-money-for-a",
+      "key": "news.exposed.records-show-offered-an-official-money-for-a-favor",
       "move": "exposed",
       "kind": "written",
-      "text": "Records show {name} offered a public official money for a favor, and the official turned it down.",
+      "text": "Records show {name} offered an official money for a favor, and was turned down.",
       "uses": [
         {
           "move": "exposed",

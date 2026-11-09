@@ -11,6 +11,8 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   keptDecision,
+  queueCampaignRecord,
+  CAMPAIGN_RECORD_KINDS,
   queueCircleEntry,
   queueDecisionDetail,
   queueRelationshipDetail,
@@ -111,6 +113,7 @@ import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { moveLivingShare } from "./cost-of-living";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
+import { openingTiesOf } from "./opening-ties";
 import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
@@ -766,6 +769,8 @@ export function retainLog(
   if (row.decision) queueDecisionDetail(core, core.date, row.id);
   else if (row.visibility === "circle" && !row.publicRecord && !row.news)
     queueCircleEntry(core, core.date, row.id);
+  else if (row.visibility === "public" && CAMPAIGN_RECORD_KINDS.has(row.kind))
+    queueCampaignRecord(core, core.date, row.id);
   for (const id of new Set([...row.personIds, ...(row.witnessIds ?? [])]))
     index(core.logByPerson, id, row.id);
   index(core.logByKind, row.kind, row.id);
@@ -1655,6 +1660,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       const siblingNames = [given];
       siblings.forEach((row, i) => {
         row.birthDate = births[i]!;
+        // A brother or sister living elsewhere carries the family name too (C27).
+        if (row.familyName === drawn) row.familyName = family;
         if (!row.alive) return;
         row.givenName = distinctSiblingGivenName(
           core.seed,
@@ -2374,10 +2381,15 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const active = recorded
       ? countedJob(core, recorded.id) !== undefined
       : false;
+    // Neighbors and county coworkers they know from their years in place.
+    const ties = openingTiesOf(core, row, home);
     admitted.push(
       admitPerson(core, {
         ...row,
         liquidMinor: 0,
+        ...(ties.length
+          ? { knownIds: [...new Set([...row.knownIds, ...ties])] }
+          : {}),
         ...(active ? {} : { jobId: undefined }),
       }),
     );
@@ -2475,7 +2487,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
               other.id,
               id,
               "family",
-              api.parameter("relationInitial"),
+              openingClosenessHours(core, other.id, id),
+              undefined,
+              { cause: OPENING_FAMILY_CAUSE },
             );
         }
   for (const actor of admitted) {
@@ -2495,7 +2509,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             actor.id,
             id,
             "family",
-            api.parameter("relationInitial"),
+            openingClosenessHours(core, actor.id, id),
+            undefined,
+            { cause: OPENING_FAMILY_CAUSE },
           );
       }
     openOpeningPeerTies(core, api, actor);

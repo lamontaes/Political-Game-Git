@@ -1,3 +1,4 @@
+import { countyPlaceOfWorld } from "../opening-county-sample";
 import {
   standingPool,
   partyOf,
@@ -43,7 +44,8 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
-import { decisionKinds, leanedYes } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
+import { leanedYes } from "../trait-decisions";
 import { closenessBetween } from "../closeness";
 import { candidatePlatform } from "../campaign-stances";
 import { contestPositions } from "../contest-positions";
@@ -81,7 +83,7 @@ import {
 import { partySide } from "../appointments";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -159,6 +161,24 @@ interface RunFacts {
   readonly incumbentTie: number;
   /** How far the incumbent's recorded votes go against their own views, 0 to 1. */
   readonly recordGap: number;
+  /** How active they are in a party, 0 to 1. */
+  readonly partyActivity: number;
+  /** Whether they own an employer in the place. */
+  readonly owner: boolean;
+  /** How many civic roles they hold (a board, a party committee). */
+  readonly civicRoles: number;
+}
+
+/** A named person's roles, read from the same record a counted resident's are (opening-roles.ts). */
+function rolesOfNamed(person: Readonly<PersonState>) {
+  const looks = person.looks ?? {};
+  return {
+    partyActivity: Number(looks.partyActivity ?? 0) || 0,
+    owner: Boolean(looks.ownedEmployerId),
+    civicRoles: looks.civicRoles
+      ? String(looks.civicRoles).split(",").length
+      : 0,
+  };
 }
 
 /** Each recorded reason for running, as a signed pull. */
@@ -199,6 +219,7 @@ export function candidacyReasons(
       cause,
       incumbentTie,
       recordGap,
+      ...rolesOfNamed(person),
     },
     contest,
   );
@@ -323,17 +344,28 @@ function recordGapOf(
 /**
  * How many people know a resident still in the counts: those the opening's
  * acquaintance rule gives everyone, filled in or not (deep-past.ts, the same
- * rule that builds their circle when they are filled in): a school peer
- * group, and a workgroup at their employer where they work.
+ * rule that builds their circle when they are filled in): a workgroup at
+ * their employer where they work, and the neighbors their years in place have
+ * given them. No school peer group is counted: nobody opens knowing a
+ * schoolmate (SG-WIRE-PEOPLE-SCHOOLMATES), so a count that included one
+ * drew people the filled-in decision then turned away.
  */
 function countedKnown(api: CoreAPI, voter: CountedVoter): number {
   const one = api.parameter("one");
-  const school = api.parameter("openingPeerGroupSize") - one;
+  const zero = api.parameter("zero");
   const work =
-    voter.weeklyMinutes > api.parameter("zero")
+    voter.weeklyMinutes > zero || voter.employerId
       ? api.parameter("openingCoworkerGroupSize") - one
-      : api.parameter("zero");
-  return school + work;
+      : zero;
+  // The neighbors their years in one place have given them: a settled count
+  // reached as exp(-years / the time it takes) closes on it (estimated).
+  const neighbors =
+    voter.yearsInPlace === undefined
+      ? zero
+      : api.parameter("neighborsKnownCap") *
+        (one -
+          Math.exp(-voter.yearsInPlace / api.parameter("neighborsKnownYears")));
+  return work + neighbors;
 }
 
 function withPoolReasons(
@@ -384,6 +416,9 @@ export function countedCandidacyReasons(
       cause: zero,
       incumbentTie: zero,
       recordGap: recordGapOf(api, voter, contest, true),
+      partyActivity: voter.partyActivity ?? zero,
+      owner: Boolean(voter.ownedEmployerId),
+      civicRoles: voter.civicRoles?.length ?? 0,
     },
     contest,
   );
@@ -428,6 +463,7 @@ function reasonsFrom(
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
   return {
+    // perception: a person's own read of their chance, their real odds plus the hope an enterprising, risk-taking person adds, read once for this one decision (owner, Nov 8, 10:20 a.m.: candidates run because they think they have a chance).
     chance: c(api, "candidacyChanceWeight") * (odds + hope * (one - odds)),
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,
@@ -438,6 +474,14 @@ function reasonsFrom(
     openSeat: contest.incumbentId ? zero : c(api, "candidacyOpenSeatWeight"),
     recordGap: c(api, "candidacyRecordGapWeight") * person.recordGap,
     standing: c(api, "candidacyStandingWeight") * standing,
+    // The roles that make people run for the seats near them (the owner's
+    // ruling, Nov 8: party activity, owning a business, civic roles are
+    // reasons to want the seat): each a sliding pull, zero for one who has
+    // none, scaled by how much of it the record shows.
+    partyRole: c(api, "candidacyPartyRoleWeight") * person.partyActivity,
+    ownerRole: person.owner ? c(api, "candidacyOwnerRoleWeight") : zero,
+    civicRole:
+      c(api, "candidacyCivicRoleWeight") * Math.min(one, person.civicRoles),
     // A crowded race: each person already running lowers the pull.
     field: -c(api, "candidacyFieldWeight") * (contest.runners ?? zero),
     age:
@@ -814,12 +858,6 @@ export function weighContest(
       : undefined;
   const rank = FAMILY_RANK[contest.family];
   const wide = contest.level === "state" || contest.level === "federal";
-  // A county seat is weighed by the town's adults only: the rest of the
-  // county votes in it but no one from there runs yet.
-  if (contest.family === "countyOffice") {
-    // stopgapId: SG-GOV-county-race-town-only
-    api.stopgap("SG-GOV-county-race-town-only");
-  }
   const scope = wide ? raceScope(api, contest) : null;
   if (wide) {
     // stopgapId: SG-GOV-wide-resident-pool
@@ -880,6 +918,8 @@ export function weighContest(
   const weighs = (p: PersonState) =>
     p.alive &&
     (p.placeId === town.townPlaceId ||
+      (contest.family === "countyOffice" &&
+        p.placeId === countyPlaceOfWorld(api.state)) ||
       pool.has(p.id) ||
       p.id === incumbentId) &&
     !appointed.has(p.id) &&
@@ -917,14 +957,47 @@ export function weighContest(
     const screen = countedScreen(
       api,
       { ...field, runners: raceRunners },
-      town.townPlaceId,
+      contest.family === "countyOffice"
+        ? [town.townPlaceId, countyPlaceOfWorld(api.state)]
+        : [town.townPlaceId],
       rules.minimumAge,
     );
     countedWeighed = screen.weighed;
-    for (const id of screen.drawn) {
-      if (committed.has(id)) continue;
-      fillInPerson(api.state as CoreState, id);
-      filledInIds.push(id);
+    // The field limits itself: each runner lowers the next one's pull
+    // (`candidacyFieldWeight`), so the counted adults it draws are weighed
+    // from their counted records one at a time, strongest pull first, and
+    // run only while the pull with the field as it stands still clears the
+    // bar. A counted adult who wants to run is a decision on their counted
+    // record; they are made a full person on the day they file.
+    const bar = stayOutPull(api, field);
+    const decisions = table(api);
+    for (const voter of screen.drawn) {
+      if (committed.has(voter.id)) continue;
+      const id = `${field.contestId}:${voter.id}`;
+      const held = decisions.get(id) as unknown as
+        CandidacyDecision | undefined;
+      if (held) {
+        asked.push(voter.id);
+        if (held.run) running.push(voter.id);
+        continue;
+      }
+      const seat = { ...field, runners: running.length + raceRunners };
+      const reasons = countedCandidacyReasons(api, voter, seat);
+      let pull = api.parameter("zero");
+      for (const value of Object.values(reasons)) pull += value;
+      if (pull <= bar) continue;
+      decisions.put({
+        id,
+        personId: voter.id,
+        contestId: field.contestId,
+        date,
+        run: true,
+        reasons,
+        scores: [],
+        sourceIds: [...field.sourceIds, voter.id, voter.householdId],
+      } as unknown as { id: string });
+      asked.push(voter.id);
+      running.push(voter.id);
     }
   }
   const people = [...api.state.people.values()]
@@ -1007,7 +1080,11 @@ function committedOn(
 /** Each counted adult's pull to run apart from the seat itself, cached for the year. */
 const countedBases = new WeakMap<
   object,
-  { year: string; rows: { voter: CountedVoter; base: number }[] }
+  {
+    year: string;
+    places: readonly (string | null)[];
+    rows: { voter: CountedVoter; base: number }[];
+  }
 >();
 
 /**
@@ -1018,18 +1095,26 @@ const countedBases = new WeakMap<
 function countedScreen(
   api: CoreAPI,
   open: OpenContest,
-  townPlaceId: string,
+  placeIds: readonly (string | null)[],
   minimumAge: number,
-): { weighed: number; drawn: PersonId[] } {
+): { weighed: number; drawn: CountedVoter[] } {
   const year = api.state.date.slice(0, 4);
   let held = countedBases.get(api.state);
-  if (!held || held.year !== year) {
+  if (
+    !held ||
+    held.year !== year ||
+    !placeIds.every((id) => held!.places.includes(id))
+  ) {
     // Counted residents of adult correctional rooms may be drawn to run.
     // stopgapId: SG-GQ-counted-prisoners-vote
+    const places = [
+      ...new Set([...(held?.year === year ? held.places : []), ...placeIds]),
+    ];
     held = {
       year,
+      places,
       rows: countedResidents(api.state as CoreState)
-        .filter((voter) => voter.placeId === townPlaceId)
+        .filter((voter) => places.includes(voter.placeId))
         .map((voter) => {
           // The pull apart from the seat: an open town seat with no one
           // running yet, which bounds every seat's pull from above but for
@@ -1071,16 +1156,18 @@ function countedScreen(
     voter.birthDate <= bornBy &&
     counted.has(voter.id) &&
     !api.state.people.has(voter.id);
-  for (const { voter } of held.rows) if (here(voter)) weighed += voter.weight;
-  const drawn: PersonId[] = [];
+  const wanted = (voter: CountedVoter) => placeIds.includes(voter.placeId);
+  for (const { voter } of held.rows)
+    if (wanted(voter) && here(voter)) weighed += voter.weight;
+  const drawn: CountedVoter[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
     if (!open.wideScope && base + record <= bar) break;
-    if (!here(voter)) continue;
+    if (!wanted(voter) || !here(voter)) continue;
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
     for (const value of Object.values(reasons)) pull += value;
-    if (pull > bar) drawn.push(voter.id);
+    if (pull > bar) drawn.push(voter);
   }
   return { weighed, drawn };
 }
@@ -1105,6 +1192,8 @@ export function fileRunners(
       : first;
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
+    if (decision && !api.state.people.has(personId))
+      fillInPerson(api.state as CoreState, personId);
     const person = api.state.people.get(personId);
     if (!decision || !person) continue;
     const filing: NonNullable<CandidacyDecision["filing"]> = person.alive
@@ -1554,6 +1643,10 @@ function weighClosedContest(
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     if (!decision) continue;
+    // A counted adult who decided to run on their counted record is made a
+    // full person the day they file.
+    if (!api.state.people.has(personId))
+      fillInPerson(api.state as CoreState, personId);
     let party: string | null = seatParty(api, contest)
       ? partyOf(api, personId)
       : null;

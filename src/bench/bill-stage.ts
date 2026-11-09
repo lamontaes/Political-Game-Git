@@ -10,6 +10,7 @@ import {
   billForm,
   billJurisdiction,
   billOf,
+  billReach,
   bodyOf,
   holdOverride,
   overridePending,
@@ -32,6 +33,8 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { snapshotExplicitControlV1 } from "../core2/life";
+import reachA from "../core2/data/laws/reach-group-a.json" with { type: "json" };
+import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
@@ -640,4 +643,231 @@ export function callOverrideVote(
     billId,
     asId ?? snapshotExplicitControlV1(core).personId ?? core.playerId,
   );
+}
+
+/**
+ * What the bill's page is built from, one object and nothing for the screen to compute: its name,
+ * the stage and the day of it, its sponsor, each section with its label key, its amount, the law
+ * in force before it and (for a budget line) last year's amount, and the government level, the
+ * tally at each stage it has passed, and where it reaches. Money is in minor units; the screen
+ * words it (`moneySaid`) and the labels (the banks).
+ */
+export function billPageView(core: CoreState, billId: string, asId?: string) {
+  const api = coreAPI(core);
+  const bill = billOf(api, billId);
+  const stage = billStage(core, billId, asId);
+  const paper = billPaper(core, billId);
+  const form = billForm(api, bill);
+  const reach = billReach(api, bill);
+  const minorUnit = (unit: string | null | undefined) =>
+    typeof unit === "string" && unit.startsWith("minor");
+  const clauseOf = (provisions: readonly Provision[], index: number) => {
+    const copy: BillRow = { ...bill, provisions };
+    const f = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: f.effectiveSection,
+        before: f.sections.map((row) => row.before),
+      })?.sections[index] ?? null
+    );
+  };
+  const rows = bill.provisions.map((provision, index) => {
+    const before = form.sections[index]?.before;
+    const budgetLine = provision.kind === "budget-line";
+    const amountMinor =
+      budgetLine || minorUnit(provision.unit)
+        ? budgetLine && provision.of !== undefined
+          ? provision.of + provision.value
+          : provision.value
+        : null;
+    const inForceMinor =
+      before && minorUnit(before.unit) && typeof before.value === "number"
+        ? before.value
+        : null;
+    const lastYearMinor = budgetLine ? (provision.of ?? null) : null;
+    // The change the section makes: a budget line against last year's amount, a rate against the law in force.
+    const base = budgetLine ? lastYearMinor : inForceMinor;
+    const changeMinor =
+      amountMinor !== null && base !== null ? amountMinor - base : null;
+    return {
+      budgetLine,
+      section: {
+        index,
+        kind: provision.kind,
+        // The clause as the bill words it (inserted) and as it would read with the law in force
+        // today in its place (struck), for a screen to strike and insert; null where the law in
+        // force gives no value to put back.
+        inserted: clauseOf(bill.provisions, index),
+        struck:
+          before && typeof before.value === "number" && !budgetLine
+            ? clauseOf(
+                bill.provisions.map((p, i) =>
+                  i === index
+                    ? ({ ...p, value: before.value } as Provision)
+                    : p,
+                ),
+                index,
+              )
+            : null,
+        // The law the section changes, to open: its record id and the citation the records give.
+        amends:
+          before && (before.lawId || before.statute)
+            ? { lawId: before.lawId ?? null, citation: before.statute ?? null }
+            : null,
+        // The catalog policy, question or budget line the section names: the key for its label.
+        labelKey:
+          provision.policyId ??
+          provision.question ??
+          provision.series ??
+          provision.line ??
+          null,
+        // A budget line carries the amount it sets (its change added to what it changes), else the value.
+        amountMinor,
+        // The law in force today for a rate or an amount in minor units.
+        inForceMinor,
+        // A budget line's amount in the budget it changes (last year's), where one is recorded.
+        lastYearMinor,
+        // The change from last year's amount (a budget line) or the law in force (a rate), in minor
+        // units and as a share of that base; null where the record gives no base.
+        changeMinor,
+        changePct:
+          changeMinor !== null && base ? (changeMinor / base) * 100 : null,
+        level: reach.level,
+        // Whom the law applies to (the law-reach data's own scope for this policy), and the change
+        // itself from what is in force to what is proposed; no counts before it is law.
+        scope: reachScopeOf(
+          provision.policyId ??
+            provision.question ??
+            provision.series ??
+            (provision.line ? `budget:${provision.line}` : null),
+        ),
+      },
+    };
+  });
+  const sections = rows.map((row) => row.section);
+  // The bill's total change in dollars a year: its budget lines only (a rate is not a sum).
+  const budgetChanges = rows.filter(
+    (row) => row.budgetLine && row.section.changeMinor !== null,
+  );
+  const totalChangeMinor = budgetChanges.length
+    ? budgetChanges.reduce(
+        (sum, row) => sum + (row.section.changeMinor ?? 0),
+        0,
+      )
+    : null;
+  const tallies = [
+    ...stage.committees.map((c) => ({
+      stage: "committee" as const,
+      chamber: c.chamber,
+      date: c.date,
+      yes: c.yes,
+      no: c.no,
+    })),
+    ...stage.floor.map((c) => {
+      // Each party's yes and no, and how many of the chamber's members cast no vote.
+      const partyOf = new Map(
+        members(api, c.chamber).map((t) => [memberKey(t), t.party ?? ""]),
+      );
+      const byParty = new Map<string, { yes: number; no: number }>();
+      for (const [side, list] of [
+        ["yes", c.yes],
+        ["no", c.no],
+      ] as const)
+        for (const vote of list) {
+          const party = partyOf.get(vote.memberId) ?? "";
+          const row = byParty.get(party) ?? { yes: 0, no: 0 };
+          row[side] += 1;
+          byParty.set(party, row);
+        }
+      return {
+        stage: "floor" as const,
+        chamber: c.chamber,
+        date: paper.floorDate ?? null,
+        yes: c.yes.length,
+        no: c.no.length,
+        byParty: [...byParty.entries()]
+          .map(([party, row]) => ({ party: party || null, ...row }))
+          .sort((x, y) => y.yes + y.no - (x.yes + x.no)),
+        notVoting: Math.max(
+          0,
+          partyOf.size - c.yes.length - c.no.length - c.other.length,
+        ),
+      };
+    }),
+    ...stage.override.map((c) => ({
+      stage: "override" as const,
+      chamber: c.chamber,
+      date: null as string | null,
+      yes: c.yes.length,
+      no: c.no.length,
+    })),
+  ];
+  return {
+    id: bill.id,
+    number: bill.number,
+    name: paper.title,
+    level: reach.level,
+    stage: stage.stage,
+    // The day of the stage the bill is at: the day it was decided, else the day the floor takes it up.
+    stageDate:
+      paper.decision?.decidedOn ?? paper.floorDate ?? paper.agendaDate ?? null,
+    sponsor: { id: bill.sponsorId, name: paper.sponsor },
+    /** Where it is: the body it sits in, the committee that has it now, who filed it and when. */
+    where: {
+      bodyTitle:
+        stage.committees.at(-1)?.chamberTitle ??
+        bodyOf(api, bill.bodyOfficeId)?.bodyName ??
+        null,
+      committee: stage.committees.at(-1)?.committee ?? null,
+      filedBy: { id: bill.sponsorId, name: paper.sponsor },
+      filedOn: bill.introduced,
+      // The day its newest committee took it up in this chamber, else null (not yet referred).
+      reachedChamberOn: stage.committees.at(-1)?.date ?? null,
+      // The day the chamber has until is not in the records yet (each body's session end, by level).
+      until: null as string | null,
+    },
+    sections,
+    totalChangeMinor,
+    tallies,
+    reach: {
+      level: reach.level,
+      reachesYou: reachesTown(api, billJurisdiction(api, bill)),
+    },
+  };
+}
+
+interface ReachRow {
+  readonly people?: unknown;
+  readonly reaches?: unknown;
+  readonly organizations?: readonly string[];
+  readonly enforcer?: string;
+  readonly mechanic?: string;
+}
+
+/**
+ * Whom a section's law applies to, as the law-reach data states it for that policy or budget
+ * line: the people it selects (by the selector's own terms, for the banks to word), the
+ * organizations it reaches and who enforces it. Null where the data names none. No counts: a
+ * screen creates no facts, and the counts come from the law-reach records once it is law.
+ */
+function reachScopeOf(key: string | null) {
+  if (!key) return null;
+  const a = (reachA.policies as Record<string, ReachRow>)[key];
+  const b =
+    (reachB.policies as Record<string, ReachRow>)[key] ??
+    (reachB.budgetLines as Record<string, ReachRow>)[
+      key.replace(/^budget:/, "")
+    ];
+  const row = b ?? a;
+  if (!row) return null;
+  const people = row.people ?? row.reaches ?? null;
+  const empty = Array.isArray(people) ? people.length === 0 : people === null;
+  if (empty && !row.organizations?.length && !row.enforcer) return null;
+  return {
+    people: empty ? null : people,
+    organizations: row.organizations ?? [],
+    enforcer: row.enforcer ?? null,
+    mechanic: row.mechanic ?? null,
+  };
 }

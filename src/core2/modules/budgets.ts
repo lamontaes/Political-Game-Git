@@ -43,6 +43,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
+  governmentUnitJurisdictionId,
   type GovernmentUnitType,
 } from "../reference/government-units";
 import {
@@ -99,6 +100,12 @@ export interface GovernmentRow {
   readonly level: GovernmentLevel;
   readonly name: string;
   readonly organizationId: string;
+  /**
+   * The one canonical jurisdiction record this government is: the nation's, a state's, the
+   * town's own (the id its offices, laws and appointments are filed under) for the government
+   * that runs the town, or the local unit's own for a county beside a city.
+   */
+  readonly jurisdictionId: string;
   readonly fiscalYearStart: string;
   readonly residents: number;
   /**
@@ -115,13 +122,50 @@ export interface GovernmentRow {
   };
 }
 
+/**
+ * How a year's budget came to stand, as a record the screens word. A budget a
+ * body voted carries the body, each chamber's tally, the bill and what the
+ * negotiation changed; one carried forward says why; the rest say which base
+ * they are.
+ */
+export interface BudgetAdoption {
+  readonly kind:
+    | "base"
+    | "opening"
+    | "requests"
+    | "enacted"
+    | "published"
+    | "vote"
+    | "rule"
+    | "carried";
+  readonly body?: string;
+  readonly tallies?: readonly {
+    chamber: string;
+    /** The chamber's own name from its body record (House, Senate, Assembly...). */
+    title: string;
+    yes: number;
+    no: number;
+  }[];
+  readonly bill?: { readonly id: string; readonly number: string };
+  /** What the negotiation did to a line: cut it in half `times` times, or dropped it. */
+  readonly amendments?: readonly {
+    line: string;
+    how: "halved" | "dropped";
+    times: number;
+  }[];
+  /** The measures that changed the adopted budget afterward. */
+  readonly amendedBy?: readonly string[];
+  /** Why last year's lines carried: the executive's veto or the body's rejection. */
+  readonly carried?: "vetoed" | "rejected";
+}
+
 export interface BudgetRow {
   readonly id: string;
   readonly governmentId: string;
   readonly fiscalYear: number;
   readonly startsOn: string;
   readonly adoptedOn: string;
-  readonly adoptedBy: string;
+  readonly adoptedBy: BudgetAdoption;
   readonly revenueMinor: Readonly<Record<string, number>>;
   readonly spendingMinor: Readonly<Record<string, number>>;
   readonly source: string;
@@ -244,7 +288,7 @@ function budgetHistory(
         budgetId: budget.id,
         governmentId: budget.governmentId,
         fiscalYear: budget.fiscalYear,
-        adoptedBy: budget.adoptedBy,
+        adoptedBy: budget.adoptedBy.kind,
       },
       publicRecord: true,
       source: {
@@ -285,7 +329,7 @@ function budgetHistory(
           budgetId: `budget:${budget.governmentId}:${fiscalYear}`,
           governmentId: budget.governmentId,
           fiscalYear,
-          adoptedBy: budget.adoptedBy,
+          adoptedBy: budget.adoptedBy.kind,
           openingBudgetId: budget.id,
           yearsBack: back,
           annualGrowth: growth.annualGrowth,
@@ -398,6 +442,19 @@ export const BUDGETS_MODULE: PreStartModule = {
   },
 };
 
+/**
+ * The measure that changed a budget, by its own id (a bill number): a law row names its measure in
+ * `enactedBy`; a law in force since before the game has no measure, so it names none (null).
+ */
+function lawMeasureOf(api: CoreAPI, id: string): string | null {
+  if (!id.startsWith("law:")) return id;
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  const row = (laws.get(id) ?? laws.get(id.split("#")[0]!)) as unknown as
+    { terms?: { enactedBy?: unknown } } | undefined;
+  const measure = row?.terms?.enactedBy;
+  return measure ? String(measure) : null;
+}
+
 function table(api: CoreAPI, name: string) {
   return api.moduleState(BUDGETS_MODULE_ID).table(name);
 }
@@ -444,9 +501,11 @@ function residentsOfPlace(place: PlaceBases | undefined): number {
 
 function government(
   api: CoreAPI,
-  row: Omit<GovernmentRow, "organizationId">,
+  row: Omit<GovernmentRow, "organizationId" | "jurisdictionId">,
   unitId?: string,
   unitType?: GovernmentUnitType,
+  /** A local government's jurisdiction when it is not the one that runs the town. */
+  unitJurisdictionId?: string,
 ): GovernmentRow {
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
@@ -479,7 +538,16 @@ function government(
     });
   const previous = table(api, "governments").get(row.id) as unknown as
     GovernmentRow | undefined;
-  const identity = { ...row, organizationId };
+  const identity = {
+    ...row,
+    organizationId,
+    jurisdictionId:
+      jurisdictionId ??
+      unitJurisdictionId ??
+      (row.level === "federal" || row.level === "state"
+        ? row.id
+        : lawChain(api).townPlaceId),
+  };
   const full: GovernmentRow = {
     ...identity,
     openingCash:
@@ -624,7 +692,7 @@ function budgetFor(
   stateKey: string,
   fiscalYear: number,
   date: string,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const published = publishedBudgetFor(
     gov,
@@ -669,7 +737,7 @@ export function publishedBudgetFor(
   stateKey: string,
   fiscalYear: number,
   date: string,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const row = baseRowsOf(stateKey)[gov.base];
   // A row is dollars a resident in fiscal 2022 (the calibration carries it to
@@ -786,6 +854,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           base: city ? "county" : "county-whole",
         },
         countyUnit.id,
+        undefined,
+        city ? governmentUnitJurisdictionId(countyUnit) : undefined,
       ),
     );
 
@@ -810,6 +880,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           base: city ? "county" : "county-whole",
         },
         municipio.id,
+        undefined,
+        city ? governmentUnitJurisdictionId(municipio) : undefined,
       ),
     );
   if (city)
@@ -850,14 +922,9 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
     const stopgapId = baseRowsOf(chain.stateKey)[gov.base]?.stopgapId;
     if (stopgapId) api.stopgap(stopgapId);
     table(api, "budgets").put(
-      budgetFor(
-        api,
-        gov,
-        chain.stateKey,
-        fy,
-        `${fy}-${gov.fiscalYearStart}`,
-        "in force at the opening",
-      ) as unknown as ModuleRow,
+      budgetFor(api, gov, chain.stateKey, fy, `${fy}-${gov.fiscalYearStart}`, {
+        kind: "opening",
+      }) as unknown as ModuleRow,
     );
     calendar.schedule({
       key: `adopt:${gov.id}:${fy + 1}`,
@@ -1247,21 +1314,16 @@ export function baseBudget(
   gov: GovernmentRow,
   fy: number,
 ): BudgetRow {
-  return budgetFor(
-    api,
-    gov,
-    lawChain(api).stateKey,
-    fy,
-    api.state.date,
-    "base",
-  );
+  return budgetFor(api, gov, lawChain(api).stateKey, fy, api.state.date, {
+    kind: "base",
+  });
 }
 
 function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const base = budgetFor(
@@ -1288,7 +1350,7 @@ export function proposedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   return legislatedBudget(
     api,
@@ -1307,7 +1369,7 @@ export function enactBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
   changes: Readonly<Record<string, number>>,
 ): BudgetRow {
   const prior = table(api, "enacted").get(gov.id) as unknown as
@@ -1344,8 +1406,7 @@ export function departmentRequests(
   gov: GovernmentRow,
   fy: number,
 ): Readonly<Record<string, number>> {
-  return legislatedBudget(api, gov, fy, "department requests", {})
-    .spendingMinor;
+  return legislatedBudget(api, gov, fy, { kind: "requests" }, {}).spendingMinor;
 }
 
 /**
@@ -1359,7 +1420,11 @@ export function adoptedLine(
   fy: number,
   line: string,
 ): number {
-  return legislatedBudget(api, gov, fy, "adopted", {}).spendingMinor[line] ?? 0;
+  return (
+    legislatedBudget(api, gov, fy, { kind: "enacted" }, {}).spendingMinor[
+      line
+    ] ?? 0
+  );
 }
 
 /**
@@ -1407,7 +1472,7 @@ export function carriedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
   fy: number,
-  adoptedBy: string,
+  adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const budget = legislatedBudget(api, gov, fy, adoptedBy, {});
   putBudget(api, budget);
@@ -1494,12 +1559,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   else {
     // No body votes it (no seated members, or nothing to vote on): the
     // enacted lines carry, as a charter's carry-forward does.
-    budget = carriedBudget(
-      api,
-      gov,
-      fy,
-      "carried forward by the budget rule until the council or legislature votes it",
-    );
+    budget = carriedBudget(api, gov, fy, { kind: "rule" });
   }
   // The year's budget carries what the laws that set a line's level say.
   standingLineLaws?.(api);
@@ -1513,7 +1573,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     source: voted
       ? {
           tag: "SOURCED",
-          citation: `Budget adopted (${budget.adoptedBy})`,
+          citation: `Budget adopted (${budget.adoptedBy.kind})`,
           asOf: api.state.date,
         }
       : work.source,
@@ -1522,7 +1582,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     facts: {
       governmentId: gov.id,
       fiscalYear: String(fy),
-      adoptedBy: budget.adoptedBy,
+      adoptedBy: budget.adoptedBy.kind,
     },
   });
   // The line changes the body enacted this year reach whatever each line
@@ -1542,7 +1602,7 @@ function adoptBudget(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
         placeId: lawChain(api).townPlaceId,
         source: {
           tag: "SOURCED",
-          citation: `Budget adopted (${budget.adoptedBy})`,
+          citation: `Budget adopted (${budget.adoptedBy.kind})`,
           asOf: api.state.date,
         },
         publicRecord: true,
@@ -1960,6 +2020,29 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
 }
 
 /**
+ * The government a jurisdiction names: by its id (a city, a state), by its
+ * canonical jurisdiction id (`jurisdictionId`: the town's own, a state's, the
+ * nation's), or by the government key its treasury carries (a township under
+ * its township's law jurisdiction).
+ */
+export function governmentOfJurisdiction(
+  api: CoreAPI,
+  jurisdiction: string,
+): GovernmentRow | undefined {
+  // A world without the budgets module has no governments.
+  const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  return (
+    all.find((row) => row.id === jurisdiction) ??
+    all.find((row) => row.jurisdictionId === jurisdiction) ??
+    all.find(
+      (row) =>
+        api.state.organizations.get(row.organizationId)?.governmentFacts
+          ?.governmentKey === jurisdiction,
+    )
+  );
+}
+
+/**
  * Amend a line of a government's budget in force (an ordinance or act that
  * changes spending), recorded with the measure that did it.
  */
@@ -1979,8 +2062,7 @@ export function amendBudget(
     readonly carry?: boolean;
   },
 ): BudgetRow | null {
-  const gov = table(api, "governments").get(input.governmentId) as unknown as
-    GovernmentRow | undefined;
+  const gov = governmentOfJurisdiction(api, input.governmentId);
   if (!gov) return null;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   const budget = table(api, "budgets").get(
@@ -2007,6 +2089,7 @@ export function amendBudget(
       measures: { ...(prior?.measures ?? {}), [input.line]: input.measureId },
     } as unknown as ModuleRow);
   }
+  const measure = lawMeasureOf(api, input.measureId);
   const amended: BudgetRow = {
     ...budget,
     spendingMinor: {
@@ -2016,7 +2099,16 @@ export function amendBudget(
         (budget.spendingMinor[input.line] ?? 0) + input.deltaMinor,
       ),
     },
-    adoptedBy: `${budget.adoptedBy}; amended by ${input.measureId}`,
+    adoptedBy: {
+      ...budget.adoptedBy,
+      // One kind of id: the measure's own, once; a law in force since before the game is no measure.
+      amendedBy: [
+        ...new Set([
+          ...(budget.adoptedBy.amendedBy ?? []),
+          ...(measure ? [measure] : []),
+        ]),
+      ],
+    },
   };
   table(api, "budgets").put(amended as unknown as ModuleRow);
   // The change reaches whatever that line pays for (law-effects handlers).
@@ -2149,3 +2241,5 @@ export function withholdingOf(
     personId,
   ]) as unknown as WithholdingRecord[];
 }
+// Re-exported so the opening county sample reads it through this entry (families guard).
+export { medianTransactionBalance } from "../starting-cash";
