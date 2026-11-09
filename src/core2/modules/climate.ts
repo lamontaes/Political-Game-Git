@@ -24,6 +24,8 @@
  * SG-NATION-climate-unread until a disaster reads a level).
  */
 import emissions from "../data/climate/emissions.json" with { type: "json" };
+import history from "../data/climate/hazard-history.json" with { type: "json" };
+import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import { registerModule } from "../state";
@@ -74,7 +76,9 @@ function stateWeights(): [string, number][] {
   const total = rows.reduce((n, [, people]) => n + people, 0);
   return rows.map(([key, people]) => [key, people / total]);
 }
-const WEIGHTS = stateWeights();
+let weights: [string, number][] | undefined;
+/** The weights, built on first use (the state bases are not loaded yet when this file is, in some import orders). */
+const weightsOf = () => (weights ??= stateWeights());
 
 /** A law cause's change since the day the world opened, as of `lag` months before today (0 where unrecorded). */
 function lawChange(
@@ -109,7 +113,7 @@ const CARBON_LINKS = [
 /** The country's CO2 against the opening's: each carbon law's size per law, in each state, by people. */
 function usIndex(api: CoreAPI): number {
   let index = 0;
-  for (const [stateKey, weight] of WEIGHTS) {
+  for (const [stateKey, weight] of weightsOf()) {
     let factor = 1;
     for (const link of CARBON_LINKS)
       factor *=
@@ -225,6 +229,94 @@ export function warmingNow(api: CoreAPI): number {
 /** A hazard's level against the recorded history's own (1 before the climate has a month). */
 export function hazardFactor(api: CoreAPI, hazard: Hazard): number {
   return climateNow(api)?.hazard[hazard] ?? 1;
+}
+
+/** The season a calendar month (1 to 12) falls in: 0 winter (Dec to Feb), 1 spring, 2 summer, 3 fall. */
+export function seasonOf(month: number): 0 | 1 | 2 | 3 {
+  return ([0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 0] as const)[month - 1]!;
+}
+
+const COUNTY_CELLS = history.byCounty as unknown as Record<string, number[][]>;
+
+/**
+ * Declarations per month the county's recorded history shows for a hazard in a
+ * calendar month's season (its season's count over the record's years, spread
+ * over the season's three months); none where the county or the hazard has no
+ * history.
+ */
+export function recordedHazardRate(
+  countyGeoid: string,
+  hazard: Hazard,
+  month: number,
+): number {
+  const at = (history.hazards as readonly string[]).indexOf(hazard);
+  const cell = COUNTY_CELLS[countyGeoid]?.[at];
+  if (!cell) return 0;
+  return cell[seasonOf(month)]! / history.years / 3;
+}
+
+/**
+ * Declarations per month a county's hazard now gives in a calendar month: the
+ * recorded history's rate times the climate's level for the hazard, which
+ * moves only with the carbon laws in force.
+ */
+export function hazardRate(
+  api: CoreAPI,
+  countyGeoid: string,
+  hazard: Hazard,
+  month: number,
+): number {
+  return (
+    recordedHazardRate(countyGeoid, hazard, month) * hazardFactor(api, hazard)
+  );
+}
+
+/** The hazard a FEMA incident type belongs to (flood, storm or wildfire), or none. */
+export function hazardOfIncident(incidentType: string): Hazard | undefined {
+  return (history.hazardOfIncidentType as Record<string, Hazard | undefined>)[
+    incidentType
+  ];
+}
+
+let stateCells: Map<string, number[][]> | undefined;
+/** The recorded history summed over a state's counties: hazard, then season, in declarations. */
+function stateHistory(usps: string): number[][] | undefined {
+  if (!stateCells) {
+    stateCells = new Map();
+    for (const [geoid, , rowState] of lookup.counties.rows as [
+      string,
+      string,
+      string,
+    ][]) {
+      const cell = COUNTY_CELLS[geoid];
+      if (!cell) continue;
+      const sum =
+        stateCells.get(rowState) ?? history.hazards.map(() => [0, 0, 0, 0]);
+      cell.forEach((seasons, h) =>
+        seasons.forEach((n, season) => (sum[h]![season]! += n)),
+      );
+      stateCells.set(rowState, sum);
+    }
+  }
+  return stateCells.get(usps);
+}
+
+/**
+ * County declarations per month a state's counties together give for a hazard
+ * in a calendar month: the sum of their `hazardRate`s.
+ */
+export function stateHazardRate(
+  api: CoreAPI,
+  usps: string,
+  hazard: Hazard,
+  month: number,
+): number {
+  const at = (history.hazards as readonly string[]).indexOf(hazard);
+  const cell = stateHistory(usps)?.[at];
+  if (!cell) return 0;
+  return (
+    (cell[seasonOf(month)]! / history.years / 3) * hazardFactor(api, hazard)
+  );
 }
 
 /** Install the engine in a world (after the laws and the outside budgets). */
