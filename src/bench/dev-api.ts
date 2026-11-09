@@ -242,6 +242,7 @@ export async function handleDev(
           value: input.value === undefined ? undefined : Number(input.value),
           unit: input.unit === undefined ? undefined : String(input.unit),
           billId: input.billId === undefined ? undefined : String(input.billId),
+          schedule: input.schedule === true,
         }),
       );
       return true;
@@ -252,14 +253,22 @@ export async function handleDev(
     case "GET scenes":
       send(200, mode.scenes());
       return true;
+    case "GET scene-cast": {
+      send(200, mode.sceneCast(q("typeKey")));
+      return true;
+    }
     case "POST scene": {
       const input = await body(request);
+      const text = (value: unknown) =>
+        typeof value === "string" ? value : undefined;
       send(
         200,
         mode.forceScene({
           typeKey: String(input.typeKey),
-          personId:
-            typeof input.personId === "string" ? input.personId : undefined,
+          personId: text(input.personId),
+          forId: text(input.forId),
+          mournedId: text(input.mournedId),
+          where: text(input.where),
         }),
       );
       return true;

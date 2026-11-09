@@ -1626,6 +1626,18 @@ export function countedSinceOpening(
   return m !== undefined && m < rt!.store.openingMembers;
 }
 
+/** The id of the counted group a counted person's household stands in today, if any. */
+export function countedGroupIdOf(
+  core: CoreState,
+  personId: PersonId,
+): string | undefined {
+  const rt = runtimes.get(core);
+  const household = countedHouseholdOf(core, personId);
+  return household && household.group >= 0
+    ? rt?.store.groups[household.group]?.id
+    : undefined;
+}
+
 /** The counted household a person belongs to, if they are still counted. */
 export function countedHouseholdOf(
   core: CoreState,
@@ -1636,6 +1648,22 @@ export function countedHouseholdOf(
   return m === undefined
     ? undefined
     : rt!.store.households[rt!.store.household[m]!];
+}
+
+/** How many people under the voting age live in a counted person's household, for a reader that weighs what a run costs the family. */
+export function countedChildrenOf(
+  core: CoreState,
+  personId: PersonId,
+  adultAge: number,
+): number {
+  const rt = runtimes.get(core);
+  const home = countedHouseholdOf(core, personId);
+  if (!rt || !home) return 0;
+  const year = Number(core.date.slice(0, 4));
+  return rt.store
+    .factsOfHousehold(home)
+    .filter((row) => year - Number(row.birthDate.slice(0, 4)) < adultAge)
+    .length;
 }
 
 /**

@@ -4,9 +4,27 @@
 // and where every panel's close control comes from.
 const $ = (id) => document.getElementById(id);
 
-/** Open or close a panel (or any element) by id. */
+/**
+ * The panels that are a scene the player is in: a meeting, a desk (and the floor vote, the
+ * nominations and the orders that use it), election day, its returns and the ballot. While one
+ * is open the game is in scene mode, which hides the rail and the card (`#game.cinema`).
+ */
+export const SCENE_PANELS = [
+  "meeting",
+  "desk",
+  "election-day",
+  "returns",
+  "ballot",
+];
+
+/** Open or close a panel (or any element) by id; a scene panel also sets the scene mode. */
 export function show(id, on) {
   $(id).hidden = !on;
+  if (SCENE_PANELS.includes(id))
+    $("game").classList.toggle(
+      "cinema",
+      SCENE_PANELS.some((scene) => $(scene) && !$(scene).hidden),
+    );
 }
 
 /** The thin X every panel closes with. */

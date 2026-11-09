@@ -594,5 +594,17 @@
     "addedAt": "2026-10-20",
     "replacement": "Resolved: counted families are ranked with the full families each August (private-tuition-reenroll.ts) and their tuition is a part of the school's merged purchase flow, started or ended with setCountedTuition (modules/residents.ts). Shown in private-tuition-counted.test.ts (pool item core-private-tuition-counted).",
     "status": "resolved"
+  },
+  {
+    "id": "SG-CORE-outside-share-service-level",
+    "kind": "estimated-behavior",
+    "file": "src/core2/residents-economy.ts",
+    "line": 470,
+    "whatItFakes": "Buyers outside the town divide their spending among the sellers of one kind by how much of it each can serve: a seller's service level (its staff against what its demand needs, read up to a month old from the jobs engine's last review) is the share of its customers it keeps and the rest go to its rivals, with no preference for a seller's price, quality, reputation or location, and a lone seller of its kind keeps all of it.",
+    "why": "Service level is the one customer-facing record the business engine keeps per seller (staffing against need, jobs.ts firmStaffing). Rivals reprice from the same general factor and stay within half a percent of one another's price (Utah 4906590, seed n8b), so price alone moved no seller's share (#7939).",
+    "addedBy": "Money",
+    "addedAt": "2026-11-09",
+    "replacement": "Shares from each seller's price, quality or reputation (customers' own experience with it) as well as its service level, once the business engine keeps those records.",
+    "status": "open"
   }
 ]

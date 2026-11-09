@@ -337,7 +337,32 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
     }
   });
   const { core, api, where, events, director } = played;
-  const { removed, homeless, perceived } = checkRemovals(played);
+  // The rent-again and filled-in steps below need the played world's own
+  // homeless households beyond the three the fixture used (a draw with few
+  // filings, like seed a1, left only the fixture's): keep playing, a month at
+  // a time and for at most two more years, until it has one with pay and
+  // money and another to meet. Each check below is unchanged.
+  const fixtureHouseholds = new Set(relatives.map((row) => row.householdId));
+  const ownHomeless = (ids: string[]) => {
+    const rt0 = residentsRuntime(core)!;
+    const own = ids.filter(
+      (id) => !fixtureHouseholds.has(id) && rt0.store.liveHousehold(id),
+    );
+    const paid = own.filter((id) => {
+      const h0 = rt0.store.liveHousehold(id)!;
+      return (
+        householdIncome(rt0, h0) - h0.retirementMinorYear > 0 &&
+        householdCash(rt0, h0) > 0
+      );
+    });
+    return paid.length > 0 && own.length > 1;
+  };
+  let checked = checkRemovals(played);
+  for (let month = 0; month < 24 && !ownHomeless(checked.homeless); month++) {
+    advanceCore(core, makeIsoDate(addDays(makeIsoDate(core.date), 30)));
+    checked = checkRemovals(played);
+  }
+  const { removed, homeless, perceived } = checked;
   // Storrs's renters fall behind within the year.
   expect(removed, where).toBeGreaterThan(0);
   expect(homeless.length, where).toBeGreaterThan(0);
