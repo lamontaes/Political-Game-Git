@@ -45,6 +45,7 @@ import type {
   CoreState,
   IsoDate,
   JobInput,
+  KnownFact,
   PersonId,
   PersonInput,
   PersonState,
@@ -350,6 +351,12 @@ export function demoteHousehold(
   // Their records stay, on the inactive tier, at the place's counted tier.
   for (const person of people)
     api.updatePerson(person.id, { tier: INACTIVE_TIER });
+  // They keep their results, not their day-to-day memory (two-level rule,
+  // owner, Oct 11: nobody gets a full past or memory until filled in): what
+  // they heard and lived through goes, as a counted person holds none; their
+  // counts, accounts, jobs, drives, ties and the records of what they did
+  // stay, and meeting them again brings back the same person to learn anew.
+  for (const person of people) forgetOnReturn(core, person.id);
   api.relocatePeopleV1({
     personIds: [...members],
     placeId: countedPlaceOf(placeId),
@@ -374,6 +381,27 @@ export function demoteHousehold(
     .table("demotions")
     .put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * A person back in the counts holds no knowledge: no engine reads a counted
+ * person's facts (the counted tier's rules read the group's record), and
+ * keeping them made every person ever filled in cost memory for the rest of
+ * the run (Montpelier, Vermont, Nov 9: 378 people returned to the counts in
+ * year 1 still held 82,472 facts). The event a drive they still hold stands
+ * on stays, as the forgetting pass keeps it; the drives engine keeps the
+ * drives themselves.
+ */
+function forgetOnReturn(core: CoreState, personId: PersonId): void {
+  const known = core.knowledgeByPerson.get(personId);
+  if (!known?.size) return;
+  const kept = new Map<string, KnownFact>();
+  for (const drive of core.people.get(personId)?.drives.values() ?? []) {
+    const key = `event:${drive.sourceEventId}:experienced`;
+    const fact = known.get(key);
+    if (fact) kept.set(key, fact);
+  }
+  core.knowledgeByPerson.set(personId, kept);
 }
 
 /**
