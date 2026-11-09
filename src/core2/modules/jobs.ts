@@ -3021,12 +3021,13 @@ function fillableOpenings(api: CoreAPI): PositionRow[] {
  * One pace for finding any work: a seeker's finding progress (`regionalPull`,
  * built a month at a time from the CPS spell rate moved by their state's
  * unemployment, their age and their traits) reaches one when they find a job.
- * Until then they apply nowhere; at one they take a fillable opening near them
- * (the weekly matching picks the best fit) or, where none is open, a
- * regional job.
+ * The progress made slides the push to apply (no step): a seeker with none
+ * puts nothing into an application, one partway puts in that share, and one
+ * all the way puts in all of it; the weekly matching picks the best fit. Where
+ * no opening is near them, reaching one means a regional job.
  */
-const findingReady = (seeker: SeekerRow): boolean =>
-  (seeker.regionalPull ?? 0) >= 1;
+const findingWeight = (seeker: SeekerRow): number =>
+  Math.min(1, Math.max(0, seeker.regionalPull ?? 0));
 
 /**
  * Days an opening waits before it can be filled: its industry's JOLTS
@@ -3079,17 +3080,19 @@ function runWeek(api: CoreAPI): void {
   const consider = (seeker: SeekerRow, nearby: readonly PositionRow[]) => {
     const reference = seeker.referenceHourlyMinor;
     // The runway-scaled need for work, eased by the weeks looked.
-    const needWork = applyNeed(
-      p,
-      seeker,
-      c.date,
-      unemployedNeed(api, seeker.personId),
-    );
+    // How far their search has come slides the whole push to apply: a seeker with
+    // none of the way made puts nothing into an application, one all the way puts in all of it.
+    const weight = findingWeight(seeker);
+    if (weight <= 0) return;
+    const needWork =
+      weight *
+      applyNeed(p, seeker, c.date, unemployedNeed(api, seeker.personId));
     const scored = scoreOffers(c, seeker.personId, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>
         offer("apply", position.id, {
           pay:
+            weight *
             p("jobsApplyPayWeight") *
             (reference > 0 ? position.hourlyMinor / reference - 1 : 0),
           needWork,
@@ -3127,7 +3130,7 @@ function runWeek(api: CoreAPI): void {
       controlled(c, person.id)
     )
       continue;
-    if (findingReady(seeker)) consider(seeker, nearby);
+    consider(seeker, nearby);
   }
   // The person the player controls, out of work and of working age, is
   // considered for every opening near them; an employer that picks them makes
@@ -3148,7 +3151,7 @@ function runWeek(api: CoreAPI): void {
       continue;
     }
     const nearby = byPlace.get(seeker.placeId);
-    if (nearby && findingReady(seeker)) consider(seeker, nearby);
+    if (nearby) consider(seeker, nearby);
   }
   // Counted applicants retain their work history. Read it once for this
   // matching round, including jobs hired and ended during play.
