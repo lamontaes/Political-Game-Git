@@ -11,13 +11,35 @@ import {
   normalizedGovernmentName,
   townDisastersWithDamage,
 } from "./modules/disasters";
+import households from "./data/disasters/households.json" with { type: "json" };
 import { coreAPI } from "./state";
 import { townsWithDamage } from "./tooling/disaster-damage-screen";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
 
 describe(`a disaster's damaged homes (seed ${seed})`, () => {
-  it("marks the weakest owners' homes, pays their aid to their own accounts and sends the unpaid to move", () => {
+  it("marks the weakest owners' homes and pays their aid to their own accounts", () => {
+    run(false);
+  }, 900_000);
+  it("sends counted households that cannot pay for repairs away when FEMA's damage is more than its aid", () => {
+    run(true);
+  }, 900_000);
+});
+
+function damageBeatsAid(disaster: number, town: string): boolean {
+  const rows = households.byCountyDisaster as unknown as Record<
+    string,
+    Record<string, [number, number, number]>
+  >;
+  return Object.entries(rows).some(
+    ([key, towns]) =>
+      key.endsWith(`|${disaster}`) &&
+      (towns[town]?.[1] ?? 0) > (towns[town]?.[0] ?? 0),
+  );
+}
+
+function run(short: boolean): void {
+  {
     const tried: string[] = [];
     let opened = 0;
     for (let draw = 0; draw < 2000 && opened < 10; draw++) {
@@ -34,6 +56,8 @@ describe(`a disaster's damaged homes (seed ${seed})`, () => {
       const yearEnd = addDays(makeIsoDate(core.date), 365);
       const disaster = townDisastersWithDamage(api)
         .filter((row) => row.declared > core.date && row.declared <= yearEnd)
+        // The short case: FEMA's damage in the town is more than its aid, so the pool cannot cover repairs from aid alone.
+        .filter((row) => !short || damageBeatsAid(row.number, name))
         .sort((x, y) => x.declared.localeCompare(y.declared))[0];
       if (!disaster) {
         tried.push(`${where}: no damaged-home disaster in the year`);
@@ -58,6 +82,11 @@ describe(`a disaster's damaged homes (seed ${seed})`, () => {
           `${where}: household ${home.householdId} aid`,
         ).toBe(home.aidMinor);
       }
+      if (short)
+        expect(
+          homes.filter((home) => !home.headId && home.moved).length,
+          `${where}: counted households that moved`,
+        ).toBeGreaterThan(0);
       expect(homes.every((home) => home.repairsOwedMinor >= 0)).toBe(true);
       const moved = homes.filter((home) => home.moved);
       const sample = named[0] ?? homes[0]!;
@@ -69,5 +98,5 @@ describe(`a disaster's damaged homes (seed ${seed})`, () => {
     throw new Error(
       `no damaged homes in ${opened} opened places (seed ${seed}):\n${tried.join("\n")}`,
     );
-  }, 900_000);
-});
+  }
+}
