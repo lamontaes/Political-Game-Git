@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 lead: jobs
 claimed-by:
-pr:
+pr: #7928
 blocked-on:
 source: Money, Nov 9; scripts/money/pay-shortfall.ts
 claimed-at:
