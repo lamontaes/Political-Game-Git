@@ -12,6 +12,7 @@ import { setBookkeeping } from "./bookkeeping";
 import {
   serviceChargeShares,
   serviceChargesPaidBy,
+  townPayers,
 } from "./budgets-service-charges";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
@@ -22,6 +23,7 @@ import {
   budgetInForce,
   outsideRevenueMonthly,
 } from "./budgets-treasury";
+import { lawChain } from "./modules/laws";
 import { BUDGETS_MODULE_ID, governments } from "./modules/budgets";
 import { coreAPI } from "./state";
 import charges from "../../data/research/money/service-charges-2022.json" with { type: "json" };
@@ -83,6 +85,24 @@ it("moves the town's part of each government's charges from households' living c
           byService.reduce((n, [, v]) => n + v, 0),
           where,
         ).toBe(full.paidMinor);
+        // Sewer and trash is charged by use: what was paid for it is at most
+        // the town's dwellings and firms times their flat charges, and it
+        // reaches the treasury wherever the place's budget has the service.
+        if (row.sewerPerDwellingMinor > 0) {
+          const use = townPayers(api, lawChain(api).townPlaceId);
+          const capacity =
+            (use.dwellings * row.sewerPerDwellingMinor +
+              use.firms.size * row.sewerPerFirmMinor) *
+            1.001;
+          const sewer = full.byService["sewerage-and-solid-waste"] ?? 0;
+          expect(sewer, `${where} ${row.governmentId} sewer`).toBeGreaterThan(
+            0,
+          );
+          expect(
+            sewer,
+            `${where} ${row.governmentId} sewer within use`,
+          ).toBeLessThanOrEqual(capacity);
+        }
         for (const [service] of byService)
           if (row.governmentId.startsWith("US-")) continue;
           else expect(services.has(service), `${where} ${service}`).toBe(true);

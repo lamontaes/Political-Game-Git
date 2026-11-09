@@ -100,6 +100,27 @@ describe(`the bill page's view (seed ${seed})`, () => {
       ).toBe(true);
       const floor = page.tallies.find((t) => t.stage === "floor")!;
       expect(floor.yes, draw.name).toBe(seated.length);
+      // The party split adds up to the floor result, and those who cast no vote are counted.
+      expect(
+        floor.byParty.reduce((n, row) => n + row.yes + row.no, 0),
+        `${draw.name}: the parties add up to the floor`,
+      ).toBe(floor.yes + floor.no);
+      expect(floor.notVoting, draw.name).toBeGreaterThanOrEqual(0);
+      // The section's clause as the bill words it, and with the law in force in its place.
+      expect(first.inserted, `${draw.name}: the bill's clause`).toBeTruthy();
+      expect(
+        first.struck,
+        `${draw.name}: the clause with the law in force`,
+      ).toBeTruthy();
+      expect(first.struck, draw.name).not.toBe(first.inserted);
+      expect(
+        first.amends?.lawId ?? first.amends?.citation,
+        `${draw.name}: the law the section changes`,
+      ).toBeTruthy();
+      // Where it is: the body, who filed it and the day.
+      expect(page.where.bodyTitle, draw.name).toBeTruthy();
+      expect(page.where.filedBy.name, draw.name).toBe(page.sponsor.name);
+      expect(page.where.filedOn, draw.name).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(page.reach.reachesYou, draw.name).toBe(true);
       console.log(
         `bill-page: ${draw.name} (${draw.key}, seed ${draw.seed}) ${page.number} "${page.name}" ${page.stage} ${page.stageDate}, ${page.sections.length} section(s), floor ${floor.yes} to ${floor.no}, level ${page.level}`,

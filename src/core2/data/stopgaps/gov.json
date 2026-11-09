@@ -24,18 +24,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-official-identity-only",
-    "kind": "missing-core-api",
-    "file": "src/core2/modules/offices.ts",
-    "line": 607,
-    "whatItFakes": "A state or federal officeholder seated after the opening (a successor, a replacement, the next term) is a term with an identity (name, gender, birth date, party) and personId null until their seat is first read. Until then a body reads them by party alone (leadership.ts leanFor: the party's side times campaign parameter identityLeanScale), and a governor's cabinet candidates are fictional identities whose lean is the governor's side times identityLeanScale (executive.ts, governor cabinet pool).",
-    "why": "Reopened Nov 8, 2026 (Legislation): the Oct 13 fix filled every official at the opening, but seatNamedOfficial still seats later holders as identities, and two readers still stand in for a person by party: leadership.ts leanFor and the governor's cabinet candidates in executive.ts. The successor-governor item (gov-successor-governor-identity-only-no-office-day) showed the same seam in the office-day engine.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-12",
-    "replacement": "Seat a later holder as a person at seating (officials.ts seatOfficial / fillIn from the identity and the seat) so memberKey is a person and leanOf is read, and draw a governor's cabinet candidates as residents of the capital's place (the two-level fill-in) with their own leans. Then delete the identityLeanScale parameter and this marker.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-start-law-carried-back",
     "kind": "data-gap",
     "file": "src/core2/modules/laws.ts",
@@ -1508,7 +1496,7 @@
     "why": "Only the 144 compiled municipal governments carry a charter reading; every other town's charter is unread. Narrowed Oct 19: the compiled readers now carry the body name. Narrowed again: a town of a listed kind takes its state's usual body, so only the few consolidated governments listed by bare name keep the generic name.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Carry each charter’s collective body name into the municipal reading and replace the default.",
+    "replacement": "Carry each charter\u2019s collective body name into the municipal reading and replace the default.",
     "status": "open"
   },
   {
@@ -1520,7 +1508,7 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "replacement": "Source each place\u2019s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
     "status": "open"
   },
   {
@@ -2198,6 +2186,18 @@
     "status": "open"
   },
   {
+    "id": "SG-EXECUTIVE-administrator-appoints",
+    "kind": "partial-model",
+    "file": "src/core2/modules/executive.ts",
+    "line": 240,
+    "whatItFakes": "In a county whose board hires an administrator who appoints the department heads (research: council-administrator form), the board's seat holder stands in as the appointer of the heads the administrator would pick, so their reasons (loyalty against merit, lean, acquaintance) are the board member's, not the administrator's.",
+    "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
+    "addedBy": "Legislation (town heads for county-run places)",
+    "addedAt": "2026-11-08",
+    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-B-child-care-enrollment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -2219,6 +2219,30 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-ssi-eligibility",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 325,
+    "whatItFakes": "An aged resident (65 or older) is paid the federal SSI benefit rate less countable income, monthly, by the federal Treasury. Not read: blindness and disability (the two other routes to SSI), the resource limit, the earned-income exclusions, who is a couple (a couple draws as two individuals), deeming from a spouse or parent, and state supplements. Countable income is the household's income per member less the $20 general exclusion. Every eligible resident is paid (the share of eligible who apply is ESTIMATED at one).",
+    "why": "The game keeps no disability record, resource (assets) test or application, and state supplements are per state and not in the data.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "A disability status and an asset record on the person; the application and the Social Security Administration's own income rules; each state's supplement from its plan.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-spending-vote-state-county",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1300,
+    "whatItFakes": "A state's or county's next budget spends the Census base times how much it collected last fiscal year over what its plan expected, in every spending line alike; a city's or town's budget and the federal government's are not voted from receipts, and no bill chooses which lines give.",
+    "why": "A town's own payers send the town far more than its Census plan line (Wooster IN, 2026: credits to its treasury 3.7 times its planned revenue, 0.53 B against 0.14 B in units of 100 million minor), so a town's vote would multiply its spending until the town's plan is reconciled with what its laws and payers raise; the federal government borrows, which its credits include. Which lines take a cut or a rise is a legislature's choice the engine does not yet make.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-09",
+    "replacement": "The legislature votes each line from the revenue it collected, with its priorities and the law's rainy-day cap (gov-budget-spending-voted-from-revenue).",
     "status": "open"
   }
 ]

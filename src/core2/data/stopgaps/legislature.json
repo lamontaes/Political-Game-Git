@@ -34,5 +34,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Record cosponsors for every full person's bill from the same rule, once the position read is cheap enough, and fold the counted members' signatures as a count.",
     "status": "open"
+  },
+  {
+    "id": "SG-LEGISLATURE-study-committee-terms",
+    "kind": "research-gap",
+    "file": "src/core2/modules/legislature.ts",
+    "line": 4908,
+    "whatItFakes": "A study committee's size (studyMembers = 5) and term (studyTermDays = 180) are TUNABLE placeholders, and its members are the sponsor and the opponents nearest to changing their vote. Real interim and study committees are formed by constitution, statute or chamber rule, may draw from one or both chambers and sometimes include outsiders (NCSL, from a search snippet only); no outsiders sit here, and no rule of any body's decides when it forms one.",
+    "why": "The NCSL pages on interim and study committees (ncsl.org) and a Montana Legislative Council memo could not be fetched in this session (hosts outside the network allowlist), so no sourced size, term or formation rule was read. The formation cause is the game's own: a narrow floor loss whose closest opponents are less sure than its backers.",
+    "addedBy": "Legislation (study committees)",
+    "addedAt": "2026-11-09",
+    "replacement": "Per-body formation rules, sizes and terms read from NCSL and each legislature's rules (and mayoral or county task force practice), with outside members drawn from residents by their records.",
+    "status": "open"
   }
 ]

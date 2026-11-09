@@ -25,8 +25,7 @@ import { incompatibleOffices } from "../office-incompatibility";
  * this is generation of who exists, not a decision anyone makes. A state or
  * federal seat is held by a named official: a stable identity from the world
  * seed and the seat, with the party that really holds the seat, filled in as
- * a full person by CORE's fill-in (stand-in until then:
- * SG-GOV-official-identity-only).
+ * a full person by CORE's fill-in the first time their seat is read.
  *
  * Vacancies: a holder's death (`life.death`), move out of the office's
  * jurisdiction (`person.moved-away`), resignation or removal opens a vacancy
@@ -73,7 +72,7 @@ import { worldSeatParty } from "./elections";
 // that names them without creating them in the world.
 export { federalOffices, stateOffices, townDistrict } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
-import { seededUnit } from "../seeded";
+import { seededFineUnit, seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -609,8 +608,7 @@ function seatNamedOfficial(
         }
       : {}),
   });
-  // stopgapId: SG-GOV-official-identity-only
-  api.stopgap("SG-GOV-official-identity-only");
+  // The holder is a person the first time their seat is read (officials.ts holderOf).
   return seatTerm(api, {
     seatId: seat.id,
     officeId: office.id,
@@ -1071,7 +1069,7 @@ function electionBehind(
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   const [low, high] = tenureSpread(key);
-  const u = seededUnit(seatSeed, `${start}:winner-share`);
+  const u = seededFineUnit(seatSeed, `${start}:winner-share`);
   return { date, share: low + (high - low) * u };
 }
 

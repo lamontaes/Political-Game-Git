@@ -21,6 +21,31 @@
       "citation": "Firms close roughly a third of an employment gap per quarter (Hamermesh 1989, AER; Hamermesh and Pfann 1996, JEL); checked against JOLTS hires and layoffs."
     }
   },
+  "jobsHoursFloorShare": {
+    "value": 0.85,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Employment Statistics, average weekly hours of all employees on private payrolls (FRED AWHAETP): firms cut the workweek in a downturn before they cut staff, by a few percent at the 2009 trough against 2007 (figures not fetched in this session; to confirm).",
+    "estimatedFrom": "A 34-hour week is 0.85 of a 40-hour full-time week; it is the midpoint of the curve that splits a shortfall between hours and heads: the most the workweek gives is one less this share, approached smoothly as the shortfall deepens, never a floor.",
+    "spread": {
+      "low": 0.7,
+      "high": 0.95,
+      "unit": "share of a job's full daily hours",
+      "citation": "BLS CES average weekly hours, private, 2007-2019."
+    },
+    "role": "coefficient"
+  },
+  "jobsHoursQuantumHours": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Schedules move in quarter hours; a change smaller than that changes no one's shift.",
+    "spread": {
+      "low": 0.25,
+      "high": 0.5,
+      "unit": "hours",
+      "citation": "Scheduling practice."
+    },
+    "role": "coefficient"
+  },
   "jobsCashCoverMonths": {
     "value": 2,
     "tag": "TUNABLE",

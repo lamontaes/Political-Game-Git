@@ -1,14 +1,12 @@
 {
   "steering": {
-    "src/core2/central-bank-board.ts": 1,
     "src/core2/finance-state.ts": 1,
     "src/core2/health-own.ts": 1,
     "src/core2/housing-mortgages.ts": 1,
-    "src/core2/macro-model.ts": 6,
+    "src/core2/macro-model.ts": 3,
     "src/core2/modules/campaigns.ts": 3,
     "src/core2/modules/employer-taxes.ts": 2,
     "src/core2/modules/jobs.ts": 1,
-    "src/core2/modules/macro.ts": 1,
     "src/core2/modules/voting.ts": 2,
     "src/core2/opening-personality.ts": 1,
     "src/core2/regional-model.ts": 2,
@@ -17,7 +15,7 @@
   "unlabeledRows": {
     "src/core2/data/budgets/treasury-spending.json": 13,
     "src/core2/data/business/parameters.json": 39,
-    "src/core2/data/campaigns/parameters.json": 269,
+    "src/core2/data/campaigns/parameters.json": 267,
     "src/core2/data/candidacy/benchmarks.json": 17,
     "src/core2/data/candidacy/parameters.json": 36,
     "src/core2/data/contracts/parameters.json": 4,
@@ -38,7 +36,7 @@
     "src/core2/data/justice/parameters.json": 32,
     "src/core2/data/laws/reach-group-a-parameters.json": 39,
     "src/core2/data/laws/reach-group-b-parameters.json": 60,
-    "src/core2/data/macro/parameters.json": 62,
+    "src/core2/data/macro/parameters.json": 61,
     "src/core2/data/meetings/parameters.json": 18,
     "src/core2/data/moves/parameters.json": 19,
     "src/core2/data/news/parameters.json": 8,

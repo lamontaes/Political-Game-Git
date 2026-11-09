@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: L
-status: open
+status: done
 lead: legislation
 claimed-by:
-pr:
+pr: #7919
 blocked-on:
 after: gov-outside-revenue-real-payers
 source: Money, Nov 8; Coordinator ruling on #7873
@@ -24,4 +24,12 @@ source: Money, Nov 8; Coordinator ruling on #7873
 
 **Notes.** Filed by Money, Nov 8, night, after reading `closeTreasuries`: revenue is the plan (named-payer installments now move with the nation's wage bill, #7873; the other lines still pay the plan), so a vote from revenue collected needs #7873 and Nation's other-states rows first.
 
+<<<<<<< HEAD
 Nov 9 (Money): tried making the outside plug's income, payroll and sales receipts follow the wage bill (branch money/plug-follows-base, not opened as a PR). Wooster IN, seed money-1, six years: the U.S. treasury went from 2.35B to 91,076B (units of 100 million minor) because federal spending stays on the plan while receipts grow with the wage bill; Indiana's and the county's stayed bounded (5,215B and 28.47B). It is a pile, so the plug must stay on the plan until this item makes spending follow revenue. When this item lands, apply the branch's change (WAGE_LINKED_LINES and baseIndexAt in budgets-treasury.ts, with the charges test reading the index) in the same PR.
+=======
+Nov 9 (Money, after #7873 and #7855 merged): read the code for the first step. Facts: (1) every year's budget is rebuilt from the Census base by `budgetFor` (modules/budgets.ts:671), moved only by the world factor and enacted bill changes in `legislatedBudget`; revenue lines are the same every year (US-IN revenue 70.25B each year at Wooster, seed money-1), spending only falls by enacted changes, so nothing reads receipts. (2) There is no single series of what a treasury collected: receipts arrive as the outside plug (`outsideRevenue` rows), named-payer installments (`taxPayments`, now moved by the wage bill), the town's own payers (`townRevenue`, `sinceClose`) and aid (`aidReceivedMinor`); the cash journal's owner totals are off in play (bookkeeping is a debug switch), so they cannot be the read. (3) Plan: add `collectedMinor` to each `treasuryMonths` row (the sum of those four, written at the close), then in `legislatedBudget` for a state or local government in a year after its first, scale the spending lines by the year just ended's collected receipts over that year's planned revenue, a sliding scale with no threshold; measure that ratio at two drawn places first, because if year 1's collected-over-plan is not near 1 the factor would steer the opening. The federal government keeps borrowing. (4) Then `SG-GOV-reserve-sweep` narrows to the reserve above the law's rainy-day cap, and the parked plug change (branch money/plug-follows-base) goes in with it.
+
+Nov 9 (Money, measured): branch money/spending-from-revenue adds `collectedMinor` to each treasury month (outside lump + named payers' installments including what the town paid + the town's own payers + aid received) and `scripts/money/collected.ts`. Wooster IN, seed money-1, a full year (2026): collected over planned revenue is 1.009 for the U.S., 1.014 for Indiana and 1.014 for Kosciusko County, so the factor is near 1 at the start and does not steer the opening (2025 is a partial year from Jan 20: 0.91 to 0.92 for the same three). CORRECTION (same day): the first version of `collectedMinor` added the in-town spending record (`inTown`) to receipts, which made the town read 2.85. Without it the town reads 0.75 in 2026 (0.11 B against 0.14 B) and the state and county are unchanged (1.014, 1.013): the town's own payers' taxes go straight into its treasury and no monthly record counts them. A town vote needs that read first (balance in, less balance out, or a receipts record where the town's payers pay), so the vote starts with states and counties.
+
+Nov 9 (Money, on the Coordinator's direction): `collectedMinor` is now read at each close from the cash journal's per-owner credits since the last close (`collectedThisMonth`, mark in `creditMarks`), outside the journal's hot path, so every payer counts, the town's own included. State and county factors agree with the earlier sum (Wooster 2026: Indiana 1.014, Kosciusko County 1.016). The town reads 3.7 (0.53 B against a plan of 0.14 B), so the plan, not the tally, is the mismatch: the town's laws and payers raise about 3.7 times what its Census-scaled plan expects. Reconcile the town's plan with its payers before voting its spending from receipts (a town vote now would multiply its spending); filed as gov-town-plan-vs-payers.
+>>>>>>> origin/main
