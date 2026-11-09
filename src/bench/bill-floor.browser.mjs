@@ -110,6 +110,34 @@ try {
       else if (!(await page.locator("#week").isDisabled())) break;
       await page.waitForTimeout(800);
     }
+    // A drafted bill is on no agenda: dev mode puts one on the next sitting of every state chamber
+    // (introduce with schedule), so the chamber the player sits in has a floor day to hold them for.
+    await page.waitForTimeout(1500);
+    const playerName = names[at].split("\n")[0].trim();
+    const scheduled = await page.evaluate(async (name) => {
+      const holders = await (await fetch("/api/advanced/officeholders")).json();
+      const me = holders.find((h) => h.name === name)?.personId;
+      const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
+      let count = 0;
+      // Only the chambers the player sits in: a bill in every chamber of the country is heavy.
+      for (const chamber of bodies.filter(
+        (b) => b.level === "state" && b.members.some((m) => m.key === me),
+      )) {
+        const r = await fetch("/api/dev/introduce", {
+          method: "POST",
+          body: JSON.stringify({
+            bodyOfficeId: chamber.id,
+            sponsorId: chamber.members[0].key,
+            series: "minimum-wage",
+            value: 1500,
+            schedule: true,
+          }),
+        });
+        if (r.status === 200) count += 1;
+      }
+      return count;
+    }, playerName);
+    console.log(`scheduled bills: ${scheduled}`);
     // Play days until the evening before a floor day holds the player for a bill.
     held = false;
     for (let day = 0; day < 90 && !held; day += 1) {
