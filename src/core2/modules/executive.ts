@@ -36,6 +36,7 @@ import {
   registerModule,
 } from "../state";
 import { drawnAdult } from "./counted-moves";
+import { placeStateKey } from "../place-map";
 import { admitCountedHousehold } from "./residents";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -1531,7 +1532,12 @@ function deskReview(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
       cabinet
         .filter((row) => {
           const holder = api.state.people.get(row.holderId);
-          return !(holder?.alive && holder.placeId === state);
+          // A cabinet member lives in a town of the state, not at the state's own key.
+          return !(
+            holder?.alive &&
+            (holder.placeId === state ||
+              placeStateKey(holder.placeId) === state)
+          );
         })
         .map((row) => row.post),
     );

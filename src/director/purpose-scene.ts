@@ -44,6 +44,8 @@ import {
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
+import { moneySaid } from "../english/count-words";
+import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
 import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
 import conversationRules from "./data/conversation-rules.json" with { type: "json" };
@@ -69,6 +71,8 @@ import { chooseVariant, type VariantChoice } from "./arc-variant";
 
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
+/** The disasters engine's record of a damaged home's household told what the aid and repairs came to (`HOME_DAMAGED_EVENT`, disasters.ts). */
+const HOME_DAMAGED_EVENT = "disaster.home-damaged";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
@@ -425,6 +429,35 @@ function composeBinding(
         text: spokenDate(said.cureBy, core.date),
         sourceRecordIds: ids,
       };
+  }
+  // A damaged home (disasters.ts, the day its aid is paid): the kind of home,
+  // what the repairs cost and what the aid came to, each as people round a
+  // sum, and what is still owed. The flags say which of the three ways the
+  // money went: the aid covers the repairs, falls short of them, or the
+  // repairs went unpaid. stopgapId: SG-STORY-home-damaged-cast
+  if (record?.kind === HOME_DAMAGED_EVENT) {
+    const ids = [moment.causeId, said.damagedId ?? moment.causeId];
+    const bill = Number(said.repairsOwedMinor);
+    const aid = Number(said.aidMinor);
+    const left = Math.max(P.zero, bill - Number(said.repairsPaidMinor));
+    const home = homeSaid(said.homeKind ?? "");
+    if (home) facts.home = { text: home, sourceRecordIds: ids };
+    const hit = disasterSaid(said.incidentType ?? "");
+    if (hit) facts.disaster = { text: hit, sourceRecordIds: ids };
+    if (bill > P.zero)
+      facts.loss = { text: moneySaid(bill), sourceRecordIds: ids };
+    if (aid > P.zero)
+      facts.aid = { text: moneySaid(aid), sourceRecordIds: ids };
+    if (left > P.zero)
+      facts.left = { text: moneySaid(left), sourceRecordIds: ids };
+    const flag = (key: string, on: boolean) => {
+      if (on) facts[key] = { text: "yes", sourceRecordIds: ids };
+    };
+    flag("aid-covers", aid > P.zero && aid >= bill);
+    flag("aid-short", aid > P.zero && aid < bill);
+    flag("no-aid", aid <= P.zero);
+    flag("unpaid", left > P.zero);
+    flag("paid-up", bill > P.zero && left <= P.zero);
   }
   if (said.section)
     facts.section = { text: said.section, sourceRecordIds: [moment.causeId] };

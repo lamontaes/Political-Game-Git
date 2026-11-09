@@ -4825,6 +4825,8 @@ select.release-pick {
 .calendar-board .calendar-day,
 .calendar-board .calendar-side {
   display: block;
+  /* The day's panel keeps its own height, so "Coming up" never sits over its button. */
+  flex: none;
   margin-bottom: 14px;
 }
 .calendar-board {
@@ -4941,6 +4943,10 @@ select.release-pick {
 }
 .news-story.lead .news-text {
   column-count: 2;
+}
+/* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
+.news-story.lead .news-text > * {
+  break-inside: avoid;
 }
 
 /* The roster screens (Elections, to pl-elections): a titled list grouped under small

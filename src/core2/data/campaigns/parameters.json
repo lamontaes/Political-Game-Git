@@ -403,12 +403,14 @@
       "spread": [0, 0.5]
     },
     "studyMembers": {
+      "role": "level",
       "value": 5,
       "tag": "TUNABLE",
       "source": "How many sit on a study committee or task force a body forms: a small working group chaired by the bill's sponsor. NOT SOURCED: the NCSL pages on interim and study committees could not be fetched in this session (network); a search snippet says such committees are usually on one subject, may draw from one or both chambers, and sometimes include outsiders.",
       "spread": [3, 9]
     },
     "studyTermDays": {
+      "role": "level",
       "value": 180,
       "tag": "TUNABLE",
       "source": "How long a study committee or task force works before its report is due (its sunset). NOT SOURCED: no page on committee terms could be fetched in this session; interim committees run between sessions, so a half year is a placeholder.",
