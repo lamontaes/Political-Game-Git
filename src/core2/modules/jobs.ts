@@ -17,6 +17,7 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
+import vacancyDuration from "../data/jobs/vacancy-duration.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import {
@@ -103,7 +104,7 @@ import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
-import { worldOffsetShare, worldRate } from "../world-draw";
+import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -173,6 +174,8 @@ interface SeekerRow {
   reasons?: Record<string, number>;
   /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
   regionalPull?: number;
+  /** Their finding progress reached one while an opening stood near them: the month of weekly matching that followed was theirs. */
+  localTried?: boolean;
 }
 interface EmployerRow {
   id: string;
@@ -188,6 +191,8 @@ interface EmployerRow {
   need: number;
   /** Sales-supported staff, smoothed as receipts arrive across paydays. */
   salesStaff?: number;
+  /** The share of its jobs' full hours the employer runs now (1 is full hours). */
+  hoursFactor?: number;
   /** A new business's template for its first roles. */
   templateFromId?: string;
   /** The staff mix at the opening: each role's head count and a job to copy for it. */
@@ -1200,6 +1205,67 @@ export function raiseUnfilledPay(
   }
 }
 
+/**
+ * An employer whose demand supports fewer jobs than it holds splits the cut
+ * between its workers' hours and their heads, smoothly at every size of gap:
+ * a shortfall of share g of its staff takes g / (1 + g / m) of everyone's
+ * hours, where m is the most the workweek gives (one less
+ * `jobsHoursFloorShare`, the curve's ESTIMATED midpoint: BLS CES average
+ * weekly hours), and the rest of the shortfall falls to heads through the
+ * staffing review's own gap. The more months of losses the firm's books show
+ * (its cash runway going), the smaller m is, so the separations' share rises
+ * as its own records press. Hours return as demand does. Each job's full
+ * hours are kept the first time it is cut, so the cut is undone exactly and
+ * a new hire starts on full hours. Pay follows through the core's own hours
+ * seam (`rehourJob`); a controlled character's hours are theirs. Returns the
+ * share of full hours now run.
+ */
+function reviewHours(
+  api: CoreAPI,
+  row: EmployerRow,
+  jobs: readonly JobInput[],
+  staff: number,
+  target: number,
+  lossMonths: number,
+): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const shortfall =
+    staff > p("zero")
+      ? Math.max(p("zero"), p("one") - target / staff)
+      : p("zero");
+  const pressure = lossMonths / (p("one") + lossMonths);
+  const room = (p("one") - p("jobsHoursFloorShare")) * (p("one") - pressure);
+  const cut =
+    shortfall > p("zero") ? (shortfall * room) / (room + shortfall) : p("zero");
+  const desired = p("one") - cut;
+  // Hours follow the firm's own records each month: the curve is already smooth in the shortfall and the loss months, so no pull toward a level.
+  const factor = desired;
+  const fullHours = store(api).table("fullHours");
+  const quantum = p("jobsHoursQuantumHours");
+  for (const job of jobs) {
+    if (job.endsAt !== undefined || !job.hoursDaily) continue;
+    if (c.people.has(job.personId) && controlled(c, job.personId)) continue;
+    const kept = fullHours.get(job.id) as { hours?: number } | undefined;
+    // Full hours and no cut owed: the job's own schedule stands, whatever its length.
+    if (!kept && factor >= p("one")) continue;
+    const full = kept?.hours ?? job.hoursDaily;
+    const hours = Math.max(
+      quantum,
+      Math.round((full * factor) / quantum) * quantum,
+    );
+    if (hours === job.hoursDaily) continue;
+    if (!kept) fullHours.put({ id: job.id, hours: full } as never);
+    api.rehourJob(
+      job.id,
+      hours,
+      source(api, "The employer's hours follow its demand before its staff."),
+    );
+    if (hours >= full) fullHours.remove(job.id);
+  }
+  return factor;
+}
+
 function reviewEmployers(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
@@ -1259,13 +1325,26 @@ function reviewEmployers(api: CoreAPI): void {
       trading && trading.lossMonths > 0
         ? affordableStaff(demandTarget, staff, trading)
         : demandTarget;
+    // Demand that falls short of the staff is split between everyone's hours and their heads, smoothly (see reviewHours).
+    const hoursFactor = reviewHours(
+      api,
+      row,
+      jobs,
+      staff,
+      target,
+      trading?.lossMonths ?? p("zero"),
+    );
+    const effectiveStaff = staff * hoursFactor;
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
     const reach =
       cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
     // Staff and postings beyond the target lapse gradually: each position of surplus withdraws a share of a posting a month, the rest carried.
-    const excess = Math.max(0, Math.min(posted, staff + posted - target));
+    const excess = Math.max(
+      0,
+      Math.min(posted, effectiveStaff + posted - target),
+    );
     let carry =
       excess > 0
         ? (row.withdrawCarry ?? 0) + p("jobsWithdrawActedPerMonth") * excess
@@ -1279,7 +1358,7 @@ function reviewEmployers(api: CoreAPI): void {
       posted -= positionHeads(position);
     }
     if (!positions.length || excess === 0) carry = 0;
-    const gap = target - staff - posted;
+    const gap = target - effectiveStaff - posted;
     // A firm losing money cannot defer the unaffordable payroll as long as
     // an ordinary demand adjustment. The same loss memory that supports a
     // closure moves its response smoothly toward the full staffing gap.
@@ -1481,6 +1560,7 @@ function reviewEmployers(api: CoreAPI): void {
         ...row,
         need,
         salesStaff,
+        hoursFactor,
         withdrawCarry: carry,
         leavers: gap > 0 ? leavers : [],
       });
@@ -1957,6 +2037,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
+  const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
       .table(table)
@@ -1977,8 +2058,15 @@ function reviewRegionalFinds(api: CoreAPI): void {
       const pull =
         (seeker.regionalPull ?? p("zero")) +
         findPerQuarter(api, at.meanOverNow, lean, age) * month;
-      if (pull >= p("one")) found.push(seeker);
-      else
+      if (pull >= p("one")) {
+        // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
+        // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
+        if (open.has(seeker.placeId) && !seeker.localTried)
+          store(api)
+            .table(table)
+            .put({ ...seeker, regionalPull: pull, localTried: true } as never);
+        else found.push(seeker);
+      } else
         store(api)
           .table(table)
           .put({ ...seeker, regionalPull: pull } as never);
@@ -2712,16 +2800,65 @@ function walkRanking(
   };
 }
 
+/** The openings that can be filled today: each has waited its industry's vacancy duration (posting, applications, interviews, a start date) and none is held for the player's answer. */
+function fillableOpenings(api: CoreAPI): PositionRow[] {
+  const c = core(api);
+  return (
+    store(api)
+      .table("positions")
+      .query("byStatus", ["open"]) as unknown as PositionRow[]
+  ).filter(
+    (row) =>
+      !row.offeredTo &&
+      daysBetweenText(row.openedAt, c.date) >= vacancyDays(api, row),
+  );
+}
+
+/**
+ * One pace for finding any work: a seeker's finding progress (`regionalPull`,
+ * built a month at a time from the CPS spell rate moved by their state's
+ * unemployment, their age and their traits) reaches one when they find a job.
+ * Until then they apply nowhere; at one they take a fillable opening near them
+ * (the weekly matching picks the best fit) or, where none is open, a
+ * regional job.
+ */
+const findingReady = (seeker: SeekerRow): boolean =>
+  (seeker.regionalPull ?? 0) >= 1;
+
+/**
+ * Days an opening waits before it can be filled: its industry's JOLTS
+ * openings-to-hires ratio in months (src/core2/data/jobs/vacancy-duration.json),
+ * placed inside the series' 45-month range by the firm's own offset in the
+ * world. Size is not read (SG-LABOR-vacancy-size-uniform).
+ */
+function vacancyDays(api: CoreAPI, position: PositionRow): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const kindId = c.finance.businesses.get(position.organizationId)?.kindId;
+  const series = (vacancyDuration.kinds as Record<string, string>)[
+    kindId ?? ""
+  ];
+  const row = (
+    vacancyDuration.series as Record<
+      string,
+      { months: { value: number; low: number; high: number } }
+    >
+  )[series ?? "total-private"]!.months;
+  const unit = worldOffsetUnit(c.seed, `vacancy:${position.organizationId}`);
+  const months =
+    unit >= p("zero")
+      ? row.value + unit * (row.high - row.value)
+      : row.value + unit * (row.value - row.low);
+  stopgap("SG-LABOR-vacancy-size-uniform");
+  return (months * p("jobsDaysPerYear")) / p("macroMonthsPerYear");
+}
+
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
 function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   // A position held for the player's answer is no one else's this week.
-  const positions = (
-    store(api)
-      .table("positions")
-      .query("byStatus", ["open"]) as unknown as PositionRow[]
-  ).filter((row) => !row.offeredTo);
+  const positions = fillableOpenings(api);
   if (!positions.length) return;
   const byPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
@@ -2786,7 +2923,7 @@ function runWeek(api: CoreAPI): void {
       controlled(c, person.id)
     )
       continue;
-    consider(seeker, nearby);
+    if (findingReady(seeker)) consider(seeker, nearby);
   }
   // The person the player controls, out of work and of working age, is
   // considered for every opening near them; an employer that picks them makes
@@ -2807,7 +2944,7 @@ function runWeek(api: CoreAPI): void {
       continue;
     }
     const nearby = byPlace.get(seeker.placeId);
-    if (nearby) consider(seeker, nearby);
+    if (nearby && findingReady(seeker)) consider(seeker, nearby);
   }
   // Counted applicants retain their work history. Read it once for this
   // matching round, including jobs hired and ended during play.
@@ -4162,12 +4299,24 @@ function hire(
   );
   // The job states the week the schedule it copies runs (a counted template's
   // own row can state another), so the stated pay is what payroll pays.
-  const hoursDaily =
+  const templateHours =
     templateCommitment.expectedWeeklyMinutes > 0
       ? templateCommitment.expectedWeeklyMinutes /
         api.parameter("minutesPerHour") /
         api.parameter("daysPerWeek")
       : template.hoursDaily;
+  // A template on short hours (see `reviewHours`) hands a new hire its full week.
+  const keptHours = (
+    store(api).table("fullHours").get(template.id) as
+      { hours?: number } | undefined
+  )?.hours;
+  // (A counted template's schedule is the opening's, already the full week.)
+  const hoursDaily =
+    keptHours &&
+    template.hoursDaily > 0 &&
+    Math.abs(templateHours - template.hoursDaily) < 1e-9
+      ? keptHours
+      : templateHours;
   const job: JobInput = {
     id: jobId,
     personId: person.id,
@@ -4423,6 +4572,8 @@ export const JOBS_MODULE: CoreModule = {
       elsewhere: {},
       // Each town worker's pull toward being let go (the JOLTS layoff pull), by job.
       turnover: {},
+      // A job's full daily hours while its employer runs short hours, by job.
+      fullHours: {},
       // Counted people working in the wider region (their place's unplaced workers), by person.
       regional: {},
       spells: { indexes: { open: { fields: ["personId", "open"] } } },

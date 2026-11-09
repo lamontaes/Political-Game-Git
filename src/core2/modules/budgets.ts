@@ -43,6 +43,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
+  governmentUnitJurisdictionId,
   type GovernmentUnitType,
 } from "../reference/government-units";
 import {
@@ -70,6 +71,8 @@ import { recordIncomeTaxApplied } from "../tax-applied";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
+  treasuryMonthsOf,
+  treasuryMonthsPerYear,
   notePublicPay,
   outsideAccountOf,
   sameGovernment,
@@ -99,6 +102,12 @@ export interface GovernmentRow {
   readonly level: GovernmentLevel;
   readonly name: string;
   readonly organizationId: string;
+  /**
+   * The one canonical jurisdiction record this government is: the nation's, a state's, the
+   * town's own (the id its offices, laws and appointments are filed under) for the government
+   * that runs the town, or the local unit's own for a county beside a city.
+   */
+  readonly jurisdictionId: string;
   readonly fiscalYearStart: string;
   readonly residents: number;
   /**
@@ -377,6 +386,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** The cash journal's credits to each treasury at its last close, so the next close reads the month's receipts. */
+      creditMarks: {},
       /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
       townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
@@ -494,9 +505,11 @@ function residentsOfPlace(place: PlaceBases | undefined): number {
 
 function government(
   api: CoreAPI,
-  row: Omit<GovernmentRow, "organizationId">,
+  row: Omit<GovernmentRow, "organizationId" | "jurisdictionId">,
   unitId?: string,
   unitType?: GovernmentUnitType,
+  /** A local government's jurisdiction when it is not the one that runs the town. */
+  unitJurisdictionId?: string,
 ): GovernmentRow {
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
@@ -529,7 +542,16 @@ function government(
     });
   const previous = table(api, "governments").get(row.id) as unknown as
     GovernmentRow | undefined;
-  const identity = { ...row, organizationId };
+  const identity = {
+    ...row,
+    organizationId,
+    jurisdictionId:
+      jurisdictionId ??
+      unitJurisdictionId ??
+      (row.level === "federal" || row.level === "state"
+        ? row.id
+        : lawChain(api).townPlaceId),
+  };
   const full: GovernmentRow = {
     ...identity,
     openingCash:
@@ -836,6 +858,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           base: city ? "county" : "county-whole",
         },
         countyUnit.id,
+        undefined,
+        city ? governmentUnitJurisdictionId(countyUnit) : undefined,
       ),
     );
 
@@ -860,6 +884,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           base: city ? "county" : "county-whole",
         },
         municipio.id,
+        undefined,
+        city ? governmentUnitJurisdictionId(municipio) : undefined,
       ),
     );
   if (city)
@@ -1297,6 +1323,35 @@ export function baseBudget(
   });
 }
 
+/**
+ * What a government collected over the fiscal year before `fy`, over what that
+ * year's budget expected: 1 until a whole year of its treasury's months is
+ * recorded, and for governments whose receipts are not voted from
+ * (SG-GOV-spending-vote-state-county).
+ */
+function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
+  if (gov.level !== "state" && gov.level !== "county") return 1;
+  api.stopgap("SG-GOV-spending-vote-state-county");
+  const from = `${fy - 1}-${gov.fiscalYearStart}`;
+  const to = `${fy}-${gov.fiscalYearStart}`;
+  const planned = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy - 1);
+  if (!planned) return 1;
+  const expected = Object.values(planned.revenueMinor).reduce(
+    (a, v) => a + v,
+    0,
+  );
+  let collected = 0;
+  let months = 0;
+  for (const m of treasuryMonthsOf(api, gov.id))
+    if (m.date >= from && m.date < to) {
+      collected += m.collectedMinor;
+      months += 1;
+    }
+  return months === treasuryMonthsPerYear() && expected > 0
+    ? collected / expected
+    : 1;
+}
+
 function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
@@ -1312,7 +1367,15 @@ function legislatedBudget(
     api.state.date,
     adoptedBy,
   );
-  const spending = { ...base.spendingMinor };
+  // A state or county spends in proportion to what it collected last fiscal
+  // year over what its plan expected (a sliding scale, no threshold).
+  const receipts = receiptsFactor(api, gov, fy);
+  const spending = Object.fromEntries(
+    Object.entries(base.spendingMinor).map(([line, v]) => [
+      line,
+      Math.round(v * receipts),
+    ]),
+  );
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
@@ -1998,9 +2061,10 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
 }
 
 /**
- * The government a jurisdiction names: by its id (a city, a state), or by the
- * government key its treasury carries (a township under its township's law
- * jurisdiction).
+ * The government a jurisdiction names: by its id (a city, a state), by its
+ * canonical jurisdiction id (`jurisdictionId`: the town's own, a state's, the
+ * nation's), or by the government key its treasury carries (a township under
+ * its township's law jurisdiction).
  */
 export function governmentOfJurisdiction(
   api: CoreAPI,
@@ -2010,6 +2074,7 @@ export function governmentOfJurisdiction(
   const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
   return (
     all.find((row) => row.id === jurisdiction) ??
+    all.find((row) => row.jurisdictionId === jurisdiction) ??
     all.find(
       (row) =>
         api.state.organizations.get(row.organizationId)?.governmentFacts
@@ -2219,3 +2284,5 @@ export function withholdingOf(
 }
 // Re-exported so the opening county sample reads it through this entry (families guard).
 export { medianTransactionBalance } from "../starting-cash";
+// Re-exported so the climate engine reads the states' bases through this entry (families guard).
+export { residentsOf, STATES } from "./outside-budgets";

@@ -183,3 +183,43 @@ describe(`web death factors reach both tiers (${place.name}, seed ${seed})`, () 
     expect(shiftByCohort / sum(baseRows)).toBeGreaterThan(1e-5);
   }, 1_200_000);
 });
+
+describe(`a web month written after the first read is read the same day (${place.name}, seed ${seed})`, () => {
+  it("shows the new factor to the next read of the day, for the cause mix and the death factor alike", () => {
+    const opening = gameStartDate();
+    const world = buildBenchWorld(seed, opening, {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    advanceCore(world.core, addDays(makeIsoDate(opening), 70));
+    const api = coreAPI(world.core);
+    const months = api.moduleState(OUTCOME_WEB_MODULE_ID).table("months");
+    const rows = months.rows().map((r) => r as unknown as WebMonth);
+    const month = rows
+      .map((r) => r.month)
+      .sort()
+      .at(-1)!;
+    const latest = rows.filter((r) => r.month === month);
+    const web = latest[0]!;
+    // First read of the day: the cache fills.
+    const before = {
+      mix: causeMix(api, web.placeId, 40).causeFactors["motor-vehicle"],
+      death: deathWebFactor(api, web.placeId, 40).factor,
+    };
+    for (const old of latest) {
+      const row = months.get(old.id) as unknown as WebMonth;
+      months.put({
+        ...row,
+        effects: { ...row.effects, "speed-limit-to-traffic-deaths": 0.5 },
+      } as never);
+    }
+    // Same day, after the write: the new month is what is read.
+    const after = {
+      mix: causeMix(api, web.placeId, 40).causeFactors["motor-vehicle"],
+      death: deathWebFactor(api, web.placeId, 40).factor,
+    };
+    expect(after.mix).not.toBe(before.mix);
+    expect(after.mix).toBeCloseTo(1.5, 9);
+    expect(after.death).toBeGreaterThan(before.death);
+  }, 600_000);
+});

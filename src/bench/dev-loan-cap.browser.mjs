@@ -92,9 +92,13 @@ try {
   // Calendar: run 800 days holding the law (the members vote down any repeal).
   await dock("Calendar").click();
   await page.locator('[data-testid="dev-run"]').waitFor();
-  await page.locator('input[aria-label="Days"]').fill("800");
-  await page.locator('input[aria-label="Cap"]').fill("900");
-  await page.locator('[data-testid="dev-hold-law"]').check();
+  while (
+    !(await page.locator('[data-testid="dev-days"]').innerText()).includes(
+      "800 days",
+    )
+  )
+    await page.locator('[data-testid="dev-days"] button').last().click();
+  await page.locator('[data-testid="dev-hold-law"]').click();
   await page.locator('[data-testid="dev-run"]').click();
   await page.waitForFunction(
     () =>
