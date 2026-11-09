@@ -1,8 +1,8 @@
 /**
- * Demotion on exit (one model, two tiers). A household filled in from the
- * counts when the player met one of its people goes back into its counted
- * group once it has been out of the player's life for a long while (a
- * parameter): no contact with the player for that long, and nobody in it is
+ * Demotion on exit (one model, two tiers). A household that is full (filled
+ * in from the counts when the player met one of its people, or full from the
+ * opening, a birth or an arrival) goes back into its counted group once it
+ * has been out of the player's life for a long while (a parameter): no contact with the player for that long, and nobody in it is
  * the player's household, family or acquaintance, an official, a public
  * worker or a business owner. Nothing is lost: its money goes to its group's
  * account, its jobs stay on the employers' books as counted jobs at the same
@@ -11,7 +11,7 @@
  * place's counted tier, so meeting one again brings the same people back.
  * Named officials, the player's household and circle are never demoted.
  */
-import { daysBetweenText as daysBetween } from "../kernel/dates";
+import { daysBetweenText as daysBetween, makeIsoDate } from "../kernel/dates";
 import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import {
   COUNTED_PLACE_PREFIX,
@@ -24,6 +24,7 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { VIEWS_MODULE_ID } from "./views";
 import { ELECTIONS_MODULE_ID } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
@@ -45,6 +46,7 @@ import type {
   CoreState,
   IsoDate,
   JobInput,
+  KnownFact,
   PersonId,
   PersonInput,
   PersonState,
@@ -136,6 +138,8 @@ function lastPlayerContact(core: CoreState, id: PersonId): string | undefined {
 function asCounted(
   person: PersonState,
   members: ReadonlySet<PersonId>,
+  /** Facts a live income term of the person stands on (the award they were granted). */
+  keptFacts: ReadonlySet<string>,
 ): PersonInput {
   return {
     id: person.id,
@@ -156,7 +160,9 @@ function asCounted(
     familyIds: [...person.familyIds].filter((id) => members.has(id)),
     knownIds: [],
     ...(person.looks ? { looks: person.looks } : {}),
-    pastFacts: [],
+    pastFacts: (person.pastFacts ?? []).filter((fact) =>
+      keptFacts.has(fact.id),
+    ),
   };
 }
 
@@ -274,6 +280,17 @@ export function demoteHousehold(
     }
   }
   const members = new Set(people.map((p) => p.id));
+  // The award an income term stands on stays on the person's record: the
+  // term outlives the demotion and the finance engine reads the award each
+  // payday (a retired or disabled member's benefit).
+  const awardFacts = new Set<string>();
+  for (const contract of core.finance.contracts.values())
+    if (
+      !contract.endedAt &&
+      contract.recipientIncome &&
+      members.has(contract.recipientIncome.personId)
+    )
+      awardFacts.add(contract.recipientIncome.sourceFactId);
   const record: ResidentHouseholdRecord = {
     household: {
       id: householdId,
@@ -282,7 +299,7 @@ export function demoteHousehold(
       source,
       ...(home.quarters ? { quarters: home.quarters } : {}),
     },
-    people: people.map((p) => asCounted(p, members)),
+    people: people.map((p) => asCounted(p, members, awardFacts)),
     jobs,
     workCommitments: commitments,
     contracts: [],
@@ -335,6 +352,12 @@ export function demoteHousehold(
   // Their records stay, on the inactive tier, at the place's counted tier.
   for (const person of people)
     api.updatePerson(person.id, { tier: INACTIVE_TIER });
+  // They keep their results, not their day-to-day memory (two-level rule,
+  // owner, Oct 11: nobody gets a full past or memory until filled in): what
+  // they heard and lived through goes, as a counted person holds none; their
+  // counts, accounts, jobs, drives, ties and the records of what they did
+  // stay, and meeting them again brings back the same person to learn anew.
+  for (const person of people) forgetOnReturn(api, person.id);
   api.relocatePeopleV1({
     personIds: [...members],
     placeId: countedPlaceOf(placeId),
@@ -359,6 +382,35 @@ export function demoteHousehold(
     .table("demotions")
     .put(row as unknown as ModuleRow);
   return row;
+}
+
+/**
+ * A person back in the counts holds no knowledge: no engine reads a counted
+ * person's facts (the counted tier's rules read the group's record), and
+ * keeping them made every person ever filled in cost memory for the rest of
+ * the run (Montpelier, Vermont, Nov 9: 378 people returned to the counts in
+ * year 1 still held 82,472 facts). The event a drive they still hold stands
+ * on stays, as the forgetting pass keeps it; the drives engine keeps the
+ * drives themselves.
+ */
+function forgetOnReturn(api: CoreAPI, personId: PersonId): void {
+  const core = api.state as CoreState;
+  // Their stances go too: while counted their group's record holds their
+  // view, and filled in again they start from it (views.ts reads the record).
+  if (core.modules.has(VIEWS_MODULE_ID)) {
+    const stances = api.moduleState(VIEWS_MODULE_ID).table("stances");
+    for (const row of stances.query("byPerson", [personId]))
+      stances.remove(row.id);
+  }
+  const known = core.knowledgeByPerson.get(personId);
+  if (!known?.size) return;
+  const kept = new Map<string, KnownFact>();
+  for (const drive of core.people.get(personId)?.drives.values() ?? []) {
+    const key = `event:${drive.sourceEventId}:experienced`;
+    const fact = known.get(key);
+    if (fact) kept.set(key, fact);
+  }
+  core.knowledgeByPerson.set(personId, kept);
 }
 
 /**
@@ -392,6 +444,19 @@ function review(api: CoreAPI): void {
   const days = demotionDays(core.seed);
   sweepLatePay(api);
   const keep = protectedPeople(api);
+  // A household that was never filled in (the opening's full people, the
+  // newly born and the newly arrived) is out of the player's life from the
+  // day the review first sees it, so it goes back by the same rule once it
+  // has been out of it as long (one model, two tiers).
+  for (const home of [...core.households.values()].sort((a, b) =>
+    a.id < b.id ? -1 : 1,
+  ))
+    if (
+      !rt.filledAt.has(home.id) &&
+      !home.placeId.startsWith(COUNTED_PLACE_PREFIX) &&
+      countsKeptAt(rt, home.placeId)
+    )
+      rt.filledAt.set(home.id, makeIsoDate(core.date));
   for (const [householdId, filledAt] of [...rt.filledAt].sort((a, b) =>
     a[0] < b[0] ? -1 : 1,
   )) {

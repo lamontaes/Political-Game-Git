@@ -18,7 +18,7 @@
  * data; the words are the scene bank's, by the variant's own purpose id, and
  * the family's pieces serve where a variant has none of its own
  * (`SceneMove.family`). It holds no sentence and no kind's name: what a read
- * looks at is data, and the reads are six ways of looking.
+ * looks at is data, and the reads are eleven ways of looking.
  *
  * The reads use only what stays true while the scene is open (the record the
  * cause names, the tie as that record kept it, what happened before the
@@ -27,6 +27,10 @@
  */
 import { P, parameter } from "../core2/parameters";
 import { closenessBetween } from "../core2/closeness";
+import { daysBetweenText } from "../core2/kernel/dates";
+import { outletsHere } from "../core2/modules/press";
+import { votesOf } from "../core2/modules/people";
+import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { directorStopgap, WORDS_STOPGAP_HITS } from "./stopgaps";
@@ -60,7 +64,43 @@ type ReadSpec =
       exceptSameFact: string;
       /** Only records whose facts hold all of these values count (a scene reply that ended a donor's ask). */
       where?: Readonly<Record<string, string>>;
+      /** `asked`: a record that names only the asked person counts (a story printed about them); the default needs both people named. */
+      named?: "both" | "asked";
+      /** Only records this many days old or newer count: a story from last month is open, one from years ago is not. */
+      within?: Tagged;
       scale: Tagged;
+    }
+  | {
+      /**
+       * How many stories of scandal stand against the asked person (a bribe
+       * reported to the press, a conviction made public: the same stories
+       * voters weigh), as count / (count + scale).
+       */
+      kind: "scandal";
+      scale: Tagged;
+    }
+  | {
+      /**
+       * How far the town stands against the side the asked person took on the
+       * cause's bill, from their vote on the record and where the electorate
+       * stands on its question (the same shares a platform is weighed by): the
+       * share on the other side less the share on theirs, never below nothing.
+       */
+      kind: "town-against";
+    }
+  | {
+      /** 1 where the tie's last contact between the two was a quarrel (the tie's own record), else 0. */
+      kind: "quarrel";
+    }
+  | {
+      /** 1 where the asker writes for a national outlet (the press engine's outlet row), else 0. */
+      kind: "national-outlet";
+    }
+  | {
+      /** A number between 0 and 1 for the value a fact of the cause record holds (the level of a bill, by how far it reaches). */
+      kind: "fact-map";
+      fact: string;
+      values: Readonly<Record<string, number>>;
     }
   | {
       /**
@@ -245,6 +285,55 @@ function readOf(
     recordIds.add(tieId);
     return clamp(closenessBetween(core, input.askerId, input.askedId));
   }
+  if (spec.kind === "fact-map") {
+    const level = input.cause.facts[spec.fact];
+    const value = level === undefined ? undefined : spec.values[level];
+    if (value === undefined) return P.zero;
+    recordIds.add(input.cause.id);
+    return clamp(value);
+  }
+  if (spec.kind === "quarrel") {
+    const a = input.askerId < input.askedId ? input.askerId : input.askedId;
+    const b = a === input.askerId ? input.askedId : input.askerId;
+    const tieId = `${a}:${b}`;
+    const change = core.relationships.get(tieId)?.latestChange?.requestedChange;
+    if (change === undefined || change >= P.zero) return P.zero;
+    recordIds.add(tieId);
+    return P.one;
+  }
+  if (spec.kind === "national-outlet") {
+    const outlet = outletsHere(coreAPI(core as CoreState)).find((row) =>
+      row.reporterIds.includes(input.askerId),
+    );
+    if (!outlet || outlet.tier !== "national") return P.zero;
+    recordIds.add(outlet.id);
+    return P.one;
+  }
+  if (spec.kind === "scandal") {
+    const stories = scandalStoriesOf(
+      coreAPI(core as CoreState),
+      input.askedId,
+      input.cause.date,
+    );
+    for (const id of stories) recordIds.add(id);
+    return stories.length / (stories.length + spec.scale.value);
+  }
+  if (spec.kind === "town-against") {
+    const billId = input.cause.facts.billId;
+    const vote = billId
+      ? votesOf(coreAPI(core as CoreState), input.askedId).find(
+          (row) => row.billId === billId,
+        )
+      : undefined;
+    if (!vote || vote.stance.position === P.zero) return P.zero;
+    const sides = electorateSides(
+      coreAPI(core as CoreState),
+      vote.stance.question,
+    );
+    const mine = vote.stance.position > P.zero;
+    recordIds.add(vote.id);
+    return clamp(mine ? sides.no - sides.yes : sides.yes - sides.no);
+  }
   if (spec.kind === "fact") {
     const value = Number(input.cause.facts[spec.fact]);
     if (!Number.isFinite(value)) return P.zero;
@@ -254,6 +343,9 @@ function readOf(
         core,
         spec.against === "asker-year" ? input.askerId : input.askedId,
       );
+      // No year of living costs on record reads as nothing, never as a gift
+      // that dwarfs a year of zero.
+      if (year <= P.zero) return P.zero;
       return clamp(value / (value + year * (spec.of?.value ?? P.one) + P.one));
     }
     if (spec.scale) return clamp(value / (value + spec.scale.value));
@@ -276,9 +368,14 @@ function readOf(
           continue;
         if (own !== undefined && event.facts?.[spec.exceptSameFact] === own)
           continue;
-        const named = [...event.personIds, ...(event.witnessIds ?? [])];
-        if (!named.includes(input.askerId) || !named.includes(input.askedId))
+        if (
+          spec.within &&
+          daysBetweenText(event.date, input.cause.date) > spec.within.value
+        )
           continue;
+        const named = [...event.personIds, ...(event.witnessIds ?? [])];
+        if (!named.includes(input.askedId)) continue;
+        if (spec.named !== "asked" && !named.includes(input.askerId)) continue;
         count += P.one;
         recordIds.add(event.id);
       }

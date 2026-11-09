@@ -64,11 +64,9 @@ describe(`a candidate's speeches heard in ${place.name} (seed ${SEED})`, () => {
   const people = hear(false);
   const groups = hear(true);
   const unwatched = groups.audience.filter(
-    (id) => !hearsAsPerson(groups.api, id, groups.speaker.id),
+    (id) => !hearsAsPerson(groups.api, id),
   );
-  const watched = groups.audience.filter((id) =>
-    hearsAsPerson(groups.api, id, groups.speaker.id),
-  );
+  const watched = groups.audience.filter((id) => hearsAsPerson(groups.api, id));
 
   it("has hearers on both sides", () => {
     expect(unwatched.length).toBeGreaterThan(100);
