@@ -2,6 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { advanceCore } from "./life";
+import { setKeepEveryonesWhy } from "./why-kept";
 import {
   CANDIDACY_MODULE_ID,
   type CandidacyDecision,
@@ -33,6 +34,11 @@ import { CAMPAIGNS_MODULE_ID, parsePlatform } from "./modules/campaigns";
 // Every check reads records only.
 const seed = process.env.PW3_SEED ?? randomBytes(8).toString("hex");
 const opening = "2026-10-12";
+// Check (E) reads the position each voter's ballot weighed (`lean`) and the
+// reasons behind it, which play keeps only for the player's circle: this
+// test is the debug scope that reads everyone's, so it keeps them for the
+// whole run (Keep it simple, owner Oct 11: bookkeeping is a debug switch).
+setKeepEveryonesWhy(true);
 const world = buildBenchWorld(seed, opening, { twoLevel: true });
 const api = coreAPI(world.core);
 const contests = () =>

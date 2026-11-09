@@ -3649,3 +3649,6 @@ export function rerateCountedRetirement(
   }
   return changed;
 }
+
+/** The counted households' moves, for the engines outside the people family (the family's entry). */
+export { countedMovesRunning, moveCountedHouseholdAway } from "./counted-moves";

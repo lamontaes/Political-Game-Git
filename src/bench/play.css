@@ -2761,13 +2761,12 @@ details.entry[open] {
   );
 }
 
-/* The bill on paper: the document and its estimate side by side. */
-.bill-paper {
-  display: grid;
-  grid-template-columns: 1.6fr 1fr;
-  gap: 16px;
-  align-items: start;
+/* The bill on paper is as wide as the panel, like the other strip boards. */
+#sheet-body:has(.bill-board) {
+  max-width: none;
 }
+
+/* The bill on paper: the document and its estimate side by side. */
 .bill-doc {
   display: grid;
   gap: 8px;
@@ -2776,7 +2775,12 @@ details.entry[open] {
   font-size: 17px;
 }
 .bill-section {
+  display: block;
+  width: 100%;
   text-align: left;
+  background: none;
+  border: 0;
+  padding: 2px 0;
   text-decoration: underline;
   text-decoration-color: var(--brass);
   text-underline-offset: 3px;
@@ -4805,7 +4809,23 @@ select.release-pick {
   margin-bottom: 14px;
 }
 .calendar-board {
-  flex: 1;
+  flex: 1 1 560px;
+}
+/* Dev mode's Run and Watch sit beside the month and drop below it when the sheet is narrow,
+   so the month's tiles are never squeezed under each other. */
+#sheet-body:has(.calendar-board) {
+  flex-wrap: wrap;
+  gap: 0 24px;
+}
+.dev-run {
+  flex: 0 1 420px;
+}
+.dev-run .look-value {
+  white-space: nowrap;
+}
+.dev-run .acts {
+  gap: 8px;
+  margin: 8px 0;
 }
 
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
@@ -5261,6 +5281,12 @@ body.color-blind .meeting-member.vote-no {
 }
 body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
+}
+
+/* The bill page's budget lines fill the paper's column. */
+.strip-screen.bill-figures {
+  display: block;
+  margin: 8px 0;
 }
 
 /* A history line on the dark panel: a thin gold line and a dot for the latest year. */

@@ -171,6 +171,15 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-09",
     "replacement": "Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
+    "id": "SG-LABOR-vacancy-size-uniform",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "A vacancy's wait before it can be filled depends on the firm's industry only (JOLTS openings over hires). Davis, Faberman and Haltiwanger show vacancy duration also varies with the establishment's size and growth; the firm's size is not read.",
+    "why": "The industry series is the published figure; a size gradient needs establishment-size microdata not fetched tonight.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-09",
+    "replacement": "Scale each firm's duration by the size gradient of DHI's hires-per-vacancy rate once the establishment-size table is sourced.",
     "status": "open"
   }
 ]
