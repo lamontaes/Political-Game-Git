@@ -32,7 +32,7 @@ import {
   unitPrice,
   type CauseRow,
 } from "../core2/modules/campaigns";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { takeCampaignDayChoice } from "../core2/campaign-day";
 import { campaignAct, campaignDay, campaignView } from "./campaign";
 import controls from "./data/controls.json" with { type: "json" };

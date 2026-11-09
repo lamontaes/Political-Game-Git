@@ -11,46 +11,15 @@
  * question is that lean along the question's measured left-right axis
  * (`data/research/campaigns/issue-axes-2026.json`).
  */
-import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
 import support from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import lineAxes from "./data/legislature/budget-line-axes.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
-import parameters from "./data/campaigns/parameters.json" with { type: "json" };
 import stanceLoadings from "../../data/research/people/opening-stance-loadings.json" with { type: "json" };
+import { axisOf, campaignParameter, type Stance } from "./campaign-data";
 import { stableHash } from "./kernel/ids";
 import { worldRate } from "./world-draw";
 import type { PersonState } from "./types";
-
-/** One stated position: support (+1) or oppose (-1) a policy question. */
-export interface Stance {
-  readonly question: string;
-  readonly position: number;
-}
-
-/**
- * The question a campaign leads with: the first of its platform it takes a
- * side on. A platform the engine chose (`candidatePlatform`) is kept in the
- * order of the platform rule's scores, so its first is the top score (the
- * question the most of the town shares at the conviction it is held with); a
- * player's is the order they stated it in. Every act that carries one
- * question (a donor meeting, an event, an ad, a mailer, an evening of doors)
- * and the mandate a result carries read it here.
- */
-export function platformLead(platform: readonly Stance[]): Stance | undefined {
-  // stopgapId: SG-GOV-platform-emphasis-lead-only (every act a campaign takes carries its lead alone, so all it chooses to say goes to one question, not shared over the platform by score as the research's emphasis share has it)
-  return platform.find((s) => s.position !== 0);
-}
-
-export function campaignParameter(key: string): number {
-  const row = (parameters as { parameters: Record<string, { value: number }> })
-    .parameters[key];
-  if (!row) throw new Error(`Unknown campaign parameter: ${key}`);
-  return row.value;
-}
-
-const axisOf = (axes as { axes: Record<string, { axis: number }> }).axes;
-export const PLATFORM_QUESTIONS: readonly string[] = Object.keys(axisOf).sort();
 
 const districtShare = new Map<string, number>(
   (

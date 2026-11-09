@@ -20,6 +20,7 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
+import { povertyLineDollars } from "./poverty-line";
 import { registerTreasuryRule } from "../budgets-treasury";
 import {
   endPlaceRule,
@@ -69,7 +70,7 @@ import {
   recordCoverage,
   payPreschool,
   payChildCare,
-  paySsi,
+  payEnergyAssistance,
   payVouchers,
   recordApplied,
   residentsOf,
@@ -85,7 +86,7 @@ type Mechanic =
   | "medicaid-coverage"
   | "preschool-payment"
   | "child-care-payment"
-  | "ssi-payment"
+  | "energy-assistance-payment"
   | "compliance-cost"
   | "assistance-time-limit"
   | "school-voucher"
@@ -620,36 +621,23 @@ function runPolicy(
       );
       return;
     }
-    case "ssi-payment": {
-      // The law's value is the federal benefit rate, dollars a month, for an
-      // individual; an aged resident's benefit is that less countable income.
+    case "energy-assistance-payment": {
+      // The limit in force is a percent of the poverty line for the household's size.
       const answer = lawInForce(api, key);
-      const rate = answer.value;
+      const limit = answer.value;
       const lawId = input.lawId || answer.governing?.id || key;
-      const agedFrom = reachParameter("ssiAgedFrom");
       const households =
-        inForce && rate
-          ? [...facts.households.values()].flatMap((h) => {
-              const agedCount = h.ages.filter((a) => a >= agedFrom).length;
-              return agedCount > 0
-                ? [
-                    {
-                      id: h.id,
-                      named: h.named,
-                      scale: h.scale,
-                      agedCount,
-                      size: h.size,
-                      incomeDollars: h.incomeDollars,
-                    },
-                  ]
-                : [];
-            })
+        inForce && limit
+          ? [...facts.households.values()].filter(
+              (h) =>
+                h.incomeDollars <=
+                (povertyLineDollars(chain.stateKey, h.size) * limit) / 100,
+            )
           : [];
-      const paid = paySsi(api, {
+      const paid = payEnergyAssistance(api, {
         key,
         lawId,
         inForce,
-        rateDollars: rate ?? 0,
         households,
         residents: facts.residents,
       });

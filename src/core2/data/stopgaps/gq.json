@@ -28,11 +28,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/counted-moves.ts",
     "line": 1101,
-    "whatItFakes": "Institutions admit no one: group-quarters rooms take no newcomers and lose no one to the households' leaving rates, counted or full (src/core2/modules/counted-moves.ts skips counted rooms; src/core2/modules/moves.ts keeps full residents of rooms out of the monthly review and every booked review), so deaths and fill-ins lower each type's count and students and service members age in place year after year.",
+    "whatItFakes": "Institutions admit only to refill a room a death or a fill-in emptied (a waiting list, drawn like the type's own residents): nobody is discharged, so students and service members still age in place year after year, and an institution never grows or shrinks from its beds.",
     "why": "The moves engines move households by the ACS leaving rates, which would drift a SOURCED count of residents who arrive and leave by an institution's own calendar (a college's intake, a prison's admissions), so rooms are skipped, by the same rule for counted and full residents, and no intake is built yet.",
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
-    "replacement": "A yearly intake through admitCountedHousehold that holds each type at its research row: a college admits a class each fall, a prison and a nursing home admit as residents leave (pool item core-group-quarters-turnover), needed before long saves.",
+    "replacement": "Discharge by each type's own calendar (a college's graduating class each spring and intake each fall, a prison's releases and admissions, a nursing home's stays) so rooms turn over; today only the vacancy refill (admitToRooms in counted-moves.ts) exists.",
     "status": "open"
   },
   {
@@ -191,6 +191,18 @@
     "addedBy": "claude/speed-group-quarters-population",
     "addedAt": "2026-11-01",
     "replacement": "Each county's employed over its civilian noninstitutional population by age (ACS PUMS, or B23001 less the county's institutional residents by age from the 2020 Census DHC), read in place of the B23001 rate.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GQ-waiting-list-order",
+    "kind": "missing-record",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 1448,
+    "whatItFakes": "An institution's waiting list is the order of its own households by id: the next room goes to the next in line, shaped like that household. No application date or need is recorded, so who is ahead is not read from a record.",
+    "why": "The repository holds no application or need records for an institution's list; a seeded pick would be dice, so the list is read in a fixed order.",
+    "addedBy": "Tiers (Nov 9)",
+    "addedAt": "2026-11-09",
+    "replacement": "A waiting-list record per institution (application date, need): the earliest application first, ties by id, the same for counted rows times their count.",
     "status": "open"
   }
 ]

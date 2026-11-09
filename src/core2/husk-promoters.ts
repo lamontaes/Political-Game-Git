@@ -34,7 +34,12 @@ type IdentityOf = (
   core: CoreState,
   personId: PersonId,
 ) =>
-  { birthDate: string; traits: Readonly<Record<string, number>> } | undefined;
+  | {
+      birthDate: string;
+      placeId: string;
+      traits: Readonly<Record<string, number>>;
+    }
+  | undefined;
 
 const identities: IdentityOf[] = [];
 
@@ -48,6 +53,24 @@ export function huskIdentityOf(core: CoreState, personId: PersonId) {
   for (const provider of identities) {
     const found = provider(core, personId);
     if (found) return found;
+  }
+  return undefined;
+}
+
+type IncomeOf = (core: CoreState, personId: PersonId) => number | undefined;
+
+const incomes: IncomeOf[] = [];
+
+/** Engines that know what a husk is paid (the pay engine, from the seat) register here, so the health engine ranks them by income as it ranks a person. */
+export function registerHuskIncome(provider: IncomeOf): void {
+  if (!incomes.includes(provider)) incomes.push(provider);
+}
+
+/** A husk's yearly income in minor units, if an engine knows it. */
+export function huskIncomeOf(core: CoreState, personId: PersonId) {
+  for (const provider of incomes) {
+    const found = provider(core, personId);
+    if (found !== undefined) return found;
   }
   return undefined;
 }

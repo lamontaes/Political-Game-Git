@@ -160,6 +160,7 @@ SERIES = {
     "federal-campaign-contribution-limit": ("government", "Campaign finance", "Federal campaign contribution limit", "USD/election"),
     "ssi-federal-benefit-rate": ("assistance", "Disability support", "SSI federal benefit rate (individual)", "USD/month"),
     "snap-maximum": ("assistance", "Food assistance", "SNAP maximum benefit", "USD/month"),
+    "energy-assistance-income-limit": ("assistance", "Utility-bill assistance", "Home energy assistance income limit (percent of the poverty line)", "percent-of-poverty-line"),
     "child-care-income-limit": ("assistance", "Child-care assistance", "Child care income limit (family of three)", "USD/month"),
     "federal-unemployment-tax": ("assistance", "Unemployment benefits", "Federal unemployment tax rate", "percent-of-wages"),
     "state-unemployment-tax": ("assistance", "Unemployment benefits", "State unemployment tax rate", "percent-of-wages"),

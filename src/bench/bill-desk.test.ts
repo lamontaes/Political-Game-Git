@@ -19,7 +19,7 @@ import {
   holdVote,
 } from "../core2/modules/legislature";
 import { lawInForce } from "../core2/modules/laws";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { deskWaiting } from "../core2/modules/office-day";
 import { heldFederal, releaseFederal } from "../core2/office-day-federal";
 import { billStage } from "./bill-stage";

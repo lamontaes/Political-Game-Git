@@ -365,7 +365,7 @@ export function collapseToTwoLevels(
         account,
         residentCash.get(account)! +
           (peopleById.get(id)?.liquidMinor ?? 0) *
-            (options.weights?.[home.placeId] ?? 1),
+            (home.weight ?? options.weights?.[home.placeId] ?? 1),
       );
     }
   }
