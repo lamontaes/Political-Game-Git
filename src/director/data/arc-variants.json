@@ -206,6 +206,7 @@
         "city": 0.0
       }
     },
+<<<<<<< HEAD
     "about-money": {
       "kind": "fact-map",
       "fact": "about",
@@ -217,12 +218,24 @@
       "kind": "history",
       "events": ["family.quarrel"],
       "exceptSameFact": "missedId",
+=======
+    "same-party": {
+      "kind": "shared-party"
+    },
+    "holds-post": {
+      "kind": "holds-post"
+    },
+    "favor-given": {
+      "kind": "favor-given",
+>>>>>>> story/purposes-rescue
       "scale": {
         "value": 1,
         "tag": "TUNABLE",
         "spread": [0.5, 2],
+<<<<<<< HEAD
         "checkedAgainst": "As refused-before, for earlier quarrels between the same two people that the records name: one earlier quarrel reads one half, so the second is already a different scene."
       }
+<<<<<<< HEAD
     },
     "complaint": {
       "kind": "fact-map",
@@ -254,6 +267,20 @@
       "idFact": "crimeId",
       "field": "taken",
       "equals": true
+=======
+=======
+        "checkedAgainst": "One earlier bill of the player's own that the asker voted for reads one half, two read two thirds: a colleague who has voted with the player once already has a favor to call in, and the second adds less than the first."
+      }
+    },
+    "town-for-bill": {
+      "kind": "town-on-bill",
+      "side": "for"
+    },
+    "town-against-bill": {
+      "kind": "town-on-bill",
+      "side": "against"
+>>>>>>> story/purposes-rescue
+>>>>>>> story/variants-apology
     }
   },
   "families": {
@@ -1661,6 +1688,7 @@
         }
       }
     },
+<<<<<<< HEAD
     "owed-apology": {
       "variants": {
         "plain": {
@@ -1774,10 +1802,62 @@
                 "keeps": "none",
                 "when": {
                   "reply": ["apologize"],
+=======
+    "ask-vote": {
+      "variants": {
+        "plain": {
+          "purpose": "ask-vote",
+          "base": 0.3
+        },
+        "whip": {
+          "purpose": "ask-vote.whip",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "holds-post",
+              "weight": 0.9
+            },
+            {
+              "read": "same-party",
+              "weight": 0.25
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-blunt"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "decline", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+>>>>>>> story/purposes-rescue
                   "asker": ["accept"]
                 }
               },
               {
+<<<<<<< HEAD
                 "id": "promised-to-make-it-right",
                 "label": "You promised to make it right",
                 "keeps": "promise",
@@ -1800,6 +1880,55 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["confront", "leave", "deflect"]
+=======
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+>>>>>>> story/purposes-rescue
                 }
               },
               {
@@ -1811,6 +1940,7 @@
             ]
           }
         },
+<<<<<<< HEAD
         "repeat": {
           "purpose": "owed-apology.repeat",
           "base": 0.0,
@@ -1821,10 +1951,19 @@
             },
             {
               "read": "quarreled-before",
+=======
+        "trade": {
+          "purpose": "ask-vote.trade",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "favor-given",
+>>>>>>> story/purposes-rescue
               "weight": 1.2
             }
           ],
           "pull": [
+<<<<<<< HEAD
             "personality-v1:facet-persistent",
             "personality-v1:facet-skeptical",
             "personality-v1:facet-blunt"
@@ -1850,10 +1989,42 @@
                 "keeps": "none",
                 "when": {
                   "reply": ["apologize"],
+=======
+            "personality-v1:facet-manipulative",
+            "personality-v1:facet-charming",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-analytical"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["relent", "refuse", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+>>>>>>> story/purposes-rescue
                   "asker": ["accept"]
                 }
               },
               {
+<<<<<<< HEAD
                 "id": "promised-to-make-it-right",
                 "label": "You promised to make it right",
                 "keeps": "promise",
@@ -1876,6 +2047,55 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["confront", "leave", "deflect"]
+=======
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+>>>>>>> story/purposes-rescue
                 }
               },
               {
@@ -1887,6 +2107,7 @@
             ]
           }
         },
+<<<<<<< HEAD
         "pressed": {
           "purpose": "owed-apology.pressed",
           "base": 0.0,
@@ -1925,10 +2146,56 @@
                 "keeps": "none",
                 "when": {
                   "reply": ["apologize"],
+=======
+        "watched": {
+          "purpose": "ask-vote.watched",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "town-for-bill",
+              "weight": 1.6
+            },
+            {
+              "read": "town-against-bill",
+              "weight": 1.6
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-approval-seeking",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-analytical"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+>>>>>>> story/purposes-rescue
                   "asker": ["accept"]
                 }
               },
               {
+<<<<<<< HEAD
                 "id": "promised-to-make-it-right",
                 "label": "You promised to make it right",
                 "keeps": "promise",
@@ -1951,6 +2218,156 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["confront", "leave", "deflect"]
+=======
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "ask-vote.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-comforting"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "refuse", "bargain", "stall", "lie"],
+            "again": {
+              "ask": ["answer", "refuse", "leave"]
+            },
+            "endings": [
+              {
+                "id": "vote-given",
+                "opens": "meeting",
+                "label": "Vote given",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "traded",
+                "opens": "meeting",
+                "label": "Vote traded",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "anyReply": ["bargain"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "soft-no",
+                "label": "Won't work against it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "refused",
+                "label": "Refused",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["refuse", "withdraw"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-yes",
+                "label": "A yes you don't mean",
+                "keeps": "promise",
+                "firmness": "firm",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "will-look",
+                "label": "You said you'd look at it",
+                "keeps": "promise",
+                "firmness": "vague",
+                "when": {
+                  "reply": ["stall"]
+                }
+              },
+              {
+                "id": "undecided",
+                "label": "Still undecided",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave"]
+>>>>>>> story/purposes-rescue
                 }
               },
               {
