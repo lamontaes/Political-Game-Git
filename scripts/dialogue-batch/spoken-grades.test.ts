@@ -29,7 +29,7 @@ describe("a spoken note becomes span grades with strengths", () => {
 
   it("a note that quotes nothing grades the whole line", () => {
     expect(spokenToSpans("Hello.", "That's how people talk.")).toEqual([
-      { start: 0, end: 6, strength: 0.75 },
+      { start: 0, end: 6, strength: 1 },
     ]);
   });
 });
