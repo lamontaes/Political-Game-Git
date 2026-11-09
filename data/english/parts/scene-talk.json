@@ -23326,7 +23326,7 @@
       "key": "scene-talk.follow-refuse.that-s-not-mine-to-give",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "That's not mine to give.",
+      "text": "I don't trade my vote. Not for yours, and not for anyone's.",
       "uses": [
         {
           "subject": "scene",

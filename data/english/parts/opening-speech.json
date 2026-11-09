@@ -17304,7 +17304,7 @@
       "key": "opening-speech.to-vp.plain-ina-i-trust-vice-president-vice-president-you-ll-see-why",
       "move": "to-vp",
       "kind": "spoken",
-      "text": "I trust Vice President {vice-president}. You'll see why.",
+      "text": "I trust Vice President {vice-president}, and I'll say so to anyone who asks.",
       "uses": [
         {
           "move": "to-vp",

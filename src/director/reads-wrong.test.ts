@@ -9,6 +9,7 @@ import { advanceCore } from "../core2/life";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import openingSpeechBank from "../../data/english/parts/opening-speech.json" with { type: "json" };
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { composeLocalAddress } from "./local-address";
@@ -252,4 +253,19 @@ it(`a scene's talk never asks about news it has not said (seed ${seed})`, () => 
       talk.kinds,
       `${where}: ${talk.typeKey} (${talk.label})`,
     ).not.toContain("news");
+}, 1_200_000);
+
+it(`a refusal of a trade answers the trade, and the address promises no reason it never gives (seed ${seed})`, () => {
+  const { where, scenes } = playedYear();
+  for (const scene of scenes)
+    expect(scene.said, `${where}: ${scene.typeKey}`).not.toMatch(
+      /That's not mine to give/,
+    );
+  const parts = (openingSpeechBank as unknown as { parts: { text: string }[] })
+    .parts;
+  expect(parts.filter((part) => /You'll see why/.test(part.text))).toEqual([]);
+  const refusals = (
+    sceneTalkBank as unknown as { parts: { text: string }[] }
+  ).parts.filter((part) => /not mine to give/.test(part.text));
+  expect(refusals).toEqual([]);
 }, 1_200_000);
