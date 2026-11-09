@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/variants-accusation
-pr: pending
+pr: 8079
 blocked-on:
 lead: words
 source: owner, Nov 8, 9:50 voice note ("they've gotta have like a variance"); the Nov 9 brief to widen variants
