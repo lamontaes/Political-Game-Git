@@ -103,10 +103,8 @@ const pressFacts: Record<string, Fact> = {
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
 };
-<<<<<<< HEAD
 // What an accusation hands the plain arc's lines (a bill the accuser names).
 const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
-=======
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
 // asker already voted for (`earlier`) and the reads that came to something.
 const voteFacts: Record<string, Fact> = {
@@ -119,20 +117,16 @@ const voteFacts: Record<string, Fact> = {
   "read-town-for-bill": fact("yes"),
   "read-close": fact("yes"),
 };
->>>>>>> story/variants-apology
 const factsOf = (family: string) =>
   family === "donor-ask"
     ? donorFacts
     : family === "press-comment"
       ? pressFacts
-<<<<<<< HEAD
       : family === "conflict-accuse"
         ? accuseFacts
-=======
-      : family === "ask-vote"
-        ? voteFacts
->>>>>>> story/variants-apology
-        : generic;
+        : family === "ask-vote"
+          ? voteFacts
+          : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -219,19 +213,6 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-<<<<<<< HEAD
-        else if (family === "conflict-accuse")
-          for (const id of ["disclosed", "feud"])
-            expect(
-              talk.endingCounts[id] ?? 0,
-              `${where} ${id}`,
-            ).toBeGreaterThan(0);
-=======
-<<<<<<< HEAD
->>>>>>> story/variants-apology
-        else if (family === "owed-apology")
-          for (const id of ["apology-taken", "grudge"])
-=======
         else if (family === "ask-vote") {
           process.stdout.write(
             `ASK VOTE ENDINGS ${variant}: ${JSON.stringify(talk.endingCounts)}\n`,
@@ -239,16 +220,23 @@ describe("a kind with several arcs", () => {
           // The keeps the engines read (favor-owed, promise, trust-lost,
           // relationship-strained) come from these endings.
           for (const id of ["vote-given", "traded"])
->>>>>>> story/purposes-rescue
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-<<<<<<< HEAD
+        } else if (family === "conflict-accuse")
+          for (const id of ["disclosed", "feud"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "owed-apology")
+          for (const id of ["apology-taken", "grudge"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
         else
-=======
-        } else
->>>>>>> story/purposes-rescue
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
             where,

@@ -26,13 +26,8 @@ import {
 import { campaignParameter } from "../campaign-data";
 import { PARTIES_MODULE_ID, partiesHere, partyTie } from "./parties";
 
-<<<<<<< HEAD
 /** The parties module's id and readers, for readers outside the elections family (the director's party veterans, a first meeting's shared party) to take from the family's entry. */
 export { PARTIES_MODULE_ID, partiesHere, partyTie };
-=======
-/** The parties module's id, for readers outside the elections family (the director's party veterans) to take from the family's entry. */
-export { PARTIES_MODULE_ID, partyTie };
->>>>>>> story/purposes-return-reunion
 import { partyName } from "../appointments";
 import fallbackData from "../data/elections/filing-fallbacks.json" with { type: "json" };
 import playerOffices from "../data/offices/player-offices.json" with { type: "json" };
