@@ -7,7 +7,8 @@
         "low": 1.17,
         "high": 1.62,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS1000JOL / JTS1000HIL (https://fred.stlouisfed.org/series/JTS1000JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -17,7 +18,8 @@
         "low": 0.45,
         "high": 1.4,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS2300JOL / JTS2300HIL (https://fred.stlouisfed.org/series/JTS2300JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -27,7 +29,8 @@
         "low": 1.19,
         "high": 1.97,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS3000JOL / JTS3000HIL (https://fred.stlouisfed.org/series/JTS3000JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -37,7 +40,8 @@
         "low": 0.88,
         "high": 1.42,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS4000JOL / JTS4000HIL (https://fred.stlouisfed.org/series/JTS4000JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -47,7 +51,8 @@
         "low": 0.74,
         "high": 1.23,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS4400JOL / JTS4400HIL (https://fred.stlouisfed.org/series/JTS4400JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -57,7 +62,8 @@
         "low": 0.98,
         "high": 1.84,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS540099JOL / JTS540099HIL (https://fred.stlouisfed.org/series/JTS540099JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -67,7 +73,8 @@
         "low": 1.69,
         "high": 2.42,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS6000JOL / JTS6000HIL (https://fred.stlouisfed.org/series/JTS6000JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -77,7 +84,8 @@
         "low": 1.69,
         "high": 2.53,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS6200JOL / JTS6200HIL (https://fred.stlouisfed.org/series/JTS6200JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -87,7 +95,8 @@
         "low": 0.75,
         "high": 1.37,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS7000JOL / JTS7000HIL (https://fred.stlouisfed.org/series/JTS7000JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     },
@@ -97,7 +106,8 @@
         "low": 0.75,
         "high": 1.39,
         "tag": "SOURCED",
-        "unit": "months"
+        "unit": "months",
+        "role": "coefficient"
       },
       "source": "BLS JOLTS seasonally adjusted job openings level over hires level, monthly, Jan 2023 to Sep 2026 (45 months), FRED series JTS7200JOL / JTS7200HIL (https://fred.stlouisfed.org/series/JTS7200JOL). The ratio of the openings stock to the month's hires is the months a vacancy waits to be filled (Davis, Faberman and Haltiwanger 2013, 'The Establishment-Level Behavior of Vacancies and Hiring', QJE 128(2): vacancy duration is the openings stock over the hiring flow)."
     }

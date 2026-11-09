@@ -2951,6 +2951,20 @@
     "citation": "BLS CEX All consumer units, calendar 2024 detail table, B4217, Personal care services, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
+  "openingCustomerReligiousGivingAnnualNationalUsd": {
+    "value": 781,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "BLS Consumer Expenditure Surveys, calendar 2024, all consumer units, annual mean per consumer unit: cash contributions $2,292 (2.9 percent of spending), of which contributions to churches and other religious organizations $781; https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm. Applicability: published aggregate mean, not individual dispersion; the size and region shape is borrowed from the other-household-expenses parent (estimated, not the contributions category's own).",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
+  "openingCustomerCharitableGivingAnnualNationalUsd": {
+    "value": 322,
+    "tag": "SOURCED",
+    "role": "opening",
+    "citation": "BLS Consumer Expenditure Surveys, calendar 2024, all consumer units, annual mean per consumer unit: cash contributions $2,292 (2.9 percent of spending), of which contributions to charities and other organizations $322; https://www.bls.gov/opub/reports/consumer-expenditures/2024/home.htm. Applicability: published aggregate mean, not individual dispersion; the size and region shape is borrowed from the other-household-expenses parent (estimated, not the contributions category's own).",
+    "stopgapId": "SG-P8-opening-customer-generation"
+  },
   "openingCustomerHousekeepingAnnualNationalUsd": {
     "value": 186.25,
     "tag": "SOURCED",
@@ -7076,6 +7090,7 @@
   },
   "pastWorkLayoffsPerQuarter": {
     "value": 0.029,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "U.S. Bureau of Labor Statistics, Current Population Survey gross flows, employment to unemployment (FRED series LNS17400000, monthly, Jan 2023 to Oct 2026: 1.42 to 1.56 million a month against about 162 million employed, about 0.96% of employment a month). The inflow into unemployment from losing a job, not the JOLTS layoffs-and-discharges rate (about 1.2%), which also counts separations that go straight to another job.",
     "estimatedFrom": "The monthly rate times three, as one quarter's pull toward being let go in a quarter when unemployment holds steady, before age and the employer's lean (jobs.value-worker).",

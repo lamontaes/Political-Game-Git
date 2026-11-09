@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch */
 // The mayor's desk (legislation mocks, Nov 8): dev mode passes a council bill, the bill waits on the mayor's
 // desk, and the player reads it, sees where they stand and vetoes it; the paper then names them and the reasons.
 // (Adapted from bill-override.browser.mjs.) The older note: the bill at the state legislature (legislation mocks, Nov 8): dev mode introduces a bill in a
@@ -54,7 +54,7 @@ try {
     await page.locator("#front-pick:not([hidden])").waitFor();
     names = await page.locator("#pick-list button").allInnerTexts();
     at = names.findIndex((t) =>
-      new RegExp(process.env.BENCH_ROLE ?? "· Mayor", "i").test(t),
+      new RegExp(process.env.BENCH_ROLE ?? "\\nMayor$", "i").test(t),
     );
     if (at < 0)
       console.log(
