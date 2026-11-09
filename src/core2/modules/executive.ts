@@ -1315,6 +1315,20 @@ const FEDERAL_ORDERS = (
   }
 ).orders;
 
+/** The person who holds the president's seat today, if the seat is held. */
+export function sittingPresidentId(api: CoreAPI): string | null {
+  return (
+    (
+      api
+        .moduleState(OFFICES_MODULE_ID)
+        .table("terms")
+        .query("bySeatStatus", ["seat:US:president", "serving"]) as unknown as {
+        personId: string;
+      }[]
+    )[0]?.personId ?? null
+  );
+}
+
 /** The federal orders a President may issue that an engine reads (the keys). */
 export function federalOrderable(): readonly string[] {
   return FEDERAL_ORDERS.map((o) => o.key).sort();
@@ -1336,6 +1350,9 @@ export function issueFederalOrder(
 ): { readonly lawId: string } {
   const spec = FEDERAL_ORDERS.find((o) => o.key === input.order);
   if (!spec) throw new Error(`The President can't order ${input.order}.`);
+  // Only the person who holds the president's seat issues or revokes a federal order.
+  if (input.executiveId !== sittingPresidentId(api))
+    throw new Error("Only the sitting President issues a federal order.");
   const tomorrow = new Date(
     Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
   )

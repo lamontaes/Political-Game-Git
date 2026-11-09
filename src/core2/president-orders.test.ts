@@ -20,7 +20,7 @@ import {
   federalOrderable,
   issueFederalOrder,
   orderDecisionOf,
-  presidentialOrderDecisions,
+  sittingPresidentId,
 } from "./modules/executive";
 import { leanOf } from "./modules/legislature";
 import { lawInForce } from "./modules/laws";
@@ -72,7 +72,7 @@ describe(`the President's federal orders (seed ${seed})`, () => {
     );
   }, 600_000);
 
-  it("issues an order a left-leaning executive wants, and the sitting President who opposes it revokes it", () => {
+  it("is issued only by the person who holds the president's seat: a left-leaning President issues the order and the next, who opposes it, revokes it", () => {
     const place = drawPlace(`${seed}:orders-issue`, "core2-president-orders");
     const { core } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
@@ -81,72 +81,66 @@ describe(`the President's federal orders (seed ${seed})`, () => {
     });
     const api = coreAPI(core);
     advanceCore(core, addDays(makeIsoDate(core.date), 3));
-    const president = (
-      api
-        .moduleState(OFFICES_MODULE_ID)
-        .table("terms")
-        .query("bySeatStatus", ["seat:US:president", "serving"]) as unknown as {
-        personId: string;
-      }[]
-    )[0]!.personId;
-    // The most left-leaning living resident stands in as the executive (a fixture for the path).
-    const executive = [...core.people.values()]
-      .filter((p) => p.alive && p.id !== president)
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    const seat = () =>
+      (
+        terms.query("bySeatStatus", [
+          "seat:US:president",
+          "serving",
+        ]) as unknown as {
+          id: string;
+          personId: string;
+        }[]
+      )[0]!;
+    const original = seat();
+    // Nobody else may issue it, whatever their views.
+    const left = [...core.people.values()]
+      .filter((p) => p.alive && p.id !== original.personId)
       .map((p) => ({ id: p.id, lean: leanOf(api, p.id) }))
       .sort((a, b) => a.lean - b.lean || a.id.localeCompare(b.id))[0]!;
-    const weighed = presidentialOrderDecisions(api, executive.id).find(
-      (d) => d.order === ORDER,
-    )!;
-    expect(
-      weighed.view,
-      "a left-leaning executive wants the order",
-    ).toBeGreaterThan(0);
-    expect(weighed.act).toBe(weighed.lawNow === 1 ? "keep" : "issue");
-    if (weighed.act !== "issue") return;
-    const issued = issueFederalOrder(api, {
-      executiveId: executive.id,
-      order: ORDER,
-    });
-    const effective = addDays(makeIsoDate(core.date), 1);
-    // In force from tomorrow, citing the order and the executive.
-    advanceCore(core, addDays(makeIsoDate(core.date), 2));
+    expect(() =>
+      issueFederalOrder(api, { executiveId: left.id, order: ORDER }),
+    ).toThrow("Only the sitting President issues a federal order.");
+    expect(sittingPresidentId(api)).toBe(original.personId);
+    // A world whose President leans left (the seat is held by the most left-leaning resident:
+    // a fixture for the path, since every opening President leans right): the monthly weighing
+    // issues the order on the first of the month, with the weighing kept.
+    terms.put({ ...original, personId: left.id } as never);
+    expect(sittingPresidentId(api)).toBe(left.id);
+    advanceCore(core, addDays(makeIsoDate(core.date), 40));
+    const orders = () =>
+      api
+        .moduleState("core2-executive-v1")
+        .table("orders")
+        .rows() as unknown as {
+        id: string;
+        executiveId: string;
+        order: string;
+        revoke: boolean;
+        date: string;
+        lawId: string;
+      }[];
+    const issued = orders().find(
+      (o) => o.executiveId === left.id && o.order === ORDER && !o.revoke,
+    );
+    expect(issued, "the left-leaning President issued the order").toBeDefined();
+    const weighing = orderDecisionOf(api, left.id, ORDER)!;
+    expect(weighing.view).toBeGreaterThan(0);
     const law = lawInForce(api, SERIES);
     expect(law.value).toBe(1);
-    expect(law.governing?.id).toBe(issued.lawId);
-    expect(law.governing?.id).toContain(`order:US:${ORDER}:`);
-    // The sitting President's next monthly weighing: if they oppose it (their view is below zero)
-    // they revoke it with an order of their own, and the series is no longer in force.
-    const sitting = presidentialOrderDecisions(api, president).find(
-      (d) => d.order === ORDER,
-    )!;
+    expect(law.governing?.id).toBe(issued!.lawId);
+    // The next President (the original, who opposes it) revokes it at their first monthly weighing.
+    terms.put({ ...seat(), personId: original.personId } as never);
     advanceCore(core, addDays(makeIsoDate(core.date), 35));
-    const orders = api
-      .moduleState("core2-executive-v1")
-      .table("orders")
-      .rows() as unknown as {
-      id: string;
-      executiveId: string;
-      order: string;
-      revoke: boolean;
-      date: string;
-    }[];
-    const theirs = orders.filter(
-      (o) => o.executiveId === president && o.order === ORDER,
+    const revoked = orders().find(
+      (o) =>
+        o.executiveId === original.personId && o.order === ORDER && o.revoke,
     );
-    const nowLaw = lawInForce(api, SERIES).value;
-    if (sitting.view < 0) {
-      expect(
-        theirs.some((o) => o.revoke),
-        "the President revoked the order",
-      ).toBe(true);
-      expect(nowLaw).toBe(0);
-    } else {
-      // A President who is not opposed leaves it in force.
-      expect(theirs.some((o) => o.revoke)).toBe(false);
-      expect(nowLaw).toBe(1);
-    }
+    const theirs = orderDecisionOf(api, original.personId, ORDER)!;
+    expect(revoked, "the next President revoked it").toBeDefined();
+    expect(lawInForce(api, SERIES).value).toBe(0);
     process.stdout.write(
-      `president orders (issue): ${place.name}, ${place.state} (seed ${seed}:orders-issue); executive ${executive.id} lean ${executive.lean.toFixed(3)} view ${weighed.view.toFixed(3)} -> ${issued.lawId} in force from ${effective}; the President ${president} lean ${sitting.lean.toFixed(3)} view ${sitting.view.toFixed(3)} -> ${theirs.map((o) => `${o.id} revoke=${o.revoke}`).join(", ") || "no order"}; law now ${nowLaw}\n`,
+      `president orders (issue): ${place.name}, ${place.state} (seed ${seed}:orders-issue); President ${left.id} lean ${left.lean.toFixed(3)} view ${weighing.view.toFixed(3)} issued ${issued!.id} -> ${issued!.lawId}; the next President ${original.personId} (decision ${theirs.id}: lean ${theirs.lean.toFixed(3)}, view ${theirs.view.toFixed(3)}) revoked it with ${revoked!.id}; law now ${lawInForce(api, SERIES).value}\n`,
     );
   }, 900_000);
 });
