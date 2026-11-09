@@ -13379,7 +13379,7 @@
       "key": "scene-talk.follow-thank.i-ll-have-the-list-on-your-desk-by-morning",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'll have the list on your desk by morning.",
+      "text": "I'll have the names of everyone still undecided on your desk by morning.",
       "uses": [
         {
           "subject": "scene",
@@ -20130,7 +20130,7 @@
       "key": "scene-talk.reply-deflect.i-don-t-have-the-list-try-the-office",
       "move": "reply-deflect",
       "kind": "spoken",
-      "text": "I don't have the list. Try the office.",
+      "text": "I don't have the volunteer sign-ups. Try the office.",
       "uses": [
         {
           "key": "vote-wanted",
@@ -26895,7 +26895,7 @@
       "key": "scene-talk.reply-accept.get-me-the-list-i-ll-make-the-calls",
       "move": "reply-accept",
       "kind": "spoken",
-      "text": "Get me the list. I'll make the calls.",
+      "text": "Tell me who to call first. I'll make the calls.",
       "uses": [
         {
           "subject": "scene",
@@ -30300,7 +30300,7 @@
       "key": "scene-talk.follow-press.it-s-on-the-list-in-the-packet-page-four",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "It's on the list in the packet. Page four.",
+      "text": "The firm is on the bid list in the packet. Page four.",
       "uses": [
         {
           "subject": "scene",
@@ -35667,7 +35667,7 @@
       "key": "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you",
       "move": "reply-tell",
       "kind": "spoken",
-      "text": "Fine. It's on the list. I reported it, and I'll show you.",
+      "text": "Fine. The firm is on the bid list. I reported it, and I'll show you.",
       "uses": [
         {
           "subject": "scene",
@@ -35891,7 +35891,7 @@
       "key": "scene-talk.reply-offer.then-come-say-that-thursday-in-front-of-all-of-us-i-ll-put-you-first-o",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "Then come say that Thursday, in front of all of us. I'll put you first on the list.",
+      "text": "Then come say that Thursday, in front of all our neighbors. I'll put you first on the speaker list.",
       "uses": [
         {
           "subject": "scene",
@@ -36415,7 +36415,7 @@
       "key": "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public",
       "move": "reply-confront",
       "kind": "spoken",
-      "text": "That's what I've got. You want more, say it in public.",
+      "text": "That's the apology I have. If you want more, say it in public.",
       "uses": [
         {
           "subject": "scene",
@@ -36639,7 +36639,7 @@
       "key": "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got",
       "move": "follow-bargain",
       "kind": "spoken",
-      "text": "Your district's money stays in the budget. That's what I've got.",
+      "text": "Your district's money stays in the budget. I can do that much.",
       "uses": [
         {
           "subject": "scene",
@@ -37832,7 +37832,7 @@
       "key": "scene-talk.narrate-narrate.you-give-your-name-at-the-table-name-runs-a-finger-down-the-",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You give your name at the table. {name} runs a finger down the list twice.",
+      "text": "You give your name at the table. {name} runs a finger down the voter roll twice.",
       "uses": [
         {
           "subject": "scene",
@@ -37880,7 +37880,7 @@
       "key": "scene-talk.state-deliver-news.i-m-sorry-you-re-not-on-the-list-for-this-precinct",
       "move": "state-deliver-news",
       "kind": "spoken",
-      "text": "I'm sorry. You're not on the list for this precinct.",
+      "text": "I'm sorry. You're not on the voter roll for this precinct.",
       "uses": [
         {
           "subject": "scene",
@@ -38035,7 +38035,7 @@
       "key": "scene-talk.follow-deflect.i-just-work-the-table-the-list-is-the-list",
       "move": "follow-deflect",
       "kind": "spoken",
-      "text": "I just work the table. The list is the list.",
+      "text": "I just work the table. I can only go by the roll in front of me.",
       "uses": [
         {
           "subject": "scene",
@@ -38278,7 +38278,7 @@
       "key": "scene-talk.follow-offer.county-says-you-re-on-the-list-across-town-you-can-vote-there-or-vote-",
       "move": "follow-offer",
       "kind": "spoken",
-      "text": "County says you're on the list across town. You can vote there, or vote provisional here.",
+      "text": "County says you're registered at a precinct across town. You can vote there, or vote provisional here.",
       "uses": [
         {
           "subject": "scene",
@@ -42244,13 +42244,14 @@
       "key": "scene-talk.reply-disagree.a-year-is-a-long-time-to-be-patient-in-this-town",
       "move": "reply-disagree",
       "kind": "spoken",
-      "text": "A year is a long time to be patient in this town.",
+      "text": "A year is a long time to be patient in {place}.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
           "move": "disagree",
           "role": "asked",
+          "requiresFacts": ["place"],
           "purpose": "mentor-advice",
           "key": "routine",
           "after": "scene-talk.follow-answer.i-d-sit-it-out-and-spend-the-year-raising-money-and-making-friends-the"
@@ -51942,7 +51943,7 @@
       "key": "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real",
       "move": "follow-bargain",
       "kind": "spoken",
-      "text": "My name on your next bill, as a co-sponsor. That's real.",
+      "text": "I'll put my name on your next bill as a co-sponsor.",
       "uses": [
         {
           "subject": "scene",
@@ -51967,7 +51968,7 @@
       "key": "scene-talk.reply-agree.that-s-real-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "That's real. Yes.",
+      "text": "Yes. I'll take your name on my next bill.",
       "uses": [
         {
           "subject": "scene",
@@ -55746,7 +55747,7 @@
       "key": "scene-talk.follow-refuse.filings-are-public-anybody-can-read-the-list-on-the-wall",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "Filings are public. Anybody can read the list on the wall.",
+      "text": "Filings are public. Anybody can read the list of filed candidates on the wall.",
       "uses": [
         {
           "subject": "scene",
@@ -55871,7 +55872,7 @@
       "key": "scene-talk.reply-agree.then-i-ll-read-the-list-and-sign-mine",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Then I'll read the list and sign mine.",
+      "text": "Then I'll read the filings and sign mine.",
       "uses": [
         {
           "subject": "scene",
@@ -62457,7 +62458,7 @@
       "key": "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table",
       "move": "follow-bargain",
       "kind": "spoken",
-      "text": "Your amendment gets a vote next week. That's what's on the table.",
+      "text": "I'll get your amendment a vote next week.",
       "uses": [
         {
           "subject": "scene",
@@ -65227,7 +65228,7 @@
       "key": "scene-talk.reply-leave.then-i-ll-come-back-once-i-ve-read-the-list",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Then I'll come back once I've read the list.",
+      "text": "Then I'll come back once I've read the filings.",
       "uses": [
         {
           "subject": "scene",
@@ -66477,7 +66478,7 @@
       "key": "scene-talk.narrate-narrate.name-from-outlet-is-waiting-by-your-car-with-a-notebook-the-veto-of-bill-is-the",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} from {outlet} is waiting by your car with a notebook. The veto of {bill} is the only thing on the list.",
+      "text": "{name} from {outlet} is waiting by your car with a notebook. The veto of {bill} is the only thing {name} wants to ask about.",
       "uses": [
         {
           "key": "routine",
@@ -82160,7 +82161,7 @@
       "key": "scene-talk.state-request.we-re-meeting-about-cause-at-the-library-next-week-i-d-like-you-to-hea",
       "move": "state-request",
       "kind": "spoken",
-      "text": "We're meeting about {cause} at the library next week. I'd like you to hear us out.",
+      "text": "I'm meeting with some neighbors about {cause} at the library next week. I'd like you to come hear what we have to say.",
       "uses": [
         {
           "subject": "scene",
@@ -85486,7 +85487,7 @@
       "key": "scene-talk.follow-thank.i-will-put-me-on-the-list",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I will. Put me on the list.",
+      "text": "I will. Put me down on the council's speaker list.",
       "uses": [
         {
           "subject": "scene",
@@ -98285,13 +98286,14 @@
       "key": "scene-talk.follow-threaten.you-ll-want-friends-in-this-town-after-this-i-d-think-about-that",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "You'll want friends in this town after this. I'd think about that.",
+      "text": "You'll want friends in {place} after this. I'd think about that.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
           "move": "threaten",
           "role": "asker",
+          "requiresFacts": ["place"],
           "purpose": "bribe-offer",
           "key": "favor-asked"
         }
@@ -108029,7 +108031,7 @@
       "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+      "text": "{name}'s department lost {cut} in the budget the council passed. {name} has the numbers.",
       "uses": [
         {
           "subject": "scene",
@@ -108931,7 +108933,7 @@
       "key": "scene-talk.follow-thank.thank-you-i-ll-get-the-list-to-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll get the list to you.",
+      "text": "Thank you. I'll get you the line-by-line numbers.",
       "uses": [
         {
           "subject": "scene",
@@ -109533,7 +109535,7 @@
       "key": "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Send me the list. I'll answer tomorrow.",
+      "text": "Send me the numbers on that line. I'll answer tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -110029,7 +110031,7 @@
       "key": "scene-talk.beat-beat.name-straightens-the-page-and-says-nothing-for-a-moment",
       "move": "beat-beat",
       "kind": "spoken",
-      "text": "{name} straightens the page and says nothing for a moment.",
+      "text": "{name} squares the budget printout and says nothing for a moment.",
       "uses": [
         {
           "subject": "scene",
@@ -113052,13 +113054,14 @@
       "key": "scene-talk.reply-promise.i-m-not-done-with-this-town",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'm not done with this town.",
+      "text": "I'm not done with {place}.",
       "uses": [
         {
           "subject": "scene",
           "step": "reply",
           "move": "promise",
           "role": "asked",
+          "requiresFacts": ["place"],
           "purpose": "morning-after",
           "key": "honor"
         }
@@ -118054,7 +118057,7 @@
       "key": "scene-talk.close-thank.thank-you-for-hearing-us-out",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for hearing us out.",
+      "text": "Thank you for hearing me out.",
       "uses": [
         {
           "subject": "scene",
@@ -118965,7 +118968,7 @@
       "key": "scene-talk.open-greet.hello-first-i-m-name-we-spoke-earlier-do-you-have-a-minute",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Hello, {first}. I'm {name}. We spoke earlier. Do you have a minute?",
+      "text": "Hello, {first}. I'm {name}, the one who stopped you in the hall a minute ago. Do you have another minute?",
       "uses": [
         {
           "subject": "scene",
@@ -121737,7 +121740,7 @@
       "key": "scene-talk.open-greet.excuse-me-first-thank-you-for-listening-to-me-earlier-may-i-ask-one-mo",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Excuse me, {first}. Thank you for listening to me earlier. May I ask one more thing?",
+      "text": "Excuse me, {first}. Thank you for listening to me in the hall. May I ask one more thing?",
       "uses": [
         {
           "subject": "scene",
@@ -126429,7 +126432,7 @@
       "key": "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "{pay} an hour to start. We'd train you on the rest.",
+      "text": "It's {position} at {employer}, {pay} an hour to start. We'd train you on the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -126789,7 +126792,7 @@
       "key": "scene-talk.close-thank.glad-to-have-you-we-ll-go-over-the-details-on-your-first-day",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Glad to have you. We'll go over the details on your first day.",
+      "text": "Glad to have you. We'll go over your schedule and paperwork on your first day.",
       "uses": [
         {
           "subject": "scene",
@@ -126885,7 +126888,7 @@
       "key": "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "We'd go over all of it on your first day.",
+      "text": "You'd be {position}, paid {pay} an hour, and we'd train you on the job.",
       "uses": [
         {
           "subject": "scene",
@@ -128325,7 +128328,7 @@
       "key": "scene-talk.state-tell-duty.it-s-a-county-office-you-d-answer-to-everyone-in-the-county-not-just-this-town",
       "move": "state-tell-duty",
       "kind": "spoken",
-      "text": "It's a county office. You'd answer to everyone in the county, not just this town.",
+      "text": "It's a county office. You'd answer to everyone in the county, not just {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -128334,7 +128337,7 @@
           "step": "state",
           "move": "tell-duty",
           "role": "asker",
-          "requiresFacts": ["office-countyOffice-single"]
+          "requiresFacts": ["office-countyOffice-single", "place"]
         }
       ],
       "bearing": "calm",
@@ -129330,7 +129333,7 @@
       "key": "scene-talk.follow-press.it-takes-a-minute-and-it-s-public-anyone-can-read-the-list",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "It takes a minute, and it's public. Anyone can read the list.",
+      "text": "It takes a minute, and it's public. Anyone can read the names on the petition.",
       "uses": [
         {
           "subject": "scene",
@@ -132670,7 +132673,7 @@
       "key": "scene-talk.follow-answer.evenings-and-saturdays-i-keep-the-lists-you-shake-the-hands",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Evenings and Saturdays. I keep the lists, you shake the hands.",
+      "text": "Evenings and Saturdays. I keep the volunteer lists, you shake the hands.",
       "uses": [
         {
           "subject": "scene",
@@ -132862,7 +132865,7 @@
       "key": "scene-talk.close-thank.we-ll-start-with-the-list-tomorrow",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "We'll start with the list tomorrow.",
+      "text": "We'll start on the volunteer list tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -142261,7 +142264,7 @@
       "key": "scene-talk.state-threaten.that-contract-was-mine-think-about-who-you-want-against-you-in",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "That contract was mine. Think about who you want against you in this town, {first}.",
+      "text": "That contract was mine. Think about who you want against you in {place}, {first}.",
       "uses": [
         {
           "subject": "scene",
@@ -142270,7 +142273,7 @@
           "role": "asker",
           "purpose": "bribe-pressed",
           "key": "threat",
-          "requiresFacts": ["favor-contract"]
+          "requiresFacts": ["favor-contract", "place"]
         }
       ],
       "bearing": "braced",
@@ -142286,13 +142289,13 @@
       "key": "scene-talk.state-threaten.i-ve-bid-on-this-town-s-work-for-years-first-don-t-make-me-remember-this",
       "move": "state-threaten",
       "kind": "spoken",
-      "text": "I've bid on this town's work for years, {first}. Don't make me remember this.",
+      "text": "I've bid on {place}'s work for years, {first}. Don't make me remember this.",
       "uses": [
         {
           "key": "threat",
           "move": "threaten",
           "purpose": "bribe-pressed",
-          "requiresFacts": ["favor-contract"],
+          "requiresFacts": ["favor-contract", "place"],
           "role": "asker",
           "step": "state",
           "subject": "scene"
@@ -154279,13 +154282,14 @@
       "key": "scene-talk.state-warn.im-only-saying-first-that-a-friend-in-this-town-is-worth-more-than-a-p",
       "move": "state-warn",
       "kind": "spoken",
-      "text": "I'm only saying, {first}, that a friend in this town is worth more than a principle. Think about it.",
+      "text": "I'm only saying, {first}, that a friend in {place} is worth more than a principle. Think about it.",
       "uses": [
         {
           "subject": "scene",
           "step": "state",
           "move": "warn",
           "role": "asker",
+          "requiresFacts": ["place"],
           "purpose": "bribe-pressed.veiled",
           "key": "threat"
         }
@@ -155008,13 +155012,14 @@
       "key": "scene-talk.follow-warn.watch-yourself-first-this-town-is-smaller-than-you-think",
       "move": "follow-warn",
       "kind": "spoken",
-      "text": "Watch yourself, {first}. This town is smaller than you think.",
+      "text": "Watch yourself, {first}. {place} is smaller than you think.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
           "move": "warn",
           "role": "asker",
+          "requiresFacts": ["place"],
           "purpose": "bribe-pressed.open",
           "key": "threat"
         }
@@ -161599,13 +161604,14 @@
       "key": "scene-talk.follow-threaten.other-candidates-in-this-town-return-calls",
       "move": "follow-threaten",
       "kind": "spoken",
-      "text": "Other candidates in this town return calls.",
+      "text": "Other candidates in {place} return calls.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
           "move": "threaten",
           "role": "asker",
+          "requiresFacts": ["place"],
           "purpose": "donor-ask.large",
           "key": "favor-asked",
           "after": "decline"
@@ -161674,7 +161680,7 @@
       "key": "scene-talk.follow-accept.a-hearing-then-schedule-it",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "A hearing, then. Schedule it.",
+      "text": "Then give my people a public hearing before the vote. Schedule it.",
       "uses": [
         {
           "subject": "scene",
@@ -167900,13 +167906,14 @@
       "key": "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's a big claim. I'll check it with your neighbors.",
+      "text": "You're saying you did the hard part for {place}. I'll check that with your neighbors.",
       "uses": [
         {
           "subject": "scene",
           "step": "follow",
           "move": "accept",
           "role": "asker",
+          "requiresFacts": ["place"],
           "purpose": "press-comment.national",
           "key": "routine",
           "after": "boast"
@@ -168241,7 +168248,7 @@
       "key": "scene-talk.open-greet.two-minutes-i-m-going-down-the-list",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Two minutes. I'm going down the list.",
+      "text": "Two minutes. I'm going through the members one by one.",
       "uses": [
         {
           "subject": "scene",
@@ -168304,7 +168311,7 @@
       "key": "scene-talk.state-request.i-m-going-down-the-list-on-bill-where-do-i-put-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm going down the list on {bill}. Where do I put you?",
+      "text": "I'm counting votes on {bill}. Where do I put you?",
       "uses": [
         {
           "subject": "scene",
@@ -172272,7 +172279,7 @@
       "key": "scene-talk.state-request.i-haven-t-worked-in-since-i-m-not-asking-for-money-i-m-asking-who-in-this-town-i",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I haven't worked in {since}. I'm not asking for money. I'm asking who in this town is hiring.",
+      "text": "I haven't worked in {since}. I'm not asking for money. I'm asking who in {place} is hiring.",
       "uses": [
         {
           "subject": "scene",
@@ -172281,7 +172288,7 @@
           "role": "asker",
           "purpose": "constituent-help.lost-job",
           "key": "favor-asked",
-          "requiresFacts": ["since"]
+          "requiresFacts": ["since", "place"]
         }
       ],
       "bearing": "anxious",
@@ -172336,7 +172343,7 @@
       "key": "scene-talk.state-request.they-cut-my-position-at-employer-somebody-in-this-town-has-to-be-hiring-and-i-ne",
       "move": "state-request",
       "kind": "spoken",
-      "text": "They cut my position at {employer}. Somebody in this town has to be hiring, and I need to know who.",
+      "text": "They cut my position at {employer}. Somebody in {place} has to be hiring, and I need to know who.",
       "uses": [
         {
           "subject": "scene",
@@ -172345,7 +172352,7 @@
           "role": "asker",
           "purpose": "constituent-help.lost-job",
           "key": "favor-asked",
-          "requiresFacts": ["employer"]
+          "requiresFacts": ["employer", "place"]
         }
       ],
       "bearing": "braced",

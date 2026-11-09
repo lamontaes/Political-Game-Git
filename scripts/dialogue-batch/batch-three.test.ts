@@ -17,6 +17,12 @@ const batch = JSON.parse(
   }[];
 };
 const pieces = readMapPieces({});
+/** Lines graded in a batch that a later pass rewrote with his lessons: key to the text he graded. */
+const rewritten = (
+  JSON.parse(
+    readFileSync("data/english/rewritten-after-grading.json", "utf8"),
+  ) as { rewritten: Record<string, string> }
+).rewritten;
 
 describe("batch 3 mixes the kinds the owner asked for", () => {
   it("every line is a bank line, three to a moment, each moment described", () => {
@@ -25,9 +31,14 @@ describe("batch 3 mixes the kinds the owner asked for", () => {
       expect(moment.description.length).toBeGreaterThan(20);
       expect(moment.speaker.length).toBeGreaterThan(2);
       for (const line of moment.lines)
-        expect(
-          pieces.get(line.key)?.text.replace(/\bAlright\b/g, "All right"),
-        ).toBe(line.line.replace(/\bAlright\b/g, "All right"));
+        if (rewritten[line.key]) {
+          // He graded this text; a later pass rewrote it with his lessons.
+          expect(rewritten[line.key]).toBe(line.line);
+          expect(pieces.get(line.key)?.text).toBeTruthy();
+        } else
+          expect(
+            pieces.get(line.key)?.text.replace(/\bAlright\b/g, "All right"),
+          ).toBe(line.line.replace(/\bAlright\b/g, "All right"));
     }
   });
 
