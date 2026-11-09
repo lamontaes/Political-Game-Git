@@ -141,7 +141,17 @@ it(`a new coworker introduces themselves and asks something from the records (se
       const open = (org: string) =>
         [...(core.finance.jobsByOrganization.get(org) ?? [])]
           .map((jobId) => core.jobs.get(jobId)!)
-          .filter((job) => job && !job.endsAt && job.personId !== id);
+          .filter((job) => job && !job.endsAt && job.personId !== id)
+          // A job the hire can copy: it has a commitment and a payroll calendar.
+          .filter((job) =>
+            [...(core.work.commitmentsByPerson.get(job.personId) ?? [])]
+              .map((cid) => core.work.commitments.get(cid))
+              .some(
+                (row) =>
+                  row?.jobId === job.id &&
+                  core.work.payrollCalendarByCommitment.has(row.id),
+              ),
+          );
       const employer = [...core.finance.jobsByOrganization.keys()]
         .filter((org) => open(org).length >= 3)
         .sort(

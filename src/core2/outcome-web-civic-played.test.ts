@@ -18,7 +18,8 @@ import { describe, expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "./bookkeeping";
-import { appealOfShare, nationalEconomyChange } from "./electorate-inputs";
+import { appealOfShare } from "./electorate-inputs";
+import { latestApproval } from "./modules/national-opinion";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -67,12 +68,27 @@ function play(drawSeed: string) {
         (row) => row.electionDate,
       ),
     );
-  const witness = () =>
-    (results.rows() as unknown as Result[]).find((row) =>
-      (row.electorateReasons ?? []).some((r) => r.economy !== 0),
+  // A race the town's voters decided (its ballots are kept with their
+  // reasons); races elsewhere are counted without ballots.
+  const witness = () => {
+    const kept = new Set(
+      (
+        api
+          .moduleState(VOTING_MODULE_ID)
+          .table("ballots")
+          .rows() as unknown as Ballot[]
+      )
+        .filter((b) => b.appeal)
+        .map((b) => b.contestId),
     );
+    return (results.rows() as unknown as Result[]).find(
+      (row) =>
+        kept.has(row.contestId) &&
+        (row.electorateReasons ?? []).some((r) => r.economy !== 0),
+    );
+  };
   /** The national economy's change the electorate read, on each election day. */
-  const economyOn = new Map<string, ReturnType<typeof nationalEconomyChange>>();
+  const economyOn = new Map<string, ReturnType<typeof latestApproval>>();
   let day = makeIsoDate(core.date);
   const ballots = api.moduleState(VOTING_MODULE_ID).table("ballots");
   const scandalBallot = () =>
@@ -86,7 +102,7 @@ function play(drawSeed: string) {
     const voting = electionDays().has(next);
     if (voting) {
       setBookkeeping(true);
-      economyOn.set(next, nationalEconomyChange(api));
+      economyOn.set(next, latestApproval(api));
     }
     advanceCore(core, next);
     if (voting) setBookkeeping(false);
@@ -150,18 +166,23 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
       ).toBeDefined();
       const result = run.result!;
       const moved = result.electorateReasons!.filter((r) => r.economy !== 0);
-      // The term is the national economy's change from the opening, read
-      // from the macro engine's months on election day.
-      const economy = run.economyOn.get(result.date);
+      // The term is the country's approval of the president against its mean,
+      // read from the national-opinion engine's latest row on election day.
+      const economy =
+        (api
+          .moduleState("national-opinion")
+          .table("approval")
+          .get(`approval:${result.date.slice(0, 7)}`) as unknown as
+          ReturnType<typeof latestApproval> | undefined) ??
+        run.economyOn.get(result.date);
       expect(
         economy,
         `${where}: the economy read on ${result.date}`,
       ).toBeDefined();
       expect(
-        Math.abs(economy!.unemploymentChange) +
-          Math.abs(economy!.inflationChange),
-        `${where}: the national economy moved by ${result.date}`,
-      ).toBeGreaterThan(0);
+        economy!.pct,
+        `${where}: the approval row ${economy!.id} on ${result.date}`,
+      ).not.toBe(50);
       // It is part of each moved candidate's standing.
       for (const reasons of moved) {
         const sum =
@@ -279,7 +300,7 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
         [
           `civic played: ${where}; played to ${run.date}; ${run.results.length} race results`,
           `economy: ${result.id} on ${result.date}: ${moved.map((m) => `${m.id} (${m.party}) economy ${m.economy.toFixed(5)}, standing ${m.total.toFixed(5)}`).join("; ")}`,
-          `the national economy read: unemployment ${economy!.unemploymentChange.toFixed(3)} points and inflation ${economy!.inflationChange.toFixed(3)} points from macro-month:${run.macro?.openingMonth} to macro-month:${run.macro?.latestMonth}`,
+          `the national mood read: ${economy!.id} approval ${economy!.pct.toFixed(2)} percent (base ${economy!.basePct.toFixed(2)}; unemployment ${economy!.unemploymentChange.toFixed(3)} and inflation ${economy!.inflationChange.toFixed(3)} points over the month, from ${economy!.sourceRecordIds.join(", ")})`,
           `ballots: ${weighed.length} of ${ballots.length} kept ballots weighed it, e.g. ${one.id} chose ${one.choice ?? "no one"}; standing of ${r.id} there ${one.appeal![r.id]!.standing.toFixed(5)}, total appeal ${one.appeal![r.id]!.total.toFixed(5)}`,
           `scandals: ${stories.length ? stories.join(", ") : "no scandal story about a candidate"}; ${heardBallots} ballot-candidate pairs whose voter had heard a story; ${scandals.length} kept ballots carry a scandal term${scandals[0] ? `, e.g. ${scandals[0].ballot} on ${scandals[0].candidateId} (${scandals[0].parts.scandal})` : ""}; corruption chain: ${JSON.stringify(run.corruption)}`,
         ].join("\n") + "\n",

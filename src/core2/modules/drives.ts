@@ -222,6 +222,7 @@ export interface HeldDrive {
   anchorStrength: number;
   halfLifeDays: number;
   shareable: boolean;
+  /** The response that formed it; every later reinforcement too only with bookkeeping on. */
   formations: FormationTrace[];
   /** Most recent act traces (bounded); actCount is exact. */
   acts: DriveActTrace[];
@@ -285,7 +286,7 @@ interface DrivesRuntime {
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
   predicted: Map<PersonId, PredictedChoice>;
-  /** Canonical donation records the cash journal resolves through this module's provider. */
+  /** Canonical donation records the cash journal resolves through this module's provider: in play only while the entry posts. */
   donations: Map<string, DonationRecord>;
 }
 
@@ -1040,7 +1041,14 @@ export function respond(
           api,
         );
       }
-      drive.formations.push(trace);
+      // Play reads only the response that formed the drive (its role and
+      // source facts); each later reinforcement's full trace is kept only
+      // with bookkeeping on, for the proofs and tests (Keep it simple, Oct
+      // 11). Kept for every reinforcement, they were the largest piece of
+      // history a world held: Montpelier, Vermont (5046000, seed mont1)
+      // held 83,352 traces, 154 MB of live heap, after two years.
+      if (!drive.formations.length || bookkeeping())
+        drive.formations.push(trace);
       trace.strengthAdded = reinforce(
         api,
         drive,
@@ -1576,13 +1584,21 @@ function payDonation(
     },
     marker: {},
   });
-  api.postJournal({
-    id: `journal:${state.date}:${journal.nextSequence}`,
-    date: state.date,
-    expectedSequence: journal.nextSequence,
-    sourceRef: { kind: data.donationJournalSourceKind, id },
-    postings,
-  });
+  try {
+    api.postJournal({
+      id: `journal:${state.date}:${journal.nextSequence}`,
+      date: state.date,
+      expectedSequence: journal.nextSequence,
+      sourceRef: { kind: data.donationJournalSourceKind, id },
+      postings,
+    });
+  } finally {
+    // The journal reads the canonical record only while the entry posts (as
+    // the accounts engine's pending transfers); kept for every gift it was
+    // 68 MB of a long run's heap (Montpelier, Vermont, year 4: 22,062
+    // records). With bookkeeping on, tests and proofs keep every one.
+    if (!bookkeeping()) runtimeFor(api.state).donations.delete(id);
+  }
   return amount;
 }
 

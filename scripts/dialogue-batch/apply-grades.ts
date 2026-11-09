@@ -22,6 +22,7 @@ import type {
   RunningGrade,
 } from "../../src/english/calibration";
 import { buildReach, type PieceMakeup } from "../../src/english/grade-reach";
+import { writeGradeMap } from "./grade-map";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -724,6 +725,9 @@ function main() {
   console.log(
     `Wrote ${REACH_FILE}: ${Object.keys(reach.groups).length} groups reaching ${Object.keys(reach.profiles).length} pieces.`,
   );
+  // Every graded span and writing rule scores every line on the heat map
+  // (`src/english/grade-map.ts`).
+  writeGradeMap();
   // The ledger is the only gate: a bank part plays unless the grades hold it.
   const heldInBanks = [...pieces.keys()].filter((key) =>
     heldByGrades(key, ledger),

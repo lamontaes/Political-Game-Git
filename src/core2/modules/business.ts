@@ -103,6 +103,8 @@ interface OwnerRow {
    * memory window and floored at zero: what pulls an owner toward closing.
    */
   lossMonths?: number;
+  /** The last months' sales and costs paid, which the month's loss is read over (payments fall due on a cycle, not evenly). */
+  recent?: { sales: number[]; costs: number[] };
   /** The outside-costs flow's cumulative paid at the last snapshot. */
   outsideThrough?: number;
   /** The outside-cost payments' part sent elsewhere (ads), through the last booked month. */
@@ -890,6 +892,7 @@ function bookedMonth(
   | "outsideThrough"
   | "splitThrough"
   | "lossMonths"
+  | "recent"
   | "tradingId"
 > {
   const outsidePaid =
@@ -904,8 +907,25 @@ function bookedMonth(
     (book.operatingPaidMinor - row.operatingThrough) +
     (outsidePaid - (row.outsideThrough ?? 0)) +
     complianceMinor;
-  const base = Math.max(sales, costs);
-  const lost = base > 0 ? Math.max(-1, Math.min(1, (costs - sales) / base)) : 0;
+  // Costs fall due on a cycle (a quarter's supplier invoices, a tax or lease payment), sales do not: the operating result is read over the cycle, so a bill that falls in one month is not a month of loss.
+  const window = Math.max(
+    1,
+    Math.round(api.parameter("businessLossSmoothingMonths")),
+  );
+  const recent = {
+    sales: [...(row.recent?.sales ?? []), sales].slice(-window),
+    costs: [...(row.recent?.costs ?? []), costs].slice(-window),
+  };
+  const read = (values: number[]) =>
+    values.reduce((n, v) => n + v, 0) / values.length;
+  const base = Math.max(read(recent.sales), read(recent.costs));
+  const lost =
+    base > 0
+      ? Math.max(
+          -1,
+          Math.min(1, (read(recent.costs) - read(recent.sales)) / base),
+        )
+      : 0;
   const lossMonths = Math.max(
     0,
     (row.lossMonths ?? 0) *
@@ -940,6 +960,7 @@ function bookedMonth(
       residentsRuntime(core(api))?.flows.get(`outside-costs:${row.id}`)
         ?.splitPaidMinor ?? 0,
     lossMonths,
+    recent,
     tradingId,
   };
 }

@@ -34,6 +34,8 @@ export interface SceneWords {
   causes: readonly { labelPrefix: string; variants: Variant[] }[];
   /** How the scene's first move opens it, by that move ("tell", "farewell"). */
   openings?: Readonly<Record<string, Variant[]>>;
+  /** The first line of every scene: when, where and who, by the setting's kind. */
+  arrivals?: Readonly<Record<string, Variant[]>>;
 }
 /** The default words are the mined bank's. */
 export const SCENE_WORDS: SceneWords = sceneWordsFromBank();
@@ -52,13 +54,14 @@ export interface SceneLine {
 }
 
 /**
- * A line the narrator gives: the setting by its kind (never the player's own
- * home, and never the day: the screen shows both), who is there, what is happening by the staged situation's type (`lead`), how the
+ * A line the narrator gives: the arrival (the day as people say it, where and
+ * who the player meets, owner, Nov 8), the setting by its kind (a call or a letter), who is there, what is happening by the staged situation's type (`lead`), how the
  * first move opens the scene, and what led here by the moment's label
  * (`cause`).
  */
 export type NarrationMove =
   | { part: "setting"; kind: string }
+  | { part: "arrival"; kind: string }
   | {
       part: "lead";
       typeKey: string;
@@ -77,6 +80,11 @@ const bankOf = (
       return {
         key: `scene-setting:${move.kind}`,
         variants: words.settings[move.kind],
+      };
+    case "arrival":
+      return {
+        key: `scene-arrival:${move.kind}`,
+        variants: words.arrivals?.[move.kind],
       };
     case "lead": {
       const lead = words.leads.find((row) => row.typeKey === move.typeKey);

@@ -1,0 +1,14 @@
+{
+  "about": "The federal law series a President sets by order or by directing the agency's rule, read by src/core2/modules/executive.ts (issueFederalOrder and presidentialOrderDecisions). A series is listed only where an engine reads it and a President has set or reversed it in practice. The President's view of the order is their view of the nearest question the stance data records (analog), because the stance axes are measured from the states' laws and a federal question has none (stopgap SG-NATION-federal-axis-proxy).",
+  "orders": [
+    {
+      "key": "limit-power-plant-carbon",
+      "series": "us-federal-positions:energy-environment.limit-power-plant-carbon",
+      "analog": "us-policy-positions:environment-energy.price-carbon",
+      "authority": {
+        "basis": "The Environmental Protection Agency sets the carbon standard for power plants under Clean Air Act section 111, and the President directs the agency's rule (the 2024 standards, and the reconsideration of them, were each an administration's act).",
+        "source": "EPA 2024 Regulatory Impact Analysis, Clean Air Act section 111 carbon pollution standards (quoted in data/research/outcome-web/links.json, power-plant-carbon-to-emissions); the climate engine reads this series (src/core2/modules/climate.ts)."
+      }
+    }
+  ]
+}

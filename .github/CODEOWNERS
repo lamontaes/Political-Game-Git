@@ -68,6 +68,7 @@
 /src/core2/membership-dues.ts @lamontaes
 /src/core2/gov-test-clock.ts @lamontaes
 /src/core2/campaign-data.ts @lamontaes
+/src/core2/modules/national-opinion.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
@@ -210,6 +211,7 @@
 /src/core2/modules/coverage.ts @lamontaes
 /src/core2/modules/views.ts @lamontaes
 /src/core2/modules/speech.ts @lamontaes
+/src/core2/hearer-groups.ts @lamontaes
 /src/core2/modules/record.ts @lamontaes
 /src/core2/modules/renewal.ts @lamontaes
 /src/core2/births-*.ts @lamontaes
