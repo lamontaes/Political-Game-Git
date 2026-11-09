@@ -586,16 +586,59 @@ describe("jobs", () => {
       expect(claims).toEqual([]);
       return;
     }
-    // The claim reads the lost job's pay as it stood when it ended, hours cuts included (the job is 8 hours a day at 84,000 a week).
+    // The claim reads the worker's pay by quarter, the state's own formula:
+    // the base period is the first four of the last five completed quarters
+    // before the claim is filed, the basis is the state's highest quarters of
+    // them, the benefit is the state's fraction of that basis, and the
+    // state's weekly maximum caps it. Worked out here from the payroll's
+    // record for the worker, not typed.
+    const fold = (
+      core.work as unknown as {
+        payByQuarter: ReadonlyMap<
+          string,
+          readonly { quarter: string; grossMinor: number }[]
+        >;
+      }
+    ).payByQuarter.get("w1");
+    expect(
+      fold?.length,
+      "the payroll recorded the worker's quarters",
+    ).toBeTruthy();
+    const filed = String(w1!.filedAt);
+    const quarterOfDay = (day: string) =>
+      `${day.slice(0, 4)}Q${Math.floor((Number(day.slice(5, 7)) - 1) / 3) + 1}`;
+    const completed = fold!
+      .filter((q) => q.quarter < quarterOfDay(filed))
+      .slice(-5);
+    const base = completed.length === 5 ? completed.slice(0, 4) : completed;
+    const basis = base
+      .map((q) => q.grossMinor)
+      .sort((a, b) => b - a)
+      .slice(0, terms.basisQuarters ?? 0)
+      .reduce((n, v) => n + v, 0);
+    // A state that pays on the weekly wage, or whose row gives no basis, or a
+    // worker with under four completed quarters on record, is paid on the lost job's pay.
+    const readsQuarters =
+      completed.length >= 4 &&
+      terms.weeklyFraction !== undefined &&
+      !!terms.basisQuarters;
+    // With under four completed quarters of pay on record before the claim (the world
+    // is under a year old), the lost job's pay as it stood when it ended,
+    // hours cuts included, stands (stopgap SG-LAWS-ui-base-period-last-pay).
     const lastHours =
       (core.work.hourChanges.get("job:w1") ?? [])
-        .filter((change) => change.date <= String(w1!.filedAt))
+        .filter((change) => change.date <= filed)
         .at(-1)?.hoursDaily ?? 8;
     const lostWeekly = (84_000 * lastHours) / 8;
     expect(lostWeekly).toBeLessThanOrEqual(84_000);
     expect(w1).toMatchObject({
       weeklyMinor: Math.round(
-        Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * lostWeekly),
+        Math.min(
+          terms.weeklyMaximumMinor,
+          readsQuarters
+            ? terms.weeklyFraction! * basis
+            : terms.weeklyShare * lostWeekly,
+        ),
       ),
       reasonKey: "demand-below-staff",
       lawId: row.id,
