@@ -30,16 +30,16 @@ export async function devScenePanel({ labels, onDone }) {
   const type = select({
     label: labels.type,
     value:
-      scenes.find((row) => row.key === lastType)?.key ??
-      [...scenes].sort((a, b) => rank(a) - rank(b))[0].key,
+      scenes.find((row) => row.recipe && row.key === lastType)?.key ??
+      [...scenes]
+        .filter((row) => row.recipe)
+        .sort((a, b) => rank(a) - rank(b))[0]?.key,
+    // Only a scene the game can bring about is offered, by its name alone: a kind nothing can
+    // start stays off, and no line explains the rest (owner, Nov 8, 2:15 a.m.: no subtexts).
     options: [...scenes]
+      .filter((row) => row.recipe)
       .sort((a, b) => rank(a) - rank(b))
-      .map((row) => ({
-        value: row.key,
-        label: row.recipe
-          ? `${row.key} · ${row.causeRecords.join(", ")}${row.recipe === "wait" ? ` · ${labels.waits}` : ""}`
-          : `${row.key} · ${labels.noPath}`,
-      })),
+      .map((row) => ({ value: row.key, label: row.key })),
   });
   const result = statusLine();
   result.textContent = lastResult;

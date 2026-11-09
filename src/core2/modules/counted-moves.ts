@@ -153,6 +153,10 @@ export interface Runtime {
   totals: Map<string, Map<string, number>>;
   /** Normalizes the holds so a place's average leaving rate is the ACS rate. */
   holdNorm: Map<PlaceId, number>;
+  /** The people each institution's rooms hold (place and type), seen the first month: its beds. */
+  roomCapacity: Map<string, number>;
+  /** Next in line on each institution type's waiting list (admitToRooms). */
+  roomQueue: Map<string, number>;
   serial: number;
   /** After-tax real income by state and wage, for this month (cleared each month). */
   netCache: Map<string, number>;
@@ -403,6 +407,8 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     arrive: new Map(),
     totals: new Map(),
     holdNorm: new Map(),
+    roomCapacity: new Map(),
+    roomQueue: new Map(),
     serial: 0,
     netCache: new Map(),
   };
@@ -1174,6 +1180,8 @@ function month(api: CoreAPI): void {
   }
   // 3. Whole households arrive as their people come due.
   arrivals(api, rt, residents, placePeople, agedHere, source, jobless);
+  // Institutions fill the rooms their residents left (deaths, fill-ins).
+  admitToRooms(api, rt, residents, source);
 
   // 4. Each state's people this month, for the regional engine.
   const monthKey = date.slice(0, 7);
@@ -1396,6 +1404,92 @@ function arrivals(
   }
 }
 
+/**
+ * Institutions admit as rooms empty (owner, Nov 8: group quarters turn over).
+ * A place's rooms of one type are its beds: the people they held the first
+ * month. When a resident dies or is filled in and the room stands empty, the
+ * next person on the institution's waiting list moves in, a person drawn
+ * like one the type's rooms hold (same ages, new identity, seeded), so a
+ * nursing home, a dormitory or a barracks stays occupied the way its beds are.
+ * Nobody is discharged yet: students and service members still age in place
+ * (SG-GQ-no-turnover, narrowed to discharge).
+ */
+function admitToRooms(
+  api: CoreAPI,
+  rt: Runtime,
+  residents: ResidentsRuntime,
+  source: Source,
+): void {
+  const core = api.state as CoreState;
+  const store = residents.store;
+  const date = api.state.date;
+  const rooms = new Map<string, CountedHousehold[]>();
+  for (const h of store.liveHouseholds()) {
+    if (!h.quarters) continue;
+    const key = `${h.placeId}|${h.quarters}`;
+    const list = rooms.get(key);
+    if (list) list.push(h);
+    else rooms.set(key, [h]);
+  }
+  for (const key of [...rooms.keys()].sort()) {
+    const held = rooms.get(key)!;
+    const filled = held.filter((h) => store.countedMembers(h).length > 0);
+    const occupied = filled.reduce((n, h) => n + store.weightedCount(h), 0);
+    const known = rt.roomCapacity.get(key);
+    if (known === undefined) {
+      rt.roomCapacity.set(key, occupied);
+      continue;
+    }
+    let vacancy = known - occupied;
+    if (!filled.length) continue;
+    // The waiting list is read in order, never drawn: applicants queue in the
+    // order of the type's own households (by id), and the next room goes to
+    // the next in line.
+    // stopgapId: SG-GQ-waiting-list-order
+    const line = [...filled].sort((a, b) => (a.id < b.id ? -1 : 1));
+    for (;;) {
+      const turn = rt.roomQueue.get(key) ?? 0;
+      const template = line[turn % line.length]!;
+      const size = store.weightedCount(template);
+      if (!(vacancy >= size) || size <= 0) break;
+      rt.roomQueue.set(key, turn + 1);
+      const record = drawHousehold(
+        api,
+        `${date}:${rt.serial}:room`,
+        residents,
+        template,
+        "the institution's waiting list",
+        source,
+      );
+      const withRoom = {
+        ...record,
+        household: { ...record.household, quarters: template.quarters! },
+      };
+      admitCountedHousehold(core, withRoom, store.weightOf(template));
+      rt.serial++;
+      vacancy -= size;
+      api
+        .moduleState(COUNTED_MOVES_MODULE_ID)
+        .table(TABLE)
+        .put({
+          id: `move:in:${record.household.id}:${date}`,
+          date,
+          direction: "in",
+          householdId: record.household.id,
+          groupId:
+            store.groups[
+              store.households[store.householdOf.get(record.household.id)!]!
+                .group
+            ]!.id,
+          fromPlace: "waiting-list",
+          toPlace: template.placeId,
+          people: size,
+          reasons: {},
+        } as unknown as ModuleRow);
+    }
+  }
+}
+
 /** A newcomer household's share of its place's unplaced workers, at the place's rate. */
 function jobShare(
   residents: ResidentsRuntime,
@@ -1598,6 +1692,31 @@ export function drawnResident(
     source,
     memberIx,
   );
+}
+
+/**
+ * A person drawn like a counted adult of the town aged between `ages` (inclusive): the first such
+ * counted member of the place's counts is the template, and `salt` gives the same person each
+ * time. Null when the counts hold no adult of that age (nobody is drawn). Nothing is stored until
+ * the record is admitted.
+ */
+export function drawnAdult(
+  api: CoreAPI,
+  salt: string,
+  ages: readonly [number, number],
+): ResidentHouseholdRecord | null {
+  const store = residentsRuntime(api.state as CoreState)?.store;
+  if (!store) return null;
+  for (const household of store.households) {
+    for (const member of store.countedMembers(household)) {
+      const birth = store.born[member];
+      if (birth === undefined) continue;
+      const age = ageOn(birth, api.state.date);
+      if (age < ages[0] || age > ages[1]) continue;
+      return drawnResident(api, household.id, store.ids[member]!, salt);
+    }
+  }
+  return null;
 }
 
 /** Each state's or territory's people this month, as the counts hold them (both tiers' counted people). */

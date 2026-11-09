@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
+status: done
 lead: money
 claimed-by:
-pr:
+pr: #7847
 blocked-on:
 source: added with npm run pool -- add
 ---
