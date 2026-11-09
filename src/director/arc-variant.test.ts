@@ -103,12 +103,16 @@ const pressFacts: Record<string, Fact> = {
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
 };
+// What an accusation hands the plain arc's lines (a bill the accuser names).
+const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
 const factsOf = (family: string) =>
   family === "donor-ask"
     ? donorFacts
     : family === "press-comment"
       ? pressFacts
-      : generic;
+      : family === "conflict-accuse"
+        ? accuseFacts
+        : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -137,7 +141,9 @@ const compose = (
     {},
     { includeHeld: true },
   );
-  expect(result.kind, `${family}/${variant}`).toBe("composed");
+  expect(result.kind, `${family}/${variant} ${JSON.stringify(result)}`).toBe(
+    "composed",
+  );
   if (result.kind !== "composed") throw new Error("not composed");
   return result.talk;
 };
@@ -189,6 +195,12 @@ describe("a kind with several arcs", () => {
             ).toBeGreaterThan(0);
         else if (family === "press-comment")
           for (const id of ["on-record", "no-comment"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "conflict-accuse")
+          for (const id of ["disclosed", "feud"])
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,

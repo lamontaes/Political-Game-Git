@@ -55,6 +55,8 @@ type ReadSpec =
       against?: "asked-year";
       /** A share of this much: field / (field + scale). Without either, the field itself between 0 and 1. */
       scale?: Tagged;
+      /** 1 where the field holds exactly this value (a complaint's basis, a taken bribe), else 0: a fact about the row, not a number on it. */
+      equals?: string | boolean;
     }
   | {
       /** How many earlier records of these kinds name both people, as count / (count + scale). */
@@ -388,6 +390,17 @@ function readOf(
     .moduleState(spec.module)
     .table(spec.table)
     .get(rowId);
+  if (spec.equals !== undefined) {
+    let at: unknown = row;
+    for (const step of spec.field.split("."))
+      at =
+        typeof at === "object" && at !== null
+          ? (at as Record<string, unknown>)[step]
+          : undefined;
+    if (at !== spec.equals) return P.zero;
+    recordIds.add(rowId);
+    return P.one;
+  }
   const value = row ? fieldOf(row, spec.field) : undefined;
   if (value === undefined) return P.zero;
   recordIds.add(rowId);

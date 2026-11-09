@@ -30049,6 +30049,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30073,6 +30074,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30097,6 +30099,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30121,6 +30124,7 @@
           "move": "tell",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30145,6 +30149,7 @@
           "move": "deny",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30169,6 +30174,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30193,6 +30199,7 @@
           "move": "offer",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30217,6 +30224,7 @@
           "move": "lie",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30241,6 +30249,7 @@
           "move": "ask",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "tell"
         }
@@ -30266,6 +30275,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30290,6 +30300,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "deny"
         }
@@ -30315,6 +30326,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "confront"
         }
@@ -30340,6 +30352,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "lie",
           "requiresFacts": ["knows-truth"]
@@ -30366,6 +30379,7 @@
           "move": "tell",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "ask"
         }
@@ -30391,6 +30405,7 @@
           "move": "offer",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30415,6 +30430,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat"
         }
       ],
@@ -30439,6 +30455,7 @@
           "move": "warn",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "leave",
           "outcome": "open"
@@ -35647,6 +35664,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "lie"
         }
@@ -35672,6 +35690,7 @@
           "move": "tell",
           "role": "asked",
           "purpose": "conflict-accuse",
+          "excludesFacts": ["read-complaint"],
           "key": "threat",
           "after": "press"
         }
@@ -186325,6 +186344,2840 @@
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
       "tag": { "move": "react", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.witness.name-says-you-offered-them-money-and-has-gone-to-the-prosecutor-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} says you offered them money, and has gone to the prosecutor about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is the one you offered money to, and has reported it. Now they have come to say so to your face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.witness.i-want-you-to-know-where-i-stand-first-i-went-to-the-prosecutor",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I want you to know where I stand, {first}. I went to the prosecutor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.witness.i-d-rather-you-heard-it-from-me-first-i-reported-what-you-offered-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather you heard it from me, {first}. I reported what you offered me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.witness.you-offered-me-money-first-i-turned-it-down-and-i-reported-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You offered me money, {first}. I turned it down, and I reported it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.witness.i-m-letting-you-know-today-that-the-prosecutor-has-my-complaint-about-what-you-offered-me",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'm letting you know today that the prosecutor has my complaint about what you offered me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.witness.what-you-offered-me-wasn-t-a-gift-first-i-want-to-hear-what-you-have-to-say-about-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "What you offered me wasn't a gift, {first}. I want to hear what you have to say about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "I never offered you anything. You have that wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "No. Whatever you think you heard, it wasn't an offer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "That's not what happened, and I'll say so to anyone who asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It wasn't how you took it. Let me tell you what I meant.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I was trying to help with a problem, and I went about it wrong. Let me explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I did say something about money. Let me tell you the whole of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.witness.you-re-reporting-me-because-it-suits-you",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You're reporting me because it suits you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Put it in writing, if you're so sure.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right, and I'm sorry. I shouldn't have offered you anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I was wrong to put you in that position, and I'm sorry for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I knew it was wrong when I said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then let the prosecutor sort out which of us is lying.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm not afraid of an investigation.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You've made up your mind, so there's nothing left to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not going to say anything more about this today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need to think before I say another word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've said what I'm going to say today. We'll see what comes of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "This isn't getting us anywhere. I'm done talking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Whatever happens next, it won't be settled here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.witness.thank-you-for-telling-me-straight-first-that-s-more-than-i-expected",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me straight, {first}. That's more than I expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.witness.alright-i-wanted-to-hear-it-from-you-before-anyone-else",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I wanted to hear it from you before anyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That doesn't answer it, {first}. Tell me what you meant when you offered the money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You'll have to do better than that, {first}. I know what I heard.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Then why offer it at all, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "And you thought I'd take it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't turn this on me, {first}. I'm the one who was offered the money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm not afraid of what you have to say, {first}. The prosecutor has my account.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-warn.witness.then-i-ll-tell-the-prosecutor-exactly-what-you-told-me-today",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll tell the prosecutor exactly what you told me today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-accept.witness.alright-i-ve-said-what-i-came-to-say",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I've said what I came to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-thank.witness.thank-you-for-hearing-me-out-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing me out, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-react.witness.name-nods-once-and-leaves",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} nods once, and leaves.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.witness",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.hearsay.name-was-told-about-a-bribe-by-someone-who-knew-of-it-and-made-a-complaint-now-they-want-to-hear-it-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was told about a bribe by someone who knew of it, and made a complaint. Now they want to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.hearsay.a-complaint-to-the-prosecutor-has-your-name-on-it-and-name-is-the-one-who-made-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A complaint to the prosecutor has your name on it, and {name} is the one who made it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.hearsay.i-ll-be-straight-with-you-first-i-went-to-the-prosecutor-about-something-i-was-told",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll be straight with you, {first}. I went to the prosecutor about something I was told.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.hearsay.can-i-ask-you-something-first-i-made-a-complaint-and-i-d-rather-you-heard-that-from-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I ask you something, {first}? I made a complaint, and I'd rather you heard that from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.hearsay.someone-who-knew-about-it-told-me-there-was-a-bribe-first-and-your-name-came-up-is-it-true",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Someone who knew about it told me there was a bribe, {first}, and your name came up. Is it true?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.hearsay.i-reported-what-i-was-told-first-i-want-to-hear-your-side-before-anyone-else-s",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I reported what I was told, {first}. I want to hear your side before anyone else's.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.hearsay.i-don-t-have-proof-first-i-have-what-i-was-told-and-i-couldn-t-sit-on-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I don't have proof, {first}. I have what I was told, and I couldn't sit on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "No. Whoever told you that has it wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "That's a rumor, and you've put it in front of a prosecutor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "There's nothing to it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Part of it's true, and I'll tell you which part.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It isn't as simple as you were told. Let me explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell you what happened, start to finish.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You took somebody's word over mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You went to a prosecutor over a rumor?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-ask.hearsay.who-told-you-that",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who told you that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What exactly were you told, and by whom?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then you'd better hope your source is right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Rumors ruin people. You should have come to me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You can't take it back now, and neither can I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not going to answer a rumor today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll answer when I know who said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm not going to argue about a rumor. I'm leaving it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I won't be pulled into this. We're finished.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Come back when you have more than a rumor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.hearsay.thank-you-first-that-s-the-first-thing-i-ve-heard-that-wasn-t-secondhand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That's the first thing I've heard that wasn't secondhand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.hearsay.alright-i-m-glad-i-asked-you-instead-of-guessing",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'm glad I asked you instead of guessing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not enough, {first}. Someone told me otherwise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I want to believe you, {first}. Give me something I can check.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "And you expect me to believe that, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Then why would someone tell me something different?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-answer.hearsay.i-can-t-say-who-it-was-first-i-can-say-they-knew-what-they-were-talking-about",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I can't say who it was, {first}. I can say they knew what they were talking about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It came from someone I trust, {first}. That's all I'll say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I didn't make it up, {first}. Somebody did tell me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't call it a rumor when the prosecutor has it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-warn.hearsay.if-it-s-wrong-i-ll-say-so-to-the-prosecutor-myself",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If it's wrong, I'll say so to the prosecutor myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-accept.hearsay.alright-that-s-all-i-wanted-to-ask",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. That's all I wanted to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-thank.hearsay.thank-you-for-answering-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for answering, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-react.hearsay.name-frowns-and-goes-without-another-word",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} frowns, and goes without another word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.hearsay",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.taken.a-bribe-was-offered-and-taken-and-name-made-a-complaint-to-the-prosecutor-that-names-more-than-one-person-now-they-want-to-hear-it-from-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A bribe was offered and taken, and {name} made a complaint to the prosecutor that names more than one person. Now they want to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.taken.name-has-gone-to-the-prosecutor-over-a-payment-that-was-taken-and-wants-to-hear-from-you-before-anyone-else-does",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has gone to the prosecutor over a payment that was taken, and wants to hear from you before anyone else does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.taken.i-won-t-waste-your-time-first-this-is-about-the-money-that-was-taken",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I won't waste your time, {first}. This is about the money that was taken.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.taken.i-d-rather-say-this-to-you-than-about-you-first-it-s-about-the-payment",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather say this to you than about you, {first}. It's about the payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.taken.the-money-was-taken-first-and-more-than-one-name-is-in-my-complaint-yours-is-one-of-them",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "The money was taken, {first}, and more than one name is in my complaint. Yours is one of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'm told the money changed hands, {first}. This isn't only a rumor about an offer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-confront.taken.this-isn-t-about-an-offer-anymore-first-the-money-was-taken-i-need-to-know-what-you-had-to-do-with-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "This isn't about an offer anymore, {first}. The money was taken. I need to know what you had to do with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "I had nothing to do with any payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "Nobody can show that I touched that money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "Whoever put my name in your complaint was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell you exactly how it went, and you can judge.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It started as one thing and became another. Let me explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You should hear all of it from me, not from the prosecutor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I got into something I couldn't get out of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I should have walked away before the money moved. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, and I'll answer for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't discuss it. Not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to go. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've said enough for today. Let the prosecutor do the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.taken.thank-you-first-that-took-more-nerve-than-i-expected",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That took more nerve than I expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.taken.alright-i-ll-put-that-in-with-what-i-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll put that in with what I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's not the whole story, {first}. Tell me the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry doesn't tell me who else was involved, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.taken.who-else-knew-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who else knew, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "And the money, {first}? Where did it go?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-warn.taken.the-prosecutor-will-want-the-rest-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The prosecutor will want the rest, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-accept.taken.alright-i-know-where-you-stand",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I know where you stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-thank.taken.thank-you-for-being-straight-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for being straight, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-react.taken.name-lets-out-a-long-breath-and-steps-away",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} lets out a long breath and steps away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.taken",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.friend.name-is-close-to-you-and-went-to-the-prosecutor-anyway-now-they-are-asking-you-to-tell-them-the-truth",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is close to you, and went to the prosecutor anyway. Now they are asking you to tell them the truth.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.friend.name-did-not-want-to-make-this-complaint-and-has-come-to-you-before-anyone-else",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} did not want to make this complaint, and has come to you before anyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.friend.i-didn-t-sleep-first-i-filed-a-complaint-and-i-wanted-you-to-hear-it-from-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I didn't sleep, {first}. I filed a complaint, and I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.friend.this-is-the-hardest-thing-i-ve-ever-said-to-you-first-i-went-to-the-prosecutor",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "This is the hardest thing I've ever said to you, {first}. I went to the prosecutor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.friend.please-tell-me-it-isn-t-true-first-i-need-to-hear-it-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Please tell me it isn't true, {first}. I need to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.friend.would-you-tell-me-what-happened-first-i-can-t-take-the-complaint-back-but-i-can-listen",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you tell me what happened, {first}? I can't take the complaint back, but I can listen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.friend.i-didn-t-want-to-believe-it-first-will-you-tell-me-what-really-happened",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I didn't want to believe it, {first}. Will you tell me what really happened?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "It isn't true. I'd never do that to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "No. I swear I didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "Whatever you were told, that's not what happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deny", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I'll tell you everything, and I'm not going to dress it up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's more complicated than it sounds. Let me tell you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "You deserve the truth from me. Here it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry you had to be the one who found out. I never wanted to put you in this position.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. You deserved to hear it from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I let you down, and I know it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why didn't you come to me before you went to the prosecutor?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you been carrying this?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this right now. I'll find you when I can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.friend.thank-you-for-telling-me-first-i-know-that-wasn-t-easy",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you for telling me, {first}. I know that wasn't easy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.friend.alright-i-needed-to-hear-it-from-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I needed to hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I want to believe you, {first}. I just need more than that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'd like to trust you, {first}. Help me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.friend.is-that-all-of-it-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is that all of it, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Why didn't you tell me yourself, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "tell"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because I wasn't sure I could ask you and still do what was right, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-answer.friend.because-i-was-afraid-you-d-tell-me-it-was-true-first",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Because I was afraid you'd tell me it was true, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-warn.friend.i-ll-tell-the-prosecutor-what-you-ve-told-me-first-i-have-to",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll tell the prosecutor what you've told me, {first}. I have to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-accept.friend.alright-i-ll-hold-on-to-that-for-now",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll hold on to that for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-thank.friend.thank-you-for-not-shutting-me-out-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for not shutting me out, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-react.friend.name-wipes-their-eyes-and-nods",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} wipes their eyes and nods.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "conflict-accuse.friend",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, accusation variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "threat" }
     }
   ]
 }
