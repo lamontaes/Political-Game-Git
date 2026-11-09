@@ -44,7 +44,7 @@ import {
   type CauseRow,
   type ImpressionRow,
 } from "./modules/campaigns";
-import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { setKeepEveryonesWhy } from "./why-kept";
 import { discretionaryHours } from "./modules/work";

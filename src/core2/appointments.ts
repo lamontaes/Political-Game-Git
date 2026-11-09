@@ -11,7 +11,7 @@
  * other side. Simple majority confirms. The U.S. Senate's members are its
  * real party makeup, seat by seat (public-domain roster).
  */
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { decisionLean, decisionTraitWeight } from "./trait-decisions";
 import type { CoreState } from "./types";
 import partySides from "./data/elections/party-sides.json" with { type: "json" };

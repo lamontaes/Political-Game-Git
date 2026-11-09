@@ -23,7 +23,7 @@ import delegates from "../../data/research/elections/house-delegates-2024.json" 
 import { nationalParty, partySide } from "./appointments";
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 import { bookkeeping } from "./bookkeeping";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   LEGISLATIVE_RESULTS_CITATION,
   legislativeDistrictResult,
