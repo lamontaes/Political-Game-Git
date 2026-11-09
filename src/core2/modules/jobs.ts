@@ -95,6 +95,7 @@ import type {
   CoreModule,
   CoreState,
   JobInput,
+  OrganizationInput,
   WorkCommitmentInput,
   PersonState,
   Source,
@@ -174,6 +175,8 @@ interface SeekerRow {
   reasons?: Record<string, number>;
   /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
   regionalPull?: number;
+  /** The job they lost, kept on the row for the pay and the role they look for. */
+  lastJob?: JobInput;
   /** Their finding progress reached one while an opening stood near them: the month of weekly matching that followed was theirs. */
   localTried?: boolean;
 }
@@ -2191,7 +2194,7 @@ function regionalTemplate(
 
 /** What one review of regional finds looks up once per place: its outside account and its private employers' live jobs, pay ordered. */
 interface RegionalMemo {
-  outside: Map<string, ReturnType<typeof townOutsideOf>>;
+  outside: Map<string, OrganizationInput>;
   rows: Map<string, JobInput[]>;
 }
 
