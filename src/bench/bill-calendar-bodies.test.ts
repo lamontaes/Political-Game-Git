@@ -32,10 +32,10 @@ describe("a state legislator's calendar names their chamber's next sitting (West
     expect(meetings.some((m) => m.recordIds.includes(seat!.office.id))).toBe(
       true,
     );
-    // The date the calendar names is the first floor day the legislature holds the member for (2025-02-11, seen in bill-westway-floor.test.ts).
+    // The date the calendar names is the first floor day the legislature holds the member for (2025-02-10, the day bill-westway-floor.test.ts holds the member).
     expect(
       meetings.find((m) => m.recordIds.includes(seat!.office.id))!.date,
-    ).toBe("2025-02-11");
+    ).toBe("2025-02-10");
     console.log(
       `calendar: Westway, Texas, seed memA, ${core.date}: ${meetings.map((m) => `${m.date} ${m.line}`).join("; ")}`,
     );
