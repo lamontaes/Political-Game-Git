@@ -3086,7 +3086,8 @@ function runWeek(api: CoreAPI): void {
     if (weight <= 0) return;
     const needWork =
       weight *
-      applyNeed(p, seeker, c.date, unemployedNeed(api, seeker.personId));
+        applyNeed(p, seeker, c.date, unemployedNeed(api, seeker.personId)) -
+      p("jobsApplyUnfoundWeight") * (p("one") - weight);
     const scored = scoreOffers(c, seeker.personId, [
       offer("wait", seeker.id, {}),
       ...nearby.map((position) =>

@@ -101,6 +101,18 @@
       "citation": "How strongly pay against what a seeker has (or had) draws an application."
     }
   },
+  "jobsApplyUnfoundWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How much a seeker's search still to run (one less the share of the way to finding work, built from the CPS spell rate) holds back an application. It slides with progress, no step; checked against the CPS monthly job-finding share of about 20 to 25 percent of the unemployed.",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score per share of the search still to run",
+      "citation": "Checked so the town's monthly share of the unemployed finding work stays near the CPS share (FRED LNS17100000 over unemployed)."
+    }
+  },
   "jobsUnemployedNeedWeight": {
     "value": 3,
     "tag": "TUNABLE",
