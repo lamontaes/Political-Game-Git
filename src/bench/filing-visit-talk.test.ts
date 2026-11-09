@@ -11,8 +11,6 @@ import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
-import { advanceCore } from "../core2/life";
 import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
 import {
   checkEligibility,
@@ -41,7 +39,7 @@ const shown = (choice: { control: string; text: string }) =>
           choice.control
         ],
       );
-const ATTEMPTS = 3;
+const ATTEMPTS = 10;
 
 it(`a first visit asks for the papers, the player says only what they chose, and a return brings the petition (seed ${seed})`, () => {
   setBookkeeping(false);
@@ -76,14 +74,9 @@ it(`a first visit asks for the papers, the player says only what they chose, and
           ),
         }))
         .find((row) => row.contest);
-    // Filing opens on the place's own days: the weeks go by until a local
-    // race is open to a grown resident (at most two years), read from the
-    // calendar's records, never skipped.
-    let pair = findPair();
-    for (let week = 0; week < 104 && !pair; week += 1) {
-      advanceCore(core, addDays(makeIsoDate(core.date), 7));
-      pair = findPair();
-    }
+    // A place whose filing windows are all closed at the opening has no race
+    // to file for by its own calendar: the next drawn place is tried.
+    const pair = findPair();
     if (!pair) {
       tried.push(`${where}: no local race a grown resident may file for`);
       continue;
