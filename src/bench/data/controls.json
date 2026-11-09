@@ -385,7 +385,26 @@
     "more": "More days",
     "steps": [1, 3, 7, 14, 30, 60, 90, 180, 366, 800],
     "firstStep": 30,
-    "cap": 1100
+    "cap": 1100,
+    "hours": [
+      {
+        "label": "Morning",
+        "hour": 6
+      },
+      {
+        "label": "Midday",
+        "hour": 12,
+        "chosen": true
+      },
+      {
+        "label": "Evening",
+        "hour": 18
+      },
+      {
+        "label": "Night",
+        "hour": 22
+      }
+    ]
   },
   "options": {
     "on": "On",

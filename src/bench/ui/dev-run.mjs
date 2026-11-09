@@ -95,25 +95,20 @@ export function devRunPanel({ labels, onDone }) {
       run.disabled = false;
     }
   });
-  // Jump to an hour of the day (arrows either side of the hour): the player's clock moves there
-  // and the world runs to it.
-  let hourAt = 12;
-  const hourBox = el("div");
-  const drawHour = () => {
-    const row = lookRow(
-      { id: "hour", label: labels.hour, value: String(hourAt) },
-      {
-        onMove: (_id, by) => {
-          hourAt = Math.min(Math.max(hourAt + by, 0), 23);
-          drawHour();
-        },
-        arrowLabel: (by) => (by < 0 ? labels.fewer : labels.more),
-      },
-    );
-    row.dataset.testid = "dev-hour";
-    hourBox.replaceChildren(row);
-  };
-  drawHour();
+  // Jump to an hour of the day: a row of named hours, the chosen one lit (no arrows), then the
+  // button. The player's clock moves there and the world runs to it.
+  let hourAt = labels.hours.find((h) => h.chosen)?.hour ?? labels.hours[0].hour;
+  const hourButtons = labels.hours.map((h) => {
+    const b = makeButton({ className: "action small", textContent: h.label });
+    b.setAttribute("aria-pressed", String(h.hour === hourAt));
+    b.dataset.hour = String(h.hour);
+    b.addEventListener("click", () => {
+      hourAt = h.hour;
+      for (const other of hourButtons)
+        other.setAttribute("aria-pressed", String(other === b));
+    });
+    return b;
+  });
   const jump = makeButton({ className: "action" }, labels.jump);
   jump.dataset.testid = "dev-jump-hour";
   jump.addEventListener("click", async () => {
@@ -144,7 +139,8 @@ export function devRunPanel({ labels, onDone }) {
     el("h4", { className: "label", textContent: labels.orUntil }),
     el("div", { className: "acts" }, ...eventButtons),
     el("div", { className: "acts" }, holdButton, run),
-    hourBox,
+    el("h4", { className: "label", textContent: labels.hour }),
+    el("div", { className: "acts" }, ...hourButtons),
     el("div", { className: "acts" }, jump),
     result,
   );
