@@ -212,6 +212,8 @@ export const CLIMATE_MODULE: CoreModule = {
 
 /** The latest month the climate keeps. */
 export function climateNow(api: CoreAPI): ClimateMonth | null {
+  // A world run without the climate module has no month (the disasters read a hazard level of one).
+  if (!api.state.modules.has(CLIMATE_MODULE_ID)) return null;
   const state = table(api, "state").get("climate:state") as
     { latestId: string } | undefined;
   return state
