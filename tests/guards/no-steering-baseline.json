@@ -17,7 +17,7 @@
   "unlabeledRows": {
     "src/core2/data/budgets/treasury-spending.json": 13,
     "src/core2/data/business/parameters.json": 39,
-    "src/core2/data/campaigns/parameters.json": 269,
+    "src/core2/data/campaigns/parameters.json": 267,
     "src/core2/data/candidacy/benchmarks.json": 17,
     "src/core2/data/candidacy/parameters.json": 36,
     "src/core2/data/contracts/parameters.json": 4,

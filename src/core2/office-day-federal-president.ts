@@ -30,9 +30,8 @@ import {
 import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
 import { fillInIdentity, personOrFillIn } from "./state";
-import { ageOn } from "./counted-groups";
-import { drawnResident } from "./modules/counted-moves";
-import { admitCountedHousehold, residentsRuntime } from "./modules/residents";
+import { drawnAdult } from "./modules/counted-moves";
+import { admitCountedHousehold } from "./modules/residents";
 import type { CoreState } from "./types";
 import { corePlaceByKey } from "./place-lookup";
 import { drawOfficialIdentity } from "./officials-identity";
@@ -266,27 +265,15 @@ const ACTING_AGE: readonly [number, number] = [40, 66];
  */
 function nameActingHead(api: CoreAPI, postId: string): string | null {
   const core = api.state as CoreState;
-  const store = residentsRuntime(core)?.store;
-  if (!store) return null;
-  for (const household of store.households) {
-    for (const member of store.countedMembers(household)) {
-      const birth = store.born[member];
-      if (birth === undefined) continue;
-      const age = ageOn(birth, api.state.date);
-      if (age < ACTING_AGE[0] || age > ACTING_AGE[1]) continue;
-      const record = drawnResident(
-        api,
-        household.id,
-        store.ids[member]!,
-        `acting:${postId}:${api.state.date}`,
-      );
-      if (!record) return null;
-      admitCountedHousehold(core, record);
-      const named = record.people[0]!.id;
-      return personOrFillIn(core, named)?.id ?? named;
-    }
-  }
-  return null;
+  const record = drawnAdult(
+    api,
+    `acting:${postId}:${api.state.date}`,
+    ACTING_AGE,
+  );
+  if (!record) return null;
+  admitCountedHousehold(core, record);
+  const named = record.people[0]!.id;
+  return personOrFillIn(core, named)?.id ?? named;
 }
 
 /**
