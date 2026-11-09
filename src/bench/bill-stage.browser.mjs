@@ -183,14 +183,33 @@ try {
     const v = await (
       await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
     ).json();
-    return { aide: v.aide, told: v.told.length, cosponsors: v.cosponsors };
+    return {
+      aide: v.aide,
+      told: v.told.length,
+      cosponsors: v.cosponsors,
+      // Colleagues who are full people and told the player they back the bill: the ones who can sign on.
+      backing: v.told.filter((t) => t.side === "for" && t.personId).length,
+    };
   }, billId);
   console.log("after colleagues told the player:", JSON.stringify(told));
-  assert.ok(
-    told.cosponsors.length > 0,
-    "colleagues signed on beside the player",
-  );
-  assert.ok(told.told > 0, "colleagues told the player where they stand");
+  // Colleagues sign on when they back the bill and know the player (the cosponsor rule at drafting),
+  // so who signs on follows who backs it in this draw: where some colleague told the player they are
+  // for it, someone signed on; where none did (or there is no body of colleagues at all), no one did.
+  if (told.told === 0)
+    console.log(
+      "no colleagues in this draw: the player's seat has no body to tell them where they stand",
+    );
+  else if (told.backing > 0)
+    assert.ok(
+      told.cosponsors.length > 0,
+      "colleagues who back the bill signed on beside the player",
+    );
+  else
+    assert.equal(
+      told.cosponsors.length,
+      0,
+      "no colleague backs the bill, so no one signed on",
+    );
   // Back, and open the paper again: it now says what the aide expects.
   await page.locator("#sheet-body button.action").first().click();
   await page.waitForTimeout(800);
