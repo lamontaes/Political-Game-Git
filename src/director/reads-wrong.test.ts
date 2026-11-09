@@ -104,6 +104,12 @@ interface Played {
     facts: { key: string; text: string; recordIds: string[] }[];
     said: string;
     narration: string;
+    /** The talk's narration lines and the first thing said, before any ask is answered. */
+    opening: string;
+    reasonFacts: string[];
+    /** Lines of narration besides the arrival, and lines of the talk's own narration. */
+    leadLines: number;
+    talkLines: number;
   }[];
   /** The kinds of the lines the player's own scenes opened with, by scene. */
 }
@@ -155,6 +161,13 @@ function playedYear(): Played {
         purpose: result.scene.purpose,
         facts: result.scene.facts,
         said: JSON.stringify(result.scene.talk),
+        opening: [
+          ...result.scene.talk.narration.map((line) => line.text),
+          result.scene.talk.state.text,
+        ].join(" "),
+        reasonFacts: result.scene.facts.map((row) => row.key),
+        leadLines: Math.max(0, (_scene?.narration ?? []).length - 1),
+        talkLines: result.scene.talk.narration.length,
         narration: (_scene?.narration ?? []).map((line) => line.text).join(" "),
       });
     },
@@ -278,4 +291,24 @@ it(`a lead never calls someone "Someone" after the arrival line named them (seed
     expect(scene.narration, `${where}: ${scene.typeKey}`).not.toMatch(
       /Someone is calling/,
     );
+}, 1_200_000);
+
+it(`a filing scene says what is being filed for before the clerk asks anything (seed ${seed})`, () => {
+  const { where, scenes } = playedYear();
+  for (const scene of scenes) {
+    if (scene.typeKey !== "filing") continue;
+    const office = scene.facts.find((row) => row.key === "office");
+    expect(office, `${where}: the filing names its office`).toBeTruthy();
+    expect(scene.opening, `${where}: filing`).toContain(office!.text);
+  }
+}, 1_200_000);
+
+it(`every staged scene says why before the first ask: a lead or a line of the talk's own narration (seed ${seed})`, () => {
+  const { where, scenes } = playedYear();
+  expect(scenes.length, where).toBeGreaterThan(0);
+  for (const scene of scenes)
+    expect(
+      scene.leadLines + scene.talkLines,
+      `${where}: ${scene.typeKey} opens on the arrival alone`,
+    ).toBeGreaterThan(0);
 }, 1_200_000);

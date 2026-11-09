@@ -130518,6 +130518,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
+          "excludesFacts": ["office"],
           "key": "filed"
         }
       ],
@@ -130555,6 +130556,30 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.you-are-here-to-file-for-office-and-name-takes-your-papers-to-check-them",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You are here to file for {office}, and {name} takes your papers to check them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-scene-has-no-context-lead)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-reads-your-forms-through-once-more-and-initials-the-last-page",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -130566,6 +130591,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
+          "excludesFacts": ["office"],
           "key": "filed"
         }
       ],

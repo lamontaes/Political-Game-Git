@@ -5,9 +5,9 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: story/director-context-lead
+pr: pending
 blocked-on:
 lead: words
 milestone: play-first
@@ -30,3 +30,5 @@ claimed-at:
 **You will see.** A visit at the house that starts by saying what it is about.
 
 **Screenshot.** The four scenes' opening paragraphs in a played year.
+
+**Re-check on story/director-context-lead (Nov 9).** The scenes stack already gave gathering-missing, apology and accusation their own talk narration. Only filing still opened on the clerk's action without saying what for; its two office-less narrate pieces now exclude the `office` fact, and a third piece names the office. News-arrives and the other types carry a lead. Sources read: Columbia, Missouri council filing notice (yahoo.com/news/politics/articles/columbia-city-council-candidate-filing-084923840.html) and the Los Angeles City Clerk's candidate information (cityclerk.lacity.org/election/General_Info_Municipal_Election_Candidates_2026.pdf).
