@@ -5,11 +5,12 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: money/service-charges-by-use
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-08T23:25:23.432Z
 ---
 
 **What.** Today src/core2/budgets-service-charges.ts makes the town's households pay every government charge (tuition, hospital bills, sewer and trash, parks, tolls) in proportion to the living cost each pays on the 1st, so a household that uses no service still pays and no business pays a charge. Replace that spread, service by service, with charges paid by the user on the day of use: tuition by the households of enrolled students (the school engine's enrollment records), sewer and trash by dwellings and businesses (housing and business records), hospital charges by patients (the health engine's visits, where recorded). A service whose use is not recorded yet keeps the living-cost share for that line only, named in the row. This closes SG-GOV-service-charges-by-living-cost.
