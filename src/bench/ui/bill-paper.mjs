@@ -6,6 +6,7 @@ import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
 import { makeCard } from "./card.mjs";
 import { bold, line, prose, heading } from "./text.mjs";
+import { stripSection } from "./strips.mjs";
 
 /**
  * Today's amount beside the new one: two cells, the law in force as it stands
@@ -40,10 +41,14 @@ const estimateOf = (label, estimate) => [
 ];
 
 /**
- * The paper and its estimate card. `paper`: { spoken, title, sponsor, sectionsLabel,
- * sections: [{ text, estimate: { prose, lines } }], lines: [text], estimateLabel,
- * blank: { prose, lines } } (the estimate shown when the bill has no sections). An estimate may
- * carry `compare`: { todayLabel, today, newLabel, proposed }.
+ * The paper as the legislation mock draws it (docs/mocks/2026-11-08-legislation/, "Following a
+ * bill"): three columns, where it is on the left, the bill typed on the paper in the middle, the
+ * estimate and the vote on the right. `paper`: { spoken, title, sponsor, sectionsLabel, whereLabel,
+ * billLabel, estimateLabel, voteLabel, sections: [{ text, estimate: { prose, lines } }], lines:
+ * [text] (where it is), votes: [{ big, text }] (each chamber's result, then its details),
+ * blank: { prose, lines } (the estimate shown when the bill has no sections), extra: [node]
+ * (figures under the estimate) }. An estimate may carry `compare`: { todayLabel, today, newLabel,
+ * proposed }.
  */
 export function billPaper(paper) {
   const aside = makeCard(
@@ -54,9 +59,9 @@ export function billPaper(paper) {
       paper.sections[0]?.estimate ?? paper.blank,
     ),
   );
-  const doc = el(
+  const typed = el(
     "div",
-    { className: "bill-doc" },
+    { className: "bill-doc ink" },
     heading(paper.spoken, "h2"),
     prose(paper.title),
     line(paper.sponsor),
@@ -73,7 +78,35 @@ export function billPaper(paper) {
       );
       return open;
     }),
-    ...paper.lines.filter(Boolean).map((text) => line(text)),
   );
-  return el("div", { className: "bill-paper" }, doc, aside);
+  const where = paper.lines.filter(Boolean).map((text) => line(text));
+  const votes = (paper.votes ?? []).flatMap((vote) => [
+    el("p", { className: "lbig", textContent: vote.big }),
+    ...(vote.text ? [line(vote.text)] : []),
+  ]);
+  return el(
+    "div",
+    { className: "strip-screen strip-board strips ol-g bill-board" },
+    el(
+      "div",
+      { className: "board-cols" },
+      el(
+        "div",
+        { className: "mx3col" },
+        stripSection(1, paper.whereLabel, ...where),
+      ),
+      el(
+        "div",
+        { className: "mx3col" },
+        stripSection(3, paper.billLabel, typed),
+      ),
+      el(
+        "div",
+        { className: "mx3col" },
+        stripSection(4, paper.estimateLabel, aside),
+        ...(paper.extra ?? []),
+        ...(votes.length ? [stripSection(2, paper.voteLabel, ...votes)] : []),
+      ),
+    ),
+  );
 }

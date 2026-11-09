@@ -537,6 +537,9 @@
     "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
+    "where": "Where it is",
+    "bill": "The bill",
+    "vote": "The vote",
     "estimate": "What it would do",
     "amends": "Amends",
     "from": "from",
@@ -550,7 +553,15 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
-    "none": "Not set"
+    "none": "Not set",
+    "figures": "Budget lines",
+    "thisYear": "This year",
+    "lastYear": "Last year",
+    "sinceLastYear": "Since last year",
+    "totalChange": "Total change",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "advanced": {
     "none": "No one holds an office that matches",
