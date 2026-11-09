@@ -3,8 +3,12 @@
   "jobsLossAtWorstShare": {
     "value": 0.015,
     "tag": "ESTIMATED",
+    "role": "coefficient",
     "source": "Roth Tran and Wilson 2023, The Local Economic Impact of Natural Disasters (FRBSF Working Paper 2020-34), p. 25 to 26: 'a disaster with damages p.c. equal to the 99th percentile causes population to decline by roughly 1.5% after eight years.' Jobs are taken to follow population one for one in the struck counties. The loss is the worst disaster's, scaled by the aid ramp and by the struck counties' share of the state.",
     "estimatedFrom": "Population response of the struck county at the most severe damages, taken as the jobs response.",
-    "spread": [0.005, 0.03]
+    "spread": [
+      0.005,
+      0.03
+    ]
   }
 }
