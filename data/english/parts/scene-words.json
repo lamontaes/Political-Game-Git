@@ -4530,7 +4530,7 @@
       "key": "scene-words.lead-gathering-missing-other.you-wrap-a-piece-of-cake-and-set-it-aside-for-other-nobody-asks-why",
       "move": "lead-gathering-missing-other",
       "kind": "spoken",
-      "text": "You wrap a piece of cake and set it aside for {other}. Nobody asks why.",
+      "text": "You wrap a slice of cake and set it aside for {other}. Nobody asks why.",
       "uses": [
         {
           "move": "lead-gathering-missing-other",
