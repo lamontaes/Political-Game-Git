@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: speed/speech-groups
-pr:
+pr: #8061
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-09T15:39:06.480Z
