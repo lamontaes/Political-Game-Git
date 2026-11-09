@@ -167,6 +167,14 @@ const evictionLaws = housingData.eviction as unknown as Record<
 >;
 const lawRow = evictionLaws[usps];
 if (!lawRow) failures.push(`no recorded eviction steps for ${usps}`);
+const later = (date: string, days: number) =>
+  addDays(makeIsoDate(date), Math.max(1, days));
+const stages: Record<string, number> = {};
+let broken = 0;
+const fail = (id: string, text: string) => {
+  broken += 1;
+  if (broken <= 8) failures.push(`${id}: ${text}`);
+};
 /** The state whose eviction law a case follows: the state of the place its household lives in (a national press household's address is in its own state, not the town's). */
 const lawStateOf = (row: Case): string => {
   const place = core.households.get(row.householdId)?.placeId;
@@ -193,7 +201,7 @@ for (const row of cases) {
       if (row.law[key] !== caseLaw[key])
         fail(
           row.id,
-          `followed ${key} ${row.law[key]}, the law of ${caseState} (its dwelling's state) says ${caseLaw[key]}`,
+          `followed ${key} ${row.law[key]}, the law of ${caseState} (its household's state) says ${caseLaw[key]}`,
         );
   // (4) The steps, in order, on the law's days.
   if (row.cureBy !== later(row.noticeAt, row.law.noticeDays))
