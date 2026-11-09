@@ -78,12 +78,8 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-<<<<<<< HEAD
-import { chooseVariant, type VariantChoice } from "./arc-variant";
 import { custodyFacts } from "./custody-facts";
-=======
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
->>>>>>> story/purposes-news-departure
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
