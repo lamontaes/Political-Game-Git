@@ -144,10 +144,18 @@ try {
         await page.locator("#talk-next").click();
       else if (await visible("talk-leave"))
         await page.locator("#talk-leave").click();
+      // A stop can open its desk between the check and the click, and the desk hides the card
+      // (scene mode): a click that cannot land is let go, and the next turn of the loop meets the desk.
       else if (await visible("continue"))
-        await page.locator("#continue").click();
+        await page
+          .locator("#continue")
+          .click({ timeout: 3000 })
+          .catch(() => {});
       else if (!(await page.locator("#week").isDisabled()))
-        await page.locator("#week").click();
+        await page
+          .locator("#week")
+          .click({ timeout: 3000 })
+          .catch(() => {});
       await page.waitForTimeout(1500);
     }
     if (!held) {
