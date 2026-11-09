@@ -61,6 +61,7 @@ function clean(text: string, here: string) {
   expect(text, here).not.toMatch(DAY_PATTERN);
 }
 
+const PINNED_ADVICE_DRAW = "ac2e0ff3a3691133:1";
 const DAY_PATTERN =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -248,9 +249,14 @@ describe("the political asks: a bribe in the press and a party that asks you to 
   it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (seed ${seed})`, () => {
     setBookkeeping(false);
     const tried: string[] = [];
-    for (let attempt = 0; attempt < 12; attempt += 1) {
-      const place = drawPlace(`${seed}:${attempt}`, "dead-kinds-advice");
-      const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    // Two draws from the run's seed, then a drawn place that is known to hold
+    // a member a party asks to run and a seated veteran of that party in town
+    // (Reinholds, Pennsylvania): few towns do, and every attempt builds a world
+    // twice, so a run of bad draws would otherwise take half an hour.
+    const draws = [`${seed}:0`, `${seed}:1`, PINNED_ADVICE_DRAW];
+    for (const [attempt, drawSeed] of draws.entries()) {
+      const place = drawPlace(drawSeed, "dead-kinds-advice");
+      const where = `${place.name} (${place.key}), seed ${drawSeed} (attempt ${attempt})`;
       const open = () =>
         buildBenchWorld(place.seed, gameStartDate(), {
           twoLevel: true,
