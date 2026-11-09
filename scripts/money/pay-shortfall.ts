@@ -28,7 +28,12 @@ for (const [jobId, t] of core.work.totalsByJob) {
   row.jobs++;
   row.earned += t.requestedMinor;
   row.short += t.requestedMinor - t.paidMinor;
-  if (t.requestedMinor > 0 && t.paidMinor === 0) row.none++;
+  if (t.requestedMinor > 0 && t.paidMinor === 0) {
+    row.none++;
+    console.log(
+      `  paid nothing: ${jobId} at ${job?.organizationId} (${kind}), earned ${t.requestedMinor}, started ${job?.startsOn ?? job?.startedAt ?? "?"}, ends ${job?.endsAt ?? "-"}, employer cash ${org?.liquidMinor}`,
+    );
+  }
   byKind.set(kind, row);
 }
 for (const [kind, r] of [...byKind].sort((a, b) => b[1].short - a[1].short))
