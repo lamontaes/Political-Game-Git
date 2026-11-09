@@ -24,8 +24,6 @@ const CONCEDES = [
   "you're right",
   "you are right",
   "i shouldn't have",
-  "i'm sorry",
-  "i apologize",
   "fair enough",
   "that's fair",
   "point taken",
