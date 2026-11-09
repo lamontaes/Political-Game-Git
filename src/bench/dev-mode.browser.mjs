@@ -197,11 +197,24 @@ try {
       ),
     );
     // A yes-or-no law is answered Yes or No and repealed by a bill; members can sign a discharge petition.
-    await page.locator('select[aria-label="Law"]').selectOption({
-      value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
-    });
+    // The sheet redraws after the pass; a pick made on the old panel is lost, so pick again until
+    // the redrawn panel shows the yes-or-no controls.
+    for (let attempt = 1; ; attempt += 1) {
+      await page.locator('select[aria-label="Law"]').selectOption({
+        value: "us-policy-positions:business-commerce.cap-consumer-loan-rates",
+      });
+      const shown = await page
+        .locator('[data-testid="dev-repeal"]')
+        .waitFor({ state: "visible", timeout: 3000 })
+        .then(() => true)
+        .catch(() => false);
+      if (shown) break;
+      assert.ok(
+        attempt < 10,
+        "the yes-or-no controls show once a law is picked",
+      );
+    }
     await page.locator('select[aria-label="Answer"]').waitFor();
-    await page.locator('[data-testid="dev-repeal"]').waitFor();
     await page.locator('[data-testid="dev-petition"]').waitFor();
     // The chair is cast to hear the bill, and the bill is passed again through it.
     // (set in one step: the sheet may still be redrawing from the last pass)
