@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/donation-records
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T11:01:47.082Z
 ---
 
 **What.** drives.ts donate() puts a canonical source record in runtime.donations for every gift and never removes it; the cash journal reads it through the module's provider only while the entry posts (journal-state.ts postCashJournal; donations carry no required related refs, so nothing resolves them later). The accounts engine already drops its pending transfer records after posting. Montpelier, Vermont (5046000, world seed mont1, fast-forward), year 4: 22,062 records, 68 MB of live heap by removal (scripts/speed-years/probe-retained.ts).
