@@ -6685,7 +6685,7 @@
       "from": "env.emissions-national",
       "evidence": "provisional",
       "range": [0.00027, 0.00063],
-      "notes": "The IPCC page could not be fetched; the figure is quoted from a secondary paper (nature.com/articles/s43247-020-00064-9). Emissions are the simulated country's energy CO2 (EIA, 4.79 GtCO2 in 2024) and the rest of the world's (Global Carbon Budget 2024, essd.copernicus.org/articles/17/965/2025/: 41.6 GtCO2 a year), the country's moves with the simulated carbon laws and the rest of the world's does not.",
+      "notes": "The IPCC page could not be fetched; the figure is quoted from a secondary paper (nature.com/articles/s43247-020-00064-9). Emissions are the world's: the country's energy CO2 (EIA, 4.789 GtCO2 in 2024, its share of the fossil total) moves with the simulated carbon laws, and the rest of the world's follows the stated-policies path of the IEA's World Energy Outlook 2025 (38.1 GtCO2 of fossil CO2 in 2025, about 35 in the mid-2030s, below 30 in 2050), plus 4.2 GtCO2 a year of land use (Global Carbon Budget 2024).",
       "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     },
     {

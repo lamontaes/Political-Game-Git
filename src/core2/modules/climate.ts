@@ -9,7 +9,9 @@
  * is, `stateLawInForce`, against the day the world opened, lagged by the
  * links' own months), weighted by the state's people over the country's. The
  * country's energy CO2 moves by that index and the rest of the world's does
- * not. The CO2 adds to the warming at the transient climate response
+ * not: the rest of the world follows a published scenario path (the IEA's
+ * stated-policies path, `worldFossilGt`), so the warming rises at about the real rate
+ * with no law changing and the laws move only their own share. The CO2 adds to the warming at the transient climate response
  * (`emissions-to-warming`), and each hazard's level is one plus its link's
  * size times the warming since the world opened (`warming-to-<hazard>-hazard`).
  * The links name this module as the engine that carries them (they are not a
@@ -118,6 +120,21 @@ function usIndex(api: CoreAPI): number {
   return index;
 }
 
+/** The world's fossil CO2 in the year the date falls in: the scenario path, straight between its points and flat past the last. */
+export function worldFossilGt(date: string): number {
+  const points = emissions.worldFossilPath.points;
+  const year = Number(date.slice(0, 4)) + (Number(date.slice(5, 7)) - 0.5) / 12;
+  if (year <= points[0]!.year) return points[0]!.gtCo2;
+  for (let i = 1; i < points.length; i++) {
+    const [a, b] = [points[i - 1]!, points[i]!];
+    if (year <= b.year)
+      return (
+        a.gtCo2 + ((b.gtCo2 - a.gtCo2) * (year - a.year)) / (b.year - a.year)
+      );
+  }
+  return points[points.length - 1]!.gtCo2;
+}
+
 function writeMonth(api: CoreAPI, opening: boolean): void {
   const month = monthOf(api.state.date);
   const state = table(api, "state");
@@ -128,10 +145,12 @@ function writeMonth(api: CoreAPI, opening: boolean): void {
         ClimateMonth | undefined)
     : undefined;
   const index = opening ? 1 : usIndex(api);
-  const us = emissions.usEnergyCo2GtPerYear.value;
-  const world = emissions.worldCo2GtPerYear.value;
-  // Only the country's energy CO2 follows its laws; the rest of the world's does not.
-  const worldGt = (world - us + us * index) / MONTHS_PER_YEAR;
+  // The world's fossil CO2 follows its published path; the country's share of it follows its laws.
+  const fossil = worldFossilGt(api.state.date);
+  const us = fossil * emissions.usShareOfFossil.value;
+  const worldGt =
+    (fossil - us + us * index + emissions.landUseCo2GtPerYear.value) /
+    MONTHS_PER_YEAR;
   const cumulativeGt = (last?.cumulativeGt ?? 0) + (opening ? 0 : worldGt);
   const warmingC = carriedLink("emissions-to-warming").size! * cumulativeGt;
   const hazard = Object.fromEntries(
