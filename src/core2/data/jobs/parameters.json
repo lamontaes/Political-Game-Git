@@ -102,7 +102,7 @@
     }
   },
   "jobsApplyUnfoundWeight": {
-    "value": 3,
+    "value": 5,
     "tag": "TUNABLE",
     "role": "coefficient",
     "citation": "How much a seeker's search still to run (one less the share of the way to finding work, built from the CPS spell rate) holds back an application. It slides with progress, no step; checked against the CPS monthly job-finding share of about 20 to 25 percent of the unemployed.",
