@@ -6,6 +6,8 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { gameStartDate } from "../core2/game-start";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
+import { stateFloorHolds } from "../core2/office-day-state";
+import { BenchPlayer } from "./player";
 import { calendarItems } from "./calendar";
 
 // The calendar names the day the player's own chamber next sits, at the state level too (Westway,
@@ -32,10 +34,30 @@ describe("a state legislator's calendar names their chamber's next sitting (West
     expect(meetings.some((m) => m.recordIds.includes(seat!.office.id))).toBe(
       true,
     );
-    // The date the calendar names is the first floor day the legislature holds the member for (2025-02-10, the day bill-westway-floor.test.ts holds the member).
-    expect(
-      meetings.find((m) => m.recordIds.includes(seat!.office.id))!.date,
-    ).toBe("2025-02-10");
+    // The date the calendar names is the first day the legislature holds the member for a floor
+    // vote: no date is typed here, the hold record says it (stateFloorHolds, as bill-westway-floor
+    // reads it) and the calendar must name that same day.
+    const named = meetings.find((m) =>
+      m.recordIds.includes(seat!.office.id),
+    )!.date;
+    const player = new BenchPlayer(core, world.director);
+    player.select(rep!);
+    let heldOn: string | null = null;
+    for (let guard = 0; guard < 120 && !heldOn; guard += 1) {
+      if (player.pollingPlace) player.leavePolls();
+      if (stateFloorHolds(api).length) {
+        heldOn = core.date;
+        break;
+      }
+      const packet = player.packet;
+      if (packet?.kind === "stop")
+        player.resume({ kind: "stop", pauseId: packet.pauseId });
+      else if (packet?.kind === "choice")
+        player.resume({ kind: "own-choice", pauseId: packet.pauseId });
+      else player.advance("day");
+    }
+    expect(heldOn, "a floor day held the member").toBeTruthy();
+    expect(named).toBe(heldOn);
     console.log(
       `calendar: Westway, Texas, seed memA, ${core.date}: ${meetings.map((m) => `${m.date} ${m.line}`).join("; ")}`,
     );
