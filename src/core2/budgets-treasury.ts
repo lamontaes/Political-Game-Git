@@ -763,7 +763,7 @@ export interface TreasuryMonthRow {
   readonly date: string;
   readonly budgetId: string;
   readonly revenueFromOutsideMinor: number;
-  /** What the treasury collected this month: the outside lump, its named payers' installments (with what the town paid on them) and aid received. Taxes the town's own payers pay straight into the treasury are not in it (SG-GOV-spending-vote-state-county). */
+  /** What the treasury took in this month: the credits to its accounts on the cash journal's per-owner totals since its last close (every payer's money, the town's own payers' included); a treasury's first close reports the receipts the close paid in. */
   readonly collectedMinor: number;
   /** Wages of the government's opening employers the treasury couldn't cover, in all, at the close. */
   readonly publicPayShortfallMinor: number;
@@ -1093,6 +1093,31 @@ export function taxBaseIndex(
   );
 }
 
+/**
+ * What a treasury took in since its last close: the credits to its accounts
+ * on the cash journal's own per-owner totals, less the mark taken at the last
+ * close, so every tax a payer sent straight to it counts, town payers' too.
+ * A treasury's first close has no mark yet and reports the receipts the close
+ * itself paid in.
+ */
+function collectedThisMonth(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fromTheClose: number,
+): number {
+  const credited = Number(
+    (api.state as CoreState).cashJournal.totalsByOwner.get(gov.organizationId)
+      ?.grossCreditMinor ?? 0,
+  );
+  const prior = table(api, "creditMarks").get(gov.id) as unknown as
+    { credited: number } | undefined;
+  table(api, "creditMarks").put({
+    id: gov.id,
+    credited,
+  } as unknown as ModuleRow);
+  return prior ? Math.max(0, credited - prior.credited) : fromTheClose;
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
@@ -1238,10 +1263,13 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         budgetId: budget.id,
         revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
-        collectedMinor:
+        collectedMinor: collectedThisMonth(
+          api,
+          gov,
           (fromOutside.get(gov.id) ?? 0) +
-          (namedCollected.get(gov.id) ?? 0) +
-          (aidReceived.get(gov.id) ?? 0),
+            (namedCollected.get(gov.id) ?? 0) +
+            (aidReceived.get(gov.id) ?? 0),
+        ),
         publicPayShortfallMinor: publicPayShortfallOf(api, gov),
         aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
         aidPaidMinor: carrier ? held : 0,
@@ -1571,10 +1599,13 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       budgetId: budget.id,
       revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
-      collectedMinor:
+      collectedMinor: collectedThisMonth(
+        api,
+        gov,
         (fromOutside.get(gov.id) ?? 0) +
-        (namedCollected.get(gov.id) ?? 0) +
-        (aidReceived.get(gov.id) ?? 0),
+          (namedCollected.get(gov.id) ?? 0) +
+          (aidReceived.get(gov.id) ?? 0),
+      ),
       publicPayShortfallMinor: publicPayShortfallOf(api, gov),
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
       aidPaidMinor: aidPaid,

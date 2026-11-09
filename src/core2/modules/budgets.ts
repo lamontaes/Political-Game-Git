@@ -379,6 +379,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** The cash journal's credits to each treasury at its last close, so the next close reads the month's receipts. */
+      creditMarks: {},
       /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
       townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
