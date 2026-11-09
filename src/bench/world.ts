@@ -43,6 +43,7 @@ import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
 import { openFederalCourts } from "../core2/modules/federal-courts";
+import { openClimate } from "../core2/modules/climate";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
   openSittingSessions,
@@ -567,6 +568,7 @@ function* benchWorldStages(
   openPublicAction(core);
   // What happens in the rest of the country, as results (disasters from FEMA's record).
   openNationalEvents(core);
+  openClimate(core);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.

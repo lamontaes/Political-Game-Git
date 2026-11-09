@@ -1,0 +1,13 @@
+{
+  "about": "The country's and the world's yearly CO2, the base the climate engine's carbon laws move. SOURCED.",
+  "worldCo2GtPerYear": {
+    "value": 41.6,
+    "tag": "SOURCED",
+    "source": "Global Carbon Budget 2024, Earth System Science Data 17:965 (2025), essd.copernicus.org/articles/17/965/2025/: \"a slightly higher preliminary estimate of 11.4 GtC yr-1 (41.6 GtCO2 yr-1) for 2024\", fossil and land use together."
+  },
+  "usEnergyCo2GtPerYear": {
+    "value": 4.789,
+    "tag": "SOURCED",
+    "source": "U.S. Energy Information Administration, U.S. energy-related carbon dioxide emissions, 2024 total 4,789 million metric tons (eia.gov/environment/emissions/carbon/)."
+  }
+}

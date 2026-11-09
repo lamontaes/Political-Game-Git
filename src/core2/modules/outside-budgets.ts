@@ -35,20 +35,21 @@ import type { CoreAPI, CoreModule, CoreState } from "../types";
 export const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
 const RUN_KIND = "outside-budgets";
 
-interface StateBase {
+export interface StateBase {
   readonly name: string;
   readonly fiscalYearStart: string;
   readonly population2024?: number;
   readonly puertoRicoPopulation2025?: number;
   readonly islandAreaPopulation2020?: number;
 }
-const residentsOf = (base: StateBase) =>
+export const residentsOf = (base: StateBase) =>
   base.population2024 ??
   base.puertoRicoPopulation2025 ??
   base.islandAreaPopulation2020 ??
   0;
-const STATES = (budgetBases as unknown as { places: Record<string, StateBase> })
-  .places;
+export const STATES = (
+  budgetBases as unknown as { places: Record<string, StateBase> }
+).places;
 
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 
