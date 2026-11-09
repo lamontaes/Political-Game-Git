@@ -92,6 +92,13 @@ When a session builds work that runs for many people (relatives elsewhere, the c
 - `scripts/speed-years/fast-forward.ts` runs the world with fast-forward on or off and lists each race the town votes in (office, winner, top two shares). Races in the voting results table whose contest is not in the town's contests are other places' races.
 - A single slowdown reading is not a finding. Re-time it alternating against the base (three pairs, median) and profile both before anyone acts on it: on Nov 8 a +10% reading of a monthly pass in year 1 (Dickey, North Dakota, seed n8g7) did not reproduce on current main (40.3 s before, 39.9 s after), and the profile showed the pass costing nothing in year 1.
 
+## Hearers as groups (Nov 9, Speed)
+
+- Who stays a person when an off-screen case reaches people (`hearer-groups.ts`): the player, their household and circle, anyone in focus (`keepsWhy`), and state or federal officials. A tie to the speaker is not a reason to stay individual: every door a candidate knocks makes a contact tie, so by election day most of an audience was tied to some candidate and escaped the group (Gunnison, Utah, seed n8f6: only 13 people are watched by `keepsWhy`). Carry the tie into the group as its members' mean closeness (`standingWith`'s `groupCloseness`).
+- Count who is watched before building a level-of-detail cut: a rule that keeps "anyone connected" individual can keep almost everyone.
+- On an idle cloud container the same branch read 152 s and 179 s for Gunnison's year 4 an hour apart (Nov 9). Quote an election-year saving only from alternating pairs run in both orders.
+- A sparse helper worktree without `art/` cannot build the bench world (`art/backdrops/manifest.json` is imported). Link the main checkout's `art/` into it for runs, and remove the link before a merge, or git's automatic stash fails ("stash failed").
+
 ## Long saves
 
 - A 100-year save needs a machine of its own: the long-run runner session (`CREW.md`) runs it and sends year lines. `speed:year` writes its receipt as each year ends, with each year's heap, process memory and records kept, so a killed run keeps its marks.
