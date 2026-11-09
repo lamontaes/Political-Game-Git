@@ -4817,7 +4817,10 @@ select.release-pick {
   margin: 0 0 12px;
   break-inside: avoid-column;
 }
-.journal-text .intro:first-child::first-letter {
+.journal-text.one-column {
+  column-count: 1;
+}
+.journal-text .intro.lead::first-letter {
   float: left;
   margin: 2px 8px 0 0;
   font:
