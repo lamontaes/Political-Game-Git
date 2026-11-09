@@ -1,47 +1,105 @@
-/** A full worker hired away outside the jobs engine (to an official's staff) is a leaver: the firm posts the job again that month. */
+/**
+ * A full worker hired away outside the jobs engine (to an official's staff,
+ * a death, a move) who held a firm's last job is a leaver: the firm, still
+ * open and short of staff, posts that job again within a month and a half.
+ * A place drawn from all 56 by a seed named in the output; up to six draws are
+ * searched for a firm whose last live job ended outside the jobs engine.
+ */
+import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
+import { JOBS_MODULE_ID } from "./modules/jobs";
+import { residentsRuntime } from "./modules/residents";
 import { coreAPI } from "./state";
 
-// New Richmond, West Virginia: the one-driver trucking firm that wins the
-// schools contract loses its driver to a staff post on 2025-02-19. Before the
-// fix the firm noticed only through demand drift and posted on 2025-11-01.
-const PLACE_KEY = "5458756";
-const SEED = "316714e6a857a0fbf59cec54893baa1a7a979e67ea5fbc4009f891993e48c36b";
-const FIRM = "organization_99dd43244afa92df";
-const DRIVER_JOB = "work-relationship_51778e3a54bb829c";
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+const DRAWS = 6;
+const DAYS = 150;
+// The jobs engine's own endings; any other end of a job is a worker leaving outside it.
+const OWN_ENDINGS = ["layoff", "quit", "left-work", "closure", "staff-shed"];
 
-it("posts a hired-away driver's job again within a month of the job ending", () => {
+it(`posts the job of a firm's last worker again after they are hired away (seed ${seed})`, () => {
   setBookkeeping(false);
+  const tried: string[] = [];
   try {
-    const { core } = buildBenchWorld(SEED, gameStartDate(), {
-      twoLevel: true,
-      placeKey: PLACE_KEY,
-    });
-    for (let day = 0; day < 120; day++)
-      advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    const job = core.jobs.get(DRIVER_JOB);
-    expect(job?.endsAt, "the driver's job ended").toBeDefined();
-    const ended = makeIsoDate(job!.endsAt!);
-    const positions = (
-      coreAPI(core).moduleState("jobs").table("positions").rows() as {
+    for (let draw = 0; draw < DRAWS; draw += 1) {
+      const place = drawPlace(`${seed}:${draw}`, "hired-away");
+      const where = `${place.name} (${place.key}), seed ${place.seed}`;
+      const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: place.key,
+      });
+      const start = core.date;
+      for (let day = 0; day < DAYS; day += 1)
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+      const api = coreAPI(core);
+      const changes = api
+        .moduleState(JOBS_MODULE_ID)
+        .table("changes")
+        .rows() as unknown as { jobId: string; kind: string }[];
+      const own = new Set(
+        changes
+          .filter((row) => OWN_ENDINGS.includes(row.kind))
+          .map((row) => row.jobId),
+      );
+      const live = new Set<string>();
+      for (const job of core.jobs.values())
+        if (!job.endsAt) live.add(job.organizationId);
+      for (const job of residentsRuntime(core)?.jobs.values() ?? [])
+        if (!job.endsAt) live.add(job.organizationId);
+      const cutoff = addDays(makeIsoDate(core.date), -45);
+      // A firm still open with no live job, whose last full job ended outside the jobs engine in time to be posted again.
+      const cases = [...core.jobs.values()].filter(
+        (job) =>
+          job.endsAt !== undefined &&
+          makeIsoDate(job.endsAt) <= cutoff &&
+          makeIsoDate(job.endsAt) >= makeIsoDate(start) &&
+          !own.has(job.id) &&
+          !live.has(job.organizationId) &&
+          core.organizations.get(job.organizationId)?.kind === "employer" &&
+          core.finance.businesses.get(job.organizationId) !== undefined &&
+          !core.finance.businesses.get(job.organizationId)!.closedAt,
+      );
+      tried.push(`${where}: ${cases.length} firms qualify`);
+      if (!cases.length) continue;
+      const positions = api
+        .moduleState(JOBS_MODULE_ID)
+        .table("positions")
+        .rows() as unknown as {
         organizationId: string;
         replacesJobId?: string;
         openedAt: string;
-      }[]
-    ).filter(
-      (p) => p.organizationId === FIRM && p.replacesJobId === DRIVER_JOB,
+      }[];
+      for (const job of cases) {
+        const ended = makeIsoDate(job.endsAt!);
+        const posted = positions.filter(
+          (row) =>
+            row.organizationId === job.organizationId &&
+            row.replacesJobId === job.id,
+        );
+        expect(
+          posted.length,
+          `${where}: ${job.organizationId} posts the job ${job.id} again`,
+        ).toBe(1);
+        expect(
+          posted[0]!.openedAt <= addDays(ended, 45),
+          `${where}: posted ${posted[0]!.openedAt}, job ended ${ended}`,
+        ).toBe(true);
+      }
+      process.stdout.write(
+        `hired-away: ${where}: ${cases.length} firm(s) posted the last worker's job again\n`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn world had a firm whose last worker was hired away (seed ${seed}); tried: ${tried.join("; ")}`,
     );
-    expect(positions.length, "the firm posts the driver's job again").toBe(1);
-    expect(
-      positions[0]!.openedAt <= addDays(ended, 45),
-      `posted ${positions[0]!.openedAt}, job ended ${ended}`,
-    ).toBe(true);
   } finally {
     setBookkeeping(true);
   }
-}, 600_000);
+}, 3_600_000);
