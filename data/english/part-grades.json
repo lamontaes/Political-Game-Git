@@ -11,7 +11,8 @@
     "restored-liked-lines",
     "voice-notes-batches-11-19",
     "voice-notes-oct15-28",
-    "2026-11-09-batch-2:voice"
+    "2026-11-09-batch-2:voice",
+    "2026-11-09-batch-3:voice"
   ],
   "parts": {
     "address.campaign-thanks.its-great-to-be-back-in-place": {
@@ -198,6 +199,22 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "bring-it-up.your-bill-failed-act.i-read-in-subject-that-your-bill-on-topi": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-didnt-pass-i": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "conversation.address-ask-seen.did-you-see-the-president-s-speech": {
       "good": 1,
       "bad": 0,
@@ -308,6 +325,30 @@
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 1,
+      "sharedFix": 0
+    },
+    "headlines.honor.name-signs-to-play-at-a-division-i-school": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "headlines.honor.name-wins-the-place-spelling-bee": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "headlines.honor.number-place-seniors-sign-with-division-i-programs": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
       "sharedFix": 0
     },
     "hearing.answer.yes-thank-you": {
@@ -497,6 +538,22 @@
     "journal.school-line-started.then-i-went-to-school": {
       "good": 0,
       "bad": 2,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.work-line-again.after-span-out-of-work-i-found-work-in-place": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "journal.work-line-again.after-span-out-of-work-i-went-back-to-work": {
+      "good": 0,
+      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -806,7 +863,55 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "opening-speech.salutation.plain-sta-hopeful-mr-speaker-everybody-in-this-room-and-everybody-at-m": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "opening-speech.salutation.plain-sta-thank-you-very-much": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "opening-speech.salutation.plain-twn-combative-everybody-in-this-room-and-everybody-watching-let-s": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "opening-speech.salutation.plain-twn-policy-everybody-in-this-room-and-everybody-watching-i-ll": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "opening-speech.salutation.polished-sta-chair-female-madam-speaker-members-of-congress-my-fellow-americans": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "opening-speech.salutation.polished-sta-hopeful-madam-speaker-and-everyone-watching-thank-you-for-having-f": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -894,6 +999,22 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.close-thank.thank-you-for-hearing-us-out": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.close-thank.thank-you-that-s-all-we-ask": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.close-warn.i-hope-you-know-what-this-costs-you": {
       "good": 0,
       "bad": 4,
@@ -926,7 +1047,39 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.follow-accept.a-hearing-then-schedule-it": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-accept.done-my-people-will-call-yours": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.follow-accept.go-home-i-ll-call-you-at-eight": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-accept.i-ll-hold-the-paragraph-the-deadline-won-t-wait-long": {
       "good": 0,
       "bad": 1,
       "fix": 0,
@@ -942,7 +1095,23 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.follow-accept.then-go-now-and-don-t-come-crying-to-me-in-november-i-ll-help-anyway": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-accept.then-it-says-you-were-asked-and-didn-t-say": {
       "good": 0,
       "bad": 1,
       "fix": 0,
@@ -966,7 +1135,55 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.follow-answer.we-have-it-on-the-record-i-m-just-giving-you-a-chance-to-respond": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-answer.we-have-votes-we-need-needed": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-answer.we-re-close-but-not-there-yet-we-need-needed": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start": {
       "good": 1,
       "bad": 0,
       "fix": 0,
@@ -977,6 +1194,30 @@
     "scene-talk.follow-bargain.meet-me-halfway-and-we-have-a-deal": {
       "good": 1,
       "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got": {
+      "good": 0,
+      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -1054,6 +1295,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.narrate-narrate.name-has-held-the-post-s-job-for-years-years": {
       "good": 4,
       "bad": 0,
@@ -1070,9 +1319,25 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget": {
       "good": 4,
       "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page": {
+      "good": 0,
+      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -1401,6 +1666,22 @@
     "scene-talk.reply-deflect.you-ll-have-to-ask-the-chair": {
       "good": 0,
       "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer": {
+      "good": 1,
+      "bad": 0,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
@@ -1750,6 +2031,14 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "scene-talk.state-tell.chair-i-rise-to-speak-briefly-in-gratitude-today": {
       "good": 1,
       "bad": 0,
@@ -1830,9 +2119,49 @@
       "sharedBad": 0,
       "sharedFix": 0
     },
+    "speech-stages.stage-closer.god-bless-you-and-god-bless-america": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "speech-stages.stage-closer.let-s-get-to-work": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "speech-stages.stage-closer.thank-you-all": {
+      "good": 1,
+      "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
     "speech-stages.stage-opener.thank-you-all-for-being-here": {
       "good": 1,
       "bad": 0,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for": {
+      "good": 0,
+      "bad": 1,
+      "fix": 0,
+      "sharedGood": 0,
+      "sharedBad": 0,
+      "sharedFix": 0
+    },
+    "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-": {
+      "good": 0,
+      "bad": 1,
       "fix": 0,
       "sharedGood": 0,
       "sharedBad": 0,
