@@ -75,7 +75,7 @@ import {
   statePostsToFill,
 } from "../core2/modules/executive";
 import { budgetProposalDue } from "../core2/modules/office-day";
-import { budgetsOf, governments } from "../core2/modules/budgets";
+import { budgetsOf, governmentOfJurisdiction } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
@@ -341,7 +341,7 @@ function budgetToSend(core: CoreState, personId: string) {
     ? { governmentId: stateEntry.subject, fiscalYearStarts: stateEntry.date }
     : budgetProposalDue(api, officeHost, personId);
   if (!due) return null;
-  const gov = governments(api).find((g) => g.id === due.governmentId);
+  const gov = governmentOfJurisdiction(api, due.governmentId);
   const latest = gov
     ? [...budgetsOf(api, gov.id)].sort((a, b) => b.fiscalYear - a.fiscalYear)[0]
     : undefined;
