@@ -124,7 +124,13 @@ try {
         const pass = page
           .locator("#desk-items")
           .getByRole("button", { name: /Let the day pass/ });
-        if (await pass.count()) await pass.first().click();
+        // One hearing stop stands for each committee the player sits on, and resuming does not
+        // clear the others: let every one pass before the day moves on.
+        for (let i = 0; i < 20 && (await pass.count()) > 0; i += 1) {
+          await pass.first().click();
+          await page.waitForTimeout(400);
+          if (!(await visible("desk"))) break;
+        }
       }
       // A colleague asks for your vote the evening before: refuse ("I can't vote for it"), the reply
       // that leaves the vote the player's own to cast; agreeing would choose the side asked for.
@@ -138,10 +144,18 @@ try {
         await page.locator("#talk-next").click();
       else if (await visible("talk-leave"))
         await page.locator("#talk-leave").click();
+      // A stop can open its desk between the check and the click, and the desk hides the card
+      // (scene mode): a click that cannot land is let go, and the next turn of the loop meets the desk.
       else if (await visible("continue"))
-        await page.locator("#continue").click();
+        await page
+          .locator("#continue")
+          .click({ timeout: 3000 })
+          .catch(() => {});
       else if (!(await page.locator("#week").isDisabled()))
-        await page.locator("#week").click();
+        await page
+          .locator("#week")
+          .click({ timeout: 3000 })
+          .catch(() => {});
       await page.waitForTimeout(1500);
     }
     if (!held) {
