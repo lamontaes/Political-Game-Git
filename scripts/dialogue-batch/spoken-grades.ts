@@ -36,17 +36,25 @@ export interface SpokenSpan {
 }
 
 const WORDS: readonly [RegExp, number][] = [
+  // His words, from the voice notes (docs/coordination/voice-notes/): the
+  // negatives first, since "doesn't make sense" holds "make sense".
   [
-    /\b(nobody (says|talks)|terrible|hate|awful|horrible|garbage|trash|shitty)\b/,
+    /\b(nobody (says|talks)|terrible|hate|awful|horrible|garbage|trash|shitty|makes no sense|doesn'?t (even )?make (any )?sense)\b/,
     -1,
   ],
   [
-    /\b(don'?t like|didn'?t like|not good|bad|awkward|weird|cheesy|stiff|filler|no context|robotic|sounds like ai|ai|generic|vague|wrong|off|creepy|jargon|dev language)\b/,
+    /\b(don'?t like|didn'?t like|not good|bad|awkward|weird|cheesy|stiff|filler|no context|missing (a little )?context|robotic|sounds like ai|ai|generic|vague|wrong|off|creepy|jargon|dev language|dev talky|doesn'?t (really |necessarily )?(fit|make sense|work)|out of place|too much)\b/,
     -0.75,
   ],
-  [/\b(perfect|love|loved|great|excellent|ooh|exactly)\b/, 1],
-  [/\b(good|like|liked|solid|natural|that'?s how people talk|nice)\b/, 0.75],
-  [/\b(fine|sure|decent|okay|ok|acceptable|all right)\b/, 0.25],
+  [
+    /\b(perfect|love|loved|great|excellent|ooh|exactly|like (that|it|this) a lot|that'?s how people talk|really good)\b/,
+    1,
+  ],
+  [
+    /\b(good|like|liked|solid|natural|nice|makes sense|that works|fits|funny|smart)\b/,
+    0.75,
+  ],
+  [/\b(fine|sure|decent|okay|ok|acceptable|all right|fair)\b/, 0.25],
 ];
 
 const SOFTENERS = /\b(kind of|kinda|a little|a bit|almost|sort of|slightly)\b/;
