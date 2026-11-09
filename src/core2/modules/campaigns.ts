@@ -1429,8 +1429,19 @@ function walkWith(
       },
     );
     if (!cause) continue;
-    if (canvasserId !== answers.id)
+    // A world candidate's canvasser leaves a contact tie only with someone
+    // the player deals with; for anyone else the visit is the impression
+    // they carry (`reach` above), and the tie is not built.
+    // stopgapId: SG-SPEED-door-contact-tie-unwatched
+    if (
+      canvasserId !== answers.id &&
+      (campaign.candidateId === core.playerId ||
+        keepsWhy(core, answers.id, canvasserId))
+    ) {
       api.relationship(canvasserId, answers.id, "contact", 0.1);
+    } else if (canvasserId !== answers.id) {
+      api.stopgap("SG-SPEED-door-contact-tie-unwatched");
+    }
     met.push(cause);
     retell(api, campaign, answers, cause);
     // A door that carries a petition asks for a signature; any other asks

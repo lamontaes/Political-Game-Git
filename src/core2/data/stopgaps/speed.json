@@ -22,5 +22,17 @@
     "addedAt": "2026-11-08",
     "replacement": "A husk's income fifth is read from the seat's pay (data/research/offices/official-salaries-2026.json) and given to its conditions and its web factor, the way a person's household income is.",
     "status": "open"
+  },
+  {
+    "id": "SG-SPEED-door-contact-tie-unwatched",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1450,
+    "whatItFakes": "A world candidate's canvasser no longer leaves a 0.1 contact tie with an answerer the player does not deal with (not in the player's circle, household or focus, and not the player's campaign). The visit is kept in the answerer's impression and pledge, which the ballot reads; the tie, which only closeness reads, is not built, so a person who later becomes watched has no tie to that canvasser from the door.",
+    "why": "Gunnison UT year 4 (n8f6): the tie writes cost about 10 to 18 s of a 165 to 177 s election year and add a relationship record for every answered door (Speed, Nov 9, stage 1 step 1b).",
+    "addedBy": "speed",
+    "addedAt": "2026-11-09",
+    "replacement": "The door row (the household, its first knock and its knock count) gives a person who becomes watched the contact with the canvasser at that moment, built on open.",
+    "status": "open"
   }
 ]
