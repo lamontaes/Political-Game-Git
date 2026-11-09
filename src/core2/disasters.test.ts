@@ -8,6 +8,7 @@ import { gameStartDate } from "./game-start";
 import { advanceCore, createLifeCore } from "./life";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
+  damagedHomesOf,
   disasterAssistancePaid,
   disasterRepairsPaid,
   normalizedGovernmentName,
@@ -107,7 +108,13 @@ describe(`disasters from the record (seed ${seed})`, () => {
           .flatMap(([, towns]) => Object.values(towns).map((row) => row[at])),
       );
     for (const row of disasterAssistancePaid(api)) {
-      if (row.orgId.startsWith("cash:residents:")) {
+      if (
+        row.orgId.startsWith("cash:residents:") ||
+        damagedHomesOf(api, row.disaster).some(
+          (home) =>
+            home.headId && api.accounts().main(home.headId) === row.orgId,
+        )
+      ) {
         // Households: never more than FEMA approved in any one town.
         expect(row.cents).toBeLessThanOrEqual(most(row.disaster, 0));
         continue;

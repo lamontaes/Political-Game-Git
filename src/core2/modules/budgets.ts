@@ -43,6 +43,7 @@ import type { CashJournalSourceSlot } from "../journal-state";
 import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   countyGovernmentUnit,
+  governmentUnitJurisdictionId,
   type GovernmentUnitType,
 } from "../reference/government-units";
 import {
@@ -99,6 +100,12 @@ export interface GovernmentRow {
   readonly level: GovernmentLevel;
   readonly name: string;
   readonly organizationId: string;
+  /**
+   * The one canonical jurisdiction record this government is: the nation's, a state's, the
+   * town's own (the id its offices, laws and appointments are filed under) for the government
+   * that runs the town, or the local unit's own for a county beside a city.
+   */
+  readonly jurisdictionId: string;
   readonly fiscalYearStart: string;
   readonly residents: number;
   /**
@@ -494,9 +501,11 @@ function residentsOfPlace(place: PlaceBases | undefined): number {
 
 function government(
   api: CoreAPI,
-  row: Omit<GovernmentRow, "organizationId">,
+  row: Omit<GovernmentRow, "organizationId" | "jurisdictionId">,
   unitId?: string,
   unitType?: GovernmentUnitType,
+  /** A local government's jurisdiction when it is not the one that runs the town. */
+  unitJurisdictionId?: string,
 ): GovernmentRow {
   // Each government's treasury is its own account. The opening's public
   // employers are outside payers with no cash; their pay should draw from
@@ -529,7 +538,16 @@ function government(
     });
   const previous = table(api, "governments").get(row.id) as unknown as
     GovernmentRow | undefined;
-  const identity = { ...row, organizationId };
+  const identity = {
+    ...row,
+    organizationId,
+    jurisdictionId:
+      jurisdictionId ??
+      unitJurisdictionId ??
+      (row.level === "federal" || row.level === "state"
+        ? row.id
+        : lawChain(api).townPlaceId),
+  };
   const full: GovernmentRow = {
     ...identity,
     openingCash:
@@ -836,6 +854,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           base: city ? "county" : "county-whole",
         },
         countyUnit.id,
+        undefined,
+        city ? governmentUnitJurisdictionId(countyUnit) : undefined,
       ),
     );
 
@@ -860,6 +880,8 @@ export function openBudgets(core: CoreState): readonly GovernmentRow[] {
           base: city ? "county" : "county-whole",
         },
         municipio.id,
+        undefined,
+        city ? governmentUnitJurisdictionId(municipio) : undefined,
       ),
     );
   if (city)
@@ -1998,9 +2020,10 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
 }
 
 /**
- * The government a jurisdiction names: by its id (a city, a state), or by the
- * government key its treasury carries (a township under its township's law
- * jurisdiction).
+ * The government a jurisdiction names: by its id (a city, a state), by its
+ * canonical jurisdiction id (`jurisdictionId`: the town's own, a state's, the
+ * nation's), or by the government key its treasury carries (a township under
+ * its township's law jurisdiction).
  */
 export function governmentOfJurisdiction(
   api: CoreAPI,
@@ -2010,6 +2033,7 @@ export function governmentOfJurisdiction(
   const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
   return (
     all.find((row) => row.id === jurisdiction) ??
+    all.find((row) => row.jurisdictionId === jurisdiction) ??
     all.find(
       (row) =>
         api.state.organizations.get(row.organizationId)?.governmentFacts
