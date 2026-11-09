@@ -38,7 +38,8 @@ import type {
 import { makeIsoDate } from "../kernel/dates";
 import { openingTemperaments } from "../opening-personality";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, publicOffset } from "../campaign-views";
+import { publicOffset } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { publishedSenateSeats, worldRoster, worldSwing } from "./elections";
 import { legislativeDistrictResult } from "../legislative-district-results";
 import { caseShift } from "./views";

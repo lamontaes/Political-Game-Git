@@ -10,13 +10,12 @@
  * through the named route. See docs/design/electorate-one-model.md.
  */
 import {
-  campaignParameter,
   groupAgreement,
   type StanceProfile,
   registerCountedPeople,
   registerViewLeans,
-  type Stance,
 } from "./campaign-views";
+import { campaignParameter, type Stance } from "./campaign-data";
 import { electorateParameter } from "./electorate-inputs";
 import { interestOf, turnoutRule } from "./turnout";
 import type { ElectoratePlace } from "./electorate-places";
