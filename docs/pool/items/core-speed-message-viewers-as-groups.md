@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: open
+status: done
 claimed-by:
-pr:
+pr: #8066
 blocked-on:
 after: core-speed-hearers-as-groups
 source: added with npm run pool -- add
