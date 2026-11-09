@@ -193,6 +193,12 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
+        else if (family === "owed-apology")
+          for (const id of ["apology-taken", "grudge"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
         else
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
