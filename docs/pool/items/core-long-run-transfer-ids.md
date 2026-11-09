@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/transfer-ids
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T09:27:50.187Z
 ---
 
 **What.** accounts.ts keeps every transfer id in runtime.transferIds forever, only to refuse a repeated id (named in core-long-run-tables-grow-with-history's Nov 2 notes). Montpelier, Vermont (5046000, world seed mont1, fast-forward), year 4: the accounts part held 208 MB of a 3,178 MB live heap (98 MB at year 2), the largest engine part, measured by removing it and collecting (scripts/speed-years/probe-retained.ts).
