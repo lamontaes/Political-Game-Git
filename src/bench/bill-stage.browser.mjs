@@ -192,24 +192,39 @@ try {
     };
   }, billId);
   console.log("after colleagues told the player:", JSON.stringify(told));
-  // Colleagues sign on when they back the bill and know the player (the cosponsor rule at drafting),
-  // so who signs on follows who backs it in this draw: where some colleague told the player they are
-  // for it, someone signed on; where none did (or there is no body of colleagues at all), no one did.
+  // Who signs on is decided when the bill is drafted (the cosponsor rule): members whose position on
+  // the bill is already for it and who stand close to the sponsor. That is not the set who tell the
+  // player afterwards where they stand, so the check claims what the rule makes: every cosponsor is a
+  // member of a body in this world and is not the sponsor, and a colleague who told the player they
+  // back the bill is not assumed to have signed on.
   if (told.told === 0)
     console.log(
       "no colleagues in this draw: the player's seat has no body to tell them where they stand",
     );
-  else if (told.backing > 0)
-    assert.ok(
-      told.cosponsors.length > 0,
-      "colleagues who back the bill signed on beside the player",
-    );
-  else
-    assert.equal(
-      told.cosponsors.length,
-      0,
-      "no colleague backs the bill, so no one signed on",
-    );
+  const sign = await page.evaluate(async (id) => {
+    const v = await (
+      await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
+    ).json();
+    const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
+    const members = new Set(bodies.flatMap((b) => b.members.map((m) => m.key)));
+    return {
+      sponsor: v.sponsor,
+      cosponsors: v.cosponsors,
+      outside: v.cosponsors.filter(
+        (c) => !c.personId || !members.has(c.personId),
+      ).length,
+    };
+  }, billId);
+  console.log("cosponsors:", JSON.stringify(sign.cosponsors));
+  assert.ok(
+    !sign.cosponsors.some((c) => c.name === sign.sponsor),
+    "a member does not sign on to their own bill",
+  );
+  assert.equal(
+    sign.outside,
+    0,
+    "every cosponsor is a member of a body in this world",
+  );
   // Back, and open the paper again: it now says what the aide expects.
   await page.locator("#sheet-body button.action").first().click();
   await page.waitForTimeout(800);
