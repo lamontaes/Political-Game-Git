@@ -94,6 +94,18 @@ function joinGroup(api: CoreAPI, personId: PersonId, view: PersonView): string {
   return groupId;
 }
 
+/**
+ * The hearer group a full person belongs to (joining the one their record
+ * puts them in, the first time), or undefined for someone with no view.
+ */
+export function hearerGroupOf(
+  api: CoreAPI,
+  personId: PersonId,
+): string | undefined {
+  const view = viewOf(api, personId);
+  return view ? joinGroup(api, personId, view) : undefined;
+}
+
 export interface GroupCase {
   readonly event: Pick<CoreEventInput, "id" | "date">;
   readonly speakerId: string;

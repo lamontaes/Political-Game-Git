@@ -102,7 +102,7 @@ import {
   VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./views";
-import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
+import { hearAsGroups, hearerGroupOf, hearsAsPerson } from "../hearer-groups";
 import {
   LEGISLATURE_MODULE_ID,
   obligationsOwedBetween,
@@ -808,6 +808,8 @@ function answerAtDoor(
   warmth: number,
   causeId: string | null,
   visit?: DoorVisit,
+  /** The answer already given at the door for the voter's hearer group this evening (`groupDoorVisit`). */
+  known?: { readonly choice: string | null | undefined },
 ): void {
   const id = `${voterId}|${campaign.contestId}|${campaign.candidateId}`;
   const pledges = table(api, "pledges");
@@ -815,7 +817,9 @@ function answerAtDoor(
   // for now, after the visit (their own appeal, an earlier word at a door
   // included, so a resident who gave a rival their word tells this one no);
   // without the voting engine, when the visit left them warm.
-  const choice = doorChoice?.(api, voterId, campaign.contestId, visit);
+  const choice = known
+    ? known.choice
+    : doorChoice?.(api, voterId, campaign.contestId, visit);
   const yes =
     choice === undefined ? warmth > 0 : choice === campaign.candidateId;
   if (!yes) return;
@@ -880,6 +884,8 @@ function reach(
     readonly rapport: number;
     readonly target?: number;
     readonly shownIds?: readonly string[];
+    /** What the voter makes of the platform, already read for their hearer group (`groupDoorVisit`). */
+    readonly agreement?: number;
   },
 ): CauseRow | null {
   const voter = api.state.people.get(voterId);
@@ -890,7 +896,8 @@ function reach(
   const knowsPlatform =
     (before?.knowsPlatform ?? false) || options.carriesPlatform;
   const agreement = knowsPlatform
-    ? agreementWith(api, voterId, lean, campaign.platform)
+    ? (options.agreement ??
+      agreementWith(api, voterId, lean, campaign.platform))
     : null;
   const target = clamp(options.target ?? (agreement ?? 0) + options.rapport);
   const warmthBefore = before?.warmth ?? 0;
@@ -1417,6 +1424,51 @@ function walkWith(
     }
     const answers = api.state.people.get(openerId);
     if (!answers) continue;
+    // Level of detail (owner, Nov 9; CTO, 4:40 p.m.): at a world campaign's
+    // doors, a full person nobody watches is met as one of their hearer
+    // group, which is read once an evening (`groupDoorVisit`): what the
+    // group makes of the platform, how the visit goes and the answer it
+    // gives. Each still keeps their own warmth. The player's circle, people
+    // in focus and officials are met as themselves.
+    if (
+      fillCounted === false &&
+      !walk.petition &&
+      campaign.candidateId !== core.playerId &&
+      !hearsAsPerson(api, openerId)
+    ) {
+      const group = groupDoorVisit(api, campaign, canvasser, answers);
+      if (group) {
+        const cause = reach(
+          api,
+          campaign,
+          answers.id,
+          canvasserId === campaign.candidateId ? "door" : "volunteer-door",
+          canvasserId,
+          {
+            carriesPlatform: true,
+            weight: campaignParameter("doorContactWeight"),
+            rapport: group.rapport,
+            agreement: group.agreement,
+          },
+        );
+        if (!cause) continue;
+        met.push(cause);
+        answerAtDoor(
+          api,
+          campaign,
+          answers.id,
+          canvasserId,
+          cause.warmthAfter,
+          cause.id,
+          undefined,
+          group.answer ??
+            (group.answer = {
+              choice: doorChoice?.(api, answers.id, campaign.contestId),
+            }),
+        );
+        continue;
+      }
+    }
     const cause = reach(
       api,
       campaign,
@@ -1448,6 +1500,58 @@ function walkWith(
       );
   }
   return met;
+}
+
+/** One evening's door visit to a hearer group, read from the first of its members met. */
+interface GroupDoorVisit {
+  readonly agreement: number;
+  readonly rapport: number;
+  /** The answer the group gives, read after its first member's visit. */
+  answer?: { readonly choice: string | null | undefined };
+}
+const groupDoorVisits = new WeakMap<
+  object,
+  { date: string; visits: Map<string, GroupDoorVisit> }
+>();
+registerDerivedCache(groupDoorVisits);
+
+/**
+ * A world campaign's door visit to an unwatched full person's hearer group,
+ * for the evening: the first member met that evening by this canvasser stands
+ * for the group (what they make of the platform from their own view, how the
+ * visit goes with them, and their answer), and every member met after takes
+ * the same (owner's level of detail, Nov 9). Undefined for someone with no
+ * view of their own.
+ */
+// stopgapId: SG-SPEED-door-groups (the first member met in an evening stands for the group)
+export function groupDoorVisit(
+  api: CoreAPI,
+  campaign: CampaignRow,
+  canvasser: Readonly<PersonState>,
+  voter: Readonly<PersonState>,
+): GroupDoorVisit | undefined {
+  const groupId = hearerGroupOf(api, voter.id);
+  if (!groupId) return undefined;
+  let held = groupDoorVisits.get(api.state);
+  if (held?.date !== api.state.date) {
+    held = { date: api.state.date, visits: new Map() };
+    groupDoorVisits.set(api.state, held);
+  }
+  const key = `${campaign.id}|${canvasser.id}|${groupId}`;
+  let visit = held.visits.get(key);
+  if (!visit) {
+    visit = {
+      agreement: agreementWith(
+        api,
+        voter.id,
+        personLean(api.state.people, voter, townRow(api).lean),
+        campaign.platform,
+      ),
+      rapport: rapport(canvasser, voter),
+    };
+    held.visits.set(key, visit);
+  }
+  return visit;
 }
 
 /**

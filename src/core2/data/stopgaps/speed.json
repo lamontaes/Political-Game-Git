@@ -22,5 +22,17 @@
     "addedAt": "2026-11-09",
     "replacement": "Opening a grouped hearer builds their own detail (that they came, what they heard) from the group's result and the record ids (step 3), and a household retelling read by group.",
     "status": "open"
+  },
+  {
+    "id": "SG-SPEED-door-groups",
+    "kind": "partial-model",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 1526,
+    "whatItFakes": "At a world campaign's doors, an unwatched full person is met as one of their hearer group: the first member met that evening by the canvasser stands for the group's reading of the platform, the visit's rapport and the answer at the door, and members met after take the same; they keep their own warmth but weigh no retelling at home and make no contact tie.",
+    "why": "Owner, Nov 9: \"not to track everything at every day\"; CTO, Nov 9 4:40 p.m.: a world candidate's doors reach unwatched full people as group results (core-speed-world-campaign-days-as-group-results).",
+    "addedBy": "speed",
+    "addedAt": "2026-11-09",
+    "replacement": "The group's reading taken from its members' mean view (a group stance and lean), and the members met built on open from the stored result.",
+    "status": "open"
   }
 ]
