@@ -61,7 +61,7 @@ function leaversAcquaintances(build: () => ReturnType<typeof buildBenchWorld>) {
   // Only people the world has at its opening can be watched from it.
   const present = new Set(core.people.keys());
   advanceCore(core, addDays(makeIsoDate(core.date), FIND_DAYS));
-  const players = new Map<PersonId, string>();
+  const players = new Map<PersonId, { date: string; leaver: PersonId }>();
   for (const id of core.logByKind.get("person.moved-away") ?? []) {
     const record = core.durableLog.get(id as never);
     if (!record || record.date < start) continue;
@@ -79,7 +79,7 @@ function leaversAcquaintances(build: () => ReturnType<typeof buildBenchWorld>) {
         core.people.get(friend as PersonId)?.knownIds.has(leaver) &&
         adult(core, friend as PersonId)
       )
-        players.set(friend as PersonId, record.date);
+        players.set(friend as PersonId, { date: record.date, leaver });
     if (players.size >= WATCHED) break;
   }
   return players;
@@ -111,7 +111,28 @@ it(`a goodbye is about the leaving, from the record (seed ${seed})`, () => {
       // clock (only the person the player controls is served scenes from
       // circumstance), to a few days after the move.
       const { core, director } = build();
-      const [personId, movedOn] = [...players][0]!;
+      // Who knew the leaver on the day they left (the first pass reads who
+      // knows them at the end of the months, which can be later): the replay
+      // runs to the day before the move and keeps those who already knew.
+      const dates = [
+        ...new Set([...players.values()].map((row) => row.date)),
+      ].sort();
+      let knew: [PersonId, { date: string; leaver: PersonId }][] = [];
+      for (const date of dates) {
+        advanceCore(core, addDays(makeIsoDate(date), -P.one));
+        knew = [...players].filter(
+          ([friend, row]) =>
+            row.date === date &&
+            core.people.get(friend)?.alive === true &&
+            core.people.get(friend)?.knownIds.has(row.leaver),
+        );
+        if (knew.length) break;
+      }
+      if (!knew.length) {
+        tried.push(`${where}: no one left behind knew the leaver on the day`);
+        continue;
+      }
+      const [personId, { date: movedOn }] = knew[0]!;
       core.focusPersonIds.add(personId);
       director.watch(core, personId);
       const book = director.ledger.people.get(personId)!;

@@ -7,6 +7,7 @@ import { setBookkeeping } from "../core2/bookkeeping";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, ageOnDate, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
+import { familyFactsOf } from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import type { CoreState, PersonId } from "../core2/types";
@@ -221,7 +222,13 @@ it(`a story read at home is talked over by name (seed ${seed})`, () => {
       const told = composeJournal(core, director, personId)
         .flatMap((chapter) => chapter.lines)
         .find((line) => line.momentIds.includes(id!));
-      if (chosen.ending.keeps !== "none")
+      // The journal names someone the player can name (a relative, or someone
+      // they know); a housemate they have no name for is not told.
+      const me = core.people.get(personId)!;
+      if (
+        chosen.ending.keeps !== "none" &&
+        (familyFactsOf(me).has(scene.askerId) || me.knownIds.has(scene.askerId))
+      )
         expect(told?.text, `${where}: the journal tells it`).toBeTruthy();
       const note = `STORY READ ${where}: ${core.date}, cause ${moment.causeId}, ${personId} with ${scene.askerId} (${story?.text}); reply ${id} ending ${chosen.ending.id} keeps ${chosen.ending.keeps}; journal "${told?.text ?? "(other unnamed)"}"\n  ${said}`;
       if (process.env.SCENE_LOG) writeFileSync(process.env.SCENE_LOG, note);
