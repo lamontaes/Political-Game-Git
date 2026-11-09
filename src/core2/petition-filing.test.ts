@@ -166,6 +166,10 @@ describe("filing is a petition", () => {
 
       // The player's campaign: a canvass every day until the deadline.
       while (core.date <= opened.due) {
+        // In play a checked petition's signatures go (keepPetitionCheck);
+        // bookkeeping keeps them through the check, the morning after the
+        // deadline, so they can be read against it below.
+        if (core.date === opened.due) setBookkeeping(true);
         const canvass = campaignDayChoices(api, filing.id).find(
           (c) => c.kind === "canvass",
         );
@@ -175,6 +179,7 @@ describe("filing is a petition", () => {
       }
       // The clerk's check, the morning after the deadline.
       advanceCore(core, addDays(makeIsoDate(opened.due), 1));
+      setBookkeeping(false);
       const petitions = (
         api
           .moduleState(ELECTIONS_MODULE_ID)
