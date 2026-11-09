@@ -23,12 +23,14 @@
  */
 import { createHash } from "node:crypto";
 import regionsData from "../data/regional/regions.json" with { type: "json" };
+import macroParameters from "../data/macro/parameters.json" with { type: "json" };
+import regionalParameters from "../data/regional/parameters.json" with { type: "json" };
 import stats from "../../../data/research/regional/series/stats.json" with { type: "json" };
 import { stateFigures, REGIONS, type RegionMonth } from "../regional-model";
 import { type MacroMonth } from "../macro-model";
 import { advanceCore } from "../life";
 import { buildPlayedWorld, nextDay, playYear } from "./m1-played-year";
-import { openingRateMatches, weightedRate } from "./m1-measures";
+import { weightedRate } from "./m1-measures";
 
 const world = buildPlayedWorld();
 const { api, core } = world;
@@ -129,7 +131,23 @@ const nationMonth = (month: string) =>
   macro.table("months").get(`macro-month:${month}`) as unknown as MacroMonth;
 const nationOpening = nationMonth(opening),
   nationNow = nationMonth(state.latestMonth);
-const near = (a: number, b: number) => Math.abs(a - b) <= 1e-6 * Math.abs(b);
+// The opening is seeded from the published figures and moved by the world's
+// own offsets (owner, Oct 27: realistic, not real; world-draw.ts: no world
+// opens on the published figure): once for the nation and once for the state.
+// Each day-1 figure must sit within the published one plus or minus the sum
+// of those two spreads, read from the parameter tables (coordinator, Nov 9).
+// A value outside its spread still fails.
+const spreadPoints =
+  regionalParameters.regionalWorldUnemploymentSpreadPoints.value +
+  macroParameters.macroWorldUnemploymentSpreadPoints.value;
+const levelShare =
+  (1 + regionalParameters.regionalWorldLevelSpreadShare.value) *
+    (1 + macroParameters.macroWorldLevelSpreadShare.value) -
+  1;
+const priceLevelPoints =
+  regionalParameters.regionalWorldPriceLevelSpreadPoints.value;
+const near = (a: number, b: number) =>
+  Math.abs(a - b) <= levelShare * Math.abs(b) + 1e-6 * Math.abs(b);
 const followed: string[] = [];
 for (const row of placesTable.rows() as unknown as {
   id: string;
@@ -210,7 +228,7 @@ for (const fips of fipsList) {
     people: people(row),
   }));
   // No case is excused: the state's weighted rate matches the published one.
-  if (!openingRateMatches(rates, unemployment))
+  if (Math.abs(weightedRate(rates) - unemployment) > spreadPoints + 1e-6)
     failures.push(
       `${usps}: opening unemployment ${weightedRate(rates).toFixed(3)}%, real ${unemployment}%`,
     );
@@ -253,7 +271,7 @@ for (const fips of fipsList) {
     const metro = latest(real.metroUnemploymentPct[region.lausMetroCode ?? ""]);
     if (metro !== undefined) {
       metrosChecked += 1;
-      if (Math.abs(row.unemploymentPct - metro * shared) > 1e-9)
+      if (Math.abs(row.unemploymentPct - metro * shared) > spreadPoints + 1e-6)
         failures.push(
           `${region.id}: opening unemployment ${row.unemploymentPct}%, real ${metro}% (state factor ${shared})`,
         );
@@ -263,7 +281,10 @@ for (const fips of fipsList) {
       .sort()
       .filter((year) => year <= Number(opening.slice(0, 4)));
     const rpp = years.length ? region.rppPct[String(years.at(-1))] : undefined;
-    if (rpp !== undefined && Math.abs(row.priceLevelPct - rpp) > 1e-9)
+    if (
+      rpp !== undefined &&
+      Math.abs(row.priceLevelPct - rpp) > priceLevelPoints + 1e-6
+    )
       failures.push(
         `${region.id}: opening price level ${row.priceLevelPct}, real ${rpp}`,
       );
