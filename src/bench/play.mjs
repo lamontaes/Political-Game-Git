@@ -64,6 +64,9 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+// A views label (the views engine's key, "veryLiberal") in the player's words (controls.leanWords).
+const leanWord = (label) =>
+  controls.leanWords?.[label === "not-sure" ? "notSure" : label] ?? "";
 import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
@@ -2319,6 +2322,17 @@ async function personCardNode(
           ),
         ]
       : []),
+    // Where they place themselves politically, once the player has learned it; until then the
+    // card says so (the world still holds the real view).
+    ...(c.view || c.viewUnknown
+      ? [
+          stripSection(
+            2,
+            controls.who.views,
+            introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+          ),
+        ]
+      : []),
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
@@ -3110,13 +3124,7 @@ const sheets = {
               : []),
             // Where the player places themselves politically: the views engine's own label.
             ...(c.view
-              ? [
-                  stripSection(
-                    2,
-                    labels.views,
-                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
-                  ),
-                ]
+              ? [stripSection(2, labels.views, introText(leanWord(c.view)))]
               : []),
             ...(c.traitLines?.length
               ? [
