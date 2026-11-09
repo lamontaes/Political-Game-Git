@@ -18,7 +18,7 @@
  * data; the words are the scene bank's, by the variant's own purpose id, and
  * the family's pieces serve where a variant has none of its own
  * (`SceneMove.family`). It holds no sentence and no kind's name: what a read
- * looks at is data, and the reads are eleven ways of looking.
+ * looks at is data, and the reads are fifteen ways of looking.
  *
  * The reads use only what stays true while the scene is open (the record the
  * cause names, the tie as that record kept it, what happened before the
@@ -30,6 +30,13 @@ import { closenessBetween } from "../core2/closeness";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { outletsHere } from "../core2/modules/press";
 import { votesOf } from "../core2/modules/people";
+import {
+  LEADERSHIP_MODULE_ID,
+  LEGISLATURE_MODULE_ID,
+  billOf,
+  provisionStance,
+} from "../core2/modules/legislature";
+import { partyTie } from "../core2/modules/elections";
 import { electorateSides, scandalStoriesOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
@@ -129,6 +136,39 @@ type ReadSpec =
       kind: "strain";
     }
   | {
+      /**
+       * 1 where the asker and the asked belong to the same party (the parties
+       * engine's tie of each), else 0.
+       */
+      kind: "shared-party";
+    }
+  | {
+      /**
+       * 1 where the asker holds a post in a body's leadership (speaker, a
+       * party's leader or whip: the leadership engine's post rows), else 0.
+       */
+      kind: "holds-post";
+    }
+  | {
+      /**
+       * How many earlier bills of the asked person's own the asker voted for
+       * (the vote records of the asker, the bill's sponsor), as count /
+       * (count + scale): a vote already given the asked person's way.
+       */
+      kind: "favor-given";
+      scale: Tagged;
+    }
+  | {
+      /**
+       * How far the town stands for (or against) the cause's bill, from the
+       * questions its sections change and where the electorate stands on each
+       * (the same shares a platform is weighed by): the mean of the share on
+       * the side the bill takes less the share on the other, never below nothing.
+       */
+      kind: "town-on-bill";
+      side: "for" | "against";
+    }
+  | {
       /** 1 where the scene is set at this kind of place, else 0. */
       kind: "setting";
       is: string;
@@ -172,6 +212,33 @@ const ARCS = new Map<string, unknown>(
 /** The arc a variant purpose plays, or undefined for a purpose that is not a variant. */
 export function variantArc(purpose: string): unknown {
   return ARCS.get(purpose);
+}
+
+/**
+ * The earlier bills of the asked person's own that the asker voted for, newest
+ * first: the vote already given the asked person's way, with the bill it was
+ * on. Bills before the cause's day, other than the cause's own bill.
+ */
+export function favorsGiven(
+  core: Readonly<CoreState>,
+  askerId: PersonId,
+  askedId: PersonId,
+  before: string,
+  exceptBillId?: string,
+): readonly { readonly voteId: string; readonly billId: string }[] {
+  if (!core.modules.has(LEGISLATURE_MODULE_ID)) return [];
+  const api = coreAPI(core as CoreState);
+  return votesOf(api, askerId)
+    .filter(
+      (row) =>
+        row.date < before &&
+        row.billId !== exceptBillId &&
+        row.stance.position > P.zero &&
+        (billOf(api, row.billId) as { sponsorId?: string } | undefined)
+          ?.sponsorId === askedId,
+    )
+    .reverse()
+    .map((row) => ({ voteId: row.id, billId: row.billId }));
 }
 
 /** What the scene is, as the choice reads it. */
@@ -284,6 +351,54 @@ function readOf(
     if (!core.relationships.has(tieId)) return P.zero;
     recordIds.add(tieId);
     return clamp(closenessBetween(core, input.askerId, input.askedId));
+  }
+  if (spec.kind === "shared-party") {
+    const mine = partyTie(coreAPI(core as CoreState), input.askerId)?.partyId;
+    const theirs = partyTie(coreAPI(core as CoreState), input.askedId)?.partyId;
+    if (!mine || mine !== theirs) return P.zero;
+    recordIds.add(mine);
+    return P.one;
+  }
+  if (spec.kind === "holds-post") {
+    if (!core.modules.has(LEADERSHIP_MODULE_ID)) return P.zero;
+    const post = coreAPI(core as CoreState)
+      .moduleState(LEADERSHIP_MODULE_ID)
+      .table("posts")
+      .rows()
+      .find((row) => (row as { holderId?: string }).holderId === input.askerId);
+    if (!post) return P.zero;
+    recordIds.add(post.id);
+    return P.one;
+  }
+  if (spec.kind === "favor-given") {
+    const given = favorsGiven(
+      core,
+      input.askerId,
+      input.askedId,
+      input.cause.date,
+      input.cause.facts.billId,
+    );
+    for (const row of given) recordIds.add(row.voteId);
+    return given.length / (given.length + spec.scale.value);
+  }
+  if (spec.kind === "town-on-bill") {
+    const billId = input.cause.facts.billId;
+    if (!billId || !core.modules.has(LEGISLATURE_MODULE_ID)) return P.zero;
+    const api = coreAPI(core as CoreState);
+    const bill = billOf(api, billId);
+    if (!bill) return P.zero;
+    const margins = bill.provisions.flatMap((provision) => {
+      const stance = provisionStance(api, provision);
+      if (!stance || stance.position === P.zero) return [];
+      const sides = electorateSides(api, stance.question);
+      return [
+        stance.position > P.zero ? sides.yes - sides.no : sides.no - sides.yes,
+      ];
+    });
+    if (!margins.length) return P.zero;
+    recordIds.add(bill.id);
+    const mean = margins.reduce((a, b) => a + b, P.zero) / margins.length;
+    return clamp(spec.side === "for" ? mean : -mean);
   }
   if (spec.kind === "fact-map") {
     const level = input.cause.facts[spec.fact];
