@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch */
 // The governor's state budget (legislation, Nov 8): the player steps in as the governor, the day the budget
 // is due holds them, the screen lists each line with a change, and sending it closes the panel.
 // BENCH_SEED and BENCH_PLACEKEY replay a world; SHOTS_DIR saves the screen.
@@ -15,6 +15,13 @@ const page = await browser.newPage({ viewport: { width: 1440, height: 900 } });
 page.setDefaultTimeout(120000);
 const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
+// A button seen a moment ago can be gone by the click (a scene moves on): a missed tap is
+// not a failure, the loop looks again.
+const tap = (id) =>
+  page
+    .locator(`#${id}`)
+    .click({ timeout: 5000 })
+    .catch(() => {});
 const visible = (id) =>
   page
     .locator(`#${id}`)
@@ -48,11 +55,22 @@ try {
     await page.locator("#front-advanced:not([hidden])").waitFor();
     await page.locator("#advanced-build").click();
     seed = new URL((await built).url()).searchParams.get("seed");
+    const placeName = (await (await built).json()).placeName ?? "";
     await page.locator("#front-pick:not([hidden])").waitFor();
+    const ownState = placeName.split(",").pop().trim();
+    const own = await page.evaluate(async (state) => {
+      const holders = await (await fetch("/api/advanced/officeholders")).json();
+      return holders.find(
+        (h) => /governor/i.test(h.title) && h.government === state,
+      )?.name;
+    }, ownState);
+    // The picker lists the first 200 holders; searching for the governor's name finds theirs.
+    if (own && !process.env.BENCH_ROLE)
+      await page.locator("#pick-search").fill(own);
     names = await page.locator("#pick-list button").allInnerTexts();
-    at = names.findIndex((t) =>
-      new RegExp(process.env.BENCH_ROLE ?? "governor", "i").test(t),
-    );
+    at = process.env.BENCH_ROLE
+      ? names.findIndex((t) => new RegExp(process.env.BENCH_ROLE, "i").test(t))
+      : names.findIndex((t) => own && t.includes(own));
     if (at < 0)
       console.log(
         `unusable draw ${attempt}: seed ${seed}, no member of a body`,
@@ -81,11 +99,9 @@ try {
       await (
         (await undecided.count()) ? undecided.first() : replies.first()
       ).click();
-    } else if (await visible("talk-next"))
-      await page.locator("#talk-next").click();
-    else if (await visible("talk-leave"))
-      await page.locator("#talk-leave").click();
-    else if (await visible("continue")) await page.locator("#continue").click();
+    } else if (await visible("talk-next")) await tap("talk-next");
+    else if (await visible("talk-leave")) await tap("talk-leave");
+    else if (await visible("continue")) await tap("continue");
     else if (!(await page.locator("#week").isDisabled())) break;
     await page.waitForTimeout(800);
   }
@@ -102,6 +118,38 @@ try {
         await page.waitForTimeout(1500);
         continue;
       }
+      // A state of emergency waits for the governor's word: let it pass, and the days go on.
+      const emergency = page.locator("#desk-items .action", {
+        hasText: /^Let it pass$/,
+      });
+      if (await emergency.count()) {
+        await emergency.first().click();
+        await page.waitForTimeout(1500);
+        continue;
+      }
+      // A bill on the governor's desk comes before the budget: read it, sign it, and the days go on.
+      const back = page.getByRole("button", { name: /Back to the desk/ });
+      if (await back.count()) {
+        await back.first().click();
+        await page.waitForTimeout(1000);
+        continue;
+      }
+      const read = page
+        .locator("#desk-items")
+        .getByRole("button", { name: "Read the bill" });
+      if (
+        !/budget/i.test(await page.locator("#desk-items").innerText()) &&
+        (await read.count())
+      ) {
+        await read.first().click();
+        await page
+          .locator(".stage-vote button", { hasText: /^Sign it$/ })
+          .click();
+        await page.waitForTimeout(1500);
+        await page.getByRole("button", { name: /Back to the desk/ }).click();
+        await page.waitForTimeout(1000);
+        continue;
+      }
       held = true;
       break;
     }
@@ -113,11 +161,9 @@ try {
       await (
         (await undecided.count()) ? undecided.first() : replies.first()
       ).click();
-    } else if (await visible("talk-next"))
-      await page.locator("#talk-next").click();
-    else if (await visible("talk-leave"))
-      await page.locator("#talk-leave").click();
-    else if (await visible("continue")) await page.locator("#continue").click();
+    } else if (await visible("talk-next")) await tap("talk-next");
+    else if (await visible("talk-leave")) await tap("talk-leave");
+    else if (await visible("continue")) await tap("continue");
     else if (!(await page.locator("#week").isDisabled()))
       await page.locator("#week").click();
     await page.waitForTimeout(1500);
