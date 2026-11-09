@@ -325,13 +325,11 @@
     "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
-    "waits": "Runs the world until it happens",
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
       "cap": "Cap reached"
-    },
-    "noPath": "No engine writes its cause yet"
+    }
   },
   "devPerson": {
     "title": "Health",
