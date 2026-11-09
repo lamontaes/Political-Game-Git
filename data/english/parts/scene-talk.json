@@ -88911,6 +88911,136 @@
       }
     },
     {
+      "key": "scene-talk.follow-apologize.i-m-sorry-i-told-you-we-had-the-votes-and-i-was-wrong",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I told you we had the votes, and I was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-m-sorry-i-know-how-much-you-put-into-this-one",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I know how much you put into this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "apologize",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.don-t-apologize-you-did-the-work-i-m-the-one-who-asked-people-to-vote",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Don't apologize. You did the work. I'm the one who asked people to vote for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "apologize",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-accept.don-t-be-sorry-the-people-this-bill-was-for-are-the-ones-i-owe-an-apol",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Don't be sorry. The people this bill was for are the ones I owe an apology.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "apologize",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.don-t-apologize-we-re-disappointed-not-done-we-bring-it-back-next-sess",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Don't apologize. We're disappointed, not done. We bring it back next session.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "apologize",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "scene-talk.follow-comfort.you-did-everything-you-could-on-this-one",
       "move": "follow-comfort",
       "kind": "spoken",
@@ -168079,6 +168209,4500 @@
       "tag": {
         "move": "press",
         "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-list-of-members-and-a-pencil-and-bill-is-at-the-top-of-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a list of members and a pencil, and {bill} is at the top of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-cuts-across-the-room-to-reach-you-a-folded-list-in-one-hand",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} cuts across the room to reach you, a folded list in one hand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-down-the-whole-list-on-bill-and-has-one-name-left-to-ask",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been down the whole list on {bill} and has one name left to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.two-minutes-i-m-going-down-the-list",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Two minutes. I'm going down the list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-re-next-on-my-list",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You're next on my list.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-turn-in-my-count-tonight-have-you-got-a-second",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I turn in my count tonight. Have you got a second?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-going-down-the-list-on-bill-where-do-i-put-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm going down the list on {bill}. Where do I put you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-caucus-is-voting-yes-on-bill-i-need-your-name-on-the-same-side",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The caucus is voting yes on {bill}. I need your name on the same side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-same-party"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.everyone-in-the-caucus-is-a-yes-on-bill-but-you-and-two-others-i-d-like-to-fix-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Everyone in the caucus is a yes on {bill} but you and two others. I'd like to fix that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-same-party"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-one-vote-short-on-bill-and-i-d-rather-get-it-from-you-than-from-the-other-si",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm one vote short on {bill}, and I'd rather get it from you than from the other side.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.leadership-put-bill-on-the-schedule-i-have-to-tell-them-where-you-are",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Leadership put {bill} on the schedule. I have to tell them where you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.tell-me-you-re-a-yes-on-bill-and-i-can-stop-counting-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell me you're a yes on {bill} and I can stop counting you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.put-me-down-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Put me down yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-you-ll-see-it-on-the-board",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. You'll see it on the board.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.cross-me-off-on-bill-my-district-sent-me-here-to-vote-no-on-that",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Cross me off on {bill}. My district sent me here to vote no on that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-and-i-d-rather-tell-you-now-than-on-the-floor",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't, and I'd rather tell you now than on the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.put-me-down-present-i-can-t-vote-for-it-and-i-won-t-vote-against-you",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Put me down present. I can't vote for it and I won't vote against you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-ll-be-off-the-floor-before-the-roll-that-s-the-most-i-can-do",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'll be off the floor before the roll. That's the most I can do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-not-a-yes-i-m-not-going-to-help-the-other-side-either",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm not a yes. I'm not going to help the other side either.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.what-does-leadership-give-me-for-it-i-ve-been-asking-for-a-hearing-on-my-own-bil",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "What does leadership give me for it? I've been asking for a hearing on my own bill since spring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-carry-it-if-my-committee-seat-stays-where-it-is",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll carry it if my committee seat stays where it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.don-t-write-me-down-yet-i-m-waiting-on-the-fiscal-note",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Don't write me down yet. I'm waiting on the fiscal note.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.come-back-after-caucus-i-want-to-hear-what-the-others-say-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Come back after caucus. I want to hear what the others say first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.put-me-down-as-leaning-leaning-not-yes",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Put me down as leaning. Leaning, not yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.you-re-fine-count-me",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "You're fine. Count me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-m-with-you-i-just-haven-t-said-it-out-loud",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I'm with you. I just haven't said it out loud.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-mark-me-yes-and-mark-that-i-didn-t-enjoy-it",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "All right. Mark me yes, and mark that I didn't enjoy it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-m-in-tell-leadership-i-m-in",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'm in. Tell leadership I'm in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-that-s-one-i-don-t-have-to-chase",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. That's one I don't have to chase.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-tell-leadership-you-came-through",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll tell leadership you came through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-holding-this-list-together-by-hand-could-you-stay-with-us-this-once",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm holding this list together by hand. Could you stay with us this once?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-not-asking-you-to-like-it-i-m-asking-you-to-vote-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm not asking you to like it. I'm asking you to vote it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.leaning-doesn-t-help-me-the-board-only-has-two-columns",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Leaning doesn't help me. The board only has two columns.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-need-a-number-tonight-yes-or-no",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I need a number tonight. Yes or no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-cross-you-off-and-call-the-next-name",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll cross you off and call the next name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-i-ll-tell-leadership-where-you-are",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll tell leadership where you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-i-can-do-leadership-won-t-miss-one-hearing",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That I can do. Leadership won't miss one hearing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-can-get-you-the-hearing-after-the-vote-not-before",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I can get you the hearing. After the vote, not before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.leadership-doesn-t-trade-seats-for-votes-not-while-i-m-holding-the-pencil",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "Leadership doesn't trade seats for votes. Not while I'm holding the pencil.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.leadership-remembers-who-stood-where-so-do-i",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Leadership remembers who stood where. So do I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.next-time-you-need-a-floor-slot-you-ll-be-asking-me",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Next time you need a floor slot, you'll be asking me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-tell-leadership-you-re-not-with-us-they-ll-want-to-know-why",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll tell leadership you're not with us. They'll want to know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.decide-by-tonight-that-s-when-my-count-goes-in",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Decide by tonight. That's when my count goes in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-go-vote-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good. Go vote it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-cross-you-off-no-hard-feelings-not-yet",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll cross you off. No hard feelings, not yet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.whip",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-room-thins-out-then-comes-over-about-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the room thins out, then comes over about {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-stops-at-your-desk-and-doesn-t-sit",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} stops at your desk and doesn't sit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-taps-the-corner-of-your-desk-twice-the-way-name-did-when-earlier-came-up",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} taps the corner of your desk twice, the way {name} did when {earlier} came up.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-remember-earlier",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You remember {earlier}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-haven-t-asked-you-for-anything-since-earlier",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I haven't asked you for anything since {earlier}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-asking-you-not-the-whole-floor-you-know-why",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm asking you, not the whole floor. You know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-voted-yes-on-earlier-when-you-needed-it-i-need-you-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I voted yes on {earlier} when you needed it. I need you on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-had-my-vote-on-earlier-i-m-asking-for-yours-on-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You had my vote on {earlier}. I'm asking for yours on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-stood-up-for-earlier-stand-up-for-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I stood up for {earlier}. Stand up for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-even-after-earlier-if-you-vote-yes-on-bill-not-before",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're even after {earlier} if you vote yes on {bill}. Not before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.last-time-you-needed-a-vote-it-was-earlier-this-time-it-s-bill-and-i-m-the-one-a",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Last time you needed a vote it was {earlier}. This time it's {bill}, and I'm the one asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-given-you-a-vote-already-bill-is-the-one-i-m-asking-back",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've given you a vote already. {bill} is the one I'm asking back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-did-i-m-a-yes-on-bill",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You did. I'm a yes on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-remember-earlier-you-have-my-vote",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I remember {earlier}. You have my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-grateful-for-earlier-i-still-can-t-vote-for-bill",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm grateful for {earlier}. I still can't vote for {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-vote-isn-t-a-loan-i-can-t-be-a-yes-on-bill-because-you-were-a-yes-on-mine",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "A vote isn't a loan. I can't be a yes on {bill} because you were a yes on mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.you-voted-for-my-bill-and-i-haven-t-forgotten-it-this-one-is-a-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "You voted for my bill, and I haven't forgotten it. This one is a no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.then-let-s-call-it-a-trade-what-do-i-get-on-bill-that-i-didn-t-get-last-time",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Then let's call it a trade. What do I get on {bill} that I didn't get last time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-take-that-trade-if-you-carry-my-amendment-onto-bill",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll take that trade if you carry my amendment onto {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.fine-we-trade-but-the-next-one-is-mine-to-call",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Fine, we trade. But the next one is mine to call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-remember-earlier-let-me-read-bill-before-i-pay-it-back",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I remember {earlier}. Let me read {bill} before I pay it back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "earlier"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-until-the-roll-i-m-not-saying-no",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me until the roll. I'm not saying no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-ll-pay-it-back-i-just-need-to-see-what-i-m-paying-it-back-on",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'll pay it back. I just need to see what I'm paying it back on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-haven-t-forgotten-earlier-you-re-in-my-column",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I haven't forgotten {earlier}. You're in my column.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.consider-it-paid",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Consider it paid.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.you-earned-it-put-me-down-yes",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "You earned it. Put me down yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.one-for-one-we-re-square-after-this",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "One for one. We're square after this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "I owe you that much. Put me down yes on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.we-re-square-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "We're square. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-like-to-keep-my-ledger-short",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. I like to keep my ledger short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-didn-t-count-earlier-as-a-favor-when-i-cast-it-i-m-asking-you-to-count-it-now",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I didn't count {earlier} as a favor when I cast it. I'm asking you to count it now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "refuse",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-not-holding-it-over-you-i-just-don-t-have-anyone-else-to-ask",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm not holding it over you. I just don't have anyone else to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.before-the-roll-then-not-after",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Before the roll, then. Not after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-not-asking-for-the-moon-i-m-asking-for-one-button",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm not asking for the moon. I'm asking for one button.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-we-re-even-and-i-won-t-bring-up-earlier-again",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then we're even, and I won't bring up {earlier} again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "refuse",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-stop-counting-what-you-owe-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll stop counting what you owe me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-and-the-rest-of-it-stays-between-us",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. And the rest of it stays between us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-ll-do-the-amendment-if-you-do-the-vote",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I'll do the amendment if you do the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-didn-t-vote-for-yours-to-get-something-i-m-not-starting-now",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I didn't vote for yours to get something. I'm not starting now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-ll-remember-earlier-the-next-time-you-need-one",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I'll remember {earlier} the next time you need one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "refuse",
+          "requiresFacts": ["earlier"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.people-keep-a-count-of-who-paid-back-and-who-didn-t",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "People keep a count of who paid back and who didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.your-next-bill-will-need-votes-too",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Your next bill will need votes too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.tell-me-before-the-roll-i-d-rather-know",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Tell me before the roll. I'd rather know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-s-all-i-wanted-we-re-even",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That's all I wanted. We're even.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-we-re-not-even-i-ll-remember-that",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we're not even. I'll remember that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.trade",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-local-paper-folded-under-an-arm-open-to-the-story-on-bill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the local paper folded under an arm, open to the story on {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-stack-of-mail-about-bill-and-has-stopped-reading-after-the-third-lett",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a stack of mail about {bill} and has stopped reading after the third letter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-lowers-a-voice-though-nobody-is-close-enough-to-hear",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} lowers a voice, though nobody is close enough to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.everyone-s-watching-this-one",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Everyone's watching this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-ve-seen-your-mail-this-week",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You've seen your mail this week?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-been-getting-the-calls-too",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you been getting the calls too?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.people-in-town-want-bill-passed-and-they-ll-see-how-you-vote-i-d-like-to-see-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "People in town want {bill} passed, and they'll see how you vote. I'd like to see you on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-town-for-bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-town-is-behind-bill-don-t-be-the-member-who-isn-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The town is behind {bill}. Don't be the member who isn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-town-for-bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-i-ve-talked-to-is-against-bill-can-i-say-that-about-you-too",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody I've talked to is against {bill}. Can I say that about you too?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-town-for-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-know-the-town-is-against-bill-i-m-asking-for-your-vote-anyway",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I know the town is against {bill}. I'm asking for your vote anyway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-town-against-bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.most-people-in-town-want-bill-dead-i-think-they-re-wrong-and-i-need-you-to-go-ag",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Most people in town want {bill} dead. I think they're wrong, and I need you to go against them with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill", "read-town-against-bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.whichever-way-bill-goes-the-whole-town-will-know-how-you-voted-will-you-vote-wit",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Whichever way {bill} goes, the whole town will know how you voted. Will you vote with me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.if-the-town-wants-it-it-s-an-easy-one-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "If the town wants it, it's an easy one. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-for-bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.i-ll-vote-yes-and-i-ll-say-so-to-anyone-who-asks",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll vote yes, and I'll say so to anyone who asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.it-won-t-be-popular-you-have-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "It won't be popular. You have me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-against-bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.the-mail-i-ve-gotten-says-no-i-m-voting-the-mail",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "The mail I've gotten says no. I'm voting the mail.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-against-bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-m-not-going-against-the-whole-town-for-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not going against the whole town for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-against-bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-vote-for-bill-i-m-telling-you-now-so-you-don-t-read-it-in-the-paper",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't vote for {bill}. I'm telling you now so you don't read it in the paper.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-vote-yes-if-my-name-goes-on-the-amendment-if-the-town-s-going-to-be-angry-t",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll vote yes if my name goes on the amendment. If the town's going to be angry, they can be angry at both of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.put-in-the-sunset-clause-and-i-can-explain-a-yes-at-the-grocery-store",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Put in the sunset clause and I can explain a yes at the grocery store.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-need-to-hear-from-my-own-district-before-i-commit",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I need to hear from my own district before I commit.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-ll-wait-and-see-who-testifies",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I'll wait and see who testifies.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-count-my-own-mail-on-bill-first",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me count my own mail on {bill} first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-m-a-yes-i-ll-tell-my-district-tonight",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I'm a yes. I'll tell my district tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.you-can-count-me-don-t-quote-me",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "You can count me. Don't quote me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-if-the-town-is-against-us-at-least-we-re-against-them-together",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "All right. If the town is against us, at least we're against them together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "requiresFacts": ["read-town-against-bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-i-ll-take-the-heat-with-you",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. I'll take the heat with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-stand-next-to-you-when-they-ask",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll stand next to you when they ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-it-helps-to-know-i-m-not-the-only-one",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. It helps to know I'm not the only one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.everyone-s-going-to-see-this-vote-i-d-rather-not-be-the-only-name-on-it",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Everyone's going to see this vote. I'd rather not be the only name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-can-t-carry-it-alone-with-the-whole-town-watching",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I can't carry it alone with the whole town watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-town-will-know-either-way-i-d-rather-know-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The town will know either way. I'd rather know first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.they-ll-ask-you-at-the-store-what-will-you-say",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "They'll ask you at the store. What will you say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-i-ll-find-someone-who-can-afford-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll find someone who can afford it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-it-s-your-name-on-the-board",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. It's your name on the board.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.the-amendment-goes-in-your-name-goes-on-it-next-to-mine",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "The amendment goes in. Your name goes on it, next to mine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.i-can-write-it-in-tonight-it-ll-cost-me-two-other-votes",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "I can write it in tonight. It'll cost me two other votes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-add-that-without-losing-the-ones-i-already-have",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't add that without losing the ones I already have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.the-people-who-wrote-the-letters-will-check-the-board",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "The people who wrote the letters will check the board.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.they-remember-who-stood-where-and-they-vote-every-two-years",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "They remember who stood where, and they vote every two years.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.the-board-shows-every-name-yours-will-be-on-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "The board shows every name. Yours will be on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.find-me-before-the-roll-i-ll-be-near-the-back",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Find me before the roll. I'll be near the back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-then-we-both-have-something-to-explain",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good. Then we both have something to explain.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-we-ll-each-answer-for-our-own-vote",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then we'll each answer for our own vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.watched",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-comes-in-without-knocking-the-way-name-always-does",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} comes in without knocking, the way {name} always does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-puts-two-coffees-on-the-desk-and-keeps-one",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} puts two coffees on the desk and keeps one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-on-the-edge-of-the-desk-and-looks-at-bill-not-at-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits on the edge of the desk and looks at {bill}, not at you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-i-ask-you-something-without-you-hating-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I ask you something without you hating me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-need-a-favor-and-i-hate-that-i-need-it",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I need a favor and I hate that I need it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.don-t-say-anything-until-i-m-done",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Don't say anything until I'm done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-your-vote-on-bill-i-wouldn-t-ask-if-there-were-another-way",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need your vote on {bill}. I wouldn't ask if there were another way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-know-i-don-t-ask-you-for-much-bill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You know I don't ask you for much. {bill}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-short-on-bill-you-were-the-first-name-i-thought-of",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm short on {bill}. You were the first name I thought of.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-want-your-vote-on-bill-and-i-d-like-you-not-to-hate-me-while-you-decide",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I want your vote on {bill}, and I'd like you not to hate me while you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.if-i-told-you-bill-matters-to-me-would-that-count-for-anything",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "If I told you {bill} matters to me, would that count for anything?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "hopeful",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-didn-t-have-to-ask-twice-yes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You didn't have to ask twice. Yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.for-you-yes-not-for-the-bill-for-you",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "For you, yes. Not for the bill. For you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-and-it-s-killing-me-to-say-it-to-you",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't, and it's killing me to say it to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Anyone else, I'd say it flat. You, I'm sorry. It's a no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-d-rather-lose-the-argument-with-you-than-lie-to-you-no",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'd rather lose the argument with you than lie to you. No.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Help me with the road money for my district and I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.stand-next-to-me-when-i-explain-it-to-my-district-and-i-ll-vote-yes",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "Stand next to me when I explain it to my district, and I'll vote yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-bargain.i-ll-do-it-if-you-ll-hear-me-out-on-my-own-bill-next-week",
+      "move": "reply-bargain",
+      "kind": "spoken",
+      "text": "I'll do it if you'll hear me out on my own bill next week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "bargain",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-till-tomorrow-i-want-to-be-sure-for-you",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me till tomorrow. I want to be sure, for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.let-me-sleep-on-it-i-ll-tell-you-before-anyone-else",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Let me sleep on it. I'll tell you before anyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.don-t-make-me-answer-standing-here",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Don't make me answer standing here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.yes-stop-worrying-about-it",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Yes. Stop worrying about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.you-re-fine-i-ve-got-you",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "You're fine. I've got you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.fine-you-win-you-always-do-this",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "Fine. You win. You always do this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-i-m-in-you-re-buying-lunch",
+      "move": "reply-relent",
+      "kind": "spoken",
+      "text": "All right, I'm in. You're buying lunch.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "relent",
+          "role": "asked",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "relent",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.lunch-is-on-me-for-a-month",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Lunch is on me for a month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.you-just-saved-me-a-very-long-night",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "You just saved me a very long night.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.please-not-as-a-member-as-me",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Please. Not as a member. As me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-plea.it-s-one-vote-i-m-asking-as-a-friend",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "It's one vote. I'm asking as a friend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "plea",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.you-can-say-no-to-me-i-d-just-rather-hear-it-than-guess",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You can say no to me. I'd just rather hear it than guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.tomorrow-s-the-vote-give-me-something-to-hold-on-to",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Tomorrow's the vote. Give me something to hold on to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-get-it-we-re-fine",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I get it. We're fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-lose-it-honestly-dinner-s-still-on",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll lose it honestly. Dinner's still on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-i-ll-stand-with-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. I'll stand with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-bargain.half-now-half-after-the-vote",
+      "move": "follow-bargain",
+      "kind": "spoken",
+      "text": "Half now, half after the vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "bargain",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "bargain",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-refuse.i-can-t-do-that-and-you-know-i-can-t",
+      "move": "follow-refuse",
+      "kind": "spoken",
+      "text": "I can't do that, and you know I can't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "refuse",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "bargain"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.i-helped-you-with-yours-i-haven-t-said-it-until-now",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "I helped you with yours. I haven't said it until now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-threaten.don-t-make-me-count-what-i-ve-done-for-you",
+      "move": "follow-threaten",
+      "kind": "spoken",
+      "text": "Don't make me count what I've done for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "threaten",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "threaten",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-m-not-mad-i-m-going-to-be-quiet-for-a-while",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'm not mad. I'm going to be quiet for a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-tonight-whatever-you-decide",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me tonight, whatever you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.go-tell-your-family-i-said-hi",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Go. Tell your family I said hi.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.we-ll-be-fine-come-to-dinner-sunday",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "We'll be fine. Come to dinner Sunday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "ask-vote.friend",
+          "key": "vote-wanted"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-m-telling-you-how-the-count-works-i-didn-t-write-the-rules",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm telling you how the count works. I didn't write the rules.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "scene-talk.reply-confront.are-you-threatening-me"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.it-isn-t-a-try-it-s-the-roll-and-you-re-on-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "It isn't a try. It's the roll, and you're on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "scene-talk.reply-confront.don-t-try-that-with-me"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-apologize.that-came-out-wrong-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "That came out wrong. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "confront"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "apologize",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.i-ve-won-harder-votes-than-this-one",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "I've won harder votes than this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "confront"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "boast",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.that-s-not-how-i-read-the-count",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "That's not how I read the count.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "vote-wanted"
+      }
+    },
+    {
+      "key": "scene-talk.follow-confront.then-count-it-again-and-show-me-where-i-m-wrong",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Then count it again and show me where I'm wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "ask-vote",
+          "key": "vote-wanted",
+          "after": "scene-talk.reply-disagree.that-s-not-how-i-read-the-count"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, ask-vote variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "vote-wanted"
       }
     },
     {

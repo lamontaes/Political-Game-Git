@@ -17,6 +17,7 @@ import {
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import type { TreeNode } from "./scene-talk";
 
 // A bill that loses a vote is bad news its sponsor hears from their own
 // office. The legislature records the loss for the sponsor (bill-failed: held
@@ -71,6 +72,8 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
     // Losses whose own talk was composed and checked (a loss taken into the
     // day's sitting is talked of by that sitting's scene, so it does not count).
     let composed = 0;
+    let apologies = 0;
+    let unanswered = 0;
     while (core.date < end) {
       advanceCore(
         core,
@@ -141,10 +144,41 @@ it(`a bill that loses its vote is the sponsor's staff-news scene, about that bil
         expect(bill.recordIds, here).toContain(loss.id);
         expect(said, here).toContain(bill.text);
         expect(said, here).toContain(tally);
+        // Where the aide says sorry for the count, the player can answer the
+        // way the owner said it should go: "No, don't apologize ... I should be
+        // apologizing to you" (Nov 9, batch 3).
+        const walk = (node: TreeNode | null, out: TreeNode[]) => {
+          if (!node) return out;
+          out.push(node);
+          for (const reply of node.replies) walk(reply.next, out);
+          for (const branch of node.branches ?? []) walk(branch.node, out);
+          return out;
+        };
+        for (const node of walk(result.scene.talk.tree, [])) {
+          if (!node.lines.some((line) => /^I'm sorry\./.test(line.text)))
+            continue;
+          // A node the tree ends or cuts there offers no reply at all.
+          if (node.replies.length === 0) {
+            unanswered += 1;
+            continue;
+          }
+          expect(
+            node.replies.some((reply) =>
+              /^Don't (apologize|be sorry)/.test(reply.line.text),
+            ),
+            `${here}: ${node.lines.map((line) => line.text).join(" ")} / ${node.replies.map((reply) => `${reply.line.move}: ${reply.line.text}`).join(" | ")}`,
+          ).toBe(true);
+          apologies += 1;
+        }
         composed += 1;
       }
     }
-    if (composed) return;
+    if (composed) {
+      process.stdout.write(
+        `STAFF NEWS ${tried.length} places tried before, ${composed} losses told, ${apologies} apologies answered, ${unanswered} at an end (seed ${seed})\n`,
+      );
+      return;
+    }
     tried.push(place.name);
   }
   throw new Error(
