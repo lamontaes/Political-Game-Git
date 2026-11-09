@@ -333,9 +333,16 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
         bankVersion: "words-opening-speech-v1",
         stage,
         sourceRecordIds: ["record:speech"],
-        facts: {},
+        // A governor's and a mayor's address name the state or the town.
+        facts: { place: { text: "Ohio", sourceRecordIds: ["record:place"] } },
         speaker: { personId: "president", traits: {} },
-        knowledge: [],
+        knowledge: [
+          {
+            personId: "president",
+            factKey: "place",
+            sourceRecordIds: ["record:place"],
+          },
+        ],
       }) as unknown as GroundedEnglishPacket;
     for (const kind of ADDRESS_KINDS)
       for (const voice of VOICES)
@@ -397,10 +404,10 @@ describe("the bank holds each kind's own greeting, occasion, oath, creed and uni
                 addressKind: kind,
               })!;
               const result = composeAddress(
-                withFacts(
-                  "chair-female",
-                  party ? { [`party-${party}`]: "yes" } : {},
-                ),
+                withFacts("chair-female", {
+                  place: "Ohio",
+                  ...(party ? { [`party-${party}`]: "yes" } : {}),
+                }),
                 "election-night",
                 [move],
               );

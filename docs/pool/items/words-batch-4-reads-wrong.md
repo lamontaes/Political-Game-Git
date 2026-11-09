@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: story/director-reads-wrong
+pr: pending
 blocked-on:
 lead: words
 milestone: play-first

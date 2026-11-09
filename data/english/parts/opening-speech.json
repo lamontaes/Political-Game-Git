@@ -213,7 +213,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -233,7 +234,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -273,7 +275,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -474,7 +477,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -494,7 +498,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -534,7 +539,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -554,7 +560,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -1446,7 +1453,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -1486,7 +1494,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -2105,7 +2114,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2125,7 +2135,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2165,7 +2176,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2185,7 +2197,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2366,7 +2379,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2386,7 +2400,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2406,7 +2421,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2426,7 +2442,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2446,7 +2463,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -2466,7 +2484,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -3105,7 +3124,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3165,7 +3185,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3338,7 +3359,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3358,7 +3380,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3378,7 +3401,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3398,7 +3422,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -3997,7 +4022,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4017,7 +4043,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4037,7 +4064,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4057,7 +4085,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4077,7 +4106,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4097,7 +4127,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4258,7 +4289,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4278,7 +4310,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4298,7 +4331,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4318,7 +4352,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4338,7 +4373,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4358,7 +4394,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -4997,7 +5034,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5057,7 +5095,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5230,7 +5269,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5250,7 +5290,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5270,7 +5311,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5290,7 +5332,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -5909,7 +5952,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -6150,7 +6194,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -6170,7 +6215,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -6210,7 +6256,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -6230,7 +6277,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -7122,7 +7170,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -7142,7 +7191,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -7162,7 +7212,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -7182,7 +7233,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -7781,7 +7833,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -7801,7 +7854,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -7841,7 +7895,8 @@
           "move": "salutation",
           "subject": "town-address",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8054,7 +8109,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8074,7 +8130,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8094,7 +8151,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8114,7 +8172,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -8998,7 +9057,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -9018,7 +9078,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -9637,7 +9698,8 @@
           "move": "salutation",
           "subject": "state-of-the-state",
           "role": "salutation",
-          "choice": "salutation"
+          "choice": "salutation",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -9890,7 +9952,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -9930,7 +9993,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -21662,7 +21726,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -21681,7 +21746,8 @@
           "move": "occasion",
           "subject": "state-of-the-state",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -21701,7 +21767,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "polished",
@@ -21722,7 +21788,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "plain",
@@ -21799,7 +21865,7 @@
           "subject": "state-of-the-state",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "polished",
@@ -21820,7 +21886,7 @@
           "subject": "state-of-the-state",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "plain",
@@ -21897,7 +21963,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "polished",
@@ -21918,7 +21984,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "plain",
@@ -21995,7 +22061,7 @@
           "subject": "state-of-the-state",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "polished",
@@ -22016,7 +22082,7 @@
           "subject": "state-of-the-state",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "plain",
@@ -22037,7 +22103,7 @@
           "subject": "state-of-the-state",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "polished",
@@ -22058,7 +22124,7 @@
           "subject": "state-of-the-state",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "plain",
@@ -22079,7 +22145,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "polished",
@@ -22100,7 +22166,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "plain",
@@ -22233,7 +22299,7 @@
           "subject": "state-of-the-state",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "polished",
@@ -22254,7 +22320,7 @@
           "subject": "state-of-the-state",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "plain",
@@ -22275,7 +22341,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "polished",
@@ -22296,7 +22362,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "plain",
@@ -22373,7 +22439,7 @@
           "subject": "state-of-the-state",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "polished",
@@ -22394,7 +22460,7 @@
           "subject": "state-of-the-state",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "plain",
@@ -22415,7 +22481,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-mourning"]
+          "requiresFacts": ["kind-mourning", "place"]
         }
       ],
       "voice": "polished",
@@ -22436,7 +22502,7 @@
           "subject": "state-of-the-state",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-mourning"]
+          "requiresFacts": ["kind-mourning", "place"]
         }
       ],
       "voice": "plain",
@@ -22512,7 +22578,8 @@
           "move": "story-open",
           "subject": "state-of-the-state",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -22531,7 +22598,8 @@
           "move": "story-open",
           "subject": "state-of-the-state",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -22550,7 +22618,8 @@
           "move": "story-turn",
           "subject": "state-of-the-state",
           "role": "story-turn",
-          "choice": "story-turn"
+          "choice": "story-turn",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -22569,7 +22638,8 @@
           "move": "story-turn",
           "subject": "state-of-the-state",
           "role": "story-turn",
-          "choice": "story-turn"
+          "choice": "story-turn",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -22688,7 +22758,8 @@
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
-          "choice": "close"
+          "choice": "close",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -22707,7 +22778,8 @@
           "move": "close",
           "subject": "state-of-the-state",
           "role": "close",
-          "choice": "close"
+          "choice": "close",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -22727,7 +22799,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-worse"]
+          "requiresFacts": ["jobs-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -22776,7 +22848,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better"]
+          "requiresFacts": ["jobs-better", "place"]
         }
       ],
       "voice": "polished",
@@ -22825,7 +22897,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-worse"]
+          "requiresFacts": ["pay-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -22874,7 +22946,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better"]
+          "requiresFacts": ["pay-better", "place"]
         }
       ],
       "voice": "polished",
@@ -22923,7 +22995,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["prices-worse"]
+          "requiresFacts": ["prices-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -22972,7 +23044,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["prices-better"]
+          "requiresFacts": ["prices-better", "place"]
         }
       ],
       "voice": "polished",
@@ -23021,7 +23093,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-worse"]
+          "requiresFacts": ["schools-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -23042,7 +23114,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-worse"]
+          "requiresFacts": ["schools-worse", "place"]
         }
       ],
       "voice": "plain",
@@ -23063,7 +23135,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better"]
+          "requiresFacts": ["schools-better", "place"]
         }
       ],
       "voice": "polished",
@@ -23084,7 +23156,7 @@
           "subject": "state-of-the-state",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better"]
+          "requiresFacts": ["schools-better", "place"]
         }
       ],
       "voice": "plain",
@@ -23236,7 +23308,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -23255,7 +23328,8 @@
           "move": "occasion",
           "subject": "town-address",
           "role": "occasion",
-          "choice": "occasion"
+          "choice": "occasion",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -23275,7 +23349,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "polished",
@@ -23296,7 +23370,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "plain",
@@ -23317,7 +23391,7 @@
           "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "polished",
@@ -23338,7 +23412,7 @@
           "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-crisis"]
+          "requiresFacts": ["kind-crisis", "place"]
         }
       ],
       "voice": "plain",
@@ -23359,7 +23433,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "polished",
@@ -23380,7 +23454,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "plain",
@@ -23401,7 +23475,7 @@
           "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "polished",
@@ -23422,7 +23496,7 @@
           "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "plain",
@@ -23443,7 +23517,7 @@
           "subject": "town-address",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "polished",
@@ -23464,7 +23538,7 @@
           "subject": "town-address",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-combative"]
+          "requiresFacts": ["kind-combative", "place"]
         }
       ],
       "voice": "plain",
@@ -23485,7 +23559,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "polished",
@@ -23506,7 +23580,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "plain",
@@ -23527,7 +23601,7 @@
           "subject": "town-address",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "polished",
@@ -23548,7 +23622,7 @@
           "subject": "town-address",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-hopeful"]
+          "requiresFacts": ["kind-hopeful", "place"]
         }
       ],
       "voice": "plain",
@@ -23569,7 +23643,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "polished",
@@ -23590,7 +23664,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "plain",
@@ -23611,7 +23685,7 @@
           "subject": "town-address",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "polished",
@@ -23632,7 +23706,7 @@
           "subject": "town-address",
           "role": "hope",
           "choice": "hope",
-          "requiresFacts": ["kind-victory"]
+          "requiresFacts": ["kind-victory", "place"]
         }
       ],
       "voice": "plain",
@@ -23653,7 +23727,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-mourning"]
+          "requiresFacts": ["kind-mourning", "place"]
         }
       ],
       "voice": "polished",
@@ -23674,7 +23748,7 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-mourning"]
+          "requiresFacts": ["kind-mourning", "place"]
         }
       ],
       "voice": "plain",
@@ -23694,7 +23768,8 @@
           "move": "story-open",
           "subject": "town-address",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -23713,7 +23788,8 @@
           "move": "story-open",
           "subject": "town-address",
           "role": "story-open",
-          "choice": "story-open"
+          "choice": "story-open",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -23732,7 +23808,8 @@
           "move": "story-turn",
           "subject": "town-address",
           "role": "story-turn",
-          "choice": "story-turn"
+          "choice": "story-turn",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -23751,7 +23828,8 @@
           "move": "story-turn",
           "subject": "town-address",
           "role": "story-turn",
-          "choice": "story-turn"
+          "choice": "story-turn",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -23770,7 +23848,8 @@
           "move": "close",
           "subject": "town-address",
           "role": "close",
-          "choice": "close"
+          "choice": "close",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "polished",
@@ -23789,7 +23868,8 @@
           "move": "close",
           "subject": "town-address",
           "role": "close",
-          "choice": "close"
+          "choice": "close",
+          "requiresFacts": ["place"]
         }
       ],
       "voice": "plain",
@@ -23809,7 +23889,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-worse"]
+          "requiresFacts": ["jobs-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -23830,7 +23910,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["jobs-better"]
+          "requiresFacts": ["jobs-better", "place"]
         }
       ],
       "voice": "polished",
@@ -23851,7 +23931,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-worse"]
+          "requiresFacts": ["pay-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -23872,7 +23952,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["pay-better"]
+          "requiresFacts": ["pay-better", "place"]
         }
       ],
       "voice": "polished",
@@ -23893,7 +23973,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["prices-worse"]
+          "requiresFacts": ["prices-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -23914,7 +23994,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["prices-better"]
+          "requiresFacts": ["prices-better", "place"]
         }
       ],
       "voice": "polished",
@@ -23935,7 +24015,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-worse"]
+          "requiresFacts": ["schools-worse", "place"]
         }
       ],
       "voice": "polished",
@@ -23956,7 +24036,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-worse"]
+          "requiresFacts": ["schools-worse", "place"]
         }
       ],
       "voice": "plain",
@@ -23977,7 +24057,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better"]
+          "requiresFacts": ["schools-better", "place"]
         }
       ],
       "voice": "polished",
@@ -23998,7 +24078,7 @@
           "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
-          "requiresFacts": ["schools-better"]
+          "requiresFacts": ["schools-better", "place"]
         }
       ],
       "voice": "plain",
