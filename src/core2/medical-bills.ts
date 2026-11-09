@@ -927,6 +927,7 @@ export function billMedicalCare(
       billMinor,
       askedMinor,
       ...paid,
+      journalIds: [...paid.journalIds],
       unpaidMinor: Math.max(0, askedMinor - paid.paidMinor),
       owed,
       pastWaitMinor: pastWait,
@@ -938,7 +939,9 @@ export function billMedicalCare(
       debtId: debtId ?? prior.get(h.householdId)?.debtId ?? null,
       source,
     };
-    table(api, input.module).put(row as never);
+    // The row is built fresh above and never touched again: frozen in place,
+    // not copied (the copy was 2.8 s of a Gunnison election year).
+    table(api, input.module).putOwned(row as never);
   }
   if (medicaidBySeller.size) {
     const { paidBySeller } = payMedicaidCare(api, {
