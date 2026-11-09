@@ -6665,6 +6665,137 @@
       "lagWhy": "The benefit is owed from the month after the line changes and counts as income when paid.",
       "aboutZero": false,
       "notes": "Not run by the web: household.poverty-pct is the engine's own record (ownsOutcome), so the link is carried. The Medicaid part of the line pays medical spending, a noncash benefit the official measure does not count; the SNAP benefit is food aid, also not counted."
+    },
+    {
+      "key": "emissions-to-warming",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "climate.warming",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.00045,
+      "per": "GtCO2 emitted",
+      "lagMonths": 0,
+      "group": "nation",
+      "owner": "O",
+      "anchor": "The transient climate response to cumulative CO2 emissions is 0.45 degrees C per 1,000 GtCO2 (likely 0.27 to 0.63), so each GtCO2 emitted adds 0.00045 degrees C of global warming.",
+      "source": "IPCC AR6 WG1 (2021) chapter 5, as quoted in a paper citing it: \"As per AR6, TCRE ranges from 0.27°C to 0.63°C per 1,000 GtCO2 with the best estimate of 0.45°C per 1,000 GtCO2\"",
+      "from": "env.emissions-national",
+      "evidence": "provisional",
+      "range": [0.00027, 0.00063],
+      "notes": "The IPCC page could not be fetched; the figure is quoted from a secondary paper (nature.com/articles/s43247-020-00064-9). Emissions are the world's: the country's energy CO2 (EIA, 4.789 GtCO2 in 2024, its share of the fossil total) moves with the simulated carbon laws, and the rest of the world's follows the stated-policies path of the IEA's World Energy Outlook 2025 (38.1 GtCO2 of fossil CO2 in 2025, about 35 in the mid-2030s, below 30 in 2050), plus 4.2 GtCO2 a year of land use (Global Carbon Budget 2024).",
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    {
+      "key": "warming-to-flood-hazard",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "hazard.flood",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.07,
+      "per": "degree C",
+      "lagMonths": 0,
+      "group": "nation",
+      "owner": "O",
+      "anchor": "The air holds about 7 percent more moisture per degree C (4 percent per degree F), and the heaviest rain days have grown where the record is long: the heaviest 1 percent of days 1958 to 2021 up 60 percent in the Northeast, 45 in the Midwest, 37 in the Southeast.",
+      "source": "Climate Central, \"Extreme Precipitation in a Warming Climate\" (May 2024), citing the Fifth National Climate Assessment (2023) chapter 2: \"For every 1°F of warming, the air can hold an extra 4% of moisture\"",
+      "from": "climate.warming",
+      "evidence": "provisional",
+      "range": [0.06, 0.07],
+      "notes": "The per-degree-C figure (4 percent per degree F is 7.2 percent per degree C) is our conversion. A county's flood hazard level moves in proportion to the heavy rain it can fall.",
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    {
+      "key": "warming-to-storm-hazard",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "hazard.storm",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.065,
+      "per": "degree C",
+      "lagMonths": 0,
+      "group": "nation",
+      "owner": "O",
+      "anchor": "Knutson et al. 2020: the share of Category 4 to 5 hurricanes rises a median 13 percent and hurricane rain rates 14 percent at 2 degrees C of global warming, about 6.5 percent and 7 percent per degree C; severe-storm environments rise 5 to 20 percent per degree C (Lepore et al. 2021), though storms themselves rise less.",
+      "source": "Knutson et al. 2020, Tropical Cyclones and Climate Change Assessment Part II, BAMS, doi 10.1175/BAMS-D-18-0194.1; Lepore, Abernathey, Henderson, Allen and Tippett 2021, Earth's Future",
+      "from": "climate.warming",
+      "evidence": "contested",
+      "range": [0.05, 0.2],
+      "notes": "Per-degree figures are our conversion (13 percent at 2 degrees assumed linear); both papers were reached through search snippets, not their full text. The range's top is the severe-environment figure, which overstates storms.",
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    {
+      "key": "warming-to-drought-hazard",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "hazard.drought",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.08,
+      "per": "degree C",
+      "lagMonths": 0,
+      "group": "nation",
+      "owner": "O",
+      "anchor": "Anthropogenic warming of 1.2 degrees C (interquartile 1.0 to 1.5) in southwestern North America raised the annual vapor-pressure deficit 9.6 percent (interquartile 8.4 to 11.3), and the trends account for 47 percent of 2000 to 2018 drought severity.",
+      "source": "Williams et al. 2020, Science 368:314, Large contribution from anthropogenic warming to an emerging North American megadrought: \"increased the annual mean atmospheric vapor-pressure deficit by 9.6% (IQs: 8.4 to 11.3%)\"",
+      "from": "climate.warming",
+      "evidence": "provisional",
+      "range": [0.07, 0.094],
+      "notes": "Per degree C is our conversion (9.6 percent over 1.2 degrees is 8 percent; the range divides the interquartile by 1.2). Measured in the Southwest; the other regions' drought response is not found, so the same size stands for every county (stopgap SG-NATION-climate-sizes-national).",
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    {
+      "key": "warming-to-wildfire-hazard",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "hazard.wildfire",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 0.63,
+      "per": "degree C",
+      "lagMonths": 0,
+      "group": "nation",
+      "owner": "O",
+      "anchor": "A temperature rise of 1.6 degrees C is projected to double or triple the area burned in most western states (McKenzie et al. 2004), and as little as 10 percent in California in a mechanistic model (Lenihan et al. 2003); human climate change doubled the western forest area burned in 1984 to 2015 (Abatzoglou and Williams 2016).",
+      "source": "Peterson and Littell, Effects of Climatic Variability and Change on Forest Ecosystems, USFS PNW-GTR-870, appendix 2: \"for a temperature increase of 1.6 oC, area burned will increase two to three times in most states\"; Abatzoglou and Williams 2016, PNAS 113(42):11770",
+      "from": "climate.warming",
+      "evidence": "contested",
+      "range": [0.06, 1.25],
+      "notes": "Per degree C is our conversion: doubling at 1.6 degrees is 0.63 per degree (the low end of McKenzie's two to three times, 1.25 at the high end; Lenihan's 10 percent is 0.06). Littell et al. 2009's per-ecoprovince percentages for one degree are in a figure that was not read. Western forest, applied to every county's wildfire level (stopgap SG-NATION-climate-sizes-national).",
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
+    },
+    {
+      "key": "warming-to-heat-hazard",
+      "status": "built",
+      "unsupportedReason": null,
+      "to": "hazard.heat",
+      "strength": "moderate",
+      "shape": {
+        "kind": "linear"
+      },
+      "size": 2.0,
+      "per": "degree C",
+      "lagMonths": 0,
+      "group": "nation",
+      "owner": "O",
+      "anchor": "The probability of a hot extreme is almost double at 2 degrees C what it is at 1.5, and more than five times what it is with today's climate (Fischer and Knutti 2015), so one degree adds on the order of double.",
+      "source": "Fischer and Knutti 2015, Nature Climate Change 5:560, as reported by Carbon Brief: \"is almost double the probability at 1.5C, and is more than five times higher than with today's climate\"",
+      "from": "climate.warming",
+      "evidence": "to-confirm",
+      "notes": "Our reading: a doubling over half a degree, taken as a doubling per degree to be conservative. No United States per-degree figure was found (the National Climate Assessment pages could not be fetched), so the size is an estimate and carries no range (stopgap SG-NATION-climate-sizes-national).",
+      "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     }
   ],
   "calibratedAt": "2024-07-01"
