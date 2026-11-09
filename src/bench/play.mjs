@@ -3585,7 +3585,8 @@ const sheets = {
       minor === undefined
         ? []
         : [typedRow(words.lastYear, roundedMoney(minor))];
-    const stepButtons = steps(opened).map((step) => {
+    // A government whose books list no spending line has no department to open (opened is undefined).
+    const stepButtons = (opened ? steps(opened) : []).map((step) => {
       const button = makeButton({
         className: "action small",
         textContent: step.glyph,
@@ -3618,7 +3619,7 @@ const sheets = {
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
                     head: r.head,
-                    selected: r.line === opened.line,
+                    selected: r.line === opened?.line,
                     onSelect: () => {
                       budgetLine = r.line;
                       void openSheet("budgets");
@@ -3634,20 +3635,27 @@ const sheets = {
               }),
             ),
           ],
-          [
-            stripSection(
-              2,
-              opened.name ?? opened.line,
-              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
-              ...lastYear(lastOf(prior?.spending, opened.line)),
-              ...sinceLast(opened),
-              ...history(opened),
-              ...(opened.askedMinor !== undefined
-                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
-                : []),
-              ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
-            ),
-          ],
+          ...(opened
+            ? [
+                [
+                  stripSection(
+                    2,
+                    opened.name ?? opened.line,
+                    typedRow(
+                      opened.name ?? opened.line,
+                      roundedMoney(opened.minor),
+                    ),
+                    ...lastYear(lastOf(prior?.spending, opened.line)),
+                    ...sinceLast(opened),
+                    ...history(opened),
+                    ...(opened.askedMinor !== undefined
+                      ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                      : []),
+                    ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+                  ),
+                ],
+              ]
+            : []),
           [
             stripSection(
               3,
