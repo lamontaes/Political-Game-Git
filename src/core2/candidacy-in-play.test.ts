@@ -73,6 +73,17 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
       .moduleState(CANDIDACY_MODULE_ID)
       .table("decisions")
       .rows() as unknown as CandidacyDecision[];
+    // Looked up once: the loop below asks about every named adult of every
+    // local seat, so a scan per person is quadratic in the town.
+    const decisionBy = new Map(
+      decisions.map((row) => [`${row.contestId}|${row.personId}`, row]),
+    );
+    const termsBySeat = new Map<string, TermRow[]>();
+    for (const t of rows<TermRow>(OFFICES_MODULE_ID, "terms"))
+      (
+        termsBySeat.get(t.seatId) ??
+        termsBySeat.set(t.seatId, []).get(t.seatId)!
+      ).push(t);
     for (const c of contests()) {
       if (c.filingDeadline <= opening || weighingDate(api, c) >= yearEnd)
         continue;
@@ -80,18 +91,15 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
       expect(w, c.id).toBeDefined();
       if (local(c)) expect(w!.askedIds.length, c.id).toBeGreaterThan(0);
       for (const personId of w!.askedIds) {
-        const d = decisions.find(
-          (row) => row.contestId === c.id && row.personId === personId,
-        )!;
+        const d = decisionBy.get(`${c.id}|${personId}`)!;
         expect(d).toBeDefined();
         // Someone serving the seat on the day they decided, by any term on
         // it (a special election's winner included), weighs standing again
         // (voting.stand-again); everyone else, including someone who decided
         // before they took the seat, weighs entering the race on its several
         // reasons.
-        const servingThen = rows<TermRow>(OFFICES_MODULE_ID, "terms").some(
+        const servingThen = (termsBySeat.get(c.seatId) ?? []).some(
           (t) =>
-            t.seatId === c.seatId &&
             t.personId === personId &&
             t.startDate <= d.date &&
             (t.status === "serving" ||
