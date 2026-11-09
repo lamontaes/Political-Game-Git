@@ -1,6 +1,6 @@
 {
   "id": "puerto-rico-municipal-budget-fy2025",
-  "about": "The approved General Fund budget of Puerto Rico's 78 municipios together for fiscal 2024-25 (July 1, 2024 to June 30, 2025), by revenue line, each line assigned to the budget category the game's budgets use. Read by scripts/research/export-public-budget-bases.py, which writes the municipio base row (government bases 'county-whole' and 'county', as Census treats a municipio as a county equivalent) for Puerto Rico.",
+  "about": "The approved General Fund budget of Puerto Rico's 78 municipios together for fiscal 2024-25 (July 1, 2024 to June 30, 2025), by revenue line, each line assigned to the budget category the game's budgets use. Read by scripts/research/export-public-budget-bases.py, which writes the municipio base row (the island's revenue by line) and each municipio's own scale from its own total (government bases 'county-whole' and 'county', as Census treats a municipio as a county equivalent) for Puerto Rico.",
   "fiscalYear": "2024-25",
   "totalGeneralFundDollars": {
     "value": 2353243623,
@@ -107,7 +107,7 @@
   ],
   "toaAlta": {
     "budgetDollars": 14868916,
-    "source": "OGP, same series: \"TOA ALTA 14,868,916\"; recurrent 8,149,288 plus non-recurrent 6,719,628; Total Salarios 4,516,344. Kept for checking only: the game's municipio row is the island's per resident."
+    "source": "OGP, same series: \"TOA ALTA 14,868,916\"; recurrent 8,149,288 plus non-recurrent 6,719,628; Total Salarios 4,516,344. Toa Alta's row in the game is its own total over its own residents (municipios.byGeoid.72135)."
   },
   "salaryShare": {
     "value": 0.3505,
@@ -123,5 +123,402 @@
     "puertoRico2025": 3184835,
     "toaAlta2020": 66883,
     "source": "Census Bureau counts via citypopulation.de/en/puertorico/admin: Puerto Rico Commonwealth 3,184,835 (estimate July 1, 2025); Toa Alta Municipio 66,883 (Census 2020)."
+  },
+  "municipios": {
+    "tag": "SOURCED",
+    "role": "level",
+    "source": "Each municipio's approved General Fund budget, fiscal 2024-25: OGP, Presupuestos_Aprobados_24-25.pdf (one row a municipio, 78 rows, summing to $2,353,243,622 against the quoted TOTAL $2,353,243,623), with the Census Bureau's July 1, 2025 population estimate of each (DATA-Census-Vintage-2025-Puerto-Rico-municipios.csv). Arroyo's budget is unbalanced; Mayagüez and Utuado carry the prior year's figure (OGP footnotes).",
+    "byGeoid": {
+      "72001": {
+        "name": "Adjuntas",
+        "budgetDollars": 8310320,
+        "population2025": 17994
+      },
+      "72003": {
+        "name": "Aguada",
+        "budgetDollars": 9604337,
+        "population2025": 37319
+      },
+      "72005": {
+        "name": "Aguadilla",
+        "budgetDollars": 23741094,
+        "population2025": 53219
+      },
+      "72007": {
+        "name": "Aguas Buenas",
+        "budgetDollars": 7785677,
+        "population2025": 22838
+      },
+      "72009": {
+        "name": "Aibonito",
+        "budgetDollars": 9825165,
+        "population2025": 24746
+      },
+      "72011": {
+        "name": "Añasco",
+        "budgetDollars": 12577246,
+        "population2025": 24449
+      },
+      "72013": {
+        "name": "Arecibo",
+        "budgetDollars": 51700000,
+        "population2025": 85539
+      },
+      "72015": {
+        "name": "Arroyo",
+        "budgetDollars": 9375667,
+        "population2025": 14744
+      },
+      "72017": {
+        "name": "Barceloneta",
+        "budgetDollars": 34838126,
+        "population2025": 22316
+      },
+      "72019": {
+        "name": "Barranquitas",
+        "budgetDollars": 9678866,
+        "population2025": 29509
+      },
+      "72021": {
+        "name": "Bayamón",
+        "budgetDollars": 151010891,
+        "population2025": 180562
+      },
+      "72023": {
+        "name": "Cabo Rojo",
+        "budgetDollars": 19243287,
+        "population2025": 46580
+      },
+      "72025": {
+        "name": "Caguas",
+        "budgetDollars": 104983121,
+        "population2025": 124161
+      },
+      "72027": {
+        "name": "Camuy",
+        "budgetDollars": 15030420,
+        "population2025": 32691
+      },
+      "72029": {
+        "name": "Canóvanas",
+        "budgetDollars": 28735292,
+        "population2025": 41302
+      },
+      "72031": {
+        "name": "Carolina",
+        "budgetDollars": 89204484,
+        "population2025": 149874
+      },
+      "72033": {
+        "name": "Cataño",
+        "budgetDollars": 43301234,
+        "population2025": 21701
+      },
+      "72035": {
+        "name": "Cayey",
+        "budgetDollars": 31990121,
+        "population2025": 40027
+      },
+      "72037": {
+        "name": "Ceiba",
+        "budgetDollars": 7791076,
+        "population2025": 10559
+      },
+      "72039": {
+        "name": "Ciales",
+        "budgetDollars": 8703113,
+        "population2025": 16652
+      },
+      "72041": {
+        "name": "Cidra",
+        "budgetDollars": 15164588,
+        "population2025": 39669
+      },
+      "72043": {
+        "name": "Coamo",
+        "budgetDollars": 10497936,
+        "population2025": 33076
+      },
+      "72045": {
+        "name": "Comerío",
+        "budgetDollars": 5397051,
+        "population2025": 18445
+      },
+      "72047": {
+        "name": "Corozal",
+        "budgetDollars": 9916411,
+        "population2025": 34531
+      },
+      "72049": {
+        "name": "Culebra",
+        "budgetDollars": 3841272,
+        "population2025": 1735
+      },
+      "72051": {
+        "name": "Dorado",
+        "budgetDollars": 27263347,
+        "population2025": 35891
+      },
+      "72053": {
+        "name": "Fajardo",
+        "budgetDollars": 21906224,
+        "population2025": 30780
+      },
+      "72054": {
+        "name": "Florida",
+        "budgetDollars": 5464947,
+        "population2025": 11371
+      },
+      "72055": {
+        "name": "Guánica",
+        "budgetDollars": 7389334,
+        "population2025": 11840
+      },
+      "72057": {
+        "name": "Guayama",
+        "budgetDollars": 22082703,
+        "population2025": 34043
+      },
+      "72059": {
+        "name": "Guayanilla",
+        "budgetDollars": 9334602,
+        "population2025": 16489
+      },
+      "72061": {
+        "name": "Guaynabo",
+        "budgetDollars": 136629987,
+        "population2025": 89055
+      },
+      "72063": {
+        "name": "Gurabo",
+        "budgetDollars": 28637252,
+        "population2025": 39780
+      },
+      "72065": {
+        "name": "Hatillo",
+        "budgetDollars": 27206984,
+        "population2025": 37810
+      },
+      "72067": {
+        "name": "Hormigueros",
+        "budgetDollars": 7878456,
+        "population2025": 15222
+      },
+      "72069": {
+        "name": "Humacao",
+        "budgetDollars": 49586075,
+        "population2025": 49249
+      },
+      "72071": {
+        "name": "Isabela",
+        "budgetDollars": 19690437,
+        "population2025": 42938
+      },
+      "72073": {
+        "name": "Jayuya",
+        "budgetDollars": 6812152,
+        "population2025": 14423
+      },
+      "72075": {
+        "name": "Juana Díaz",
+        "budgetDollars": 14776506,
+        "population2025": 45853
+      },
+      "72077": {
+        "name": "Juncos",
+        "budgetDollars": 28600000,
+        "population2025": 36639
+      },
+      "72079": {
+        "name": "Lajas",
+        "budgetDollars": 10186604,
+        "population2025": 22784
+      },
+      "72081": {
+        "name": "Lares",
+        "budgetDollars": 9726507,
+        "population2025": 27744
+      },
+      "72083": {
+        "name": "Las Marías",
+        "budgetDollars": 7891218,
+        "population2025": 8638
+      },
+      "72085": {
+        "name": "Las Piedras",
+        "budgetDollars": 14766139,
+        "population2025": 34723
+      },
+      "72087": {
+        "name": "Loíza",
+        "budgetDollars": 8381762,
+        "population2025": 21542
+      },
+      "72089": {
+        "name": "Luquillo",
+        "budgetDollars": 8838592,
+        "population2025": 17190
+      },
+      "72091": {
+        "name": "Manatí",
+        "budgetDollars": 32458172,
+        "population2025": 38413
+      },
+      "72093": {
+        "name": "Maricao",
+        "budgetDollars": 3523671,
+        "population2025": 4336
+      },
+      "72095": {
+        "name": "Maunabo",
+        "budgetDollars": 7263369,
+        "population2025": 10120
+      },
+      "72097": {
+        "name": "Mayagüez",
+        "budgetDollars": 62710739,
+        "population2025": 68905
+      },
+      "72099": {
+        "name": "Moca",
+        "budgetDollars": 10256037,
+        "population2025": 37562
+      },
+      "72101": {
+        "name": "Morovis",
+        "budgetDollars": 9871099,
+        "population2025": 28170
+      },
+      "72103": {
+        "name": "Naguabo",
+        "budgetDollars": 9747989,
+        "population2025": 22666
+      },
+      "72105": {
+        "name": "Naranjito",
+        "budgetDollars": 9537313,
+        "population2025": 29627
+      },
+      "72107": {
+        "name": "Orocovis",
+        "budgetDollars": 7279925,
+        "population2025": 21329
+      },
+      "72109": {
+        "name": "Patillas",
+        "budgetDollars": 10227341,
+        "population2025": 15077
+      },
+      "72111": {
+        "name": "Peñuelas",
+        "budgetDollars": 15009797,
+        "population2025": 19325
+      },
+      "72113": {
+        "name": "Ponce",
+        "budgetDollars": 98968063,
+        "population2025": 128384
+      },
+      "72115": {
+        "name": "Quebradillas",
+        "budgetDollars": 7986814,
+        "population2025": 23189
+      },
+      "72117": {
+        "name": "Rincón",
+        "budgetDollars": 8000000,
+        "population2025": 15582
+      },
+      "72119": {
+        "name": "Río Grande",
+        "budgetDollars": 26889029,
+        "population2025": 44799
+      },
+      "72121": {
+        "name": "Sabana Grande",
+        "budgetDollars": 9111741,
+        "population2025": 22055
+      },
+      "72123": {
+        "name": "Salinas",
+        "budgetDollars": 9674198,
+        "population2025": 24218
+      },
+      "72125": {
+        "name": "San Germán",
+        "budgetDollars": 14328187,
+        "population2025": 30809
+      },
+      "72127": {
+        "name": "San Juan",
+        "budgetDollars": 569913944,
+        "population2025": 329737
+      },
+      "72129": {
+        "name": "San Lorenzo",
+        "budgetDollars": 16530895,
+        "population2025": 37275
+      },
+      "72131": {
+        "name": "San Sebastián",
+        "budgetDollars": 18544240,
+        "population2025": 39019
+      },
+      "72133": {
+        "name": "Santa Isabel",
+        "budgetDollars": 12714229,
+        "population2025": 19547
+      },
+      "72135": {
+        "name": "Toa Alta",
+        "budgetDollars": 14868916,
+        "population2025": 65754
+      },
+      "72137": {
+        "name": "Toa Baja",
+        "budgetDollars": 43150866,
+        "population2025": 70931
+      },
+      "72139": {
+        "name": "Trujillo Alto",
+        "budgetDollars": 23581612,
+        "population2025": 66348
+      },
+      "72141": {
+        "name": "Utuado",
+        "budgetDollars": 9857583,
+        "population2025": 26894
+      },
+      "72143": {
+        "name": "Vega Alta",
+        "budgetDollars": 14256050,
+        "population2025": 34351
+      },
+      "72145": {
+        "name": "Vega Baja",
+        "budgetDollars": 21932963,
+        "population2025": 53505
+      },
+      "72147": {
+        "name": "Vieques",
+        "budgetDollars": 14089906,
+        "population2025": 7867
+      },
+      "72149": {
+        "name": "Villalba",
+        "budgetDollars": 13036305,
+        "population2025": 21133
+      },
+      "72151": {
+        "name": "Yabucoa",
+        "budgetDollars": 16475926,
+        "population2025": 28058
+      },
+      "72153": {
+        "name": "Yauco",
+        "budgetDollars": 16150080,
+        "population2025": 31608
+      }
+    }
   }
 }

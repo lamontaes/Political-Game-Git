@@ -252,6 +252,15 @@ def add_government_rows(places: dict, calibration: float) -> None:
         # government reads the whole-local row (a municipio has no city beside it).
         places["US-PR"]["governments"]["county-whole"] = municipio
         places["US-PR"]["governments"]["county"] = municipio
+        # Each municipio's own approved total over its own residents, against the
+        # island's: the budgets engine multiplies the row by it (a municipio the
+        # file lacks keeps the island's per resident).
+        data = json.loads(PR_MUNICIPAL_BUDGET.read_text())
+        island = data["totalGeneralFundDollars"]["value"] / places["US-PR"]["puertoRicoPopulation2025"]
+        places["US-PR"]["municipioBudgetScale"] = {
+            geoid: round(m["budgetDollars"] / m["population2025"] / island, 6)
+            for geoid, m in sorted(data["municipios"]["byGeoid"].items())
+        }
 
 
 # Education is Puerto Rico's Commonwealth's, not the municipios': the lines a

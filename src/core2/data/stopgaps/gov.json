@@ -2250,11 +2250,11 @@
     "kind": "assumed-data",
     "file": "scripts/research/export-public-budget-bases.py",
     "line": 0,
-    "whatItFakes": "A Puerto Rico municipio's budget has the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line, per resident of the island, for every municipio alike (Toa Alta's own approved budget is $14.9 million, about $226 a resident, against the island's $739), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
-    "why": "The Office of Management and Budget (OGP) publishes each municipio's budget and revenue lines but its spending by function was not read, and the budgets engine reads one row per state or territory, not one per municipio.",
+    "whatItFakes": "A Puerto Rico municipio's budget takes the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line (the island's mix), scaled to the municipio's own approved total over its own residents (OGP, all 78), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; each municipio's own revenue lines, spending by function and federal grants are not read; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
+    "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "A row for each municipio from the OGP files (total and lines), spending by function from OGP's municipal expenditure files, and a municipio's federal grants; rows for the other territories' local governments.",
+    "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
     "status": "open"
   }
 ]
