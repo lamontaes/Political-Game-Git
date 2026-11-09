@@ -557,7 +557,9 @@
     "whatICanDo": "What I can do there"
   },
   "time": {
-    "week": "Week"
+    "day": "Day",
+    "week": "Week",
+    "continue": "Continue"
   },
   "calendar": {
     "previousMonth": "Previous month",
