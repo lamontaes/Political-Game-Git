@@ -708,6 +708,41 @@ describe("jobs", () => {
         .regionalPull,
     ).toBeGreaterThan(0.5);
   });
+  it("lets go of a worker who attends none of their scheduled days, by a pull that builds with the missed share", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    withBooks(core, 1);
+    const totals = (id: string) => core.work.totalsByJob.get(id);
+    const miss = (jobId: string, planned: number, attended: number) => {
+      const row = totals(jobId) ?? {
+        plannedMinutes: 0,
+        attendedMinutes: 0,
+        requestedMinor: 0,
+        paidMinor: 0,
+        workedDays: 0,
+        missedDays: 0,
+      };
+      core.work.totalsByJob.set(jobId, {
+        ...row,
+        plannedMinutes: row.plannedMinutes + planned,
+        attendedMinutes: row.attendedMinutes + attended,
+      });
+    };
+    // w1 attends none of a month's schedule, w2 attends all of it, month after month.
+    for (let month = 1; month <= 4; month++) {
+      miss("job:w1", 200_000, 0);
+      miss("job:w2", 200_000, 200_000);
+      advanceCore(core, `2021-0${month}-28`);
+    }
+    const dismissed = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["layoff"])
+      .filter((row) => row.reasonKey === "absent-from-work");
+    expect(dismissed.map((row) => row.personId)).toEqual(["w1"]);
+    expect(dismissed[0]!.values?.absentPull).toBeGreaterThanOrEqual(1);
+    expect(core.jobs.get("job:w2")?.endsAt).toBeUndefined();
+  });
   it("introduces a new hire to the full coworkers already working there", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core);
