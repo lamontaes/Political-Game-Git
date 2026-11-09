@@ -3,18 +3,19 @@
  * and GOLDEN_PATH_PLACE_KEY from the runner. The drawn place is built as the
  * player gets it (`buildBenchWorld`, every module installed) and plays one
  * game year. Passes when:
- * (1) the town's median rent and median home value, at the start and at the
- *     end of the year, are inside the range of the county medians in its
- *     state (ACS 2020-2024 B25064 median gross rent and B25077 median owner
- *     value, src/core2/data/housing/housing.json countyRentValue; a county
- *     the ACS gives no median for is skipped), the value moved to the day by
- *     the house price index;
- * (2) the town's median home value moved over the year by a ratio inside the
- *     range of four-quarter ratios its state's FHFA all-transactions index
- *     recorded from 1985 on (housing.json housePriceIndex); where FHFA has no
- *     state rows (Puerto Rico, the island areas) the range is the annual
- *     CPI-U ratios in src/core2/data/macro/history.json, which the engine
- *     moves those prices by;
+ * (1) and (2) UNCHECKED (owner, Nov 8: real ranges are not targets): the
+ *     town's median rent and median home value at the start and end of the
+ *     year, beside the range of the county medians in its state (ACS
+ *     2020-2024 B25064 and B25077, src/core2/data/housing/housing.json
+ *     countyRentValue), and the year's move in the value beside the range of
+ *     four-quarter ratios its state's FHFA all-transactions index recorded
+ *     from 1985 on (housePriceIndex; the annual CPI-U ratios in
+ *     src/core2/data/macro/history.json where FHFA has no state rows), are
+ *     printed and never tested. Housing prices have no recorded cause of
+ *     their own to test a value against yet: the engine moves the value by
+ *     the replayed index (housing-prices.ts, a place in the code audit's
+ *     list), so the clauses wait for Money's cycle and keep no range
+ *     meanwhile;
  * (3) every eviction case on record opened from rent owed (owed at notice
  *     above zero, on a lease that exists) and carries the steps of the
  *     place's law as recorded (the same row of housing.json eviction,
@@ -31,6 +32,7 @@
  * Exits nonzero naming each failed clause. A year with no case on record
  * passes clauses 3 to 5 and says so.
  */
+import { placeStateKey } from "../place-map";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import history from "../data/macro/history.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };
@@ -81,27 +83,8 @@ if (!rentRange || !valueRange)
   console.error(
     `rents and home values: unchecked, ${usps} has no county medians to make a regional range`,
   );
-else {
-  for (const [label, figures] of [
-    ["start", opening],
-    ["end", closing],
-  ] as const) {
-    if (!(
-      figures.rentMinor >= rentRange[0] && figures.rentMinor <= rentRange[1]
-    ))
-      failures.push(
-        `rent: the town's median rent at the ${label} of the year, ${figures.rentMinor / 100} dollars, is outside its state's county medians [${rentRange[0] / 100}, ${rentRange[1] / 100}] (ACS 2020-2024 B25064)`,
-      );
-    if (!(
-      figures.homeValueMinor >= valueRange[0] &&
-      figures.homeValueMinor <= valueRange[1]
-    ))
-      failures.push(
-        `home value: the town's median home value at the ${label} of the year, ${figures.homeValueMinor / 100} dollars, is outside its state's county medians [${valueRange[0] / 100}, ${valueRange[1] / 100}] (ACS 2020-2024 B25077)`,
-      );
-  }
-}
-
+// Printed beside the town's figures in the report below, never tested
+// against (owner, Nov 8: real ranges are not targets).
 // (2) The year's move in home values against the recorded annual moves.
 const hpi = (
   housingData.housePriceIndex.states as unknown as Record<
@@ -127,10 +110,8 @@ const valueRatio =
     ? closing.homeValueMinor / opening.homeValueMinor
     : NaN;
 const ratioRange = range(ratios)!;
-if (!(valueRatio >= ratioRange[0] && valueRatio <= ratioRange[1]))
-  failures.push(
-    `home value move: the town's median home value moved by ${valueRatio} over the year, outside the recorded annual range [${ratioRange[0].toFixed(4)}, ${ratioRange[1].toFixed(4)}] (${ratioSource})`,
-  );
+// The year's move is printed beside the recorded annual range below, never
+// tested against it.
 
 // (3) to (5) Every eviction case.
 type Case = {
@@ -160,9 +141,11 @@ type Case = {
   };
 };
 const cases = housing.table("cases").rows() as unknown as Case[];
-const lawRow = (
-  housingData.eviction as unknown as Record<string, Case["law"] | undefined>
-)[usps];
+const evictionLaws = housingData.eviction as unknown as Record<
+  string,
+  Case["law"] | undefined
+>;
+const lawRow = evictionLaws[usps];
 if (!lawRow) failures.push(`no recorded eviction steps for ${usps}`);
 const later = (date: string, days: number) =>
   addDays(makeIsoDate(date), Math.max(1, days));
@@ -172,6 +155,11 @@ const fail = (id: string, text: string) => {
   broken += 1;
   if (broken <= 8) failures.push(`${id}: ${text}`);
 };
+/** The state whose eviction law a case follows: the state of the place its household lives in (a national press household's address is in its own state, not the town's). */
+const lawStateOf = (row: Case): string => {
+  const place = core.households.get(row.householdId)?.placeId;
+  return (place && placeStateKey(place)?.slice(3)) || usps;
+};
 for (const row of cases) {
   stages[row.stage] = (stages[row.stage] ?? 0) + 1;
   // (3) From rent owed, on the place's law.
@@ -179,7 +167,9 @@ for (const row of cases) {
     fail(row.id, `opened with ${row.owedAtNoticeMinor} owed`);
   if (!row.counted && !core.finance.contracts.has(row.leaseId))
     fail(row.id, `names lease ${row.leaseId}, which is no record`);
-  if (lawRow)
+  const caseState = lawStateOf(row);
+  const caseLaw = evictionLaws[caseState];
+  if (caseLaw)
     for (const key of [
       "noticeDays",
       "hearingDays",
@@ -188,10 +178,10 @@ for (const row of cases) {
       "cureAllowed",
       "statute",
     ] as const)
-      if (row.law[key] !== lawRow[key])
+      if (row.law[key] !== caseLaw[key])
         fail(
           row.id,
-          `followed ${key} ${row.law[key]}, the law of ${usps} says ${lawRow[key]}`,
+          `followed ${key} ${row.law[key]}, the law of ${caseState} (its household's state) says ${caseLaw[key]}`,
         );
   // (4) The steps, in order, on the law's days.
   if (row.cureBy !== later(row.noticeAt, row.law.noticeDays))

@@ -5,7 +5,7 @@
  * only; the words of each act come from the engines that kept them.
  */
 import { billTitleOf } from "../english/bill-names";
-import { coreAPI } from "../core2/state";
+import { coreAPI, personOrFillIn } from "../core2/state";
 import {
   leavePostOpen,
   nominate,
@@ -75,7 +75,7 @@ import {
   statePostsToFill,
 } from "../core2/modules/executive";
 import { budgetProposalDue } from "../core2/modules/office-day";
-import { budgetsOf, governments } from "../core2/modules/budgets";
+import { budgetsOf, governmentOfJurisdiction } from "../core2/modules/budgets";
 import { lineName } from "./budget";
 
 /** A bill as the meeting and the desk show it: its real name, number, sponsor, remarks and votes; its sections are on the paper (Read the bill). */
@@ -88,8 +88,13 @@ export function billItem(core: CoreState, bill: BillRow) {
     number: bill.number,
     status: bill.status,
     sponsor: personName(core, bill.sponsorId),
+    // Opening the bill is meeting the people who spoke on it: a speaker still in the wider
+    // population is filled in now (two-level population), and the name is theirs.
     remarks: remarksOn(api, bill.id).map((r) => ({
-      name: personName(core, r.personId),
+      name: personName(
+        core,
+        personOrFillIn(core, r.personId)?.id ?? r.personId,
+      ),
       position: r.position,
       kind: r.kind,
     })),
@@ -336,15 +341,17 @@ function budgetToSend(core: CoreState, personId: string) {
     ? { governmentId: stateEntry.subject, fiscalYearStarts: stateEntry.date }
     : budgetProposalDue(api, officeHost, personId);
   if (!due) return null;
-  const gov = governments(api).find((g) => g.id === due.governmentId);
-  const latest = gov
-    ? [...budgetsOf(api, gov.id)].sort((a, b) => b.fiscalYear - a.fiscalYear)[0]
-    : undefined;
-  if (!gov || !latest) return null;
+  // Another state's budget is kept without a government row of its own.
+  const governmentId =
+    governmentOfJurisdiction(api, due.governmentId)?.id ?? due.governmentId;
+  const latest = [...budgetsOf(api, governmentId)].sort(
+    (a, b) => b.fiscalYear - a.fiscalYear,
+  )[0];
+  if (!latest) return null;
   const changes =
     officeHost.prepared(api, personId, "propose-budget")?.budget?.changes ?? {};
   return {
-    governmentId: gov.id,
+    governmentId,
     fiscalYearStarts: due.fiscalYearStarts,
     lines: Object.entries(latest.spendingMinor)
       .map(([line, amountMinor]) => ({

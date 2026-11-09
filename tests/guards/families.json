@@ -39,7 +39,8 @@
     "src/core2/stopgaps-folder.ts",
     "src/core2/gov-rules/names-data.ts",
     "src/core2/gov-rules/given-name-cohorts.ts",
-    "src/core2/gov-rules/person-identity.ts"
+    "src/core2/gov-rules/person-identity.ts",
+    "src/core2/government-level.ts"
   ],
   "families": [
     {
@@ -49,7 +50,8 @@
         "src/core2/modules/elections.ts",
         "src/core2/modules/voting.ts",
         "src/core2/modules/campaigns.ts",
-        "src/core2/modules/candidacy.ts"
+        "src/core2/modules/candidacy.ts",
+        "src/core2/campaign-data.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -74,7 +76,8 @@
         "src/core2/turnout*.ts",
         "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
-        "src/core2/gov-test-clock.ts"
+        "src/core2/gov-test-clock.ts",
+        "src/core2/campaign-data.ts"
       ]
     },
     {
@@ -82,7 +85,8 @@
       "name": "Legislative bodies",
       "entry": [
         "src/core2/modules/legislature.ts",
-        "src/core2/modules/meetings.ts"
+        "src/core2/modules/meetings.ts",
+        "src/core2/modules/world-panels.ts"
       ],
       "paths": [
         "src/core2/modules/legislature.ts",
@@ -105,7 +109,9 @@
         "src/core2/modules/executive.ts",
         "src/core2/modules/offices.ts",
         "src/core2/modules/officials.ts",
-        "src/core2/modules/office-day.ts"
+        "src/core2/modules/office-day.ts",
+        "src/core2/modules/president-acts.ts",
+        "src/core2/government-jurisdictions.ts"
       ],
       "paths": [
         "src/core2/modules/executive.ts",
@@ -125,13 +131,18 @@
         "src/core2/central-bank-*.ts",
         "src/core2/outside-governments.ts",
         "src/core2/government-jurisdictions.ts",
-        "src/core2/gov-rules/**"
+        "src/core2/gov-rules/**",
+        "src/core2/modules/president-acts.ts"
       ]
     },
     {
       "id": "budgets",
       "name": "Budgets, taxes and public money",
-      "entry": ["src/core2/modules/budgets.ts", "src/core2/modules/finance.ts"],
+      "entry": [
+        "src/core2/modules/budgets.ts",
+        "src/core2/modules/finance.ts",
+        "src/core2/budgets-treasury.ts"
+      ],
       "paths": [
         "src/core2/modules/budgets.ts",
         "src/core2/modules/finance.ts",
@@ -148,7 +159,8 @@
         "src/core2/cash-host.ts",
         "src/core2/school-budget-line.ts",
         "src/core2/starting-cash.ts",
-        "src/core2/world-transfer.ts"
+        "src/core2/world-transfer.ts",
+        "src/core2/modules/outside-budgets.ts"
       ]
     },
     {
@@ -157,7 +169,10 @@
       "entry": [
         "src/core2/modules/laws.ts",
         "src/core2/modules/justice.ts",
-        "src/core2/modules/outcome-web.ts"
+        "src/core2/modules/outcome-web.ts",
+        "src/core2/law-reach/applied.ts",
+        "src/core2/modules/federal-courts.ts",
+        "src/core2/laws-in-force.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -184,7 +199,8 @@
         "src/core2/outcome-web-*.ts",
         "src/core2/health-web.ts",
         "src/core2/jobs-web.ts",
-        "src/core2/term-read.ts"
+        "src/core2/term-read.ts",
+        "src/core2/modules/federal-courts.ts"
       ]
     },
     {
@@ -194,7 +210,12 @@
         "src/core2/modules/jobs.ts",
         "src/core2/modules/work.ts",
         "src/core2/modules/business.ts",
-        "src/core2/modules/macro.ts"
+        "src/core2/modules/macro.ts",
+        "src/core2/business-module-id.ts",
+        "src/core2/regional-model.ts",
+        "src/core2/pay-by-quarter.ts",
+        "src/core2/modules/regional.ts",
+        "src/core2/macro-model.ts"
       ],
       "paths": [
         "src/core2/modules/jobs.ts",
@@ -235,7 +256,8 @@
         "src/core2/credit-deposits.ts",
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
-        "src/core2/living-cost-split.ts"
+        "src/core2/living-cost-split.ts",
+        "src/core2/pay-by-quarter.ts"
       ]
     },
     {
@@ -247,7 +269,13 @@
         "src/core2/modules/life.ts",
         "src/core2/modules/housing.ts",
         "src/core2/modules/health.ts",
-        "src/core2/modules/partnerships.ts"
+        "src/core2/modules/partnerships.ts",
+        "src/core2/trait-decision-table.ts",
+        "src/core2/modules/views.ts",
+        "src/core2/household-cost.ts",
+        "src/core2/husk-promoters.ts",
+        "src/core2/closeness.ts",
+        "src/core2/trait-decisions.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -328,7 +356,10 @@
         "src/core2/modules/mentorship.ts",
         "src/core2/modules/rescue.ts",
         "src/core2/modules/quarrel.ts",
-        "src/core2/modules/public-action.ts"
+        "src/core2/modules/public-action.ts",
+        "src/core2/husk-promoters.ts",
+        "src/core2/opening-ties.ts",
+        "src/core2/household-cost.ts"
       ]
     },
     {
@@ -350,7 +381,15 @@
         "src/core2/modules/world.ts",
         "src/core2/life.ts",
         "src/core2/places.ts",
-        "src/core2/place-map.ts"
+        "src/core2/place-map.ts",
+        "src/core2/place-lookup.ts",
+        "src/core2/player-control-state-v1.ts",
+        "src/core2/modules/national-events.ts",
+        "src/core2/opening-county-sample.ts",
+        "src/core2/opening-tenure.ts",
+        "src/core2/opening-origin.ts",
+        "src/core2/opening-roles.ts",
+        "src/core2/game-start.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
@@ -366,18 +405,25 @@
         "src/core2/world-settings.ts",
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
-        "src/core2/fast-forward.ts"
+        "src/core2/fast-forward.ts",
+        "src/core2/modules/national-events.ts",
+        "src/core2/modules/climate.ts"
       ]
     },
     {
       "id": "news",
       "name": "News and the press",
-      "entry": ["src/core2/modules/news.ts", "src/core2/modules/press.ts"],
+      "entry": [
+        "src/core2/modules/news.ts",
+        "src/core2/modules/press.ts",
+        "src/core2/modules/news-listeners.ts"
+      ],
       "paths": [
         "src/core2/modules/news.ts",
         "src/core2/modules/press.ts",
         "src/core2/press-*.ts",
-        "src/core2/outcome-news.ts"
+        "src/core2/outcome-news.ts",
+        "src/core2/modules/news-listeners.ts"
       ]
     },
     {

@@ -1,0 +1,77 @@
+{
+  "schema": "english-parts/1",
+  "register": "minutes",
+  "description": "Meeting-minutes wording the owner graded good that no engine reads yet. Restored Nov 8, 2026 from the minutes bank deleted in 3d6576e9. Registered stopgap SG-WORDS-minutes-no-reader.",
+  "slots": {
+    "topic": "An agenda topic.",
+    "members": "The members who voted that way, by name."
+  },
+  "maxWords": 16,
+  "parts": [
+    {
+      "key": "minutes.discussion.participants-discussed-topic",
+      "move": "discussion",
+      "kind": "written",
+      "text": "Participants discussed {topic}.",
+      "minutesUsing": 24,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-12-10",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20251210.htm"
+      },
+      "tag": { "move": "record", "key": "routine" },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "minutes.discussion.the-manager-turned-next-to-topic",
+      "move": "discussion",
+      "kind": "written",
+      "text": "The manager turned next to {topic}.",
+      "minutesUsing": 22,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-04-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260429.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
+      },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "minutes.discussion.the-staff-provided-an-update-on-topic",
+      "move": "discussion",
+      "kind": "written",
+      "text": "The staff provided an update on {topic}.",
+      "minutesUsing": 17,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2025-01-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20250129.htm"
+      },
+      "tag": {
+        "move": "record",
+        "key": "routine"
+      },
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "minutes.vote.voting-against-this-action-members",
+      "move": "vote",
+      "kind": "written",
+      "text": "Voting against this action: {members}.",
+      "minutesUsing": 41,
+      "source": {
+        "document": "Minutes of the Federal Open Market Committee",
+        "date": "2026-07-29",
+        "url": "https://www.federalreserve.gov/monetarypolicy/fomcminutes20260729.htm"
+      },
+      "tag": {
+        "move": "announce-result",
+        "key": "routine"
+      },
+      "restoredOn": "2026-11-08"
+    }
+  ]
+}

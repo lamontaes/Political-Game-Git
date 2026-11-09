@@ -117,6 +117,19 @@ export const STORY_KINDS = {
     lede: ["law-amount"],
     context: ["law-reach", "law-amount-bill"],
   },
+  // A law enacted, told for what it does and where (the year before day one).
+  "law-passed": {
+    story: "vote-or-law",
+    headline: ["law-passed"],
+    lede: ["law-passed"],
+    context: ["law-purpose", "law-when", "law-reach"],
+  },
+  "law-amount-passed": {
+    story: "vote-or-law",
+    headline: ["law-amount-passed"],
+    lede: ["law-amount-passed"],
+    context: ["law-reach", "law-when"],
+  },
   "roll-call": {
     story: "vote-or-law",
     headline: ["roll-call"],
@@ -300,6 +313,18 @@ export const STORY_KINDS = {
   "address-response": {
     headline: ["address-response"],
     lede: ["address-response"],
+  },
+  "cabinet-nominated": {
+    headline: ["cabinet-nominated"],
+    lede: ["cabinet-nominated"],
+  },
+  "cabinet-confirmed": {
+    headline: ["cabinet-confirmed"],
+    lede: ["cabinet-confirmed"],
+  },
+  "cabinet-rejected": {
+    headline: ["cabinet-rejected"],
+    lede: ["cabinet-rejected"],
   },
   // The floor before a roll call: who spoke for the bill and who against.
   "floor-debate": {

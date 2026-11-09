@@ -3,6 +3,7 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
     "due": "The last day a petition's signatures may be handed in, as people say it, from the petition record.",
@@ -29,6 +30,7 @@
     "candidate": "Present when the person in the scene filed for office, from the filing record.",
     "cause": "A cause someone shared, by name, from the views engine's cause-shared record.",
     "kid": "The household's new child, by name, from the household record.",
+    "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
     "when": "When a filing was made, said as the director says a date, from the filing record.",
     "teller": "Whoever told the person of the law, by name, from the record of how they learned.",
     "campaigner": "The campaigner whose people came by, by name, from the campaign record.",
@@ -38820,7 +38822,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "victory-night",
-          "key": "honor"
+          "key": "honor",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -127931,10 +127934,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell-running.all-right-office-let-s-get-you-started",
+      "key": "scene-talk.state-tell-running.all-right-you-re-running-for-office-let-s-get-you-started",
       "move": "state-tell-running",
       "kind": "spoken",
-      "text": "All right, {office}. Let's get you started.",
+      "text": "All right, you're running for {office}. Let's get you started.",
       "uses": [
         {
           "subject": "scene",
@@ -128269,7 +128272,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128294,7 +128297,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128319,7 +128322,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128344,7 +128347,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["signatures"]
+          "requiresFacts": ["signatures", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128369,7 +128372,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["one-signature"]
+          "requiresFacts": ["one-signature", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128394,7 +128397,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -128419,7 +128422,7 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["no-petition"]
+          "requiresFacts": ["no-petition", "repeat-filing"]
         }
       ],
       "bearing": "calm",
@@ -130091,6 +130094,14 @@
           "move": "accept",
           "role": "asker",
           "purpose": "talk"
+        },
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "call-to-order",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine"
         }
       ],
       "transcriptsUsing": 2389,
@@ -136674,6 +136685,31 @@
       }
     },
     {
+      "key": "scene-talk.follow-answer.get-your-one-signature-today-and-that-part-s-done-then-it-s-the-voters-knock-on-2",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Get your one signature today and that part's done. Then it's the voters. Knock on doors, ask everyone you know for money, and spend it on mailers or a poll. And talk to the reporters before they talk about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "filing-petition",
+          "key": "filed",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "requiresFacts": ["first-filing", "one-signature"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (play-first-filing-campaign-tutorial); the no-newspaper variant filled in by Elections, Nov 8",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "answer",
+        "key": "filed"
+      }
+    },
+    {
       "key": "scene-talk.follow-answer.then-your-time-goes-to-the-voters-knock-on-doors-show-up-where-people-gather-and",
       "move": "follow-answer",
       "kind": "spoken",
@@ -137457,7 +137493,8 @@
           "move": "leave",
           "role": "asked",
           "purpose": "concession-taken",
-          "key": "call-in"
+          "key": "call-in",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -137470,10 +137507,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.i-will-thank-you",
+      "key": "scene-talk.follow-accept.i-will-thank-you-for-saying-so",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I will. Thank you.",
+      "text": "I will. Thank you for saying so.",
       "uses": [
         {
           "subject": "scene",
@@ -137507,7 +137544,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "after": "thank"
+          "after": "thank",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "glad",
@@ -137657,7 +137695,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "after": "leave"
+          "after": "leave",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137707,7 +137746,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "outcome": "resolved"
+          "outcome": "resolved",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137781,7 +137821,8 @@
           "move": "accept",
           "role": "asked",
           "purpose": "concession-taken",
-          "key": "call-in"
+          "key": "call-in",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137926,7 +137967,8 @@
           "role": "asker",
           "purpose": "concession-taken",
           "key": "call-in",
-          "after": "accept"
+          "after": "accept",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -137964,10 +138006,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-press.suit-yourself",
+      "key": "scene-talk.follow-press.suit-yourself-it-s-your-call",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Suit yourself.",
+      "text": "Suit yourself. It's your call.",
       "uses": [
         {
           "subject": "scene",
@@ -138039,10 +138081,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-thank.i-d-like-that-thank-you",
+      "key": "scene-talk.follow-thank.i-d-like-that-thank-you-for-the-offer",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "I'd like that. Thank you.",
+      "text": "I'd like that. Thank you for the offer.",
       "uses": [
         {
           "subject": "scene",
@@ -138753,7 +138795,8 @@
           "role": "asked",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-worked"]
+          "requiresFacts": ["stake-worked"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -138953,7 +138996,8 @@
           "role": "asked",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"]
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "guarded",
@@ -139103,7 +139147,8 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-worked"]
+          "requiresFacts": ["stake-worked"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -139353,7 +139398,8 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-worked"]
+          "requiresFacts": ["stake-worked"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -139378,7 +139424,8 @@
           "role": "asker",
           "purpose": "family-loss",
           "key": "loss",
-          "requiresFacts": ["stake-gave"]
+          "requiresFacts": ["stake-gave"],
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "tender",
@@ -141565,10 +141612,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.then-we-understand-each-other",
+      "key": "scene-talk.follow-accept.then-we-understand-each-other-good",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then we understand each other.",
+      "text": "Then we understand each other. Good.",
       "uses": [
         {
           "subject": "scene",
@@ -142666,10 +142713,10 @@
       }
     },
     {
-      "key": "scene-talk.close-thank.then-we-understand-each-other",
+      "key": "scene-talk.close-thank.then-we-understand-each-other-take-care",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Then we understand each other.",
+      "text": "Then we understand each other. Take care.",
       "uses": [
         {
           "subject": "scene",
@@ -143102,7 +143149,8 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "office-doubt",
-          "key": "threat"
+          "key": "threat",
+          "excludesFacts": ["daytime"]
         }
       ],
       "origin": "authored",
@@ -143899,10 +143947,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor",
+      "key": "scene-talk.follow-accept.thank-you-chair-i-yield-the-floor-back",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Thank you, Chair. I yield the floor.",
+      "text": "Thank you, Chair. I yield the floor back.",
       "uses": [
         {
           "subject": "scene",
@@ -144019,10 +144067,10 @@
       }
     },
     {
-      "key": "scene-talk.open-greet.walk-with-me-colleague",
+      "key": "scene-talk.open-greet.walk-with-me-a-minute",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Walk with me.",
+      "text": "Walk with me a minute.",
       "uses": [
         {
           "subject": "scene",
@@ -144163,10 +144211,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.im-with-you-colleague",
+      "key": "scene-talk.reply-promise.i-m-with-you-you-can-count-on-it",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'm with you.",
+      "text": "I'm with you. You can count on it.",
       "uses": [
         {
           "subject": "scene",
@@ -144187,10 +144235,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-promise.count-me-in-colleague",
+      "key": "scene-talk.reply-promise.count-me-in-just-tell-me-when",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "Count me in.",
+      "text": "Count me in. Just tell me when.",
       "uses": [
         {
           "subject": "scene",
@@ -144403,10 +144451,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.fair-enough-colleague",
+      "key": "scene-talk.follow-accept.fair-enough-i-ll-think-it-over",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Fair enough.",
+      "text": "Fair enough. I'll think it over.",
       "uses": [
         {
           "subject": "scene",
@@ -144695,10 +144743,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.no-comment-reporter",
+      "key": "scene-talk.reply-refuse.no-comment-not-on-this-one",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "No comment.",
+      "text": "No comment. Not on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -145151,10 +145199,10 @@
       }
     },
     {
-      "key": "scene-talk.reply-refuse.not-today-lobbyist",
+      "key": "scene-talk.reply-refuse.not-today-call-my-office",
       "move": "reply-refuse",
       "kind": "spoken",
-      "text": "Not today.",
+      "text": "Not today. Call my office.",
       "uses": [
         {
           "subject": "scene",
@@ -145343,10 +145391,10 @@
       }
     },
     {
-      "key": "scene-talk.follow-accept.understood-lobbyist",
+      "key": "scene-talk.follow-accept.understood-i-ll-keep-that-in-mind",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Understood.",
+      "text": "Understood. I'll keep that in mind.",
       "uses": [
         {
           "subject": "scene",
@@ -145762,7 +145810,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -145786,7 +145835,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "anxious",
@@ -145810,7 +145860,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -145834,7 +145885,8 @@
           "move": "tell",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "calm",
@@ -145858,7 +145910,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -145882,7 +145935,8 @@
           "move": "ask",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "curious",
@@ -145906,7 +145960,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -145930,7 +145985,8 @@
           "move": "confront",
           "role": "asked",
           "purpose": "hearing-testify",
-          "key": "routine"
+          "key": "routine",
+          "excludesFacts": ["daytime"]
         }
       ],
       "bearing": "braced",
@@ -150211,7 +150267,7 @@
     {"key": "scene-talk.reply-refuse.ill-vote-the-way-my-district-needs-not-the-way-either-of", "move": "reply-refuse", "kind": "spoken", "text": "I'll vote the way my district needs, not the way either of you asks.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
     {"key": "scene-talk.reply-refuse.no-not-on-the-day-of-the-speech", "move": "reply-refuse", "kind": "spoken", "text": "No. Not on the day of the speech.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
     {"key": "scene-talk.reply-leave.i-have-to-get-to-my-next-meeting", "move": "reply-leave", "kind": "spoken", "text": "I have to get to my next meeting.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-leave.lets-pick-this-up-another-time", "move": "reply-leave", "kind": "spoken", "text": "Let's pick this up another time.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
+    {"key": "scene-talk.reply-leave.let-s-pick-this-up-another-time-when-it-s-quieter", "move": "reply-leave", "kind": "spoken", "text": "Let's pick this up another time, when it's quieter.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
     {"key": "scene-talk.follow-thank.thank-you-first-thats-all-im-asking-for-a-fair-look", "move": "follow-thank", "kind": "spoken", "text": "Thank you, {first}. That's all I'm asking for: a fair look.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
     {"key": "scene-talk.follow-thank.good-it-means-a-lot-to-hear-that", "move": "follow-thank", "kind": "spoken", "text": "Good. It means a lot to hear that.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
     {"key": "scene-talk.follow-thank.i-appreciate-your-honesty-even-where-we-differ", "move": "follow-thank", "kind": "spoken", "text": "I appreciate your honesty, even where we differ.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
@@ -155350,6 +155406,321 @@
         "move": "warn",
         "key": "threat"
       }
+    },
+    {"key": "scene-talk.narrate-narrate.the-story-about-the-money-is-out-and-name-comes-straight-to-you", "move": "narrate-narrate", "kind": "spoken", "text": "The story about the money is out, and {name} comes straight to you.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "bribe-reported"}},
+    {"key": "scene-talk.narrate-narrate.name-has-the-paper-folded-in-one-hand-and-waits-until-the-others-have-gone", "move": "narrate-narrate", "kind": "spoken", "text": "{name} has the paper folded in one hand and waits until the others have gone.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "bribe-reported"}},
+    {"key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-what-the-paper-printed", "move": "open-greet", "kind": "spoken", "text": "Have you got a minute? It's about what the paper printed.", "uses": [{"subject": "scene", "step": "open", "move": "greet", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "greet", "key": "bribe-reported"}},
+    {"key": "scene-talk.state-confront.is-it-true-you-took-money-for-that-decision", "move": "state-confront", "kind": "spoken", "text": "Is it true you took money for that decision?", "uses": [{"subject": "scene", "step": "state", "move": "confront", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-tell.it-s-not-the-way-they-printed-it-let-me-tell-you-how-it-happened", "move": "reply-tell", "kind": "spoken", "text": "It's not the way they printed it. Let me tell you how it happened.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-deny.no-whoever-told-the-paper-that-has-it-wrong", "move": "reply-deny", "kind": "spoken", "text": "No. Whoever told the paper that has it wrong.", "uses": [{"subject": "scene", "step": "reply", "move": "deny", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "deny", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-confront.you-read-a-newspaper-and-decided-that-s-who-i-am", "move": "reply-confront", "kind": "spoken", "text": "You read a newspaper and decided that's who I am?", "uses": [{"subject": "scene", "step": "reply", "move": "confront", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-offer.i-ll-step-out-of-that-decision-and-say-why-in-public-will-that-do", "move": "reply-offer", "kind": "spoken", "text": "I'll step out of that decision and say why in public. Will that do?", "uses": [{"subject": "scene", "step": "reply", "move": "offer", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "offer", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-lie.there-was-no-money-i-don-t-know-where-they-got-it", "move": "reply-lie", "kind": "spoken", "text": "There was no money. I don't know where they got it.", "uses": [{"subject": "scene", "step": "reply", "move": "lie", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "lie", "key": "bribe-reported"}},
+    {"key": "scene-talk.follow-ask.then-why-not-say-so-before-it-ran", "move": "follow-ask", "kind": "spoken", "text": "Then why not say so before it ran?", "uses": [{"subject": "scene", "step": "follow", "move": "ask", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "tell"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "bribe-reported"}},
+    {"key": "scene-talk.follow-accept.all-right-that-s-more-than-i-expected-thank-you-for-saying-it", "move": "follow-accept", "kind": "spoken", "text": "All right. That's more than I expected. Thank you for saying it.", "uses": [{"subject": "scene", "step": "follow", "move": "accept", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "bribe-reported"}},
+    {"key": "scene-talk.follow-press.they-printed-a-date-and-an-amount-say-it-s-wrong-and-mean-it", "move": "follow-press", "kind": "spoken", "text": "They printed a date and an amount. Say it's wrong and mean it.", "uses": [{"subject": "scene", "step": "follow", "move": "press", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "deny"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "bribe-reported"}},
+    {"key": "scene-talk.follow-confront.i-stood-up-for-you-i-m-allowed-to-ask", "move": "follow-confront", "kind": "spoken", "text": "I stood up for you. I'm allowed to ask.", "uses": [{"subject": "scene", "step": "follow", "move": "confront", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "confront"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
+    {"key": "scene-talk.follow-confront.i-ve-seen-the-record-don-t-say-that-to-me-again", "move": "follow-confront", "kind": "spoken", "text": "I've seen the record. Don't say that to me again.", "uses": [{"subject": "scene", "step": "follow", "move": "confront", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "lie", "requiresFacts": ["knows-truth"]}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-tell.because-i-thought-i-could-fix-it-first-i-was-wrong", "move": "reply-tell", "kind": "spoken", "text": "Because I thought I could fix it first. I was wrong.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "ask"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-offer.fine-i-ll-step-out-of-it", "move": "reply-offer", "kind": "spoken", "text": "Fine. I'll step out of it.", "uses": [{"subject": "scene", "step": "reply", "move": "offer", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "offer", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-leave.not-here-with-people-watching", "move": "reply-leave", "kind": "spoken", "text": "Not here, with people watching.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "bribe-reported"}},
+    {"key": "scene-talk.close-warn.then-i-ll-ask-it-in-front-of-everybody", "move": "close-warn", "kind": "spoken", "text": "Then I'll ask it in front of everybody.", "uses": [{"subject": "scene", "step": "close", "move": "warn", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "leave", "outcome": "open"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "warn", "key": "bribe-reported"}},
+    {"key": "scene-talk.follow-accept.okay-then-somebody-gave-the-paper-bad-information", "move": "follow-accept", "kind": "spoken", "text": "Okay. Then somebody gave the paper bad information.", "uses": [{"subject": "scene", "step": "follow", "move": "accept", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "lie"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "bribe-reported"}},
+    {"key": "scene-talk.reply-tell.fine-i-took-it-i-ll-tell-you-all-of-it", "move": "reply-tell", "kind": "spoken", "text": "Fine. I took it. I'll tell you all of it.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "press"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "bribe-reported"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you head to the {post}'s office to ask about running. {name} comes over to the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-walk-in-to-ask-for-the-papers-to-run-and", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You walk in to ask for the papers to run, and {name}, the {post}, is already at the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-step-into-the-posts-office-and-ask-for-name", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you step into the {post}'s office and ask for {name}.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you head to the {post}'s office to pick up the papers for {office}. {name} pulls them from a drawer.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You head to the {post}'s office and speak to {name}, to ask what running for {office} takes.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-take-your-petition-back-to-the-posts-office-name-holds", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you take your petition back to the {post}'s office. {name} holds out a hand for it.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-come-back-to-name-at-the-posts-counter-with-your", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You come back to {name} at the {post}'s counter with your petition in a folder.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-you-stop-by-the-posts-office-your-name-is-already-on", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you stop by the {post}'s office. Your name is already on the ballot, and {name} looks up and nods.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {"key": "scene-talk.narrate-narrate.begins-name-the-post-waves-you-over-though-there-is-nothing-left", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. {name}, the {post}, waves you over, though there is nothing left for you to file.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {
+      "key": "scene-talk.reply-thank.thank-you-chair",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you, Chair.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60318",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60318"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "restoredFrom": "hearing.thanks.thank-you-chair",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-all",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "hearing-testify",
+          "key": "routine"
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-07-07",
+        "granule": "CHRG-119hhrg61782",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61782"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      },
+      "restoredFrom": "bank:hearing.thanks.thank-you-all",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.open-call-to-order.good-afternoon",
+      "move": "open-call-to-order",
+      "kind": "spoken",
+      "text": "Good afternoon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "call-to-order",
+          "role": "asker",
+          "purpose": "hearing-testify",
+          "key": "routine",
+          "excludesFacts": ["morning", "evening"]
+        }
+      ],
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-11-19",
+        "granule": "CHRG-119hhrg62607",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg62607"
+      },
+      "tag": {
+        "move": "call-to-order",
+        "key": "routine"
+      },
+      "restoredFrom": "bank:hearing.chair-procedure.good-afternoon",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-tell.we-didnt-win",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "We didn't win.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "Remarks at an Asia-Pacific Economic Cooperation CEOs Luncheon in Gyeongju, South Korea",
+        "date": "2025-10-29",
+        "granule": "DCPD-202501070",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501070/html/DCPD-202501070.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.we-didnt-win",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-promise.this-is-not-the-end",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This is not the end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600450",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.this-is-not-the-end",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-promise.we-will-be-back",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "We will be back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "Remarks at the Munich Security Conference \"Special Edition 2021\" and an Exchange With Reporters",
+        "date": "2021-02-19",
+        "granule": "DCPD-202100151",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202100151/html/DCPD-202100151.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.we-will-be-back",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-thank.thank-you-for-everything",
+      "move": "reply-thank",
+      "kind": "spoken",
+      "text": "Thank you for everything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "family-loss",
+          "key": "loss"
+        }
+      ],
+      "source": {
+        "document": "The President's News Conference With President Volodymyr Zelenskyy of Ukraine in Palm Beach, Florida",
+        "date": "2025-12-28",
+        "granule": "DCPD-202501223",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501223/html/DCPD-202501223.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      },
+      "restoredFrom": "address.concession-concede.thank-you-for-everything",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-answer.im-honored",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'm honored.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "victory-night",
+          "key": "honor"
+        }
+      ],
+      "source": {
+        "document": "Remarks Prior to a Meeting With the Infrastructure Implementation Task Force",
+        "date": "2022-01-20",
+        "granule": "DCPD-202200026",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200026/html/DCPD-202200026.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      },
+      "restoredFrom": "address.victory-claim.im-honored",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.state-tell.chair-i-rise-to-speak-briefly-in-gratitude-today",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, I rise to speak briefly in gratitude today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-pt1-PgS8883",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18/CREC-2025-12-18-pt1-PgS8883"
+      },
+      "tag": {
+        "move": "tell",
+        "key": "honor"
+      },
+      "restoredFrom": "bank:meeting.opener.i-rise-to-speak-briefly-in-gratitude-today",
+      "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.reply-deflect.chair-reserving-the-right-to-object",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Chair, reserving the right to object.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "floor-debate",
+          "key": "honor"
+        }
+      ],
+      "source": {
+        "document": "Congressional Record",
+        "date": "2025-11-19",
+        "granule": "CREC-2025-11-19-pt1-PgS8226",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-19/CREC-2025-11-19-pt1-PgS8226"
+      },
+      "tag": {
+        "move": "deflect",
+        "key": "honor"
+      },
+      "restoredFrom": "bank:meeting.procedural.reserving-the-right-to-object",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

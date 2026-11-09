@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { createLifeCore } from "./life";
 import {
@@ -83,10 +83,15 @@ describe(`who runs for office in ${input.placeMetadata?.placeName} (seed ${seed}
           "age",
           "cause",
           "chance",
+          "civicRole",
           "engagement",
+          "family",
           "field",
           "incumbentTie",
+          "jobRisk",
           "openSeat",
+          "ownerRole",
+          "partyRole",
           "reach",
           "recordGap",
           "standing",

@@ -521,6 +521,14 @@
       "raiseTo": "the federal share of Medicaid costs shall be raised to {value}",
       "lowerTo": "the federal share of Medicaid costs shall be lowered to {value}"
     },
+    "child-care-income-limit": {
+      "subject": "the family income limit for child care assistance",
+      "purpose": "set the most a family of three may earn a month and still receive child care assistance",
+      "raise": "the family income limit for child care assistance shall be raised from {before} to {value}",
+      "lower": "the family income limit for child care assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the family income limit for child care assistance shall be raised to {value}",
+      "lowerTo": "the family income limit for child care assistance shall be lowered to {value}"
+    },
     "snap-maximum": {
       "subject": "the maximum monthly food assistance benefit",
       "purpose": "set the maximum monthly food assistance benefit",
@@ -606,6 +614,36 @@
       "lower": "the most a person may give a local candidate for each election shall be lowered from {before} to {value}",
       "raiseTo": "the most a person may give a local candidate for each election shall be raised to {value}",
       "lowerTo": "the most a person may give a local candidate for each election shall be lowered to {value}"
+    },
+    "executive-term-limit": {
+      "subject": "the limit on a governor's terms",
+      "purpose": "set how many terms a governor may serve",
+      "raise": "the limit on a governor's terms shall be raised from {before} to {value}",
+      "lower": "the limit on a governor's terms shall be lowered from {before} to {value}",
+      "raiseTo": "the limit on a governor's terms shall be raised to {value}",
+      "lowerTo": "the limit on a governor's terms shall be lowered to {value}"
+    },
+    "ssi-federal-benefit-rate": {
+      "subject": "the federal benefit rate for supplemental security income",
+      "purpose": "set the monthly federal benefit rate for supplemental security income",
+      "raise": "the monthly federal benefit rate for supplemental security income shall be raised from {before} to {value}",
+      "lower": "the monthly federal benefit rate for supplemental security income shall be lowered from {before} to {value}",
+      "raiseTo": "the monthly federal benefit rate for supplemental security income shall be raised to {value}",
+      "lowerTo": "the monthly federal benefit rate for supplemental security income shall be lowered to {value}"
+    },
+    "energy-assistance-income-limit": {
+      "subject": "the income limit for home energy assistance",
+      "purpose": "set the household income limit for home energy assistance, as a percent of the poverty line",
+      "raise": "the household income limit for home energy assistance shall be raised from {before} to {value}",
+      "lower": "the household income limit for home energy assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the household income limit for home energy assistance shall be raised to {value}",
+      "lowerTo": "the household income limit for home energy assistance shall be lowered to {value}"
+    },
+    "unemployment-insurance": {
+      "subject": "the unemployment insurance program",
+      "purpose": "decide whether the state pays weekly benefits to workers who lose their jobs through no fault of their own",
+      "grant": "the state shall pay weekly unemployment insurance benefits to eligible workers who lose their jobs",
+      "withdraw": "the state shall pay no unemployment insurance benefits, and any such program in force shall end"
     }
   },
   "units": {

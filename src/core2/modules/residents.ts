@@ -598,7 +598,10 @@ export function openingUnplaced(
     eligible.set(
       key,
       (eligible.get(key) ?? 0) +
-        n * (input.weights?.[record.household.placeId] ?? 1),
+        n *
+          (record.household.weight ??
+            input.weights?.[record.household.placeId] ??
+            1),
     );
   }
   const workers = new Map<string, number>();
@@ -664,7 +667,7 @@ function packOpening(
             ? "mortgage"
             : "other",
         unplacedWorkers: 0,
-        ...weightOf(input.weights, placeId),
+        ...weightOf(input.weights, placeId, record.household.weight),
       }),
     );
     const h = households[households.length - 1]!;
@@ -691,8 +694,9 @@ function packOpening(
 function weightOf(
   weights: ResidentsInput["weights"],
   placeId: PlaceId,
+  own?: number,
 ): { weight?: number } {
-  const weight = weights?.[placeId];
+  const weight = own ?? weights?.[placeId];
   return weight !== undefined && weight !== 1 ? { weight } : {};
 }
 
@@ -1646,6 +1650,22 @@ export function countedHouseholdOf(
     : rt!.store.households[rt!.store.household[m]!];
 }
 
+/** How many people under the voting age live in a counted person's household, for a reader that weighs what a run costs the family. */
+export function countedChildrenOf(
+  core: CoreState,
+  personId: PersonId,
+  adultAge: number,
+): number {
+  const rt = runtimes.get(core);
+  const home = countedHouseholdOf(core, personId);
+  if (!rt || !home) return 0;
+  const year = Number(core.date.slice(0, 4));
+  return rt.store
+    .factsOfHousehold(home)
+    .filter((row) => year - Number(row.birthDate.slice(0, 4)) < adultAge)
+    .length;
+}
+
 /**
  * The flows a filled-in household can be taking its share back from: the
  * pooled wage flows (they name jobs), the pooled retirement and purchase
@@ -2083,6 +2103,8 @@ export function takeResidentHousehold(
       memberIds: people.map((row) => row.id),
       source: h.source,
       ...(h.quarters ? { quarters: h.quarters } : {}),
+      ...(h.since ? { since: h.since } : {}),
+      ...(h.employment ? { employment: h.employment } : {}),
     },
     people,
     jobs: [...h.jobs],
@@ -3051,6 +3073,17 @@ export function admitCountedHousehold(
   if (!rt) throw new Error("Residents are not admitted.");
   if (rt.store.householdOf.has(record.household.id))
     throw new Error(`Duplicate counted household: ${record.household.id}`);
+  // Newcomers bring money only when the books can take it from outside the town. Admitted before
+  // the groups' funds exist (a world still opening), they arrive with none: a fill-in would
+  // otherwise draw savings from a fund that was never given them.
+  const outsideOwner = outsideMarketOf(core, rt, record.household.placeId);
+  const arrivalApi = rt.funded && outsideOwner ? rt.api : undefined;
+  const fundsArrival = !!arrivalApi;
+  if (!fundsArrival && record.people.some((row) => row.liquidMinor > 0))
+    record = {
+      ...record,
+      people: record.people.map((row) => ({ ...row, liquidMinor: 0 })),
+    };
   const h = rt.store.addHousehold(record, {
     tenure: "other",
     unplacedWorkers: 0,
@@ -3061,16 +3094,15 @@ export function admitCountedHousehold(
   regroupHousehold(rt, h, core.date);
   // Newcomers bring their money from outside the town into their group.
   const cash = record.people.reduce((n, row) => n + row.liquidMinor, 0);
-  const outsideOwner = outsideMarketOf(core, rt, h.placeId);
-  if (rt.api && rt.funded && cash > 0 && outsideOwner)
-    transferSplit(core, rt.api, {
+  if (arrivalApi && outsideOwner && cash > 0)
+    transferSplit(core, arrivalApi, {
       id: `counted-arrival:${h.id}:${core.date}`,
       lines: [
         {
           accountId: core.cashJournal.residualAccountByOwner.get(outsideOwner)!,
           deltaMinor: -cash,
         },
-        { accountId: fundOf(rt.api, rt, h.group), deltaMinor: cash },
+        { accountId: fundOf(arrivalApi, rt, h.group), deltaMinor: cash },
       ],
       reasonKey: "residents.counted-arrival.cash",
       source: rt.input.source,
@@ -3645,3 +3677,6 @@ export function rerateCountedRetirement(
   }
   return changed;
 }
+
+/** The counted households' moves, for the engines outside the people family (the family's entry). */
+export { countedMovesRunning, moveCountedHouseholdAway } from "./counted-moves";

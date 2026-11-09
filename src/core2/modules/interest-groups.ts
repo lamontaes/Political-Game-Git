@@ -17,7 +17,7 @@ import { coreAPI, registerModule } from "../state";
 import type { CashJournalSourceSlot } from "../journal-state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { currentCloseness } from "../closeness";
 import { countedPersonOf } from "../counted-actor";
 import { parameter } from "../parameters";
