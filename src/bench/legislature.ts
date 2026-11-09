@@ -16,8 +16,11 @@ import {
   bodyRow,
   currentAmount,
   draftBill,
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
   floorDateOf,
   memberKey,
+  members as bodyMembersOf,
   votesOn,
   whipCount,
   type BillRow,
@@ -54,35 +57,19 @@ function bodiesOf(core: CoreState, personId: string) {
   const mine = (
     terms(core).query("byPerson", [personId]) as unknown as TermRow[]
   ).filter((row) => row.status === "serving");
-  return mine.flatMap((term) => {
-    const office = offices.table("offices").get(term.officeId) as
-      | {
-          id: string;
-          title: string;
-          seats: number;
-          level: string;
-          kind: string;
-        }
-      | undefined;
-    if (!office || office.seats < 2) return [];
-    const members = (
-      offices.table("seats").query("byOffice", [office.id]) as unknown as {
-        id: string;
-      }[]
-    ).flatMap(
-      (seat) =>
-        terms(core).query("bySeatStatus", [
-          seat.id,
-          "serving",
-        ]) as unknown as TermRow[],
-    );
+  // A member of Congress sits on the national chamber (each holds a one-seat office of their
+  // own district or state), which is the body their bills go before.
+  const federal = [FEDERAL_HOUSE, FEDERAL_SENATE].flatMap((chamberId) => {
+    const roster = bodyMembersOf(api, chamberId);
+    const body = bodyOf(api, chamberId);
+    if (!body || !roster.some((row) => row.personId === personId)) return [];
     return [
       {
-        officeId: office.id,
-        title: office.title,
-        level: office.level,
-        kind: office.kind,
-        members: members.map((row) => ({
+        officeId: chamberId,
+        title: body.bodyName ?? body.governmentName,
+        level: "federal",
+        kind: body.kind,
+        members: roster.map((row) => ({
           key: memberKey(row),
           name: personName(core, memberKey(row)),
           party: row.party,
@@ -91,6 +78,46 @@ function bodiesOf(core: CoreState, personId: string) {
       },
     ];
   });
+  return [
+    ...federal,
+    ...mine.flatMap((term) => {
+      const office = offices.table("offices").get(term.officeId) as
+        | {
+            id: string;
+            title: string;
+            seats: number;
+            level: string;
+            kind: string;
+          }
+        | undefined;
+      if (!office || office.seats < 2) return [];
+      const members = (
+        offices.table("seats").query("byOffice", [office.id]) as unknown as {
+          id: string;
+        }[]
+      ).flatMap(
+        (seat) =>
+          terms(core).query("bySeatStatus", [
+            seat.id,
+            "serving",
+          ]) as unknown as TermRow[],
+      );
+      return [
+        {
+          officeId: office.id,
+          title: office.title,
+          level: office.level,
+          kind: office.kind,
+          members: members.map((row) => ({
+            key: memberKey(row),
+            name: personName(core, memberKey(row)),
+            party: row.party,
+            you: row.personId === personId,
+          })),
+        },
+      ];
+    }),
+  ];
 }
 
 /** The seats this person left on taking another, with the law that required it. */
@@ -439,11 +466,11 @@ export function billPaper(core: CoreState, billId: string) {
   return {
     id: bill.id,
     number: bill.number,
-    bodyOfficeId: bill.bodyOfficeId,
     spoken: spokenDesignation(bill.number, bill.form.kind),
     title: composed?.title ?? titled?.title ?? bill.number,
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
+    bodyOfficeId: bill.bodyOfficeId,
     sections,
     authorityWarning: bill.authority.some((row) => row.warning === "disputed")
       ? disputedWarning(api, bill)
