@@ -172443,6 +172443,2184 @@
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
       "tag": { "move": "press", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.everyone-has-come-together-to-celebrate-and-name-pulls-you-aside-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Everyone has come together to celebrate, and {name} pulls you aside to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-wedding-to-spouse-has-brought-the-family-together-name-finds-you-in-the-crowd-with-a-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your wedding to {spouse} has brought the family together. {name} finds you in the crowd with a question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "spouse"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.your-family-has-gathered-to-celebrate-your-new-job-at-employer-name-pulls-you-aside-with-a-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Your family has gathered to celebrate your new job at {employer}. {name} pulls you aside with a question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "yours", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-household-has-gathered-to-celebrate-honoree-s-new-job-at-employer-name-finds-you-in-the-crowd-with-a-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The household has gathered to celebrate {honoree}'s new job at {employer}. {name} finds you in the crowd with a question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "honoree", "employer"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-in-from-hometown-for-the-celebration-and-has-something-to-ask-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come in from {hometown} for the celebration, and has something to ask you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.everyone-has-come-together-to-celebrate-name-who-you-last-quarreled-with-is-here-too-and-wants-a-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Everyone has come together to celebrate. {name}, who you last quarreled with, is here too and wants a word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-first-it-s-good-to-see-everybody-together-like-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, {first}. It's good to see everybody together like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.congratulations-first-i-ve-been-looking-forward-to-this-day",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Congratulations, {first}. I've been looking forward to this day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.congratulations-first-we-re-all-proud-of-you-for-getting-this-job",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Congratulations, {first}. We're all proud of you for getting this job.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "yours"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-first-it-was-a-long-trip-from-hometown-but-i-wouldn-t-have-missed-this",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, {first}. It was a long trip from {hometown}, but I wouldn't have missed this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-say-a-few-words-to-everyone-first-they-would-love-to-hear-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you say a few words to everyone, {first}? They would love to hear from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-stand-with-us-for-a-picture-first-i-want-one-with-the-whole-family-in-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you stand with us for a picture, {first}? I want one with the whole family in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-and-spouse-cut-the-cake-with-us-first-everyone-is-waiting-for-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you and {spouse} cut the cake with us, {first}? Everyone is waiting for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "spouse"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-let-me-say-a-few-words-about-you-and-spouse-first-i-ve-wanted-to-for-a-long-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you let me say a few words about you and {spouse}, {first}? I've wanted to for a long time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["wedding", "spouse"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-tell-everyone-about-the-job-at-employer-first-they-keep-asking-me-about-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you tell everyone about the job at {employer}, {first}? They keep asking me about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "yours", "employer"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-say-a-few-words-about-honoree-s-new-job-at-employer-first-everyone-is-waiting-for-you-to",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you say a few words about {honoree}'s new job at {employer}, {first}? Everyone is waiting for you to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-job", "honoree", "employer"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-glad-you-came-first-but-i-haven-t-forgotten-how-we-left-things-can-we-talk-it-out-before-everyone-goes",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm glad you came, {first}, but I haven't forgotten how we left things. Can we talk it out before everyone goes?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["tie-rival"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-came-a-long-way-to-be-here-first-would-you-come-and-see-us-in-hometown-sometime",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I came a long way to be here, {first}. Would you come and see us in {hometown} sometime?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["hometown"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-hold-new-child-for-a-picture-first-everyone-wants-one-of-you-two-together",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you hold {new-child} for a picture, {first}? Everyone wants one of you two together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["new-child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-ask-around-for-me-first-i-m-out-of-work-and-i-m-asking-everyone-i-know",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you ask around for me, {first}? I'm out of work, and I'm asking everyone I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "requiresFacts": ["looking-for-work"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-of-course-i-d-be-glad-to",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, of course. I'd be glad to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-yes-i-can-do-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, yes. I can do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-do-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-make-sure-it-happens-and-i-won-t-forget",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make sure it happens, and I won't forget.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-exactly-do-you-want-me-to-do",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What exactly do you want me to do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-are-you-asking-me-and-why-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why are you asking me, and why now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-like-to-but-i-can-t-do-that-today-i-hope-you-understand",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd like to, but I can't do that today. I hope you understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-m-not-able-to-do-that-for-you-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but I'm not able to do that for you right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-make-a-fair-point-so-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You make a fair point, so I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-enjoy-the-day-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it, I promise. Let me enjoy the day first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-in-front-of-everyone-i-ll-find-you-later",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I don't want to argue about it in front of everyone. I'll find you later.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-helps-and-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That helps, and I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-can-count-on-me-and-i-ll-do-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You can count on me, and I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-see-why-you-asked-but-my-answer-is-still-no-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I see why you asked, but my answer is still no. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-that-means-a-lot-to-me",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That means a lot to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-what-i-was-hoping-you-would-say",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That's what I was hoping you would say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-know-you-keep-your-word",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I know you keep your word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-know-you-mean-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I count on that, {first}? I'd like to know you mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-push-you",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand, and I won't push you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-get-that-but-this-matters-to-me-can-you-tell-me-what-is-in-the-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I get that, but this matters to me. Can you tell me what is in the way?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-only-asking-for-whatever-you-can-manage-first-you-re-the-one-i-thought-of-first",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm only asking for whatever you can manage, {first}. You're the one I thought of first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-first-i-m-glad-you-were-here-with-us",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I'm glad you were here with us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-won-t-forget-this-first-enjoy-the-rest-of-the-day",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I won't forget this, {first}. Enjoy the rest of the day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-let-you-get-back-to-everyone",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll let you get back to everyone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-find-you-again-before-the-day-is-over-if-that-s-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll find you again before the day is over, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "celebration-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.a-birthday-at-home-went-by-with-a-relative-missing-from-it-and-name-wants-to-talk-to-you-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "A birthday at home went by with a relative missing from it, and {name} wants to talk to you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.absent-missed-the-birthday-at-home-and-name-wants-to-talk-to-you-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{absent} missed the birthday at home, and {name} wants to talk to you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-turned-age-and-absent-wasn-t-at-the-table-name-wants-to-talk-to-you-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You turned {age}, and {absent} wasn't at the table. {name} wants to talk to you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "birthday-yours", "age"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.it-was-name-s-birthday-and-absent-wasn-t-at-the-table-they-turned-age-and-want-to-talk-to-you-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "It was {name}'s birthday, and {absent} wasn't at the table. They turned {age} and want to talk to you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "birthday-mine", "age"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.honoree-turned-age-and-absent-wasn-t-at-the-table-name-wants-to-talk-to-you-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{honoree} turned {age}, and {absent} wasn't at the table. {name} wants to talk to you about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "honoree", "age"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-to-you-about-absent-who-missed-the-birthday-at-home-and-has-been-seriously-ill",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants to talk to you about {absent}, who missed the birthday at home and has been seriously ill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "ill"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-to-you-about-absent-who-missed-the-birthday-at-home-the-last-time-you-two-talked-it-ended-in-a-quarrel",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants to talk to you about {absent}, who missed the birthday at home. The last time you two talked, it ended in a quarrel.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "fell-out"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-first-i-want-to-talk-to-you-about-the-birthday",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute, {first}? I want to talk to you about the birthday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-first-i-keep-thinking-about-absent-not-being-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute, {first}? I keep thinking about {absent} not being here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-reach-out-to-the-relative-who-missed-it-first-it-would-mean-a-lot-to-the-family",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you reach out to the relative who missed it, {first}? It would mean a lot to the family.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-call-absent-first-i-think-they-d-like-to-hear-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you call {absent}, {first}? I think they'd like to hear from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-write-to-absent-and-tell-them-how-the-birthday-went-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you write to {absent} and tell them how the birthday went, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-ask-absent-to-come-to-the-next-family-birthday-first-i-think-they-d-come-if-you-asked",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you ask {absent} to come to the next family birthday, {first}? I think they'd come if you asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-go-see-absent-in-hometown-first-i-d-feel-better-if-someone-from-the-family-did",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you go see {absent} in {hometown}, {first}? I'd feel better if someone from the family did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "hometown"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.absent-has-been-seriously-ill-first-would-you-call-and-see-how-they-are",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{absent} has been seriously ill, {first}. Would you call and see how they are?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "ill"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-and-absent-left-things-badly-first-would-you-be-the-one-to-make-the-first-move",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You and {absent} left things badly, {first}. Would you be the one to make the first move?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "fell-out"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.absent-has-a-new-baby-new-child-first-would-you-call-and-congratulate-them",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{absent} has a new baby, {new-child}, {first}. Would you call and congratulate them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "new-child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.absent-moved-to-hometown-first-would-you-call-and-see-how-they-re-settling-in",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{absent} moved to {hometown}, {first}. Would you call and see how they're settling in?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "moved", "hometown"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-miss-absent-first-and-i-don-t-know-what-to-say-would-you-call-them-for-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I miss {absent}, {first}, and I don't know what to say. Would you call them for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "requiresFacts": ["absent", "birthday-mine"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-of-course-i-ll-get-in-touch-with-them",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, of course. I'll get in touch with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, yes. I'll do that for the family.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-make-sure-they-hear-from-me",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll make sure they hear from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slide",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make it happen, and I won't let it slide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-like-me-to-say-to-them",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you like me to say to them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-are-you-asking-me-about-this-and-why-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why are you asking me about this, and why now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-d-like-to-but-i-can-t-get-in-touch-with-them-right-now-i-hope-you-understand",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'd like to, but I can't get in touch with them right now. I hope you understand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-m-sorry-but-i-m-not-the-right-person-to-do-that",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I'm sorry, but I'm not the right person to do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-have-a-point-so-i-ll-get-in-touch-with-them",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You have a point, so I'll get in touch with them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-need-to-work-out-what-to-say-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it, I promise. I need to work out what to say first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-don-t-want-to-argue-about-it-i-ll-get-in-touch-with-them-when-i-m-ready",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I don't want to argue about it. I'll get in touch with them when I'm ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That makes it easier, and I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-take-care-of-it-and-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take care of it, and you have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I understand why you asked, but I still can't do it. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-feel-better-knowing-you-ll-do-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I feel better knowing you'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-i-was-hoping-you-would-say-that",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. I was hoping you would say that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-ll-tell-the-others-you-re-taking-care-of-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll tell the others you're taking care of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I count on that, {first}? I'd like to be able to tell the family you'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-and-i-ll-leave-it-for-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand, and I'll leave it for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-understand-but-it-matters-to-the-whole-family-can-you-tell-me-what-s-in-the-way",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I understand, but it matters to the whole family. Can you tell me what's in the way?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-you-can-manage-first-a-kind-word-from-you-would-go-a-long-way",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever you can manage, {first}. A kind word from you would go a long way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-only-want-them-to-hear-from-you-first-it-doesn-t-have-to-be-much",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I only want them to hear from you, {first}. It doesn't have to be much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-first-i-ll-let-the-others-know-you-ll-do-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I'll let the others know you'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-keep-the-family-posted-first-thank-you-for-doing-this",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll keep the family posted, {first}. Thank you for doing this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-let-you-get-on-with-your-day",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll let you get on with your day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-you-about-it-again-before-long-if-that-s-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask you about it again before long, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, celebration and gathering purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      }
     }
   ]
 }

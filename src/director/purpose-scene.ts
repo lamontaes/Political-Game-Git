@@ -83,6 +83,8 @@ import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
+import { celebrationFacts } from "./celebration-facts";
+import { gatheringFacts } from "./gathering-facts";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -599,6 +601,32 @@ function composeBinding(
       askerId,
       askedId,
       placeNamed,
+    ),
+  }))
+    facts[key] = fact;
+  // A celebration (a wedding, a new job) and a family gathering with a
+  // relative missing (`family.gathering-missed`): what is celebrated and whose
+  // it is, who is missing and why the records say so, each cited. stopgapId:
+  // SG-WORDS-celebration-ask-unrecorded, SG-WORDS-gathering-ask-unrecorded
+  for (const [key, fact] of Object.entries({
+    ...celebrationFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      moment.date,
+      askerId,
+      askedId,
+      cast("honoree"),
+      placeNamed,
+    ),
+    ...gatheringFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      placeNamed,
+      (aId, bId) => tieSide(core, aId, bId)?.side === "rival",
     ),
   }))
     facts[key] = fact;
