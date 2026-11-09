@@ -966,7 +966,7 @@ function atOrders() {
             item.kind === "budget"
               ? item.lines.map((row) =>
                   labeled(
-                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    `${row.name} ${roundedMoney(row.amountMinor)}`,
                     select({
                       options: [-20, -10, 0, 10, 20].map((pct) => {
                         const minor = Math.round((row.amountMinor * pct) / 100);
@@ -2552,7 +2552,7 @@ async function officeParts() {
           paged(
             v.budget.lines.map((row) =>
               labeled(
-                `${row.name} ${moneyWords(row.amountMinor)}`,
+                `${row.name} ${roundedMoney(row.amountMinor)}`,
                 select({
                   options: [-20, -10, 0, 10, 20].map((pct) => {
                     const minor = Math.round((row.amountMinor * pct) / 100);
