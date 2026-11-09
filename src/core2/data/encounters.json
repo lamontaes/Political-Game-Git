@@ -8,6 +8,7 @@
     "metInGroup": "met-in-group",
     "metAtWork": "met-at-work",
     "homeTime": "home-time",
+    "workTime": "work-time",
     "openingHome": "opening-home",
     "openingFamily": "opening-family"
   }

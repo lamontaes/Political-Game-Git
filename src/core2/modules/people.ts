@@ -32,6 +32,7 @@ import { careNeedOf } from "./health";
 import { GRIEF, griefToday, recordDeath } from "../grief";
 import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
+import { workgroupsAt } from "../shared-history";
 import {
   PAST_WORK_SPELL,
   pastMovesHistory,
@@ -257,6 +258,47 @@ function shareHomeTime(api: CoreAPI): void {
         );
       }
   }
+}
+
+/**
+ * Time at work together (circle turnover): each week the full people of a
+ * workgroup at one employer spend `workmateHoursPerWeek` of their week with
+ * their group, split among its other members, so the hours behind a coworker
+ * tie come from sharing a job, and stop when one of them leaves it (the tie
+ * then fades by the half-life). A group is about openingCoworkerGroupSize
+ * people, so no tie is written for every coworker, and a counted worker has
+ * no ties to credit. SG-LIVES-workmate-time.
+ */
+function shareWorkTime(api: CoreAPI): void {
+  const core = api.state;
+  const p = (key: string) => api.parameter(key);
+  const day = daysBetweenText(core.startedAt, core.date);
+  if (day <= p("zero") || day % p("daysPerWeek") !== p("zero")) return;
+  api.stopgap("SG-LIVES-workmate-time");
+  const employers = new Set<string>();
+  for (const job of core.jobs.values())
+    if (!job.endsAt && core.people.has(job.personId))
+      employers.add(job.organizationId);
+  for (const organizationId of [...employers].sort())
+    for (const group of workgroupsAt(core as CoreState, organizationId)) {
+      const here = group.filter((id) => core.people.get(id)?.alive);
+      if (here.length < p("two")) continue;
+      const each = p("workmateHoursPerWeek") / (here.length - p("one"));
+      for (let left = p("zero"); left < here.length; left += p("one"))
+        for (
+          let right = left + p("one");
+          right < here.length;
+          right += p("one")
+        )
+          api.relationship(
+            here[left]!,
+            here[right]!,
+            "coworker" as Relationship["kind"],
+            each,
+            undefined,
+            { cause: ENCOUNTERS.causes.workTime, sourceId: organizationId },
+          );
+    }
 }
 
 /**
@@ -582,6 +624,7 @@ export const PEOPLE_MODULE: PreStartModule = {
   },
   onDay: (api) => {
     shareHomeTime(api);
+    shareWorkTime(api);
   },
   // Part 4: a death reaches the relatives who learn of it as grief.
   eventKinds: GRIEF.deathEventKinds,

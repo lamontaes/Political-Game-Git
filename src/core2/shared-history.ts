@@ -125,14 +125,31 @@ export function workgroupOf(
   const job = core.people.get(personId)?.jobId;
   const organizationId = job ? core.jobs.get(job)?.organizationId : undefined;
   if (!organizationId) return [];
+  const mine = workgroupsAt(core, organizationId).find((group) =>
+    group.includes(personId),
+  );
+  return mine ? mine.filter((id) => id !== personId) : [];
+}
+
+/**
+ * An employer's workgroups: its staff split into groups by the same seeded
+ * draw `workgroupOf` reads (each person's group is a function of the world's
+ * seed, the employer and their id), each group sorted by id. Read once per
+ * employer by anything that credits the time a workgroup spends together.
+ */
+export function workgroupsAt(
+  core: Readonly<CoreState>,
+  organizationId: string,
+): PersonId[][] {
   stopgap(STOPGAP);
   const p = (key: string) => parameter(key, core.data.parameters);
-  const staff = jobsAt(core, organizationId)
+  const listed = jobsAt(core, organizationId)
     .filter((row) => !row.endsAt && core.people.has(row.personId))
     .map((row) => row.personId);
+  const staff = [...new Set(listed)];
   const groups = Math.max(
     p("one"),
-    Math.ceil(staff.length / p("openingCoworkerGroupSize")),
+    Math.ceil(listed.length / p("openingCoworkerGroupSize")),
   );
   const group = (id: PersonId) =>
     Number.parseInt(
@@ -142,10 +159,14 @@ export function workgroupOf(
       ),
       p("seedPlaceHashRadix"),
     ) % groups;
-  const mine = group(personId);
-  return [...new Set(staff)]
-    .filter((id) => id !== personId && group(id) === mine)
-    .sort();
+  const byGroup = new Map<number, PersonId[]>();
+  for (const id of staff) {
+    const key = group(id);
+    const list = byGroup.get(key);
+    if (list) list.push(id);
+    else byGroup.set(key, [id]);
+  }
+  return [...byGroup.values()].map((list) => list.sort());
 }
 
 /** A campaign's volunteers, and who left it on what day to run in its race (`leaveForOwnRun`). */

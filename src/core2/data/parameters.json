@@ -8393,5 +8393,17 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "workmateHoursPerWeek": {
+    "value": 10,
+    "tag": "TUNABLE",
+    "citation": "Hours a week a full-time worker spends with the other members of their workgroup (coworkers they work beside), split among them. A prototype choice: about a quarter of a 40-hour week. No source read gives time with coworkers (the American Time Use Survey companionship figures in data/research/people/contact-frequency-by-tie.json are not asked for work time). Hall (2019) gives about 50 hours of time together to a casual friend, so 10 hours a week among four to seven workmates builds one in about two to four months.",
+    "stopgapId": "SG-LIVES-workmate-time",
+    "spread": {
+      "low": 5,
+      "high": 20,
+      "unit": "hours a week",
+      "citation": "Checked by the share of a circle kept after three years (M0-07), never a target."
+    }
   }
 }
