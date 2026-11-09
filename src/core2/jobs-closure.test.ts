@@ -2,7 +2,8 @@
 import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
 import { openLaws } from "./modules/laws";
-import { unemploymentTerms } from "./jobs-benefits";
+import { filingDecision, unemploymentTerms } from "./jobs-benefits";
+import traitPulls from "../../data/content/trait-act-pulls.json";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 import { advanceCore, createLifeCore } from "./life";
 import { closeBusinessByChoice } from "./finance-state";
@@ -44,6 +45,8 @@ const src: Source = {
   citation: "Technical fixture records.",
   estimatedFrom: "Jobs closure fixture only.",
 };
+/** The workers' traits: set to a filer's temperament before the core is made (filingTraits). */
+const workerTraits: Record<string, number> = {};
 const counted = (id: string): PersonInput => ({
   id,
   givenName: id,
@@ -52,7 +55,7 @@ const counted = (id: string): PersonInput => ({
   placeId: place,
   householdId: `household:${id}`,
   tier: "monthly",
-  traits: {},
+  traits: workerTraits,
   liquidMinor: 0,
   livingCostDailyMinor: 1_000,
   source: src,
@@ -60,6 +63,23 @@ const counted = (id: string): PersonInput => ({
   knownIds: [],
 });
 const workers = ["c1", "c2", "c3"].map(counted);
+/**
+ * The temperament of someone who files: each trait is set to the pole that
+ * raises the lean toward filing, because a worker with no lean skips when the
+ * benefit replaces about half the pay (jobs-benefits.ts filingDecision; the
+ * counted population has no layoff stress to tip it). Read from the same
+ * decision the claim runs through, so the fixture follows its calibration.
+ */
+function filingTraits(api: ReturnType<typeof coreAPI>) {
+  const lean = (traits: Record<string, number>) =>
+    filingDecision(api, { id: "probe", traits }, {}, 0.5).lean;
+  const traits: Record<string, number> = {};
+  for (const key of Object.keys(traitPulls.pulls)) {
+    const pole = lean({ [key]: 1 }) >= lean({ [key]: -1 }) ? 1 : -1;
+    traits[key] = pole;
+  }
+  return traits;
+}
 const jobs = workers.map((row) => ({
   id: `job:${row.id}`,
   personId: row.id,
@@ -148,6 +168,13 @@ function input(placeKey: string): CoreInput {
 describe("a closed employer's counted workers", () => {
   it("end their jobs, file claims and join the job seekers the day it closes", () => {
     const drawn = drawPlace();
+    // A probe core reads the filing decision's calibration; the workers get the temperament of
+    // someone who files, then the played core is made with them.
+    const probe = createLifeCore(input(drawn.key), {
+      data,
+      modules: [JOBS_MODULE],
+    });
+    Object.assign(workerTraits, filingTraits(coreAPI(probe)));
     const core = createLifeCore(input(drawn.key), {
         data,
         modules: [JOBS_MODULE],
