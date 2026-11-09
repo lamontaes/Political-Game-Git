@@ -82,9 +82,6 @@ writeFileSync(
   "src/core2/data/climate/hazard-history.json",
   `${top},\n  "byCounty": {\n${lines.join(",\n")}\n  }\n}\n`,
 );
-console.log(
-  Object.keys(byCounty).length,
-  "counties with a history over",
-  years.toFixed(2),
-  "years",
+process.stdout.write(
+  `${Object.keys(byCounty).length} counties with a history over ${years.toFixed(2)} years\n`,
 );
