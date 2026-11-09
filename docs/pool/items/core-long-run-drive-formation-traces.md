@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/drive-traces
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T08:20:38.049Z
 ---
 
 **What.** Each held drive pushes a full FormationTrace (the event, every response considered, trait terms) every time a later event reinforces it (src/core2/modules/drives.ts, drive.formations.push). Play reads only formations[0] (counted drives' role and source facts, drives.ts countedDrives); every later trace is read only by tooling (src/core2/tooling/drives-proof.ts) and tests. Montpelier, Vermont (5046000, world seed mont1, fast-forward), year 2: 83,352 traces on 6,367 held drives; clearing them freed 154 MB of a 2,201 MB live heap, the largest single piece of history the world held.
