@@ -10,6 +10,9 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import { composeLocalAddress } from "./local-address";
+import { spoken, stateInSentence } from "./words";
 import { purposeScene } from "./purpose-scene";
 import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
 
@@ -99,6 +102,7 @@ interface Played {
     facts: { key: string; text: string; recordIds: string[] }[];
     said: string;
   }[];
+  /** The kinds of the lines the player's own scenes opened with, by scene. */
 }
 
 let played: Played | undefined;
@@ -183,3 +187,38 @@ it("no piece asks for the work of an office without its article", () => {
     [],
   );
 });
+
+it(`a mayor's and a governor's address name the town and the state, never "this town" (seed ${seed})`, () => {
+  const tried: string[] = [];
+  for (let attempt = 0; attempt < 6; attempt += 1) {
+    const place = drawPlace(`${seed}:${attempt}`, "reads-wrong-address");
+    const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
+    setBookkeeping(false);
+    const { core } = buildBenchWorld(place.seed, gameStartDate(), {
+      twoLevel: true,
+      placeKey: place.key,
+    });
+    const town = corePlaceByJurisdictionId(
+      core.people.get(core.playerId!)!.placeId as never,
+    )!;
+    let said = 0;
+    for (const level of ["town", "state"] as const) {
+      const story = composeLocalAddress(core, level);
+      if (!story) {
+        tried.push(`${place.name} (${level})`);
+        continue;
+      }
+      said += 1;
+      const name =
+        level === "town"
+          ? spoken(town)
+          : stateInSentence(town.withinName ?? spoken(town));
+      expect(story.text, `${where}: ${level}`).not.toMatch(
+        /this (town|state)/i,
+      );
+      expect(story.text, `${where}: ${level}`).toContain(name);
+    }
+    if (said) return;
+  }
+  throw new Error(`no address could be composed in ${tried.join("; ")}`);
+}, 600_000);
