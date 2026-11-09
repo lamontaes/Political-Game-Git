@@ -1,0 +1,6098 @@
+{
+  "id": "2026-11-09-batch-3",
+  "date": "2026-11-09",
+  "about": "The owner's third grading batch, after his batch 2 voice note (Nov 9): more speeches, kinds mixed (never three of one kind in a row), variants of the moments he liked, and batch 2 moments he had not reached. In each moment the three lines are the slot's best, middle and worst by the grade map, so one grade teaches the most. Chosen by scripts/dialogue-batch/batch-three.ts. Grade it by voice note as before; scripts/dialogue-batch/voice-note-reader.ts reads it.",
+  "coverage": {
+    "lines": 150,
+    "moments": 50
+  },
+  "moments": [
+    {
+      "moment": 1,
+      "kind": "legislation",
+      "description": "A fellow legislator wants your vote on a bill and opens by reminding you of a favor they once did for you. They are the one asking you.",
+      "speaker": "a colleague calling in an old favor",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "ask-vote.trade",
+      "lines": [
+        {
+          "id": "1.1",
+          "key": "scene-talk.open-greet.you-remember-earlier",
+          "line": "You remember {earlier}?",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:tiny",
+            "opens:statement",
+            "person:you",
+            "question:names-subject",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 23,
+              "text": "You remember {earlier}?",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:you",
+                "question:names-subject"
+              ]
+            }
+          ],
+          "reach": 4141,
+          "weight": 1.351
+        },
+        {
+          "id": "1.2",
+          "key": "scene-talk.open-greet.i-haven-t-asked-you-for-anything-since-earlier",
+          "line": "I haven't asked you for anything since {earlier}.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 49,
+              "text": "I haven't asked you for anything since {earlier}.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4175,
+          "weight": 1.342
+        },
+        {
+          "id": "1.3",
+          "key": "scene-talk.open-greet.i-m-asking-you-not-the-whole-floor-you-know-why",
+          "line": "I'm asking you, not the whole floor. You know why.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "filler:inside",
+            "formality:spoken",
+            "length:medium",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 15,
+              "text": "I'm asking you,",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:i",
+                "person:you"
+              ]
+            },
+            {
+              "start": 16,
+              "end": 36,
+              "text": "not the whole floor.",
+              "features": [
+                "context:specific",
+                "directness:direct",
+                "formality:plain",
+                "length:short",
+                "names:where"
+              ]
+            },
+            {
+              "start": 37,
+              "end": 50,
+              "text": "You know why.",
+              "features": [
+                "context:general",
+                "filler:inside",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4146,
+          "weight": 1.264
+        }
+      ]
+    },
+    {
+      "moment": 2,
+      "kind": "legislation",
+      "description": "A colleague asked you for your vote and you are giving in. You say yes, because they earned it.",
+      "speaker": "you, agreeing to a colleague's request",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "ask-vote.trade",
+      "lines": [
+        {
+          "id": "2.1",
+          "key": "scene-talk.reply-relent.you-earned-it-put-me-down-yes",
+          "line": "You earned it. Put me down yes.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "You earned it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            },
+            {
+              "start": 15,
+              "end": 31,
+              "text": "Put me down yes.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4178,
+          "weight": 1.324
+        },
+        {
+          "id": "2.2",
+          "key": "scene-talk.reply-relent.i-owe-you-that-much-put-me-down-yes-on-bill",
+          "line": "I owe you that much. Put me down yes on {bill}.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 20,
+              "text": "I owe you that much.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            },
+            {
+              "start": 21,
+              "end": 47,
+              "text": "Put me down yes on {bill}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4179,
+          "weight": 1.312
+        },
+        {
+          "id": "2.3",
+          "key": "scene-talk.reply-relent.one-for-one-we-re-square-after-this",
+          "line": "One for one. We're square after this.",
+          "bearing": "guarded",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:where",
+            "opens:statement",
+            "person:we",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 12,
+              "text": "One for one.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 13,
+              "end": 37,
+              "text": "We're square after this.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:where",
+                "person:we"
+              ]
+            }
+          ],
+          "reach": 3177,
+          "weight": 1.257
+        }
+      ]
+    },
+    {
+      "moment": 3,
+      "kind": "speech",
+      "description": "You are giving your inaugural address and tell the country that on one issue, federal law already settles the matter in the direction you want.",
+      "speaker": "you, giving your inaugural address",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "3.1",
+          "key": "opening-speech.law.plain-ina-sta-on-about-the-federal-answer-is-already-yes",
+          "line": "On {about}, the federal answer is already yes.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "On {about},",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 12,
+              "end": 46,
+              "text": "the federal answer is already yes.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 1034,
+          "weight": 1.152
+        },
+        {
+          "id": "3.2",
+          "key": "opening-speech.law.polished-ina-sta-on-about-federal-law-already-says-yes",
+          "line": "On {about}, federal law already says yes.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "On {about},",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 12,
+              "end": 41,
+              "text": "federal law already says yes.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 1034,
+          "weight": 1.152
+        },
+        {
+          "id": "3.3",
+          "key": "opening-speech.law.plain-ina-sta-take-about-right-now-the-federal-answer-is-yes",
+          "line": "Take {about}. Right now the federal answer is yes.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "directness:direct",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 13,
+              "text": "Take {about}.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 14,
+              "end": 50,
+              "text": "Right now the federal answer is yes.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 1048,
+          "weight": 0.879
+        }
+      ]
+    },
+    {
+      "moment": 4,
+      "kind": "legislation",
+      "description": "You have just told a party whip where you stand on a vote. The whip takes your answer and says what they will do with it.",
+      "speaker": "a party whip counting votes",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "ask-vote.whip",
+      "lines": [
+        {
+          "id": "4.1",
+          "key": "scene-talk.follow-accept.understood-i-ll-tell-leadership-where-you-are",
+          "line": "Understood. I'll tell leadership where you are.",
+          "bearing": "calm",
+          "features": [
+            "concedes-at-once",
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "Understood.",
+              "features": [
+                "concedes-at-once",
+                "context:general",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 12,
+              "end": 47,
+              "text": "I'll tell leadership where you are.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4132,
+          "weight": 1.311
+        },
+        {
+          "id": "4.2",
+          "key": "scene-talk.follow-accept.that-i-can-do-leadership-won-t-miss-one-hearing",
+          "line": "That I can do. Leadership won't miss one hearing.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "That I can do.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 15,
+              "end": 49,
+              "text": "Leadership won't miss one hearing.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short"
+              ]
+            }
+          ],
+          "reach": 4142,
+          "weight": 1.307
+        },
+        {
+          "id": "4.3",
+          "key": "scene-talk.follow-accept.then-i-ll-cross-you-off-and-call-the-next-name",
+          "line": "Then I'll cross you off and call the next name.",
+          "bearing": "guarded",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 47,
+              "text": "Then I'll cross you off and call the next name.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 3222,
+          "weight": 1.166
+        }
+      ]
+    },
+    {
+      "moment": 5,
+      "kind": "speech",
+      "description": "In your inaugural address you tell the country that jobs are up and that the rules around work should keep up with them.",
+      "speaker": "you, giving your inaugural address",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "5.1",
+          "key": "opening-speech.stake.polished-ina-sta-there-are-more-jobs-than-a-year-ago-and-the-rules-that-gover",
+          "line": "There are more jobs than a year ago, and the rules that govern those jobs should keep pace.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:long",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 91,
+              "text": "There are more jobs than a year ago, and the rules that govern those jobs should keep pace.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:long"
+              ]
+            }
+          ],
+          "reach": 1047,
+          "weight": 1.016
+        },
+        {
+          "id": "5.2",
+          "key": "opening-speech.stake.plain-ina-sta-there-are-more-jobs-than-a-year-ago-the-rules-for-those-jobs",
+          "line": "There are more jobs than a year ago. The rules for those jobs should keep up.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 36,
+              "text": "There are more jobs than a year ago.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            },
+            {
+              "start": 37,
+              "end": 77,
+              "text": "The rules for those jobs should keep up.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 1048,
+          "weight": 0.861
+        },
+        {
+          "id": "5.3",
+          "key": "opening-speech.stake.plain-ina-sta-paychecks-are-finally-beating-prices-the-rules-at-work-shoul",
+          "line": "Paychecks are finally beating prices. The rules at work should help keep it that way.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 37,
+              "text": "Paychecks are finally beating prices.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            },
+            {
+              "start": 38,
+              "end": 85,
+              "text": "The rules at work should help keep it that way.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium"
+              ]
+            }
+          ],
+          "reach": 1018,
+          "weight": 0.72
+        }
+      ]
+    },
+    {
+      "moment": 6,
+      "kind": "legislation",
+      "description": "A colleague asked for your vote on a bill. You name what you want in return before you say yes.",
+      "speaker": "you, bargaining with a colleague who is a friend",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "ask-vote.friend",
+      "lines": [
+        {
+          "id": "6.1",
+          "key": "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it",
+          "line": "Help me with the road money for my district and I'll do it.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 59,
+              "text": "Help me with the road money for my district and I'll do it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4137,
+          "weight": 1.331
+        },
+        {
+          "id": "6.2",
+          "key": "scene-talk.reply-bargain.stand-next-to-me-when-i-explain-it-to-my-district-and-i-ll-vote-yes",
+          "line": "Stand next to me when I explain it to my district, and I'll vote yes.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "text": "Stand next to me when I explain it to my district, and I'll vote yes.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4137,
+          "weight": 1.331
+        },
+        {
+          "id": "6.3",
+          "key": "scene-talk.reply-bargain.i-ll-do-it-if-you-ll-hear-me-out-on-my-own-bill-next-week",
+          "line": "I'll do it if you'll hear me out on my own bill next week.",
+          "bearing": "guarded",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 58,
+              "text": "I'll do it if you'll hear me out on my own bill next week.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 3222,
+          "weight": 1.148
+        }
+      ]
+    },
+    {
+      "moment": 7,
+      "kind": "reaction",
+      "description": "An employer has picked you for an opening, and you asked about the job. They answer with the position and what it pays.",
+      "speaker": "an employer making you a job offer",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "job-offer",
+      "lines": [
+        {
+          "id": "7.1",
+          "key": "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
+          "line": "You'd be {position}, at {pay} an hour to start.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 20,
+              "text": "You'd be {position},",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:you"
+              ]
+            },
+            {
+              "start": 21,
+              "end": 47,
+              "text": "at {pay} an hour to start.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 4164,
+          "weight": 1.343
+        },
+        {
+          "id": "7.2",
+          "key": "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day",
+          "line": "We'd go over all of it on your first day.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:we",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 41,
+              "text": "We'd go over all of it on your first day.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:we",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4165,
+          "weight": 1.331
+        },
+        {
+          "id": "7.3",
+          "key": "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest",
+          "line": "{pay} an hour to start. We'd train you on the rest.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:name",
+            "person:we",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 23,
+              "text": "{pay} an hour to start.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            },
+            {
+              "start": 24,
+              "end": 51,
+              "text": "We'd train you on the rest.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:we",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4161,
+          "weight": 1.3
+        }
+      ]
+    },
+    {
+      "moment": 8,
+      "kind": "legislation",
+      "description": "The executive vetoed your bill. You have accepted it, and they answer with thanks and a word about what happens next.",
+      "speaker": "a mayor or governor who just vetoed your bill",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "veto-call",
+      "lines": [
+        {
+          "id": "8.1",
+          "key": "scene-talk.follow-thank.you-d-do-the-same-in-my-chair",
+          "line": "You'd do the same in my chair.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 30,
+              "text": "You'd do the same in my chair.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2896,
+          "weight": 1.359
+        },
+        {
+          "id": "8.2",
+          "key": "scene-talk.follow-thank.next-year-then-bring-me-a-cheaper-one",
+          "line": "Next year, then. Bring me a cheaper one.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 10,
+              "text": "Next year,",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 11,
+              "end": 16,
+              "text": "then.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 17,
+              "end": 40,
+              "text": "Bring me a cheaper one.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2893,
+          "weight": 1.348
+        },
+        {
+          "id": "8.3",
+          "key": "scene-talk.follow-thank.i-appreciate-that-i-know-this-one-stings",
+          "line": "I appreciate that. I know this one stings.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:two",
+            "stock-phrase"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 18,
+              "text": "I appreciate that.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:tiny",
+                "person:i",
+                "stock-phrase"
+              ]
+            },
+            {
+              "start": 19,
+              "end": 42,
+              "text": "I know this one stings.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2893,
+          "weight": 1.304
+        }
+      ]
+    },
+    {
+      "moment": 9,
+      "kind": "speech",
+      "description": "You open your State of the Union address by greeting the Speaker, Congress and the country.",
+      "speaker": "you, as the President giving the State of the Union",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "9.1",
+          "key": "opening-speech.salutation.polished-sta-chair-female-madam-speaker-members-of-congress-my-fellow-americans",
+          "line": "Madam Speaker, members of Congress, my fellow Americans.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:who",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "Madam Speaker,",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:tiny",
+                "names:who"
+              ]
+            },
+            {
+              "start": 15,
+              "end": 56,
+              "text": "members of Congress, my fellow Americans.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:who",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1044,
+          "weight": 1.068
+        },
+        {
+          "id": "9.2",
+          "key": "opening-speech.salutation.plain-sta-hopeful-mr-speaker-everybody-in-this-room-and-everybody-at-m",
+          "line": "Mr. Speaker, everybody in this room and everybody at home, thank you very much. I'm hopeful tonight, and I think you've got reason to be too.",
+          "bearing": "glad",
+          "features": [
+            "context:specific",
+            "directness:hedged",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:many"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 3,
+              "text": "Mr.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 4,
+              "end": 12,
+              "text": "Speaker,",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 13,
+              "end": 79,
+              "text": "everybody in this room and everybody at home, thank you very much.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:where",
+                "person:you"
+              ]
+            },
+            {
+              "start": 80,
+              "end": 100,
+              "text": "I'm hopeful tonight,",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:tiny",
+                "names:when",
+                "person:i"
+              ]
+            },
+            {
+              "start": 101,
+              "end": 141,
+              "text": "and I think you've got reason to be too.",
+              "features": [
+                "context:general",
+                "directness:hedged",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.929
+        },
+        {
+          "id": "9.3",
+          "key": "opening-speech.salutation.polished-sta-hopeful-madam-speaker-and-everyone-watching-thank-you-for-having-f",
+          "line": "Madam Speaker, and everyone watching, thank you for having me. I come with a plain belief that this country is on the edge of something good.",
+          "bearing": "tender",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:long",
+            "names:who",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "Madam Speaker,",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:tiny",
+                "names:who"
+              ]
+            },
+            {
+              "start": 15,
+              "end": 62,
+              "text": "and everyone watching, thank you for having me.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            },
+            {
+              "start": 63,
+              "end": 141,
+              "text": "I come with a plain belief that this country is on the edge of something good.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.812
+        }
+      ]
+    },
+    {
+      "moment": 10,
+      "kind": "reaction",
+      "description": "A big donor asked you for something. You have agreed or made a deal, and they answer with what happens next.",
+      "speaker": "a large donor who wants something for their money",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "donor-ask.large",
+      "lines": [
+        {
+          "id": "10.1",
+          "key": "scene-talk.follow-accept.done-my-people-will-call-yours",
+          "line": "Done. My people will call yours.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 5,
+              "text": "Done.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 6,
+              "end": 32,
+              "text": "My people will call yours.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4160,
+          "weight": 1.33
+        },
+        {
+          "id": "10.2",
+          "key": "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow",
+          "line": "Fine. I'll send you a list tomorrow.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:when",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 5,
+              "text": "Fine.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 6,
+              "end": 36,
+              "text": "I'll send you a list tomorrow.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:when",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4172,
+          "weight": 1.313
+        },
+        {
+          "id": "10.3",
+          "key": "scene-talk.follow-accept.a-hearing-then-schedule-it",
+          "line": "A hearing, then. Schedule it.",
+          "bearing": "guarded",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 10,
+              "text": "A hearing,",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 11,
+              "end": 16,
+              "text": "then.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 17,
+              "end": 29,
+              "text": "Schedule it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:tiny"
+              ]
+            }
+          ],
+          "reach": 3203,
+          "weight": 1.266
+        }
+      ]
+    },
+    {
+      "moment": 11,
+      "kind": "constituent",
+      "description": "A constituent came to your office hours sick and needing help at home. You promise to make a call on their behalf.",
+      "speaker": "you, promising to help a sick constituent",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.sick",
+      "lines": [
+        {
+          "id": "11.1",
+          "key": "scene-talk.reply-promise.i-ll-call-the-clinic-s-social-worker-myself-and-ask-her-to-see-you-this-week",
+          "line": "I'll call the clinic's social worker myself and ask her to see you this week.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 77,
+              "text": "I'll call the clinic's social worker myself and ask her to see you this week.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4171,
+          "weight": 1.331
+        },
+        {
+          "id": "11.2",
+          "key": "scene-talk.reply-promise.i-ll-ask-the-county-health-department-who-can-come-to-your-house-and-i-ll-call-y",
+          "line": "I'll ask the county health department who can come to your house, and I'll call you with a name.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 96,
+              "text": "I'll ask the county health department who can come to your house, and I'll call you with a name.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4147,
+          "weight": 1.305
+        },
+        {
+          "id": "11.3",
+          "key": "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
+          "line": "I'll find out what the town and the state pay for in-home help, and I'll have it in writing for you this week.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 110,
+              "text": "I'll find out what the town and the state pay for in-home help, and I'll have it in writing for you this week.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4147,
+          "weight": 1.305
+        }
+      ]
+    },
+    {
+      "moment": 12,
+      "kind": "legislation",
+      "description": "An aide has put a bill on your desk for you to sign or veto. As the visit ends, the aide reminds you it is waiting.",
+      "speaker": "an aide with a bill for your signature",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "desk-bill",
+      "lines": [
+        {
+          "id": "12.1",
+          "key": "scene-talk.close-press.let-me-know-when-you-ve-decided",
+          "line": "Let me know when you've decided.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 32,
+              "text": "Let me know when you've decided.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2896,
+          "weight": 1.359
+        },
+        {
+          "id": "12.2",
+          "key": "scene-talk.close-press.it-ll-be-here-when-you-re-ready-just-not-for-long",
+          "line": "It'll be here when you're ready. Just not for long.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 32,
+              "text": "It'll be here when you're ready.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:you"
+              ]
+            },
+            {
+              "start": 33,
+              "end": 51,
+              "text": "Just not for long.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 2885,
+          "weight": 1.354
+        },
+        {
+          "id": "12.3",
+          "key": "scene-talk.close-press.it-s-on-your-desk-whenever-you-want-it",
+          "line": "It's on your desk whenever you want it.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:where",
+            "opens:statement",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 39,
+              "text": "It's on your desk whenever you want it.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:where",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2892,
+          "weight": 1.352
+        }
+      ]
+    },
+    {
+      "moment": 13,
+      "kind": "speech",
+      "description": "In your town address you promise the town what you will do as its leader.",
+      "speaker": "you, as the new mayor giving a town address",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "13.1",
+          "key": "opening-speech.pledge.plain-twn-ill-fight-for-the-people-of-this-town-and-i-wont-be",
+          "line": "I'll fight for the people of this town, and I won't be polite about it when the fight is worth having.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 102,
+              "text": "I'll fight for the people of this town, and I won't be polite about it when the fight is worth having.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:long",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1019,
+          "weight": 0.943
+        },
+        {
+          "id": "13.2",
+          "key": "opening-speech.pledge.plain-twn-ill-tell-you-the-truth-about-this-town-good-and-bad-and",
+          "line": "I'll tell you the truth about this town, good and bad, and I'll ask the same of everyone who works for you.",
+          "bearing": "solemn",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 107,
+              "text": "I'll tell you the truth about this town, good and bad, and I'll ask the same of everyone who works for you.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:long",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.899
+        },
+        {
+          "id": "13.3",
+          "key": "opening-speech.pledge.polished-twn-i-will-tell-you-the-truth-about-this-town-the-good-and",
+          "line": "I will tell you the truth about this town, the good and the bad, and I will ask the same of everyone who works for you.",
+          "bearing": "solemn",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:long",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 119,
+              "text": "I will tell you the truth about this town, the good and the bad, and I will ask the same of everyone who works for you.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:long",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1022,
+          "weight": 0.889
+        }
+      ]
+    },
+    {
+      "moment": 14,
+      "kind": "reaction",
+      "description": "A reporter asked you to comment on a national story and you gave your answer. The reporter says what they will do with it.",
+      "speaker": "a reporter on deadline",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "press-comment.national",
+      "lines": [
+        {
+          "id": "14.1",
+          "key": "scene-talk.follow-accept.i-ll-hold-the-paragraph-the-deadline-won-t-wait-long",
+          "line": "I'll hold the paragraph. The deadline won't wait long.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 24,
+              "text": "I'll hold the paragraph.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 25,
+              "end": 54,
+              "text": "The deadline won't wait long.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short"
+              ]
+            }
+          ],
+          "reach": 4142,
+          "weight": 1.313
+        },
+        {
+          "id": "14.2",
+          "key": "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors",
+          "line": "That's a big claim. I'll check it with your neighbors.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 19,
+              "text": "That's a big claim.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short"
+              ]
+            },
+            {
+              "start": 20,
+              "end": 54,
+              "text": "I'll check it with your neighbors.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4156,
+          "weight": 1.311
+        },
+        {
+          "id": "14.3",
+          "key": "scene-talk.follow-accept.then-it-says-you-were-asked-and-didn-t-say",
+          "line": "Then it says you were asked and didn't say.",
+          "bearing": "guarded",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 43,
+              "text": "Then it says you were asked and didn't say.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 3214,
+          "weight": 1.167
+        }
+      ]
+    },
+    {
+      "moment": 15,
+      "kind": "constituent",
+      "description": "A constituent who lost their job has come to your office hours. You promise to reach out to employers or the workforce office for them.",
+      "speaker": "you, promising to help a laid-off constituent",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.lost-job",
+      "lines": [
+        {
+          "id": "15.1",
+          "key": "scene-talk.reply-promise.i-ll-put-your-name-in-front-of-the-biggest-employers-in-town-this-week-and-i-ll",
+          "line": "I'll put your name in front of the biggest employers in town this week, and I'll tell you which ones I reach.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 109,
+              "text": "I'll put your name in front of the biggest employers in town this week, and I'll tell you which ones I reach.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:long",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4167,
+          "weight": 1.318
+        },
+        {
+          "id": "15.2",
+          "key": "scene-talk.reply-promise.i-ll-ask-the-workforce-office-to-see-you-before-friday-and-i-ll-find-out-who-sig",
+          "line": "I'll ask the workforce office to see you before Friday, and I'll find out who signed you in.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:where",
+            "names:who",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 92,
+              "text": "I'll ask the workforce office to see you before Friday, and I'll find out who signed you in.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:when",
+                "names:where",
+                "names:who",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4147,
+          "weight": 1.305
+        },
+        {
+          "id": "15.3",
+          "key": "scene-talk.reply-promise.i-ll-call-the-workforce-office-this-afternoon-and-ask-what-they-have-for-someone",
+          "line": "I'll call the workforce office this afternoon and ask what they have for someone with your experience.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 102,
+              "text": "I'll call the workforce office this afternoon and ask what they have for someone with your experience.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:when",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4147,
+          "weight": 1.301
+        }
+      ]
+    },
+    {
+      "moment": 16,
+      "kind": "legislation",
+      "description": "A colleague wants you to switch your vote on the floor. You asked what you would get, and they name what they will give you.",
+      "speaker": "a colleague trying to win your vote",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "floor-switch",
+      "lines": [
+        {
+          "id": "16.1",
+          "key": "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real",
+          "line": "My name on your next bill, as a co-sponsor. That's real.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 43,
+              "text": "My name on your next bill, as a co-sponsor.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            },
+            {
+              "start": 44,
+              "end": 56,
+              "text": "That's real.",
+              "features": ["context:general", "formality:spoken", "length:tiny"]
+            }
+          ],
+          "reach": 2890,
+          "weight": 1.354
+        },
+        {
+          "id": "16.2",
+          "key": "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table",
+          "line": "Your amendment gets a vote next week. That's what's on the table.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 37,
+              "text": "Your amendment gets a vote next week.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:you"
+              ]
+            },
+            {
+              "start": 38,
+              "end": 65,
+              "text": "That's what's on the table.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short"
+              ]
+            }
+          ],
+          "reach": 2885,
+          "weight": 1.354
+        },
+        {
+          "id": "16.3",
+          "key": "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got",
+          "line": "Your district's money stays in the budget. That's what I've got.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 42,
+              "text": "Your district's money stays in the budget.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:you"
+              ]
+            },
+            {
+              "start": 43,
+              "end": 64,
+              "text": "That's what I've got.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2890,
+          "weight": 1.354
+        }
+      ]
+    },
+    {
+      "moment": 17,
+      "kind": "speech",
+      "description": "You open your State of the State address by greeting the legislature and the people at home.",
+      "speaker": "you, as the governor giving the State of the State",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "17.1",
+          "key": "opening-speech.salutation.plain-sos-crisis-folks-in-this-chamber-and-folks-at-home-i",
+          "line": "Folks in this chamber and folks at home, I've got some hard things to say tonight. I'd rather you heard them from me.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 82,
+              "text": "Folks in this chamber and folks at home, I've got some hard things to say tonight.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:when",
+                "names:where",
+                "person:i"
+              ]
+            },
+            {
+              "start": 83,
+              "end": 117,
+              "text": "I'd rather you heard them from me.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.98
+        },
+        {
+          "id": "17.2",
+          "key": "opening-speech.salutation.plain-sos-crisis-members-of-the-legislature-and-everybody-who-came-out",
+          "line": "Members of the legislature, and everybody who came out, I'm going to be straight with you tonight. Things aren't where they should be, and you know it.",
+          "bearing": "solemn",
+          "features": [
+            "context:specific",
+            "filler:inside",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 98,
+              "text": "Members of the legislature, and everybody who came out, I'm going to be straight with you tonight.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:when",
+                "person:i",
+                "person:you"
+              ]
+            },
+            {
+              "start": 99,
+              "end": 151,
+              "text": "Things aren't where they should be, and you know it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "filler:inside",
+                "formality:spoken",
+                "length:medium",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.902
+        },
+        {
+          "id": "17.3",
+          "key": "opening-speech.salutation.plain-sos-victory-members-of-the-legislature-and-everybody-who-came-out",
+          "line": "Members of the legislature, and everybody who came out, thank you, all of you. A lot of people worked hard to make this a good stretch, and I want to say so first.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:very-long",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 78,
+              "text": "Members of the legislature, and everybody who came out, thank you, all of you.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium",
+                "person:you"
+              ]
+            },
+            {
+              "start": 79,
+              "end": 163,
+              "text": "A lot of people worked hard to make this a good stretch, and I want to say so first.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:long",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1020,
+          "weight": 0.799
+        }
+      ]
+    },
+    {
+      "moment": 18,
+      "kind": "reaction",
+      "description": "You voted against a lobbyist's group on a bill. They come to remind you the group remembers, and you have answered them.",
+      "speaker": "a lobbyist whose group lost the vote",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "lobby-remembers",
+      "lines": [
+        {
+          "id": "18.1",
+          "key": "scene-talk.follow-accept.then-we-understand-each-other-good",
+          "line": "Then we understand each other. Good.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:we",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 30,
+              "text": "Then we understand each other.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:we"
+              ]
+            },
+            {
+              "start": 31,
+              "end": 36,
+              "text": "Good.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            }
+          ],
+          "reach": 4149,
+          "weight": 1.329
+        },
+        {
+          "id": "18.2",
+          "key": "scene-talk.follow-accept.all-right-i-wanted-you-to-know-where-we-stand",
+          "line": "Alright. I wanted you to know where we stand.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:medium",
+            "opens:filler-word",
+            "person:we",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 8,
+              "text": "Alright.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 9,
+              "end": 45,
+              "text": "I wanted you to know where we stand.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:we",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4161,
+          "weight": 1.275
+        },
+        {
+          "id": "18.3",
+          "key": "scene-talk.follow-accept.fair-enough-well-see-how-the-spring-goes",
+          "line": "Fair enough. We'll see how the spring goes.",
+          "bearing": "guarded",
+          "features": [
+            "concedes-at-once",
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:we",
+            "sentences:two",
+            "stock-phrase"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 12,
+              "text": "Fair enough.",
+              "features": [
+                "concedes-at-once",
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "stock-phrase"
+              ]
+            },
+            {
+              "start": 13,
+              "end": 43,
+              "text": "We'll see how the spring goes.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:we",
+                "stock-phrase"
+              ]
+            }
+          ],
+          "reach": 3146,
+          "weight": 1.179
+        }
+      ]
+    },
+    {
+      "moment": 19,
+      "kind": "constituent",
+      "description": "A worker whose employer shorted their pay has come to your office hours. You promise to call the labor office for them.",
+      "speaker": "you, promising to help a worker who was shorted",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.short-pay",
+      "lines": [
+        {
+          "id": "19.1",
+          "key": "scene-talk.reply-promise.i-ll-call-the-labor-office-myself-and-have-them-tell-you-what-they-need-from-you",
+          "line": "I'll call the labor office myself and have them tell you what they need from you.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:medium",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 81,
+              "text": "I'll call the labor office myself and have them tell you what they need from you.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4156,
+          "weight": 1.32
+        },
+        {
+          "id": "19.2",
+          "key": "scene-talk.reply-promise.i-ll-ask-the-labor-office-to-open-a-file-before-the-month-is-out-and-i-won-t-use",
+          "line": "I'll ask the labor office to open a file before the month is out, and I won't use your name with your employer.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 111,
+              "text": "I'll ask the labor office to open a file before the month is out, and I won't use your name with your employer.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4147,
+          "weight": 1.305
+        },
+        {
+          "id": "19.3",
+          "key": "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
+          "line": "I'll send your pay stub to the labor standards office today, and I'll give you the name of whoever takes it.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 108,
+              "text": "I'll send your pay stub to the labor standards office today, and I'll give you the name of whoever takes it.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:long",
+                "names:when",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 4147,
+          "weight": 1.301
+        }
+      ]
+    },
+    {
+      "moment": 20,
+      "kind": "again",
+      "description": "A speaker closes a speech.",
+      "speaker": "the speaker",
+      "from": "batch 2's moment 61, not graded yet",
+      "bank": "speech-stages",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "20.1",
+          "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-america",
+          "line": "God bless you, and God bless America.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:who",
+            "opens:statement",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "God bless you,",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            },
+            {
+              "start": 15,
+              "end": 37,
+              "text": "and God bless America.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 71,
+          "weight": 1.242
+        },
+        {
+          "id": "20.2",
+          "key": "speech-stages.stage-closer.let-s-get-to-work",
+          "line": "Let's get to work.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 18,
+              "text": "Let's get to work.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short"
+              ]
+            }
+          ],
+          "reach": 69,
+          "weight": 1.233
+        },
+        {
+          "id": "20.3",
+          "key": "speech-stages.stage-closer.thank-you-all",
+          "line": "Thank you all.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:tiny",
+            "opens:thanks",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 14,
+              "text": "Thank you all.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 66,
+          "weight": 1.295
+        }
+      ]
+    },
+    {
+      "moment": 21,
+      "kind": "legislation",
+      "description": "A department head has told you their budget is being cut. You offer to restore part of it and say what you want in return.",
+      "speaker": "you, bargaining with a department head over a budget cut",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "cut-argument",
+      "lines": [
+        {
+          "id": "21.1",
+          "key": "scene-talk.reply-bargain.half-now-and-we-look-at-it-again-when-the-numbers-are-in",
+          "line": "Half now, and we look at it again when the numbers are in.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:we",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 9,
+              "text": "Half now,",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 10,
+              "end": 58,
+              "text": "and we look at it again when the numbers are in.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium",
+                "person:we"
+              ]
+            }
+          ],
+          "reach": 2864,
+          "weight": 1.36
+        },
+        {
+          "id": "21.2",
+          "key": "scene-talk.reply-bargain.tell-me-the-part-you-can-t-live-without-and-i-ll-fight-for-that-part",
+          "line": "Tell me the part you can't live without, and I'll fight for that part.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "directness:direct",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "text": "Tell me the part you can't live without, and I'll fight for that part.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "directness:direct",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2894,
+          "weight": 1.352
+        },
+        {
+          "id": "21.3",
+          "key": "scene-talk.reply-bargain.i-can-get-you-half-of-it-back-the-rest-you-find-inside-the-department",
+          "line": "I can get you half of it back. The rest you find inside the department.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 30,
+              "text": "I can get you half of it back.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            },
+            {
+              "start": 31,
+              "end": 71,
+              "text": "The rest you find inside the department.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2901,
+          "weight": 1.351
+        }
+      ]
+    },
+    {
+      "moment": 22,
+      "kind": "speech",
+      "description": "In your State of the State address you tell the legislature what you will ask of them, or what you will refuse to sign.",
+      "speaker": "you, as the governor giving the State of the State",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "22.1",
+          "key": "opening-speech.ask.plain-sos-theres-one-thing-i-wont-move-on-ill-oppose-any-bill-to",
+          "line": "There's one thing I won't move on: I'll oppose any bill to {to}.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 64,
+              "text": "There's one thing I won't move on: I'll oppose any bill to {to}.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.923
+        },
+        {
+          "id": "22.2",
+          "key": "opening-speech.ask.plain-sos-im-asking-the-legislature-to-to-and-i-wont-let-it-rest",
+          "line": "I'm asking the legislature to {to}, and I won't let it rest.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 60,
+              "text": "I'm asking the legislature to {to}, and I won't let it rest.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1021,
+          "weight": 0.874
+        },
+        {
+          "id": "22.3",
+          "key": "opening-speech.ask.polished-sos-i-will-ask-the-legislature-to-to-and-i-will-not-let",
+          "line": "I will ask the legislature to {to}, and I will not let it rest.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 63,
+              "text": "I will ask the legislature to {to}, and I will not let it rest.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1018,
+          "weight": 0.834
+        }
+      ]
+    },
+    {
+      "moment": 23,
+      "kind": "reaction",
+      "description": "Someone talking about a change in town says who they believe caused it, based on the record they saw.",
+      "speaker": "a neighbor who blames a named decision-maker",
+      "bank": "bring-it-up",
+      "register": "private",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "23.1",
+          "key": "bring-it-up.blame-record-record.it-was-whose-decision",
+          "line": "It was {whose} decision.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:who",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 24,
+              "text": "It was {whose} decision.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 2261,
+          "weight": 1.315
+        },
+        {
+          "id": "23.2",
+          "key": "bring-it-up.blame-record-record.its-whose-fault",
+          "line": "It's {whose} fault.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:tiny",
+            "names:who",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 19,
+              "text": "It's {whose} fault.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:tiny",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 1126,
+          "weight": 1.217
+        },
+        {
+          "id": "23.3",
+          "key": "bring-it-up.blame-record-record.who-did-that",
+          "line": "{who} did that.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:tiny",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 15,
+              "text": "{who} did that.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:tiny",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 881,
+          "weight": 1.19
+        }
+      ]
+    },
+    {
+      "moment": 24,
+      "kind": "constituent",
+      "description": "You promised to help a worker whose pay was short. They answer with a worry about what happens next, and about their boss.",
+      "speaker": "a worker nervous about their employer",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.short-pay",
+      "lines": [
+        {
+          "id": "24.1",
+          "key": "scene-talk.follow-thank.i-ll-bring-the-whole-drawer-in-tomorrow",
+          "line": "I'll bring the whole drawer in tomorrow.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:when",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 40,
+              "text": "I'll bring the whole drawer in tomorrow.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:when",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4150,
+          "weight": 1.333
+        },
+        {
+          "id": "24.2",
+          "key": "scene-talk.follow-thank.write-down-who-i-m-supposed-to-ask-for-so-they-can-t-tell-me-nobody-s-heard-of-i",
+          "line": "Write down who I'm supposed to ask for, so they can't tell me nobody's heard of it.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 83,
+              "text": "Write down who I'm supposed to ask for, so they can't tell me nobody's heard of it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:long",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4135,
+          "weight": 1.315
+        },
+        {
+          "id": "24.3",
+          "key": "scene-talk.follow-thank.don-t-use-my-name-with-him-he-knows-my-shift-and-my-car",
+          "line": "Don't use my name with him. He knows my shift and my car.",
+          "bearing": "nervous",
+          "features": [
+            "context:general",
+            "directness:direct",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 27,
+              "text": "Don't use my name with him.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 28,
+              "end": 57,
+              "text": "He knows my shift and my car.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2517,
+          "weight": 1.195
+        }
+      ]
+    },
+    {
+      "moment": 25,
+      "kind": "liked",
+      "description": "The narrator sets up a talk with a member of your staff who has worked for you for years and wants to argue about a line in the budget.",
+      "speaker": "the narrator",
+      "from": "a variant of batch 2's moment 8, which he liked",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "cut-argument",
+      "lines": [
+        {
+          "id": "25.1",
+          "key": "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted",
+          "line": "{name} has asked for time about the budget the council adopted.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 63,
+              "text": "{name} has asked for time about the budget the council adopted.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 2439,
+          "weight": 1.369
+        },
+        {
+          "id": "25.2",
+          "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed",
+          "line": "{name} wants to talk about the budget the council passed.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 57,
+              "text": "{name} wants to talk about the budget the council passed.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 2439,
+          "weight": 1.369
+        },
+        {
+          "id": "25.3",
+          "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
+          "line": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:who",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 62,
+              "text": "The {post}'s line lost {cut} in the budget the council passed.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium"
+              ]
+            },
+            {
+              "start": 63,
+              "end": 83,
+              "text": "{name} has the page.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 2890,
+          "weight": 1.363
+        }
+      ]
+    },
+    {
+      "moment": 26,
+      "kind": "again",
+      "description": "The narrator sets the scene as a rival from a debate walks up to you.",
+      "speaker": "the narrator",
+      "from": "batch 2's moment 22, not graded yet",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "rally-opponent",
+      "lines": [
+        {
+          "id": "26.1",
+          "key": "scene-talk.narrate-narrate.name-is-working-the-same-crowd-now-name-is-walking-straight-toward-you",
+          "line": "{name} is working the same crowd. Now {name} is walking straight toward you.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:who",
+            "opens:name",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 33,
+              "text": "{name} is working the same crowd.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:who"
+              ]
+            },
+            {
+              "start": 34,
+              "end": 76,
+              "text": "Now {name} is walking straight toward you.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:who",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1607,
+          "weight": 1.243
+        },
+        {
+          "id": "26.2",
+          "key": "scene-talk.narrate-narrate.the-cameras-are-off-name-walks-over-before-you-reach-the-door",
+          "line": "{name} has something to say that wasn't for the cameras.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:medium",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 56,
+              "text": "{name} has something to say that wasn't for the cameras.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 1664,
+          "weight": 1.2
+        },
+        {
+          "id": "26.3",
+          "key": "scene-talk.narrate-narrate.the-debate-is-over-and-the-candidates-are-leaving-the-stage-name-stops",
+          "line": "{name} debated you tonight and isn't finished with you.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:medium",
+            "names:when",
+            "names:who",
+            "opens:name",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 55,
+              "text": "{name} debated you tonight and isn't finished with you.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:when",
+                "names:who",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 1704,
+          "weight": 1.206
+        }
+      ]
+    },
+    {
+      "moment": 27,
+      "kind": "legislation",
+      "description": "A department head has argued against a budget cut. You are not ready to decide and tell them when you will answer.",
+      "speaker": "you, putting off a department head",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "cut-argument",
+      "lines": [
+        {
+          "id": "27.1",
+          "key": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair",
+          "line": "I'll call you after I talk to the council chair.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 48,
+              "text": "I'll call you after I talk to the council chair.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2894,
+          "weight": 1.366
+        },
+        {
+          "id": "27.2",
+          "key": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer",
+          "line": "Let me sleep on it before I answer.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 35,
+              "text": "Let me sleep on it before I answer.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2881,
+          "weight": 1.356
+        },
+        {
+          "id": "27.3",
+          "key": "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow",
+          "line": "Send me the list. I'll answer tomorrow.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:when",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 17,
+              "text": "Send me the list.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 18,
+              "end": 39,
+              "text": "I'll answer tomorrow.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:tiny",
+                "names:when",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2884,
+          "weight": 1.354
+        }
+      ]
+    },
+    {
+      "moment": 28,
+      "kind": "speech",
+      "description": "Near the end of your State of the Union address you answer people who say the good news could have come sooner.",
+      "speaker": "you, as the President giving the State of the Union",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "28.1",
+          "key": "opening-speech.story-turn.plain-sta-therell-always-be-someone-who-says-it-couldve-been-done-sooner-theyre",
+          "line": "There'll always be someone who says it could've been done sooner. They're welcome to do it better.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 65,
+              "text": "There'll always be someone who says it could've been done sooner.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium"
+              ]
+            },
+            {
+              "start": 66,
+              "end": 98,
+              "text": "They're welcome to do it better.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short"
+              ]
+            }
+          ],
+          "reach": 1018,
+          "weight": 0.809
+        },
+        {
+          "id": "28.2",
+          "key": "opening-speech.story-turn.polished-sta-none-of-it-was-luck-people-worked-and-the-laws-we-argued",
+          "line": "None of it was luck. People worked, and the laws we argued over for months began to pay off.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:long",
+            "opens:statement",
+            "person:we",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 20,
+              "text": "None of it was luck.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short"
+              ]
+            },
+            {
+              "start": 21,
+              "end": 35,
+              "text": "People worked,",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 36,
+              "end": 92,
+              "text": "and the laws we argued over for months began to pay off.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium",
+                "person:we"
+              ]
+            }
+          ],
+          "reach": 1020,
+          "weight": 0.784
+        },
+        {
+          "id": "28.3",
+          "key": "opening-speech.story-turn.polished-sta-there-will-always-be-someone-who-says-it-could-have-been-done",
+          "line": "There will always be someone who says it could have been done sooner. They are welcome to try to do it better.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:long",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "text": "There will always be someone who says it could have been done sooner.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium"
+              ]
+            },
+            {
+              "start": 70,
+              "end": 110,
+              "text": "They are welcome to try to do it better.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium"
+              ]
+            }
+          ],
+          "reach": 1019,
+          "weight": 0.774
+        }
+      ]
+    },
+    {
+      "moment": 29,
+      "kind": "reaction",
+      "description": "Someone you know read in the paper that a bill you introduced passed, and tells you.",
+      "speaker": "an acquaintance who read the news about your bill",
+      "bank": "bring-it-up",
+      "register": "private",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "29.1",
+          "key": "bring-it-up.your-bill-passed-act.subject-says-your-bill-passed-good-for-y",
+          "line": "{subject} says your bill passed. Good for you.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:what",
+            "opens:name",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 32,
+              "text": "{subject} says your bill passed.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "person:you"
+              ]
+            },
+            {
+              "start": 33,
+              "end": 46,
+              "text": "Good for you.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 702,
+          "weight": 1.245
+        },
+        {
+          "id": "29.2",
+          "key": "bring-it-up.your-bill-passed-act.i-read-in-subject-that-your-bill-on-topi",
+          "line": "I read in {subject} that your bill on {topic} passed.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 53,
+              "text": "I read in {subject} that your bill on {topic} passed.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:what",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 753,
+          "weight": 1.244
+        },
+        {
+          "id": "29.3",
+          "key": "bring-it-up.your-bill-passed-ordinance.i-read-in-subject-that-your-ordinance-on",
+          "line": "I read in {subject} that your ordinance on {topic} passed.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 58,
+              "text": "I read in {subject} that your ordinance on {topic} passed.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:what",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 753,
+          "weight": 1.244
+        }
+      ]
+    },
+    {
+      "moment": 30,
+      "kind": "constituent",
+      "description": "You promised to help a sick constituent. They answer with how best to reach them.",
+      "speaker": "a worried, sick constituent",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.sick",
+      "lines": [
+        {
+          "id": "30.1",
+          "key": "scene-talk.follow-thank.call-before-nine-if-you-can-after-that-i-m-at-the-clinic",
+          "line": "Call before nine if you can. After that I'm at the clinic.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 28,
+              "text": "Call before nine if you can.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:you"
+              ]
+            },
+            {
+              "start": 29,
+              "end": 58,
+              "text": "After that I'm at the clinic.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4156,
+          "weight": 1.311
+        },
+        {
+          "id": "30.2",
+          "key": "scene-talk.follow-thank.i-ll-leave-my-phone-on-at-the-pharmacy-counter-reception-is-bad-there",
+          "line": "I'll leave my phone on at the pharmacy counter. Reception is bad there.",
+          "bearing": "nervous",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 47,
+              "text": "I'll leave my phone on at the pharmacy counter.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            },
+            {
+              "start": 48,
+              "end": 71,
+              "text": "Reception is bad there.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 2516,
+          "weight": 1.204
+        },
+        {
+          "id": "30.3",
+          "key": "scene-talk.follow-thank.write-the-name-down-for-me-i-forget-things-this-month",
+          "line": "Write the name down for me. I forget things this month.",
+          "bearing": "tender",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 27,
+              "text": "Write the name down for me.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 28,
+              "end": 55,
+              "text": "I forget things this month.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2719,
+          "weight": 1.054
+        }
+      ]
+    },
+    {
+      "moment": 31,
+      "kind": "liked",
+      "description": "You have offered someone an appointment. This is how they say yes.",
+      "speaker": "a glad person accepting a post",
+      "from": "a variant of batch 2's moment 10, which he liked",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "appointment-offer",
+      "lines": [
+        {
+          "id": "31.1",
+          "key": "scene-talk.reply-agree.that-s-more-than-i-ve-got-now-i-ll-do-it",
+          "line": "That's more than I've got now. I'll do it.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 30,
+              "text": "That's more than I've got now.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 31,
+              "end": 42,
+              "text": "I'll do it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2879,
+          "weight": 1.347
+        },
+        {
+          "id": "31.2",
+          "key": "scene-talk.reply-agree.more-than-i-d-like-to-admit-okay-yes",
+          "line": "More than I'd like to admit. Okay. Yes.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:many"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 28,
+              "text": "More than I'd like to admit.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 29,
+              "end": 34,
+              "text": "Okay.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 35,
+              "end": 39,
+              "text": "Yes.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            }
+          ],
+          "reach": 1465,
+          "weight": 1.291
+        },
+        {
+          "id": "31.3",
+          "key": "scene-talk.reply-agree.yes-tell-the-executive-yes",
+          "line": "Yes. Tell the {executive} yes.",
+          "bearing": "glad",
+          "features": [
+            "context:general",
+            "directness:direct",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 4,
+              "text": "Yes.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 5,
+              "end": 30,
+              "text": "Tell the {executive} yes.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:plain",
+                "length:short"
+              ]
+            }
+          ],
+          "reach": 1484,
+          "weight": 1.235
+        }
+      ]
+    },
+    {
+      "moment": 32,
+      "kind": "again",
+      "description": "You have asked who was to blame for something. This is what they answer.",
+      "speaker": "a guarded or nervous person who doesn't know",
+      "from": "batch 2's moment 33, not graded yet",
+      "bank": "bring-it-up",
+      "register": "private",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "32.1",
+          "key": "bring-it-up.blame-unknown-unknown.i-dont-know",
+          "line": "I don't know.",
+          "bearing": "guarded",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:tiny",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 13,
+              "text": "I don't know.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1131,
+          "weight": 1.155
+        },
+        {
+          "id": "32.2",
+          "key": "bring-it-up.blame-unknown-unknown.i-dont-know-what-happened",
+          "line": "I don't know what happened.",
+          "bearing": "nervous",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 27,
+              "text": "I don't know what happened.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 192,
+          "weight": 1.284
+        },
+        {
+          "id": "32.3",
+          "key": "bring-it-up.blame-unknown-unknown.i-dont-know-who-did-it",
+          "line": "I don't know who did it.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 24,
+              "text": "I don't know who did it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 732,
+          "weight": 1.204
+        }
+      ]
+    },
+    {
+      "moment": 33,
+      "kind": "legislation",
+      "description": "An aide catches you before you leave for the day with a bill on your desk that needs a decision.",
+      "speaker": "an aide with a bill that cannot wait",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "desk-bill",
+      "lines": [
+        {
+          "id": "33.1",
+          "key": "scene-talk.open-greet.got-five-minutes-before-you-go-home",
+          "line": "Got five minutes before you go home?",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:where",
+            "opens:statement",
+            "person:you",
+            "question:names-subject",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 36,
+              "text": "Got five minutes before you go home?",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:where",
+                "person:you",
+                "question:names-subject"
+              ]
+            }
+          ],
+          "reach": 2888,
+          "weight": 1.359
+        },
+        {
+          "id": "33.2",
+          "key": "scene-talk.open-greet.sorry-this-one-can-t-wait-for-morning",
+          "line": "Sorry. This one can't wait for morning.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:when",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 6,
+              "text": "Sorry.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 7,
+              "end": 39,
+              "text": "This one can't wait for morning.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:when"
+              ]
+            }
+          ],
+          "reach": 2873,
+          "weight": 1.353
+        },
+        {
+          "id": "33.3",
+          "key": "scene-talk.open-greet.this-one-s-waiting-on-you",
+          "line": "This one's waiting on you.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 26,
+              "text": "This one's waiting on you.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2895,
+          "weight": 1.352
+        }
+      ]
+    },
+    {
+      "moment": 34,
+      "kind": "speech",
+      "description": "You open your town address by greeting everyone in the room and watching at home, and setting the tone for the night.",
+      "speaker": "you, as the new mayor giving a town address",
+      "bank": "opening-speech",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "34.1",
+          "key": "opening-speech.salutation.plain-twn-combative-everybody-in-this-room-and-everybody-watching-let-s",
+          "line": "Everybody in this room, and everybody watching, let's not pretend this town is fine. It isn't, and somebody is to blame.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:where",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 84,
+              "text": "Everybody in this room, and everybody watching, let's not pretend this town is fine.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:where"
+              ]
+            },
+            {
+              "start": 85,
+              "end": 94,
+              "text": "It isn't,",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 95,
+              "end": 120,
+              "text": "and somebody is to blame.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 1017,
+          "weight": 0.998
+        },
+        {
+          "id": "34.2",
+          "key": "opening-speech.salutation.plain-twn-policy-everybody-in-this-room-and-everybody-watching-i-ll",
+          "line": "Everybody in this room, and everybody watching, I'll keep this practical tonight. Here's what I want to get done.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 81,
+              "text": "Everybody in this room, and everybody watching, I'll keep this practical tonight.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:when",
+                "names:where",
+                "person:i"
+              ]
+            },
+            {
+              "start": 82,
+              "end": 113,
+              "text": "Here's what I want to get done.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1019,
+          "weight": 0.907
+        },
+        {
+          "id": "34.3",
+          "key": "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything",
+          "line": "Everybody in this room, and everybody watching, before anything else, let's take a breath. A lot of families are living through the worst days of their lives.",
+          "bearing": "tender",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:where",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 90,
+              "text": "Everybody in this room, and everybody watching, before anything else, let's take a breath.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:where"
+              ]
+            },
+            {
+              "start": 91,
+              "end": 158,
+              "text": "A lot of families are living through the worst days of their lives.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium"
+              ]
+            }
+          ],
+          "reach": 1017,
+          "weight": 0.795
+        }
+      ]
+    },
+    {
+      "moment": 35,
+      "kind": "reaction",
+      "description": "Someone mentions to you a story they read in the paper about a change in town.",
+      "speaker": "a neighbor who read the news",
+      "bank": "bring-it-up",
+      "register": "private",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "35.1",
+          "key": "bring-it-up.change-news.read-read.subject-had-a-story-about-topic",
+          "line": "{subject} had a story about {topic}.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:what",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 36,
+              "text": "{subject} had a story about {topic}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what"
+              ]
+            }
+          ],
+          "reach": 701,
+          "weight": 1.296
+        },
+        {
+          "id": "35.2",
+          "key": "bring-it-up.change-news.read-read.i-read-in-subject-about-topic",
+          "line": "I read in {subject} about {topic}.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 34,
+              "text": "I read in {subject} about {topic}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 753,
+          "weight": 1.263
+        },
+        {
+          "id": "35.3",
+          "key": "bring-it-up.change-news.read-read.i-saw-subject-ran-a-story-on-topic",
+          "line": "I saw {subject} ran a story on {topic}.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 39,
+              "text": "I saw {subject} ran a story on {topic}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 753,
+          "weight": 1.263
+        }
+      ]
+    },
+    {
+      "moment": 36,
+      "kind": "constituent",
+      "description": "You promised to help a constituent who lost their job. They answer with how you will keep in touch.",
+      "speaker": "a worried, laid-off constituent",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.lost-job",
+      "lines": [
+        {
+          "id": "36.1",
+          "key": "scene-talk.follow-thank.write-the-name-down-for-me-i-want-to-ask-for-her-by-name",
+          "line": "Write the name down for me. I want to ask for her by name.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 27,
+              "text": "Write the name down for me.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 28,
+              "end": 58,
+              "text": "I want to ask for her by name.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 4168,
+          "weight": 1.324
+        },
+        {
+          "id": "36.2",
+          "key": "scene-talk.follow-thank.i-ll-call-your-office-tomorrow-morning-to-make-sure-it-went-through",
+          "line": "I'll call your office tomorrow morning to make sure it went through.",
+          "bearing": "nervous",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:medium",
+            "names:when",
+            "names:where",
+            "opens:when",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 68,
+              "text": "I'll call your office tomorrow morning to make sure it went through.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:medium",
+                "names:when",
+                "names:where",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2483,
+          "weight": 1.143
+        },
+        {
+          "id": "36.3",
+          "key": "scene-talk.follow-thank.i-ll-keep-my-phone-on-i-ve-been-missing-calls-from-numbers-i-don-t-know",
+          "line": "I'll keep my phone on. I've been missing calls from numbers I don't know.",
+          "bearing": "tender",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 22,
+              "text": "I'll keep my phone on.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            },
+            {
+              "start": 23,
+              "end": 73,
+              "text": "I've been missing calls from numbers I don't know.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2697,
+          "weight": 0.985
+        }
+      ]
+    },
+    {
+      "moment": 37,
+      "kind": "liked",
+      "description": "Someone has just pushed an envelope of money across your desk, hoping for a favor. This is what you say to turn it down.",
+      "speaker": "a proud, braced or guarded official",
+      "from": "a variant of batch 2's moment 12, which he liked",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "bribe-offer",
+      "lines": [
+        {
+          "id": "37.1",
+          "key": "scene-talk.reply-refuse.i-don-t-take-money-from-you-or-from-anyone",
+          "line": "I don't take money, from you or from anyone.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 44,
+              "text": "I don't take money, from you or from anyone.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2866,
+          "weight": 1.356
+        },
+        {
+          "id": "37.2",
+          "key": "scene-talk.reply-refuse.if-everybody-does-it-they-can-do-it-without-me",
+          "line": "If everybody does it, they can do it without me.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 48,
+              "text": "If everybody does it, they can do it without me.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1833,
+          "weight": 1.326
+        },
+        {
+          "id": "37.3",
+          "key": "scene-talk.reply-refuse.take-it-back-i-can-t-accept-it",
+          "line": "Take it back. I can't accept it.",
+          "bearing": "guarded",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "directness:direct",
+            "formality:spoken",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 13,
+              "text": "Take it back.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 14,
+              "end": 32,
+              "text": "I can't accept it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1883,
+          "weight": 1.193
+        }
+      ]
+    },
+    {
+      "moment": 38,
+      "kind": "again",
+      "description": "The paper prints a headline about local seniors or students winning honors.",
+      "speaker": "the paper",
+      "from": "batch 2's moment 44, not graded yet",
+      "bank": "headlines",
+      "register": "broadcast",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "38.1",
+          "key": "headlines.honor.number-place-seniors-sign-with-division-i-programs",
+          "line": "{number} {place} seniors sign with Division I programs",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:what",
+            "names:where",
+            "names:who",
+            "opens:name",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 54,
+              "text": "{number} {place} seniors sign with Division I programs",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "names:where",
+                "names:who",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1046,
+          "weight": 1.093
+        },
+        {
+          "id": "38.2",
+          "key": "headlines.honor.name-signs-to-play-at-a-division-i-school",
+          "line": "{name} signs to play at a Division I school",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:where",
+            "names:who",
+            "opens:name",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 43,
+              "text": "{name} signs to play at a Division I school",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:where",
+                "names:who",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 1046,
+          "weight": 1.062
+        },
+        {
+          "id": "38.3",
+          "key": "headlines.honor.name-wins-the-place-spelling-bee",
+          "line": "{name} wins the {place} spelling bee",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:short",
+            "names:where",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 36,
+              "text": "{name} wins the {place} spelling bee",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:where",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 1046,
+          "weight": 1.092
+        }
+      ]
+    },
+    {
+      "moment": 39,
+      "kind": "legislation",
+      "description": "A colleague asked you to carry their bill. You asked how the count stands, and they tell you.",
+      "speaker": "a colleague counting votes for their bill",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "carry-bill",
+      "lines": [
+        {
+          "id": "39.1",
+          "key": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday",
+          "line": "Short. I'll have a real count by Friday.",
+          "bearing": "calm",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:when",
+            "names:who",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 6,
+              "text": "Short.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 7,
+              "end": 40,
+              "text": "I'll have a real count by Friday.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:when",
+                "names:who",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2884,
+          "weight": 1.354
+        },
+        {
+          "id": "39.2",
+          "key": "scene-talk.follow-answer.we-re-close-but-not-there-yet-we-need-needed",
+          "line": "We're close, but not there yet. We need {needed}.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:we",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 12,
+              "text": "We're close,",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:we"
+              ]
+            },
+            {
+              "start": 13,
+              "end": 31,
+              "text": "but not there yet.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            },
+            {
+              "start": 32,
+              "end": 49,
+              "text": "We need {needed}.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:we"
+              ]
+            }
+          ],
+          "reach": 2869,
+          "weight": 1.35
+        },
+        {
+          "id": "39.3",
+          "key": "scene-talk.follow-answer.we-have-votes-we-need-needed",
+          "line": "We have {votes}. We need {needed}.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:we",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 16,
+              "text": "We have {votes}.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:we"
+              ]
+            },
+            {
+              "start": 17,
+              "end": 34,
+              "text": "We need {needed}.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:we"
+              ]
+            }
+          ],
+          "reach": 2885,
+          "weight": 1.343
+        }
+      ]
+    },
+    {
+      "moment": 40,
+      "kind": "speech",
+      "description": "In a speech you are building, you tell the audience where you stand on one issue and invite them to hold you to it.",
+      "speaker": "you, giving a speech",
+      "bank": "speech-stages",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "40.1",
+          "key": "speech-stages.stage-stance-enact.i-want-to-talk-about-issue-goal-i-m-",
+          "line": "I want to talk about {issue}. {goal}? I'm for it, and I'd like you to hold me to that.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "question:names-subject",
+            "sentences:many"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 29,
+              "text": "I want to talk about {issue}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "person:i"
+              ]
+            },
+            {
+              "start": 30,
+              "end": 37,
+              "text": "{goal}?",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "question:names-subject"
+              ]
+            },
+            {
+              "start": 38,
+              "end": 49,
+              "text": "I'm for it,",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            },
+            {
+              "start": 50,
+              "end": 86,
+              "text": "and I'd like you to hold me to that.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 71,
+          "weight": 1.098
+        },
+        {
+          "id": "40.2",
+          "key": "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-",
+          "line": "On {issue}, I'll be plain. {goal}? I'm for it. Ask me why, and I'll tell you.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:medium",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "question:names-subject",
+            "sentences:many"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "On {issue},",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:tiny",
+                "names:what"
+              ]
+            },
+            {
+              "start": 12,
+              "end": 26,
+              "text": "I'll be plain.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            },
+            {
+              "start": 27,
+              "end": 34,
+              "text": "{goal}?",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "question:names-subject"
+              ]
+            },
+            {
+              "start": 35,
+              "end": 46,
+              "text": "I'm for it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            },
+            {
+              "start": 47,
+              "end": 58,
+              "text": "Ask me why,",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:i"
+              ]
+            },
+            {
+              "start": 59,
+              "end": 77,
+              "text": "and I'll tell you.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 71,
+          "weight": 1.058
+        },
+        {
+          "id": "40.3",
+          "key": "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for",
+          "line": "Let me talk about {issue}. {goal}? I'm for it, and I'm saying so here in {place}.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:medium",
+            "names:what",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "question:names-subject",
+            "sentences:many"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 26,
+              "text": "Let me talk about {issue}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:short",
+                "names:what",
+                "person:i"
+              ]
+            },
+            {
+              "start": 27,
+              "end": 34,
+              "text": "{goal}?",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "question:names-subject"
+              ]
+            },
+            {
+              "start": 35,
+              "end": 46,
+              "text": "I'm for it,",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            },
+            {
+              "start": 47,
+              "end": 81,
+              "text": "and I'm saying so here in {place}.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:where",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 65,
+          "weight": 1.004
+        }
+      ]
+    },
+    {
+      "moment": 41,
+      "kind": "reaction",
+      "description": "Someone read in the paper that a bill you introduced failed, and tells you.",
+      "speaker": "an acquaintance who read the news about your bill",
+      "bank": "bring-it-up",
+      "register": "private",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "41.1",
+          "key": "bring-it-up.your-bill-failed-act.i-read-in-subject-that-your-bill-on-topi",
+          "line": "I read in {subject} that your bill on {topic} failed.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:what",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 53,
+              "text": "I read in {subject} that your bill on {topic} failed.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:what",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 753,
+          "weight": 1.244
+        },
+        {
+          "id": "41.2",
+          "key": "bring-it-up.your-bill-failed-act.subject-says-your-bill-didnt-pass-im-sor",
+          "line": "{subject} says your bill didn't pass. I'm sorry.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:what",
+            "opens:name",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 37,
+              "text": "{subject} says your bill didn't pass.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:what",
+                "person:you"
+              ]
+            },
+            {
+              "start": 38,
+              "end": 48,
+              "text": "I'm sorry.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 706,
+          "weight": 1.204
+        },
+        {
+          "id": "41.3",
+          "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-didnt-pass-i",
+          "line": "{subject} says your ordinance didn't pass. I'm sorry.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:short",
+            "names:what",
+            "opens:name",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 42,
+              "text": "{subject} says your ordinance didn't pass.",
+              "features": [
+                "context:specific",
+                "formality:spoken",
+                "length:short",
+                "names:what",
+                "person:you"
+              ]
+            },
+            {
+              "start": 43,
+              "end": 53,
+              "text": "I'm sorry.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 706,
+          "weight": 1.204
+        }
+      ]
+    },
+    {
+      "moment": 42,
+      "kind": "constituent",
+      "description": "A constituent has come to your office hours about an eviction. They explain their situation and ask what the town can do.",
+      "speaker": "an anxious tenant facing eviction",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.eviction",
+      "lines": [
+        {
+          "id": "42.1",
+          "key": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don",
+          "line": "They taped it to the door on a Thursday. I've read it nine times, and I still don't know who I'm supposed to call.",
+          "bearing": "braced",
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:when",
+            "names:who",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 40,
+              "text": "They taped it to the door on a Thursday.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:when",
+                "names:who"
+              ]
+            },
+            {
+              "start": 41,
+              "end": 114,
+              "text": "I've read it nine times, and I still don't know who I'm supposed to call.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 3124,
+          "weight": 1.223
+        },
+        {
+          "id": "42.2",
+          "key": "scene-talk.state-request.i-m-behind-on-rent-and-the-landlord-won-t-pick-up-i-need-to-know-what-the-town-c",
+          "line": "I'm behind on rent, and the landlord won't pick up. I need to know what the town can do before this reaches a judge.",
+          "bearing": "anxious",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 51,
+              "text": "I'm behind on rent, and the landlord won't pick up.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            },
+            {
+              "start": 52,
+              "end": 116,
+              "text": "I need to know what the town can do before this reaches a judge.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2434,
+          "weight": 1.131
+        },
+        {
+          "id": "42.3",
+          "key": "scene-talk.state-request.we-re-owed-behind-i-can-get-part-of-it-not-all-of-it-and-i-need-somebody-to-tell",
+          "line": "We're {owed} behind. I can get part of it, not all of it, and I need somebody to tell me if part counts.",
+          "bearing": "anxious",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:spoken",
+            "length:long",
+            "opens:statement",
+            "person:we",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 20,
+              "text": "We're {owed} behind.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:tiny",
+                "person:we"
+              ]
+            },
+            {
+              "start": 21,
+              "end": 104,
+              "text": "I can get part of it, not all of it, and I need somebody to tell me if part counts.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:long",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2430,
+          "weight": 1.104
+        }
+      ]
+    },
+    {
+      "moment": 43,
+      "kind": "liked",
+      "description": "Someone has just pushed an envelope of money across your desk, hoping for a favor. This is what you say to turn it down.",
+      "speaker": "a proud, braced or guarded official",
+      "from": "a variant of batch 2's moment 12, which he liked",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "bribe-offer.large",
+      "lines": [
+        {
+          "id": "43.1",
+          "key": "scene-talk.reply-refuse.twice-the-number-is-still-no",
+          "line": "Twice the number is still no.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 29,
+              "text": "Twice the number is still no.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 3186,
+          "weight": 1.336
+        },
+        {
+          "id": "43.2",
+          "key": "scene-talk.reply-refuse.take-it-back-you-cant-pay-me-enough-for-this",
+          "line": "Take it back. You can't pay me enough for this.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "directness:direct",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 13,
+              "text": "Take it back.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 14,
+              "end": 47,
+              "text": "You can't pay me enough for this.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:spoken",
+                "length:short",
+                "person:i",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 3206,
+          "weight": 1.278
+        },
+        {
+          "id": "43.3",
+          "key": "scene-talk.reply-refuse.no-thats-far-too-much-for-any-favor-and-i-wont-be-bought",
+          "line": "No. That's far too much for any favor, and I won't be bought.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "directness:direct",
+            "formality:spoken",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 3,
+              "text": "No.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 4,
+              "end": 61,
+              "text": "That's far too much for any favor, and I won't be bought.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 3196,
+          "weight": 1.274
+        }
+      ]
+    },
+    {
+      "moment": 44,
+      "kind": "again",
+      "description": "Your journal records a stretch out of work and finding work again.",
+      "speaker": "your journal",
+      "from": "batch 2's moment 55, not graded yet",
+      "bank": "journal",
+      "register": "narration",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "44.1",
+          "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
+          "line": "After {span} out of work, I found work in {place}.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 50,
+              "text": "After {span} out of work, I found work in {place}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:where",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 906,
+          "weight": 0.777
+        },
+        {
+          "id": "44.2",
+          "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
+          "line": "After {span} out of work, I went back to work.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 46,
+              "text": "After {span} out of work, I went back to work.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 905,
+          "weight": 0.83
+        },
+        {
+          "id": "44.3",
+          "key": "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
+          "line": "After {span} out of work, I went to work for {employer}.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:medium",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 56,
+              "text": "After {span} out of work, I went to work for {employer}.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 905,
+          "weight": 0.83
+        }
+      ]
+    },
+    {
+      "moment": 45,
+      "kind": "legislation",
+      "description": "A visitor who came to your desk about a bill thanks you as the meeting ends.",
+      "speaker": "a bill's sponsor leaving your office",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "desk-visit",
+      "lines": [
+        {
+          "id": "45.1",
+          "key": "scene-talk.close-thank.thank-you-for-hearing-us-out",
+          "line": "Thank you for hearing us out.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:thanks",
+            "person:we",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 29,
+              "text": "Thank you for hearing us out.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:we",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 2852,
+          "weight": 1.34
+        },
+        {
+          "id": "45.2",
+          "key": "scene-talk.close-thank.thank-you-that-s-what-i-came-for",
+          "line": "Thank you. That's what I came for.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:thanks",
+            "person:i",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 10,
+              "text": "Thank you.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            },
+            {
+              "start": 11,
+              "end": 34,
+              "text": "That's what I came for.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 2869,
+          "weight": 1.32
+        },
+        {
+          "id": "45.3",
+          "key": "scene-talk.close-thank.thank-you-that-s-all-we-ask",
+          "line": "Thank you. That's all we ask.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:short",
+            "opens:thanks",
+            "person:we",
+            "person:you",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 10,
+              "text": "Thank you.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "person:you"
+              ]
+            },
+            {
+              "start": 11,
+              "end": 29,
+              "text": "That's all we ask.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:we"
+              ]
+            }
+          ],
+          "reach": 2860,
+          "weight": 1.313
+        }
+      ]
+    },
+    {
+      "moment": 46,
+      "kind": "speech",
+      "description": "In a speech you are building, you tell people that an issue in your town has gotten worse since the term began.",
+      "speaker": "you, giving a speech about the town",
+      "bank": "speech-stages",
+      "register": "public",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "46.1",
+          "key": "speech-stages.stage-area-worse.ask-anyone-in-place-about-issue-and-you-will",
+          "line": "Ask anyone in {place} about {issue} and you will hear the same thing: it has gotten worse.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:long",
+            "names:what",
+            "names:where",
+            "opens:statement",
+            "person:you",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 90,
+              "text": "Ask anyone in {place} about {issue} and you will hear the same thing: it has gotten worse.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:long",
+                "names:what",
+                "names:where",
+                "person:you"
+              ]
+            }
+          ],
+          "reach": 71,
+          "weight": 1.174
+        },
+        {
+          "id": "46.2",
+          "key": "speech-stages.stage-area-worse.when-this-term-began-issue-in-place-was-better",
+          "line": "When this term began, {issue} in {place} was better than it is today. That is what I am hearing, and I am here to talk about it.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:long",
+            "names:what",
+            "names:when",
+            "names:where",
+            "opens:question",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 69,
+              "text": "When this term began, {issue} in {place} was better than it is today.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:what",
+                "names:when",
+                "names:where"
+              ]
+            },
+            {
+              "start": 70,
+              "end": 128,
+              "text": "That is what I am hearing, and I am here to talk about it.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:medium",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 69,
+          "weight": 1.032
+        },
+        {
+          "id": "46.3",
+          "key": "speech-stages.stage-area-worse.i-keep-hearing-about-issue-here-in-place-and",
+          "line": "I keep hearing about {issue} here in {place}, and it is worse than it was. I won't pretend otherwise.",
+          "bearing": null,
+          "features": [
+            "context:specific",
+            "formality:spoken",
+            "length:long",
+            "names:what",
+            "names:where",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 74,
+              "text": "I keep hearing about {issue} here in {place}, and it is worse than it was.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:what",
+                "names:where",
+                "person:i"
+              ]
+            },
+            {
+              "start": 75,
+              "end": 101,
+              "text": "I won't pretend otherwise.",
+              "features": [
+                "context:general",
+                "formality:spoken",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 65,
+          "weight": 1.006
+        }
+      ]
+    },
+    {
+      "moment": 47,
+      "kind": "reaction",
+      "description": "Someone has just been told who caused a change in town, and reacts to it.",
+      "speaker": "a listener hearing the news",
+      "bank": "bring-it-up",
+      "register": "private",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "47.1",
+          "key": "bring-it-up.blame-hearer-react.thats-terrible",
+          "line": "That's terrible.",
+          "bearing": "braced",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:tiny",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 16,
+              "text": "That's terrible.",
+              "features": ["context:general", "formality:spoken", "length:tiny"]
+            }
+          ],
+          "reach": 1107,
+          "weight": 1.25
+        },
+        {
+          "id": "47.2",
+          "key": "bring-it-up.blame-hearer-react.thats-a-shame",
+          "line": "That's a shame.",
+          "bearing": "tender",
+          "features": [
+            "context:general",
+            "formality:spoken",
+            "length:tiny",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 15,
+              "text": "That's a shame.",
+              "features": ["context:general", "formality:spoken", "length:tiny"]
+            }
+          ],
+          "reach": 622,
+          "weight": 1.16
+        },
+        {
+          "id": "47.3",
+          "key": "bring-it-up.blame-hearer-react.really",
+          "line": "Really?",
+          "bearing": "curious",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:tiny",
+            "opens:statement",
+            "question:names-nothing",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 7,
+              "text": "Really?",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:tiny",
+                "question:names-nothing"
+              ]
+            }
+          ],
+          "reach": 372,
+          "weight": 1.051
+        }
+      ]
+    },
+    {
+      "moment": 48,
+      "kind": "constituent",
+      "description": "The narrator describes a constituent coming to your office hours with an eviction notice in hand.",
+      "speaker": "the narrator, in an anxious tone",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "constituent-help.eviction",
+      "lines": [
+        {
+          "id": "48.1",
+          "key": "scene-talk.narrate-narrate.name-has-been-holding-a-single-sheet-of-paper-in-both-hands-since-the-back-of-th",
+          "line": "{name} has been holding a single sheet of paper in both hands since the back of the line.",
+          "bearing": "anxious",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:long",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 89,
+              "text": "{name} has been holding a single sheet of paper in both hands since the back of the line.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:long",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 1780,
+          "weight": 1.24
+        },
+        {
+          "id": "48.2",
+          "key": "scene-talk.narrate-narrate.name-sets-a-notice-on-the-table-flattened-with-a-coffee-ring-on-one-corner",
+          "line": "{name} sets a notice on the table, flattened, with a coffee ring on one corner.",
+          "bearing": "anxious",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:who",
+            "opens:name",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 79,
+              "text": "{name} sets a notice on the table, flattened, with a coffee ring on one corner.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 2140,
+          "weight": 1.237
+        },
+        {
+          "id": "48.3",
+          "key": "scene-talk.narrate-narrate.the-notice-name-slides-across-has-a-date-circled-in-pen-deadline",
+          "line": "The notice {name} slides across has a date circled in pen: {deadline}.",
+          "bearing": "anxious",
+          "features": [
+            "context:specific",
+            "formality:plain",
+            "length:medium",
+            "names:who",
+            "opens:statement",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 70,
+              "text": "The notice {name} slides across has a date circled in pen: {deadline}.",
+              "features": [
+                "context:specific",
+                "formality:plain",
+                "length:medium",
+                "names:who"
+              ]
+            }
+          ],
+          "reach": 2449,
+          "weight": 1.231
+        }
+      ]
+    },
+    {
+      "moment": 49,
+      "kind": "liked",
+      "description": "You have told someone you will not vote their way. This is how they take it and move on.",
+      "speaker": "an eager, calm person who asked for your vote",
+      "from": "a variant of batch 2's moment 13, which he liked",
+      "bank": "scene-talk",
+      "register": "private",
+      "purpose": "ask-support",
+      "lines": [
+        {
+          "id": "49.1",
+          "key": "scene-talk.close-accept.i-respect-that-thanks-for-the-straight-answer",
+          "line": "I respect that. Thanks for the straight answer.",
+          "bearing": "calm",
+          "features": [
+            "context:general",
+            "context:points-at-unnamed",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 15,
+              "text": "I respect that.",
+              "features": [
+                "context:general",
+                "context:points-at-unnamed",
+                "formality:plain",
+                "length:tiny",
+                "person:i"
+              ]
+            },
+            {
+              "start": 16,
+              "end": 47,
+              "text": "Thanks for the straight answer.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 2863,
+          "weight": 1.332
+        },
+        {
+          "id": "49.2",
+          "key": "scene-talk.close-accept.sure-thing-have-a-good-one",
+          "line": "Sure thing. Have a good one.",
+          "bearing": "eager",
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "Sure thing.",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 12,
+              "end": 28,
+              "text": "Have a good one.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 952,
+          "weight": 1.332
+        },
+        {
+          "id": "49.3",
+          "key": "scene-talk.close-accept.no-problem-thanks-for-the-time",
+          "line": "No problem. Thanks for the time.",
+          "bearing": "eager",
+          "features": [
+            "context:general",
+            "directness:direct",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "sentences:two"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 11,
+              "text": "No problem.",
+              "features": [
+                "context:general",
+                "directness:direct",
+                "formality:plain",
+                "length:tiny"
+              ]
+            },
+            {
+              "start": 12,
+              "end": 32,
+              "text": "Thanks for the time.",
+              "features": ["context:general", "formality:plain", "length:short"]
+            }
+          ],
+          "reach": 952,
+          "weight": 1.312
+        }
+      ]
+    },
+    {
+      "moment": 50,
+      "kind": "again",
+      "description": "Your journal records losing a job.",
+      "speaker": "your journal",
+      "from": "batch 2's moment 66, not graded yet",
+      "bank": "journal",
+      "register": "narration",
+      "purpose": null,
+      "lines": [
+        {
+          "id": "50.1",
+          "key": "journal.work-line-let-go.employer-cut-back-and-i-was-let-go",
+          "line": "{employer} cut back, and I was let go.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:name",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 20,
+              "text": "{employer} cut back,",
+              "features": ["context:general", "formality:plain", "length:tiny"]
+            },
+            {
+              "start": 21,
+              "end": 38,
+              "text": "and I was let go.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 906,
+          "weight": 0.842
+        },
+        {
+          "id": "50.2",
+          "key": "journal.work-line-let-go.employer-let-me-go",
+          "line": "{employer} let me go.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:name",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 21,
+              "text": "{employer} let me go.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 906,
+          "weight": 0.842
+        },
+        {
+          "id": "50.3",
+          "key": "journal.work-line-let-go.i-was-laid-off-from-employer",
+          "line": "I was laid off from {employer}.",
+          "bearing": null,
+          "features": [
+            "context:general",
+            "formality:plain",
+            "length:short",
+            "opens:statement",
+            "person:i",
+            "sentences:one"
+          ],
+          "spans": [
+            {
+              "start": 0,
+              "end": 31,
+              "text": "I was laid off from {employer}.",
+              "features": [
+                "context:general",
+                "formality:plain",
+                "length:short",
+                "person:i"
+              ]
+            }
+          ],
+          "reach": 906,
+          "weight": 0.813
+        }
+      ]
+    }
+  ]
+}
