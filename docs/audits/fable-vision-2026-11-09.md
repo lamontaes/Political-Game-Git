@@ -21,8 +21,8 @@ What is solid: the town's money (every dollar moves by a balanced entry), the bi
 1. **The world outside your town is equations and tables, not people.** The engine has one way to simulate people and uses it for one town. The nation, the states, migration and other legislatures were each built as a separate shortcut. This holds back the first three rows of the table above.
 2. **"Done" is measured in records and self-written tests, not from the player's chair.** A feature counts as finished when a record exists and its builder's test passes. Nobody has to open the game and see it. This is why you keep being told things are done.
 3. **A life holds too little to tell.** The records keep births, schools, jobs and moves. They do not keep what happened between people. So the journal, the person card, the You screen and every scene have nothing specific to say.
-4. **The words are a pile of hand-written lines picked by weights.** A bad grade removes that one line. A good grade makes a line about a tenth more likely to play, and similar lines at most a quarter more or less likely. Your reasons are stored as notes that no code reads. A scene with no lines of its own borrows small talk.
-5. **Inside your town, everything is played at full detail every day and kept forever, and there is one clock speed.** Every full person, every official's vote and every rival's campaign event is stepped daily. This is the speed and memory problem. After eleven years one world's own tool read 125% of adults at work; cause not found.
+4. **The words are a pile of hand-written lines picked by weights.** A bad grade removes that one line. A good grade makes a line about a tenth more likely to play, and similar lines at most a quarter more likely or a fifth less likely. Your reasons are stored as notes that no code reads. A scene with no lines of its own borrows small talk.
+5. **Everything the game tracks is played at full detail every day and kept forever, and there is one clock speed.** That includes every full person, every rival's campaign event, and officials and votes in places the player never sees. This is the speed and memory problem. In one world the crew's vital-statistics tool reported 125% of adults at work after eleven years. Cause not found.
 6. **A scene plays whenever something in the world matches it, for any person, every time it recurs.** Nothing asks whether this scene belongs in this person's story now.
 7. **The player can watch and react but cannot drive.** A mayor or governor cannot propose a bill. Repeal means typing a zero. You cannot call a meeting, start a movement or run a campaign trail.
 8. **A law is judged by its paperwork.** A law counts as working when a saved note says it reached someone. Nobody checks what happened to the person.
@@ -59,12 +59,12 @@ Everything marked "measured" I ran myself on main as of November 9 (version 0.97
 ### What the code does
 
 - **The nation is one formula (read, and confirmed by an independent reviewer).** Each month one function computes unemployment, prices and interest rates from last month's figures (`src/core2/macro-model.ts:395`). It has two inputs from the world. One is the central bank's rate. The other is your town's income, multiplied by 0.000000003 per resident (`src/core2/data/macro/parameters.json`, `macroTownWeightPerPerson`), which rounds to nothing. No tax, spending bill, tariff, disaster or business failure enters it.
-- **The business cycle is built in (read and measured).** The formula contains a swing that feeds itself (`src/core2/macro-model.ts:428`). Its length is set once per world at about nine years. In my Wickliffe, Oklahoma world, unemployment rose from 3.7% to 6.3% by 2028, fell to 2.7% by 2031, was back at 6.4% in 2035, fell to 2.7% again by 2040 and was rising again in 2043. The economy now moves, as you asked. It moves like a clock, and nothing a government does can start or stop a recession except the central bank.
+- **The business cycle is built in (read and measured).** The formula contains a swing that feeds itself (`src/core2/macro-model.ts:428`). Its length is set once per world, near nine years. In my run the highs came about seven and a half years apart and the lows nine. In my Wickliffe, Oklahoma world, unemployment rose from 3.7% to 6.3% by 2028, fell to 2.7% by 2031, was back at 6.4% in 2035, fell to 2.7% again by 2040 and was rising again in 2043. The economy now moves, as you asked. It moves like a clock, and nothing a government does can start or stop a recession except the central bank.
 - **Each state follows the nation (read, reviewer confirmed).** A state's unemployment is the nation's rate plus the state's own gap from last month, shrunk by about half a percent each month (`src/core2/regional-model.ts:325`). So every state stays a nearly fixed distance from the nation. No state law, tax or budget enters. The only local shock is a disaster's job loss (`src/core2/modules/regional.ts:353`).
 - **Moves between states are forced to match the Census every month (read, reviewer confirmed).** On the first of each month the engine adjusts every state's pull until arrivals match the Census survey (`src/core2/modules/counted-moves.ts:825`). Departures are pinned to the survey rate too (`src/core2/modules/counted-moves.ts:1086`). A law that makes a state attractive changes who moves there, never how many. I found no registered stopgap for this.
 - **Routine layoffs follow a fixed pace (read, corrected by the reviewer).** Firms do cut hours and staff from their own sales and losses (`src/core2/modules/jobs.ts:1336`). On top of that, every private job fills a meter at a national rate and the worker is laid off when it is full (`src/core2/modules/jobs.ts:2278`). The stopgap's own note says that without it "the town's firms almost never separate anyone" (`src/core2/data/stopgaps/labor.json:133`).
-- **What is right:** national unemployment and inflation no longer return to 4.5 and 2.45. Those figures now only seed the opening. Business closings come from each firm's own losses and cash (`src/core2/modules/business.ts:675`). Four of the old checks against real-world ranges now warn and let the run go on.
-- **What still fails a run for leaving a real-world range:** regional population change (`src/bench/m1-13-check.ts:114`), yearly population change (`src/core2/counted-moves-balance.test.ts:69`) and turnout (`src/core2/electorate.test.ts:128`). The roadmap's own test for the national economy still reads "keeps national figures within real historical spreads" (`docs/roadmap/features.json`, M1-02).
+- **What is right (read):** national unemployment and inflation no longer return to 4.5% and 2.45%. Those figures now only seed the opening (`src/core2/macro-model.ts:442`). Business closings come from each firm's own losses and cash (`src/core2/modules/business.ts:675`). Four of the old checks against real-world ranges now warn and let the run go on (for example `src/core2/macro.test.ts:87`).
+- **What still fails a run for leaving a real-world range (read):** regional population change (`src/bench/m1-13-check.ts:114`), yearly population change (`src/core2/counted-moves-balance.test.ts:69`) and turnout (`src/core2/electorate.test.ts:128`). The roadmap's own test for the national economy still reads "keeps national figures within real historical spreads" (`docs/roadmap/features.json`, M1-02).
 
 ### What a player sees
 
@@ -76,7 +76,7 @@ You asked for one simulation whose numbers come from the people in it. The game 
 
 ### Size of the fix: large
 
-Build one coarse country tier out of the model you already have. Every state becomes counted groups and a state ledger, stepped monthly by the same rules the town uses, times their counts. The nation becomes the sum of the states. The cycle then comes from causes: credit, prices, a federal budget, a disaster. Real data sets the opening and the parameters only. This is the one design that removes the formula, the regional pull, the migration refit and the fixed layoff pace together. It needs top-level design work first.
+Build one coarse country tier out of the model you already have. Every state becomes counted groups and a state ledger, stepped monthly by the same rules the town uses, times their counts. The nation becomes the sum of the states. The cycle then comes from causes: credit, prices, a federal budget, a disaster. Real data sets the opening and the parameters only. This is the one design that removes four things together: the national formula, the pull of each state toward the nation, the forcing of moves to match the Census, and the fixed layoff pace. It needs top-level design work first.
 
 ## Pillar 2: laws at every level change lives and can be reversed
 
@@ -90,12 +90,12 @@ Build one coarse country tier out of the model you already have. Every state bec
 
 ### What the code does
 
-- **Town laws work end to end (measured).** In Denver, Missouri I passed a property tax raise from 0.817% to 2% through the real board. Ninety days later residents held $379,000 less than in the twin world without the law. Organizations in town, the treasury among them, held $189,000 more. I passed the repeal; the rate went back to 0.817%.
+- **Town laws work end to end (measured).** In Denver, Missouri I passed a property tax raise from 0.817% to 2% through the real board. Ninety days later residents held $379,000 less than in the twin world without the law. Organizations in town, the treasury among them, held $189,000 more. I did not trace the other $190,000; the harness counts only full people and organizations in town. I passed the repeal; the rate went back to 0.817%.
 - **A wage law reaches pay (measured).** In American Samoa a yes on raising the minimum wage wrote a "pay raised to minimum wage" record. A repeal lowers the floor but leaves raised pay where it is (`src/core2/wage-floor.ts:171`), which is how real pay behaves.
 - **About 140 places in the code read a law at the moment they decide or pay (read).** They cover wages, benefits, taxes, housing, credit, campaign gifts, retirement ages and immigration (for example `src/core2/modules/campaigns.ts:2908` and `src/core2/modules/retirement-claims.ts:98`).
-- **Dev mode's own proof came back empty (measured).** In the Northern Mariana Islands I used dev mode to pass a minimum wage raise from $7.25 to $11.60. It passed the House 13 to 7 and the Senate 7 to 2, and the governor signed. Two hundred days later its "who did this reach" control said 0 records, 0 people. Its trace of the law said "record-not-found." The reach control only reads one family of records (`src/bench/dev-mode.ts:515`), so it cannot see a pay raise.
+- **Dev mode's own proof came back empty (measured).** In the Northern Mariana Islands I used dev mode to pass a minimum wage raise from $7.25 to $11.60. It passed the House 13 to 7 and the Senate 7 to 2, and the governor signed. Two hundred days later its "who did this reach" control said 0 records, 0 people. Its trace of the law said "record-not-found." The reach control only reads one family of records (`src/bench/dev-mode.ts:515`), so a pay raise would not show in it. I did not check pay in that world. The same kind of law wrote a pay-raise record in American Samoa.
 - **Trace answered why for none of 19 records (measured).** In Savage Town, Virginia I played 45 days, then asked dev mode's Trace about 19 records that the journal and the news name as their own sources. Ten came back "record-not-found." Nine came back "no-saved-reason." The "what they remember" control answered "No such person" for the player.
-- **A repeal I passed did not hold (measured, cause not established).** I then passed a bill putting the wage back to $7.25, by the same margins. Two hundred days later the wage in force was $15.00, set by a bill numbered HB 55 dated the same day. Dev mode could not tell me whether HB 55 was my bill or one the legislature passed on its own.
+- **A repeal I passed did not hold (measured, cause not established).** In the same Northern Mariana Islands world I then passed a repeal putting the wage back to $7.25, by the same margins. Two hundred days later the wage in force was $15.00, set by a bill numbered HB 55, dated the day my repeal passed. Dev mode could not tell me whether HB 55 was my bill or one the legislature passed on its own.
 - **Some forced bills fail anyway (measured).** With every member voting yes, a sales tax bill and a federal wage bill failed because a committee chair held them. Two repeal bills in American Samoa failed. A chair holding a bill can be right. The game did not say why the chair held it.
 - **Laws that reach nobody (read).** Forgiving student loans, banning congressional stock trading and statehood for the District of Columbia are acted on by no part of the game. Neither are three federal budget lines: community development, veterans and foreign affairs.
 - **Three separate pieces of code answer "what is the law now" (read)** (`src/core2/modules/laws.ts:602`, `src/core2/modules/outcome-web.ts:195`, `src/core2/laws-death-taxes.ts:58`).
@@ -127,7 +127,7 @@ A council member can draft from 32 town policies; a state legislator from 152 (`
 ### What the code does
 
 - **One tally per session (read, reviewer confirmed).** On the day a session convenes, the engine walks 55 yes-or-no questions. A change passes if each chamber has more members leaning yes than no and the governor agrees (`src/core2/modules/world-legislating.ts:1386`). Public opinion, the state's economy and lobbying are not inputs. Only yes-or-no questions can change. Tax rates, wage amounts and budgets in other states never do.
-- **A flood in year one, then silence (measured).** In my Wickliffe, Oklahoma world, 54 other states and territories changed 467 laws in the first year. Fourteen states capped property tax growth in the same year. In the ten years after, the whole country changed 41 laws, and three of those years had none. Over eighteen years after the first, the count was 54. The year-one flood is the starting law being brought into line with the members' leanings all at once. After that a state changes only when an election changes its members. Your 40-state finish line is met in year one only, by the flood.
+- **A flood in year one, then silence (measured).** In my Wickliffe, Oklahoma world, 54 other states and territories changed 467 laws in the first year. Fourteen states capped property tax growth in the same year. In the ten years after, the whole country changed 41 laws, and three of those years had none. Over eighteen years after the first, the count was 54 laws. The year-one flood is the starting law being brought into line with the members' leanings all at once. After that a state changes only when an election changes its members. Your 40-state finish line is met in year one only, by the flood.
 - **The results change nobody's life (read, reviewer confirmed).** Another state's law becomes a news item. The two parts of the game that carry a law to people both skip it (`src/core2/law-reach/host.ts:151`, `src/core2/modules/outcome-web.ts:723`). The one exception is a carbon price, which feeds national warming (`src/core2/modules/climate.ts:97`).
 - **The detail on demand has no door (read, reviewer confirmed).** The roll call for another state's vote is built correctly when asked (`src/core2/modules/world-legislating.ts:1548`). Nothing in the game asks. Only its own test ever asks for it.
 - **The legislators are built at the opening anyway (measured).** A village in Vermont held 21,030 office-term records after one year, the largest table in the game, and 34,088 by year four. Your November 5 ruling said not to.
@@ -161,20 +161,20 @@ When every state is counted groups with a ledger, a state's opinion and economy 
 
 ### What the code does
 
-- **The past holds five kinds of event (read).** Work spells, school stages and moves are run quarter by quarter from the birth year with no dice (`src/core2/past-work.ts:498`, `src/core2/past-school.ts:166`, `src/core2/past-moves.ts:171`). Family, a parent's death and a partner are drawn once at the opening (`src/core2/opening-kin.ts:358`). There are no illnesses, accidents, arrests, former partners, college years, wins or losses.
+- **The past holds six kinds of event (read).** Work spells, school stages and moves are run quarter by quarter from the birth year with no dice (`src/core2/past-work.ts:498`, `src/core2/past-school.ts:166`, `src/core2/past-moves.ts:171`). Family, a parent's death and a partner are drawn once at the opening (`src/core2/opening-kin.ts:358`). There are no illnesses, accidents, arrests, former partners, college years, wins or losses.
 - **A clicked person gets the same thin past (read).** Filling in a person runs the same work and school passes (`src/core2/modules/people.ts:561`). The day-one job agrees with the employer's books.
-- **Family looks (read).** A household now shares one origin and a newborn takes one parent's origin (`src/core2/opening-origin.ts:155`). That was added after your playtest. A mixed couple cannot exist at the opening. No record explains a sibling's different surname.
-- **99 kinds of scene (read).** Sixteen have no purpose and no reply tree. Ten more end keeping nothing. For 18, what they keep is a favor owed or a promise made that no engine reads (`src/director/data/stopgaps.json:436`). Promises in speeches, interviews and floor-vote asks are kept and used (`src/core2/modules/voting.ts:812`).
+- **Family looks (read).** A household now shares one origin and a newborn takes one parent's origin (`src/core2/opening-origin.ts:155`). The crew's November 8 check found no origin record; one is on main now. A mixed couple cannot exist at the opening. No record explains a sibling's different surname.
+- **99 kinds of scene (read, corrected by the reviewer).** Sixteen have no purpose and no reply tree. Ten more end keeping nothing. For 18, what they keep is a favor owed or a promise made that no engine reads (`src/director/data/stopgaps.json:436`). Promises in speeches, interviews and floor-vote asks are kept and used (`src/core2/modules/voting.ts:812`).
 - **One version each (read).** Five families of scene have variants, 26 in all. The other 94 kinds play one arc.
 - **Dev mode can directly cause 6 of the 99 kinds (measured).** For 92 it runs the world and waits, and one cannot be caused at all. I asked for four of the 92: a concession call, a farewell, an argument and a new friendship. Each ran a full game year and never happened.
 - **What you asked for on November 8 (read).** Starting a movement, forming a task force, calling a hard meeting, a campaign trail around the state and a 15-person debate have no scene kind. Two doubt scenes exist.
 
-### What a player sees (measured: Blodgett Landing, New Hampshire, a 17-year-old)
+### What a player sees (measured: Blodgett Landing, New Hampshire, a 17-year-old girl the game named Ray Kent)
 
 - **The life is four lines.** Born 2007. Started school 2012. Middle school 2018. High school 2021.
 - **The journal's third paragraph says one thing three times:** "Three years on, my mother started a new job. My mother got a new job. My mother Tonya works as a sales representative." It popped up during the President's address.
 - **The mother's card says** "Has served as commissioner since 2022, reelected each time." The journal says she is a sales representative. At 8:30 p.m. the Travel screen places her at a supply company.
-- **One person, three faces.** The You screen's bust has light brown hair and pale skin. The Your life tab shows a full figure with black hair and tan skin. Her mother's bust resembles neither.
+- **One person, two faces.** The You screen's bust has light brown hair and pale skin. The Your life tab shows a full figure with black hair and tan skin. Her mother's bust resembles neither of them.
 - **Seven scenes in ten weeks. None had a purpose. Five were the "someone has news" kind: the mother's two and the stranger's three.**
   - A legislator "comes down the aisle to find you" and asks a high-school student, "Did the governor's speech sound like your district to you, Ray?"
   - Your mother, who lives with you, "stops in at the house" to say a county budget passed. Then: "Did you catch the President's speech?" "You and me both." "Then we agree on something for once." "I'll let you get back to it." That is the scene you rejected on November 8, unchanged.
@@ -211,14 +211,14 @@ The grading system has its own section below. This part covers what plays.
 - **Your phrasing (read).** "All right, I got you." appears 7 times among 6,707 scene lines. "Got you, man" appears nowhere.
 - **The opening address (measured).** It now has moods and it did name bad news: "work has grown harder to find this year." It still reads as stock paragraphs in a row. Two back-to-back sentences say the same thing: "I begin this work with a glad heart... I took the oath with a light heart." One line is a law record printed as a sentence: "Federal law answers legal cannabis sales with a no."
 - **The news (measured).** The lead story on day one: "Unemployment insurance program became law on January 15, 2025." It is a starting law printed as news. The briefs: "Income tax rate took effect on January 1, 2025," in New Hampshire, which taxes no wages. And "State campaign contribution limit: stateHouse took effect on January 1, 2025," with a code name on the page.
-- **A talk that ends as soon as it starts (measured).** "Your grandfather is seriously ill." I answered, "Oh, no. Give Bob my best." She said, "I'll talk to you later," and the scene was over.
+- **A talk that ends as soon as it starts (measured, forced through dev mode in As Matuis).** The player's mother, Deborah Meadows, said, "Your grandfather is seriously ill." I answered, "Oh, no. Give Bob my best." She said, "I'll talk to you later," and the scene was over.
 - **Three replies as often as four (measured).** Of 14 sets of replies I was offered, 7 had three choices and 7 had four. Your rule is four, always.
 
 ### The gap and its root cause
 
 The lines are grammatical and many are good alone. Together they do not sound like people, because nothing knows what the talk is about. Root causes 3 and 4.
 
-### Size of the fix: medium to large. See the grading section.
+### Size of the fix: large. See the grading section.
 
 ## Pillar 6: screens match your approved designs
 
@@ -270,7 +270,7 @@ The layout arrived without the content. The content cannot be copied in, because
 - **A 20-year game did not finish (measured).** South Hero, Vermont, a village, seed 9bf1ede27ce5a00e. The run crashed in year 12, after 16 minutes, with "Not in the wider population" when the press module tried to fill in a staff member who was no longer in the counts (`src/core2/modules/press.ts:3493`). This is a hard stop, not memory. I ran it once.
 - **Years slow down and records pile up (measured, same run).** Year 1 took 30 seconds and kept 231,743 records. Year 10 took 108 seconds and kept 1,171,896. The fastest growing tables are per-place vote counts, every member's votes and office terms, most of them for places the player never sees. Memory after cleanup grew from 714 MB in year 1 to 1,770 MB in year 11.
 - **A second world took 51 minutes for 19 years (measured).** Wickliffe, Oklahoma. My own time limit stopped it in year 20. Year 1 took 44 seconds and year 18 took 316. Thirteen of the 19 years ran over the 120-second bar. The first 15 years shared the machine with my other tests. The last four did not, and all four were over the bar, at 217 to 316 seconds. Memory after cleanup reached 2.9 GB. Full people grew from 930 to 3,981.
-- **The long world stops making sense (measured, cause not traced).** In that Oklahoma world the crew's own vital-statistics tool read 5.7% of adults at work at the opening, 125% after eleven years and 200% after eighteen. Median household earnings went from $40,665 to $120,056 in eleven years. Either the world or the tool is wrong. This is the same tool that showed you "more people working, less poverty" on November 8.
+- **The long world stops making sense (measured, cause not traced).** In that Oklahoma world the crew's own vital-statistics tool read 5.7% of adults at work at the opening, 125% after eleven years and 200% after eighteen. None of the three could be a real place. Median household earnings went from $40,665 to $120,056 in eleven years. Either the world or the tool is wrong. This is the same tool that showed you "more people working, less poverty" on November 8.
 - **Every full person is walked every day (read).** The day loop visits each full person daily (`src/core2/calendar.ts:126`). Drives and school loop over them too.
 - **Off-screen campaigns are still played event by event (read).** A rival's town hall builds its audience one adult at a time and writes a row per listener (`src/core2/modules/campaigns.ts:3812`). Two cuts on November 9 grouped strangers for speeches, ads and mail.
 - **Relationships are never removed (read).** The code says so: "Ties are only ever added here, never removed" (`src/core2/state.ts:1320`).
@@ -295,7 +295,7 @@ You asked three questions. Each has a short answer and the evidence under it.
 
 ### Does a grade change what plays? Barely.
 
-- **A bad grade on a line removes that one line (read).** A line you graded bad or fix, and never good, is held back (`src/english/english-grades.ts:69`, `src/english/bank-parts.ts:30`).
+- **A bad grade on a line removes that one line (read).** A line you graded "bad" or "needs a fix," and never "good," is held back (`src/english/english-grades.ts:69`, `src/english/bank-parts.ts:30`).
 - **Everything else is odds (read).** A good grade raises that line's weight by about a tenth. A grade also reaches other lines of the same kind: the same move (a thank-you, a threat), the same mood and the same setting, such as private talk or a public speech (`src/english/grade-reach.ts:67`). That reach moves a neighbor's odds by at most 20% down or 25% up (`data/english/calibration.json`, `reachFloor` and `reachCeiling`). It never removes or changes a line.
 - **The whole record of your grading is 93 rows (measured).** 61 good and 32 bad. They touch 184 of the 10,612 lines and line pieces. Your October batches of voice notes, numbered up to 22, were boiled down to that. Nothing from November 8 or 9 is in it on main.
 - **Odds mean nothing where there is one choice (read).** Of the 2,713 places where a line is needed, 491 have one line to choose from and 827 have two.
@@ -306,7 +306,7 @@ You asked three questions. Each has a short answer and the evidence under it.
 
 - **Your reasons are stored as text nobody reads (read).** Every grade row has a note with your words. No game code and no check reads the note field.
 - **Twenty-six of your reasons were hand-written as rules (read).** They are good rules: "reply follows the line before," "no filler," "stake is named," "names something specific" (`data/english/writing-rules.json`). Thirteen have a detector, a small test that spots the fault in a line. A detector changes a line's odds between 0.6 and 1.4 times. Thirteen have no detector; the file says the writer checks them.
-- **The system's own to-do list is ignored (read).** The grade map flags 73 lines as bad enough to rewrite. Nothing reads that list except a console message (`scripts/dialogue-batch/grade-map.ts:230`).
+- **The system's own to-do list is ignored (read).** The grade map flags 73 lines as bad enough to rewrite. Nothing reads that list except a message printed for developers (`scripts/dialogue-batch/grade-map.ts:230`).
 - **A reason you give that matches no rule is lost (read).** "Nobody says that two weeks after a speech" has nowhere to go.
 - **Liked lines were deleted (the crew's check of November 8, not re-run by me).** It counted 79 lines you had graded good across all your batches and found 28 of them gone, removed by rewrites. That count is of lines; the 93 rows above are grades carried into the game. I could not reconcile the two lists.
 - **Your newest grading is not in the game (read).** A new series of batches, numbered from 1, began on November 8. Your November 9 notes on its batch 2 were kept out on purpose by the change that added the batch. Its batch 3's 42 grades were still waiting to be added when I read the game's code.
@@ -319,9 +319,9 @@ You asked three questions. Each has a short answer and the evidence under it.
 
 ### The root cause
 
-The engine was built as a bank picker with a tuning knob. You have been describing a different machine since October 23: "every time I update a batch... it should update through the entire game." A weight cannot do that. A grade needs to become a rule, and a rule needs to act on every line: reject it, flag it for rewrite, or block a new one like it.
+The engine picks lines from a bank and adjusts their odds. You have been describing a different machine since October 23: "every time I update a batch... it should update through the entire game." A weight cannot do that. A grade needs to become a rule, and a rule needs to act on every line: reject it, flag it for rewrite, or block a new one like it.
 
-### Size of the fix: medium, and it needs top-level design
+### Size of the fix: large, because a design comes first
 
 1. **Turn every note into a rule with a detector, once.** Read all your voice notes and write each reason as a rule a program can test, by pattern where it can and by a reviewing model at development time where it cannot. The 26 rules are the start.
 2. **Run every rule over all 10,612 lines after every grading.** A line that breaks a rule is pulled and queued for rewrite. This is the step that makes one grade reach the whole game.
@@ -336,29 +336,29 @@ Each line gives the claim, then what I found.
 
 1. **"The other states legislate; at least 40 change a law in a year."** True in year one only, as a one-time flood of 467 changes. Then 1, 15, 5, 15, 0, 1, 3, 1, 0 and 0 in the years after (measured).
 2. **"A roll call and sponsor are built on demand for other states."** Built, and no screen or story can ask for it. Only its own test ever asks for it (`src/core2/state-sessions.test.ts:82`).
-3. **"147 of 178 laws work end to end."** That counts reach records. Dev mode's own reach control returned zero for a wage law that did raise pay (measured). The same matrix listed immigration, retirement ages and contribution limits as reaching nobody when engines do read them (`src/core2/modules/counted-moves.ts:193`).
+3. **"147 of 178 laws work end to end."** That counts reach records. Dev mode's own reach control returned zero for a wage law (measured). I did not check pay in that world; the same kind of law wrote a pay-raise record in American Samoa. The same matrix listed immigration, retirement ages and contribution limits as reaching nobody when engines do read them (`src/core2/modules/counted-moves.ts:193`).
 4. **"Every town and state governs" (pool item marked done).** No town council or county board outside the player's own meets (read).
-5. **"Dev mode can force 79 of 97 scenes."** It directly causes 6. For the rest it runs the clock and waits. Four I tried never came in a year each (measured).
+5. **"Dev mode can force 79 of 97 scenes."** The claim counted 97 kinds; today there are 99. Dev mode directly causes 6. For the rest it runs the clock and waits. Four I tried never came in a year each (measured).
 6. **"The 20-year memory problem is solved."** You said on November 9 that you keep hearing this. The crew's own last run was at 3.9 GB in year 9 against a 2 GB goal. My village run crashed in year 12 (measured).
-7. **"The economy is no longer steered."** The two national anchors are gone. The regional pull, the monthly forcing of moves to the Census count and the fixed layoff pace remain (read).
+7. **"The economy is no longer steered."** The two national anchors are gone. The pull of each state toward the nation, the forcing of moves to match the Census and the fixed layoff pace remain (read).
 8. **"The approved screens are in the game."** The frames are. The approved content is not, and the withdrawn timeline and full figures remain (measured).
-9. **"The words carry your grades."** 93 rows, odds only, your newest notes off main (read).
+9. **"The words carry your grades."** 93 rows. A bad grade removes one line; everything else only shifts odds. Your newest notes are not on main (measured).
 10. **"People's histories are simulated."** Work, school and moves are. A 17-year-old's life is four lines (measured).
-11. **"The son and president scene was fixed."** It played unchanged on November 9 (measured).
+11. **"The 'I liked what the President had to say' scene was fixed."** It played unchanged on November 9 (measured).
 12. **"Pop-ups wait until a scene ends."** A journal pop-up appeared over the President's address (measured).
-13. **"Dev mode is the proving ground."** Forcing a vote at a chosen margin works well. The controls that prove an effect do not: reach read zero for a law that raised pay, Trace gave no reason for any of 19 records, and most scenes can only be waited for (measured).
+13. **"Dev mode is the proving ground."** Forcing a vote at a chosen margin works well. The controls that prove an effect do not: reach read zero for a wage law, Trace gave no reason for any of 19 records, and most scenes can only be waited for (measured).
 14. **The project's own scoreboards agree with you, not with the status reports.** The roadmap's feature list marks 21 of 67 features passing; "Laws change the world," "Other governments legislate," "History before your start," "Conversations" and "Speed and memory" are all marked not passing (`docs/roadmap/features.json`). The five lanes confirmed 6 of 64 played paths before you stopped them on November 4 (`docs/lanes/state/`).
 15. **The pool says done 1,926 times.** 722 of its 3,096 items carry a send-back note, and 151 carry three or more (measured by search of `docs/pool/items`).
 
 ## Duplicate systems worth merging
 
-1. **Two worlds: the town's simulation and the formulas for everything else.** The national model, the regional model, the migration fit and the outside-session tally are a second engine for the same things the town engine does. This is the duplicate that matters most. See pillar 1.
+1. **Two worlds: the town's simulation and the formulas for everything else.** The national formula, the state formula, the forcing of moves to match the Census and the one-tally sessions of other states are a second engine for the same things the town engine does. This is the duplicate that matters most. See pillar 1.
 2. **Counted copies of full rules.** Moves (`modules/counted-moves.ts`, 1,793 lines, beside `modules/moves.ts`, 1,775), births (`births-counted.ts`, 1,253 lines, beside three files for full people), money (`counted-money.ts` beside four payroll files), illness and news. Your rule is one model in two tiers. These are two models.
 3. **Three answers to "what is the law now."** Listed in pillar 2.
 4. **Six person cards and three ways to draw a face.** This is how one character showed two faces on one screen.
 5. **Three list-beside-detail screens, two generations of panel styles, four kinds of tab strip.**
-6. **Two proof tools that disagree.** Dev mode's reach control and the dev-test harness count different records for the same law.
-7. **Two fast-forwards, neither in the game.** The campaign stride switch and the planned coarse step.
+6. **Two proof tools that count different things (read).** Dev mode's reach control reads one family of records (`src/bench/dev-mode.ts:515`). The crew's test harness searches every record that names the law (`scripts/dev-tests/law-run.ts:57`). I did not run both on the same law.
+7. **Two fast-forwards, neither in the game.** The switch that makes campaigns act a quarter as often, and a planned monthly step that is not built.
 8. **Calendars and place lookups.** Eight calendar files and four place-lookup files (read by a helper, not traced by me).
 9. **Scene fallbacks.** The President's-speech talk doubles as the filler for any talk without lines.
 
@@ -366,9 +366,9 @@ Each line gives the claim, then what I found.
 
 The pattern is the same in every area. A cheaper session is handed one item and finishes that item. The item is real. What goes wrong is the part of the game next to the item, which the item did not mention.
 
-- **They fix the instance, not the class.** Your grade was applied to one scene. After the origin fix, one character still showed two different faces on one screen. A range check on people's ambitions was tuned to the test towns and then failed in seven more towns. You called this out on November 5: "why are you just doing it to Mississippi? It should be everywhere."
+- **They fix the instance, not the class.** Your grade was applied to one scene. After the origin fix, one character still showed two different faces on one screen. A range check on people's ambitions was tuned to the test towns and then failed in seven more, by the pool item's own notes (`docs/pool/items/drives-displaced-prove-oneself-over-band-again.md`); I did not re-run it. You called this out on November 5: "why are you just doing it to Mississippi? It should be everywhere."
 - **They build beside instead of through.** A second lookup, a second copy for counted people, a new card. Each is faster than learning the existing one. You called it on October 27: "Sessions should not be building their own shit."
-- **They prove with their own test.** A test that builds its own small world, forces the state it wants, or reads the record it just wrote. The lie scales and the ban-the-box law were each proved in a situation the test set up by hand, by their builders' own account.
+- **They prove with their own test.** A test that builds its own small world, forces the state it wants, or reads the record it just wrote. The scales for lying and the ban-the-box law were each proved in a situation the test set up by hand, by their builders' own account.
 - **They report the record, not the screen.** "Wired" means a row exists.
 - **They cannot hold your rulings.** The rulings log is 262,000 characters. A session reads the top and its item. That is why you keep re-ruling.
 - **They port a design by its frame.** The approved You screen went in as layout, because the layout is what shows in a before-and-after comparison of the code.
@@ -402,10 +402,10 @@ Cheaper sessions can still do most of the work. What they are handed has to chan
 - A second 20-year world with my own readings each year: Wickliffe, Oklahoma, seed 8832429ff1e53841. It ran 19 years in 51 minutes without crashing before my time limit stopped it. Other work shared the machine for its first 15 years.
 - A played life in the browser: Blodgett Landing, New Hampshire, a random world. Every menu, then ten weeks of Day and Week, with every scene recorded.
 - Two dev-mode sessions: As Matuis, Northern Mariana Islands, and Savage Town, Virginia. A wage law passed and repealed through the real legislature at a chosen margin, the reach and trace controls, and seven scene requests: three caused directly and four waited for.
-- Six law bills against a twin world with the crew's own harness, in American Samoa and Denver, Missouri. Four passed and two were held in committee. Of four repeals, two passed and two failed.
+- Six law bills against a twin world with the crew's own harness, in American Samoa and Denver, Missouri. Four passed and two were held in committee. I then ran a repeal bill for each of the four that passed. Two repeals passed and two failed.
 - The approved mock, rendered beside the game's screens.
 
-**Read, not run:** everything marked "read." Eight helpers gathered file and line evidence. I checked their main claims in the code myself, and an independent reviewer tried to refute six of mine. Four held, two of them with small corrections. Two were wrong as I first worded them, on routine layoffs and on unread promises. The report uses the corrected wording.
+**Read, not run:** everything marked "read." Eight helpers gathered file and line evidence. I checked their main claims in the code myself, and an independent reviewer tried to refute six groups of my claims. They cover the eight bullets marked "reviewer" or "corrected" in pillars 1 to 4. Four groups held, two of them with small corrections. Two were wrong as I first worded them, on routine layoffs and on unread promises. The report uses the corrected wording.
 
 **Could not verify:**
 
