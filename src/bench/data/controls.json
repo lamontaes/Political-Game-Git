@@ -1109,5 +1109,11 @@
     "sign": "Sign",
     "veto": "Veto",
     "override": "Override"
+  },
+  "devTrace": {
+    "title": "Dev mode",
+    "trace": "Trace",
+    "why": "Why",
+    "came": "What came of it"
   }
 }

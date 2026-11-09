@@ -37,7 +37,13 @@ function lit(text, on, onClick) {
  * The section for one bill. `paper` is GET /api/bill (id, bodyOfficeId); `labels` is
  * controls.devBill; `onDone()` redraws the bill's page once the game has moved.
  */
-export async function devBillCard({ paper, labels, onDone }) {
+export async function devBillCard({
+  paper,
+  labels,
+  onDone,
+  onTrace,
+  traceLabel,
+}) {
   const everyBody = await send("lawmaking-bodies");
   // The bodies of the bill's own place (a state's two chambers and its delegation, a county's
   // board) and the federal ones; the world's other places stay out of the row.
@@ -159,6 +165,10 @@ export async function devBillCard({ paper, labels, onDone }) {
       ...out.tallies.map((t) => `${t.yes}–${t.no}`),
     ].join(" · ");
   };
+  // Trace: where the vote went and why, on its own screen (ui/dev-trace-vote.mjs).
+  const traceButton = makeButton({ className: "action" }, traceLabel);
+  traceButton.dataset.testid = "dev-bill-trace";
+  traceButton.addEventListener("click", () => onTrace());
   const buttons = [
     act(labels.introduce, "dev-bill-introduce", async () => {
       const { bill } = await send("introduce", {
@@ -173,6 +183,7 @@ export async function devBillCard({ paper, labels, onDone }) {
     act(labels.override, "dev-bill-override", () =>
       decide({ sign: false, overrideMargin: Math.abs(margin()) }),
     ),
+    traceButton,
   ];
   const section = stripSection(
     9,
