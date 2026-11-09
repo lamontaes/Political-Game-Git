@@ -162,10 +162,13 @@ it("a worker whose hours were cut in the quarter before a layoff draws the same 
     );
     advanceCore(cutWorld, layoffDate);
     advanceCore(steadyWorld, layoffDate);
-    const claimOf = (core: typeof cutWorld) => {
-      if (!held(core)) return undefined;
-      layOffWorker(coreAPI(core), job.id);
-      return (
+    // The layoff is the business's own; the claim is filed as the world runs the next days.
+    for (const core of [cutWorld, steadyWorld])
+      if (held(core)) layOffWorker(coreAPI(core), job.id);
+    advanceCore(cutWorld, addDays(makeIsoDate(cutWorld.date), 3));
+    advanceCore(steadyWorld, addDays(makeIsoDate(steadyWorld.date), 3));
+    const claimOf = (core: typeof cutWorld) =>
+      (
         coreAPI(core)
           .moduleState("jobs")
           .table("claims")
@@ -175,7 +178,6 @@ it("a worker whose hours were cut in the quarter before a layoff draws the same 
           lawId: string;
         }[]
       )[0];
-    };
     const folded = (
       cutWorld.work as unknown as { payByQuarter: Map<string, unknown[]> }
     ).payByQuarter.get(job.personId);
