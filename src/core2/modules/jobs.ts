@@ -4041,6 +4041,12 @@ export function reviewCountedEntry(api: CoreAPI): void {
     if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
   }
   const seekers = store(api).table("countedSeekers");
+  // Counted people who found work in the wider region hold it as a regional job, not a wage flow of the town's: they are at work, not jobless.
+  const abroad = new Set(
+    (
+      store(api).table("regional").rows() as unknown as { personId: string }[]
+    ).map((row) => row.personId),
+  );
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   for (const h of counted.liveHouseholds()) {
@@ -4049,7 +4055,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;
-      if (working.has(personId)) continue;
+      if (working.has(personId) || abroad.has(personId)) continue;
       const age =
         daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
