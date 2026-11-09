@@ -17,8 +17,8 @@ import {
   PARTIES_MODULE_ID,
   partiesHere,
   partyTie,
-} from "../core2/modules/parties";
-import { attendedSchool, sharedHistory } from "../core2/shared-history";
+} from "../core2/modules/elections";
+import { attendedSchool, sharedHistory } from "../core2/past";
 import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { withArticle } from "../english/journal-words";
