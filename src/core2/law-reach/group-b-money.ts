@@ -367,7 +367,12 @@ export function reconcileObligations(
   api: CoreAPI,
   input: {
     readonly rowKind:
-      "benefit" | "voucher" | "preschool" | "child-care" | "energy-assistance";
+      | "benefit"
+      | "voucher"
+      | "preschool"
+      | "child-care"
+      | "energy-assistance"
+      | "ssi";
     readonly key: string;
     readonly want: ReadonlyMap<string, number>;
     readonly line?: string;
@@ -1291,6 +1296,120 @@ export function payEnergyAssistance(
     line: "welfareAndMedicaid",
     reasonKey: "law-reach:energy-assistance",
     citation: `Home energy assistance (${input.key}): the state pays the average benefit for the share of eligible households the program serves`,
+  });
+  return { named, counted };
+}
+
+/**
+ * Supplemental Security Income as a payment: the federal Treasury pays each
+ * aged resident the law's federal benefit rate less their countable income
+ * (the household's monthly income per member, less the $20 general exclusion),
+ * through the household's oldest resident; counted households through the
+ * town's residents account, times their weights. A change to the rate or a
+ * repeal re-reads every household. (Stopgap SG-GOV-REACH-B-ssi-eligibility:
+ * only the aged are read, not the blind or disabled; no resource test; income
+ * is the household's per member; no state supplement; couples draw as two.)
+ */
+export function paySsi(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    /** The federal benefit rate, dollars a month. */
+    readonly rateDollars: number;
+    readonly households: readonly {
+      readonly id: string;
+      readonly named: boolean;
+      readonly scale?: number;
+      readonly agedCount: number;
+      readonly size: number;
+      readonly incomeDollars: number;
+    }[];
+    readonly residents: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const payer = governmentAt(api, "federal");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && payer) {
+    const cents = reachParameter("centsPerDollar");
+    const months = reachParameter("monthsPerYear");
+    const share = reachParameter("ssiTakeUpShare");
+    const exclusion = reachParameter("ssiGeneralIncomeExclusionDollars");
+    const heads = new Map<string, ResidentFacts>();
+    for (const r of input.residents) {
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const prior = heads.get(r.householdId);
+      if (
+        !prior ||
+        r.age > prior.age ||
+        (r.age === prior.age && r.id < prior.id)
+      )
+        heads.set(r.householdId, r);
+    }
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedMinor = 0;
+    let countedHouseholds = 0;
+    for (const household of input.households) {
+      // Each aged member's countable income is the household's per member.
+      const perMember = household.incomeDollars / months / household.size;
+      const each = Math.max(
+        0,
+        input.rateDollars - Math.max(0, perMember - exclusion),
+      );
+      const monthly = Math.round(each * household.agedCount * share * cents);
+      if (monthly <= 0) continue;
+      if (!household.named) {
+        const weight = household.scale ?? 1;
+        countedMinor += monthly * weight;
+        countedHouseholds += weight;
+        continue;
+      }
+      const head = heads.get(household.id);
+      if (!head) continue;
+      want.set(`${payer.id}|${head.id}`, monthly);
+      named.set(head.id, { monthlyMinor: monthly });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: household.id,
+        target: "household",
+        what: "ssi-paid",
+        amountMinor: monthly,
+      });
+    }
+    if (residentsOrg && countedHouseholds > 0) {
+      counted = Math.round(countedHouseholds);
+      want.set(`${payer.id}|${residentsOrg}`, Math.floor(countedMinor));
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:ssi-households`,
+        target: "group",
+        what: "ssi-paid",
+        count: counted,
+        amountMinor: Math.floor(countedMinor),
+      });
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "ssi",
+    key: input.key,
+    want,
+    line: "incomeSecurity",
+    reasonKey: "law-reach:ssi",
+    citation: `Supplemental Security Income (${input.key}): the federal Treasury pays the federal benefit rate less countable income to aged residents`,
   });
   return { named, counted };
 }
