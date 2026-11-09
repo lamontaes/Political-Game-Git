@@ -2682,6 +2682,27 @@ async function openBillPaper(billId, show, back, backLabel) {
   const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
   const pageWords = controls.billPage ?? {};
+  // The bill's number and its body's name over the room that body works in (the government
+  // screen's own room picture for that body); none when the body has no picture.
+  const band = await api(
+    `/api/government/bodies?${new URLSearchParams({
+      id: me.id,
+      level:
+        view.level === "state" || view.level === "federal"
+          ? view.level
+          : "local",
+      state: /^office:(US-[A-Z]{2}):/.exec(paper.bodyOfficeId ?? "")?.[1] ?? "",
+    })}`,
+  )
+    .then((bodies) => {
+      const body = [...bodies.legislative, ...bodies.executive].find(
+        (row) => row.officeId === paper.bodyOfficeId,
+      );
+      return body?.picture
+        ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
+        : null;
+    })
+    .catch(() => null);
   const floor = controls.floor ?? {};
   const backButton = makeButton({
     className: "action",
@@ -2698,6 +2719,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       whereLabel: words.where ?? "",
       billLabel: words.bill ?? "",
       voteLabel: words.vote ?? "",
+      band,
       estimateLabel: words.estimate ?? "",
       // The budget lines the bill sets, this year beside last year's.
       extra: billFigures({
