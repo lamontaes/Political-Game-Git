@@ -43,7 +43,7 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
-import { lateSaid, moneySaid } from "../english/count-words";
+import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
 import {
   NEWS_MODULE_ID,
@@ -426,9 +426,9 @@ function composeBinding(
   if (record?.kind === NOTICE_SERVED_EVENT) {
     const ids = [moment.causeId, said.caseId ?? moment.causeId];
     const owed = Number(said.owedMinor);
+    const rent = Number(said.rentMinor);
     if (owed > P.zero) {
       facts.owed = { text: moneySaid(owed), sourceRecordIds: ids };
-      const rent = Number(said.rentMinor);
       if (rent > P.zero) {
         const months = owed / rent;
         // stopgapId: SG-WORDS-notice-shortfall-bands
@@ -439,9 +439,15 @@ function composeBinding(
           facts["short-deep"] = { text: "yes", sourceRecordIds: ids };
       }
     }
-    const behind = said.unpaidSince
-      ? daysBetweenText(said.unpaidSince, record.date)
-      : P.zero;
+    // How long behind: the days since the first missed payment, or the
+    // months of rent owed where that is longer (two rents missed is two
+    // months behind, however recent the first of them).
+    const behind = Math.max(
+      said.unpaidSince
+        ? daysBetweenText(said.unpaidSince, record.date)
+        : P.zero,
+      rent > P.zero && owed > P.zero ? monthsOfRentDays(owed / rent) : P.zero,
+    );
     if (behind > P.zero)
       facts.late = { text: lateSaid(behind), sourceRecordIds: ids };
     if (said.cureBy)

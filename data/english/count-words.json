@@ -68,6 +68,7 @@
       { "below": 350, "said": "about eleven months" },
       { "below": null, "said": "a year or more" }
     ],
+    "daysPerMonth": 30.4,
     "tag": "ESTIMATED",
     "source": "Calendar months of 30.4 days (365 / 12), rounded to the nearest month; under a month said in weeks as people say them. The phrase is rounding in speech, not a measure the game decides on."
   },

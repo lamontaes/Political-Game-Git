@@ -4441,8 +4441,8 @@
         "deflect": ["press", "accept"]
       },
       "again": {
-        "press": ["agree", "disagree", "ask", "leave"],
-        "answer": ["agree", "disagree", "deflect"]
+        "press": ["agree", "disagree", "leave"],
+        "answer": ["agree", "disagree"]
       },
       "endings": [
         {

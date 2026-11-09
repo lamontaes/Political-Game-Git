@@ -40,3 +40,12 @@ export function lateSaid(days: number): string {
   }[];
   return rows.find((row) => row.below === null || days < row.below)!.said;
 }
+
+/**
+ * The days a number of months of rent stand for, so a household that owes
+ * two months of rent has been behind about two months whatever day its first
+ * payment was missed.
+ */
+export function monthsOfRentDays(months: number): number {
+  return Math.round(months * data.lateSteps.daysPerMonth);
+}

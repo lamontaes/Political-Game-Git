@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { lateSaid, moneySaid } from "./count-words";
+import { lateSaid, moneySaid, monthsOfRentDays } from "./count-words";
 
 // How a sum and a stretch of unpaid rent are said aloud (owner, Nov 8
 // playtest: a notice that printed "$14" for a $14 shortfall and said "that far
@@ -18,6 +18,8 @@ describe("sums and stretches as people say them", () => {
     expect(lateSaid(30)).toBe("about a month");
     expect(lateSaid(61)).toBe("about two months");
     expect(lateSaid(400)).toBe("a year or more");
+    expect(lateSaid(monthsOfRentDays(2))).toBe("about two months");
+    expect(lateSaid(monthsOfRentDays(0.03))).toBe("a week or so");
     for (const days of [1, 17, 44, 75, 200, 349, 900])
       expect(lateSaid(days), `${days} days`).not.toMatch(/\d/);
   });
