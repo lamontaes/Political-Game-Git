@@ -4942,6 +4942,10 @@ select.release-pick {
 .news-story.lead .news-text {
   column-count: 2;
 }
+/* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
+.news-story.lead .news-text > * {
+  break-inside: avoid;
+}
 
 /* The roster screens (Elections, to pl-elections): a titled list grouped under small
    headings at the left, the chosen entry's page at the right. */

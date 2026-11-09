@@ -966,7 +966,7 @@ function atOrders() {
             item.kind === "budget"
               ? item.lines.map((row) =>
                   labeled(
-                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    `${row.name} ${roundedMoney(row.amountMinor)}`,
                     select({
                       options: [-20, -10, 0, 10, 20].map((pct) => {
                         const minor = Math.round((row.amountMinor * pct) / 100);
@@ -2552,7 +2552,7 @@ async function officeParts() {
           paged(
             v.budget.lines.map((row) =>
               labeled(
-                `${row.name} ${moneyWords(row.amountMinor)}`,
+                `${row.name} ${roundedMoney(row.amountMinor)}`,
                 select({
                   options: [-20, -10, 0, 10, 20].map((pct) => {
                     const minor = Math.round((row.amountMinor * pct) / 100);
@@ -3617,6 +3617,7 @@ const sheets = {
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
+                    head: r.head,
                     selected: r.line === opened.line,
                     onSelect: () => {
                       budgetLine = r.line;
@@ -6015,6 +6016,12 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
+  // The creator already names the town: the card carries that name from the first step.
+  const chosenName = placeKey
+    ? $("cr-place-summary-name").textContent.trim()
+    : "";
+  if (chosenName)
+    document.querySelector("#front > .title").textContent = chosenName;
   show("front-status", true);
   const bar = document.querySelector("#front .progress");
   bar.hidden = false;
