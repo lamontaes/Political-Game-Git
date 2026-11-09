@@ -2243,6 +2243,9 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "The tax engine's return for each household (filing status, dependents, earned income) fixes the federal credit, and each state's own rule fixes its credit.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-territory-municipal-mix",
     "kind": "assumed-data",
     "file": "scripts/research/export-public-budget-bases.py",
