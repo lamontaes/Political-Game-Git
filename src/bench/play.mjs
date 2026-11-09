@@ -72,6 +72,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -521,6 +522,8 @@ const controlsReady = api("/api/controls").then((value) => {
         .reduce((node, key) => node?.[key], controls) ?? "";
   $("hour").textContent = controls.time?.hour ?? "";
   $("week").textContent = controls.time?.week ?? "";
+  $("day").textContent = controls.time?.day ?? "";
+  $("continue").textContent = controls.time?.continue ?? "";
   return value;
 });
 
@@ -1430,6 +1433,7 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
+    filingNarrated = false;
     show("talk", false);
     await refresh();
     renderPacket();
@@ -1460,9 +1464,11 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  // The narrator sets the counter up first, alone; Continue, then the clerk
-  // speaks (the opening call only).
-  if (lines.length <= 1 && value.intro?.length && !filingNarrated) {
+  // The narrator sets the counter up first, alone, whatever the visit
+  // arrives with (a race picked at once adds lines before this runs); Continue,
+  // then the clerk speaks. Once per visit (owner, Nov 8: "it says first thing
+  // on June 7th. You head to the clerk's office and speak to...").
+  if (value.intro?.length && !filingNarrated) {
     filingNarrated = true;
     narrateFirst(
       value.intro.map((line) =>
@@ -1553,6 +1559,7 @@ function renderFiling(value) {
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
+  filingNarrated = false;
   closeSheet();
   renderTalk(undefined);
   const opened = await post(
@@ -1938,11 +1945,6 @@ async function campaignParts() {
       ...travelScreen({
         entries,
         labels: { whoIsThere: "", whatICanDo: T.groupAsk },
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
       ...(campaignResult ? [line(campaignResult)] : []),
       ...campaignLines.map((text) => line(text)),
@@ -2438,11 +2440,6 @@ async function officeParts() {
   if (!v.jobs.length) return { seat: [], budget: [], deals: [] };
   const words = controls.officeStops ?? {};
   const labels = controls.officeScreen ?? {};
-  const pageWords = {
-    page: controls.politics.page,
-    previous: controls.politics.previousPage,
-    next: controls.politics.nextPage,
-  };
   const paged = (items, { rows, columns, rowHeight, className }) =>
     pager({
       items,
@@ -2451,7 +2448,6 @@ async function officeParts() {
       columns,
       rowHeight,
       gap: 8,
-      words: pageWords,
       className,
     });
   const seat = [
@@ -2990,11 +2986,6 @@ async function seatRows() {
                         columns: 1,
                         rowHeight: 110,
                         gap: 10,
-                        words: {
-                          page: controls.politics.page,
-                          previous: controls.politics.previousPage,
-                          next: controls.politics.nextPage,
-                        },
                       })
                     : deskList(...desk),
                 ),
@@ -3019,7 +3010,7 @@ async function ownHistory() {
   );
   return card.history ?? [];
 }
-/** History lines down a timeline of `rows` a page, paged by years. */
+/** History lines down a timeline `rows` tall, scrolling inside its box. */
 function lifeTimeline(lines, rows) {
   return timeline({
     entries: lines.map((h) => ({
@@ -3029,10 +3020,6 @@ function lifeTimeline(lines, rows) {
       recordId: h.recordId,
     })),
     rows,
-    words: {
-      previous: controls.person.earlier,
-      next: controls.person.later,
-    },
   });
 }
 function portraitUrl() {
@@ -3341,11 +3328,6 @@ const sheets = {
         labels: controls.journal,
         yearOf: (iso) => iso.slice(0, 4),
         rows: Math.max(4, Math.floor((viewHeight() - 360) / 54)),
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
     ];
   },
@@ -3453,8 +3435,38 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
+    // "Since last year ... up by ..." from the record's own change, and its history as a line
+    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    const pctFormat = new Intl.NumberFormat("en-US", {
+      style: "percent",
+      maximumFractionDigits: 1,
+    });
+    const sinceLast = (record, { short = false } = {}) => {
+      if (record?.changeMinor === undefined || record.changeMinor === null)
+        return [];
+      const how =
+        record.changeMinor === 0
+          ? words.unchanged
+          : (record.changeMinor > 0 ? words.increased : words.decreased)
+              .replace("{amount}", roundedMoney(Math.abs(record.changeMinor)))
+              // A total's row is the amount alone; a line's carries its share too.
+              .replace(
+                short ? " ({pct})" : "{pct}",
+                short
+                  ? ""
+                  : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
+              );
+      return [typedRow(words.sinceLastYear, how)];
+    };
+    const history = (record, size) => {
+      const line = trendLine(record?.history, size);
+      return line ? [line] : [];
+    };
+    // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
-      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+      minor === undefined
+        ? []
+        : [typedRow(words.lastYear, roundedMoney(minor))];
     const stepButtons = steps(opened).map((step) => {
       const button = makeButton({
         className: "action small",
@@ -3499,11 +3511,6 @@ const sheets = {
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words: {
-                  page: controls.politics.page,
-                  previous: controls.politics.previousPage,
-                  next: controls.politics.nextPage,
-                },
                 className: "bsdepts",
               }),
             ),
@@ -3512,11 +3519,10 @@ const sheets = {
             stripSection(
               2,
               opened.name ?? opened.line,
-              typedRow(
-                opened.name ?? opened.line,
-                roundedMoney(opened.minor),
-                lastYear(lastOf(prior?.spending, opened.line)),
-              ),
+              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
+              ...lastYear(lastOf(prior?.spending, opened.line)),
+              ...sinceLast(opened),
+              ...history(opened),
               ...(opened.askedMinor !== undefined
                 ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                 : []),
@@ -3527,20 +3533,19 @@ const sheets = {
             stripSection(
               3,
               gov.name,
-              typedRow(
-                words.comingIn,
-                roundedMoney(latest.revenueMinor),
-                lastYear(prior?.revenueMinor),
-              ),
-              typedRow(
-                words.goingOut,
-                roundedMoney(latest.spendingMinor),
-                lastYear(prior?.spendingMinor),
-              ),
+              typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
+              ...lastYear(prior?.revenueMinor),
+              ...sinceLast(latest.totals?.revenue, { short: true }),
+              ...history(latest.totals?.revenue, { height: 36 }),
+              typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
+              ...lastYear(prior?.spendingMinor),
+              ...sinceLast(latest.totals?.spending, { short: true }),
+              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
               ),
+              ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
@@ -3658,11 +3663,6 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
       }),
     ];
   },
@@ -3676,11 +3676,6 @@ const sheets = {
       terms,
       query: guideQuery,
       labels: controls.guide,
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       onSearch: async (text) => {
         guideQuery = text;
         const found = await api(`/api/guide?q=${encodeURIComponent(text)}`);
@@ -3703,11 +3698,6 @@ const sheets = {
       patchNotesScreen({
         title: labels.builds,
         rows: Math.max(4, Math.floor((viewHeight() - 340) / 54)),
-        words: {
-          page: controls.politics.page,
-          previous: controls.politics.previousPage,
-          next: controls.politics.nextPage,
-        },
         builds: releases.map((r) => ({
           name: r.version,
           // The release file says "Released November 8, 2026."; the list shows "Nov 8".
@@ -3985,11 +3975,6 @@ const sheets = {
     };
     return travelScreen({
       labels,
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       entries: destinations.map((p) => ({
         group: groupOf(p),
         title: p.name,
@@ -4029,11 +4014,6 @@ const sheets = {
     return rosterScreen({
       title: controls.campaignBoard.title,
       className: "campaign-screen",
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       groups: [
         {
           entries: parts.map((part) => ({
@@ -4217,11 +4197,6 @@ const sheets = {
       title: labels.title,
       groups,
       className: "elections-screen",
-      words: {
-        page: controls.politics.page,
-        previous: controls.politics.previousPage,
-        next: controls.politics.nextPage,
-      },
       render: async (entry) => racePage(entry.race),
     });
   },
@@ -4347,11 +4322,6 @@ const sheets = {
     // the panel never scrolls, so a short window pages sooner.
     const rowsFor = (taken, most) =>
       Math.max(1, Math.min(most, Math.floor((viewHeight() - taken) / 72)));
-    const pageWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     // When a body meets, as its rule says it: "every Tuesday", "the 1st and
     // 3rd Tuesday of the month".
     const scheduleWords = (rule) => {
@@ -4506,7 +4476,6 @@ const sheets = {
               columns: 2,
               rowHeight: 64,
               gap: 8,
-              words: pageWords,
               className: "members-pager",
             }),
           ),
@@ -4782,11 +4751,6 @@ const sheets = {
     const party = v.party;
     const mine = party?.member?.name;
     const keys = v.parties.map((p) => p.party);
-    const pagerWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     // One party's page: who holds office for it (cards, paged), and where the player stands
     // with it (registered, or Join).
     const partyPage = (name) => {
@@ -4830,7 +4794,6 @@ const sheets = {
                 columns: 2,
                 rowHeight: 64,
                 gap: 8,
-                words: pagerWords,
               })
             : prose(labels.noHolders ?? "", "record-empty"),
         ),
@@ -4849,12 +4812,10 @@ const sheets = {
           entries: keys.map((name) => ({
             key: name,
             label: name,
-            aside: name === mine ? controls.party.mine : "",
             name,
           })),
         },
       ],
-      words: pagerWords,
       render: async (entry) => {
         partyTab = entry.name;
         return partyPage(entry.name);
@@ -4986,16 +4947,10 @@ const sheets = {
       (a, b) => order.indexOf(a) - order.indexOf(b),
     );
     if (!keys.length) return [prose(labels.noIssues, "record-empty")];
-    const pageWords = {
-      page: labels.page,
-      previous: labels.previousPage,
-      next: labels.nextPage,
-    };
     return rosterScreen({
       title: labels.subjects,
       className: "issues-screen",
       chosenKey: keys.includes(issueSubject) ? issueSubject : keys[0],
-      words: pageWords,
       groups: [
         {
           entries: keys.map((key) => ({
@@ -5012,7 +4967,6 @@ const sheets = {
         return rosterScreen({
           title: entry.label,
           className: "issues-laws",
-          words: pageWords,
           groups: [
             {
               entries: laws.map((law) => ({
@@ -5713,15 +5667,31 @@ function showLook(view) {
   $("cr-portrait-work").src = `/api/portrait?recipe=${recipe}&dress=work`;
   $("cr-rows").replaceChildren(
     ...view.rows.map((row) =>
-      lookRow(row, {
-        onPick: (id, swatch) => void pickColor(id, swatch),
-        onMove: (id, by) => void moveLook(id, by),
-        arrowLabel: (by, r) =>
-          controls.creator[by < 0 ? "previous" : "next"].replace(
-            "{row}",
-            r.label.toLowerCase(),
-          ),
-      }),
+      lookRow(
+        // A color steps with arrows like every other look (the Nov 8 creator mock: "arrows
+        // like The Political Process"); its swatch dot stays beside the name.
+        row.swatches
+          ? {
+              ...row,
+              swatches: undefined,
+              swatch: row.swatches.find((x) => x.chosen)?.color,
+            }
+          : row,
+        {
+          onMove: (id, by) => {
+            const colors = row.swatches;
+            if (!colors) return void moveLook(id, by);
+            const here = colors.findIndex((x) => x.chosen);
+            const next = colors[(here + by + colors.length) % colors.length];
+            void pickColor(id, next.id);
+          },
+          arrowLabel: (by, r) =>
+            controls.creator[by < 0 ? "previous" : "next"].replace(
+              "{row}",
+              r.label.toLowerCase(),
+            ),
+        },
+      ),
     ),
   );
   $("cr-reset").disabled =
@@ -5939,14 +5909,20 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    // The server builds the world in six steps; a step is named while it runs and the bar
-    // fills one sixth for each step finished.
+    // The server builds the world in twelve steps (BuildStage in world.ts); a step is named
+    // while it runs and the bar fills one twelfth for each step finished.
     const STEPS = [
       "people",
       "past",
       "economy",
       "core",
       "government",
+      "elections",
+      "budgets",
+      "legislature",
+      "cabinet",
+      "workings",
+      "history",
       "opening",
     ];
     // A poll still in flight when the build ends leaves the line alone.

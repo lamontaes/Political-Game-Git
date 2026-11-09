@@ -64,7 +64,8 @@ import {
   weeklyHoursOf,
 } from "./town-pay";
 import { TOWN_PAY_META } from "./reference/town-pay.generated";
-import { bedroomsForHousehold, hudRentRowFor } from "./hud-rents";
+import { hudRentRowFor } from "./hud-rents";
+import { householdDailyCostMinor } from "./household-cost";
 import { TOWN_RENT_META } from "./reference/town-rent.generated";
 import {
   TOWN_RESIDENTS_VERSION,
@@ -1388,15 +1389,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           livingCostsRegionForState(place.stateJurisdictionKey),
           plan.ids.length,
         );
-    const monthlyShelterMinor =
-      rent && !plan.quarters
-        ? rent.rents[bedroomsForHousehold(plan.ids.length)]! *
-          p("minorPerDollar")
-        : p("zero");
-    const householdDailyCost = Math.round(
-      ((costs.monthlyMinor + monthlyShelterMinor) * p("monthsPerYear")) /
-        p("daysPerMeanYear"),
-    );
+    const householdDailyCost = householdDailyCostMinor({
+      seed: options.seed,
+      stateKey: place.stateJurisdictionKey,
+      size: plan.ids.length,
+      rent: plan.quarters ? undefined : rent,
+      everydayMonthlyMinor: costs.monthlyMinor,
+      parameter: p,
+    });
     const dailyPay = plan.ids.reduce(
       (sum, id) => sum + (jobByPerson.get(id)?.wageDailyMinor ?? p("zero")),
       p("zero"),
@@ -1919,19 +1919,13 @@ function openingFamilies(input: OpeningFamilyInput): {
         ageOnDate(makeIsoDate(kinBirth.get(id)!), startedAt) >= p("votingAge"),
     );
     if (!adults.length) continue;
-    const monthly =
-      worldMonthlyHouseholdLivingCosts(
-        input.seed,
-        livingCostsRegionForState(input.stateKey ?? ""),
-        row.memberIds.length,
-      ).monthlyMinor +
-      (kinRent
-        ? kinRent.rents[bedroomsForHousehold(row.memberIds.length)]! *
-          p("minorPerDollar")
-        : p("zero"));
-    const daily = Math.round(
-      (monthly * p("monthsPerYear")) / p("daysPerMeanYear"),
-    );
+    const daily = householdDailyCostMinor({
+      seed: input.seed,
+      stateKey: input.stateKey ?? "",
+      size: row.memberIds.length,
+      rent: kinRent,
+      parameter: p,
+    });
     adults.forEach((id, index) =>
       kinLiving.set(
         id,

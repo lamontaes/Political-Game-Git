@@ -50,7 +50,8 @@
         "src/core2/modules/elections.ts",
         "src/core2/modules/voting.ts",
         "src/core2/modules/campaigns.ts",
-        "src/core2/modules/candidacy.ts"
+        "src/core2/modules/candidacy.ts",
+        "src/core2/campaign-data.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -75,7 +76,8 @@
         "src/core2/turnout*.ts",
         "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
-        "src/core2/gov-test-clock.ts"
+        "src/core2/gov-test-clock.ts",
+        "src/core2/campaign-data.ts"
       ]
     },
     {
@@ -163,7 +165,8 @@
         "src/core2/modules/justice.ts",
         "src/core2/modules/outcome-web.ts",
         "src/core2/law-reach/applied.ts",
-        "src/core2/modules/federal-courts.ts"
+        "src/core2/modules/federal-courts.ts",
+        "src/core2/laws-in-force.ts"
       ],
       "paths": [
         "src/core2/modules/laws.ts",
@@ -203,7 +206,8 @@
         "src/core2/modules/business.ts",
         "src/core2/modules/macro.ts",
         "src/core2/business-module-id.ts",
-        "src/core2/regional-model.ts"
+        "src/core2/regional-model.ts",
+        "src/core2/pay-by-quarter.ts"
       ],
       "paths": [
         "src/core2/modules/jobs.ts",
@@ -244,7 +248,8 @@
         "src/core2/credit-deposits.ts",
         "src/core2/commuting-shares.ts",
         "src/core2/cost-of-living.ts",
-        "src/core2/living-cost-split.ts"
+        "src/core2/living-cost-split.ts",
+        "src/core2/pay-by-quarter.ts"
       ]
     },
     {
@@ -258,7 +263,9 @@
         "src/core2/modules/health.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/trait-decision-table.ts",
-        "src/core2/modules/views.ts"
+        "src/core2/modules/views.ts",
+        "src/core2/household-cost.ts",
+        "src/core2/husk-promoters.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -340,7 +347,9 @@
         "src/core2/modules/rescue.ts",
         "src/core2/modules/quarrel.ts",
         "src/core2/modules/public-action.ts",
-        "src/core2/husk-promoters.ts"
+        "src/core2/husk-promoters.ts",
+        "src/core2/opening-ties.ts",
+        "src/core2/household-cost.ts"
       ]
     },
     {
@@ -365,7 +374,11 @@
         "src/core2/place-map.ts",
         "src/core2/place-lookup.ts",
         "src/core2/player-control-state-v1.ts",
-        "src/core2/modules/national-events.ts"
+        "src/core2/modules/national-events.ts",
+        "src/core2/opening-county-sample.ts",
+        "src/core2/opening-tenure.ts",
+        "src/core2/opening-origin.ts",
+        "src/core2/opening-roles.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",

@@ -15,16 +15,6 @@
   src: url("/fonts/kit12/playfair-display-600.ttf") format("truetype");
 }
 @font-face {
-  font-family: "Courier Prime";
-  font-weight: 400;
-  src: url("/fonts/kit12/courier-prime-400.ttf") format("truetype");
-}
-@font-face {
-  font-family: "Courier Prime";
-  font-weight: 700;
-  src: url("/fonts/kit12/courier-prime-700.ttf") format("truetype");
-}
-@font-face {
   font-family: "Andada Pro";
   font-style: italic;
   font-weight: 400;
@@ -2879,16 +2869,6 @@ details.entry[open] {
   letter-spacing: 0.05em;
 }
 /* The paper's page arrows, at the end of the dateline (ui/newspaper.mjs). */
-.paper-pages {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: -3px 0;
-}
-/* The shared arrows; the page's words in the paper's ink. */
-#sheet-body .paper-pages .pager-where {
-  color: var(--paper-ink);
-}
 .paper-stories {
   display: grid;
   grid-template-columns: 1.7fr 1fr;
@@ -3406,32 +3386,17 @@ details.entry[open] {
   font-size: 17px;
 }
 
-/* The pager: as many cards as fit, the rest a page away. */
+/* The long-list box: the rows that fit, the rest a scroll inside the box (never arrows or page numbers). */
 .pager {
   flex: none;
   min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .pager-grid {
   display: grid;
   align-content: start;
-}
-.pager-controls {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-}
-.pager-controls[hidden] {
-  display: none;
-}
-.pager-where {
-  font: 500 12.5px var(--ui);
-  color: var(--text-2);
-  font-variant-numeric: tabular-nums;
 }
 
 /* Coming up: a gold date and what happens then. */
@@ -3723,20 +3688,6 @@ details.entry[open] {
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
-.timeline .pager-where {
-  font: 600 12px var(--ui);
-  letter-spacing: 0.12em;
-  color: var(--gold);
-}
-.pager-arrow,
-#sheet-body .pager-arrow {
-  min-height: 0;
-  width: 30px;
-  height: 26px;
-  padding: 0;
-  margin: 0;
-  font: 600 18px/1 var(--ui);
-}
 
 /* The journal, to its mock: one cream page of story, paged by chapter under it. */
 #sheet-body:has(.journal-screen) {
@@ -3766,6 +3717,19 @@ details.entry[open] {
   gap: 26px;
   align-items: start;
   font-family: var(--ui);
+}
+.patch-detail {
+  max-height: calc(100vh - 250px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
+.travel-left {
+  min-height: 0;
+  max-height: calc(100vh - 230px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
 .travel-group {
   margin: 12px 0 6px;
@@ -4553,9 +4517,7 @@ select.release-pick {
   gap: 16px;
 }
 .strip-board .bfy {
-  font:
-    400 15px "Courier Prime",
-    monospace;
+  font: 400 15px var(--ui);
   letter-spacing: 3px;
   text-transform: uppercase;
   color: var(--muted);
@@ -4599,7 +4561,7 @@ select.release-pick {
   background: rgba(214, 189, 132, 0.14);
 }
 .strip-screen .dotrow.typed {
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
   font-size: 16px;
   text-transform: none;
 }
@@ -4608,9 +4570,7 @@ select.release-pick {
 }
 .strip-screen .bmsub {
   margin: 0 0 8px;
-  font:
-    400 14px "Courier Prime",
-    monospace;
+  font: 400 14px var(--ui);
   color: var(--muted);
 }
 .strip-screen .dotrow.typed .dotlabel {
@@ -4857,7 +4817,10 @@ select.release-pick {
   margin: 0 0 12px;
   break-inside: avoid-column;
 }
-.journal-text .intro:first-child::first-letter {
+.journal-text.one-column {
+  column-count: 1;
+}
+.journal-text .intro.lead::first-letter {
   float: left;
   margin: 2px 8px 0 0;
   font:
@@ -4875,7 +4838,7 @@ select.release-pick {
   color: #fbf6ea;
 }
 .strip-board .dotrows .dotrow {
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
   font-size: 15px;
   text-transform: none;
 }
@@ -5051,9 +5014,7 @@ select.release-pick {
 }
 .roster-row b {
   min-width: 0;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+  overflow-wrap: anywhere;
 }
 .roster-row span {
   white-space: nowrap;
@@ -5118,13 +5079,11 @@ select.release-pick {
   flex-direction: column;
   align-items: flex-start;
   gap: 6px;
-  font-family: "Courier Prime", monospace;
+  font-family: var(--ui);
 }
 .ballot-race {
   margin: 14px 0 2px;
-  font:
-    700 15px "Courier Prime",
-    monospace;
+  font: 700 15px var(--ui);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #f2e6c9;
@@ -5139,9 +5098,7 @@ select.release-pick {
   border: none;
   box-shadow: none;
   color: #f2e6c9;
-  font:
-    600 15px "Courier Prime",
-    monospace;
+  font: 600 15px var(--ui);
   letter-spacing: 0.06em;
   text-transform: uppercase;
 }
@@ -5304,4 +5261,33 @@ body.color-blind .meeting-member.vote-no {
 }
 body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
+}
+
+/* A history line on the dark panel: a thin gold line and a dot for the latest year. */
+.trend-line {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  margin: 6px 0 4px;
+}
+.trend-path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 1.6;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+.trend-dot {
+  fill: var(--gold);
+}
+
+/* Budgets' right column can be taller than the sheet (a governor's card and how the budget was
+   adopted): it scrolls inside itself so the sheet never overflows and the department list keeps
+   its rows. */
+.strip-board .board-cols > .mx3col:last-child {
+  max-height: calc(var(--vh) - 330px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }

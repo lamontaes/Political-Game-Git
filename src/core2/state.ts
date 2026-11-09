@@ -1656,6 +1656,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       const siblingNames = [given];
       siblings.forEach((row, i) => {
         row.birthDate = births[i]!;
+        // A brother or sister living elsewhere carries the family name too (C27).
+        if (row.familyName === drawn) row.familyName = family;
         if (!row.alive) return;
         row.givenName = distinctSiblingGivenName(
           core.seed,
@@ -2481,7 +2483,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
               other.id,
               id,
               "family",
-              api.parameter("relationInitial"),
+              openingClosenessHours(core, other.id, id),
+              undefined,
+              { cause: OPENING_FAMILY_CAUSE },
             );
         }
   for (const actor of admitted) {
@@ -2501,7 +2505,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             actor.id,
             id,
             "family",
-            api.parameter("relationInitial"),
+            openingClosenessHours(core, actor.id, id),
+            undefined,
+            { cause: OPENING_FAMILY_CAUSE },
           );
       }
     openOpeningPeerTies(core, api, actor);
