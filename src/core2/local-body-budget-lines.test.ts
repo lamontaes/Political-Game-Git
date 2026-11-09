@@ -77,9 +77,15 @@ for (const place of draws) {
         const passed = local.filter((b) =>
           ["enacted", "overridden"].includes(b.status),
         );
+        // The bills that amended a budget in force: a budget records the
+        // numbers of the amendments it was amended by.
         const amended = new Set(
           governments(api).flatMap((g) =>
-            budgetsOf(api, g.id).map((b) => JSON.stringify(b.adoptedBy)),
+            budgetsOf(api, g.id).flatMap(
+              (b) =>
+                (b.adoptedBy as { amendedBy?: readonly string[] }).amendedBy ??
+                [],
+            ),
           ),
         );
         process.stdout.write(
@@ -104,9 +110,7 @@ for (const place of draws) {
           "line bills before the local body",
         ).toBeGreaterThan(0);
         // The annual budget is one bill; amendments are the rest.
-        const mid = passed.filter((b) =>
-          [...amended].some((a) => a.includes(`amended by ${b.number}`)),
-        );
+        const mid = passed.filter((b) => amended.has(b.number));
         // Where no amendment passed in the year, every line of every local
         // body has a reason it drew none: too few members back moving it, by
         // their own positions, against the majority a bill needs (the agenda
