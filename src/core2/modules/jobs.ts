@@ -174,6 +174,8 @@ interface SeekerRow {
   reasons?: Record<string, number>;
   /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
   regionalPull?: number;
+  /** Their finding progress reached one while an opening stood near them: the month of weekly matching that followed was theirs. */
+  localTried?: boolean;
 }
 interface EmployerRow {
   id: string;
@@ -1981,10 +1983,11 @@ function reviewRegionalFinds(api: CoreAPI): void {
         findPerQuarter(api, at.meanOverNow, lean, age) * month;
       if (pull >= p("one")) {
         // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
-        if (open.has(seeker.placeId))
+        // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
+        if (open.has(seeker.placeId) && !seeker.localTried)
           store(api)
             .table(table)
-            .put({ ...seeker, regionalPull: pull } as never);
+            .put({ ...seeker, regionalPull: pull, localTried: true } as never);
         else found.push(seeker);
       } else
         store(api)

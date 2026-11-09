@@ -7075,15 +7075,15 @@
     }
   },
   "pastWorkLayoffsPerQuarter": {
-    "value": 0.035,
+    "value": 0.029,
     "tag": "ESTIMATED",
-    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019, layoffs and discharges rate (series JTS000000000000000LDR): about 1.2% of employment a month.",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey gross flows, employment to unemployment (FRED series LNS17400000, monthly, Jan 2023 to Oct 2026: 1.42 to 1.56 million a month against about 162 million employed, about 0.96% of employment a month). The inflow into unemployment from losing a job, not the JOLTS layoffs-and-discharges rate (about 1.2%), which also counts separations that go straight to another job.",
     "estimatedFrom": "The monthly rate times three, as one quarter's pull toward being let go in a quarter when unemployment holds steady, before age and the employer's lean (jobs.value-worker).",
     "spread": {
-      "low": 0.03,
-      "high": 0.045,
+      "low": 0.025,
+      "high": 0.035,
       "unit": "layoffs per worker per quarter",
-      "citation": "JOLTS layoffs and discharges, annual averages 1.0% (2019) to 1.5% (2001), monthly."
+      "citation": "CPS employment-to-unemployment flows, 0.85% to 1.1% of employment a month across 2023-2026."
     }
   },
   "pastWorkLayoffRisePerPoint": {
