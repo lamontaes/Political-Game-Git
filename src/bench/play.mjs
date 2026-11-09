@@ -1024,19 +1024,25 @@ function atOrders() {
                   className: "action",
                   textContent: kindWords(how),
                 });
-                b.addEventListener("click", async () =>
-                  draw(
-                    await post(
-                      `/api/orders?${new URLSearchParams({
-                        entryId: item.entryId,
-                        how,
-                        ...(item.kind === "post" && nominee
-                          ? { nomineeId: nominee }
-                          : {}),
-                      })}`,
-                    ),
-                  ),
-                );
+                b.addEventListener("click", async () => {
+                  try {
+                    draw(
+                      await post(
+                        `/api/orders?${new URLSearchParams({
+                          entryId: item.entryId,
+                          how,
+                          ...(item.kind === "post" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
+                    );
+                  } catch {
+                    // The entry is no longer waiting (the day moved, or another stop cleared it): the
+                    // desk redraws from what is waiting now, never a stale plate with a dead button.
+                    draw(await api("/api/orders"));
+                  }
+                });
                 return b;
               }),
             ),
