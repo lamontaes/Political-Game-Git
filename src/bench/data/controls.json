@@ -325,13 +325,11 @@
     "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
-    "waits": "Runs the world until it happens",
     "reasons": {
       "days": "Days passed",
       "event": "It happened",
       "cap": "Cap reached"
-    },
-    "noPath": "No engine writes its cause yet"
+    }
   },
   "devPerson": {
     "title": "Health",
@@ -557,7 +555,10 @@
     "whatICanDo": "What I can do there"
   },
   "time": {
-    "week": "Week"
+    "hour": "Hour",
+    "day": "Day",
+    "week": "Week",
+    "continue": "Continue"
   },
   "calendar": {
     "previousMonth": "Previous month",
@@ -589,7 +590,8 @@
     "liberal": "Liberal",
     "moderate": "Moderate",
     "conservative": "Conservative",
-    "veryConservative": "Very conservative"
+    "veryConservative": "Very conservative",
+    "notSure": "Not sure yet"
   },
   "who": {
     "age": "Age",
@@ -606,6 +608,7 @@
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
+    "viewUnknown": "You don't know where they stand yet.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -934,6 +937,8 @@
     "empty": "Nothing is written here yet."
   },
   "metrics": {
+    "state": "Your state",
+    "jobs": "Jobs",
     "city": "Your town",
     "employed": "People at work",
     "seekers": "People looking for work",

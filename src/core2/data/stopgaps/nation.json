@@ -46,5 +46,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Measure-result bank pieces with a place (Words and Story), then this early return is deleted.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-vulnerability-proxy",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/disasters.ts",
+    "line": 1,
+    "whatItFakes": "FEMA records how many homes a disaster damaged in a town but not whose; the homes marked damaged are the owners' homes of the weakest kinds (mobile home, farmhouse, house, rowhouse, apartment) and then the lowest valued, and each damaged household takes an equal part of the town's FEMA aid and repair bill.",
+    "why": "The records carry a count and a town total, not a home-by-home list; no construction-age, flood-zone or insurance record is kept for a household's home yet.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Damage by each home's build year, kind, flood zone and insurance from the housing record, aid by each household's own FEMA award, and repairs by the household's own bill.",
+    "status": "open"
   }
 ]
