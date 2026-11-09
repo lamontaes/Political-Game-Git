@@ -9,10 +9,11 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: laws-effects
 source: added with npm run pool -- add
 ---
 
-**What.** Unemployment claims read the person's pay by quarter (first four of the last five completed quarters, #7949), but no played year has shown a claim after a real hours cut (Jobs' #7781 rehourJob) drawing the same benefit as steady hours.
+**What.** Unemployment claims read the person's pay by quarter (first four of the last five completed quarters, #7949). No played year has yet shown a claim after a real hours cut (Jobs' #7781 rehourJob) drawing the same benefit as steady hours. The first played pair found no claim because the layoff was refused for the day, and the state's weekly maximum capped both reads.
 
 **Rules.** An effect is a read, not a record: the claim must be shown in a played world by record id. Generated-world proof, a drawn place and seed, no hand-set pay history.
 

@@ -27,6 +27,8 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devBillCard } from "./ui/dev-bill-card.mjs";
+import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
@@ -1022,19 +1024,25 @@ function atOrders() {
                   className: "action",
                   textContent: kindWords(how),
                 });
-                b.addEventListener("click", async () =>
-                  draw(
-                    await post(
-                      `/api/orders?${new URLSearchParams({
-                        entryId: item.entryId,
-                        how,
-                        ...(item.kind === "post" && nominee
-                          ? { nomineeId: nominee }
-                          : {}),
-                      })}`,
-                    ),
-                  ),
-                );
+                b.addEventListener("click", async () => {
+                  try {
+                    draw(
+                      await post(
+                        `/api/orders?${new URLSearchParams({
+                          entryId: item.entryId,
+                          how,
+                          ...(item.kind === "post" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
+                    );
+                  } catch {
+                    // The entry is no longer waiting (the day moved, or another stop cleared it): the
+                    // desk redraws from what is waiting now, never a stale plate with a dead button.
+                    draw(await api("/api/orders"));
+                  }
+                });
                 return b;
               }),
             ),
@@ -2680,6 +2688,27 @@ async function openBillPaper(billId, show, back, backLabel) {
   const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
   const pageWords = controls.billPage ?? {};
+  // The bill's number and its body's name over the room that body works in (the government
+  // screen's own room picture for that body); none when the body has no picture.
+  const band = await api(
+    `/api/government/bodies?${new URLSearchParams({
+      id: me.id,
+      level:
+        view.level === "state" || view.level === "federal"
+          ? view.level
+          : "local",
+      state: /^office:(US-[A-Z]{2}):/.exec(paper.bodyOfficeId ?? "")?.[1] ?? "",
+    })}`,
+  )
+    .then((bodies) => {
+      const body = [...bodies.legislative, ...bodies.executive].find(
+        (row) => row.officeId === paper.bodyOfficeId,
+      );
+      return body?.picture
+        ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
+        : null;
+    })
+    .catch(() => null);
   const floor = controls.floor ?? {};
   const backButton = makeButton({
     className: "action",
@@ -2696,6 +2725,7 @@ async function openBillPaper(billId, show, back, backLabel) {
       whereLabel: words.where ?? "",
       billLabel: words.bill ?? "",
       voteLabel: words.vote ?? "",
+      band,
       estimateLabel: words.estimate ?? "",
       // The budget lines the bill sets, this year beside last year's.
       extra: billFigures({
@@ -2865,6 +2895,37 @@ async function openBillPaper(billId, show, back, backLabel) {
         },
       },
     ),
+    // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
+    ...(devModeOn()
+      ? [
+          await devBillCard({
+            paper,
+            labels: controls.devBill,
+            traceLabel: controls.devTrace.trace,
+            onTrace: async () => {
+              const drawTrace = async (chosen) => {
+                const traced = await api(
+                  `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+                );
+                show(
+                  backButton,
+                  devTraceVote({
+                    stage: traced,
+                    paper,
+                    labels: controls.devTrace,
+                    words: controls.billStage,
+                    floor: controls.floor,
+                    chosen,
+                    onPick: drawTrace,
+                  }),
+                );
+              };
+              await drawTrace(null);
+            },
+            onDone: () => openBillPaper(billId, show, back, backLabel),
+          }),
+        ].filter(Boolean)
+      : []),
   );
 }
 
@@ -3539,7 +3600,8 @@ const sheets = {
     // budget lines by category rather than departments, so each spending line is a
     // department; Last year comes from the government's previous budget; "Asked" is the line
     // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
-    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
+    // record's chief executive; a department's head is the executive's appointee for its line
+    // (budget.ts headsOf).
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3787,6 +3849,7 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
+        photoOf: storyPhoto,
       }),
     ];
   },

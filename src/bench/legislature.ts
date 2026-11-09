@@ -466,11 +466,11 @@ export function billPaper(core: CoreState, billId: string) {
   return {
     id: bill.id,
     number: bill.number,
-    bodyOfficeId: bill.bodyOfficeId,
     spoken: spokenDesignation(bill.number, bill.form.kind),
     title: composed?.title ?? titled?.title ?? bill.number,
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
+    bodyOfficeId: bill.bodyOfficeId,
     sections,
     authorityWarning: bill.authority.some((row) => row.warning === "disputed")
       ? disputedWarning(api, bill)

@@ -53,7 +53,18 @@ it("counts each counted voter as many times as its household stands for, and a t
   expect(plain.length, where).toBeGreaterThan(0);
   expect(heavy.length).toBe(plain.length);
   const town = lawChain(coreAPI(base)).townPlaceId;
-  expect(plain.every((v) => v.weight === 1)).toBe(true);
+  // The town's counted households are unscaled in an unscaled world. The
+  // county outside the town is a weighted sample in every world (#7756: its
+  // households are weighted so adult citizens equal the county's eligible
+  // count), so those voters stand for at least themselves.
+  expect(
+    plain.filter((v) => v.placeId === town).every((v) => v.weight === 1),
+    where,
+  ).toBe(true);
+  expect(
+    plain.every((v) => v.weight >= 1),
+    where,
+  ).toBe(true);
   const townVoters = heavy.filter((v) => v.placeId === town);
   expect(townVoters.length).toBeGreaterThan(0);
 
