@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch */
 // The governor's order panel (done-when item 5, Nov 8): the player steps in as a governor, the clock
 // runs, and the state's own calendar stops it at the State of the State: the panel opens with the address
 // worded from the controls, the player gives it, and the clock runs on. Adapted from bill-desk.browser.mjs.
@@ -73,6 +73,18 @@ try {
     await fetch(`/api/play?id=${encodeURIComponent(id)}`, { method: "POST" });
   }, governor.found[0]);
   console.log("Seed:", seed, "stepped in as governor", governor.found[0]);
+  // Control of the chosen character binds when the clock next advances: play one day first.
+  if (!(await page.locator("#day").isDisabled())) {
+    await page.locator("#day").click();
+    for (let i = 0; i < 10; i += 1) {
+      await page.waitForTimeout(1200);
+      if (await visible("desk")) break;
+      if (await visible("talk-next")) await page.locator("#talk-next").click();
+      else if (await visible("continue"))
+        await page.locator("#continue").click();
+      else break;
+    }
+  }
   // Run the clock; whenever the order panel opens, read its plates and act on the first order
   // (the button that sends or gives it). The state's own calendar names the day of each.
   const seen = [];

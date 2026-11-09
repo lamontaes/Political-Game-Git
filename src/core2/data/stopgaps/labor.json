@@ -160,5 +160,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
     "status": "open"
+  },
+  {
+    "id": "SG-LABOR-vacancy-size-uniform",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "A vacancy's wait before it can be filled depends on the firm's industry only (JOLTS openings over hires). Davis, Faberman and Haltiwanger show vacancy duration also varies with the establishment's size and growth; the firm's size is not read.",
+    "why": "The industry series is the published figure; a size gradient needs establishment-size microdata not fetched tonight.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-09",
+    "replacement": "Scale each firm's duration by the size gradient of DHI's hires-per-vacancy rate once the establishment-size table is sourced.",
+    "status": "open"
   }
 ]
