@@ -6684,10 +6684,7 @@
       "source": "IPCC AR6 WG1 (2021) chapter 5, as quoted in a paper citing it: \"As per AR6, TCRE ranges from 0.27°C to 0.63°C per 1,000 GtCO2 with the best estimate of 0.45°C per 1,000 GtCO2\"",
       "from": "env.emissions-national",
       "evidence": "provisional",
-      "range": [
-        0.00027,
-        0.00063
-      ],
+      "range": [0.00027, 0.00063],
       "notes": "The IPCC page could not be fetched; the figure is quoted from a secondary paper (nature.com/articles/s43247-020-00064-9). Emissions are the simulated country's energy CO2 (EIA, 4.79 GtCO2 in 2024) and the rest of the world's (Global Carbon Budget 2024, essd.copernicus.org/articles/17/965/2025/: 41.6 GtCO2 a year), the country's moves with the simulated carbon laws and the rest of the world's does not.",
       "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     },
@@ -6709,10 +6706,7 @@
       "source": "Climate Central, \"Extreme Precipitation in a Warming Climate\" (May 2024), citing the Fifth National Climate Assessment (2023) chapter 2: \"For every 1°F of warming, the air can hold an extra 4% of moisture\"",
       "from": "climate.warming",
       "evidence": "provisional",
-      "range": [
-        0.06,
-        0.07
-      ],
+      "range": [0.06, 0.07],
       "notes": "The per-degree-C figure (4 percent per degree F is 7.2 percent per degree C) is our conversion. A county's flood hazard level moves in proportion to the heavy rain it can fall.",
       "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     },
@@ -6734,10 +6728,7 @@
       "source": "Knutson et al. 2020, Tropical Cyclones and Climate Change Assessment Part II, BAMS, doi 10.1175/BAMS-D-18-0194.1; Lepore, Abernathey, Henderson, Allen and Tippett 2021, Earth's Future",
       "from": "climate.warming",
       "evidence": "contested",
-      "range": [
-        0.05,
-        0.2
-      ],
+      "range": [0.05, 0.2],
       "notes": "Per-degree figures are our conversion (13 percent at 2 degrees assumed linear); both papers were reached through search snippets, not their full text. The range's top is the severe-environment figure, which overstates storms.",
       "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     },
@@ -6759,10 +6750,7 @@
       "source": "Williams et al. 2020, Science 368:314, Large contribution from anthropogenic warming to an emerging North American megadrought: \"increased the annual mean atmospheric vapor-pressure deficit by 9.6% (IQs: 8.4 to 11.3%)\"",
       "from": "climate.warming",
       "evidence": "provisional",
-      "range": [
-        0.07,
-        0.094
-      ],
+      "range": [0.07, 0.094],
       "notes": "Per degree C is our conversion (9.6 percent over 1.2 degrees is 8 percent; the range divides the interquartile by 1.2). Measured in the Southwest; the other regions' drought response is not found, so the same size stands for every county (stopgap SG-NATION-climate-sizes-national).",
       "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     },
@@ -6784,10 +6772,7 @@
       "source": "Peterson and Littell, Effects of Climatic Variability and Change on Forest Ecosystems, USFS PNW-GTR-870, appendix 2: \"for a temperature increase of 1.6 oC, area burned will increase two to three times in most states\"; Abatzoglou and Williams 2016, PNAS 113(42):11770",
       "from": "climate.warming",
       "evidence": "contested",
-      "range": [
-        0.06,
-        1.25
-      ],
+      "range": [0.06, 1.25],
       "notes": "Per degree C is our conversion: doubling at 1.6 degrees is 0.63 per degree (the low end of McKenzie's two to three times, 1.25 at the high end; Lenihan's 10 percent is 0.06). Littell et al. 2009's per-ecoprovince percentages for one degree are in a figure that was not read. Western forest, applied to every county's wildfire level (stopgap SG-NATION-climate-sizes-national).",
       "carriedBy": "src/core2/modules/climate.ts (monthWarming and hazardFactor): the climate engine reads every state's carbon-price and power-plant law in force, keeps one national warming level from the emissions they leave, and keeps each hazard's level at 1 plus this row's size times the warming since the world opened; it is a country-wide result, not a place rate, so the web does not run it"
     },
