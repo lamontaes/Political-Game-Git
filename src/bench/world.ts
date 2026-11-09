@@ -11,6 +11,7 @@ import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
 import {
+  openClimate,
   WORLD_MODULES,
   withWorldEconomy,
   worldCoreData,
@@ -43,7 +44,6 @@ import { openExecutive } from "../core2/modules/executive";
 import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
 import { openFederalCourts } from "../core2/modules/federal-courts";
-import { openClimate } from "../core2/modules/climate";
 import { openNationalEvents } from "../core2/modules/national-events";
 import {
   openSittingSessions,

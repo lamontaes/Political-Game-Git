@@ -90,3 +90,5 @@ export function worldGameOptions(custom: { economy?: CustomEconomy } = {}): {
     modules: () => [...WORLD_MODULES],
   };
 }
+// Re-exported so the world build opens the climate through this entry (families guard).
+export { openClimate } from "./climate";

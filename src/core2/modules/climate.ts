@@ -29,9 +29,8 @@ import type { ModuleRow } from "../module-data";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { stateLawInForce } from "./laws";
-import { WEB_LINKS } from "../outcome-web-model";
-import { carriedLink } from "./outcome-web";
-import { residentsOf, STATES } from "./outside-budgets";
+import { carriedLink, WEB_LINKS } from "./outcome-web";
+import { residentsOf, STATES } from "./budgets";
 
 export const CLIMATE_MODULE_ID = "climate";
 const RUN_KIND = "climate-month";
