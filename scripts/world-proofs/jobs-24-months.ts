@@ -16,7 +16,10 @@ import { advanceCore } from "../../src/core2/life";
 import { coreAPI } from "../../src/core2/state";
 import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { JOBS_MODULE_ID } from "../../src/core2/modules/jobs";
-import { residentsRuntime } from "../../src/core2/modules/residents";
+import {
+  residentFacts,
+  residentsRuntime,
+} from "../../src/core2/modules/residents";
 import { drawPlace } from "../../tests/golden-path/place";
 
 const seed = process.argv[2] ?? "r7";
@@ -104,3 +107,60 @@ const hourRows = [...world.core.work.hourChanges.values()].flat();
 console.log(
   `jobs with an hours change ${world.core.work.hourChanges.size}; changes ${hourRows.length}; first: ${[...world.core.work.hourChanges.keys()].slice(0, 3).join(", ")}`,
 );
+
+// The played town's own inflow into and outflow from unemployment, by month: spells opened by cause, and spells closed by being hired or by giving up.
+{
+  const townPerson = (personId: string) =>
+    (core.people.get(personId)?.placeId ??
+      residentFacts(core, personId)?.placeId) === world.placeId;
+  const spells = table("spells") as unknown as {
+    personId: string;
+    startedAt: string;
+    endedAt?: string;
+    reasonKey: string;
+  }[];
+  const changes = table("changes") as unknown as {
+    personId: string;
+    date: string;
+    kind: string;
+    values?: Record<string, number>;
+  }[];
+  const hiredOn = new Set(
+    changes
+      .filter((row) => row.kind === "hire")
+      .map((row) => `${row.personId}|${row.date}`),
+  );
+  const month = (iso: string) => iso.slice(0, 7);
+  const rows = new Map<
+    string,
+    { layoff: number; chose: number; hired: number; gaveUp: number }
+  >();
+  const at = (key: string) => {
+    let row = rows.get(key);
+    if (!row)
+      rows.set(key, (row = { layoff: 0, chose: 0, hired: 0, gaveUp: 0 }));
+    return row;
+  };
+  for (const s of spells) {
+    if (!townPerson(s.personId)) continue;
+    const started = at(month(s.startedAt));
+    if (
+      s.reasonKey === "started-looking" ||
+      s.reasonKey === "opening-unemployed"
+    )
+      started.chose += 1;
+    else started.layoff += 1;
+    if (s.endedAt) {
+      const ended = at(month(s.endedAt));
+      if (hiredOn.has(`${s.personId}|${s.endedAt}`)) ended.hired += 1;
+      else ended.gaveUp += 1;
+    }
+  }
+  console.log(
+    "town flows by month (spells opened by a lost job, opened by choosing to look, closed by a hire, closed with no hire):",
+  );
+  for (const [key, r] of [...rows].sort((a, b) => a[0].localeCompare(b[0])))
+    console.log(
+      `  ${key}: lost-job ${r.layoff}, chose ${r.chose}, hired ${r.hired}, gave-up ${r.gaveUp}`,
+    );
+}
