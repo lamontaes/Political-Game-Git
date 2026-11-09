@@ -966,7 +966,7 @@ function atOrders() {
             item.kind === "budget"
               ? item.lines.map((row) =>
                   labeled(
-                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    `${row.name} ${roundedMoney(row.amountMinor)}`,
                     select({
                       options: [-20, -10, 0, 10, 20].map((pct) => {
                         const minor = Math.round((row.amountMinor * pct) / 100);
@@ -2552,7 +2552,7 @@ async function officeParts() {
           paged(
             v.budget.lines.map((row) =>
               labeled(
-                `${row.name} ${moneyWords(row.amountMinor)}`,
+                `${row.name} ${roundedMoney(row.amountMinor)}`,
                 select({
                   options: [-20, -10, 0, 10, 20].map((pct) => {
                     const minor = Math.round((row.amountMinor * pct) / 100);
@@ -3452,9 +3452,11 @@ const sheets = {
     const figure = (row, value) =>
       row.unit === "dollars"
         ? roundedMoney(Math.round(value * 100))
-        : row.unit === "count"
-          ? Math.round(value).toLocaleString("en-US")
-          : `${value.toFixed(1)} ${words.percent}`;
+        : row.unit === "money"
+          ? roundedMoney(Math.round(value))
+          : row.unit === "count"
+            ? Math.round(value).toLocaleString("en-US")
+            : `${value.toFixed(1)} ${words.percent}`;
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
@@ -3474,12 +3476,15 @@ const sheets = {
             figure(row, row.now),
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
     );
-    return [stripBoard({ columns: [sections] })];
+    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
+    const columns = [[], [], []];
+    sections.forEach((section, at) => columns[at % 3].push(section));
+    return [stripBoard({ columns: columns.filter((c) => c.length) })];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -3612,6 +3617,7 @@ const sheets = {
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
+                    head: r.head,
                     selected: r.line === opened.line,
                     onSelect: () => {
                       budgetLine = r.line;
@@ -6010,6 +6016,12 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
+  // The creator already names the town: the card carries that name from the first step.
+  const chosenName = placeKey
+    ? $("cr-place-summary-name").textContent.trim()
+    : "";
+  if (chosenName)
+    document.querySelector("#front > .title").textContent = chosenName;
   show("front-status", true);
   const bar = document.querySelector("#front .progress");
   bar.hidden = false;

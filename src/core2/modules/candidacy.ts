@@ -73,7 +73,7 @@ import {
 } from "./parties";
 import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
-import { residentFacts } from "./residents";
+import { countedChildrenOf, residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
 import {
   nationalEconomyChange,
@@ -167,6 +167,24 @@ interface RunFacts {
   readonly owner: boolean;
   /** How many civic roles they hold (a board, a party committee). */
   readonly civicRoles: number;
+  /** How many children live in their household. */
+  readonly dependents: number;
+  /** Whether they hold a job a run could cost them. */
+  readonly employed: boolean;
+  /** Cash on hand against the runway a run costs, 0 to 1. */
+  readonly cashShare: number;
+}
+
+/** A person's cash against the runway of living costs a run asks, 0 to 1. */
+function cashShareOf(
+  api: CoreAPI,
+  liquidMinor: number,
+  livingCostDailyMinor: number,
+): number {
+  const runway = livingCostDailyMinor * c(api, "candidacyMeansRunwayDays");
+  return runway > 0
+    ? Math.max(0, Math.min(1, liquidMinor / runway))
+    : api.parameter("one");
 }
 
 /** A named person's roles, read from the same record a counted resident's are (opening-roles.ts). */
@@ -220,6 +238,23 @@ export function candidacyReasons(
       incumbentTie,
       recordGap,
       ...rolesOfNamed(person),
+      dependents: (
+        api.state.households.get(person.householdId)?.memberIds ?? []
+      )
+        .map((id) => api.state.people.get(id))
+        .filter(
+          (row) =>
+            row !== undefined &&
+            Number(api.state.date.slice(0, 4)) -
+              Number(row.birthDate.slice(0, 4)) <
+              api.parameter("votingAge"),
+        ).length,
+      employed: Boolean(person.jobId),
+      cashShare: cashShareOf(
+        api,
+        person.liquidMinor,
+        person.livingCostDailyMinor,
+      ),
     },
     contest,
   );
@@ -419,6 +454,15 @@ export function countedCandidacyReasons(
       partyActivity: voter.partyActivity ?? zero,
       owner: Boolean(voter.ownedEmployerId),
       civicRoles: voter.civicRoles?.length ?? 0,
+      dependents: countedChildrenOf(
+        api.state as CoreState,
+        voter.id,
+        api.parameter("votingAge"),
+      ),
+      employed: Boolean(record?.jobId) || voter.weeklyMinutes > zero,
+      cashShare: record
+        ? cashShareOf(api, record.liquidMinor, record.livingCostDailyMinor)
+        : api.parameter("one"),
     },
     contest,
   );
@@ -482,6 +526,17 @@ function reasonsFrom(
     ownerRole: person.owner ? c(api, "candidacyOwnerRoleWeight") : zero,
     civicRole:
       c(api, "candidacyCivicRoleWeight") * Math.min(one, person.civicRoles),
+    // What a run costs the person's own life (the Coordinator's ruling, Nov
+    // 8): the children at home, a sliding pull that grows with each child and
+    // flattens, and the job and pay a run could endanger, less the more cash
+    // they have to carry a bad stretch.
+    family:
+      -c(api, "candidacyDependentsWeight") *
+      (person.dependents /
+        (person.dependents + c(api, "candidacyDependentsHalf"))),
+    jobRisk: person.employed
+      ? -c(api, "candidacyJobRiskWeight") * (one - person.cashShare)
+      : zero,
     // A crowded race: each person already running lowers the pull.
     field: -c(api, "candidacyFieldWeight") * (contest.runners ?? zero),
     age:
@@ -1190,10 +1245,17 @@ export function fileRunners(
     first.date < api.state.date
       ? weighContest(api, contest, localRank, false, true)
       : first;
+  // Every drawn counted runner is filled in before any platform is read, so
+  // the electorate the platforms weigh is rebuilt once for the contest, not
+  // once per runner (a fill-in changes the people it is keyed on).
+  for (const personId of row.runIds)
+    if (
+      decisionOf(api, contest.id, personId) &&
+      !api.state.people.has(personId)
+    )
+      fillInPerson(api.state as CoreState, personId);
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
-    if (decision && !api.state.people.has(personId))
-      fillInPerson(api.state as CoreState, personId);
     const person = api.state.people.get(personId);
     if (!decision || !person) continue;
     const filing: NonNullable<CandidacyDecision["filing"]> = person.alive
@@ -1640,13 +1702,17 @@ function weighClosedContest(
   );
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const positions = contestPositions(api, contest);
+  // A counted adult who decided to run on their counted record is made a
+  // full person the day they file, all before any platform is read.
+  for (const personId of row.runIds)
+    if (
+      decisionOf(api, contest.id, personId) &&
+      !api.state.people.has(personId)
+    )
+      fillInPerson(api.state as CoreState, personId);
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     if (!decision) continue;
-    // A counted adult who decided to run on their counted record is made a
-    // full person the day they file.
-    if (!api.state.people.has(personId))
-      fillInPerson(api.state as CoreState, personId);
     let party: string | null = seatParty(api, contest)
       ? partyOf(api, personId)
       : null;

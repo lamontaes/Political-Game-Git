@@ -314,6 +314,18 @@ export const STORY_KINDS = {
     headline: ["address-response"],
     lede: ["address-response"],
   },
+  "cabinet-nominated": {
+    headline: ["cabinet-nominated"],
+    lede: ["cabinet-nominated"],
+  },
+  "cabinet-confirmed": {
+    headline: ["cabinet-confirmed"],
+    lede: ["cabinet-confirmed"],
+  },
+  "cabinet-rejected": {
+    headline: ["cabinet-rejected"],
+    lede: ["cabinet-rejected"],
+  },
   // The floor before a roll call: who spoke for the bill and who against.
   "floor-debate": {
     headline: ["floor-debate"],

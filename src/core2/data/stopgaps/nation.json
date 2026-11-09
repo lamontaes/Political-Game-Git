@@ -28,11 +28,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/national-events.ts",
     "line": 1,
-    "whatItFakes": "The country's disasters are FEMA's recorded 2000-2024 disasters replayed on their own days under one seeded starting shift, cycling every 25 years; after the record ends (Oct 9, 2026) the game does not make its own weather.",
+    "whatItFakes": "Inside the record (to Oct 9, 2026) the country's disasters are FEMA's real ones on their real days. After it they come from the climate's hazard levels (flood, storm, wildfire only: heat and drought have no recorded history), but each takes the detail of a recorded disaster of its state and hazard in turn, so the counties, the aid and the damage it shows are a past disaster's, not the new one's.",
     "why": "The zero-dice guard allows no new draw, and the hazard calendar after the record needs a GENERATION entry in the list-pick inventory and per-county monthly hazard rates, which are not built (owner, Oct 16: both FEMA's records and the world's own conditions; after the records end, the game keeps making its own weather).",
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
-    "replacement": "Real FEMA disasters on their real dates while the world's dates fall inside the record (through Oct 9, 2026); after that a hazard calendar generated once at world creation from each county's recorded per-hazard monthly rates (a GENERATION entry), later fed by the world's own conditions (heat, drought).",
+    "replacement": "Detail built on open from the causes: the counties the hazard's level struck, the housing stock, building codes and budgets in force (SG-NATION-disaster-damage-from-causes).",
     "status": "open"
   },
   {
@@ -45,6 +45,54 @@
     "addedBy": "Nation",
     "addedAt": "2026-11-08",
     "replacement": "Measure-result bank pieces with a place (Words and Story), then this early return is deleted.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-climate-unread",
+    "kind": "missing-reader",
+    "file": "src/core2/modules/climate.ts",
+    "line": 1,
+    "whatItFakes": "The country's disasters after the record read the climate's hazard levels, but the town's own disasters (the disasters module) still stop at the record's end and no county, season or hazard level reaches a town's own disaster, so a played town gets no new weather from the climate.",
+    "why": "Piece 3 of the owner's weather ruling (Nov 8) covers the country's disasters, built as results; the town's own disasters need damage, aid and a declaration built from causes, which is the next piece.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "The town's county rate (hazardRate) drives its own disasters through the same exposure, with damage from the housing stock.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-climate-sizes-national",
+    "kind": "estimated-parameter",
+    "file": "data/research/outcome-web/links.json",
+    "line": 1,
+    "whatItFakes": "The warming-to-hazard links use one size for every county: drought from the Southwest's vapor-pressure rise, wildfire from western forest studies, heat from a doubling over half a degree (no range); storm and flood from global and national figures converted to a per-degree size.",
+    "why": "The National Climate Assessment and IPCC pages could not be fetched, and no source found gives a United States per-degree figure for heat, wildfire or drought by region or season.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Sizes by region and season from the National Climate Assessment (2023) chapters and the Littell et al. (2009) ecoprovince figure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-hazard-heat-drought-history",
+    "kind": "missing-data",
+    "file": "src/core2/modules/climate.ts",
+    "line": 1,
+    "whatItFakes": "A county's recorded hazard history is its FEMA declarations (flood, storm, wildfire); heat and drought have none (FEMA declared one drought), so their recorded rate is none and the climate's heat and drought levels move nothing until a history is read.",
+    "why": "The NOAA Storm Events episodes (excessive heat, drought) by county were not fetched; FEMA's record is what the disasters module holds.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Counts of NOAA storm episodes (excessive heat, extreme heat, drought) by county, hazard and season in hazard-history.json, built by the same script.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-climate-world-path",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/climate/emissions.json",
+    "line": 1,
+    "whatItFakes": "The rest of the world's fossil CO2 follows a straight line between three published points (38.1 Gt in 2025, 35 in 2035, 30 in 2050, held flat after) and does not respond to any other country's law, price or event; its spread (flat near 38 Gt under current policies) is not run.",
+    "why": "No year-by-year published scenario path was reachable; the IEA pages returned 403 and the points come from a search summary.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "The IEA or IPCC scenario table by year, with other countries' own laws moving their share.",
     "status": "open"
   },
   {
