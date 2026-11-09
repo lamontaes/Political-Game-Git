@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/counted-ballots
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T19:02:18.538Z
 ---
 
 **What.** The voting engine keeps one countedBallots row per local race, holding every counted voter's turnout, split and reasons as parallel arrays, and never removes one. At Montpelier, Vermont (5046000, world seed mont1, fast-forward), year 4, the table was 80 MB of live heap in 45 rows, measured by removing it. Only the why-lookups countedBallotOf and countedBallotsOf read a row; the race's result, returns and the named voters' ballots are separate rows.
