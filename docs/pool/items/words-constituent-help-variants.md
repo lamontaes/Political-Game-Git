@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/constituent-help-variants
-pr: pending
+pr: "#8055"
 blocked-on:
 lead: words
 source: owner, Nov 9 ("a bunch of different scenes and scenarios and variants", from "people's lives and the world's records")
