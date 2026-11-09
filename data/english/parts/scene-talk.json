@@ -150249,48 +150249,874 @@
         "key": "loss"
       }
     },
-    {"key": "scene-talk.narrate-narrate.name-answered-the-governor-from-the-floor-and-now-comes-down-the", "move": "narrate-narrate", "kind": "spoken", "text": "{name} answered the governor from the floor, and now comes down the aisle to find you.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "governor-answer-word"}},
-    {"key": "scene-talk.narrate-narrate.the-governors-speech-is-over-and-name-has-had-the-last-word", "move": "narrate-narrate", "kind": "spoken", "text": "The governor's speech is over, and {name} has had the last word on it. Now they want yours.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "governor-answer-word"}},
-    {"key": "scene-talk.narrate-narrate.name-spoke-against-the-governors-asks-in-front-of-everyone-in-the", "move": "narrate-narrate", "kind": "spoken", "text": "{name} spoke against the governor's asks in front of everyone. In the hallway they are quieter, and watching your face.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "governor-answer-word"}},
-    {"key": "scene-talk.open-greet.first-do-you-have-a-minute-id-like-to-know-what-you", "move": "open-greet", "kind": "spoken", "text": "{first}. Do you have a minute? I'd like to know what you made of the governor's speech.", "uses": [{"subject": "scene", "step": "open", "move": "greet", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "greet", "key": "governor-answer-word"}},
-    {"key": "scene-talk.open-greet.first-a-word-i-answered-the-governor-today-and-i-wanted-you", "move": "open-greet", "kind": "spoken", "text": "{first}, a word. I answered the governor today, and I wanted you to hear why from me.", "uses": [{"subject": "scene", "step": "open", "move": "greet", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "greet", "key": "governor-answer-word"}},
-    {"key": "scene-talk.open-greet.hello-first-you-were-in-the-room-did-you-hear-what-i", "move": "open-greet", "kind": "spoken", "text": "Hello, {first}. You were in the room. Did you hear what I said back?", "uses": [{"subject": "scene", "step": "open", "move": "greet", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "greet", "key": "governor-answer-word"}},
-    {"key": "scene-talk.state-ask.the-governor-asked-for-a-lot-today-are-you-with-the-governor", "move": "state-ask", "kind": "spoken", "text": "The governor asked for a lot today. Are you with the governor, or with us?", "uses": [{"subject": "scene", "step": "state", "move": "ask", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.state-ask.i-put-the-other-side-on-the-record-will-you-stand-with", "move": "state-ask", "kind": "spoken", "text": "I put the other side on the record. Will you stand with me when it comes to a vote?", "uses": [{"subject": "scene", "step": "state", "move": "ask", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.state-ask.did-the-governors-speech-sound-like-your-district-to-you-first", "move": "state-ask", "kind": "spoken", "text": "Did the governor's speech sound like your district to you, {first}?", "uses": [{"subject": "scene", "step": "state", "move": "ask", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.state-ask.i-said-what-a-lot-of-us-were-thinking-where-does-that", "move": "state-ask", "kind": "spoken", "text": "I said what a lot of us were thinking. Where does that leave you?", "uses": [{"subject": "scene", "step": "state", "move": "ask", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-tell.i-heard-the-same-speech-you-did-ill-judge-each-ask-when", "move": "reply-tell", "kind": "spoken", "text": "I heard the same speech you did. I'll judge each ask when it comes up as a bill.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-tell.some-of-it-i-liked-and-some-of-it-i-didnt-im", "move": "reply-tell", "kind": "spoken", "text": "Some of it I liked and some of it I didn't. I'm not going to pretend it was all one thing.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-tell.the-governor-has-a-point-on-a-few-things-im-not-ready", "move": "reply-tell", "kind": "spoken", "text": "The governor has a point on a few things. I'm not ready to say which.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-ask.what-would-you-do-instead-thats-the-part-i-didnt-hear", "move": "reply-ask", "kind": "spoken", "text": "What would you do instead? That's the part I didn't hear.", "uses": [{"subject": "scene", "step": "reply", "move": "ask", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-ask.how-much-of-that-was-for-the-cameras", "move": "reply-ask", "kind": "spoken", "text": "How much of that was for the cameras?", "uses": [{"subject": "scene", "step": "reply", "move": "ask", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-ask.who-are-you-speaking-for-when-you-say-that", "move": "reply-ask", "kind": "spoken", "text": "Who are you speaking for when you say that?", "uses": [{"subject": "scene", "step": "reply", "move": "ask", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-promise.if-your-side-brings-me-something-real-ill-read-it-with-an", "move": "reply-promise", "kind": "spoken", "text": "If your side brings me something real, I'll read it with an open mind.", "uses": [{"subject": "scene", "step": "reply", "move": "promise", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "promise", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-promise.ill-hear-you-out-before-the-vote-thats-a-promise", "move": "reply-promise", "kind": "spoken", "text": "I'll hear you out before the vote. That's a promise.", "uses": [{"subject": "scene", "step": "reply", "move": "promise", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "promise", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-promise.send-me-what-youve-got-and-ill-give-it-a-fair-look", "move": "reply-promise", "kind": "spoken", "text": "Send me what you've got, and I'll give it a fair look.", "uses": [{"subject": "scene", "step": "reply", "move": "promise", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "promise", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-refuse.im-not-picking-a-side-in-a-hallway", "move": "reply-refuse", "kind": "spoken", "text": "I'm not picking a side in a hallway.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-refuse.ill-vote-the-way-my-district-needs-not-the-way-either-of", "move": "reply-refuse", "kind": "spoken", "text": "I'll vote the way my district needs, not the way either of you asks.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-refuse.no-not-on-the-day-of-the-speech", "move": "reply-refuse", "kind": "spoken", "text": "No. Not on the day of the speech.", "uses": [{"subject": "scene", "step": "reply", "move": "refuse", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "refuse", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-leave.i-have-to-get-to-my-next-meeting", "move": "reply-leave", "kind": "spoken", "text": "I have to get to my next meeting.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
-    {"key": "scene-talk.reply-leave.let-s-pick-this-up-another-time-when-it-s-quieter", "move": "reply-leave", "kind": "spoken", "text": "Let's pick this up another time, when it's quieter.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "hallway-word", "key": "governor-answer-word"}], "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-thank.thank-you-first-thats-all-im-asking-for-a-fair-look", "move": "follow-thank", "kind": "spoken", "text": "Thank you, {first}. That's all I'm asking for: a fair look.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-thank.good-it-means-a-lot-to-hear-that", "move": "follow-thank", "kind": "spoken", "text": "Good. It means a lot to hear that.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-thank.i-appreciate-your-honesty-even-where-we-differ", "move": "follow-thank", "kind": "spoken", "text": "I appreciate your honesty, even where we differ.", "uses": [{"subject": "scene", "step": "follow", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-press.think-about-who-sent-you-here-first-they-heard-that-speech-too", "move": "follow-press", "kind": "spoken", "text": "Think about who sent you here, {first}. They heard that speech too.", "uses": [{"subject": "scene", "step": "follow", "move": "press", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-press.the-asks-dont-get-smaller-after-the-applause-they-get-bills", "move": "follow-press", "kind": "spoken", "text": "The asks don't get smaller after the applause. They get bills.", "uses": [{"subject": "scene", "step": "follow", "move": "press", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-press.ill-keep-making-the-case-with-you-or-without-you", "move": "follow-press", "kind": "spoken", "text": "I'll keep making the case, with you or without you.", "uses": [{"subject": "scene", "step": "follow", "move": "press", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-accept.fair-enough-well-see-how-it-plays-out", "move": "follow-accept", "kind": "spoken", "text": "Fair enough. We'll see how it plays out.", "uses": [{"subject": "scene", "step": "follow", "move": "accept", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-accept.all-right-i-wanted-you-to-know-where-i-stand", "move": "follow-accept", "kind": "spoken", "text": "All right. I wanted you to know where I stand.", "uses": [{"subject": "scene", "step": "follow", "move": "accept", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-answer.mostly-the-cost-the-governor-asked-and-the-bill-lands-on-people", "move": "follow-answer", "kind": "spoken", "text": "Mostly the cost. The governor asked, and the bill lands on people in this state.", "uses": [{"subject": "scene", "step": "follow", "move": "answer", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "answer", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-answer.mine-is-the-other-half-of-the-story-the-half-the-speech", "move": "follow-answer", "kind": "spoken", "text": "Mine is the other half of the story, the half the speech left out.", "uses": [{"subject": "scene", "step": "follow", "move": "answer", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "answer", "key": "governor-answer-word"}},
-    {"key": "scene-talk.follow-answer.ill-bring-you-the-numbers-first-read-them-before-you-decide", "move": "follow-answer", "kind": "spoken", "text": "I'll bring you the numbers, {first}. Read them before you decide.", "uses": [{"subject": "scene", "step": "follow", "move": "answer", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "answer", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-thank.thank-you-for-the-minute-first-i-know-the-day-was-long", "move": "close-thank", "kind": "spoken", "text": "Thank you for the minute, {first}. I know the day was long.", "uses": [{"subject": "scene", "step": "close", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-thank.glad-we-found-each-other-after-all-that-first", "move": "close-thank", "kind": "spoken", "text": "Glad we found each other after all that, {first}.", "uses": [{"subject": "scene", "step": "close", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-thank.that-was-all-i-wanted-to-say-take-care-first", "move": "close-thank", "kind": "spoken", "text": "That was all I wanted to say. Take care, {first}.", "uses": [{"subject": "scene", "step": "close", "move": "thank", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "thank", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-accept.all-right-first-lets-leave-it-there-for-today", "move": "close-accept", "kind": "spoken", "text": "All right, {first}. Let's leave it there for today.", "uses": [{"subject": "scene", "step": "close", "move": "accept", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-accept.understood-the-bills-will-bring-us-back-to-this", "move": "close-accept", "kind": "spoken", "text": "Understood. The bills will bring us back to this.", "uses": [{"subject": "scene", "step": "close", "move": "accept", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-press.ill-find-you-again-before-the-vote-first", "move": "close-press", "kind": "spoken", "text": "I'll find you again before the vote, {first}.", "uses": [{"subject": "scene", "step": "close", "move": "press", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "governor-answer-word"}},
-    {"key": "scene-talk.close-press.sleep-on-it-and-ill-ask-again-when-the-bill-comes", "move": "close-press", "kind": "spoken", "text": "Sleep on it, and I'll ask again when the bill comes.", "uses": [{"subject": "scene", "step": "close", "move": "press", "role": "asker", "purpose": "hallway-word", "key": "governor-answer-word"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "governor-answer-word"}},
+    {
+      "key": "scene-talk.narrate-narrate.name-answered-the-governor-from-the-floor-and-now-comes-down-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} answered the governor from the floor, and now comes down the aisle to find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-governors-speech-is-over-and-name-has-had-the-last-word",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The governor's speech is over, and {name} has had the last word on it. Now they want yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-spoke-against-the-governors-asks-in-front-of-everyone-in-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} spoke against the governor's asks in front of everyone. In the hallway they are quieter, and watching your face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.open-greet.first-do-you-have-a-minute-id-like-to-know-what-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}. Do you have a minute? I'd like to know what you made of the governor's speech.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "greet", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.open-greet.first-a-word-i-answered-the-governor-today-and-i-wanted-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{first}, a word. I answered the governor today, and I wanted you to hear why from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "greet", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.open-greet.hello-first-you-were-in-the-room-did-you-hear-what-i",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Hello, {first}. You were in the room. Did you hear what I said back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "greet", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.state-ask.the-governor-asked-for-a-lot-today-are-you-with-the-governor",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "The governor asked for a lot today. Are you with the governor, or with us?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.state-ask.i-put-the-other-side-on-the-record-will-you-stand-with",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I put the other side on the record. Will you stand with me when it comes to a vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.state-ask.did-the-governors-speech-sound-like-your-district-to-you-first",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Did the governor's speech sound like your district to you, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.state-ask.i-said-what-a-lot-of-us-were-thinking-where-does-that",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I said what a lot of us were thinking. Where does that leave you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-tell.i-heard-the-same-speech-you-did-ill-judge-each-ask-when",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "I heard the same speech you did. I'll judge each ask when it comes up as a bill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "tell", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-tell.some-of-it-i-liked-and-some-of-it-i-didnt-im",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Some of it I liked and some of it I didn't. I'm not going to pretend it was all one thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "tell", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-tell.the-governor-has-a-point-on-a-few-things-im-not-ready",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "The governor has a point on a few things. I'm not ready to say which.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "tell", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-you-do-instead-thats-the-part-i-didnt-hear",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would you do instead? That's the part I didn't hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-much-of-that-was-for-the-cameras",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much of that was for the cameras?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-are-you-speaking-for-when-you-say-that",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who are you speaking for when you say that?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-promise.if-your-side-brings-me-something-real-ill-read-it-with-an",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "If your side brings me something real, I'll read it with an open mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "promise", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-promise.ill-hear-you-out-before-the-vote-thats-a-promise",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll hear you out before the vote. That's a promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "promise", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-promise.send-me-what-youve-got-and-ill-give-it-a-fair-look",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Send me what you've got, and I'll give it a fair look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "promise", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-refuse.im-not-picking-a-side-in-a-hallway",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'm not picking a side in a hallway.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "refuse", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-refuse.ill-vote-the-way-my-district-needs-not-the-way-either-of",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll vote the way my district needs, not the way either of you asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "refuse", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-refuse.no-not-on-the-day-of-the-speech",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "No. Not on the day of the speech.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "refuse", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-get-to-my-next-meeting",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to get to my next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "leave", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-s-pick-this-up-another-time-when-it-s-quieter",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's pick this up another time, when it's quieter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "leave", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-thats-all-im-asking-for-a-fair-look",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That's all I'm asking for: a fair look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "thank", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-it-means-a-lot-to-hear-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. It means a lot to hear that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "thank", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-your-honesty-even-where-we-differ",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate your honesty, even where we differ.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "thank", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-press.think-about-who-sent-you-here-first-they-heard-that-speech-too",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about who sent you here, {first}. They heard that speech too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "press", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-press.the-asks-dont-get-smaller-after-the-applause-they-get-bills",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The asks don't get smaller after the applause. They get bills.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "press", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-press.ill-keep-making-the-case-with-you-or-without-you",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll keep making the case, with you or without you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "press", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-well-see-how-it-plays-out",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. We'll see how it plays out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "accept", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-i-wanted-you-to-know-where-i-stand",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. I wanted you to know where I stand.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "accept", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-answer.mostly-the-cost-the-governor-asked-and-the-bill-lands-on-people",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mostly the cost. The governor asked, and the bill lands on people in this state.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "answer", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-answer.mine-is-the-other-half-of-the-story-the-half-the-speech",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Mine is the other half of the story, the half the speech left out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "answer", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.follow-answer.ill-bring-you-the-numbers-first-read-them-before-you-decide",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'll bring you the numbers, {first}. Read them before you decide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "answer", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-the-minute-first-i-know-the-day-was-long",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for the minute, {first}. I know the day was long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "thank", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-thank.glad-we-found-each-other-after-all-that-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Glad we found each other after all that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "thank", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-thank.that-was-all-i-wanted-to-say-take-care-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That was all I wanted to say. Take care, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "thank", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-first-lets-leave-it-there-for-today",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right, {first}. Let's leave it there for today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "accept", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-the-bills-will-bring-us-back-to-this",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. The bills will bring us back to this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "accept", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-press.ill-find-you-again-before-the-vote-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll find you again before the vote, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "press", "key": "governor-answer-word" }
+    },
+    {
+      "key": "scene-talk.close-press.sleep-on-it-and-ill-ask-again-when-the-bill-comes",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Sleep on it, and I'll ask again when the bill comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "hallway-word",
+          "key": "governor-answer-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "press", "key": "governor-answer-word" }
+    },
     {
       "key": "scene-talk.narrate-narrate.name-holds-out-a-small-wrapped-gift-and-says-it-is-nothing",
       "move": "narrate-narrate",
@@ -155412,35 +156238,634 @@
         "key": "threat"
       }
     },
-    {"key": "scene-talk.narrate-narrate.the-story-about-the-money-is-out-and-name-comes-straight-to-you", "move": "narrate-narrate", "kind": "spoken", "text": "The story about the money is out, and {name} comes straight to you.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "bribe-reported"}},
-    {"key": "scene-talk.narrate-narrate.name-has-the-paper-folded-in-one-hand-and-waits-until-the-others-have-gone", "move": "narrate-narrate", "kind": "spoken", "text": "{name} has the paper folded in one hand and waits until the others have gone.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "bribe-reported"}},
-    {"key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-what-the-paper-printed", "move": "open-greet", "kind": "spoken", "text": "Have you got a minute? It's about what the paper printed.", "uses": [{"subject": "scene", "step": "open", "move": "greet", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "greet", "key": "bribe-reported"}},
-    {"key": "scene-talk.state-confront.is-it-true-you-took-money-for-that-decision", "move": "state-confront", "kind": "spoken", "text": "Is it true you took money for that decision?", "uses": [{"subject": "scene", "step": "state", "move": "confront", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-tell.it-s-not-the-way-they-printed-it-let-me-tell-you-how-it-happened", "move": "reply-tell", "kind": "spoken", "text": "It's not the way they printed it. Let me tell you how it happened.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-deny.no-whoever-told-the-paper-that-has-it-wrong", "move": "reply-deny", "kind": "spoken", "text": "No. Whoever told the paper that has it wrong.", "uses": [{"subject": "scene", "step": "reply", "move": "deny", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "deny", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-confront.you-read-a-newspaper-and-decided-that-s-who-i-am", "move": "reply-confront", "kind": "spoken", "text": "You read a newspaper and decided that's who I am?", "uses": [{"subject": "scene", "step": "reply", "move": "confront", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-offer.i-ll-step-out-of-that-decision-and-say-why-in-public-will-that-do", "move": "reply-offer", "kind": "spoken", "text": "I'll step out of that decision and say why in public. Will that do?", "uses": [{"subject": "scene", "step": "reply", "move": "offer", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "offer", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-lie.there-was-no-money-i-don-t-know-where-they-got-it", "move": "reply-lie", "kind": "spoken", "text": "There was no money. I don't know where they got it.", "uses": [{"subject": "scene", "step": "reply", "move": "lie", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "lie", "key": "bribe-reported"}},
-    {"key": "scene-talk.follow-ask.then-why-not-say-so-before-it-ran", "move": "follow-ask", "kind": "spoken", "text": "Then why not say so before it ran?", "uses": [{"subject": "scene", "step": "follow", "move": "ask", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "tell"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "ask", "key": "bribe-reported"}},
-    {"key": "scene-talk.follow-accept.all-right-that-s-more-than-i-expected-thank-you-for-saying-it", "move": "follow-accept", "kind": "spoken", "text": "All right. That's more than I expected. Thank you for saying it.", "uses": [{"subject": "scene", "step": "follow", "move": "accept", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "bribe-reported"}},
-    {"key": "scene-talk.follow-press.they-printed-a-date-and-an-amount-say-it-s-wrong-and-mean-it", "move": "follow-press", "kind": "spoken", "text": "They printed a date and an amount. Say it's wrong and mean it.", "uses": [{"subject": "scene", "step": "follow", "move": "press", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "deny"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "press", "key": "bribe-reported"}},
-    {"key": "scene-talk.follow-confront.i-stood-up-for-you-i-m-allowed-to-ask", "move": "follow-confront", "kind": "spoken", "text": "I stood up for you. I'm allowed to ask.", "uses": [{"subject": "scene", "step": "follow", "move": "confront", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "confront"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
-    {"key": "scene-talk.follow-confront.i-ve-seen-the-record-don-t-say-that-to-me-again", "move": "follow-confront", "kind": "spoken", "text": "I've seen the record. Don't say that to me again.", "uses": [{"subject": "scene", "step": "follow", "move": "confront", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "lie", "requiresFacts": ["knows-truth"]}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "confront", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-tell.because-i-thought-i-could-fix-it-first-i-was-wrong", "move": "reply-tell", "kind": "spoken", "text": "Because I thought I could fix it first. I was wrong.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "ask"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-offer.fine-i-ll-step-out-of-it", "move": "reply-offer", "kind": "spoken", "text": "Fine. I'll step out of it.", "uses": [{"subject": "scene", "step": "reply", "move": "offer", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "offer", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-leave.not-here-with-people-watching", "move": "reply-leave", "kind": "spoken", "text": "Not here, with people watching.", "uses": [{"subject": "scene", "step": "reply", "move": "leave", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "leave", "key": "bribe-reported"}},
-    {"key": "scene-talk.close-warn.then-i-ll-ask-it-in-front-of-everybody", "move": "close-warn", "kind": "spoken", "text": "Then I'll ask it in front of everybody.", "uses": [{"subject": "scene", "step": "close", "move": "warn", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "leave", "outcome": "open"}], "bearing": "braced", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "warn", "key": "bribe-reported"}},
-    {"key": "scene-talk.follow-accept.okay-then-somebody-gave-the-paper-bad-information", "move": "follow-accept", "kind": "spoken", "text": "Okay. Then somebody gave the paper bad information.", "uses": [{"subject": "scene", "step": "follow", "move": "accept", "role": "asker", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "lie"}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "accept", "key": "bribe-reported"}},
-    {"key": "scene-talk.reply-tell.fine-i-took-it-i-ll-tell-you-all-of-it", "move": "reply-tell", "kind": "spoken", "text": "Fine. I took it. I'll tell you all of it.", "uses": [{"subject": "scene", "step": "reply", "move": "tell", "role": "asked", "purpose": "conflict-accuse", "key": "bribe-reported", "after": "press"}], "bearing": "guarded", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "tell", "key": "bribe-reported"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you head to the {post}'s office to ask about running. {name} comes over to the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-walk-in-to-ask-for-the-papers-to-run-and", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You walk in to ask for the papers to run, and {name}, the {post}, is already at the counter.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-step-into-the-posts-office-and-ask-for-name", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you step into the {post}'s office and ask for {name}.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you head to the {post}'s office to pick up the papers for {office}. {name} pulls them from a drawer.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You head to the {post}'s office and speak to {name}, to ask what running for {office} takes.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "first-visit", "post", "office"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-take-your-petition-back-to-the-posts-office-name-holds", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you take your petition back to the {post}'s office. {name} holds out a hand for it.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-come-back-to-name-at-the-posts-counter-with-your", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. You come back to {name} at the {post}'s counter with your petition in a folder.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "returning", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-you-stop-by-the-posts-office-your-name-is-already-on", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}, you stop by the {post}'s office. Your name is already on the ballot, and {name} looks up and nods.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
-    {"key": "scene-talk.narrate-narrate.begins-name-the-post-waves-you-over-though-there-is-nothing-left", "move": "narrate-narrate", "kind": "spoken", "text": "{begins}. {name}, the {post}, waves you over, though there is nothing left for you to file.", "uses": [{"subject": "scene", "step": "narrate", "move": "narrate", "role": "narrator", "purpose": "filing-clerk", "key": "routine", "requiresFacts": ["begins", "on-ballot", "post"]}], "bearing": "calm", "origin": "authored", "author": "Story (Claude Code), civic-prose", "date": "2026-11-08", "tag": {"move": "narrate", "key": "routine"}},
+    {
+      "key": "scene-talk.narrate-narrate.the-story-about-the-money-is-out-and-name-comes-straight-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The story about the money is out, and {name} comes straight to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-the-paper-folded-in-one-hand-and-waits-until-the-others-have-gone",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has the paper folded in one hand and waits until the others have gone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.open-greet.have-you-got-a-minute-it-s-about-what-the-paper-printed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Have you got a minute? It's about what the paper printed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "greet", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.state-confront.is-it-true-you-took-money-for-that-decision",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Is it true you took money for that decision?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "confront", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-tell.it-s-not-the-way-they-printed-it-let-me-tell-you-how-it-happened",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "It's not the way they printed it. Let me tell you how it happened.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "tell", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-deny.no-whoever-told-the-paper-that-has-it-wrong",
+      "move": "reply-deny",
+      "kind": "spoken",
+      "text": "No. Whoever told the paper that has it wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deny",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "deny", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-read-a-newspaper-and-decided-that-s-who-i-am",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You read a newspaper and decided that's who I am?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "confront", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-offer.i-ll-step-out-of-that-decision-and-say-why-in-public-will-that-do",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "I'll step out of that decision and say why in public. Will that do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "offer", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-lie.there-was-no-money-i-don-t-know-where-they-got-it",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "There was no money. I don't know where they got it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "lie", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.follow-ask.then-why-not-say-so-before-it-ran",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Then why not say so before it ran?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "tell"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "ask", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-that-s-more-than-i-expected-thank-you-for-saying-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. That's more than I expected. Thank you for saying it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "accept", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.follow-press.they-printed-a-date-and-an-amount-say-it-s-wrong-and-mean-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "They printed a date and an amount. Say it's wrong and mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "deny"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "press", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-stood-up-for-you-i-m-allowed-to-ask",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I stood up for you. I'm allowed to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "confront", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.follow-confront.i-ve-seen-the-record-don-t-say-that-to-me-again",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I've seen the record. Don't say that to me again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "lie",
+          "requiresFacts": ["knows-truth"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "confront", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-tell.because-i-thought-i-could-fix-it-first-i-was-wrong",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Because I thought I could fix it first. I was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "ask"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "tell", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-offer.fine-i-ll-step-out-of-it",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Fine. I'll step out of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "offer", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-here-with-people-watching",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not here, with people watching.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "leave", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.close-warn.then-i-ll-ask-it-in-front-of-everybody",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Then I'll ask it in front of everybody.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "leave",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "warn", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-then-somebody-gave-the-paper-bad-information",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Then somebody gave the paper bad information.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "lie"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "accept", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.reply-tell.fine-i-took-it-i-ll-tell-you-all-of-it",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "Fine. I took it. I'll tell you all of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "conflict-accuse",
+          "key": "bribe-reported",
+          "after": "press"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "tell", "key": "bribe-reported" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-ask-about-running-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}, you head to the {post}'s office to ask about running. {name} comes over to the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "first-visit", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-walk-in-to-ask-for-the-papers-to-run-and",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}. You walk in to ask for the papers to run, and {name}, the {post}, is already at the counter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "first-visit", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-step-into-the-posts-office-and-ask-for-name",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}, you step into the {post}'s office and ask for {name}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "first-visit", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-to-pick-up-the-papers",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}, you head to the {post}'s office to pick up the papers for {office}. {name} pulls them from a drawer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "first-visit", "post", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-head-to-the-posts-office-and-speak-to-name-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}. You head to the {post}'s office and speak to {name}, to ask what running for {office} takes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "first-visit", "post", "office"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-take-your-petition-back-to-the-posts-office-name-holds",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}, you take your petition back to the {post}'s office. {name} holds out a hand for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "returning", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-come-back-to-name-at-the-posts-counter-with-your",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}. You come back to {name} at the {post}'s counter with your petition in a folder.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "returning", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-you-stop-by-the-posts-office-your-name-is-already-on",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}, you stop by the {post}'s office. Your name is already on the ballot, and {name} looks up and nods.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "on-ballot", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.begins-name-the-post-waves-you-over-though-there-is-nothing-left",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{begins}. {name}, the {post}, waves you over, though there is nothing left for you to file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-clerk",
+          "key": "routine",
+          "requiresFacts": ["begins", "on-ballot", "post"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-08",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
     {
       "key": "scene-talk.reply-thank.thank-you-chair",
       "move": "reply-thank",
@@ -158363,9 +159788,7 @@
           "role": "narrator",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -158412,9 +159835,7 @@
           "role": "narrator",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -158486,10 +159907,7 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift",
-            "donor-bill"
-          ]
+          "requiresFacts": ["gift", "donor-bill"]
         }
       ],
       "bearing": "warm",
@@ -158514,9 +159932,7 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "guarded",
@@ -158541,9 +159957,7 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -158568,9 +159982,7 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "bearing": "calm",
@@ -159307,9 +160719,7 @@
           "role": "narrator",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -159333,9 +160743,7 @@
           "role": "narrator",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -159430,10 +160838,7 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift",
-            "donor-bill"
-          ]
+          "requiresFacts": ["gift", "donor-bill"]
         }
       ],
       "bearing": "braced",
@@ -159458,9 +160863,7 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "braced",
@@ -159485,9 +160888,7 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "braced",
@@ -159512,9 +160913,7 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -159539,9 +160938,7 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "bearing": "calm",
@@ -160304,9 +161701,7 @@
           "role": "narrator",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -160353,9 +161748,7 @@
           "role": "narrator",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -160427,9 +161820,7 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "warm",
@@ -160454,9 +161845,7 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "warm",
@@ -160481,9 +161870,7 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "bearing": "warm",
@@ -161269,9 +162656,7 @@
           "role": "narrator",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "origin": "authored",
@@ -161366,9 +162751,7 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "braced",
@@ -161393,9 +162776,7 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "guarded",
@@ -161420,9 +162801,7 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": [
-            "donor-bill"
-          ]
+          "requiresFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -161447,9 +162826,7 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": [
-            "gift"
-          ]
+          "requiresFacts": ["gift"]
         }
       ],
       "bearing": "braced",
