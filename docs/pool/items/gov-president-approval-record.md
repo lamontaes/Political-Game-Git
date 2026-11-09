@@ -5,9 +5,9 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: claimed
+status: done
 claimed-by: nation/national-opinion
-pr:
+pr: #7625
 after:
 blocked-on:
 milestone:
