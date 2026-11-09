@@ -4,7 +4,12 @@ import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "jso
 import { DEFAULT_DATA, extendData } from "./data";
 import { scoreOffers } from "./choice";
 import { planFreeTime } from "./free-block";
-import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
+import {
+  advanceCore,
+  availableActs,
+  chooseAct,
+  createLifeCore as createBareLifeCore,
+} from "./life";
 import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
 import { ACCOUNTS_MODULE } from "./accounts";
@@ -19,6 +24,7 @@ import type {
   CoreData,
   CoreEventInput,
   CoreInput,
+  CoreModule,
   CoreState,
   LogRecord,
   PersonInput,
@@ -45,6 +51,60 @@ const source: Source = {
   estimatedFrom:
     "Authored identity, job, and public-directory records; model parameters use the tagged table, while adverse-event impulses come from the developer-only synthetic test fixture.",
 };
+
+/**
+ * The chooser's money effect needs a paid act to choose. The game's one payroll
+ * pays through recorded paydays, and its legacy discretionary work act was
+ * retired (Money, Nov 8), so these developer-only tests carry their own paid
+ * shift: an action row and a module that pays the day's wage from the employer
+ * through the one journal. It is registered only here and never ships.
+ */
+const SHIFT_EFFECT = "fixture-paid-shift";
+const SHIFT_MODULE: CoreModule = {
+  id: "fixture-paid-shift",
+  effectHandlers: {
+    [SHIFT_EFFECT]: (api, actorId, chosen, date, days) => {
+      const job = api.state.jobs.get(chosen.targetId)!;
+      api.accounts().transfer({
+        id: `fixture-shift:${date}:${actorId}:${api.state.people.get(actorId)!.actCount}`,
+        from: api.accounts().main(job.organizationId),
+        to: api.accounts().main(actorId),
+        amountMinor: Math.round(job.wageDailyMinor * days),
+        reasonKey: "fixture:paid-shift",
+        source,
+      });
+    },
+  },
+};
+const SHIFT_DATA = extendData(DEFAULT_DATA, {
+  actions: [
+    {
+      id: "fixture-work-shift",
+      actKinds: ["follow-rules", "self-interest", "commit"],
+      goalKinds: ["earn"],
+      need: "money",
+      effortParameter: "workHours",
+      effectParameter: "one",
+      targetKind: "job",
+      effect: SHIFT_EFFECT,
+      emotion: {
+        moodMultiplierParameter: "one",
+        stressMultiplierParameter: "negativeOne",
+      },
+    },
+  ],
+});
+
+function createLifeCore(
+  coreInput: CoreInput,
+  options: Parameters<typeof createBareLifeCore>[1] = {},
+): CoreState {
+  return createBareLifeCore(coreInput, {
+    ...options,
+    data: options.data ?? SHIFT_DATA,
+    modules: [...(options.modules ?? []), SHIFT_MODULE],
+  });
+}
 
 function person(id: string, overrides: Partial<PersonInput> = {}): PersonInput {
   return {
@@ -135,7 +195,7 @@ function workers(
 
 function definition(
   effect: string,
-  data: CoreData = DEFAULT_DATA,
+  data: CoreData = SHIFT_DATA,
 ): ActionDefinition {
   const row = data.actions.find((action) => action.effect === effect);
   if (!row) throw new Error(`Fixture requires an existing effect: ${effect}`);
@@ -254,7 +314,7 @@ describe("shared actor chooser and committed effects", () => {
     const result = advanceCore(core, nextDay);
     const playerAct = lastAct(core, actorId);
     const npcAct = lastAct(core, npcId);
-    const work = definition("paid-work");
+    const work = definition(SHIFT_EFFECT);
     // P15 part 2b: each activation's free hours can hold more than one act.
     expect(result).toEqual({
       simulatedDays: p("one"),
@@ -309,17 +369,17 @@ describe("shared actor chooser and committed effects", () => {
     const openingMoney = money(core);
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
-    const priorNeed = actor.needs[definition("paid-work").need]!;
+    const priorNeed = actor.needs[definition(SHIFT_EFFECT).need]!;
     const priorStress = actor.affect.stress;
     const earned = actor.liquidMinor;
     advanceCore(core, "2021-01-03");
-    expect(actor.needs[definition("paid-work").need]!).toBeLessThan(priorNeed);
+    expect(actor.needs[definition(SHIFT_EFFECT).need]!).toBeLessThan(priorNeed);
     expect(lastAct(core, actorId).actionId).toBe(definition("recover").id);
     expect(actor.affect.stress).toBeLessThan(priorStress);
     // P15 part 2b: the day's free hours can still hold a shift after the
     // recovery pick; each shift pays the same daily wage.
     expect(actor.liquidMinor).toBe(
-      earned * actor.actsByKind.get(definition("paid-work").id)!,
+      earned * actor.actsByKind.get(definition(SHIFT_EFFECT).id)!,
     );
     expect(money(core)).toBe(openingMoney);
     assertCoreIntegrity(core);
@@ -348,11 +408,11 @@ describe("shared actor chooser and committed effects", () => {
     advanceCore(low, nextDay);
     const highAct = lastAct(high, actorId);
     const lowAct = lastAct(low, actorId);
-    expect(highAct.actionId).toBe(definition("paid-work").id);
+    expect(highAct.actionId).toBe(definition(SHIFT_EFFECT).id);
     expect(lowAct.actionId).toBe(definition("recover").id);
     const workReasons = (core: CoreState) =>
       lastAct(core, actorId).decision!.scores!.find(
-        (row) => row.actionId === definition("paid-work").id,
+        (row) => row.actionId === definition(SHIFT_EFFECT).id,
       )!.reasons;
     const highWork = workReasons(high);
     const lowWork = workReasons(low);
@@ -408,8 +468,8 @@ describe("shared actor chooser and committed effects", () => {
       const calm = decide(p("stressBaseline"));
       const strained = decide(stressed);
       // Stress never pushes anyone from rest into work.
-      expect(calm === "recover" && strained === "paid-work").toBe(false);
-      if (calm === "paid-work" && strained === "recover") turned += p("one");
+      expect(calm === "recover" && strained === SHIFT_EFFECT).toBe(false);
+      if (calm === SHIFT_EFFECT && strained === "recover") turned += p("one");
     }
     // Some generated workers who would work when calm rest when stressed.
     expect(turned).toBeGreaterThan(p("zero"));
@@ -464,11 +524,11 @@ describe("shared actor chooser and committed effects", () => {
       eventInputs.events.affectStimulus.moodImpulse * p("two"),
       p("stressBaseline"),
     );
-    expect(calm.selected!.definition.effect).toBe("paid-work");
+    expect(calm.selected!.definition.effect).toBe(SHIFT_EFFECT);
     expect(stressed.selected!.definition.effect).toBe("recover");
-    expect(goodMood.selected!.definition.effect).toBe("paid-work");
+    expect(goodMood.selected!.definition.effect).toBe(SHIFT_EFFECT);
     expect(lowMood.selected!.definition.effect).toBe("recover");
-    for (const effect of ["paid-work", "recover"]) {
+    for (const effect of [SHIFT_EFFECT, "recover"]) {
       const reasons = (decision: typeof calm) =>
         decision.scores!.find((row) => row.actionId === definition(effect).id)!
           .reasons;
@@ -484,14 +544,14 @@ describe("shared actor chooser and committed effects", () => {
     const emotion = (decision: typeof calm, effect: string) =>
       decision.scores!.find((row) => row.actionId === definition(effect).id)!
         .reasons.emotion;
-    expect(emotion(stressed, "paid-work")).toBeLessThan(
-      emotion(calm, "paid-work"),
+    expect(emotion(stressed, SHIFT_EFFECT)).toBeLessThan(
+      emotion(calm, SHIFT_EFFECT),
     );
     expect(emotion(stressed, "recover")).toBeGreaterThan(
       emotion(calm, "recover"),
     );
-    expect(emotion(goodMood, "paid-work")).toBeGreaterThan(
-      emotion(lowMood, "paid-work"),
+    expect(emotion(goodMood, SHIFT_EFFECT)).toBeGreaterThan(
+      emotion(lowMood, SHIFT_EFFECT),
     );
     expect(emotion(goodMood, "recover")).toBeLessThan(
       emotion(lowMood, "recover"),
@@ -505,7 +565,7 @@ describe("shared actor chooser and committed effects", () => {
     expect(decision.scores).toBeUndefined();
     advanceCore(core, nextDay);
     const actor = core.people.get(npcId)!;
-    expect(actor.lastChoice).toBe(definition("paid-work").id);
+    expect(actor.lastChoice).toBe(definition(SHIFT_EFFECT).id);
     expect(actor.lastReason).toMatch(/^utility:/);
     expect(actor.actsByKind.get(actor.lastChoice!)).toBe(p("one"));
     expect(core.durableLog.size).toBe(p("zero"));
@@ -1037,7 +1097,7 @@ describe("controller boundary and data extension", () => {
       ],
       actions: [
         {
-          ...definition("paid-work"),
+          ...definition(SHIFT_EFFECT),
           id: newAction,
           need: newNeed,
           goalKinds: [newGoal],
@@ -1063,7 +1123,7 @@ describe("controller boundary and data extension", () => {
     // createLifeCore always registers life, people, school days, disasters,
     // recorded work and the accounts module; the new action adds no module of
     // its own.
-    expect(core.modules.size).toBe(p("two") + p("two") + p("two"));
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two") + p("one"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         LIFE_MODULE.id,
@@ -1072,6 +1132,7 @@ describe("controller boundary and data extension", () => {
         DISASTERS_MODULE_ID,
         WORK_MODULE.id,
         ACCOUNTS_MODULE.id,
+        SHIFT_MODULE.id,
       ].sort(),
     );
     advanceCore(core, nextDay);
@@ -1088,7 +1149,9 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two") + p("two") + p("two") + p("two"));
+    // The legacy work act used to add the cash modules on first use; the
+    // retired path no longer does, so the set stays the registered seven.
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two") + p("one"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         SCHOOL_MODULE_ID,
@@ -1097,8 +1160,7 @@ describe("controller boundary and data extension", () => {
         PEOPLE_MODULE_ID,
         WORK_MODULE.id,
         ACCOUNTS_MODULE.id,
-        core.data.workCashModuleId,
-        core.data.finance!.cashJournal.moduleId,
+        SHIFT_MODULE.id,
       ].sort(),
     );
     assertCoreIntegrity(core);

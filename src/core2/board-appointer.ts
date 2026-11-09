@@ -10,7 +10,7 @@
  */
 import boardData from "./data/macro/board.json" with { type: "json" };
 import { nominateAndConfirm, partySide } from "./appointments";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import {
   inflationLeans,
   type BoardCandidate,

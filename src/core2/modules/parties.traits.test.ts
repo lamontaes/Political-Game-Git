@@ -7,7 +7,7 @@
 import { drawPlace } from "../../../tests/golden-path/place";
 import { beforeAll, describe, expect, it } from "vitest";
 import { adultsOf, drawnRaceWorld, RUN_SEED } from "../trait-test-kit";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { homeDistanceMiles } from "../home-distance";
 import { decisionLean } from "../trait-decisions";
 import {
