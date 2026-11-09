@@ -1422,6 +1422,7 @@ $("talk-leave").addEventListener("click", async () => {
   if (filing) {
     await post("/api/filing/leave");
     filing = undefined;
+    filingNarrated = false;
     show("talk", false);
     await refresh();
     renderPacket();
@@ -1452,9 +1453,11 @@ function renderFiling(value) {
     ...line,
     speakerId: line.speaker === "clerk" ? "clerk" : me.id,
   }));
-  // The narrator sets the counter up first, alone; Continue, then the clerk
-  // speaks (the opening call only).
-  if (lines.length <= 1 && value.intro?.length && !filingNarrated) {
+  // The narrator sets the counter up first, alone, whatever the visit
+  // arrives with (a race picked at once adds lines before this runs); Continue,
+  // then the clerk speaks. Once per visit (owner, Nov 8: "it says first thing
+  // on June 7th. You head to the clerk's office and speak to...").
+  if (value.intro?.length && !filingNarrated) {
     filingNarrated = true;
     narrateFirst(
       value.intro.map((line) =>
@@ -1545,6 +1548,7 @@ function renderFiling(value) {
   setScales({ available: false });
 }
 async function openFiling(filedWith, contestId) {
+  filingNarrated = false;
   closeSheet();
   renderTalk(undefined);
   const opened = await post(
@@ -5866,14 +5870,20 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       ? $("seed").value
       : setup.seed || (await api("/api/seed")).seed;
     // Real progress through every step, from the server's build.
-    // The server builds the world in six steps; a step is named while it runs and the bar
-    // fills one sixth for each step finished.
+    // The server builds the world in twelve steps (BuildStage in world.ts); a step is named
+    // while it runs and the bar fills one twelfth for each step finished.
     const STEPS = [
       "people",
       "past",
       "economy",
       "core",
       "government",
+      "elections",
+      "budgets",
+      "legislature",
+      "cabinet",
+      "workings",
+      "history",
       "opening",
     ];
     // A poll still in flight when the build ends leaves the line alone.

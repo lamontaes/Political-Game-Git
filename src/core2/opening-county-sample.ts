@@ -221,6 +221,33 @@ export function withCountySample(
       employment.set(home, list);
     });
   }
+  // Each sampled employer is owned by one of the county's adults (generation
+  // of who exists): the adult of 25 or over with the smallest hash for it who
+  // owns no other, so owners are county people the chooser can read.
+  const owners = new Set<string>();
+  const employerIds = [
+    ...new Set(
+      [...employment.values()].flatMap((rows) =>
+        rows.map((row) => row.employerId),
+      ),
+    ),
+  ].sort();
+  const ownerAge = p("votingAge") + p("ownerAgeAfterVoting");
+  for (const employerId of employerIds) {
+    const owner = people
+      .filter(
+        (row) =>
+          !owners.has(row.id) && ageInYears(row.birthDate, start) >= ownerAge,
+      )
+      .sort((a, b) =>
+        stableHash(`${input.seed}:owner:${employerId}:${a.id}`).localeCompare(
+          stableHash(`${input.seed}:owner:${employerId}:${b.id}`),
+        ),
+      )[0];
+    if (!owner) continue;
+    owners.add(owner.id);
+    owner.looks = { ...(owner.looks ?? {}), ownedEmployerId: employerId };
+  }
   // Cash: what a household at its pay keeps in its accounts in this world
   // (the median transaction balance), shared among its adults; a household
   // with no worker keeps that of one median earner.
@@ -247,18 +274,22 @@ export function withCountySample(
   // Every record stands for as many households as the county's eligible
   // voters (adult citizens) ask for.
   const share = citizenShareOf(county.placeKey, county.usps, input.seed);
-  // The circle's kin already living in the county and counted are part of
-  // the sample too (they are county residents), so the weight covers them.
-  const inSample = [
-    ...people,
-    ...input.people.filter(
-      (row) => row.placeId === county.jurisdictionId && !kept.has(row.id),
-    ),
-  ];
-  const eligibleInSample =
-    inSample.filter((row) => ageInYears(row.birthDate, start) >= p("votingAge"))
-      .length * share;
-  const weight = eligibleInSample > 0 ? county.eligible / eligibleInSample : 1;
+  // The circle's kin already living in the county and counted each stand for
+  // themselves (weight one, each a real relative); the sample stands for the
+  // rest, so the county's weighted adult citizens come to its eligible count
+  // without counting the kin twice.
+  const adultOf = (row: PersonInput) =>
+    ageInYears(row.birthDate, start) >= p("votingAge");
+  const kin = input.people.filter(
+    (row) => row.placeId === county.jurisdictionId && !kept.has(row.id),
+  );
+  const kinEligible = kin.filter(adultOf).length * share;
+  const sampleEligible = people.filter(adultOf).length * share;
+  const weight =
+    sampleEligible > 0
+      ? Math.max(county.eligible - kinEligible, p("one")) / sampleEligible
+      : p("one");
+  const kinHouseholds = new Set(kin.map((row) => row.householdId));
   return {
     placeId: county.jurisdictionId,
     weight,
@@ -266,9 +297,12 @@ export function withCountySample(
       ...input,
       people: [...input.people, ...people],
       households: [
-        ...input.households,
+        ...input.households.map((home) =>
+          kinHouseholds.has(home.id) ? { ...home, weight: p("one") } : home,
+        ),
         ...households.map((home) => ({
           ...home,
+          weight,
           ...(employment.has(home.id)
             ? { employment: employment.get(home.id)! as never }
             : {}),
