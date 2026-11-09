@@ -254,6 +254,13 @@ function interestFactor(api: CoreAPI): number {
 const LEVEL_ORDER = { federal: 0, state: 1, county: 2, city: 3 } as const;
 
 /** Revenue lines a flow in the town already pays (withholding, sales tax, property tax). */
+/** Lines whose receipts follow wages and spending: the nation's wage bill moves them (SG-GOV-outside-revenue-base-national). */
+const WAGE_LINKED_LINES = new Set([
+  "individualIncomeTax",
+  "payrollTaxes",
+  "generalSalesTax",
+]);
+
 const TOWN_PAID_LINES = new Set([
   "individualIncomeTax",
   "payrollTaxes",
@@ -878,6 +885,7 @@ export function outsideRevenueMonthly(
   gov: GovernmentRow,
   budget: BudgetRow,
   aided: ReadonlySet<string>,
+  baseIndex = 1,
 ): number {
   const away = 1 - townShareOf(api, gov);
   let annual = 0;
@@ -885,7 +893,10 @@ export function outsideRevenueMonthly(
     if (aided.has(`${gov.level}|${line}`)) continue;
     // A line with named payers is paid by them on its due dates, below.
     if (PAYERS.lines[line]) continue;
-    annual += TOWN_PAID_LINES.has(line) ? amount * away : amount;
+    // What people outside the town pay in income, payroll and sales taxes
+    // moves with the nation's wage bill, as the named-payer lines do.
+    const moved = WAGE_LINKED_LINES.has(line) ? amount * baseIndex : amount;
+    annual += TOWN_PAID_LINES.has(line) ? moved * away : moved;
   }
   return Math.round(annual / treasuryParameter("monthsPerYear"));
 }
@@ -1071,6 +1082,20 @@ function firstBudgetStart(
   return first;
 }
 
+/** The wage-bill index a close reads for a government: since its first budget, to last month. */
+export function baseIndexAt(
+  api: CoreAPI,
+  governmentId: string,
+  budgetStartsOn: string,
+  lastMonth: string,
+): number {
+  return taxBaseIndex(
+    api,
+    firstBudgetStart(api, governmentId, budgetStartsOn),
+    lastMonth,
+  );
+}
+
 export function taxBaseIndex(
   api: CoreAPI,
   budgetStartsOn: string,
@@ -1108,10 +1133,21 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   );
   const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
+  const lastMonth = new Date(
+    Date.UTC(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 2, 1),
+  )
+    .toISOString()
+    .slice(0, 7);
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
-    const monthly = outsideRevenueMonthly(api, gov, budget, aided);
+    const monthly = outsideRevenueMonthly(
+      api,
+      gov,
+      budget,
+      aided,
+      baseIndexAt(api, gov.id, budget.startsOn, lastMonth),
+    );
     if (monthly <= 0) continue;
     const receipt = accounts.transfer({
       id: `outside-revenue:${gov.id}:${date}`,
@@ -1131,11 +1167,6 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   }
   // The taxes with named payers: each installment due last month is paid by
   // its group of payers, the due date recorded.
-  const lastMonth = new Date(
-    Date.UTC(Number(date.slice(0, 4)), Number(date.slice(5, 7)) - 2, 1),
-  )
-    .toISOString()
-    .slice(0, 7);
   const dueMonth = Number(lastMonth.slice(5, 7));
   for (const gov of govs) {
     const budget = budgets.get(gov.id);

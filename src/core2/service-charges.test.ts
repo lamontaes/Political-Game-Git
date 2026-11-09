@@ -18,6 +18,7 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import {
   aidedLines,
+  baseIndexAt,
   budgetInForce,
   outsideRevenueMonthly,
 } from "./budgets-treasury";
@@ -101,6 +102,7 @@ it("moves the town's part of each government's charges from households' living c
           .rows() as unknown as {
           governmentId: string;
           amountMinor: number;
+          date: string;
         }[]
       ).filter((row) => row.governmentId === gov.id);
       expect(lumps.length, where).toBeGreaterThan(0);
@@ -109,7 +111,21 @@ it("moves the town's part of each government's charges from households' living c
         revenueMinor: { ...budget.revenueMinor, chargesAndFees: 0 },
       };
       expect(lumps[lumps.length - 1]!.amountMinor, where).toBe(
-        outsideRevenueMonthly(api, gov, noCharges, aided),
+        outsideRevenueMonthly(
+          api,
+          gov,
+          noCharges,
+          aided,
+          baseIndexAt(
+            api,
+            gov.id,
+            budget.startsOn,
+            addDays(makeIsoDate(lumps[lumps.length - 1]!.date), -31).slice(
+              0,
+              7,
+            ),
+          ),
+        ),
       );
       const users = (
         api

@@ -23,3 +23,5 @@ source: Money, Nov 8; Coordinator ruling on #7873
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/modules/legislature.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Filed by Money, Nov 8, night, after reading `closeTreasuries`: revenue is the plan (named-payer installments now move with the nation's wage bill, #7873; the other lines still pay the plan), so a vote from revenue collected needs #7873 and Nation's other-states rows first.
+
+Nov 9 (Money): tried making the outside plug's income, payroll and sales receipts follow the wage bill (branch money/plug-follows-base, not opened as a PR). Wooster IN, seed money-1, six years: the U.S. treasury went from 2.35B to 91,076B (units of 100 million minor) because federal spending stays on the plan while receipts grow with the wage bill; Indiana's and the county's stayed bounded (5,215B and 28.47B). It is a pile, so the plug must stay on the plan until this item makes spending follow revenue. When this item lands, apply the branch's change (WAGE_LINKED_LINES and baseIndexAt in budgets-treasury.ts, with the charges test reading the index) in the same PR.
