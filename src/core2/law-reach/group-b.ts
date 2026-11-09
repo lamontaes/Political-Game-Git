@@ -20,6 +20,7 @@
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
+import { povertyLineDollars } from "./poverty-line";
 import { registerTreasuryRule } from "../budgets-treasury";
 import {
   endPlaceRule,
@@ -625,19 +626,12 @@ function runPolicy(
       const answer = lawInForce(api, key);
       const limit = answer.value;
       const lawId = input.lawId || answer.governing?.id || key;
-      const state =
-        chain.stateKey === "US-AK"
-          ? "AK"
-          : chain.stateKey === "US-HI"
-            ? "HI"
-            : "48";
-      const line = (size: number) =>
-        reachParameter(`povertyLineOneDollars${state}`) +
-        reachParameter(`povertyLineStepDollars${state}`) * (size - 1);
       const households =
         inForce && limit
           ? [...facts.households.values()].filter(
-              (h) => h.incomeDollars <= (line(h.size) * limit) / 100,
+              (h) =>
+                h.incomeDollars <=
+                (povertyLineDollars(chain.stateKey, h.size) * limit) / 100,
             )
           : [];
       const paid = payEnergyAssistance(api, {
