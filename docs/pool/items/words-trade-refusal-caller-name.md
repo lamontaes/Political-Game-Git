@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/director-trade-and-address
-pr: pending
+pr: 8081
 blocked-on:
 lead: words
 milestone: play-first
