@@ -1125,6 +1125,27 @@ const disaster: Builder = (read, f) => {
   );
 };
 
+/**
+ * A disaster elsewhere in the country (the national events engine's record,
+ * placed at national:<state>), told with the same hazard bank under the
+ * state it struck.
+ */
+const nationalDisaster: Builder = (read, f) => {
+  const state = f.stateKey ? read.place(f.stateKey) : null;
+  if (!state) return null;
+  return story(
+    "hazard",
+    {
+      place: read.fact(state),
+      ...(f.incidentType
+        ? { incident: read.fact(f.incidentType.toLowerCase()) }
+        : {}),
+      date: read.date(),
+    },
+    ["place"],
+  );
+};
+
 /** A state's monthly jobs report. */
 const jobsReport: Builder = (read, f) => {
   const rate = num(f.unemploymentPct);
@@ -3264,6 +3285,7 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "budget-line-changed": budgetLine,
   "budget-adopted": budgetAdopted,
   "hazard.disaster": disaster,
+  "national.disaster": nationalDisaster,
   "economy.state-jobs-report": jobsReport,
   "outcome-web.month": conditions,
   "central-bank-rate-decision": rateDecision,

@@ -42,6 +42,78 @@ const sorted = (lines: Readonly<Record<string, number>>) =>
     .map(([line, minor]) => ({ line, name: lineName(line), minor }))
     .sort((a, b) => b.minor - a.minor);
 
+/** How many fiscal years of a line's history the budget view hands the screens. */
+const HISTORY_YEARS = 10;
+
+/**
+ * A yearly amount's trend for a timeline: its change against the year before
+ * (in minor units and as a percent number, 5 for 5%, to one decimal), and the
+ * amounts of the last years kept, oldest first. The change is null where the
+ * government kept no earlier year; the percent also where the earlier year
+ * was zero. The screens draw this and compute nothing.
+ */
+function trendOf(history: readonly { fiscalYear: number; minor: number }[]) {
+  const latest = history[history.length - 1];
+  const prior = history.length > 1 ? history[history.length - 2] : undefined;
+  const changeMinor = latest && prior ? latest.minor - prior.minor : null;
+  const changePct =
+    changeMinor !== null && prior && prior.minor !== 0
+      ? Math.round((changeMinor / Math.abs(prior.minor)) * 1000) / 10
+      : null;
+  return { changeMinor, changePct, history };
+}
+
+/**
+ * A government's latest budget with each line's and each total's trend over
+ * the years it kept (one budget row a year, so nothing is folded here).
+ */
+function withTrend(
+  years: readonly ReturnType<typeof budgetsOf>[number][],
+  latest: ReturnType<typeof totaled>,
+) {
+  // Oldest first, the last HISTORY_YEARS including the latest.
+  const kept = [...years].reverse().slice(-HISTORY_YEARS);
+  const sum = (lines: Readonly<Record<string, number>>) =>
+    Object.values(lines).reduce((total, minor) => total + minor, 0);
+  const line = (side: "revenueMinor" | "spendingMinor", name: string) =>
+    kept.map((year) => ({
+      fiscalYear: year.fiscalYear,
+      minor: year[side][name] ?? 0,
+    }));
+  const total = (pick: (year: (typeof kept)[number]) => number) =>
+    kept.map((year) => ({ fiscalYear: year.fiscalYear, minor: pick(year) }));
+  const totals = (minor: number, history: ReturnType<typeof total>) => ({
+    minor,
+    ...trendOf(history),
+  });
+  return {
+    ...latest,
+    revenue: latest.revenue.map((row) => ({
+      ...row,
+      ...trendOf(line("revenueMinor", row.line)),
+    })),
+    spending: latest.spending.map((row) => ({
+      ...row,
+      ...trendOf(line("spendingMinor", row.line)),
+    })),
+    totals: {
+      revenue: totals(
+        latest.revenueMinor,
+        total((year) => sum(year.revenueMinor)),
+      ),
+      spending: totals(
+        latest.spendingMinor,
+        total((year) => sum(year.spendingMinor)),
+      ),
+      balance: totals(
+        latest.balanceMinor,
+        total((year) => sum(year.revenueMinor) - sum(year.spendingMinor)),
+      ),
+    },
+    historyYears: kept.length,
+  };
+}
+
 /**
  * What a government's treasury has actually taken in and paid out, from the
  * cash journal's running totals for its accounts since the world opened, and
@@ -160,8 +232,11 @@ export function budgetView(core: CoreState, personId: string) {
         books: booksOf(core, gov.organizationId),
         latest:
           latest &&
-          totaled(latest, (line) =>
-            lineBeforeBill(api, gov, latest.fiscalYear, line),
+          withTrend(
+            years,
+            totaled(latest, (line) =>
+              lineBeforeBill(api, gov, latest.fiscalYear, line),
+            ),
           ),
         prior: prior && totaled(prior),
       };

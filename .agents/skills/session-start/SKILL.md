@@ -88,6 +88,7 @@ Mergers send back most PRs for the same few reasons, and every model makes them,
 - Workers don't message other sessions or start schedules: the PR body and the item's Notes are a worker's voice; leads and the CTO talk through the three files in `.agents/rules/how-we-talk.md`. Lead sessions may run their own helpers (`AGENTS.md`, "Helpers").
 - Treat a permission prompt as denied. Don't retry it; work around it or note it in the PR body. Never call a scheduling tool (`send_later`, `CronCreate`, a trigger), never edit anything under `.git/`, never reach outside the container: each one prompts the owner and the session sits for hours (four sessions did on Oct 29).
 - After a usage reset, resume from your own last channel block or Notes line; the CTO's message says "continue where you left off" and nothing more.
+- Before you report a PR as carrying a fix, check its head has the commits you think it has (`git log origin/<branch>`, or the PR's commits on GitHub): a commit pushed after the merge desk merged never reaches main, and #7815 merged as only its first commit (Nov 8) while its engine fix sat on the branch. A fix you did not see on main after the merge is not on main.
 - Out of usage or stopping: push what you have, set the item back to `open` with one Notes line saying where you stopped, and stop.
 
 ## The prompt

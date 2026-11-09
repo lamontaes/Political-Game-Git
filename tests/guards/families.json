@@ -261,7 +261,8 @@
         "src/core2/modules/health.ts",
         "src/core2/modules/partnerships.ts",
         "src/core2/trait-decision-table.ts",
-        "src/core2/modules/views.ts"
+        "src/core2/modules/views.ts",
+        "src/core2/household-cost.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -344,7 +345,8 @@
         "src/core2/modules/quarrel.ts",
         "src/core2/modules/public-action.ts",
         "src/core2/husk-promoters.ts",
-        "src/core2/opening-ties.ts"
+        "src/core2/opening-ties.ts",
+        "src/core2/household-cost.ts"
       ]
     },
     {
