@@ -25,6 +25,7 @@
  */
 import emissions from "../data/climate/emissions.json" with { type: "json" };
 import history from "../data/climate/hazard-history.json" with { type: "json" };
+import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import { registerModule } from "../state";
@@ -75,7 +76,9 @@ function stateWeights(): [string, number][] {
   const total = rows.reduce((n, [, people]) => n + people, 0);
   return rows.map(([key, people]) => [key, people / total]);
 }
-const WEIGHTS = stateWeights();
+let weights: [string, number][] | undefined;
+/** The weights, built on first use (the state bases are not loaded yet when this file is, in some import orders). */
+const weightsOf = () => (weights ??= stateWeights());
 
 /** A law cause's change since the day the world opened, as of `lag` months before today (0 where unrecorded). */
 function lawChange(
@@ -110,7 +113,7 @@ const CARBON_LINKS = [
 /** The country's CO2 against the opening's: each carbon law's size per law, in each state, by people. */
 function usIndex(api: CoreAPI): number {
   let index = 0;
-  for (const [stateKey, weight] of WEIGHTS) {
+  for (const [stateKey, weight] of weightsOf()) {
     let factor = 1;
     for (const link of CARBON_LINKS)
       factor *=
@@ -265,6 +268,54 @@ export function hazardRate(
 ): number {
   return (
     recordedHazardRate(countyGeoid, hazard, month) * hazardFactor(api, hazard)
+  );
+}
+
+/** The hazard a FEMA incident type belongs to (flood, storm or wildfire), or none. */
+export function hazardOfIncident(incidentType: string): Hazard | undefined {
+  return (history.hazardOfIncidentType as Record<string, Hazard | undefined>)[
+    incidentType
+  ];
+}
+
+let stateCells: Map<string, number[][]> | undefined;
+/** The recorded history summed over a state's counties: hazard, then season, in declarations. */
+function stateHistory(usps: string): number[][] | undefined {
+  if (!stateCells) {
+    stateCells = new Map();
+    for (const [geoid, , rowState] of lookup.counties.rows as [
+      string,
+      string,
+      string,
+    ][]) {
+      const cell = COUNTY_CELLS[geoid];
+      if (!cell) continue;
+      const sum =
+        stateCells.get(rowState) ?? history.hazards.map(() => [0, 0, 0, 0]);
+      cell.forEach((seasons, h) =>
+        seasons.forEach((n, season) => (sum[h]![season]! += n)),
+      );
+      stateCells.set(rowState, sum);
+    }
+  }
+  return stateCells.get(usps);
+}
+
+/**
+ * County declarations per month a state's counties together give for a hazard
+ * in a calendar month: the sum of their `hazardRate`s.
+ */
+export function stateHazardRate(
+  api: CoreAPI,
+  usps: string,
+  hazard: Hazard,
+  month: number,
+): number {
+  const at = (history.hazards as readonly string[]).indexOf(hazard);
+  const cell = stateHistory(usps)?.[at];
+  if (!cell) return 0;
+  return (
+    (cell[seasonOf(month)]! / history.years / 3) * hazardFactor(api, hazard)
   );
 }
 

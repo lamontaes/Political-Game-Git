@@ -2,6 +2,7 @@
 // The one toast part (owner, Oct 26: a toast that never leaves is a defect). A toast is a
 // `.toast` panel at a screen corner that holds for `seconds`, fades over its last second
 // and goes, and goes at once on its close control (a `[data-close]` slot, see panel.mjs).
+import { SCENE_PANELS } from "./panel.mjs";
 const timers = new Map();
 // While a scene, a talk, a meeting or a desk decision is on screen a toast waits, and shows once the scene ends (owner, Nov 7:
 // "News pop-ups wait until the scene ends"): its seconds start when it shows, never before.
@@ -9,7 +10,7 @@ const waiting = new Map();
 let watching = false;
 // The panels a scene or a held decision takes the stage with: the talk, the meeting, the desk
 // (also the floor vote, nominations and orders), election day, its returns and the ballot.
-const SCENES = ["talk", "meeting", "desk", "election-day", "returns", "ballot"];
+const SCENES = ["talk", ...SCENE_PANELS];
 const scenePanels = () =>
   SCENES.map((id) => document.getElementById(id)).filter(Boolean);
 const sceneOpen = () => scenePanels().some((panel) => !panel.hidden);

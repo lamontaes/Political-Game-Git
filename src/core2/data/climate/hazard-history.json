@@ -6,6 +6,20 @@
     "storm",
     "wildfire"
   ],
+  "hazardOfIncidentType": {
+    "Flood": "flood",
+    "Mud/Landslide": "flood",
+    "Dam/Levee Break": "flood",
+    "Coastal Storm": "flood",
+    "Hurricane": "storm",
+    "Tropical Storm": "storm",
+    "Tropical Depression": "storm",
+    "Typhoon": "storm",
+    "Severe Storm": "storm",
+    "Tornado": "storm",
+    "Straight-Line Winds": "storm",
+    "Fire": "wildfire"
+  },
   "years": 26.771,
   "byCounty": {
     "10001": [[0,0,0,0],[0,0,4,3],[0,0,0,0]],

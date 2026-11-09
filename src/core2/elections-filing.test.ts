@@ -18,6 +18,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
 import { openOffices } from "./modules/offices";
 import {
   ELECTIONS_MODULE_ID,
@@ -69,6 +70,8 @@ function world(placeKey: string) {
   const core = createLifeCore(
     buildPopulation({ seed, placeKey, startedAt: START, minimumPeople: 200 }),
   );
+  // The filing check reads the state's term-limit law, so the laws engine is in.
+  openLaws(core);
   openOffices(core, seed);
   openElections(core);
   return core;
