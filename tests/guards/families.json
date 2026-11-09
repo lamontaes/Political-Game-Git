@@ -86,7 +86,8 @@
       "entry": [
         "src/core2/modules/legislature.ts",
         "src/core2/modules/meetings.ts",
-        "src/core2/modules/world-panels.ts"
+        "src/core2/modules/world-panels.ts",
+        "src/core2/modules/world-legislating.ts"
       ],
       "paths": [
         "src/core2/modules/legislature.ts",
