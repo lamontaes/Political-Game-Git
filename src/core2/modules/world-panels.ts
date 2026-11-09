@@ -211,3 +211,6 @@ export function homePanel(api: CoreAPI, householdId: string) {
       .filter((row) => row.householdId === householdId),
   };
 }
+
+// Re-exported so the bill stage view reads the legislature's sessions through this entry (families guard).
+export { legislativeSessionsOf } from "./world-legislating";

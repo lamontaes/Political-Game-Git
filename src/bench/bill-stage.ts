@@ -3,7 +3,7 @@
 // (ui/bill-stage.mjs) read this; every fact is a record read from the one legislature
 // module (committeeRecords, learnedStakesOf, votesOn), never a count made here, and no
 // player text is written here (the screens word the codes).
-import { legislativeSessionsOf } from "../core2/modules/world-legislating";
+import { legislativeSessionsOf } from "../core2/modules/world-panels";
 import { coreAPI } from "../core2/state";
 import { composeBill } from "../english/bill-sections";
 import {
