@@ -553,5 +553,17 @@
       "unit": "years",
       "citation": "BLS CPS participation by single year of age, 2015-2019: the fall from 62 to 70 spans about seven to twelve years at the rates of the two bands."
     }
+  },
+  "jobsAbsenceMonthsToDismissal": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Months of attending none of the scheduled days before an employer lets a worker go; a part-absence builds the pull in proportion and attendance wears it down. Handbook practice lets a worker go after a few no-call, no-show days; the figure is the upper end, checked against the total of discharges in BLS JOLTS (layoffs and discharges about 1.2% of employment a month, of which discharges are the smaller part).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of full absence",
+      "citation": "Half a month (a handful of no-shows) to a quarter."
+    }
   }
 }
