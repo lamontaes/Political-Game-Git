@@ -763,6 +763,8 @@ export interface TreasuryMonthRow {
   readonly date: string;
   readonly budgetId: string;
   readonly revenueFromOutsideMinor: number;
+  /** What the treasury took in this month: the credits to its accounts on the cash journal's per-owner totals since its last close (every payer's money, the town's own payers' included); a treasury's first close reports the receipts the close paid in. */
+  readonly collectedMinor: number;
   /** Wages of the government's opening employers the treasury couldn't cover, in all, at the close. */
   readonly publicPayShortfallMinor: number;
   readonly aidReceivedMinor: number;
@@ -1049,6 +1051,73 @@ export function fundFederalStanding(api: CoreAPI, todayMinor = 0): void {
   if (short > 0) borrowFederal(api, gov, outside, short);
 }
 
+/**
+ * How far the economy's tax base has moved since the plan was calibrated (the start of the first budget): the
+ * nation's payroll jobs times hourly earnings (the wage bill) in the last
+ * completed month over the same in the month the budget took effect. A tax's
+ * installment is its plan times this, so receipts rise and fall with jobs and
+ * pay, not with the plan alone. One when there is no macro record yet.
+ * (SG-GOV-outside-revenue-base-national: the nation's wage bill stands for
+ * every government's base until the states' own bases are read from the
+ * regional rows.)
+ */
+/** The day the plan was calibrated: the start of the government's first budget, which every later plan repeats. */
+function firstBudgetStart(
+  api: CoreAPI,
+  governmentId: string,
+  fallback: string,
+): string {
+  let first = fallback;
+  for (const row of budgetsOf(api, governmentId))
+    if (row.startsOn < first) first = row.startsOn;
+  return first;
+}
+
+export function taxBaseIndex(
+  api: CoreAPI,
+  budgetStartsOn: string,
+  lastMonth: string,
+): number {
+  if (!(api.state as CoreState).modules.has("macro")) return 1;
+  api.stopgap("SG-GOV-outside-revenue-base-national");
+  const months = api.moduleState("macro").table("months");
+  const row = (month: string) =>
+    months.get(`macro-month:${month}`) as unknown as
+      { payrollJobsThousands: number; hourlyEarnings: number } | undefined;
+  const base = row(budgetStartsOn.slice(0, 7));
+  const now = row(lastMonth);
+  if (!base || !now) return 1;
+  return (
+    (now.payrollJobsThousands * now.hourlyEarnings) /
+    (base.payrollJobsThousands * base.hourlyEarnings)
+  );
+}
+
+/**
+ * What a treasury took in since its last close: the credits to its accounts
+ * on the cash journal's own per-owner totals, less the mark taken at the last
+ * close, so every tax a payer sent straight to it counts, town payers' too.
+ * A treasury's first close has no mark yet and reports the receipts the close
+ * itself paid in.
+ */
+function collectedThisMonth(
+  api: CoreAPI,
+  gov: GovernmentRow,
+  fromTheClose: number,
+): number {
+  const credited = Number(
+    (api.state as CoreState).cashJournal.totalsByOwner.get(gov.organizationId)
+      ?.grossCreditMinor ?? 0,
+  );
+  const prior = table(api, "creditMarks").get(gov.id) as unknown as
+    { credited: number } | undefined;
+  table(api, "creditMarks").put({
+    id: gov.id,
+    credited,
+  } as unknown as ModuleRow);
+  return prior ? Math.max(0, credited - prior.credited) : fromTheClose;
+}
+
 /** The month's close for every treasury: revenue in, then each budget line out, top down. */
 export function closeTreasuries(api: CoreAPI, source: Source): void {
   const outside = outsideAccountOf(api);
@@ -1066,6 +1135,7 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
   );
   const aided = aidedLines(api, govs);
   const fromOutside = new Map<string, number>();
+  const namedCollected = new Map<string, number>();
   for (const gov of govs) {
     const budget = budgets.get(gov.id);
     if (!budget) continue;
@@ -1103,7 +1173,15 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       if (annual <= 0 || !rule.dueMonths.includes(dueMonth)) continue;
       // What the town's own payers already paid on this line comes off the
       // installment, the rest carrying to the next one.
-      const installment = Math.round(annual / rule.dueMonths.length);
+      // The plan's installment moved by the economy's tax base since the budget year began.
+      const baseIndex = taxBaseIndex(
+        api,
+        firstBudgetStart(api, gov.id, budget.startsOn),
+        lastMonth,
+      );
+      const installment = Math.round(
+        (annual / rule.dueMonths.length) * baseIndex,
+      );
       const townId = `${gov.id}:${line}`;
       const townPaid =
         (
@@ -1133,8 +1211,13 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         amountMinor: receipt.paidMinor,
         installmentMinor: installment,
+        baseIndex,
         townPaidMinor: credited,
       } as unknown as ModuleRow);
+      namedCollected.set(
+        gov.id,
+        (namedCollected.get(gov.id) ?? 0) + receipt.paidMinor + credited,
+      );
     }
   }
   const providers = providersIndex(api);
@@ -1180,6 +1263,13 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
         date,
         budgetId: budget.id,
         revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+        collectedMinor: collectedThisMonth(
+          api,
+          gov,
+          (fromOutside.get(gov.id) ?? 0) +
+            (namedCollected.get(gov.id) ?? 0) +
+            (aidReceived.get(gov.id) ?? 0),
+        ),
         publicPayShortfallMinor: publicPayShortfallOf(api, gov),
         aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
         aidPaidMinor: carrier ? held : 0,
@@ -1509,6 +1599,13 @@ export function closeTreasuries(api: CoreAPI, source: Source): void {
       date,
       budgetId: budget.id,
       revenueFromOutsideMinor: fromOutside.get(gov.id) ?? 0,
+      collectedMinor: collectedThisMonth(
+        api,
+        gov,
+        (fromOutside.get(gov.id) ?? 0) +
+          (namedCollected.get(gov.id) ?? 0) +
+          (aidReceived.get(gov.id) ?? 0),
+      ),
       publicPayShortfallMinor: publicPayShortfallOf(api, gov),
       aidReceivedMinor: aidReceived.get(gov.id) ?? 0,
       aidPaidMinor: aidPaid,
@@ -1767,6 +1864,10 @@ export function attributeLanded(api: CoreAPI): void {
   for (const row of table(api, "landed").rows() as unknown as LandedRow[])
     if (!row.learnedFrom) attribute(api, row);
 }
+
+/** The months in a year, as the treasuries count them. */
+export const treasuryMonthsPerYear = (): number =>
+  treasuryParameter("monthsPerYear");
 
 export function treasuryMonthsOf(
   api: CoreAPI,
