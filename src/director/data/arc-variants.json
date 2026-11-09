@@ -113,6 +113,98 @@
         "spread": [0.5, 2],
         "checkedAgainst": "As refused-before, for an earlier donor-ask between the same two people that the candidate put off."
       }
+    },
+    "answered-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "press-interview",
+        "ending": "on-record"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "One earlier answer on the record to the same reporter reads one half, two read two thirds: a reporter who has taken the player's words twice already covers them."
+      }
+    },
+    "sparred-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "press-interview",
+        "ending": "sparred"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As answered-before, for earlier talks between the same two that ended in a quarrel."
+      }
+    },
+    "dodged-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "press-interview",
+        "ending": "no-comment"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As answered-before, for earlier talks between the same two where the player would not comment."
+      }
+    },
+    "town-against": {
+      "kind": "town-against"
+    },
+    "quarrel": {
+      "kind": "quarrel"
+    },
+    "exposed-before": {
+      "kind": "history",
+      "events": ["press.exposed"],
+      "named": "asked",
+      "within": {
+        "value": 180,
+        "tag": "TUNABLE",
+        "spread": [90, 365],
+        "checkedAgainst": "A story the press printed about the player in the last half year is still open; one from years ago is a closed matter."
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As answered-before, for stories the press printed about the player's own conduct."
+      }
+    },
+    "scandal": {
+      "kind": "scandal",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "One reported bribe or conviction reads one half: a single story is already a different interview."
+      }
+    },
+    "national-desk": {
+      "kind": "national-outlet"
+    },
+    "reach": {
+      "kind": "fact-map",
+      "fact": "level",
+      "values": {
+        "federal": 1.0,
+        "state": 0.5,
+        "county": 0.2,
+        "township": 0.1,
+        "city": 0.0
+      }
     }
   },
   "families": {
@@ -1103,6 +1195,415 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["stall", "leave", "deflect", "apologize"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "press-comment": {
+      "variants": {
+        "plain": {
+          "purpose": "press-comment",
+          "base": 0.3
+        },
+        "friendly": {
+          "purpose": "press-comment.friendly",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "answered-before",
+              "weight": 1.0
+            },
+            {
+              "read": "close",
+              "weight": 0.9
+            },
+            {
+              "read": "town-against",
+              "weight": 0.2,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-comforting"
+          ],
+          "arc": {
+            "state": "ask",
+            "replies": ["answer", "stall", "deflect", "lie"],
+            "follow": {
+              "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "stall": ["press", "accept"],
+              "refuse": ["accept"],
+              "confront": ["answer"],
+              "leave": [],
+              "boast": ["accept"]
+            },
+            "again": {
+              "ask": ["answer", "boast", "stall", "leave"],
+              "press": ["answer", "stall", "leave", "lie"],
+              "answer": ["answer", "boast", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "On the record with a reporter you know",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "No comment, for now",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off from a reporter you know",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "A friendly talk gone sour",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "hostile": {
+          "purpose": "press-comment.hostile",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "town-against",
+              "weight": 1.6
+            },
+            {
+              "read": "sparred-before",
+              "weight": 0.7
+            },
+            {
+              "read": "quarrel",
+              "weight": 0.6
+            },
+            {
+              "read": "dodged-before",
+              "weight": 0.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-skeptical",
+            "personality-v1:facet-argumentative",
+            "personality-v1:facet-hostile",
+            "personality-v1:facet-blunt"
+          ],
+          "arc": {
+            "state": "ask",
+            "replies": ["answer", "confront", "refuse", "lie"],
+            "follow": {
+              "answer": ["ask", "press"],
+              "confront": ["press", "accept"],
+              "refuse": ["press", "accept"],
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["accept"],
+              "deflect": ["press", "accept"]
+            },
+            "again": {
+              "ask": ["answer", "refuse", "confront", "leave"],
+              "press": ["answer", "confront", "leave", "lie"],
+              "answer": ["answer", "confront", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "On the record against the town",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "Declined to answer",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off on the reporter",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "Sparred with the reporter",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "scandal": {
+          "purpose": "press-comment.scandal",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "scandal",
+              "weight": 1.5
+            },
+            {
+              "read": "exposed-before",
+              "weight": 1.0
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-skeptical",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-analytical"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["answer", "deflect", "refuse", "confront", "lie"],
+            "follow": {
+              "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "refuse": ["press", "accept"],
+              "confront": ["press", "answer"],
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["accept"]
+            },
+            "again": {
+              "ask": ["answer", "refuse", "confront", "leave"],
+              "press": ["answer", "refuse", "confront", "leave", "lie"],
+              "answer": ["answer", "confront", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "Answered on the record",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "Declined, with the story still open",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked away from the questions",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "Sparred with the reporter",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "national": {
+          "purpose": "press-comment.national",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "national-desk",
+              "weight": 1.3
+            },
+            {
+              "read": "reach",
+              "weight": 0.12
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-ambitious",
+            "personality-v1:facet-competitive",
+            "personality-v1:facet-analytical",
+            "personality-v1:facet-assertive"
+          ],
+          "arc": {
+            "state": "ask",
+            "replies": ["answer", "boast", "stall", "lie"],
+            "follow": {
+              "answer": ["ask", "thank"],
+              "deflect": ["press", "accept"],
+              "refuse": ["press", "accept"],
+              "confront": ["answer"],
+              "stall": ["press", "accept"],
+              "leave": [],
+              "boast": ["ask", "accept"]
+            },
+            "again": {
+              "ask": ["answer", "boast", "stall", "leave"],
+              "press": ["answer", "stall", "leave", "lie"],
+              "answer": ["answer", "boast", "leave", "lie"]
+            },
+            "repeatable": {
+              "ask": ["answer"]
+            },
+            "endings": [
+              {
+                "id": "on-record",
+                "label": "On the record for the national press",
+                "keeps": "story-runs",
+                "when": {
+                  "anyReply": ["answer"]
+                }
+              },
+              {
+                "id": "no-comment",
+                "label": "Held your comment",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["refuse", "stall"]
+                }
+              },
+              {
+                "id": "walked-off",
+                "label": "Walked off from the national press",
+                "keeps": "story-runs",
+                "when": {
+                  "reply": ["leave"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "lie-printed",
+                "label": "A lie in print",
+                "keeps": "story-runs",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "sparred",
+                "label": "Played to the national press",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "boast"]
                 }
               },
               {

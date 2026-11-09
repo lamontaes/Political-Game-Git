@@ -44,7 +44,11 @@ const FAMILIES = (
   }
 ).families;
 const TYPES = (situationFile as unknown as { types: PurposeType[] }).types;
-const typeOf = (family: string) => TYPES.find((row) => row.key === family)!;
+// A family is a purpose: the type that plays it (a reporter's call is the
+// press-interview type, whose purpose is press-comment).
+const typeOf = (family: string) =>
+  TYPES.find((row) => row.key === family) ??
+  TYPES.find((row) => row.purpose === family)!;
 const played = (family: string, variant: string): PurposeType => {
   const type = typeOf(family);
   const purpose = FAMILIES[family]!.variants[variant]!.purpose;
@@ -88,8 +92,23 @@ const donorFacts: Record<string, Fact> = {
   bill: fact("Bill 14"),
   "donor-bill": fact("Bill 14"),
 };
+// What a reporter's call hands the scene (purpose-scene.ts, press-interview):
+// the bill, the outlet, and the facts the variant's reads add to the scene
+// (`read-<name>`, set only where the read came to more than nothing).
+const pressFacts: Record<string, Fact> = {
+  ...generic,
+  bill: fact("Bill 14"),
+  outlet: fact("the Courier"),
+  "vote-held": fact("Bill 14"),
+  "read-town-against": fact("yes"),
+  "read-scandal": fact("yes"),
+};
 const factsOf = (family: string) =>
-  family === "donor-ask" ? donorFacts : generic;
+  family === "donor-ask"
+    ? donorFacts
+    : family === "press-comment"
+      ? pressFacts
+      : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -125,7 +144,12 @@ const compose = (
 
 describe("a kind with several arcs", () => {
   it("gives each corruption kind at least three variants besides its plain arc", () => {
-    for (const family of ["bribe-offer", "bribe-pressed", "donor-ask"]) {
+    for (const family of [
+      "bribe-offer",
+      "bribe-pressed",
+      "donor-ask",
+      "press-comment",
+    ]) {
       const names = Object.keys(FAMILIES[family]!.variants);
       expect(names.length, family).toBeGreaterThanOrEqual(4);
       expect(names).toContain("plain");
@@ -159,6 +183,12 @@ describe("a kind with several arcs", () => {
             ).toBeGreaterThan(0);
         else if (family === "donor-ask")
           for (const id of ["looking-again", "hearing-only", "put-off"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "press-comment")
+          for (const id of ["on-record", "no-comment"])
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
