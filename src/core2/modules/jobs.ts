@@ -95,6 +95,7 @@ import type {
   CoreModule,
   CoreState,
   JobInput,
+  OrganizationInput,
   WorkCommitmentInput,
   PersonState,
   Source,
@@ -174,6 +175,8 @@ interface SeekerRow {
   reasons?: Record<string, number>;
   /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
   regionalPull?: number;
+  /** The job they lost, kept on the row for the pay and the role they look for. */
+  lastJob?: JobInput;
   /** Their finding progress reached one while an opening stood near them: the month of weekly matching that followed was theirs. */
   localTried?: boolean;
 }
@@ -2091,6 +2094,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
+  const conditions = new Map<string, ReturnType<typeof regionalConditions>>();
   const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
@@ -2098,12 +2102,24 @@ function reviewRegionalFinds(api: CoreAPI): void {
       .query("all", [true]) as unknown as SeekerRow[]) {
       if (seeker.employed) continue;
       const person = c.people.get(seeker.personId);
-      if (person && isDemoted(person)) continue;
+      // A seeker returned to the counts goes on as a counted seeker, keeping their progress (matching may find no opening for a long while to move them).
+      if (person && isDemoted(person) && table === "seekers") {
+        store(api).table("seekers").remove(seeker.personId);
+        store(api)
+          .table("countedSeekers")
+          .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+        continue;
+      }
       const lean =
         person && !isCounted(api, person.id)
           ? workLeans(c, person).applyLean
           : p("zero");
-      const at = regionalConditions(api, seeker.placeId);
+      let at = conditions.get(seeker.placeId);
+      if (!at)
+        conditions.set(
+          seeker.placeId,
+          (at = regionalConditions(api, seeker.placeId)),
+        );
       const birth =
         person?.birthDate ?? residentFacts(c, seeker.personId)?.birthDate;
       const age = birth
@@ -2126,7 +2142,8 @@ function reviewRegionalFinds(api: CoreAPI): void {
           .put({ ...seeker, regionalPull: pull } as never);
     }
   }
-  for (const seeker of found) hireRegional(api, seeker);
+  const memo: RegionalMemo = { outside: new Map(), rows: new Map() };
+  for (const seeker of found) hireRegional(api, seeker, memo);
 }
 
 /** The private employers' live jobs the turnover pull reads, named and counted, by id. */
@@ -2352,7 +2369,33 @@ function regionalTemplate(
   api: CoreAPI,
   placeId: string,
   referenceHourlyMinor: number,
+  memo?: RegionalMemo,
 ): JobInput | undefined {
+  let rows = memo?.rows.get(placeId);
+  if (!rows) {
+    rows = regionalRows(api, placeId);
+    memo?.rows.set(placeId, rows);
+  }
+  if (!rows.length) return undefined;
+  const target =
+    referenceHourlyMinor > 0
+      ? referenceHourlyMinor
+      : rows[Math.floor(rows.length / 2)]!.hourlyMinor!;
+  return rows.reduce((best, row) =>
+    Math.abs((row.hourlyMinor ?? 0) - target) <
+    Math.abs((best.hourlyMinor ?? 0) - target)
+      ? row
+      : best,
+  );
+}
+
+/** What one review of regional finds looks up once per place: its outside account and its private employers' live jobs, pay ordered. */
+interface RegionalMemo {
+  outside: Map<string, OrganizationInput>;
+  rows: Map<string, JobInput[]>;
+}
+
+function regionalRows(api: CoreAPI, placeId: string): JobInput[] {
   const c = core(api);
   const rows: JobInput[] = [];
   const consider = (job: JobInput) => {
@@ -2369,39 +2412,42 @@ function regionalTemplate(
   };
   for (const job of c.jobs.values()) consider(job);
   for (const job of residentsRuntime(c)?.jobs.values() ?? []) consider(job);
-  if (!rows.length) return undefined;
   rows.sort(
     (a, b) =>
       (a.hourlyMinor ?? 0) - (b.hourlyMinor ?? 0) || a.id.localeCompare(b.id),
   );
-  const target =
-    referenceHourlyMinor > 0
-      ? referenceHourlyMinor
-      : rows[Math.floor(rows.length / 2)]!.hourlyMinor!;
-  return rows.reduce((best, row) =>
-    Math.abs((row.hourlyMinor ?? 0) - target) <
-    Math.abs((best.hourlyMinor ?? 0) - target)
-      ? row
-      : best,
-  );
+  return rows;
 }
 
-function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
+function hireRegional(
+  api: CoreAPI,
+  seeker: SeekerRow,
+  memo?: RegionalMemo,
+): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const outside = townOutsideOf(c.organizations.values(), seeker.placeId);
+  let outside = memo?.outside.get(seeker.placeId);
+  if (!outside) {
+    outside = townOutsideOf(c.organizations.values(), seeker.placeId);
+    if (outside) memo?.outside.set(seeker.placeId, outside);
+  }
   const template = regionalTemplate(
     api,
     seeker.placeId,
     seeker.referenceHourlyMinor,
+    memo,
   );
-  if (!outside || !template) return;
+  if (!outside) return;
   // The pay a new hire in their kind of work gets in the region: BLS OEWS
   // (the metro or state area the place is in) at the starting percentile, as
   // the opening prices its jobs, moved with the place's pay level since.
-  const oews = template.occupationClassification
+  // A place with no private employer of its own has no role to copy: the person's own last occupation sets the wage, else their last pay.
+  const occupation =
+    template?.occupationClassification ??
+    seeker.lastJob?.occupationClassification;
+  const oews = occupation
     ? townJobRate(
-        template.occupationClassification,
+        occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
         undefined,
@@ -2415,7 +2461,9 @@ function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
     wageFloor(api),
     oews
       ? Math.round(oews.hourlyMinor * payLevel(api, seeker.placeId))
-      : payFor(api, template.organizationId, template),
+      : template
+        ? payFor(api, template.organizationId, template)
+        : seeker.referenceHourlyMinor,
   );
   const counted = isCounted(api, seeker.personId);
   const person = c.people.get(seeker.personId);
@@ -2966,10 +3014,11 @@ function vacancyDays(api: CoreAPI, position: PositionRow): number {
     >
   )[series ?? "total-private"]!.months;
   const unit = worldOffsetUnit(c.seed, `vacancy:${position.organizationId}`);
+  // The firm sits between the series' average and its high (or low) end by the size of its offset.
+  const weight = Math.abs(unit);
   const months =
-    unit >= p("zero")
-      ? row.value + unit * (row.high - row.value)
-      : row.value + unit * (row.value - row.low);
+    row.value * (p("one") - weight) +
+    (unit >= p("zero") ? row.high : row.low) * weight;
   stopgap("SG-LABOR-vacancy-size-uniform");
   return (months * p("jobsDaysPerYear")) / p("macroMonthsPerYear");
 }
