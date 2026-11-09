@@ -3612,6 +3612,7 @@ const sheets = {
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
+                    head: r.head,
                     selected: r.line === opened.line,
                     onSelect: () => {
                       budgetLine = r.line;

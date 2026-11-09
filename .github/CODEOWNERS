@@ -299,6 +299,7 @@
 /src/core2/opening-*.ts @lamontaes
 /src/core2/fast-forward.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
+/src/core2/modules/climate.ts @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes
