@@ -3,19 +3,20 @@
  * and GOLDEN_PATH_PLACE_KEY from the runner. The drawn place is built as the
  * player gets it (`buildBenchWorld`, every module installed) and plays one
  * game year. Passes when:
- * (1) and (2) UNCHECKED (owner, Nov 8: real ranges are not targets): the
- *     town's median rent and median home value at the start and end of the
- *     year, beside the range of the county medians in its state (ACS
- *     2020-2024 B25064 and B25077, src/core2/data/housing/housing.json
- *     countyRentValue), and the year's move in the value beside the range of
- *     four-quarter ratios its state's FHFA all-transactions index recorded
- *     from 1985 on (housePriceIndex; the annual CPI-U ratios in
- *     src/core2/data/macro/history.json where FHFA has no state rows), are
- *     printed and never tested. Housing prices have no recorded cause of
- *     their own to test a value against yet: the engine moves the value by
- *     the replayed index (housing-prices.ts, a place in the code audit's
- *     list), so the clauses wait for Money's cycle and keep no range
- *     meanwhile;
+ * (1) the town's median rent and home value on the first day are inside the
+ *     range of the county medians in its state widened by the world spread
+ *     housingWorldRentValueSpreadShare (the opening is seeded from them);
+ *     (ACS 2020-2024 B25064 and B25077, src/core2/data/housing/housing.json
+ *     countyRentValue);
+ * (2) UNCHECKED (owner, Nov 8: real ranges are not targets): the same
+ *     figures at the end of the year, and the year's move in the value
+ *     beside the range of four-quarter ratios its state's FHFA
+ *     all-transactions index recorded from 1985 on (housePriceIndex; the
+ *     annual CPI-U ratios in src/core2/data/macro/history.json where FHFA
+ *     has no state rows), are printed and never tested. Housing prices have
+ *     no recorded cause of their own to test a value against yet: the
+ *     engine moves the value by the replayed index (housing-prices.ts), so
+ *     this clause waits for Money's cycle and keeps no range meanwhile;
  * (3) every eviction case on record opened from rent owed (owed at notice
  *     above zero, on a lease that exists) and carries the steps of the
  *     place's law as recorded (the same row of housing.json eviction,
@@ -33,6 +34,7 @@
  * passes clauses 3 to 5 and says so.
  */
 import housingData from "../data/housing/housing.json" with { type: "json" };
+import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import history from "../data/macro/history.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -82,8 +84,28 @@ if (!rentRange || !valueRange)
   console.error(
     `rents and home values: unchecked, ${usps} has no county medians to make a regional range`,
   );
-// Printed beside the town's figures in the report below, never tested
-// against (owner, Nov 8: real ranges are not targets).
+else {
+  // The opening is seeded from the published medians and moved once by the
+  // world's own spread (owner, Oct 27: realistic, not real), so the day-1
+  // figures must sit inside the range of county medians widened by that
+  // parameter (read from the table, coordinator Nov 9). The end of the year
+  // is drift and is printed beside the range, never tested.
+  const spread = housingParameters.housingWorldRentValueSpreadShare.value;
+  const widened = (r: readonly [number, number]) =>
+    [r[0] * (1 - spread), r[1] * (1 + spread)] as const;
+  const [rentOpen, valueOpen] = [widened(rentRange), widened(valueRange)];
+  if (!(opening.rentMinor >= rentOpen[0] && opening.rentMinor <= rentOpen[1]))
+    failures.push(
+      `rent: the town's median rent at the start of the year, ${opening.rentMinor / 100} dollars, is outside its state's county medians widened by the world spread (${spread}) [${Math.round(rentOpen[0]) / 100}, ${Math.round(rentOpen[1]) / 100}] (ACS 2020-2024 B25064)`,
+    );
+  if (!(
+    opening.homeValueMinor >= valueOpen[0] &&
+    opening.homeValueMinor <= valueOpen[1]
+  ))
+    failures.push(
+      `home value: the town's median home value at the start of the year, ${opening.homeValueMinor / 100} dollars, is outside its state's county medians widened by the world spread (${spread}) [${Math.round(valueOpen[0]) / 100}, ${Math.round(valueOpen[1]) / 100}] (ACS 2020-2024 B25077)`,
+    );
+}
 // (2) The year's move in home values against the recorded annual moves.
 const hpi = (
   housingData.housePriceIndex.states as unknown as Record<
