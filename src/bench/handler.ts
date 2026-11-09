@@ -76,6 +76,7 @@ import {
 } from "./office";
 import { bankView } from "./bank";
 import { budgetView, setPriority } from "./budget";
+import { metricsView } from "./metrics";
 import {
   chooseAtCounter,
   counterOpening,
@@ -846,6 +847,14 @@ const ROUTES: readonly Route[] = [
       request.method === "GET" && url.pathname === "/api/bank",
     run: async ({ url, send }) => {
       send(200, bankView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/metrics",
+    run: async ({ send }) => {
+      send(200, metricsView(requireCore()));
       return;
     },
   },

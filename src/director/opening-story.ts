@@ -184,7 +184,7 @@ function fullName(person: PersonState): string {
 }
 
 /** The opening month and the same month a year before, from the macro engine's record. */
-function macroMonths(core: CoreState): {
+export function macroMonths(core: CoreState): {
   now: MacroMonth;
   before: MacroMonth | undefined;
 } | null {

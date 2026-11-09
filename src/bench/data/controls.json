@@ -927,6 +927,20 @@
     "title": "My story",
     "empty": "Nothing is written here yet."
   },
+  "metrics": {
+    "nation": "The country",
+    "unemployment": "Unemployment",
+    "inflation": "Price growth",
+    "pay": "Average hourly pay",
+    "mortgage": "30-year mortgage rate",
+    "policyRate": "The central bank's rate",
+    "percent": "%",
+    "lastYear": "Last year",
+    "up": "up",
+    "down": "down",
+    "same": "no change",
+    "since": "since last year"
+  },
   "titles": {
     "people": "People",
     "who": "You",
@@ -941,6 +955,7 @@
     "issues": "Issues",
     "calendar": "Calendar",
     "budgets": "Budgets",
+    "metrics": "Metrics",
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",
