@@ -11,11 +11,12 @@
  * level aside); payroll taxes still apply there. Pure: the caller passes the
  * law in force.
  */
+import type { GovernmentLevelWithTownship } from "./government-level";
 import type { LawInForceAnswer } from "./laws-in-force";
 import type { LawRowInput } from "./laws-starting";
 
 export interface WithholdingLine {
-  readonly level: "federal" | "state" | "county" | "township" | "city";
+  readonly level: GovernmentLevelWithTownship;
   readonly jurisdiction: string;
   readonly tax: "income" | "social-security" | "medicare";
   readonly minor: number;

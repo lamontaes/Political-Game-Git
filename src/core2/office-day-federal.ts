@@ -20,6 +20,7 @@
  * a vote, the voting engine's rule for an incumbent who does not file).
  * Nothing is rolled; nothing names a place.
  */
+import { dayParts, worldParts } from "./office-day-federal-parts";
 import { registerModule } from "./state";
 import type {
   ActionDefinition,
@@ -759,21 +760,10 @@ addFederalActs({
 
 // ---- The day ---------------------------------------------------------------------
 
-type DayPart = (api: CoreAPI, personId: string) => void;
-const dayParts: DayPart[] = [];
-
-/** A federal part adds what it does each day for the controlled holder (the president's duties). */
-export function addFederalDayPart(part: DayPart): void {
-  if (!dayParts.includes(part)) dayParts.push(part);
-}
-
-type WorldPart = (api: CoreAPI) => void;
-const worldParts: WorldPart[] = [];
-
-/** A federal part adds what happens each day whoever the player controls (the Senate's votes on nominations). */
-export function addFederalWorldPart(part: WorldPart): void {
-  if (!worldParts.includes(part)) worldParts.push(part);
-}
+export {
+  addFederalDayPart,
+  addFederalWorldPart,
+} from "./office-day-federal-parts";
 
 /** Each day: what happens whoever the player is, then the day of the federal officeholder the player controls. */
 function federalDay(api: CoreAPI): void {

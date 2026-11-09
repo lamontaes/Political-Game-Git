@@ -162,7 +162,16 @@ export const OFFICIALS_MODULE: CoreModule = {
     if (event.kind === "took-office") {
       const winner = event.personIds[0];
       if (winner) tookOffice(api, winner, seatId);
-      else seatUnheldFiller(api, seatId);
+      else {
+        seatUnheldFiller(api, seatId);
+        // A holder the offices engine seated by identity alone (a vacancy's filler, a
+        // successor) is a person from the day they take the seat, not the first time it is read.
+        for (const term of api
+          .moduleState(OFFICES_MODULE_ID)
+          .table("terms")
+          .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[])
+          holderOf(api, term);
+      }
     }
     leaveEndedTerms(api, seatId);
   },
@@ -757,7 +766,6 @@ function seatAll(
     // Another state's official is a recorded husk until something opens
     // them (`promoteOutsideOfficial`); the row below holds what they are
     // built from. The player's state and the nation's seats are full people.
-    // stopgapId: SG-SPEED-outside-legislators-health-without-web
     const husk = isOutsideState(api, spec.stateKey, spec.body, spec.bodyKind);
     if (husk) recordHusk(api.state as CoreState, recorded, api.state.date);
     else
@@ -876,6 +884,7 @@ registerHuskIdentity((core, personId) => {
   return husk
     ? {
         birthDate: husk.identity.birthDate,
+        placeId: husk.identity.placeId,
         traits: husk.identity.traits ?? {},
       }
     : undefined;

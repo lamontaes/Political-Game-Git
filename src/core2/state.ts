@@ -29,7 +29,7 @@ import {
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
-import { rerateCountedJobs } from "./residents-economy";
+import { rehourCountedJobs, rerateCountedJobs } from "./residents-economy";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import { openingTemperaments } from "./opening-personality";
 import { forgetTraitLean } from "./choice";
@@ -49,6 +49,7 @@ import {
   settleWorkResult,
   recordActivityTime,
   recordDiscretionaryTime,
+  rehourNamedJob,
 } from "./work-state";
 import {
   admitWorkAttendanceOwner,
@@ -104,13 +105,13 @@ import {
   releaseCashJournalSource,
 } from "./journal-state";
 import { cashJournalHost } from "./cash-host";
-import { settleLegacyWorkResultJournal } from "./work-cash";
 import { admitPublicPayAuthority } from "./public-work-pay";
 import type { CashJournalSourceRef } from "./journal";
 import { ageOnDate, makeIsoDate } from "./kernel/dates";
 import { moveLivingShare } from "./cost-of-living";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
+import { openingTiesOf } from "./opening-ties";
 import {
   isExplicitlyControlledPersonV1,
   prepareControlledActTraceV1,
@@ -1117,9 +1118,6 @@ export function coreAPI(core: CoreState): CoreAPI {
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
     },
-    settleLegacyWorkResult(row) {
-      return settleLegacyWorkResultJournal(core, api, row);
-    },
     recordActivityTime(personId, category, minutes, source) {
       recordActivityTime(core, api, personId, category, minutes, source);
     },
@@ -1293,7 +1291,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       core.relationships.set(id, row);
       // A circle member's full decision is condensed on the log's schedule.
       if (
-        latestChange?.decision?.scores &&
+        (latestChange?.decision as { scores?: unknown } | undefined)?.scores &&
         actorId !== core.playerId &&
         !core.observer &&
         !isExplicitlyControlledPersonV1(core, actorId)
@@ -1658,6 +1656,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       const siblingNames = [given];
       siblings.forEach((row, i) => {
         row.birthDate = births[i]!;
+        // A brother or sister living elsewhere carries the family name too (C27).
+        if (row.familyName === drawn) row.familyName = family;
         if (!row.alive) return;
         row.givenName = distinctSiblingGivenName(
           core.seed,
@@ -1990,6 +1990,18 @@ export function coreAPI(core: CoreState): CoreAPI {
           sourceId: job.id,
           access: "self",
         });
+    },
+    rehourJob(jobId, hoursDaily, source) {
+      if (!Number.isFinite(hoursDaily) || hoursDaily <= 0)
+        throw new Error("New daily hours must be positive.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("An hours change cannot cite a later source.");
+      if (!core.jobs.has(jobId)) {
+        if (rehourCountedJobs(core, new Map([[jobId, hoursDaily]])) > 0) return;
+        throw new Error(`No recorded job to change the hours of: ${jobId}`);
+      }
+      rehourNamedJob(core, api, jobId, hoursDaily, source);
     },
     addOrganization(row) {
       if (
@@ -2365,10 +2377,15 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     const active = recorded
       ? countedJob(core, recorded.id) !== undefined
       : false;
+    // Neighbors and county coworkers they know from their years in place.
+    const ties = openingTiesOf(core, row, home);
     admitted.push(
       admitPerson(core, {
         ...row,
         liquidMinor: 0,
+        ...(ties.length
+          ? { knownIds: [...new Set([...row.knownIds, ...ties])] }
+          : {}),
         ...(active ? {} : { jobId: undefined }),
       }),
     );
@@ -2466,7 +2483,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
               other.id,
               id,
               "family",
-              api.parameter("relationInitial"),
+              openingClosenessHours(core, other.id, id),
+              undefined,
+              { cause: OPENING_FAMILY_CAUSE },
             );
         }
   for (const actor of admitted) {
@@ -2486,7 +2505,9 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
             actor.id,
             id,
             "family",
-            api.parameter("relationInitial"),
+            openingClosenessHours(core, actor.id, id),
+            undefined,
+            { cause: OPENING_FAMILY_CAUSE },
           );
       }
     openOpeningPeerTies(core, api, actor);

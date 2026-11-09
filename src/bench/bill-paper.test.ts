@@ -1,3 +1,4 @@
+import { buildBenchWorld } from "./world";
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
@@ -13,7 +14,6 @@ import { policyAuthority } from "../core2/policy-authority";
 import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { coreAPI } from "../core2/state";
 import { billPaper, seatAct, seatView } from "./legislature";
-import { buildBenchWorld } from "./world";
 
 // A bill opens as one paper document read from its own records: the
 // designation and title in plain words, the sponsor by name, each section with
@@ -229,6 +229,14 @@ describe(`a bill on paper (${place.name}, seed ${seed})`, () => {
     const budgetPaper = billPaper(world.core, budget.id);
     expect(budgetPaper.sections.length, budget.id).toBeGreaterThan(0);
     expect(budgetPaper.sections[0]!.estimate.line, budget.id).toBe(line);
+    // Each line says its own name and amount for the year (rounded as people say it), not the
+    // bill's one purpose again.
+    expect(budgetPaper.sections[0]!.text, budget.id).toMatch(
+      /: about \$[\d,]+( million| billion| thousand)? for the year/i,
+    );
+    expect(budgetPaper.sections[0]!.text, budget.id).not.toMatch(
+      /the government's spending/,
+    );
     // The paper carries the amount the bill sets for its line, as filed,
     // and its note says it moves no pay rather than standing blank.
     const budgetRow = bills.get(budget.id) as unknown as BillRow;

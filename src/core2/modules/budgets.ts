@@ -19,6 +19,7 @@
  *   by the law in force (`tax-withholding.ts`), move from the worker's cash to
  *   each government's account through the journal on payday.
  */
+import type { GovernmentLevel } from "../government-level";
 import { corePlaceByKey } from "../place-lookup";
 import { placeLocalGovernmentUnits } from "../gov-rules/local-governments";
 import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
@@ -95,7 +96,7 @@ const WITHHOLDING_KIND = "budgets:withholding";
 
 export interface GovernmentRow {
   readonly id: string;
-  readonly level: "federal" | "state" | "county" | "city";
+  readonly level: GovernmentLevel;
   readonly name: string;
   readonly organizationId: string;
   readonly fiscalYearStart: string;
@@ -1959,6 +1960,27 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
 }
 
 /**
+ * The government a jurisdiction names: by its id (a city, a state), or by the
+ * government key its treasury carries (a township under its township's law
+ * jurisdiction).
+ */
+export function governmentOfJurisdiction(
+  api: CoreAPI,
+  jurisdiction: string,
+): GovernmentRow | undefined {
+  // A world without the budgets module has no governments.
+  const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
+  return (
+    all.find((row) => row.id === jurisdiction) ??
+    all.find(
+      (row) =>
+        api.state.organizations.get(row.organizationId)?.governmentFacts
+          ?.governmentKey === jurisdiction,
+    )
+  );
+}
+
+/**
  * Amend a line of a government's budget in force (an ordinance or act that
  * changes spending), recorded with the measure that did it.
  */
@@ -1978,8 +2000,7 @@ export function amendBudget(
     readonly carry?: boolean;
   },
 ): BudgetRow | null {
-  const gov = table(api, "governments").get(input.governmentId) as unknown as
-    GovernmentRow | undefined;
+  const gov = governmentOfJurisdiction(api, input.governmentId);
   if (!gov) return null;
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   const budget = table(api, "budgets").get(
@@ -2148,3 +2169,5 @@ export function withholdingOf(
     personId,
   ]) as unknown as WithholdingRecord[];
 }
+// Re-exported so the opening county sample reads it through this entry (families guard).
+export { medianTransactionBalance } from "../starting-cash";

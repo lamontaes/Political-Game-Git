@@ -34,7 +34,11 @@ import filingOffice from "../../../data/research/elections/filing-office.json" w
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { corePlaceByKey } from "../place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  corePlaceByKey,
+  coreStateName,
+} from "../place-lookup";
 import {
   electionsParameter,
   municipalFilingDeadline,
@@ -140,7 +144,8 @@ export interface PetitionRow {
   readonly opened: string;
   /** The last day to hand the petition in. */
   readonly due: string;
-  readonly signers: readonly PetitionSigner[];
+  /** How many have signed; each signature is its own row (`petitionSigners`), so a signature costs one write however long the petition is. */
+  readonly signed: number;
   /** The clerk's check: the day, the signatures that stood and those struck. */
   readonly check?: {
     readonly on: string;
@@ -211,6 +216,10 @@ export const ELECTIONS_MODULE: CoreModule = {
       // the clerk's check (`openPetition`, `signPetition`).
       petitions: {
         indexes: { byContest: { fields: ["contestId"] } },
+      },
+      // One row a signature (`signPetition`), read by `petitionSigners`.
+      petitionSignatures: {
+        indexes: { byFiling: { fields: ["filingId"] } },
       },
       town: {},
       // How the law settled an exact tie: a lot, or a deciding body's votes.
@@ -1096,8 +1105,21 @@ export function checkEligibility(
     {
       rule: "residency",
       met: resident,
-      required: rules.residency ?? "lives in the area the office serves",
-      actual: resident ? "lives here" : "lives elsewhere",
+      // The clerk says where the person must live and where their records
+      // put them, as places (the research note stays the rule's source).
+      required:
+        contest.level === "federal" || contest.level === "state"
+          ? (stateNameOf(api) ??
+            rules.residency ??
+            "lives in the area the office serves")
+          : (corePlaceByKey(api.state.placeMetadata.placeKey ?? "")
+              ?.displayName ??
+            rules.residency ??
+            "lives in the area the office serves"),
+      actual: resident
+        ? "lives here"
+        : (corePlaceByJurisdictionId(person.placeId as never)?.displayName ??
+          "lives elsewhere"),
       source: rules.source,
     },
   ];
@@ -1340,6 +1362,13 @@ export function petitionOf(api: CoreAPI, filingId: string): PetitionRow | null {
   );
 }
 
+/** The town's state, as people name it, or null where the record has none. */
+function stateNameOf(api: CoreAPI): string | null {
+  const key = town(api).stateKey;
+  const name = key ? coreStateName(key.slice("US-".length)) : null;
+  return name ?? null;
+}
+
 /** Open a petitioning filing's petition (the voting engine sizes what its clerk counts). */
 export function openPetition(
   api: CoreAPI,
@@ -1355,7 +1384,7 @@ export function openPetition(
     needed: input.needed,
     opened: filing.filedOn,
     due: petitionDue(api, filing),
-    signers: [],
+    signed: 0,
   };
   table(api, "petitions").put(row as unknown as ModuleRow);
   return row;
@@ -1388,10 +1417,18 @@ export function signPetition(
   if (!petitionCirculating(api, filingId)) return false;
   const petition = petitionOf(api, filingId)!;
   if (personId === petition.personId) return false;
-  if (petition.signers.some((s) => s.personId === personId)) return false;
+  const signatureId = `${filingId}:${personId}`;
+  if (table(api, "petitionSignatures").get(signatureId)) return false;
+  table(api, "petitionSignatures").put({
+    id: signatureId,
+    filingId,
+    personId,
+    on: api.state.date,
+    via,
+  } as unknown as ModuleRow);
   table(api, "petitions").put({
     ...petition,
-    signers: [...petition.signers, { personId, on: api.state.date, via }],
+    signed: petition.signed + 1,
   } as unknown as ModuleRow);
   return true;
 }
@@ -1401,9 +1438,19 @@ export function petitionSignerIds(
   api: CoreAPI,
   filingId: string,
 ): ReadonlySet<string> {
-  return new Set(
-    (petitionOf(api, filingId)?.signers ?? []).map((s) => s.personId),
-  );
+  return new Set(petitionSigners(api, filingId).map((s) => s.personId));
+}
+
+/** The signatures on a filing's petition, in the order they were given. */
+export function petitionSigners(
+  api: CoreAPI,
+  filingId: string,
+): readonly PetitionSigner[] {
+  return (
+    table(api, "petitionSignatures").query("byFiling", [
+      filingId,
+    ]) as unknown as (PetitionSigner & { filingId: string })[]
+  ).map(({ personId, on, via }) => ({ personId, on, via }));
 }
 
 /** The kind of the public record of a clerk's petition check. */
@@ -1455,7 +1502,7 @@ export function keepPetitionCheck(
       contestId: contest.id,
       office: contest.title,
       status,
-      signatures: String(petition.signers.length),
+      signatures: String(petition.signed),
       valid: String(check.valid),
       needed: String(petition.needed),
       filedWith: filing.filedWith,
@@ -1524,3 +1571,5 @@ export {
 export { INTEREST_GROUPS_MODULE_ID, meetingsOn } from "./interest-groups";
 export { groupDraw, joinsGroup } from "./interest-groups";
 export { foundMovement, movementGroupId } from "./interest-groups";
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { countyPlaceIdOf, statePlaces } from "../electorate-places";

@@ -245,7 +245,7 @@ describe("the board", () => {
     const board = generateBoard({ seed, startedAt: "2021-01-01" }, p);
     expect(board.people).toHaveLength(19);
     const expected = Math.round(
-      medianTransactionBalance(BOARD.memberPay.annualDollars) * 100,
+      medianTransactionBalance(BOARD.memberPay.annualDollars, seed) * 100,
     );
     for (const person of board.people)
       expect(person.liquidMinor, `${person.id} (seed ${seed})`).toBe(expected);

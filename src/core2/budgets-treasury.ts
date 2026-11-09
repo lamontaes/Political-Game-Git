@@ -981,16 +981,27 @@ function borrowFederal(
   const lent: Record<string, number> = {};
   const holders = federalDebtOf(api);
   let amountMinor = wantedMinor;
-  if (
-    api.state.modules.has(LAWS_MODULE_ID) &&
-    lawInForce(api, PAY_FOR_DEBT_LIMIT).value === 1
-  ) {
+  const limitLaw = api.state.modules.has(LAWS_MODULE_ID)
+    ? lawInForce(api, PAY_FOR_DEBT_LIMIT)
+    : null;
+  if (limitLaw?.value === 1) {
     api.stopgap("SG-LAWS-debt-limit-binding");
     const owed = holders.reduce((n, h) => n + h.balanceMinor, 0);
     amountMinor = Math.max(
       0,
       Math.min(wantedMinor, debtLimitMinor(holders) - owed),
     );
+    // The law reached the U.S. Treasury: its borrowing is held to the room under the limit.
+    if (limitLaw.governing)
+      lawApplied(api, {
+        key: PAY_FOR_DEBT_LIMIT,
+        lawId: limitLaw.governing.id,
+        targetId: gov.organizationId,
+        target: "organization",
+        engine: BUDGETS_MODULE_ID,
+        what: "borrowing-held-to-the-debt-limit",
+        amountMinor: amountMinor - wantedMinor,
+      });
   }
   const wanted = splitBy(amountMinor, holderShares(api));
   holders.forEach((holder, i) => {

@@ -164,7 +164,7 @@ export function dotRows(rows) {
 /**
  * The budget board: a row of tabs and a fiscal-year line over three columns of
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
- * Courier Prime capitals at the right of the tabs.
+ * capitals at the right of the tabs.
  */
 export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
@@ -282,12 +282,27 @@ export function seatNumbers(parts, vacant) {
   );
 }
 
-/** Roll calls in type: the title, the result and the count, the date under it. */
+/** Roll calls in type: the title, the result and the count, the date under it; a row with `onOpen` opens its bill. */
 export function voteRows(rows) {
   return el(
     "div",
     { className: "vote-rows" },
-    ...rows.map((row) => typedRow(row.title, row.result, row.when)),
+    ...rows.map((row) => {
+      const node = typedRow(row.title, row.result, row.when);
+      if (!row.onOpen) return node;
+      // A row with a paper behind it opens it: a button for the pointer and the keyboard.
+      node.classList.add("pick");
+      node.tabIndex = 0;
+      node.setAttribute("role", "button");
+      node.addEventListener("click", row.onOpen);
+      node.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          row.onOpen();
+        }
+      });
+      return node;
+    }),
   );
 }
 
@@ -343,7 +358,7 @@ export function quitButton(label, onQuit) {
  * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
  * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
  */
-export function patchNotesScreen({ builds, title, words, rows }) {
+export function patchNotesScreen({ builds, title, rows }) {
   const holder = el("div");
   let chosen = builds[0];
   const draw = () =>
@@ -371,18 +386,24 @@ export function patchNotesScreen({ builds, title, words, rows }) {
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words,
                 className: "bsdepts",
               }),
             ),
           ],
-          (chosen?.groups ?? []).map((group, at) =>
-            stripSection(
-              Math.min(at + 2, 5),
-              group.heading,
-              ...group.notes.map((note) => introText(note)),
+          [
+            // A build's notes run long: they scroll inside their own box, never the sheet.
+            el(
+              "div",
+              { className: "patch-detail" },
+              ...(chosen?.groups ?? []).map((group, at) =>
+                stripSection(
+                  Math.min(at + 2, 5),
+                  group.heading,
+                  ...group.notes.map((note) => introText(note)),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
       }),
     );
@@ -395,7 +416,7 @@ export function patchNotesScreen({ builds, title, words, rows }) {
  * newest last and chosen, each with its years; the chosen chapter is its title over two
  * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
  */
-export function journalScreen({ chapters, labels, yearOf, rows, words }) {
+export function journalScreen({ chapters, labels, yearOf, rows }) {
   const holder = el("div");
   let chosen = chapters.at(-1);
   const yearsOf = (chapter) => {
@@ -429,7 +450,6 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
                     columns: 1,
                     rowHeight: 52,
                     gap: 2,
-                    words,
                     className: "bsdepts",
                   })
                 : el("p", { className: "intro", textContent: labels.empty }),

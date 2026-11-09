@@ -112,6 +112,7 @@ Load a skill when its trigger fits; descriptions say when. Every session, first:
 - `merge-audit`: auditing merged PRs
 - `merger`: merging and validating PRs
 - `money-economy`: the national economy and the dollar: cycles, outside money, household income, and proving them
+- `nation`: the rest of the country as results: national opinion, other states' disasters, budgets and measures, the President's acts, the federal courts
 - `play-first`: one item of the play-first lane; the screenshot and browser check
 - `people-pack`: drawing people from the pack, on mannequin plates
 - `played-world-proof`: proving a feature in a played year

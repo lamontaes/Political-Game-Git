@@ -141,7 +141,9 @@
     "addedBy": "Session D",
     "addedAt": "2026-10-15",
     "replacement": "A shared business enrollment API accepting the existing owner and sourced books, used by press without direct table writes.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "Press enrolls its recorded owner through the business module's public enrollBusinessOwner (src/core2/modules/press.ts), so it no longer writes the owner table directly."
   },
   {
     "id": "SG-PEOPLE-cause-holder-weekly-contacts",
@@ -249,6 +251,18 @@
     "addedBy": "claude/press-exposes-conflicts",
     "addedAt": "2026-10-27",
     "replacement": "A conflict reaches a reporter as a tip from the people who know of it (a losing bidder, a clerk, a colleague on the body) through the same tip path a taken bribe uses, and an editor's beat assigns the reporter who covers that government.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-origin-skin-tones",
+    "kind": "partial-model",
+    "file": "src/bench/whole-figures.ts",
+    "line": 89,
+    "whatItFakes": "A person's origin narrows which of the pack's people draw them, by a hand-written table of skin-tone thirds per origin (data/whole-figures.json originTones); the pack paints only three skin tones per sex, so a Hispanic, white or Asian person may share a tone.",
+    "why": "The pack has six painted people; real variety in skin, hair and features needs the modular busts (CTO, Nov 7).",
+    "addedBy": "Tiers (Nov 8)",
+    "addedAt": "2026-11-08",
+    "replacement": "The modular busts read the person's origin record and a sourced mapping of origin to skin, hair and features.",
     "status": "open"
   }
 ]

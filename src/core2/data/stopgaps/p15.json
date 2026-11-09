@@ -24,6 +24,18 @@
     "status": "open"
   },
   {
+    "id": "SG-P15-kin-living-cost-region",
+    "kind": "estimated-behavior",
+    "file": "src/core2/population.ts",
+    "line": 1911,
+    "whatItFakes": "A relative's household outside the town spends the Consumer Expenditure basket for its size in the town's state's region plus a HUD shelter budget for the town, shared among its adults, because the kin model gives residence only as county or state, so the relative's own place and region are not known.",
+    "why": "Counted kin households earn (unplaced pay) and must spend by the same rule as the town's households; with no cost they were a one-way source of money (Ripley, TN: 18,650 counted households, 352 million dollars of yearly pay, no spending).",
+    "addedBy": "Money",
+    "addedAt": "2026-11-08",
+    "replacement": "The kin engine (SG-P15-kin-generation) places each relative's household in a real place, and its cost comes from that place's region and HUD row.",
+    "status": "open"
+  },
+  {
     "id": "SG-P15-personality-mapping",
     "kind": "estimated-behavior",
     "file": "src/core2/data/opening-kin.json",
@@ -81,7 +93,9 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "NCES EDGE school attendance boundaries (SABS) with the household's location, private school (PSS) and homeschool shares by state, and historical CCD directories for each cohort's years.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-08",
+    "resolution": "No per-child seeded pick exists in the code any more and src/core2/data/opening-schools.json is gone: a school-age person attends the school of their place (schoolOfPlace, src/core2/modules/school.ts) on the weekdays the school-days rule gives (SG-CORE-school-days stands for the rest)."
   },
   {
     "id": "SG-P15-coworker-groups",

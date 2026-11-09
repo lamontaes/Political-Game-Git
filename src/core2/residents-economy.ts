@@ -608,6 +608,47 @@ export function rerateCountedJobs(
   return changed;
 }
 
+/**
+ * New daily hours for counted workers (`rehourJob` for a job not in the full
+ * table): the wage flow's per-day pay for the job scales with the hours, as
+ * `rerateCountedJobs` scales it with the rate. Returns the jobs changed.
+ */
+export function rehourCountedJobs(
+  core: CoreState,
+  hoursByJob: ReadonlyMap<string, number>,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt) return 0;
+  const touched = new Set<Flow>();
+  let changed = 0;
+  for (const [jobId, hoursDaily] of hoursByJob) {
+    const job = rt.jobs.get(jobId),
+      flow = rt.wageFlowByJob.get(jobId);
+    if (!job || !flow || flow.endedAt || !job.hoursDaily) continue;
+    if (flow.perDayMinorByJob?.[jobId] === undefined) continue;
+    const ratio = hoursDaily / job.hoursDaily;
+    for (const half of wageHalves(rt, flow)) {
+      const perDay = half.perDayMinorByJob?.[jobId];
+      if (perDay === undefined) continue;
+      if (!touched.has(half)) {
+        half.perDayMinorByJob = { ...half.perDayMinorByJob };
+        touched.add(half);
+      }
+      (half.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+    }
+    const rehoured = {
+      ...job,
+      hoursDaily,
+      wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
+    };
+    rt.jobs.set(jobId, rehoured);
+    countedHouseholdJobChanged(core, rehoured);
+    changed += 1;
+  }
+  for (const flow of touched) recompute(flow);
+  return changed;
+}
+
 /** One household's part of a merged flow ends (a counted household's mortgage paid off). */
 export function endFlowPart(
   core: CoreState,
