@@ -12,7 +12,7 @@
  * can bring up, like the President's.
  */
 import { placeStateKey } from "../core2/place-map";
-import { OFFICES_MODULE_ID, townSeats } from "../core2/modules/offices";
+import { townSeats } from "../core2/modules/offices";
 import { officialsIn, type OfficialRow } from "../core2/modules/officials";
 import { OUTCOME_WEB_MODULE_ID } from "../core2/modules/outcome-web";
 import { P } from "../core2/parameters";
@@ -419,8 +419,6 @@ export function recordLocalAddress(
 
 /** Record today's governor's and mayor's addresses, for the levels whose day it is. */
 export function recordLocalAddresses(core: CoreState): void {
-  // A world without the offices module has no governor or mayor to speak.
-  if (!core.modules.has(OFFICES_MODULE_ID)) return;
   for (const level of localAddressesOn(core.date))
     recordLocalAddress(core, level);
 }
