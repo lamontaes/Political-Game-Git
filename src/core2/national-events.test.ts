@@ -91,4 +91,7 @@ it("the country's disasters are generated from recorded rates and happen on thei
     expect(d.counties.length, e.id).toBe(e.counties);
     expect(d.disasterNumber).toBe(e.disasterNumber);
   }
+  process.stdout.write(
+    `nation proof: national disasters: ${where}; ${events.length} generated in 100 days across ${states.size} states; first ${events[0]!.id}\n`,
+  );
 }, 900000);
