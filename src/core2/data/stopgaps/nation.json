@@ -70,5 +70,17 @@
     "addedAt": "2026-11-09",
     "replacement": "Sizes by region and season from the National Climate Assessment (2023) chapters and the Littell et al. (2009) ecoprovince figure.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-hazard-heat-drought-history",
+    "kind": "missing-data",
+    "file": "src/core2/modules/climate.ts",
+    "line": 1,
+    "whatItFakes": "A county's recorded hazard history is its FEMA declarations (flood, storm, wildfire); heat and drought have none (FEMA declared one drought), so their recorded rate is none and the climate's heat and drought levels move nothing until a history is read.",
+    "why": "The NOAA Storm Events episodes (excessive heat, drought) by county were not fetched; FEMA's record is what the disasters module holds.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Counts of NOAA storm episodes (excessive heat, extreme heat, drought) by county, hazard and season in hazard-history.json, built by the same script.",
+    "status": "open"
   }
 ]

@@ -74,7 +74,7 @@ interface Runtime {
 const runtimes = new WeakMap<CoreState, Runtime>();
 
 /** The town's county code, from its recorded county name and state. */
-function countyCode(core: CoreState): string | undefined {
+export function countyCode(core: CoreState): string | undefined {
   const state = placeStateKey(core.placeMetadata.placeKey ?? "");
   const named = core.placeMetadata.countyNames?.split(", ")[0]?.toLowerCase();
   if (!state || !named) return undefined;
