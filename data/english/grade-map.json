@@ -8168,6 +8168,8 @@
     "scene-talk.follow-apologize.i-know-i-d-do-it-again-and-i-m-sorry": 0.991,
     "scene-talk.follow-apologize.i-know-that-s-why-i-d-like-to-get-this-right": 1.064,
     "scene-talk.follow-apologize.i-know-who-you-are-i-m-sorry-i-still-can-t-hand-you-a-ballot-that-isn-": 1.102,
+    "scene-talk.follow-apologize.i-m-sorry-i-know-how-much-you-put-into-this-one": 1.011,
+    "scene-talk.follow-apologize.i-m-sorry-i-told-you-we-had-the-votes-and-i-was-wrong": 1.295,
     "scene-talk.follow-apologize.i-m-sorry-let-s-fix-it-not-fight-it": 1.067,
     "scene-talk.follow-apologize.i-will-personally": 1.098,
     "scene-talk.follow-apologize.you-re-not-the-first-today-i-m-writing-every-one-of-you-down": 0.958,
@@ -10265,6 +10267,8 @@
     "scene-talk.reply-accept.all-right-send-it-over-when-it-s-ready": 1.295,
     "scene-talk.reply-accept.all-right-tell-me-what-we-do-now": 1.274,
     "scene-talk.reply-accept.all-right-you-made-your-point-leave-it-on-the-desk": 1.199,
+    "scene-talk.reply-accept.don-t-apologize-you-did-the-work-i-m-the-one-who-asked-people-to-vote": 1.081,
+    "scene-talk.reply-accept.don-t-be-sorry-the-people-this-bill-was-for-are-the-ones-i-owe-an-apol": 1.067,
     "scene-talk.reply-accept.everybody-does-it-you-say-then-nobody-will-notice": 1.229,
     "scene-talk.reply-accept.fair-enough-good-night": 1.277,
     "scene-talk.reply-accept.fine-give-me-the-provisional": 1.326,
@@ -12049,6 +12053,7 @@
     "scene-talk.reply-promise.better-doesnt-mean-done-ill-keep-at-it": 1.245,
     "scene-talk.reply-promise.call-me-after-reporter": 1.362,
     "scene-talk.reply-promise.count-me-in-just-tell-me-when": 1.211,
+    "scene-talk.reply-promise.don-t-apologize-we-re-disappointed-not-done-we-bring-it-back-next-sess": 1.255,
     "scene-talk.reply-promise.fair-before-the-next-town-hall-i-ll-tell-you-where-i-stand": 1.254,
     "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself": 1.28,
     "scene-talk.reply-promise.fair-you-ll-have-my-answer-out-loud-by-the-next-meeting": 1.298,
@@ -13891,10 +13896,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 10612,
-    "reached": 10612,
-    "near": 9565,
-    "weighted": 10609,
+    "pieces": 10617,
+    "reached": 10617,
+    "near": 9570,
+    "weighted": 10614,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -13987,9 +13992,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 6707,
-        "reached": 6707,
-        "near": 6707
+        "pieces": 6712,
+        "reached": 6712,
+        "near": 6712
       },
       "scene-words": {
         "pieces": 291,
