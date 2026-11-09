@@ -158,6 +158,16 @@ const outcomes = () => {
     .rows() as any[]) {
     if (r.date <= lastDate || r.date > core.date) continue;
     won.push(`${r.contestId}=${r.winnerId}`);
+    if (process.env.RACES_OUT && /US-VT/.test(r.contestId)) {
+      const votes = Object.entries(r.totals as Record<string, number>).sort(
+        (a, b) => b[1] - a[1],
+      );
+      const cast = votes.reduce((n, [, v]) => n + v, 0) || 1;
+      appendFileSync(
+        `${process.env.RACES_OUT}.vt`,
+        `${JSON.stringify({ date: r.date, contestId: r.contestId, winnerId: r.winnerId, top: votes.slice(0, 2).map(([id, v]) => [id, Math.round(v), Number((v / cast).toFixed(4))]) })}\n`,
+      );
+    }
     const c = contests.get(r.contestId) as any;
     if (
       c &&

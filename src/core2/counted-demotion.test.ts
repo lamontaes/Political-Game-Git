@@ -114,6 +114,11 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       ).toEqual([]);
       api.observe(id, heard);
       expect(api.knows(id, heard.key)).toBeUndefined();
+      // Their group's record holds their view while counted: no stance rows.
+      if (core.modules.has("views"))
+        expect(
+          api.moduleState("views").table("stances").query("byPerson", [id]),
+        ).toEqual([]);
     }
     // Their money went to their group's account, and a last paycheck reaching
     // them after it goes on at the next review; no dollar was lost.

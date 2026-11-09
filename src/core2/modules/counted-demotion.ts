@@ -24,6 +24,7 @@ import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
 import { endLivingPlan } from "../cost-of-living";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { VIEWS_MODULE_ID } from "./views";
 import { ELECTIONS_MODULE_ID } from "./elections";
 import { CANDIDACY_MODULE_ID, type CandidacyDecision } from "./candidacy";
 import {
@@ -356,7 +357,7 @@ export function demoteHousehold(
   // they heard and lived through goes, as a counted person holds none; their
   // counts, accounts, jobs, drives, ties and the records of what they did
   // stay, and meeting them again brings back the same person to learn anew.
-  for (const person of people) forgetOnReturn(core, person.id);
+  for (const person of people) forgetOnReturn(api, person.id);
   api.relocatePeopleV1({
     personIds: [...members],
     placeId: countedPlaceOf(placeId),
@@ -392,7 +393,15 @@ export function demoteHousehold(
  * on stays, as the forgetting pass keeps it; the drives engine keeps the
  * drives themselves.
  */
-function forgetOnReturn(core: CoreState, personId: PersonId): void {
+function forgetOnReturn(api: CoreAPI, personId: PersonId): void {
+  const core = api.state as CoreState;
+  // Their stances go too: while counted their group's record holds their
+  // view, and filled in again they start from it (views.ts reads the record).
+  if (core.modules.has(VIEWS_MODULE_ID)) {
+    const stances = api.moduleState(VIEWS_MODULE_ID).table("stances");
+    for (const row of stances.query("byPerson", [personId]))
+      stances.remove(row.id);
+  }
   const known = core.knowledgeByPerson.get(personId);
   if (!known?.size) return;
   const kept = new Map<string, KnownFact>();
