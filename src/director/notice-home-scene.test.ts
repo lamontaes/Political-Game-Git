@@ -67,6 +67,11 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
       const first = build();
       // A month at a time, stopping at the first household the landlord
       // serves, so a year is not played where a few weeks show one.
+      // Only the played town's own households: a household of an official
+      // filled in from elsewhere is not one the player's town lives beside.
+      const townHouseholds = new Set(
+        first.residents.map((row) => row.householdId),
+      );
       const firstServed = () =>
         (
           coreAPI(first.core)
@@ -77,6 +82,7 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
           .filter(
             (row) =>
               !row.counted &&
+              townHouseholds.has(row.householdId) &&
               (first.core.households.get(row.householdId)?.memberIds.length ??
                 0) > 1,
           )
@@ -90,8 +96,11 @@ it(`a notice to pay or leave is talked over at home, from the record (seed ${see
         tried.push(`${where}: no household of two served notice`);
         continue;
       }
-      // The same world, played as an adult of that household.
+      // The same world, played again without a player up to the day before
+      // the notice (the clock for one person is only needed around it), then
+      // as an adult of that household through the player's clock.
       const { core, director } = build();
+      advanceCore(core, addDays(served.noticeAt, -1));
       const start = makeIsoDate(core.date);
       const personId = (
         core.households.get(served.householdId)?.memberIds ?? []
