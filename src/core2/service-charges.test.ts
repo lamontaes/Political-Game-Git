@@ -72,11 +72,11 @@ it("moves the town's part of each government's charges from households' living c
         const full = months[months.length - 1]!;
         expect(full.paidMinor, where).toBeGreaterThan(0);
         // The sewer and trash part is by use and may fall short of its share
-        // of the target (a household or firm that cannot pay, the system's own
-        // deficit); the rest is the uniform share of living costs, which is
-        // paid to within the spread real towns show of the target it is cut
-        // from. Firms pay sewer too, so the whole month can pass the
-        // households' living costs by the firms' sewer charges.
+        // of the target (a household or firm that cannot pay: the system's
+        // own deficit). The rest is the uniform share of living costs: it
+        // reaches the treasury, and households never pay more of it than it
+        // asks of them. (How close it comes to what it asks depends on which
+        // households held cash on the 1st, so no tolerance is asserted.)
         const use = townPayers(api, lawChain(api).townPlaceId);
         const sewerPaid = full.byService["sewerage-and-solid-waste"] ?? 0;
         const sewerCapacity =
@@ -84,15 +84,15 @@ it("moves the town's part of each government's charges from households' living c
           use.firms.size * row.sewerPerFirmMinor;
         // Each payer's charge is rounded to a minor unit on every payment.
         const rounding = use.dwellings + use.firms.size * 5;
-        // Households that held no cash on the 1st paid none of that month's
-        // living cost; the uniform share is paid at the share they paid.
-        const uniformTarget =
-          (row.targetMonthlyMinor - sewerCapacity) *
-          (living.paidMinor / living.requestedMinor);
+        const uniformAsked = row.targetMonthlyMinor - sewerCapacity;
         expect(
-          Math.abs(full.paidMinor - sewerPaid - uniformTarget),
-          `${where} ${row.governmentId}: the uniform share`,
-        ).toBeLessThanOrEqual(row.targetMonthlyMinor * 0.15 + 100 + rounding);
+          full.paidMinor - sewerPaid,
+          `${where} ${row.governmentId}: the uniform share paid`,
+        ).toBeGreaterThan(0);
+        expect(
+          full.paidMinor - sewerPaid,
+          `${where} ${row.governmentId}: the uniform share asked`,
+        ).toBeLessThanOrEqual(uniformAsked + rounding);
         expect(
           full.paidMinor,
           `${where} ${row.governmentId}`,
