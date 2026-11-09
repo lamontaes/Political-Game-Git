@@ -4825,6 +4825,8 @@ select.release-pick {
 .calendar-board .calendar-day,
 .calendar-board .calendar-side {
   display: block;
+  /* The day's panel keeps its own height, so "Coming up" never sits over its button. */
+  flex: none;
   margin-bottom: 14px;
 }
 .calendar-board {
