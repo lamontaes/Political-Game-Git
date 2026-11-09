@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: memory/event-ids
-pr:
+pr: #8065
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-09T17:01:18.154Z
