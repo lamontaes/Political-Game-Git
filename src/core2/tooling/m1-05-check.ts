@@ -31,6 +31,7 @@
  * Exits nonzero naming each failed clause. A year with no case on record
  * passes clauses 3 to 5 and says so.
  */
+import { placeStateKey } from "../place-map";
 import housingData from "../data/housing/housing.json" with { type: "json" };
 import history from "../data/macro/history.json" with { type: "json" };
 import regionsData from "../data/regional/regions.json" with { type: "json" };
@@ -166,22 +167,10 @@ const evictionLaws = housingData.eviction as unknown as Record<
 >;
 const lawRow = evictionLaws[usps];
 if (!lawRow) failures.push(`no recorded eviction steps for ${usps}`);
-const dwellingRows = housing.table("dwellings");
-/** The state whose eviction law a case follows: the state its household's dwelling is in (a national address, such as a Washington press household's, is in its own state), else the town's. */
-const lawStateOf = (row: Case): string =>
-  String(
-    (
-      dwellingRows.get(`dwelling:${row.householdId}`) as
-        { usps?: string } | undefined
-    )?.usps ?? usps,
-  );
-const later = (date: string, days: number) =>
-  addDays(makeIsoDate(date), Math.max(1, days));
-const stages: Record<string, number> = {};
-let broken = 0;
-const fail = (id: string, text: string) => {
-  broken += 1;
-  if (broken <= 8) failures.push(`${id}: ${text}`);
+/** The state whose eviction law a case follows: the state of the place its household lives in (a national press household's address is in its own state, not the town's). */
+const lawStateOf = (row: Case): string => {
+  const place = core.households.get(row.householdId)?.placeId;
+  return (place && placeStateKey(place)?.slice(3)) || usps;
 };
 for (const row of cases) {
   stages[row.stage] = (stages[row.stage] ?? 0) + 1;
