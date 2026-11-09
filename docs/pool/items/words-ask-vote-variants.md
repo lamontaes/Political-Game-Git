@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: story/ask-vote-variants
-pr: "#8050"
+pr: #8050
 blocked-on:
 lead: words
 source: owner, Nov 8 ("they've gotta have like a variance ... you could get 30 different scenes within there") and Nov 9 ("add a bunch of different scenes and scenarios and variants")
