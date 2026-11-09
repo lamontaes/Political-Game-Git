@@ -739,6 +739,8 @@
     "offer-to-run": "election",
     "ask-signature": "election",
     "floor-debate": "floor",
+    "study-formed": "floor",
+    "study-reported": "floor",
     "run-doubt": "election"
   }
 }

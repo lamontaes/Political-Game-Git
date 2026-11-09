@@ -5654,6 +5654,102 @@
       }
     },
     {
+      "key": "study-formed",
+      "note": "The body formed a study committee on a bill it could not settle (the legislature's study-formed record: the sponsor chairs it, and its members are the opponents nearest to changing their vote). The chair tells a member what it is charged with and when it reports, or a member asks the player, who chairs it, how it should begin. The player can agree to serve, say a study is only a delay, ask who sits on it and when it reports, or say nothing much.",
+      "purpose": "study-formed",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "press", "answer", "thank", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:study-formed-member"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "study-formed",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "colleague-word",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "study-reported",
+      "note": "A study committee reached its sunset and reported (the legislature's study-reported record: the members' mean position on the bill, given to the body by the chair as a speech). The chair tells a member what the committee found and, from the member's stance record, whether the speech moved them; or a member brings the finding to the player, who chairs it. The player can agree, disagree, ask what moved the finding, or say nothing much.",
+      "purpose": "study-reported",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["bill", "vote"],
+      "roles": [
+        {
+          "key": "speaker",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "press", "answer", "thank", "accept"],
+          "wants": ["speak-out"],
+          "bearing": "calm"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["seat", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:study-reported-member"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "study-reported",
+          "bind": {
+            "speaker": "counterpart",
+            "you": "subject"
+          },
+          "opener": "speaker",
+          "setting": ["seat", "venue"]
+        }
+      ],
+      "tag": {
+        "key": "colleague-word",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "interview-invite",
       "note": "An outlet covering the race asks a candidate to sit for an interview: the press engine's interview-invited record names the candidate, the reporter who asks (the outlet's reporter closest to them) and the outlet. The reporter calls. A yes is read by the press engine as sitting for it, answered from the candidate's own filed platform; a no is a refusal on the record the outlet's people may take as a snub; anything else leaves it open.",
       "roles": [

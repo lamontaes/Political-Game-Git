@@ -18,13 +18,14 @@ import {
   favorWorth,
   memberPosition,
   votesOn,
+  type StudyRow,
 } from "../core2/modules/legislature";
 import {
   MEETINGS_MODULE_ID,
   type DebateRow,
   type TownHallRow,
 } from "../core2/modules/meetings";
-import { viewOn } from "../core2/modules/views";
+import { stanceRow, viewOn } from "../core2/modules/views";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import {
@@ -600,6 +601,73 @@ function composeBinding(
       text: said.number ?? "",
       sourceRecordIds: [moment.causeId, askerId],
     };
+  // A study committee (legislature.ts referToStudy and reportStudy): what it
+  // is charged with, who chairs it (the asker, or the player), when it reports
+  // and how many sit on it; at its report, what it found and whether the
+  // chair's speech to the body moved the player's own stance on the question.
+  if (
+    (record?.kind === "study-formed" || record?.kind === "study-reported") &&
+    said.studyId &&
+    core.modules.has(LEGISLATURE_MODULE_ID)
+  ) {
+    const study = coreAPI(core as CoreState)
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("studies")
+      .get(said.studyId) as unknown as StudyRow | undefined;
+    if (study) {
+      const cited = [moment.causeId, study.id];
+      const issue = study.topic
+        ? (questionAbout(study.topic) ?? lawName(study.topic))
+        : null;
+      if (issue) facts.issue = { text: issue, sourceRecordIds: cited };
+      // Who chairs it: the asker, the player, or a member the two sit with.
+      const chairing =
+        study.chairId === askerId
+          ? "asker-chairs"
+          : study.chairId === askedId
+            ? "you-chair"
+            : "fellow-member";
+      facts[chairing] = {
+        text: said.number ?? "",
+        sourceRecordIds: [...cited, study.chairId],
+      };
+      const chair = core.people.get(study.chairId as PersonId);
+      if (chairing === "fellow-member" && chair)
+        facts.chair = {
+          text: `${chair.givenName} ${chair.familyName}`,
+          sourceRecordIds: [...cited, chair.id],
+        };
+      facts.number = {
+        text: String(study.memberIds.length),
+        sourceRecordIds: cited,
+      };
+      facts.sunset = {
+        text: spokenDate(study.sunsetOn, core.date),
+        sourceRecordIds: cited,
+      };
+      if (study.report) {
+        facts[
+          study.report.finding > P.zero ? "finding-for" : "finding-against"
+        ] = { text: said.number ?? "", sourceRecordIds: [...cited, study.id] };
+        // The speech moved the player's stance on the question toward the
+        // finding, by the stance record's own cause for that speech (a speaker
+        // is not moved by their own).
+        const stance =
+          study.report.speechId && study.topic && askedId !== study.chairId
+            ? stanceRow(coreAPI(core as CoreState), askedId, study.topic)
+            : undefined;
+        const cause = stance?.causes.find(
+          (row) => row.eventId === study.report!.speechId,
+        );
+        if (stance && cause && cause.change > P.zero)
+          facts[study.report.finding > P.zero ? "moved-for" : "moved-against"] =
+            {
+              text: said.number ?? "",
+              sourceRecordIds: [...cited, study.report.speechId!, stance.id],
+            };
+      }
+    }
+  }
   // A reporter cast for a record that names no outlet speaks for the outlet
   // that employs them, by its record.
   if (!facts.outlet && !said.outletId && core.modules.has(PRESS_MODULE_ID)) {

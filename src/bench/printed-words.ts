@@ -25,6 +25,7 @@ import {
 import {
   LEGISLATURE_MODULE_ID,
   type BillRow,
+  type StudyRow,
 } from "../core2/modules/legislature";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import {
@@ -3126,6 +3127,52 @@ const floorDebate: Builder = (read, f) => {
   );
 };
 
+/**
+ * A study committee a body formed on a bill it could not settle
+ * (legislature.ts referToStudy): who chairs it, which bill and question it
+ * studies, how many sit on it and the day it reports.
+ */
+const studyFormed: Builder = (read, f) => {
+  const study = read.row<StudyRow>(LEGISLATURE_MODULE_ID, "studies", f.studyId);
+  const body = read.body(read.bill(f.billId)?.bodyOfficeId);
+  return story(
+    "study-formed",
+    {
+      ...read.who(read.first(), "name", false),
+      ...read.billFacts(f.billId, f.number),
+      ...(study?.topic ? read.issue(study.topic) : {}),
+      ...(body ? { body: read.fact(body, f.billId ?? "") } : {}),
+      ...(f.sunsetOn
+        ? { date: read.fact(spokenDate(f.sunsetOn), f.studyId ?? "") }
+        : {}),
+      ...(Number(f.members) > 1
+        ? { number: read.fact(f.members!, f.studyId ?? "") }
+        : {}),
+    },
+    ["name", "designation"],
+    read.first(),
+  );
+};
+
+/** A study committee's report at its sunset (legislature.ts reportStudy): who gave it and which way it found. */
+const studyReported: Builder = (read, f) => {
+  const study = read.row<StudyRow>(LEGISLATURE_MODULE_ID, "studies", f.studyId);
+  const found = f.direction === "for" || f.direction === "against";
+  return found
+    ? story(
+        "study-reported",
+        {
+          ...read.who(read.first(), "name", false),
+          ...read.billFacts(f.billId, f.number),
+          ...(study?.topic ? read.issue(study.topic) : {}),
+          [`finding-${f.direction}`]: read.fact("yes", f.studyId ?? ""),
+        },
+        ["name", "designation"],
+        read.first(),
+      )
+    : null;
+};
+
 /** A governor's or mayor's yearly address, told by its kind and one line they said. */
 const localAddress =
   (level: "state" | "town"): Builder =>
@@ -3381,6 +3428,8 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "mayor.address": localAddress("town"),
   "governor.response": addressResponse,
   "floor-debate": floorDebate,
+  "study-formed": studyFormed,
+  "study-reported": studyReported,
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),
   "civic.rally": publicAction("rally"),

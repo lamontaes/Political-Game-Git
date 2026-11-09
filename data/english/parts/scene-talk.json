@@ -3,6 +3,7 @@
   "register": "scene-talk",
   "description": "Scenes with a purpose (owner, Oct 15, evening): the narrator's setup, the asker's opening and statement of purpose, the player's four replies with their stakes, the asker's answer and the close. Authored to calibrated patterns from ordinary American political and family talk (the text rule, Oct 15); no one's text is copied. Each piece serves every scene with its step and move: each use names the purpose it serves, so a line never leaks into a scene it does not fit; a follow that answers one reply names that reply's piece or move in `after`. A piece's bearing is the manner of its wording; the speaker's traits pull toward the bearings they favor. The director's exchange engine (src/director/scene-talk.ts) arranges the pieces by src/director/data/purpose-arcs.json.",
   "slots": {
+    "sunset": "The day a study committee's term ends, as people say it, from the study record.",
     "area": "A policy area, said after 'with' or 'about', from the town's term read.",
     "stand": "The stand the speaker takes in an address, as a verb phrase after 'to' (\"raise the minimum wage\"), from the speaker's recorded views.",
     "signatures": "The signatures a filing's petition needs, as a number, from the petition record.",
@@ -155721,6 +155722,2960 @@
       },
       "restoredFrom": "bank:meeting.procedural.reserving-the-right-to-object",
       "restoredOn": "2026-11-08"
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-order-forming-the-committee-is-on-the-record-and-members",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The order forming the committee is on the record, and members are finding their seats.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-order-forming-the-committee-on-bill-is-on-the-record",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The order forming the committee on {bill} is on the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-for-the-others-to-settle-then-turns-to-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits for the others to settle, then turns to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.members-are-still-arriving-and-name-comes-down-the-aisle-to",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Members are still arriving, and {name} comes down the aisle to find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-sponsor-of-bill-gathers-the-committees-papers-and-looks-for",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The sponsor of {bill} gathers the committee's papers and looks for you in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["bill", "asker-chairs"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.theyve-set-up-a-study-committee-and-youre-on-it-i",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "They've set up a study committee, and you're on it. I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-vote-on-bill-came-up-short-and-the-body-wants",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The vote on {bill} came up short, and the body wants more time on it. I'm chairing the committee, and you're a member.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["bill", "asker-chairs"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-body-wants-issue-studied-before-it-votes-again-and-im",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The body wants {issue} studied before it votes again, and I'm chairing the committee. You're on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["issue", "asker-chairs"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.we-report-back-by-sunset-i-want-a-finding-the-whole",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We report back by {sunset}. I want a finding the whole body can read, and I'd like yours in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["sunset", "asker-chairs"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.we-have-until-sunset-on-issue-id-rather-we-used-the",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We have until {sunset} on {issue}. I'd rather we used the time than sat on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["sunset", "issue", "asker-chairs"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.its-a-committee-of-number-and-i-asked-for-people-who",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "It's a committee of {number}, and I asked for people who voted against {bill}. You're one of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["number", "bill", "asker-chairs"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-the-order-is-read-when-do-you-want-the-committee",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, the order is read. When do you want the committee to start on {issue}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair", "issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-there-are-number-of-us-on-this-tell-us-what",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, there are {number} of us on this. Tell us what you want from the study.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair", "number"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.you-have-until-sunset-to-report-on-bill-what-do-you",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You have until {sunset} to report on {bill}. What do you want from the rest of us before then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair", "sunset", "bill"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.i-didnt-expect-to-sit-on-a-committee-with-you-in",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "I didn't expect to sit on a committee with you in the chair, but here we are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.ill-serve-and-ill-read-everything-before-we-meet",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'll serve, and I'll read everything before we meet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.count-me-in-the-bill-deserves-a-real-look",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Count me in. The bill deserves a real look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.happy-to-a-careful-look-beats-a-quick-no",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Happy to. A careful look beats a quick no.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.a-study-is-a-way-to-put-the-bill-off-and",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "A study is a way to put the bill off, and we both know it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.the-vote-already-told-us-what-the-body-thinks",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "The vote already told us what the body thinks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.ill-sit-on-it-but-i-dont-think-it-changes-anything",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I'll sit on it, but I don't think it changes anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-else-is-sitting-on-it",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who else is sitting on it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-does-it-report",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When does it report?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-exactly-are-we-charged-with",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What exactly are we charged with?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.lets-see-how-the-first-meeting-goes",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let's see how the first meeting goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ill-wait-to-hear-what-the-others-want",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll wait to hear what the others want.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.my-calendar-is-full-but-ill-look-at-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "My calendar is full, but I'll look at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.send-me-the-date-of-the-first-meeting",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Send me the date of the first meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.ill-hear-the-rest-when-we-meet",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll hear the rest when we meet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-get-back-to-the-floor",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to get back to the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-the-first-notice-goes-out-to-the-whole-committee",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. The first notice goes out to the whole committee.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-wanted-people-on-this-who-would-read-the",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I wanted people on this who would read the bill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.glad-to-hear-it-well-start-with-the-sponsors-materials",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Glad to hear it. We'll start with the sponsor's materials.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.give-it-a-chance-first-and-judge-it-by-what-we",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Give it a chance first, and judge it by what we bring back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.maybe-so-sit-through-it-before-you-say-that-again",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Maybe so. Sit through it before you say that again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-only-ask-that-you-look-at-the-bill-once-more",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I only ask that you look at the bill once more with the rest of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-members-are-the-opponents-nearest-to-changing-their-vote-thats",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The members are the opponents nearest to changing their vote. That's why you're on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.we-report-by-sunset-and-the-charge-is-issue-thats-all",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "We report by {sunset}, and the charge is {issue}. That's all it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["sunset", "issue"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-members-are-the-ones-whose-votes-were-closest-chair-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The members are the ones whose votes were closest, Chair. You set the schedule.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-reports-when-its-term-runs-out-and-it-studies-what",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It reports when its term runs out, and it studies what the bill was about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-the-first-notice-goes-out-either-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. The first notice goes out either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-the-committee-meets-whether-were-all-ready-or-not",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. The committee meets whether we're all ready or not.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-ill-leave-it-with-you-for-now",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll leave it with you for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-thats-what-the-committee-needs",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's what the committee needs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-ill-send-the-notice-once-the-others-reply",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good. I'll send the notice once the others reply.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-appreciate-it-well-do-right-by-the-bill",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I appreciate it. We'll do right by the bill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-well-start-without-the-details-then",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. We'll start without the details, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-ill-tell-the-clerk-were-set",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. I'll tell the clerk we're set.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fair-enough-the-committee-will-meet-either-way",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The committee will meet either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.dont-write-the-study-off-before-it-has-met",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't write the study off before it has met.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.ill-hold-the-committee-to-its-date-and-id-ask-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll hold the committee to its date, and I'd ask you to do the same.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.ill-see-that-you-get-everything-we-collect-before-the-first",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll see that you get everything we collect before the first meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.youll-have-the-charge-in-writing-and-ill-keep-the-schedule",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have the charge in writing, and I'll keep the schedule posted.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-about-it-and-tell-me-before-the-first-meeting",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think about it, and tell me before the first meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-clerk-reads-the-committees-report-into-the-record",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The clerk reads the committee's report into the record.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-report-on-bill-is-laid-before-the-body-and-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The report on {bill} is laid before the body, and the chamber goes quiet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-catches-up-with-you-as-the-members-break-for-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} catches up with you as the members break for the hall.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-waiting-by-your-seat-when-the-sitting-breaks",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is waiting by your seat when the sitting breaks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-has-reported-on-bill-you-sat-on-it-so",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee has reported on {bill}. You sat on it, so I wanted you to hear it from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["bill", "asker-chairs"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.we-found-for-bill-and-i-told-the-body-so-i",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We found for {bill}, and I told the body so. I saw it move you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-for", "bill", "asker-chairs", "moved-for"]
+        }
+      ],
+      "bearing": "eager",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.we-found-against-bill-my-own-bill-i-told-the-body",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We found against {bill}, my own bill. I told the body so, and I think it moved you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": [
+            "finding-against",
+            "bill",
+            "asker-chairs",
+            "moved-against"
+          ]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.on-issue-the-committee-came-down-for-bill-thats-the-finding",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "On {issue}, the committee came down for {bill}. That's the finding I gave the body.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-for", "issue", "bill", "asker-chairs"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.on-issue-the-committee-came-down-against-bill-i-gave-the",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "On {issue}, the committee came down against {bill}. I gave the body that finding, though it's my bill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-against", "issue", "bill", "asker-chairs"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-found-for-bill-you-were-part-of-that-finding",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee found for {bill}. You were part of that finding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-for", "asker-chairs", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-found-against-bill-you-were-part-of-that-finding",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee found against {bill}. You were part of that finding.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-against", "asker-chairs", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-your-report-went-for-bill-and-the-body-heard-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, your report went for {bill}, and the body heard it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair", "finding-for", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-you-reported-against-bill-and-it-was-your-own-bill",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, you reported against {bill}, and it was your own bill. The body heard you out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair", "finding-against", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-the-reports-in-what-do-you-want-the-body-to",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Chair, the report's in. What do you want the body to take from it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["you-chair"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-has-reported-and-you-were-on-it-i-wanted",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee has reported, and you were on it. I wanted to hear what you make of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.thats-a-fair-finding-ill-go-the-way-it-points",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That's a fair finding. I'll go the way it points.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.the-study-did-its-job-i-can-back-what-it-found",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "The study did its job. I can back what it found.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.im-persuaded-by-the-work-we-did-together",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "I'm persuaded by the work we did together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.the-study-didnt-change-my-mind",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "The study didn't change my mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-read-it-differently-the-finding-doesnt-move-me",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I read it differently. The finding doesn't move me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-disagree.i-respect-the-work-but-im-still-where-i-was",
+      "move": "reply-disagree",
+      "kind": "spoken",
+      "text": "I respect the work, but I'm still where I was.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "disagree",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "disagree",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-carried-the-finding-in-the-end",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What carried the finding in the end?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.where-was-the-committee-closest-to-splitting",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Where was the committee closest to splitting?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.did-anyone-on-it-dissent",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Did anyone on it dissent?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.ill-read-the-full-report-before-i-say",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll read the full report before I say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-sit-with-it-a-while",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me sit with it a while.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.im-not-ready-to-say-where-i-land",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm not ready to say where I land.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.ill-read-it-and-come-find-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll read it and come find you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-get-through-the-rest-of-the-sitting-first",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let me get through the rest of the sitting first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.ive-heard-enough-for-now",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've heard enough for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-thats-all-the-report-asks",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's all the report asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-appreciate-that-the-members-worked-hard-on-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I appreciate that. The members worked hard on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-the-body-will-take-its-cue-from-the-people-who",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Good. The body will take its cue from the people who sat on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.read-it-before-you-decide-again",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Read it before you decide again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-members-spent-the-whole-term-on-it-give-it-a",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The members spent the whole term on it. Give it a second look.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.all-i-ask-is-that-you-read-it-before-the-next",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "All I ask is that you read it before the next vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.by-the-end-the-members-leaned-for-it-on-balance-thats",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "By the end the members leaned for it, on balance. That's all the finding says.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-for"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.by-the-end-the-members-leaned-against-it-on-balance-thats",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "By the end the members leaned against it, on balance. That's all the finding says.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["finding-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-finding-is-where-the-members-stood-at-the-end-taken",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The finding is where the members stood at the end, taken together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fair-enough-the-report-will-be-there-when-you-want-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The report will be there when you want it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.all-right-its-on-the-record-either-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "All right. It's on the record either way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.understood-take-your-time-with-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Understood. Take your time with it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-thats-what-a-committee-is-for",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you. That's what a committee is for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-ill-tell-the-others-you-read-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good. I'll tell the others you read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-appreciate-it-the-work-meant-something",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I appreciate it. The work meant something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-well-let-the-vote-settle-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. We'll let the vote settle it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.understood-the-report-stands-as-written",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Understood. The report stands as written.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fair-enough-the-committees-done-and-so-am-i",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fair enough. The committee's done, and so am I.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.read-it-before-the-next-roll-call-thats-all-im-asking",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Read it before the next roll call. That's all I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.ill-remember-who-read-the-report-and-who-didnt",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll remember who read the report and who didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.ill-see-that-you-get-a-copy-of-everything-the-committee",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll see that you get a copy of everything the committee used.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.youll-have-my-notes-on-it-before-the-next-vote",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "You'll have my notes on it before the next vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.think-it-over-and-tell-me-before-the-next-roll-call",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Think it over, and tell me before the next roll call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-order-forming-the-committee-on-bill-was-read-into-the",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The order forming the committee on {bill} was read into the record yesterday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["bill", "day-after"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-waiting-since-the-order-was-read-yesterday-and",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been waiting since the order was read yesterday, and finds you as the members arrive.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["asker-chairs", "day-after"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-is-chairing-the-committee-on-bill-and-you-and-i",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} is chairing the committee on {bill}, and you and I are both on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair", "bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-has-the-chair-and-the-charge-is-issue-i-wanted",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} has the chair, and the charge is {issue}. I wanted to hear what you make of it before we meet.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair", "issue"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.we-report-by-sunset-with-chair-in-the-chair-id-like",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We report by {sunset}, with {chair} in the chair. I'd like to know where you're starting from.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair", "sunset"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.were-both-on-the-committee-i-wanted-to-see-where-you",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "We're both on the committee. I wanted to see where you stand before it meets.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-members-are-the-ones-whose-votes-were-closest-thats-how",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The members are the ones whose votes were closest. That's how {chair} chose us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "study-formed",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-gave-the-body-our-finding-on-bill-you-were-there",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} gave the body our finding on {bill}. You were there for it, so I wanted to talk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-told-the-body-we-found-for-bill-i-wanted-to",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} told the body we found for {bill}. I wanted to hear how it sat with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair", "finding-for", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-told-the-body-we-found-against-bill-i-wanted-to",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} told the body we found against {bill}. I wanted to hear how it sat with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member", "chair", "finding-against", "bill"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.the-committee-has-reported-and-we-both-sat-on-it-i",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "The committee has reported, and we both sat on it. I wanted to hear what you make of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": ["fellow-member"],
+          "excludesFacts": ["moved-for", "moved-against"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-told-the-body-we-found-for-bill-i-saw-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} told the body we found for {bill}. I saw it move you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": [
+            "fellow-member",
+            "chair",
+            "bill",
+            "finding-for",
+            "moved-for"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.chair-told-the-body-we-found-against-bill-i-think-it",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{chair} told the body we found against {bill}. I think it moved you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "purpose": "study-reported",
+          "key": "colleague-word",
+          "requiresFacts": [
+            "fellow-member",
+            "chair",
+            "bill",
+            "finding-against",
+            "moved-against"
+          ]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "tell",
+        "key": "colleague-word"
+      }
     }
   ]
 }
