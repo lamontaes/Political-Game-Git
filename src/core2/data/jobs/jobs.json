@@ -1840,6 +1840,7 @@
   "workingAge": [18, 65],
   "reasons": {
     "layoff": "demand-below-staff",
+    "absent": "absent-from-work",
     "closure": "employer-closed",
     "betterOffer": "better-offer",
     "leftWork": "left-work",

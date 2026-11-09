@@ -1687,6 +1687,8 @@ export function layOff(
   tradingId?: string,
   /** A chosen worker goes instead of the one the business values least (dev mode); the record keeps the pick. */
   pickJobId?: string,
+  /** Why the business lets them go; its demand by default. */
+  reasonKey: string = jobsData.reasons.layoff,
 ): { heads: number; id?: string } | "over" | undefined {
   const c = core(api);
   const valued = new Map(
@@ -1727,7 +1729,7 @@ export function layOff(
       organizationId,
       jobId: job.id,
       kind: "staff-shed",
-      reasonKey: jobsData.reasons.layoff,
+      reasonKey,
       decidedBy:
         ownerOf(api, organizationId) ??
         managerOf(c, staff, job) ??
@@ -1765,7 +1767,7 @@ export function layOff(
     organizationId,
     jobId: job.id,
     kind: "layoff",
-    reasonKey: jobsData.reasons.layoff,
+    reasonKey,
     decidedBy: decidedBy ?? organizationId,
     values: {
       ...values,
@@ -1826,7 +1828,7 @@ export function layOff(
         personId: job.personId,
         placeId,
         since: api.state.date,
-        reasonKey: jobsData.reasons.layoff,
+        reasonKey,
         referenceHourlyMinor: job.hourlyMinor ?? 0,
         lastJob: { ...job },
       });
@@ -2017,6 +2019,7 @@ function reviewWorkers(api: CoreAPI): void {
   reviewCountedEntry(api);
   reviewRegionalFinds(api);
   reviewTurnover(api);
+  reviewAbsence(api);
   raisePay(api);
 }
 
@@ -2090,6 +2093,73 @@ function turnoverJobs(api: CoreAPI): JobInput[] {
   for (const job of c.jobs.values()) consider(job);
   for (const job of residentsRuntime(c)?.jobs.values() ?? []) consider(job);
   return jobs.sort((a, b) => a.id.localeCompare(b.id));
+}
+
+/**
+ * An employer lets go of a worker who does not come to work. Each month the
+ * share of the worker's scheduled minutes they missed (the work engine's
+ * planned and attended totals) builds a pull toward dismissal, and the days
+ * they do attend wear it down; at one the employer lets them go, by the same
+ * separation as any other, with the reason `absent-from-work` and the pull
+ * kept on the record. A worker who misses part of their schedule is let go
+ * later or never, one who misses all of it within `jobsAbsenceMonthsToDismissal`
+ * months: a sliding scale, no day count. Named workers only (a counted worker
+ * has no attendance record).
+ */
+function reviewAbsence(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const rows = store(api).table("absence");
+  const live = new Set<string>();
+  for (const job of turnoverJobs(api)) {
+    const totals = c.work.totalsByJob.get(job.id);
+    const person = c.people.get(job.personId);
+    if (!totals || !person || !c.jobs.has(job.id)) continue;
+    live.add(job.id);
+    if (!person.alive || controlled(c, person.id) || inCustody(api, person.id))
+      continue;
+    const held = rows.get(job.id) as
+      { pull: number; planned: number; attended: number } | undefined;
+    const planned =
+      totals.plannedMinutes - (held?.planned ?? totals.plannedMinutes);
+    const attended =
+      totals.attendedMinutes - (held?.attended ?? totals.attendedMinutes);
+    const missed =
+      planned > p("zero")
+        ? Math.min(p("one"), Math.max(p("zero"), p("one") - attended / planned))
+        : p("zero");
+    // Months of full absence it takes to be let go; attendance wears the pull down by the same step.
+    const step =
+      planned > p("zero")
+        ? (missed - (p("one") - missed)) / p("jobsAbsenceMonthsToDismissal")
+        : p("zero");
+    const pull = Math.max(p("zero"), (held?.pull ?? p("zero")) + step);
+    const row = {
+      id: job.id,
+      pull,
+      planned: totals.plannedMinutes,
+      attended: totals.attendedMinutes,
+    };
+    if (pull >= p("one")) {
+      const laid = layOff(
+        api,
+        job.organizationId,
+        currentJobs(api, job.organizationId).filter((r) => r.id === job.id),
+        headsOf(c, job),
+        { absentPull: pull },
+        undefined,
+        job.id,
+        jobsData.reasons.absent,
+      );
+      if (laid !== "over" && laid !== undefined) {
+        rows.remove(job.id);
+        continue;
+      }
+    }
+    rows.put(row as never);
+  }
+  for (const row of rows.rows() as unknown as { id: string }[])
+    if (!live.has(row.id)) rows.remove(row.id);
 }
 
 /**
@@ -4572,6 +4642,7 @@ export const JOBS_MODULE: CoreModule = {
       elsewhere: {},
       // Each town worker's pull toward being let go (the JOLTS layoff pull), by job.
       turnover: {},
+      absence: {},
       // A job's full daily hours while its employer runs short hours, by job.
       fullHours: {},
       // Counted people working in the wider region (their place's unplaced workers), by person.
