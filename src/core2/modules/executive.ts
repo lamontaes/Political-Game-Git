@@ -29,6 +29,7 @@ import relatedWork from "../../../data/research/executive/post-related-work.json
 import { PROFILE_FACT_KINDS } from "../opening-profile";
 import { schoolingOn } from "./jobs";
 import emergencyData from "../data/executive/emergency.json" with { type: "json" };
+import federalOrderData from "../data/executive/federal-orders.json" with { type: "json" };
 import {
   coreAPI,
   fillInIdentity,
@@ -40,7 +41,7 @@ import { placeStateKey } from "../place-map";
 import { admitCountedHousehold } from "./residents";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
-import { enactLaw, lawChain } from "./laws";
+import { enactLaw, lawChain, lawInForce } from "./laws";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import {
   appointerWeighing,
@@ -129,6 +130,8 @@ export const EXECUTIVE_MODULE: CoreModule = {
       appointments: { indexes: { byGovernment: { fields: ["government"] } } },
       agencyHeads: { indexes: { byGovernment: { fields: ["government"] } } },
       orders: {},
+      /** The President's latest weighing of each federal order: the view, the law now and what they did about it. */
+      orderDecisions: {},
       emergencies: {},
       /** A disaster the player governor may declare an emergency for: the offer waits for their answer. */
       emergencyOffers: {},
@@ -1298,6 +1301,142 @@ export function issueOrder(
     date: api.state.date,
   } as unknown as ModuleRow);
   return { lawId: row.id };
+}
+
+interface FederalOrder {
+  readonly key: string;
+  readonly series: string;
+  readonly analog: string;
+  readonly authority: { readonly basis: string; readonly source: string };
+}
+const FEDERAL_ORDERS = (
+  federalOrderData as unknown as {
+    orders: FederalOrder[];
+  }
+).orders;
+
+/** The federal orders a President may issue that an engine reads (the keys). */
+export function federalOrderable(): readonly string[] {
+  return FEDERAL_ORDERS.map((o) => o.key).sort();
+}
+
+/**
+ * Issue a federal order or rule (the President, through the same engine as a
+ * governor's): a federal law row in force from tomorrow, reaching the engines
+ * that read the series like a statute, which the next President can reverse
+ * (`revoke: true`).
+ */
+export function issueFederalOrder(
+  api: CoreAPI,
+  input: {
+    readonly executiveId: string;
+    readonly order: string;
+    readonly revoke?: boolean;
+  },
+): { readonly lawId: string } {
+  const spec = FEDERAL_ORDERS.find((o) => o.key === input.order);
+  if (!spec) throw new Error(`The President can't order ${input.order}.`);
+  const tomorrow = new Date(
+    Date.parse(`${api.state.date}T00:00:00Z`) + 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  const measureId = `order:US:${input.order}:${api.state.date}`;
+  // stopgapId: SG-NATION-federal-axis-proxy
+  api.stopgap("SG-NATION-federal-axis-proxy");
+  const row = enactLaw(api, {
+    jurisdiction: "US",
+    level: "federal",
+    series: spec.series,
+    value: input.revoke ? 0 : 1,
+    effectiveDate: tomorrow,
+    measureId,
+    citation: `Presidential order ${measureId} by ${input.executiveId}`,
+    terms: {
+      executiveOrder: true,
+      issuedBy: input.executiveId,
+      authority: spec.authority.basis,
+    },
+  });
+  table(api, "orders").put({
+    id: measureId,
+    executiveId: input.executiveId,
+    order: input.order,
+    revoke: input.revoke ?? false,
+    lawId: row.id,
+    authority: spec.authority.basis,
+    date: api.state.date,
+  } as unknown as ModuleRow);
+  return { lawId: row.id };
+}
+
+/** One weighing of a federal order by the President, kept as the record of why they acted or did not. */
+export interface OrderDecision {
+  readonly id: string;
+  readonly executiveId: string;
+  readonly order: string;
+  readonly date: string;
+  /** Their lean, -1 to 1, and their view of the order's nearest recorded question, -1 to 1. */
+  readonly lean: number;
+  readonly view: number;
+  /** The law in force on the series today (1 yes, 0 no). */
+  readonly lawNow: number;
+  /** What the order would score for and against keeping things as they are, from their view. */
+  readonly scoreFor: number;
+  readonly scoreAgainst: number;
+  readonly act: "issue" | "revoke" | "keep";
+  readonly analog: string;
+}
+
+/**
+ * What the sitting President does about each federal order, from their own
+ * view of it and the law now: they issue it where they want it and it is not
+ * in force, revoke it where they oppose it and it is, and otherwise keep
+ * things as they are. The weighing is kept for each order (the latest).
+ */
+export function presidentialOrderDecisions(
+  api: CoreAPI,
+  executiveId: string,
+): readonly OrderDecision[] {
+  const lean = leanOf(api, executiveId);
+  return FEDERAL_ORDERS.map((spec) => {
+    const view = viewOn(api, executiveId, spec.analog, lean);
+    const lawNow = lawInForce(api, spec.series).value === 1 ? 1 : 0;
+    const act: OrderDecision["act"] =
+      view > 0 && lawNow !== 1
+        ? "issue"
+        : view < 0 && lawNow === 1
+          ? "revoke"
+          : "keep";
+    const decision: OrderDecision = {
+      id: `order-decision:${executiveId}:${spec.key}`,
+      executiveId,
+      order: spec.key,
+      date: api.state.date,
+      lean,
+      view,
+      lawNow,
+      scoreFor: Math.max(0, view),
+      scoreAgainst: Math.max(0, -view),
+      act,
+      analog: spec.analog,
+    };
+    table(api, "orderDecisions").put(decision as unknown as ModuleRow);
+    return decision;
+  });
+}
+
+/** The President's latest weighing of a federal order, if they have made one. */
+export function orderDecisionOf(
+  api: CoreAPI,
+  executiveId: string,
+  order: string,
+): OrderDecision | null {
+  return (
+    (table(api, "orderDecisions").get(
+      `order-decision:${executiveId}:${order}`,
+    ) as unknown as OrderDecision | undefined) ?? null
+  );
 }
 
 export interface EmergencyRow {

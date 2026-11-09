@@ -106,5 +106,17 @@
     "addedAt": "2026-11-09",
     "replacement": "Damage by each home's build year, kind, flood zone and insurance from the housing record, aid by each household's own FEMA award, and repairs by the household's own bill.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-federal-axis-proxy",
+    "kind": "assumed-data",
+    "file": "src/core2/data/executive/federal-orders.json",
+    "line": 1,
+    "whatItFakes": "The President's view of a federal order is their view of the nearest question the stance data records (for the power-plant carbon rule, state carbon pricing), because the stance axes are measured from the states' laws and a federal question has no state answers to correlate; the federal series list holds one order, and the played President has no screen to issue it yet.",
+    "why": "issue-axes-2026.json is measured across the states' recorded answers; no poll-based axis for federal questions is kept, and only the power-plant series is both set by a President in practice and read by an engine.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "A measured or polled left-right axis for each federal question (Pew and Gallup by party), more orders and rules in federal-orders.json (the refugee admissions determination), and the played President's screen over federalOrderable.",
+    "status": "open"
   }
 ]
