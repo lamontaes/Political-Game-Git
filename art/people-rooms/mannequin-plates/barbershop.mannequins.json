@@ -1,0 +1,65 @@
+{
+  "scene": "barbershop",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "barbershop__midday.jpg",
+  "backdrops": [],
+  "spots": [
+    {
+      "id": "barbershop-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 269,
+        "x": 620.0,
+        "width": 74
+      },
+      "box": [
+        544,
+        269,
+        696,
+        900
+      ],
+      "feet": 899
+    },
+    {
+      "id": "barbershop-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 301,
+        "x": 760.0,
+        "width": 51
+      },
+      "box": [
+        707,
+        301,
+        813,
+        740
+      ],
+      "feet": 739
+    },
+    {
+      "id": "barbershop-2",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 322,
+        "x": 700.0,
+        "width": 37
+      },
+      "box": [
+        662,
+        322,
+        738,
+        640
+      ],
+      "feet": 639
+    }
+  ]
+}

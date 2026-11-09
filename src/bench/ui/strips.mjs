@@ -358,7 +358,7 @@ export function quitButton(label, onQuit) {
  * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
  * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
  */
-export function patchNotesScreen({ builds, title, words, rows }) {
+export function patchNotesScreen({ builds, title, rows }) {
   const holder = el("div");
   let chosen = builds[0];
   const draw = () =>
@@ -386,18 +386,24 @@ export function patchNotesScreen({ builds, title, words, rows }) {
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words,
                 className: "bsdepts",
               }),
             ),
           ],
-          (chosen?.groups ?? []).map((group, at) =>
-            stripSection(
-              Math.min(at + 2, 5),
-              group.heading,
-              ...group.notes.map((note) => introText(note)),
+          [
+            // A build's notes run long: they scroll inside their own box, never the sheet.
+            el(
+              "div",
+              { className: "patch-detail" },
+              ...(chosen?.groups ?? []).map((group, at) =>
+                stripSection(
+                  Math.min(at + 2, 5),
+                  group.heading,
+                  ...group.notes.map((note) => introText(note)),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
       }),
     );
@@ -410,7 +416,7 @@ export function patchNotesScreen({ builds, title, words, rows }) {
  * newest last and chosen, each with its years; the chosen chapter is its title over two
  * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
  */
-export function journalScreen({ chapters, labels, yearOf, rows, words }) {
+export function journalScreen({ chapters, labels, yearOf, rows }) {
   const holder = el("div");
   let chosen = chapters.at(-1);
   const yearsOf = (chapter) => {
@@ -444,7 +450,6 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
                     columns: 1,
                     rowHeight: 52,
                     gap: 2,
-                    words,
                     className: "bsdepts",
                   })
                 : el("p", { className: "intro", textContent: labels.empty }),

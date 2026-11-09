@@ -9,11 +9,8 @@
  * state, as the opening gives every household. The cash is what the Survey of
  * Consumer Finances says a family at their pay keeps in checking and savings.
  */
-import {
-  worldMonthlyHouseholdLivingCosts,
-  livingCostsRegionForState,
-} from "./reference/living-costs-data";
-import { bedroomsForHousehold, hudStateRentRow } from "./hud-rents";
+import { householdDailyCostMinor } from "./household-cost";
+import { hudStateRentRow } from "./hud-rents";
 import { medianTransactionBalance } from "./starting-cash";
 import { seededNormal } from "./officials-roster";
 import { outsideGovernment } from "./outside-governments";
@@ -33,19 +30,14 @@ export function officialHousehold(
   personId: string,
 ): OfficialHousehold {
   const p = (key: string) => api.parameter(key);
-  const everyday = worldMonthlyHouseholdLivingCosts(
-    api.state.seed,
-    livingCostsRegionForState(stateKey),
-    p("one"),
-  ).monthlyMinor;
-  const shelter =
-    hudStateRentRow(stateKey, api.state.seed).rents[
-      bedroomsForHousehold(p("one"))
-    ]! * p("minorPerDollar");
   return {
-    livingCostDailyMinor: Math.round(
-      ((everyday + shelter) * p("monthsPerYear")) / p("daysPerMeanYear"),
-    ),
+    livingCostDailyMinor: householdDailyCostMinor({
+      seed: api.state.seed,
+      stateKey,
+      size: p("one"),
+      rent: hudStateRentRow(stateKey, api.state.seed),
+      parameter: p,
+    }),
     savingsMinor: Math.round(
       medianTransactionBalance(
         annualPayMinor / p("minorPerDollar"),
