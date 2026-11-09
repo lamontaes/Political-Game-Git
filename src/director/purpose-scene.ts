@@ -78,30 +78,14 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-<<<<<<< HEAD
-import { chooseVariant, type VariantChoice } from "./arc-variant";
 import { custodyFacts } from "./custody-facts";
-<<<<<<< HEAD
 import { meetingFacts } from "./meeting-facts";
-<<<<<<< HEAD
 import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
-<<<<<<< HEAD
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
-<<<<<<< HEAD
 import { rescueFacts } from "./rescue-facts";
-=======
-=======
-=======
-=======
-=======
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
->>>>>>> story/purposes-news-departure
->>>>>>> story/purposes-return-reunion
->>>>>>> story/purposes-first-meeting
->>>>>>> story/purposes-reunion-letter
->>>>>>> story/purposes-celebration-gathering
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";

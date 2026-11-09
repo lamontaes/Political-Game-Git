@@ -207,10 +207,6 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-<<<<<<< HEAD
-        else if (family === "owed-apology")
-          for (const id of ["apology-taken", "grudge"])
-=======
         else if (family === "ask-vote") {
           process.stdout.write(
             `ASK VOTE ENDINGS ${variant}: ${JSON.stringify(talk.endingCounts)}\n`,
@@ -218,16 +214,17 @@ describe("a kind with several arcs", () => {
           // The keeps the engines read (favor-owed, promise, trust-lost,
           // relationship-strained) come from these endings.
           for (const id of ["vote-given", "traded"])
->>>>>>> story/purposes-rescue
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-<<<<<<< HEAD
+        } else if (family === "owed-apology")
+          for (const id of ["apology-taken", "grudge"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
         else
-=======
-        } else
->>>>>>> story/purposes-rescue
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
             where,
