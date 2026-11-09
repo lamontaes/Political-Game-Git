@@ -11,7 +11,7 @@ const errors = [];
 page.on("pageerror", (e) => errors.push(e.message));
 try {
   const ready = page.waitForResponse((r) => r.url().endsWith("/api/title"));
-  await page.goto("http://localhost:3000/play");
+  await page.goto(`http://localhost:${process.env.BENCH_PORT ?? 3000}/play`);
   await ready;
   // Always a fresh life: a continued one has moved on from its opening day.
   {
@@ -104,9 +104,17 @@ try {
   // More than birthdays (owner, Nov 1): the town's meetings and the holidays
   // stand with the family's birthdays, each kind named in a key (never a color),
   // and a kind can be hidden and shown again.
-  const kinds = await page
-    .locator(".calendar-key .key-chip")
-    .evaluateAll((nodes) => nodes.map((n) => n.dataset.kind));
+  const keyKinds = () =>
+    page
+      .locator(".calendar-key .key-chip")
+      .evaluateAll((nodes) => nodes.map((n) => n.dataset.kind));
+  // A month shows only the kinds that fall in it (a town with no filing or meeting this month has
+  // birthdays and holidays alone): step on until a third kind appears, up to a year.
+  let kinds = await keyKinds();
+  for (let step = 0; step < 12 && kinds.length < 3; step += 1) {
+    await page.getByRole("button", { name: "Next month", exact: true }).click();
+    kinds = await keyKinds();
+  }
   console.log("Kinds:", kinds.join(", "));
   assert.ok(kinds.includes("holiday"), "no holidays on the calendar");
   assert.ok(kinds.includes("birthday"), "no birthdays on the calendar");
