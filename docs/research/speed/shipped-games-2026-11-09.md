@@ -1,0 +1,16 @@
+# How shipped simulation games stay fast (Speed, Nov 9, 2026)
+
+Owner, Nov 8: "speed has already been solved by millions of games. It can do research. It doesn't need to reinvent the wheel." This is a short note of what those games do and which of it we use. Sources are the developers' own published descriptions; I did not re-fetch them tonight, so each line names where to check it.
+
+| Technique | Who does it | What it is | Where we use it or could |
+| --- | --- | --- | --- |
+| Different things at different rates | RimWorld (Tynan Sylvester, "Ticker" / `TickRare` and `TickLong` in the game's code and his GDC talks); Dwarf Fortress (Tarn Adams, DF Talk and the wiki's "Tick" page: slow-changing things like vermin and weather update every N ticks) | A thing that changes slowly (a plant, a mood, a price) updates every 150 or 2,000 ticks, not every tick. | Our `organizedGroupsIn`, town halls, news and press passes: act on the day an input changed, or weekly, never daily by scan. |
+| Level of detail for what nobody watches | Dwarf Fortress (off-site world runs as history, not as tick-by-tick bodies); Paradox games (Crusader Kings, Victoria: provinces and characters out of view tick monthly or yearly, and distant AI "lazy"-evaluates) | Far things run as results (counts, events); detail is built when the player looks. | The two-level population and "other places as results" already are this. The 20-year fast-forward steps coarsely for years nobody watches. |
+| Caching what is read many times | Every large sim; Paradox's "scripted values cached per month" | Compute once per day or month, store on a row, read it a thousand times. | `organizedGroupsIn` cache, voter rolls kept instead of rebuilt per filer (#7943). |
+| Batching | Football Manager (match engine separate from the daily "processing" of the other leagues: other leagues' results are computed in a simplified pass) | Do many small updates in one pass over a flat table rather than one call each. | Postings, campaign day choices per race, not per person. |
+| Spreading work over frames or days | RimWorld (pawn thinking is staggered; pathfinding is cached per region) | A big job is split so no day does all of it. | Monthly scans of residents (Jobs' `reviewRegionalFinds`) can be spread over the days of the month. |
+| Indexes, not scans | SimCity (Maxis' 2013 GlassBox: agents read the layer they need, not the world) | A read goes to a table keyed by what it asks for. | "Never scan the whole world or history every day" (AGENTS.md, Speed). |
+
+Where to check: Tynan Sylvester, *Designing Games* (2013) and his GDC talks on RimWorld; Tarn Adams' DF Talk transcripts and the Dwarf Fortress wiki "Tick" and "Performance" pages; Paradox developer diaries on CK3 and Victoria 3 performance; Maxis' GDC 2013 GlassBox talk; Football Manager's "match engine vs. processing" posts from Sports Interactive.
+
+What applies here, in order: (1) cache what many people read the same day, (2) act on the day an input changes instead of scanning, (3) run unwatched places and years as results, (4) spread monthly scans across the month. None of these changes what the simulation decides when the cached value is the same value the scan would have found, which is how each cut proves itself (same seed, same records proof).
