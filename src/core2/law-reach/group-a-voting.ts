@@ -846,7 +846,15 @@ function payRedistrictingCommission(api: CoreAPI, source: Source): void {
     amountMinor: -paid,
   });
 }
-registerMonthlyProgram(payRedistrictingCommission);
+
+/**
+ * Registers the commission's monthly payment with the budgets engine. Called
+ * from `registerGroupA` (the law reach's init), never at module load: the
+ * budgets module's registry may not be built yet when this file is imported.
+ */
+export function registerVotingMonthlyProgram(): void {
+  registerMonthlyProgram(payRedistrictingCommission);
+}
 
 /**
  * The town's ward lines were drawn (the districts engine's only line-drawing
