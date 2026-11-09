@@ -704,5 +704,17 @@
     "addedAt": "2026-11-09",
     "replacement": "The housing engine names the home's lender or landlord on the damaged-home row; the row's pool then casts that party (or the aid office's worker) beside the household.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-scene-arrival-time",
+    "kind": "missing-data",
+    "file": "src/director/scene.ts",
+    "line": 1,
+    "whatItFakes": "The minute of the day a scene's opening names (\"first thing\", \"that evening\"). The bench passes the minute it draws the scene at; a caller that gives none gets the moment's stop minute, else the day's start.",
+    "why": "The director's scene carries no minute of its own; the moment records a date, not the hour the setting held it.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "The moment records the minute its setting opened it (ledger openedAt) and composeScene reads that.",
+    "status": "open"
   }
 ]

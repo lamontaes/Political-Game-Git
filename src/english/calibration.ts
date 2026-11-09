@@ -19,7 +19,9 @@
  */
 import tableFile from "../../data/english/calibration.json" with { type: "json" };
 import reachFile from "../../data/english/grade-reach.json" with { type: "json" };
+import mapFile from "../../data/english/grade-map.json" with { type: "json" };
 import { PART_GRADES, type PartGradeLedger } from "./english-grades";
+import { gradeMapFactor, type GradeMap } from "./grade-map";
 import { reachFactor, type ReachTable } from "./grade-reach";
 
 export interface RunningGrade {
@@ -61,6 +63,8 @@ export interface CalibrationTable {
   readonly sceneClasses?: Readonly<Record<string, string>>;
   /** How far the owner's grades reach: the pieces sharing a graded piece's pattern, voice and register. Absent: no reach. */
   readonly reach?: ReachTable;
+  /** The heat map of the owner's span grades and the writing rules, scored onto every piece (`grade-map.ts`). Absent: no map. */
+  readonly map?: Pick<GradeMap, "factors">;
   /**
    * The owner's grades by part (`english-grades.ts`): a part he liked counts
    * as the top of the scale in its own running grade, one he rejected as the
@@ -72,6 +76,7 @@ export interface CalibrationTable {
 export const CALIBRATION = {
   ...(tableFile as unknown as CalibrationTable),
   reach: reachFile as unknown as ReachTable,
+  map: { factors: (mapFile as unknown as GradeMap).factors },
   ledger: PART_GRADES,
 } as CalibrationTable;
 
@@ -86,14 +91,19 @@ const parameter = (table: CalibrationTable, key: string): number => {
 
 /**
  * How much a piece is chosen relative to its authored weight: its own running
- * grade, and the reach of the grades given to other pieces of its pattern,
- * voice and register (`grade-reach.ts`). 1 when neither applies.
+ * grade, the reach of the grades given to other pieces of its pattern, voice
+ * and register (`grade-reach.ts`), and its score on the heat map of every
+ * graded span and writing rule (`grade-map.ts`). 1 when none applies.
  */
 export function pieceFactor(
   ids: readonly string[],
   table: CalibrationTable = CALIBRATION,
 ): number {
-  return ownGradeFactor(ids, table) * gradeReach(ids, table);
+  return (
+    ownGradeFactor(ids, table) *
+    gradeReach(ids, table) *
+    gradeMapFactor(ids, table.map)
+  );
 }
 
 /** The reach of other pieces' grades on this one; 1 on a table with no reach. */
