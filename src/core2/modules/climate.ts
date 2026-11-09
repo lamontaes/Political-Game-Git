@@ -20,8 +20,8 @@
  *
  * The recorded history sets only where each county's hazard starts (the
  * disasters module's FEMA record); this module keeps what the warming does to
- * it. Disasters drawn from these levels are the next piece (stopgap
- * SG-NATION-climate-unread until a disaster reads a level).
+ * it. The national events engine and the town's disasters module read the
+ * levels (`stateHazardRate`, `hazardRate`) and make the weather from them.
  */
 import emissions from "../data/climate/emissions.json" with { type: "json" };
 import history from "../data/climate/hazard-history.json" with { type: "json" };
@@ -205,7 +205,6 @@ export const CLIMATE_MODULE: CoreModule = {
   },
   onDay(api) {
     if (table(api, "state").get("climate:state")) return;
-    api.stopgap("SG-NATION-climate-unread");
     writeMonth(api, true);
     schedule(api);
   },
