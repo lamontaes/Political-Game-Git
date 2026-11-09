@@ -4,7 +4,33 @@ The CTO's only writer. When two rulings conflict, the most recent wins unless th
 
 ## Open
 
-- None open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
+- **Arrows on single-value steppers (Nov 9, Coordinator, for the owner):** does "No arrows and no '1 of N' pages anywhere" (Nov 8, 2:10 p.m.) also cover a stepper that changes one value, such as dev Run's `< 30 days >`, the creator's color rows (C2) and world settings, or only paging through lists? Until he answers, lists and pages never get arrows, and single-value steppers stay as the approved mocks draw them (#7852).
+- None other open. The relative-with-no-news question was ruled Nov 1, 16:50 (below).
+
+## Nov 8, about 7:15 p.m.: weather is basic climate change through the effect map (owner, via the CTO on #7365)
+
+- **Ruling:** "for the weather - do a very basic weather thing that is with the effect map. so we can get some basic climate change effect et"
+- **What it means (CTO, #7365 comment 6729211623):** emissions drive one national warming level. Warming drives each county's hazard levels by season (heat, flood, storm, wildfire, drought). Hazard levels drive disasters, and disasters reach the economy through the existing links (`disaster-to-home-values`, `disaster-to-out-migration`, `disaster-to-public-transfers`). A county's opening level comes from its recorded history (NOAA storm episodes or FEMA); after day one it moves only with warming. It is three PRs: the links, the hazard levels, and the disasters.
+- **Zero-dice (CTO):** `growth()` may let through a GENERATION list pick that carries a `keyedBy` of county, hazard and month, only when its odds are read that month from the effect map's hazard level. A calendar generated once at world creation is ruled out, and the exempted file is named in the guard. This supersedes the Coordinator's 3:10 p.m. call of a hazard calendar generated at world creation.
+- **Rest of the world (Coordinator, Nov 9, 02:19 UTC):** the rest of the world's emissions follow a sourced scenario (the IEA stated-policies path or SSP2-4.5, ESTIMATED with its spread), not U.S. policy. Warming therefore rises at about the real rate, and U.S. and state laws move only their own share.
+
+## Nov 8, 2:45 p.m. to Nov 9, 02:40 UTC: the night Coordinator's calls (the owner may overrule)
+
+Each call applies a standing rule; none adds a step to the player's life.
+
+- **Scene openers:** the owner's 2:10 p.m. ruling supersedes the Oct 26 and 27 ban on dates in narration, for scene openers only. Story uses a `{begins}` slot (#7767).
+- **The bill page before enactment:** its reach shows the law row's scope and the change, with no counts or projections. Counts come from law reach after enactment. Rates show the rate in force against the one proposed, and budget lines show "since last year."
+- **Counted payroll:** the same rule, times the count, on the employer's own calendar. Merging the counted ledger into the named one is pool item `core-speed-counted-payroll-into-named-ledger`.
+- **The clock spends time:** a talk takes its scene's length, a visit its errand, and travel its distance. The people present at a place follow the hour (#7812).
+- **Another person's political view** shows on their card only once the player has learned it, from a talk, a public stance or news received. Until then the card says the player doesn't know yet (#7865, #7886).
+- **Macro hysteresis:** the natural rate's hysteresis is 120 months, ESTIMATED (60 months to no drift). The 2021 band test becomes a cause check that reports the real band without asserting it.
+- **The Metrics tab is never blank:** on day 1 it shows what the world already holds. "Last year" is the opening's source figures, marked as estimates. A figure with no prior year shows the current value and a registered stopgap. From month 13 both columns are simulated (#7874).
+- **Disaster damage:** homes are hit by dwelling kind, then home value, with ties broken by id. That is a cause from records, registered as stopgap `vulnerability-proxy` until homes carry exposure records (#7877).
+- **The sewer shortfall:** no plug. What charges by use don't cover is the system's own deficit, paid by the general fund the way real systems are subsidized (#7889).
+- **Job finding is one engine:** a seeker's progress builds from their own effort, the market's tightness and how long postings have been open. CPS spell length and JOLTS hires-to-openings check totals only. Counted seekers use the same rule, times their count. A fixed layoff rate stays stopgap `SG-LABOR-turnover-fixed-rate` until separations follow firm demand under the cycle.
+- **Recovery from illness:** non-fatal episodes sit beside the fatal path, which is untouched, so the life table still matches. An episode starts when a person's strain crosses a line below their fatal line, or from a cause record. HCUP, NHDS and CMS rates check totals only. This supersedes the 5:53 p.m. call.
+- **Task forces and study committees** (asked for by the owner by name): a record in the one body engine. One is formed when a body refers a split bill to study, or by an executive's order. Members are drawn by their records. Its report is read by the next bill's positions and by the press, and Story writes the scenes on top.
+- **Per-world spread in the checks:** the M1 checks assert each day-1 opening value within the published figure ± the world's spread parameter, under the owner's Oct 27 ruling "realistic, not real" (#7884).
 - The fee-by-bill question was ruled Oct 24 (yes, by bill); the press outlet shortfall and the counted out-of-town pay bullets were closed Oct 25 (below).
 
 ## Nov 8, 2:10 to 2:45 p.m.: the playtest of v0.94.0: grades reach the whole engine, no arrows or pages, one date (owner)

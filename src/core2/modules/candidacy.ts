@@ -161,6 +161,24 @@ interface RunFacts {
   readonly incumbentTie: number;
   /** How far the incumbent's recorded votes go against their own views, 0 to 1. */
   readonly recordGap: number;
+  /** How active they are in a party, 0 to 1. */
+  readonly partyActivity: number;
+  /** Whether they own an employer in the place. */
+  readonly owner: boolean;
+  /** How many civic roles they hold (a board, a party committee). */
+  readonly civicRoles: number;
+}
+
+/** A named person's roles, read from the same record a counted resident's are (opening-roles.ts). */
+function rolesOfNamed(person: Readonly<PersonState>) {
+  const looks = person.looks ?? {};
+  return {
+    partyActivity: Number(looks.partyActivity ?? 0) || 0,
+    owner: Boolean(looks.ownedEmployerId),
+    civicRoles: looks.civicRoles
+      ? String(looks.civicRoles).split(",").length
+      : 0,
+  };
 }
 
 /** Each recorded reason for running, as a signed pull. */
@@ -201,6 +219,7 @@ export function candidacyReasons(
       cause,
       incumbentTie,
       recordGap,
+      ...rolesOfNamed(person),
     },
     contest,
   );
@@ -397,6 +416,9 @@ export function countedCandidacyReasons(
       cause: zero,
       incumbentTie: zero,
       recordGap: recordGapOf(api, voter, contest, true),
+      partyActivity: voter.partyActivity ?? zero,
+      owner: Boolean(voter.ownedEmployerId),
+      civicRoles: voter.civicRoles?.length ?? 0,
     },
     contest,
   );
@@ -452,6 +474,14 @@ function reasonsFrom(
     openSeat: contest.incumbentId ? zero : c(api, "candidacyOpenSeatWeight"),
     recordGap: c(api, "candidacyRecordGapWeight") * person.recordGap,
     standing: c(api, "candidacyStandingWeight") * standing,
+    // The roles that make people run for the seats near them (the owner's
+    // ruling, Nov 8: party activity, owning a business, civic roles are
+    // reasons to want the seat): each a sliding pull, zero for one who has
+    // none, scaled by how much of it the record shows.
+    partyRole: c(api, "candidacyPartyRoleWeight") * person.partyActivity,
+    ownerRole: person.owner ? c(api, "candidacyOwnerRoleWeight") : zero,
+    civicRole:
+      c(api, "candidacyCivicRoleWeight") * Math.min(one, person.civicRoles),
     // A crowded race: each person already running lowers the pull.
     field: -c(api, "candidacyFieldWeight") * (contest.runners ?? zero),
     age:

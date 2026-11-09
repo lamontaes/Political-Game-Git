@@ -72,7 +72,7 @@ import { worldSeatParty } from "./elections";
 // that names them without creating them in the world.
 export { federalOffices, stateOffices, townDistrict } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
-import { seededUnit } from "../seeded";
+import { seededFineUnit, seededUnit } from "../seeded";
 import tenure from "../data/offices/tenure.json" with { type: "json" };
 import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 import { POLICY_QUESTIONS } from "../policy-answers";
@@ -1069,7 +1069,7 @@ function electionBehind(
             ? "statewideExecutiveWinnerShare"
             : "localWinnerShare";
   const [low, high] = tenureSpread(key);
-  const u = seededUnit(seatSeed, `${start}:winner-share`);
+  const u = seededFineUnit(seatSeed, `${start}:winner-share`);
   return { date, share: low + (high - low) * u };
 }
 
