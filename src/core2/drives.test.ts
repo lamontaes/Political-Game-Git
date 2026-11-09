@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
+import { setBookkeeping } from "./bookkeeping";
 import {
   DEFAULT_DRIVES_DATA,
   createDrivesModule,
@@ -373,6 +374,34 @@ describe("P10 drives and causes", () => {
       );
     };
     expect(run()).toBe(run());
+  });
+
+  it("keeps the forming response's trace in play, and every reinforcement's only with bookkeeping on", () => {
+    const traces = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const core = bereavedCore();
+        advanceCore(core, addDays(makeIsoDate(core.date), 1));
+        coreAPI(core).emit(death(core));
+        const drive = drivesReport(core).drives.find(
+          (row) => row.personId === carerId,
+        )!;
+        return {
+          formations: drive.formations.length,
+          first: JSON.stringify(drive.formations[0]),
+          strength: currentStrength(coreAPI(core), drive),
+        };
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    const kept = traces(true);
+    const play = traces(false);
+    expect(kept.formations).toBeGreaterThan(1);
+    expect(play.formations).toBe(1);
+    // The same drive either way: only the kept history differs.
+    expect(play.first).toBe(kept.first);
+    expect(play.strength).toBe(kept.strength);
   });
 
   it("a drive fades by its half-life when nothing renews it", () => {
