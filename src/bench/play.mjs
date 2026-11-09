@@ -2756,6 +2756,13 @@ async function openBillPaper(billId, show, back, backLabel) {
             ...(tally?.notVoting
               ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
               : []),
+            // The player's own member in this chamber and the vote they cast (the page view's yourMembers).
+            ...(view.yourMembers ?? [])
+              .filter((m) => m.chamber === entry.chamber && m.vote)
+              .map((m) => ({
+                label: pageWords.yours,
+                value: `${m.name}, ${controls.billStage?.[m.vote] ?? ""}`,
+              })),
           ],
         };
       }),

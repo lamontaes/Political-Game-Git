@@ -1176,6 +1176,7 @@
     "compare": "Compare",
     "to": "to",
     "notVoting": "Didn't vote",
-    "noParty": "No party"
+    "noParty": "No party",
+    "yours": "Your member"
   }
 }
