@@ -13,7 +13,7 @@ blocked-on:
 source: Money, Nov 8; found running scripts/money/outside.ts
 ---
 
-**What.** `npx tsx scripts/money/outside.ts money-1 4 4763340` (Ripley, TN, seed money-1) throws in year 4: "Invalid household change: household_808e92afb668300f would keep only children" at `state.ts:1783` (`changeHouseholdV1`), called from `partnerships.ts:586` (`moveIn`). A move-in that takes the last adult out of a household must keep an adult with the children (or move the children with them); today it stops a played world.
+**What.** `npx tsx scripts/money/outside.ts money-1 4 4763340` (Ripley, TN, seed money-1) throws in year 4: "Invalid household change: household_808e92afb668300f would keep only children" at `state.ts:1783` (`changeHouseholdV1`), called from `partnerships.ts:586` (`moveIn`). A move-in that takes the last adult out of a household must keep an adult with the children (or move the children with them); today it stops a played world. The player would meet it as the game crashing during a time jump in a town where a parent moves in with a new partner. The fix belongs in the move-in rule, so that every partnership move-in in every place keeps the children with an adult.
 
 **Rules.** No dice; one rule for both tiers; all 56 places.
 
