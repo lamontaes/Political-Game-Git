@@ -5584,6 +5584,7 @@
   "candidacyDecisionRetentionDays": {
     "value": 60,
     "tag": "TUNABLE",
+    "role": "coefficient",
     "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after a race's election day a person's decision not to run in it is kept (candidacy.ts dropPastNonRunners). Every reader asks about a race still being run or about those who ran, which stay; two months covers a runoff's own contest and the seating. Kept forever, declined decisions were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
     "spread": {
       "low": 30,
