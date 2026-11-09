@@ -320,6 +320,10 @@ describe("the political asks: a bribe in the press and a party that asks you to 
         continue;
       }
       const { core, director } = open();
+      // The same world replayed to the day before the ask: the asked member may
+      // be filled in as a full person only along the way (a counted resident the
+      // party's chair knows), so they are watched from there, not from day one.
+      advanceCore(core, addDays(makeIsoDate(asked.date), -P.one));
       core.focusPersonIds.add(asked.meId);
       director.watch(core, asked.meId);
       const book = director.ledger.people.get(asked.meId)!;
@@ -347,12 +351,14 @@ describe("the political asks: a bribe in the press and a party that asks you to 
           const here = `${where}: ${moment.causeId}`;
           const { scene } = result;
           expect(scene.purpose, here).toBe("mentor-advice");
-          expect(moment.causeId, here).toBe(asked!.id);
-          expect(core.durableLog.get(moment.causeId)?.kind, here).toBe(
-            "party-asked",
-          );
+          // The scene stands on a party's ask of this member. A member can be asked
+          // for two seats the same day (the governor's, the attorney general's); the
+          // director takes one scene a day, so the moment's cause is whichever ask
+          // the record names, and the adviser is checked against that ask.
+          const ask = core.durableLog.get(moment.causeId)!;
+          expect(ask?.kind, here).toBe("party-asked");
+          expect(ask.personIds[P.zero], here).toBe(asked!.meId);
           // The adviser is a seated officeholder of the party that asked.
-          const ask = core.durableLog.get(asked!.id)!;
           expect(partyOfficeholders(core, ask, ask.date), here).toContain(
             scene.askerId,
           );
