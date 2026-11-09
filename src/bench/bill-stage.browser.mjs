@@ -220,7 +220,16 @@ try {
   await page.locator(".bill-doc").waitFor();
   const paperAfter = await page.locator("#sheet-body").innerText();
   console.log("aide on the paper:", /aide/i.test(paperAfter));
-  assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
+  // The paper names its cosponsors when someone signed on (above: who does follows who backs the bill
+  // in this draw); a bill with none has no such line.
+  if (told.cosponsors.length)
+    assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
+  else
+    assert.doesNotMatch(
+      paperAfter,
+      /Cosponsors/,
+      "a bill with no cosponsors names none",
+    );
   assert.match(paperAfter, /aide/i, "the paper carries the aide's estimate");
   assert.match(
     paperAfter,
