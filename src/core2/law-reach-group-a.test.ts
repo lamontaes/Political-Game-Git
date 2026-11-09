@@ -609,6 +609,11 @@ describe("audit 13, law breadth group A: every policy reaches people", () => {
 
   // Last in the file: it lives a year, which the tests above (they share this town) must not.
   it("the treasury reads a dedicated parks levy again when a new fiscal year's budget is adopted, and a repeal ends it", () => {
+    // Its own world, opened fresh on the start date: the tests above share one
+    // town and live months in it, so a failure or a late date there must not
+    // reach this year-long test (Indiana, place 1868058: opened in late May,
+    // the line's first payment fell outside the 35 days).
+    openTown();
     const key =
       "us-policy-positions:civil-family-community.dedicated-parks-funding";
     const gov = cityGov();
