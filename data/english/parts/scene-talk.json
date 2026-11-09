@@ -88910,6 +88910,121 @@
       }
     },
     {
+      "key": "scene-talk.follow-apologize.i-m-sorry-i-told-you-we-had-the-votes-and-i-was-wrong",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I told you we had the votes, and I was wrong.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.follow-apologize.i-m-sorry-i-know-how-much-you-put-into-this-one",
+      "move": "follow-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I know how much you put into this one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "apologize",
+          "role": "asker",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "blame",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-accept.don-t-apologize-you-did-the-work-i-m-the-one-who-asked-people-to-vote",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Don't apologize. You did the work. I'm the one who asked people to vote for it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "apologize",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-accept.don-t-be-sorry-the-people-this-bill-was-for-are-the-ones-i-owe-an-apol",
+      "move": "reply-accept",
+      "kind": "spoken",
+      "text": "Don't be sorry. The people this bill was for are the ones I owe an apology.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "accept",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "apologize",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "news-received" }
+    },
+    {
+      "key": "scene-talk.reply-promise.don-t-apologize-we-re-disappointed-not-done-we-bring-it-back-next-sess",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "Don't apologize. We're disappointed, not done. We bring it back next session.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "staff-news",
+          "key": "news-received",
+          "after": "apologize",
+          "requiresFacts": ["bill-lost"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Story (Claude Code), owner's batch 3 lesson 9",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "news-received" }
+    },
+    {
       "key": "scene-talk.follow-comfort.you-did-everything-you-could-on-this-one",
       "move": "follow-comfort",
       "kind": "spoken",
