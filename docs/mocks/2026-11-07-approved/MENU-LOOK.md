@@ -36,7 +36,7 @@ He chose every item here on Nov 5 while hovering mocks. The live reference is ht
 - **Small text at least about 15 px** (labels about 14 px, all caps with letter spacing). Body 15 to 17 px.
 - **Even numbers:** figures in the controls font (Fira Sans) with tabular, lining digits. Cinzel for titles only; Andada Pro for narrative only, never in numbers.
 - **Color-blind mode is one global setting**, off by default, that every menu (including future ones) reads from one shared place. Never set colors per screen.
-- **Menus never scroll as a page**; long lists page with arrows inside a box. No dead space (the panel fits its content; nothing empty above or below), no subheadings, no Continue or Back, no developer text and no system math in player text ("about 6 weeks of bills... That's dev talk"). No page numbers on story text; fill the page.
+- **Menus never scroll as a page**; a long list is a list beside its detail (patch notes: click a build, see what it added, changed and fixed), a bounded box that scrolls inside itself. **No arrows and no "1 of N" anywhere** (owner, Nov 8: "like those shitty survey sites"; the CTO withdrew the old "page with arrows" rule). No dead space (the panel fits its content; nothing empty above or below), no subheadings, no Continue or Back, no developer text and no system math in player text ("about 6 weeks of bills... That's dev talk"). No page numbers on story text; fill the page.
 
 ## Words
 

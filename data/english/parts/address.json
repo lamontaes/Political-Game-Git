@@ -1,0 +1,34 @@
+{
+  "schema": "english-parts/1",
+  "register": "address",
+  "description": "Public address lines the owner graded good that no scene reads yet: the chair's word after a vote. Restored Nov 8, 2026 from the address bank deleted in c67d0365. Registered stopgap SG-WORDS-address-no-reader.",
+  "slots": {},
+  "maxWords": 22,
+  "parts": [
+    {
+      "key": "address.chair-run-meeting.the-motion-carries",
+      "move": "chair-run-meeting",
+      "kind": "spoken",
+      "text": "The motion carries.",
+      "uses": [
+        {
+          "move": "chair-run-meeting",
+          "subject": "chair",
+          "role": "run-meeting",
+          "choice": "run-meeting"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": { "hearings": 5 },
+      "source": {
+        "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2024 AND THE FUTURE YEARS DEFENSE PROGRAM",
+        "date": "2023-05-02",
+        "granule": "CHRG-118shrg60101",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60101/html/CHRG-118shrg60101.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": { "move": "announce-result", "key": "routine" },
+      "restoredOn": "2026-11-08"
+    }
+  ]
+}

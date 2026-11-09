@@ -23,7 +23,8 @@ import { corruptionModule, takeValues } from "./modules/corruption";
 import rows from "./data/corruption/parameters.json" with { type: "json" };
 import { buildPopulation } from "./population";
 import { coreAPI } from "./state";
-import { decisionKinds, decisionTraitWeight } from "./trait-decisions";
+import { decisionKinds } from "./trait-decision-table";
+import { decisionTraitWeight } from "./trait-decisions";
 import type { CoreState, PersonState } from "./types";
 
 const seed =

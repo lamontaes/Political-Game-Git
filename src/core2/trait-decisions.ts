@@ -12,42 +12,15 @@ import { affectAt } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
 import { retainLog } from "./state";
 import { stopgap } from "./stopgaps";
+import { decisionKinds } from "./trait-decision-table";
 import { probeCallerSite, traitProbe } from "./trait-probe";
 import type { Affect, CoreState, PersonState } from "./types";
 
 /** The audit's probe, for engines that report an outcome beside a lean. */
 export { traitProbe };
 
-interface OptionRow {
-  id: string;
-  actKinds?: readonly string[];
-  from?: string;
-}
-
 /** Counted people carry no stored stress, so a rule that reads it stands at none for them (registered). */
 const COUNTED_HARDSHIP_STOPGAP = "SG-TRAITS-counted-hardship-stress";
-
-const OPTIONS = new Map(
-  (
-    table.decisions as readonly { id: string; options: readonly OptionRow[] }[]
-  ).map((decision) => [
-    decision.id,
-    new Map(decision.options.map((option) => [option.id, option])),
-  ]),
-);
-
-/** The act kinds of one option the table names directly. */
-export function decisionKinds(
-  decisionId: string,
-  optionId: string,
-): readonly string[] {
-  const kinds = OPTIONS.get(decisionId)?.get(optionId)?.actKinds;
-  if (!kinds)
-    throw new Error(
-      `Trait decision ${decisionId} has no act kinds for ${optionId}.`,
-    );
-  return kinds;
-}
 
 /**
  * How much more a person's traits lean toward one option than another, scaled

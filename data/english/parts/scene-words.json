@@ -13,7 +13,11 @@
     "weekday": "The day of the week, from the moment's date.",
     "month": "The month, from the moment's date.",
     "name": "The member the scene is about, by name, from the member's term.",
-    "issue": "The bill's question, named as the bill catalog records it."
+    "issue": "The bill's question, named as the bill catalog records it.",
+    "cost": "What a law costs the household each month, from the price record it moved.",
+    "law": "A law in force, by its policy's name, from the law record.",
+    "refund": "What a law gave back to the household, from the payment record.",
+    "topic": "What a law is about, as the policy catalog names it, from the law record."
   },
   "maxWords": 10,
   "mining": {
@@ -497,10 +501,10 @@
       }
     },
     {
-      "key": "scene-words.cause-law-effect-self.you-worked-out-that-the-law-on-topic-is-why-your-household-paid-cost",
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-is-why-your-household-paid-cost",
       "move": "cause-law-effect-self",
       "kind": "spoken",
-      "text": "You worked out that the law on {topic} is why your household paid {cost}.",
+      "text": "The law on {topic} is why your household paid {cost}.",
       "uses": [
         {
           "move": "cause-law-effect-self",
@@ -537,10 +541,10 @@
       }
     },
     {
-      "key": "scene-words.cause-law-effect-self.you-worked-out-that-the-law-on-topic-is-why-your-household-got-refund-back",
+      "key": "scene-words.cause-law-effect-self.the-law-on-topic-is-why-your-household-got-refund-back",
       "move": "cause-law-effect-self",
       "kind": "spoken",
-      "text": "You worked out that the law on {topic} is why your household got {refund} back.",
+      "text": "The law on {topic} is why your household got {refund} back.",
       "uses": [
         {
           "move": "cause-law-effect-self",
@@ -3288,10 +3292,10 @@
       }
     },
     {
-      "key": "scene-words.lead-news-arrives-other.other-has-something-to-tell-you-as-soon-as-you-re-in-the-door",
+      "key": "scene-words.lead-news-arrives-other.other-has-something-to-tell-you-the-moment-youre-in",
       "move": "lead-news-arrives-other",
       "kind": "spoken",
-      "text": "{other} has something to tell you as soon as you're in the door.",
+      "text": "{other} has something to tell you the moment you're in.",
       "uses": [
         {
           "move": "lead-news-arrives-other",
@@ -4009,10 +4013,10 @@
       }
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-and-the-clerk-begins-the",
+      "key": "scene-words.lead-floor-vote-any.the-chair-puts-the-question-the-clerk-begins-the-roll",
       "move": "lead-floor-vote-any",
       "kind": "spoken",
-      "text": "The chair puts the question, and the clerk begins the roll.",
+      "text": "The chair puts the question. The clerk begins the roll.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4029,10 +4033,10 @@
       }
     },
     {
-      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-bill-and-the-chair-calls-for",
+      "key": "scene-words.lead-floor-vote-any.the-clerk-reads-the-bill-the-chair-calls-the-vote",
       "move": "lead-floor-vote-any",
       "kind": "spoken",
-      "text": "The clerk reads the bill, and the chair calls for the vote.",
+      "text": "The clerk reads the bill. The chair calls the vote.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4069,10 +4073,10 @@
       }
     },
     {
-      "key": "scene-words.lead-floor-vote-any.no-one-else-seeks-the-floor-the-chair-puts-the",
+      "key": "scene-words.lead-floor-vote-any.nobody-else-seeks-the-floor-the-chair-puts-the-question",
       "move": "lead-floor-vote-any",
       "kind": "spoken",
-      "text": "No one else seeks the floor. The chair puts the question.",
+      "text": "Nobody else seeks the floor. The chair puts the question.",
       "uses": [
         {
           "move": "lead-floor-vote-any",
@@ -4149,10 +4153,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.other-s-handwriting-leans-hard-to-the-right-same-as-always-you-read-th",
+      "key": "scene-words.lead-letter-other.others-handwriting-leans-hard-right-same-as-always",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "{other}'s handwriting leans hard to the right, same as always. You read the first line twice before going on.",
+      "text": "{other}'s handwriting leans hard right, same as always.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4170,10 +4174,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.the-stamp-in-the-corner-is-a-little-crooked-it-looks-like-other-presse",
+      "key": "scene-words.lead-letter-other.the-stamp-is-crooked-pressed-down-in-a-hurry",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "The stamp in the corner is a little crooked. It looks like {other} pressed it down in a hurry.",
+      "text": "The stamp is crooked, pressed down in a hurry.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4191,10 +4195,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.the-envelope-smells-faintly-of-cedar-you-hold-it-close-for-a-moment-be",
+      "key": "scene-words.lead-letter-other.the-envelope-smells-faintly-of-cedar-you-hold-it-close",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "The envelope smells faintly of cedar. You hold it close for a moment before you open it.",
+      "text": "The envelope smells faintly of cedar. You hold it close.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4212,10 +4216,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.a-photo-is-tucked-in-with-the-pages-you-hold-it-by-the-edges-and-look-",
+      "key": "scene-words.lead-letter-other.a-photo-is-tucked-in-with-the-pages",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "A photo is tucked in with the pages. You hold it by the edges and look at it for a long while.",
+      "text": "A photo is tucked in with the pages.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4233,10 +4237,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.other-filled-both-sides-of-the-paper-and-kept-writing-up-the-margin-th",
+      "key": "scene-words.lead-letter-other.other-filled-both-sides-and-kept-writing-up-the-margin",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "{other} filled both sides of the paper and kept writing up the margin. They clearly had plenty to say.",
+      "text": "{other} filled both sides and kept writing up the margin.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4254,10 +4258,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.the-letter-was-pushed-under-your-door-you-know-other-s-hand-before-you",
+      "key": "scene-words.lead-letter-other.you-know-others-hand-before-you-turn-it-over",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "The letter was pushed under your door. You know {other}'s hand before you turn it over.",
+      "text": "You know {other}'s hand before you turn it over.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4275,10 +4279,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.some-lines-are-pressed-deep-into-the-paper-as-if-other-went-over-them-",
+      "key": "scene-words.lead-letter-other.other-went-over-some-lines-twice-pressing-deep",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "Some lines are pressed deep into the paper, as if {other} went over them twice. You slow down.",
+      "text": "{other} went over some lines twice, pressing deep.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4296,10 +4300,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.the-card-has-a-bent-corner-other-drew-a-small-star-beside-the-signatur",
+      "key": "scene-words.lead-letter-other.other-drew-a-small-star-beside-the-signature",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "The card has a bent corner. {other} drew a small star beside the signature.",
+      "text": "{other} drew a small star beside the signature.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4317,10 +4321,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.one-line-near-the-end-is-crossed-out-and-written-again-you-wonder-what",
+      "key": "scene-words.lead-letter-other.one-line-near-the-end-is-crossed-out-and-rewritten",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "One line near the end is crossed out and written again. You wonder what {other} first meant to say.",
+      "text": "One line near the end is crossed out and rewritten.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4338,10 +4342,10 @@
       }
     },
     {
-      "key": "scene-words.lead-letter-other.other-left-a-little-blank-space-at-the-bottom-of-the-page-as-if-leavin",
+      "key": "scene-words.lead-letter-other.other-left-room-at-the-bottom-for-your-answer",
       "move": "lead-letter-other",
       "kind": "spoken",
-      "text": "{other} left a little blank space at the bottom of the page, as if leaving room for your answer.",
+      "text": "{other} left room at the bottom for your answer.",
       "uses": [
         {
           "move": "lead-letter-other",
@@ -4359,10 +4363,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.one-chair-stays-pushed-in-nobody-sits-there-and-nobody-moves-it",
+      "key": "scene-words.lead-gathering-missing-alone.one-chair-stays-pushed-in-nobody-sits-there",
       "move": "lead-gathering-missing-alone",
       "kind": "spoken",
-      "text": "One chair stays pushed in. Nobody sits there, and nobody moves it.",
+      "text": "One chair stays pushed in. Nobody sits there.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4380,10 +4384,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.you-cut-one-more-slice-than-there-are-people-here-nobody-says-anything",
+      "key": "scene-words.lead-gathering-missing-alone.you-cut-one-slice-more-than-there-are-people",
       "move": "lead-gathering-missing-alone",
       "kind": "spoken",
-      "text": "You cut one more slice than there are people here. Nobody says anything about it.",
+      "text": "You cut one slice more than there are people.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4401,10 +4405,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake-every-so-often-someone-glances-",
+      "key": "scene-words.lead-gathering-missing-alone.the-phone-lies-face-up-beside-the-cake",
       "move": "lead-gathering-missing-alone",
       "kind": "spoken",
-      "text": "The phone lies face up beside the cake. Every so often someone glances at it.",
+      "text": "The phone lies face up beside the cake.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4422,10 +4426,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-other.a-card-signed-by-other-is-propped-against-the-cake-stand-everyone-has-",
+      "key": "scene-words.lead-gathering-missing-other.a-card-signed-by-other-is-propped-against-the-cake-stand",
       "move": "lead-gathering-missing-other",
       "kind": "spoken",
-      "text": "A card signed by {other} is propped against the cake stand. Everyone has already read it.",
+      "text": "A card signed by {other} is propped against the cake stand.",
       "uses": [
         {
           "move": "lead-gathering-missing-other",
@@ -4443,10 +4447,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-other.you-set-out-the-plates-and-count-them-twice-other-would-have-made-one-",
+      "key": "scene-words.lead-gathering-missing-other.you-count-the-plates-twice-other-would-have-made-one-more",
       "move": "lead-gathering-missing-other",
       "kind": "spoken",
-      "text": "You set out the plates and count them twice. {other} would have made one more.",
+      "text": "You count the plates twice. {other} would have made one more.",
       "uses": [
         {
           "move": "lead-gathering-missing-other",
@@ -4464,10 +4468,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-other.someone-lights-the-candles-and-starts-to-say-other-s-name-then-just-ha",
+      "key": "scene-words.lead-gathering-missing-other.someone-starts-to-say-others-name-then-stops",
       "move": "lead-gathering-missing-other",
       "kind": "spoken",
-      "text": "Someone lights the candles and starts to say {other}'s name, then just hands over the matches.",
+      "text": "Someone starts to say {other}'s name, then stops.",
       "uses": [
         {
           "move": "lead-gathering-missing-other",
@@ -4485,10 +4489,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-than-usual-the-phone-stays-dark-thro",
+      "key": "scene-words.lead-gathering-missing-alone.they-sing-anyway-a-little-quieter-than-usual",
       "move": "lead-gathering-missing-alone",
       "kind": "spoken",
-      "text": "They sing anyway, a little quieter than usual. The phone stays dark through the birthday song.",
+      "text": "They sing anyway, a little quieter than usual.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4506,10 +4510,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-other.someone-makes-a-joke-and-stops-halfway-the-way-you-stop-when-you-expec",
+      "key": "scene-words.lead-gathering-missing-other.someone-makes-a-joke-then-waits-for-other-to-answer",
       "move": "lead-gathering-missing-other",
       "kind": "spoken",
-      "text": "Someone makes a joke and stops halfway, the way you stop when you expect {other} to answer.",
+      "text": "Someone makes a joke, then waits for {other} to answer.",
       "uses": [
         {
           "move": "lead-gathering-missing-other",
@@ -4527,10 +4531,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-other.you-wrap-a-piece-of-cake-and-set-it-aside-for-other-nobody-asks-why",
+      "key": "scene-words.lead-gathering-missing-other.you-wrap-a-slice-for-other-nobody-asks-why",
       "move": "lead-gathering-missing-other",
       "kind": "spoken",
-      "text": "You wrap a piece of cake and set it aside for {other}. Nobody asks why.",
+      "text": "You wrap a slice for {other}. Nobody asks why.",
       "uses": [
         {
           "move": "lead-gathering-missing-other",
@@ -4548,10 +4552,10 @@
       }
     },
     {
-      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-the-empty-chair-the-others-lift-theirs",
+      "key": "scene-words.lead-gathering-missing-alone.you-lift-your-cup-toward-the-empty-chair",
       "move": "lead-gathering-missing-alone",
       "kind": "spoken",
-      "text": "You lift your cup toward the empty chair. The others lift theirs.",
+      "text": "You lift your cup toward the empty chair.",
       "uses": [
         {
           "move": "lead-gathering-missing-alone",
@@ -4569,10 +4573,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.your-legs-stop-holding-you-and-the-cup-slips-from-your-hand-other-is-b",
+      "key": "scene-words.lead-rescue-other.your-legs-give-out-and-the-cup-slips-other-catches-you",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "Your legs stop holding you, and the cup slips from your hand. {other} is beside you before it hits the floor.",
+      "text": "Your legs give out and the cup slips. {other} catches you.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4590,10 +4594,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.other-slides-a-hand-under-your-head-and-says-your-name-twice-you-hear-",
+      "key": "scene-words.lead-rescue-other.other-slides-a-hand-under-your-head-and-says-your-name",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "{other} slides a hand under your head and says your name twice. You hear it, and you answer.",
+      "text": "{other} slides a hand under your head and says your name.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4611,10 +4615,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.the-pain-in-your-chest-tightens-other-tells-you-to-breathe-slowly-with",
+      "key": "scene-words.lead-rescue-other.the-pain-in-your-chest-tightens-other-counts-your-breaths",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "The pain in your chest tightens. {other} tells you to breathe slowly with them and counts it out loud.",
+      "text": "The pain in your chest tightens. {other} counts your breaths.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4632,10 +4636,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.other-holds-the-phone-to-an-ear-and-gives-the-address-in-a-level-voice",
+      "key": "scene-words.lead-rescue-other.other-gives-the-address-in-a-level-voice",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "{other} holds the phone to an ear and gives the address in a level voice. The other hand stays on your shoulder.",
+      "text": "{other} gives the address in a level voice.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4653,10 +4657,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.breathing-comes-hard-other-loosens-your-collar-and-tells-you-help-is-a",
+      "key": "scene-words.lead-rescue-other.breathing-comes-hard-other-says-help-is-on-the-way",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "Breathing comes hard. {other} loosens your collar and tells you help is already on the way.",
+      "text": "Breathing comes hard. {other} says help is on the way.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4674,10 +4678,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.other-pulls-a-coat-over-you-and-stays-down-on-the-floor-beside-you-you",
+      "key": "scene-words.lead-rescue-other.other-pulls-a-coat-over-you-and-stays-close",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "{other} pulls a coat over you and stays down on the floor beside you. You are shaking, but you hear everything.",
+      "text": "{other} pulls a coat over you and stays close.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4695,10 +4699,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.you-try-to-sit-up-other-says-no-gently-and-keeps-you-lying-still",
+      "key": "scene-words.lead-rescue-other.you-try-to-sit-up-other-gently-keeps-you-down",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "You try to sit up. {other} says no, gently, and keeps you lying still.",
+      "text": "You try to sit up. {other} gently keeps you down.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4716,10 +4720,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.other-stays-on-the-line-and-answers-each-question-without-hurrying-you",
+      "key": "scene-words.lead-rescue-other.other-stays-on-the-line-and-answers-each-question-calmly",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "{other} stays on the line and answers each question without hurrying. You watch their face while they talk.",
+      "text": "{other} stays on the line and answers each question calmly.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4737,10 +4741,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.when-the-crew-comes-in-other-steps-back-only-far-enough-to-let-them-wo",
+      "key": "scene-words.lead-rescue-other.the-crew-comes-in-other-steps-back-to-let-them-work",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "When the crew comes in, {other} steps back only far enough to let them work. A hand stays on your ankle.",
+      "text": "The crew comes in. {other} steps back to let them work.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4758,10 +4762,10 @@
       }
     },
     {
-      "key": "scene-words.lead-rescue-other.other-sits-close-and-holds-your-hand-the-whole-way-to-the-hospital-you",
+      "key": "scene-words.lead-rescue-other.other-holds-your-hand-the-whole-way-to-the-hospital",
       "move": "lead-rescue-other",
       "kind": "spoken",
-      "text": "{other} sits close and holds your hand the whole way to the hospital. You are tired and scared, and you are not alone.",
+      "text": "{other} holds your hand the whole way to the hospital.",
       "uses": [
         {
           "move": "lead-rescue-other",
@@ -4779,10 +4783,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.the-door-opens-before-anyone-knocks-other-stands-there-with-one-hand-s",
+      "key": "scene-words.lead-return-other.the-door-opens-before-anyone-knocks-other-stands-there",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "The door opens before anyone knocks. {other} stands there with one hand still on the knob.",
+      "text": "The door opens before anyone knocks. {other} stands there.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4800,10 +4804,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.a-light-was-left-on-past-the-doorway-it-shows-the-bag-on-the-step-with",
+      "key": "scene-words.lead-return-other.the-bag-on-the-step-still-has-its-paper-tag",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "A light was left on past the doorway. It shows the bag on the step, with the paper tag still tied to the handle.",
+      "text": "The bag on the step still has its paper tag.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4821,10 +4825,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.other-looks-at-the-coat-too-big-in-the-shoulders-and-says-nothing-abou",
+      "key": "scene-words.lead-return-other.other-looks-at-the-coat-too-big-in-the-shoulders",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "{other} looks at the coat, too big in the shoulders, and says nothing about it. The door stays open a little longer.",
+      "text": "{other} looks at the coat, too big in the shoulders.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4842,10 +4846,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.the-smell-of-a-meal-kept-warm-reaches-the-door-neither-of-you-mentions",
+      "key": "scene-words.lead-return-other.the-smell-of-a-meal-kept-warm-reaches-the-door",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "The smell of a meal kept warm reaches the door. Neither of you mentions it.",
+      "text": "The smell of a meal kept warm reaches the door.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4863,10 +4867,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.the-key-still-fits-it-turns-easily-and-other-is-standing-close-enough-",
+      "key": "scene-words.lead-return-other.the-key-still-fits-other-is-close-enough-to-hear-it",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "The key still fits. It turns easily, and {other} is standing close enough to hear it.",
+      "text": "The key still fits. {other} is close enough to hear it.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4884,10 +4888,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.other-takes-a-breath-and-steps-back-from-the-doorway-there-is-room-to-",
+      "key": "scene-words.lead-return-other.other-takes-a-breath-and-steps-back-from-the-doorway",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "{other} takes a breath and steps back from the doorway. There is room to come in, and no one uses it yet.",
+      "text": "{other} takes a breath and steps back from the doorway.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4905,10 +4909,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.other-reaches-for-the-bag-with-the-prison-issue-tag-on-it-nobody-says-",
+      "key": "scene-words.lead-return-other.other-reaches-for-the-bag-with-the-prison-tag-on-it",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "{other} reaches for the bag with the prison-issue tag on it. Nobody says anything about the tag.",
+      "text": "{other} reaches for the bag with the prison tag on it.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4926,10 +4930,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.your-hands-don-t-know-where-to-go-other-reaches-out-first-and-the-coat",
+      "key": "scene-words.lead-return-other.your-hands-dont-know-where-to-go-other-reaches-first",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "Your hands don't know where to go. {other} reaches out first, and the coat sleeve is cold from outside.",
+      "text": "Your hands don't know where to go. {other} reaches first.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4947,10 +4951,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.other-says-your-name-once-quietly-the-light-they-left-on-is-the-only-o",
+      "key": "scene-words.lead-return-other.other-says-your-name-once-quietly",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "{other} says your name once, quietly. The light they left on is the only one in the doorway.",
+      "text": "{other} says your name once, quietly.",
       "uses": [
         {
           "move": "lead-return-other",
@@ -4968,10 +4972,10 @@
       }
     },
     {
-      "key": "scene-words.lead-return-other.the-welcome-mat-is-the-same-one-other-nudges-it-straight-with-a-foot-t",
+      "key": "scene-words.lead-return-other.the-welcome-mat-is-the-same-one-other-nudges-it-straight",
       "move": "lead-return-other",
       "kind": "spoken",
-      "text": "The welcome mat is the same one. {other} nudges it straight with a foot, then gives up and just looks at you.",
+      "text": "The welcome mat is the same one. {other} nudges it straight.",
       "uses": [
         {
           "move": "lead-return-other",
