@@ -5,10 +5,10 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: done
 lead: jobs
 claimed-by:
-pr:
+pr: #7930
 blocked-on:
 source: Money, Nov 9; src/core2/fill-in-paid-once.test.ts
 claimed-at:

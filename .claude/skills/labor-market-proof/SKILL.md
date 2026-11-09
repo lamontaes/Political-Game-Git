@@ -17,3 +17,11 @@ Lessons from the Nov 8 night (Algiers, Vermont, seed r7).
 8. **Run the neighbors of a changed behavior before it merges.** A change that makes firms sell to their books (the trade area) broke a test that waited for a payroll shortfall to happen by chance (`residents.test.ts`, the wage credit draw). Search the tests for the thing you made rarer.
 
 - The regional find's market tightness is `pastWorkFindUnemploymentElasticity` alone: openings per unemployed worker follow the unemployment rate (Beveridge reduced form), so do not add a separate openings input; FRED's JOLTS openings are only by Census region and the world simulates its own months (Nov 8).
+
+## Nov 9 lessons
+
+9. **The labor force includes the workers held outside a recorded job.** The opening's employment target puts working-age members of counted households at work with no job record (`unplacedWorkers`); they become commuter jobs when their household is filled in. Divide the out-of-work count by jobs plus these workers, and size opening seekers against them, or every rate reads two to three times too high (Shrewsbury NJ: 768 recorded jobs, 1,245 unplaced).
+10. **A flat zero is usually a refill in days, and a stuck pool is usually a silent failure.** Count hires of people separated a median of 3 days earlier (the vacancy lag fixed that), then count seekers whose progress is at or over one for months: `hireRegional` returning early (no role to copy in a place with no private employer: 27,239 calls in one world) and a review that skips a returned-to-the-counts seeker looked like slow finding.
+11. **Read the by-reason mix and the age of the open spells before tuning anything.** The seeker rows say why each person looks (`reasonKey`) and since when; a mean spell of 265 days against a CPS mean near 5 months, or a pull row that never grows, names the cause.
+12. **Do not switch branches while a background test or proof is running.** The run reads the working tree; a checkout mid-run gave 40 "FAIL file" lines that were not real. Start long runs from a clean tree and leave it alone, or use a second checkout.
+13. **The guards run on your data files too.** A new parameter file needs a `role` on every sourced row, and an interpolation written `a + k * (b - a)` is read as steering: write it as a weighted sum.

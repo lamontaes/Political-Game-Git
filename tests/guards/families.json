@@ -213,7 +213,9 @@
         "src/core2/modules/macro.ts",
         "src/core2/business-module-id.ts",
         "src/core2/regional-model.ts",
-        "src/core2/pay-by-quarter.ts"
+        "src/core2/pay-by-quarter.ts",
+        "src/core2/modules/regional.ts",
+        "src/core2/macro-model.ts"
       ],
       "paths": [
         "src/core2/modules/jobs.ts",
