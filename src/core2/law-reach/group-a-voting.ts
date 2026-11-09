@@ -602,6 +602,8 @@ function governorLimit(
   api: CoreAPI,
   officeId: string,
 ): { terms: number; lawId: string | null } {
+  // A world without the laws engine has no limit in force to read.
+  if (!api.state.modules.has("core2-laws-v1")) return { terms: 0, lawId: null };
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
