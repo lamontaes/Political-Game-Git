@@ -300,7 +300,7 @@ describe(`the voting engine weighs the economy and scandals in a played race (se
         [
           `civic played: ${where}; played to ${run.date}; ${run.results.length} race results`,
           `economy: ${result.id} on ${result.date}: ${moved.map((m) => `${m.id} (${m.party}) economy ${m.economy.toFixed(5)}, standing ${m.total.toFixed(5)}`).join("; ")}`,
-          `the national mood read: ${economy!.id} approval ${economy!.pct.toFixed(2)} percent (base ${economy!.basePct.toFixed(2)}; unemployment ${economy!.unemploymentChange.toFixed(3)} and inflation ${economy!.inflationChange.toFixed(3)} points over the year, from ${economy!.sourceRecordIds.join(", ")})`,
+          `the national mood read: ${economy!.id} approval ${economy!.pct.toFixed(2)} percent (base ${economy!.basePct.toFixed(2)}; unemployment ${economy!.unemploymentChange.toFixed(3)} and inflation ${economy!.inflationChange.toFixed(3)} points over the month, from ${economy!.sourceRecordIds.join(", ")})`,
           `ballots: ${weighed.length} of ${ballots.length} kept ballots weighed it, e.g. ${one.id} chose ${one.choice ?? "no one"}; standing of ${r.id} there ${one.appeal![r.id]!.standing.toFixed(5)}, total appeal ${one.appeal![r.id]!.total.toFixed(5)}`,
           `scandals: ${stories.length ? stories.join(", ") : "no scandal story about a candidate"}; ${heardBallots} ballot-candidate pairs whose voter had heard a story; ${scandals.length} kept ballots carry a scandal term${scandals[0] ? `, e.g. ${scandals[0].ballot} on ${scandals[0].candidateId} (${scandals[0].parts.scandal})` : ""}; corruption chain: ${JSON.stringify(run.corruption)}`,
         ].join("\n") + "\n",

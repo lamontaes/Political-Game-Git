@@ -1,11 +1,13 @@
 /**
  * The country's opinion of its president (Nation, Nov 8, 2026). On the third
  * of each month one row says what share of adults approve of the sitting
- * president and why: a slow base that follows the economy the Money engine
- * runs (the year's change in unemployment and inflation, read from the
- * macro months) and a fast part that is the sum of the decaying pushes other
- * engines write (a disaster handled, a scandal, a crisis). Nothing is
- * rolled and nothing flips at a threshold. The race engine reads the latest
+ * president and why: a slow base that moves by the economy the Money engine
+ * runs (each month's change in unemployment and inflation, read from the
+ * macro months, so a year's rise moves it by the paper's size for a year's
+ * rise) and a fast part that is the sum of the decaying pushes other
+ * engines write (a disaster handled, a scandal, a crisis). The base is pulled
+ * toward no level and kept in no range: it moves only by what happened.
+ * Nothing is rolled and nothing flips at a threshold. The race engine reads the latest
  * row for the president's party (electorate-inputs.ts); a row cites the macro
  * months and the pushes it was built from.
  */
@@ -35,7 +37,7 @@ export interface ApprovalRow {
   readonly pct: number;
   readonly basePct: number;
   readonly pushPct: number;
-  /** What the economy alone pulls the base toward, in points from the mean. */
+  /** What this month's change in the economy moved the base by, in points. */
   readonly economyPull: number;
   readonly unemploymentChange: number;
   readonly inflationChange: number;
@@ -99,7 +101,7 @@ export function latestApproval(api: CoreAPI): ApprovalRow | undefined {
     : undefined;
 }
 
-/** The latest approval against the long-run mean, in points (0 before any row). */
+/** The latest approval against the neutral point (where the two parties break even), in points (0 before any row). */
 export function approvalGapPoints(api: CoreAPI, onDate?: string): number {
   if (!(api.state as CoreState).modules.has(NATIONAL_OPINION_MODULE_ID))
     return 0;
@@ -125,35 +127,32 @@ function monthlyRun(api: CoreAPI): void {
   const month = monthOf(api.state.date);
   const rows = table(api, "approval");
   const previous = latestApproval(api);
-  const mean = opinionParameter("longRunMeanPct");
   const macro = (api.state as CoreState).modules.has("macro");
   const macroState = macro
     ? (api.moduleState("macro").table("state").get("macro:state") as unknown as
         { latestMonth: string } | undefined)
     : undefined;
   const now = macroState ? macroRow(api, macroState.latestMonth) : undefined;
-  const year = macroState
-    ? macroRow(api, shiftMonth(macroState.latestMonth, -12))
+  const before = macroState
+    ? macroRow(api, shiftMonth(macroState.latestMonth, -1))
     : undefined;
   const sources: string[] = [];
   let unemploymentChange = 0;
   let inflationChange = 0;
-  if (now && year && macroState) {
-    unemploymentChange = now.unemploymentPct - year.unemploymentPct;
-    inflationChange = now.inflationPct - year.inflationPct;
+  if (now && before && macroState) {
+    unemploymentChange = now.unemploymentPct - before.unemploymentPct;
+    inflationChange = now.inflationPct - before.inflationPct;
     sources.push(
       `macro-month:${macroState.latestMonth}`,
-      `macro-month:${shiftMonth(macroState.latestMonth, -12)}`,
+      `macro-month:${shiftMonth(macroState.latestMonth, -1)}`,
     );
   }
   const economyPull = -(
     opinionParameter("pointsPerUnemploymentPoint") * unemploymentChange +
     opinionParameter("pointsPerInflationPoint") * inflationChange
   );
-  const persistence = opinionParameter("monthlyPersistence");
   const lastBase = previous?.basePct ?? opinionParameter("openingPct");
-  const basePct =
-    mean + persistence * (lastBase - mean) + (1 - persistence) * economyPull;
+  const basePct = lastBase + economyPull;
   let pushPct = 0;
   for (const push of table(api, "pushes").rows() as unknown as OpinionPush[]) {
     const age = monthIndex(month) - monthIndex(push.month);
@@ -164,7 +163,7 @@ function monthlyRun(api: CoreAPI): void {
   const row: ApprovalRow = {
     id: `approval:${month}`,
     month,
-    pct: Math.max(0, Math.min(100, basePct + pushPct)),
+    pct: basePct + pushPct,
     basePct,
     pushPct,
     economyPull,
