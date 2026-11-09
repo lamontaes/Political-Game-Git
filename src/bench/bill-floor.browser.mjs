@@ -113,7 +113,7 @@ try {
     // A floor stop needs a bill on the body's next sitting, and a drafted bill is on no agenda: dev
     // mode introduces one in each state chamber with `schedule: true`, which puts it on the next
     // sitting, so the player's chamber has a bill for its floor day.
-    const filed = await page.evaluate(async () => {
+    const filed = await page.evaluate(async (playerName) => {
       const post = async (path, body) => {
         const r = await fetch(`/api/dev/${path}`, {
           method: "POST",
@@ -121,7 +121,12 @@ try {
         });
         return r.status;
       };
-      const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
+      // Only the chambers the player sits in: a bill in every state chamber (65 or more) crashes the page.
+      const holders = await (await fetch("/api/advanced/officeholders")).json();
+      const me = holders.find((h) => h.name === playerName)?.personId;
+      const bodies = (
+        await (await fetch("/api/dev/lawmaking-bodies")).json()
+      ).filter((b) => b.members.some((m) => m.key === me));
       const laws = await (await fetch("/api/dev/laws")).json();
       const row = laws.series.find((r) => r.series === "minimum-wage");
       let count = 0;
@@ -139,8 +144,8 @@ try {
         if (status === 200) count += 1;
       }
       return count;
-    });
-    console.log(`dev mode scheduled ${filed} bills in the state chambers`);
+    }, names[at].split("\n")[0]);
+    console.log(`dev mode scheduled ${filed} bills in the player's chambers`);
     // Play days until the evening before a floor day holds the player for a bill.
     held = false;
     for (let day = 0; day < 90 && !held; day += 1) {
