@@ -2232,5 +2232,17 @@
     "addedAt": "2026-11-09",
     "replacement": "The legislature votes each line from the revenue it collected, with its priorities and the law's rainy-day cap (gov-budget-spending-voted-from-revenue).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-municipal-mix",
+    "kind": "assumed-data",
+    "file": "scripts/research/export-public-budget-bases.py",
+    "line": 0,
+    "whatItFakes": "A Puerto Rico municipio's budget takes the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line (the island's mix), scaled to the municipio's own approved total over its own residents (OGP, all 78), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; each municipio's own revenue lines, spending by function and federal grants are not read; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
+    "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
+    "status": "open"
   }
 ]
