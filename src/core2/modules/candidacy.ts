@@ -83,7 +83,7 @@ import {
 import { partySide } from "../appointments";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
 export const CANDIDACY_PARAMETERS = rows as Readonly<Record<string, Parameter>>;
@@ -441,6 +441,7 @@ function reasonsFrom(
   const hope =
     Math.min(one, ambitionOf(person)) * c(api, "candidacyOverconfidenceShare");
   return {
+    // perception: a person's own read of their chance, their real odds plus the hope an enterprising, risk-taking person adds, read once for this one decision (owner, Nov 8, 10:20 a.m.: candidates run because they think they have a chance).
     chance: c(api, "candidacyChanceWeight") * (odds + hope * (one - odds)),
     engagement: c(api, "candidacyEngagementWeight") * person.engagement,
     cause: c(api, "candidacyCauseWeight") * person.cause,

@@ -12,7 +12,8 @@ import {
   openElections,
 } from "./modules/elections";
 import { knockDoors, openCampaigns } from "./modules/campaigns";
-import { personLean, personStance, PLATFORM_QUESTIONS } from "./campaign-views";
+import { personLean, personStance } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { drawPlace } from "../../scripts/core2-year/place";
 
 // Field experiments find door-to-door persuasion near zero on average

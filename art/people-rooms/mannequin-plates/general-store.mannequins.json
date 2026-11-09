@@ -1,0 +1,65 @@
+{
+  "scene": "general-store",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "general-store__midday.jpg",
+  "backdrops": [],
+  "spots": [
+    {
+      "id": "general-store-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 273,
+        "x": 400.0,
+        "width": 71
+      },
+      "box": [
+        327,
+        273,
+        473,
+        880
+      ],
+      "feet": 879
+    },
+    {
+      "id": "general-store-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 301,
+        "x": 650.0,
+        "width": 51
+      },
+      "box": [
+        597,
+        301,
+        703,
+        740
+      ],
+      "feet": 739
+    },
+    {
+      "id": "general-store-2",
+      "pose": "gesture",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 328,
+        "x": 520.0,
+        "width": 33
+      },
+      "box": [
+        486,
+        328,
+        554,
+        610
+      ],
+      "feet": 609
+    }
+  ]
+}

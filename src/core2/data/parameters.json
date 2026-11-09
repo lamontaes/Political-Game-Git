@@ -65,6 +65,43 @@
       "citation": "Between 6:00 AM and 8:00 AM, the span of typical workday wake times in American Time Use Survey diaries."
     }
   },
+  "talkMinutesPerLine": {
+    "value": 2,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "A line said or heard in a talk takes about two minutes, so a talk of ten lines is a twenty-minute conversation; the talk spends the sum of its lines on the player's clock when it ends. A pacing choice, not a measured rate; no source has been fetched for it.",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "minutes per line",
+      "citation": "From a quick exchange to a long answer; to be checked against American Time Use Survey conversation lengths once fetched."
+    }
+  },
+  "tripMinutes": {
+    "value": 17,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Summary of Travel Trends: 2022 National Household Travel Survey (https://nhts.ornl.gov/assets/2022/pub/2022_NHTS_Summary_Travel_Trends.pdf, fetched Nov 8, 2026). Table 3-3, average person trip length by purpose, 2022: shopping 5.8 miles and family/personal errands 8.6 miles. Table 7-4, average commute speed, 2022: 25.51 miles per hour for all modes, 26.59 for a privately owned vehicle.",
+    "estimatedFrom": "The survey's summary gives trip length by purpose and speed for commutes, not trip time by purpose: 5.8 miles at about 25 miles per hour is 14 minutes (shopping) and 8.6 miles is 20 minutes (errands); 17 minutes is between them. Every trip to a place in town takes this, because the records hold no distance between two places (SG-PLAY-trip-time-average); a place's own distance and travel speed replace it.",
+    "spread": {
+      "low": 14,
+      "high": 21,
+      "unit": "minutes",
+      "citation": "NHTS 2022 Table 3-3 trip lengths (shopping, errands) over the Table 7-4 speeds (25.51 to 26.59 miles per hour)."
+    }
+  },
+  "visitHours": {
+    "value": 1,
+    "role": "coefficient",
+    "tag": "TUNABLE",
+    "citation": "The hours a visit to a place in town (a shop, a school, an office, a diner) takes the player: one hour spent there, so the clock moves and the people at the next place are the ones there at that hour (Nov 8: visits, talks and trips spend game time). Checked against the American Time Use Survey's Using Government Services, 0.91 hours for the people who did it that day (the lookupHours row), and shopping, under an hour a trip.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "hours",
+      "citation": "From a short errand to the ATUS hour for government services."
+    }
+  },
   "filingVisitHours": {
     "value": 3,
     "tag": "TUNABLE",
@@ -512,13 +549,15 @@
     }
   },
   "stressHalfLifeDays": {
-    "value": 7,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-stressHalfLifeDays",
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Bolger, DeLongis, Kessler and Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57(5):808-18, doi 10.1037/0022-3514.57.5.808 (PubMed 2810026, abstract read): a 6-week daily diary of 166 married couples found emotional habituation by the second day of a run of stressors for almost every event except interpersonal conflicts, and that on the days after a stressful event mood was better than it would have been without it.",
+    "estimatedFrom": "The study measures mood, not the model's stress stock, and gives no half-life: a stressor's effect is largely gone within a day or two, so one day is read as the half-life, with interpersonal conflict (which does not habituate) the case the spread must cover.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.5,
+      "high": 7,
+      "unit": "days",
+      "citation": "Half a day (effect gone by the next day) to the old stand-in of a week, which a played half-year shows changes the town's mean stress by about 0.03 on a 0 to 1 scale (Reynolds, Georgia: 0.240 at seven days, 0.267 at one)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -726,19 +765,6 @@
     "value": 120,
     "tag": "SOURCED",
     "citation": "Verduyn and Lavrijsen (2015), doi:10.1007/s11031-014-9445-y, Fig. 1; recalled emotion-duration medians in 233 Belgian high-school students. Not an adult US range or exponential half-life."
-  },
-  "relationInitial": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-relationInitial",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
   },
   "relationContactGain": {
     "value": 0.05,
@@ -7099,7 +7125,7 @@
     "value": 0.9,
     "tag": "ESTIMATED",
     "citation": "CPS mean weeks unemployed about 17 at 3.7% unemployment (2019) and about 40 at 9% (2011).",
-    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean.",
+    "estimatedFrom": "ln(40/17)/ln(9/3.7) is about 0.96, held a little lower because the 2011 duration also reflects the length of the recession: how finding work slows as unemployment rises against its mean. This one elasticity is the whole market-tightness input of the find: job openings per unemployed worker are a function of the unemployment rate (the Beveridge curve, the matching function's reduced form), so a separate openings term would repeat it. FRED carries JOLTS job openings only by Census region and nationally (JTS00NEJOR, JTS00MWJOR, JTS00SOJOR, JTS00WEJOR, JTSJOR), and the world simulates its own later months, so no real openings series exists to read past the opening. A true second input needs regional employers with postings (Jobs and economy and the Coordinator, Nov 8, 2026).",
     "spread": {
       "low": 0.4,
       "high": 1.0,
@@ -7109,6 +7135,7 @@
   },
   "pastWorkFindAgeReferenceYears": {
     "value": 40,
+    "role": "level",
     "tag": "ESTIMATED",
     "citation": "BLS CPS duration of unemployment by age: the all-ages mean about 23 weeks (FRED UEMPMEAN, 2025 average of 11 months retrieved Nov 8, 2026) sits near the 35-44 band; nobody is modeled as finding work faster for being young.",
     "estimatedFrom": "The reference age is the one at which the all-ages mean duration applies; the 25-54 bands are not on file (SG-LABOR-find-age-estimated: BLS cpsaat31 to replace).",
@@ -7121,6 +7148,7 @@
   },
   "pastWorkFindAgeElasticity": {
     "value": 0.4,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "BLS CPS 2025 annual table cpsaat31 as quoted in a search snippet (unverified): mean weeks unemployed 25.0 at 55-64 and 29.8 at 65 and over, against 23.1 all ages (FRED UEMPMEAN, 2025).",
     "estimatedFrom": "ln(25.0/23.1)/ln(59.5/40) is about 0.2 and ln(29.8/23.1)/ln(70/40) is about 0.45; 0.4 is taken between them, held wide. Duration itself is not penalized: Krueger and Mueller (2016, IZA DP 7957, Table 9) find unemployment duration does not predict acceptance once the reservation wage is controlled.",
@@ -8156,6 +8184,7 @@
   },
   "mentorAgeGapYears": {
     "value": 10,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Years older a coworker must be to take a new hire under their wing (SG-LIVES-mentorship-model).",
     "spread": {
@@ -8167,6 +8196,7 @@
   },
   "mentorFirstHours": {
     "value": 2,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Hours together a mentor's first sit-down with a new hire counts as on their coworker tie (SG-LIVES-mentorship-model).",
     "spread": {
@@ -8178,6 +8208,7 @@
   },
   "rescueHours": {
     "value": 6,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Hours together a rescue at the start of an illness counts as on the tie between the sufferer and the one who stayed with them (SG-LIVES-rescue-acute).",
     "spread": {
@@ -8189,6 +8220,7 @@
   },
   "quarrelStrainHours": {
     "value": 4,
+    "role": "coefficient",
     "tag": "TUNABLE",
     "citation": "Hours of time together a money quarrel takes off the tie between the borrower and the housemate wronged by their missed payment (SG-LIVES-quarrel-model).",
     "spread": {
@@ -8296,6 +8328,7 @@
   },
   "countySampleHouseholds": {
     "value": 150,
+    "role": "opening",
     "tag": "TUNABLE",
     "citation": "How many households of the county outside the town the opening samples; each stands for as many real households as the county's eligible voters ask for. Sized so a county seat's weighing has hundreds of adults to draw from while the opening stays light.",
     "stopgapId": "SG-LIVES-county-sample-employers",
@@ -8309,6 +8342,7 @@
   },
   "neighborsKnownCap": {
     "value": 8,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "Neighbors an adult knows by name once settled. Ownerly 2020 survey of 2,700 US adults (ownerly.com/data-analysis/do-you-know-your-neighbors-survey): 14% know none, 51% know 1 to 5, 19% know 6 to 10, 15% know 11 or more; the cap is the middle of the 6 to 10 band. Pew Research Center 2019 (pewresearch.org/short-reads/2019/08/15/facts-about-neighbors-in-u-s): 26% know most of their neighbors.",
     "estimatedFrom": "No published source gives neighbors known by years of residence; the anchor is the settled count, the slope below is an assumption.",
@@ -8324,14 +8358,45 @@
   },
   "neighborsKnownYears": {
     "value": 6,
+    "role": "coefficient",
     "tag": "ESTIMATED",
-    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, levelling off at six.",
+    "citation": "Years of living in one place for a household to know about two thirds of the neighbors it will ever know (known = cap x (1 - exp(-years / this))). Pew Research Center 2018 (pewresearch.org/social-trends/2018/05/22/how-urban-suburban-and-rural-residents-interact-with-their-neighbors): trusting a neighbor with keys rises from 34% under a year to 47% at 1 to 5 years to 64% at 6 or more, leveling off at six.",
     "estimatedFrom": "Assumed time constant anchored loosely on Pew's key-trust rise.",
     "spread": {
       "low": 3,
       "high": 12,
       "unit": "years",
       "citation": "Assumed range around the six-year level-off in Pew 2018."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "partyActiveShare": {
+    "value": 0.05,
+    "role": "coefficient",
+    "tag": "ESTIMATED",
+    "citation": "Share of adults who work or volunteer for a party, candidate or campaign. Pew Research Center, November 2020 post-election survey (n=11,818): 5 percent (pewresearch.org/short-reads/2020/12/14/key-findings-about-voter-engagement-in-the-2020-election). ANES 2020 (codebook, unweighted): 3.5 percent did other work for a party or candidate and 5.5 percent go to political meetings, rallies, speeches or dinners. Figures as reported in a search summary of those pages (not the pages themselves); check the weighted estimates before relying on the exact percentages.",
+    "estimatedFrom": "One national share for every county; the survey does not publish county shares, and the ANES figures are the codebook's unweighted frequencies.",
+    "spread": {
+      "low": 0.035,
+      "high": 0.06,
+      "unit": "share of adults",
+      "citation": "ANES 2020 (3.5 percent) to Pew 2020 rally attendance (6 percent)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "ownerAgeAfterVoting": {
+    "value": 7,
+    "role": "opening",
+    "tag": "TUNABLE",
+    "citation": "Years after voting age before the engine lets someone be drawn as an employer's owner (25 in all). No source was fetched for owners' ages: this floor only keeps students and the youngest adults from owning firms, and the draw within it is a hash, not an age curve. Source it from the Census Bureau's Annual Business Survey owner-age table.",
+    "stopgapId": "SG-LIVES-civic-roles-not-recorded",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No owner-age table was read; the floor is a modeling choice."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

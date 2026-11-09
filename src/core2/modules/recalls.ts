@@ -27,11 +27,8 @@ import type {
 } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
-import {
-  campaignParameter,
-  personLean,
-  publicSupport,
-} from "../campaign-views";
+import { personLean, publicSupport } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 import { LEGISLATURE_MODULE_ID, votesOn, type BillRow } from "./legislature";

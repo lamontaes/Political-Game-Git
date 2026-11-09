@@ -8,6 +8,10 @@ import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
 
+/** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
+const JOURNAL_TWO_COLUMNS = 700;
+const JOURNAL_DROP_CAP = 120;
+
 /**
  * A section: its header strip (`depth` 1 to 5 sets how deep the strip's
  * bronze runs, lit first and deeper down the screen) over `nodes`.
@@ -164,7 +168,7 @@ export function dotRows(rows) {
 /**
  * The budget board: a row of tabs and a fiscal-year line over three columns of
  * strip sections (the approved Budgets screen, bud-strips). `fiscal` is typed in
- * Courier Prime capitals at the right of the tabs.
+ * capitals at the right of the tabs.
  */
 export function stripBoard({ tabs, fiscal, columns, className = "" }) {
   return el(
@@ -358,7 +362,7 @@ export function quitButton(label, onQuit) {
  * The patch notes screen: the builds in one strip, the chosen build's notes in a strip per
  * heading. `builds`: [{ name, when, groups: [{ heading, notes: [text] }] }], newest first.
  */
-export function patchNotesScreen({ builds, title, words, rows }) {
+export function patchNotesScreen({ builds, title, rows }) {
   const holder = el("div");
   let chosen = builds[0];
   const draw = () =>
@@ -386,18 +390,24 @@ export function patchNotesScreen({ builds, title, words, rows }) {
                 columns: 1,
                 rowHeight: 52,
                 gap: 2,
-                words,
                 className: "bsdepts",
               }),
             ),
           ],
-          (chosen?.groups ?? []).map((group, at) =>
-            stripSection(
-              Math.min(at + 2, 5),
-              group.heading,
-              ...group.notes.map((note) => introText(note)),
+          [
+            // A build's notes run long: they scroll inside their own box, never the sheet.
+            el(
+              "div",
+              { className: "patch-detail" },
+              ...(chosen?.groups ?? []).map((group, at) =>
+                stripSection(
+                  Math.min(at + 2, 5),
+                  group.heading,
+                  ...group.notes.map((note) => introText(note)),
+                ),
+              ),
             ),
-          ),
+          ],
         ],
       }),
     );
@@ -410,7 +420,7 @@ export function patchNotesScreen({ builds, title, words, rows }) {
  * newest last and chosen, each with its years; the chosen chapter is its title over two
  * columns of prose with a drop cap. `chapters`: [{ title, from, through, lines: [{ text }] }].
  */
-export function journalScreen({ chapters, labels, yearOf, rows, words }) {
+export function journalScreen({ chapters, labels, yearOf, rows }) {
   const holder = el("div");
   let chosen = chapters.at(-1);
   const yearsOf = (chapter) => {
@@ -444,7 +454,6 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
                     columns: 1,
                     rowHeight: 52,
                     gap: 2,
-                    words,
                     className: "bsdepts",
                   })
                 : el("p", { className: "intro", textContent: labels.empty }),
@@ -455,11 +464,23 @@ export function journalScreen({ chapters, labels, yearOf, rows, words }) {
                 stripSection(
                   2,
                   chosen.title,
+                  // Two columns and a drop cap only where the words fill them: a short
+                  // chapter is one column and a one-line first paragraph has no drop cap.
                   el(
                     "div",
-                    { className: "journal-text" },
-                    ...chosen.lines.map((line) =>
-                      el("p", { className: "intro", textContent: line.text }),
+                    {
+                      className: `journal-text${
+                        chosen.lines.reduce((n, l) => n + l.text.length, 0) <
+                        JOURNAL_TWO_COLUMNS
+                          ? " one-column"
+                          : ""
+                      }`,
+                    },
+                    ...chosen.lines.map((line, at) =>
+                      el("p", {
+                        className: `intro${at === 0 && line.text.length >= JOURNAL_DROP_CAP ? " lead" : ""}`,
+                        textContent: line.text,
+                      }),
                     ),
                   ),
                 ),

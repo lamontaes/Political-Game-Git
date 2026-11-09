@@ -2,8 +2,14 @@
  * M1-02 golden-path check, on the whole economy. Uses GOLDEN_PATH_SEED and
  * GOLDEN_PATH_PLACE_KEY from the runner. A drawn town on the two-level world
  * with every economy engine runs two years from its start date. Passes when:
- * (1) every simulated 12-month change and quarterly output growth stays
- * inside the 1990-2026 bands; (2) the national step heard the town's own
+ * (1) UNCHECKED (owner, Nov 8: real ranges are not targets): the simulated
+ * 12-month changes and quarterly output growth are printed beside the
+ * 1990-2026 bands and never tested against them. The national cycle has no
+ * recorded cause to test a value against yet (macro-model.ts moves
+ * unemployment, inflation, jobs and output by fixed trends and a persistence,
+ * and src/core2/no-steering-behavior.test.ts shows a pushed value returning
+ * on its own), so this clause waits for the cycle's causes (Money) and
+ * keeps no band meanwhile; (2) the national step heard the town's own
  * income growth once a year of it was recorded; (3) every board vote records
  * its reasons; (4) at every rate change, each of the town bank's prime-linked
  * business lines reprices on the decision's effective date. The loan-cost
@@ -47,9 +53,12 @@ function check(seed: string, placeKey: string) {
     townIncomeGrowthPct?: number;
   })[];
   const bands = checkBands(months, p).filter((row) => !row.baseIsHistory);
-  for (const row of bands.filter((row) => !row.inside))
-    failures.push(
-      `band ${row.measure} ${row.at} ${row.value.toFixed(2)} outside [${row.low}, ${row.high}]`,
+  // Printed beside the real band, never tested against it (clause 1).
+  const beside = bands
+    .filter((row) => !row.inside)
+    .map(
+      (row) =>
+        `${row.measure} ${row.at} ${row.value.toFixed(2)} beside the real [${row.low}, ${row.high}]`,
     );
   // Only months whose two compared years are both simulated hear the town; before that the base includes the opening's seeded income.
   const firstSimulated = input.startedAt.slice(0, "YYYY-MM".length);
@@ -135,6 +144,9 @@ function check(seed: string, placeKey: string) {
     seed,
     start: input.startedAt,
     bandRows: bands.length,
+    unchecked:
+      "clause 1: the national cycle has no recorded cause to test a value against yet (Money); the figures are printed beside the real band",
+    outsideTheRealBand: beside,
     townGrowthByMonth: heard.map(
       (row) => `${row.month} ${row.townIncomeGrowthPct!.toFixed(2)}`,
     ),
@@ -155,7 +167,7 @@ function check(seed: string, placeKey: string) {
 // The drawn town first. A town with no bank line open at a rate change cannot
 // show the loan-cost chain, so further places are drawn from all 56 (bounded)
 // until one does; every attempt is reported, and the zero-line town's other
-// clauses (bands, board votes, the town heard) still have to hold.
+// clauses (board votes, the town heard) still have to hold.
 const NO_WITNESS = "no town bank line was open at a rate change";
 const attempts: unknown[] = [];
 const first = check(seed, placeKey);
