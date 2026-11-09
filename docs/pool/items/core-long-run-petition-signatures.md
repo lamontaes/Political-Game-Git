@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: claimed
+status: in-pr
 claimed-by: memory/petition-signatures
-pr:
+pr: #8080
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-09T21:01:48.037Z
