@@ -276,6 +276,7 @@ describe("jobs", () => {
           employed: false,
           since: start,
           referenceHourlyMinor: 0,
+          regionalPull: 1,
         });
     }
     withBooks(core, 2);
@@ -299,7 +300,7 @@ describe("jobs", () => {
       personId: "s1",
       status: "released",
     });
-    advanceCore(core, "2021-07-31");
+    advanceCore(core, "2022-01-31");
     expect(
       jobs
         .table("changes")
@@ -784,7 +785,7 @@ describe("jobs", () => {
       capacityMinor: 12_000 * 260 * 4,
       anchorAnnualDemandMinor: 12_000 * 260 * 4,
     });
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-09-30");
     const hires = coreAPI(core)
       .moduleState("jobs")
       .table("changes")
