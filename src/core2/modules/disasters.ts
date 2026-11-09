@@ -23,8 +23,9 @@ import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
 import type { ModuleRow } from "../module-data";
 import { dwellingKind, ownedHomes } from "./housing";
-import { countedMovesRunning, moveCountedHouseholdAway } from "./counted-moves";
 import {
+  countedMovesRunning,
+  moveCountedHouseholdAway,
   outsideMarketFor,
   residentCounts,
   residentsAccountFor,
