@@ -387,6 +387,8 @@ export interface MeetingReadings {
   /** Latest 12-month consumer-price inflation, read in the goal's terms. */
   inflationPct: number;
   unemploymentPct: number;
+  /** The unemployment rate the board takes as normal: what the economy has come to treat as normal from the rates it has lived at, not a fixed figure. */
+  naturalUnemploymentPct: number;
   policyRatePct: number;
   month: string;
 }
@@ -399,6 +401,7 @@ export function meetingReadings(
   return {
     inflationPct: latest.inflationPct - p("macroCpiOverPceWedgePct"),
     unemploymentPct: latest.unemploymentPct,
+    naturalUnemploymentPct: latest.naturalUnemploymentPct,
     policyRatePct,
     month: latest.month,
   };
@@ -439,7 +442,7 @@ export function memberView(
   const jobs =
     -gapResponse *
     p("macroOkunOutputPerUnemploymentPoint") *
-    (readings.unemploymentPct - p("macroNaturalUnemploymentPct"));
+    (readings.unemploymentPct - readings.naturalUnemploymentPct);
   const smoothing = p("macroSmoothingBase");
   return {
     memberId: member.id,
