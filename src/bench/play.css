@@ -5343,6 +5343,37 @@ body.color-blind .meeting-member.vote-abstain {
 }
 
 /* The bill page's budget lines fill the paper's column. */
+/* The bill page's header: the body's room with the bill's number and the body's name over it. */
+.bill-band {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  grid-column: 1 / -1;
+  height: 92px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  border: 1px solid var(--brass-lo);
+}
+.bill-band img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.bill-band h2 {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 18px 16px 8px;
+  font:
+    600 24px "Cinzel",
+    "Playfair Display",
+    serif;
+  color: var(--gold);
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.78));
+}
 .strip-screen.bill-figures {
   display: block;
   margin: 8px 0;
