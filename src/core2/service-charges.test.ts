@@ -39,7 +39,7 @@ it("moves the town's part of each government's charges from households' living c
         placeKey: draw.key,
       });
       const api = coreAPI(core);
-      const where = `${draw.key} [${draw.state}], seed ${draw.seed}`;
+      const where = `${draw.key} [${draw.state}], seed ${draw.seed} (GOLDEN_PATH_SEED=${seed}, attempt ${attempt})`;
       const payers = serviceChargeShares(api).filter((row) => row.share > 0);
       // Some places' budgets carry no charges (a territory's): draw again.
       if (!payers.length) continue;
@@ -71,12 +71,35 @@ it("moves the town's part of each government's charges from households' living c
         // the people the town models, out of living costs they already paid.
         const full = months[months.length - 1]!;
         expect(full.paidMinor, where).toBeGreaterThan(0);
+        // The sewer and trash part is by use and may fall short of its share
+        // of the target (a household or firm that cannot pay, the system's own
+        // deficit); the rest is the uniform share of living costs, which is
+        // paid to within the spread real towns show of the target it is cut
+        // from. Firms pay sewer too, so the whole month can pass the
+        // households' living costs by the firms' sewer charges.
+        const use = townPayers(api, lawChain(api).townPlaceId);
+        const sewerPaid = full.byService["sewerage-and-solid-waste"] ?? 0;
+        const sewerCapacity =
+          use.dwellings * row.sewerPerDwellingMinor +
+          use.firms.size * row.sewerPerFirmMinor;
+        // Each payer's charge is rounded to a minor unit on every payment.
+        const rounding = use.dwellings + use.firms.size * 5;
+        // Households that held no cash on the 1st paid none of that month's
+        // living cost; the uniform share is paid at the share they paid.
+        const uniformTarget =
+          (row.targetMonthlyMinor - sewerCapacity) *
+          (living.paidMinor / living.requestedMinor);
         expect(
-          Math.abs(full.paidMinor - row.targetMonthlyMinor),
+          Math.abs(full.paidMinor - sewerPaid - uniformTarget),
+          `${where} ${row.governmentId}: the uniform share`,
+        ).toBeLessThanOrEqual(row.targetMonthlyMinor * 0.15 + 100 + rounding);
+        expect(
+          full.paidMinor,
           `${where} ${row.governmentId}`,
-        ).toBeLessThanOrEqual(row.targetMonthlyMinor * 0.15 + 100);
-        expect(full.paidMinor, where).toBeLessThanOrEqual(
-          row.livingMonthlyMinor,
+        ).toBeLessThanOrEqual(
+          row.livingMonthlyMinor +
+            use.firms.size * row.sewerPerFirmMinor +
+            rounding,
         );
         // Every dollar is for a service, and the services are the place's.
         const byService = Object.entries(full.byService);
@@ -88,12 +111,8 @@ it("moves the town's part of each government's charges from households' living c
         // the town's dwellings and firms times their flat charges, and it
         // reaches the treasury wherever the place's budget has the service.
         if (row.sewerPerDwellingMinor > 0) {
-          const use = townPayers(api, lawChain(api).townPlaceId);
-          const capacity =
-            (use.dwellings * row.sewerPerDwellingMinor +
-              use.firms.size * row.sewerPerFirmMinor) *
-            1.001;
-          const sewer = full.byService["sewerage-and-solid-waste"] ?? 0;
+          const capacity = sewerCapacity + rounding;
+          const sewer = sewerPaid;
           expect(sewer, `${where} ${row.governmentId} sewer`).toBeGreaterThan(
             0,
           );
