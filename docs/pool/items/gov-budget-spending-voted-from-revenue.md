@@ -5,10 +5,10 @@ area: gov
 kind: feature
 priority: 2
 size: L
-status: open
+status: done
 lead: legislation
 claimed-by:
-pr:
+pr: #7919
 blocked-on:
 after: gov-outside-revenue-real-payers
 source: Money, Nov 8; Coordinator ruling on #7873
