@@ -2781,10 +2781,11 @@ function vacancyDays(api: CoreAPI, position: PositionRow): number {
     >
   )[series ?? "total-private"]!.months;
   const unit = worldOffsetUnit(c.seed, `vacancy:${position.organizationId}`);
+  // The firm sits between the series' average and its high (or low) end by the size of its offset.
+  const weight = Math.abs(unit);
   const months =
-    unit >= p("zero")
-      ? row.value + unit * (row.high - row.value)
-      : row.value + unit * (row.value - row.low);
+    row.value * (p("one") - weight) +
+    (unit >= p("zero") ? row.high : row.low) * weight;
   stopgap("SG-LABOR-vacancy-size-uniform");
   return (months * p("jobsDaysPerYear")) / p("macroMonthsPerYear");
 }
