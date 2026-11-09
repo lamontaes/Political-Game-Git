@@ -1,4 +1,4 @@
-/* global process, console, document */
+/* global process, console, document, URL */
 // Dev mode from the game's own screens, in a real browser on the bench (npm run bench) at
 // 1440x900, in a place drawn from all 56 (the run prints its seed and place): the setting in
 // Options (off by default), the person card's Remembers section, the Calendar's Run until, and
@@ -80,38 +80,40 @@ try {
     0,
     "a scene nothing can start is offered",
   );
-  for (const [match, expected] of [
-    ["layoff", /Begun for|worked today|staff|job|No one in the player/],
-  ]) {
+  {
+    const expected = /Begun for|worked today|staff|job|No one in the player/;
     // The layoff kind: the one the scenes list marks with that recipe.
-    const value = await page.evaluate(async () => {
-      const rows = await (await fetch("/api/dev/scenes")).json();
-      return rows.find((row) => row.recipe === "layoff")?.key;
-    });
-    if (!value) continue; // this world has no layoff kind the game can start
-    await expect_enabled();
-    const before = await page
-      .locator(".dev-scene .option-status")
-      .textContent();
-    // Picked and pressed in one step: the sheet may still be redrawing from the last press.
-    await page.evaluate((picked) => {
-      const select = document.querySelector(".dev-scene select");
-      select.value = picked;
-      document.querySelector('[data-testid="dev-scene"]').click();
-    }, value);
-    await page.waitForFunction(
-      (text) =>
+    const rows = await (
+      await page.request.get(
+        `http://localhost:${process.env.BENCH_PORT ?? 3000}/api/dev/scenes`,
+      )
+    ).json();
+    const value = rows.find((row) => row.recipe === "layoff")?.key;
+    // A world with no layoff kind the game can start skips this step.
+    if (value) {
+      await expect_enabled();
+      // Picked and pressed in one step: the sheet may still be redrawing from the last press.
+      // The answer is the game's own response to this press, so a line equal to the last one
+      // (the same person, the same record) still tells apart.
+      const answered = page.waitForResponse(
+        (r) => new URL(r.url()).pathname === "/api/dev/scene",
+      );
+      await page.evaluate((picked) => {
+        const select = document.querySelector(".dev-scene select");
+        select.value = picked;
+        document.querySelector('[data-testid="dev-scene"]').click();
+      }, value);
+      await answered;
+      await page.waitForFunction(() =>
         Boolean(
           document.querySelector(".dev-scene .option-status")?.textContent,
-        ) &&
-        document.querySelector(".dev-scene .option-status")?.textContent !==
-          text,
-      before,
-    );
-    assert.match(
-      await page.locator(".dev-scene .option-status").textContent(),
-      expected,
-    );
+        ),
+      );
+      assert.match(
+        await page.locator(".dev-scene .option-status").textContent(),
+        expected,
+      );
+    }
   }
   // Watch and the golden path, on the Calendar beside Run until.
   await page.locator(".dev-watch").waitFor();
