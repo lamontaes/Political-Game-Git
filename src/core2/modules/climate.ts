@@ -29,11 +29,11 @@ import lookup from "../data/places/place-lookup.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import { registerModule } from "../state";
+import { residentsOf, STATES } from "../state-bases";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 import { stateLawInForce } from "./laws";
 import { WEB_LINKS } from "../outcome-web-model";
 import { carriedLink } from "./outcome-web";
-import { residentsOf, STATES } from "./outside-budgets";
 
 export const CLIMATE_MODULE_ID = "climate";
 const RUN_KIND = "climate-month";
@@ -268,6 +268,13 @@ export function hazardRate(
   return (
     recordedHazardRate(countyGeoid, hazard, month) * hazardFactor(api, hazard)
   );
+}
+
+/** The hazard a FEMA incident type belongs to (flood, storm or wildfire), or none. */
+export function hazardOfIncident(incidentType: string): Hazard | undefined {
+  return (history.hazardOfIncidentType as Record<string, Hazard | undefined>)[
+    incidentType
+  ];
 }
 
 let stateCells: Map<string, number[][]> | undefined;

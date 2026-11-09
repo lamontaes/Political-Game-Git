@@ -18,8 +18,8 @@
  * (stopgap SG-NATION-outside-budget-lines).
  */
 import { stateJurisdictionId } from "../government-jurisdictions";
-import budgetBases from "../../../data/research/money/public-budget-bases.json" with { type: "json" };
 import { REGIONS } from "../regional-model";
+import { residentsOf, STATES, type StateBase } from "../state-bases";
 import type { RegionMonth } from "../regional-model";
 import { registerModule } from "../state";
 import { lawChain, stateLawInForce } from "./laws";
@@ -36,22 +36,6 @@ import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 
 export const OUTSIDE_BUDGETS_MODULE_ID = "outside-budgets";
 const RUN_KIND = "outside-budgets";
-
-export interface StateBase {
-  readonly name: string;
-  readonly fiscalYearStart: string;
-  readonly population2024?: number;
-  readonly puertoRicoPopulation2025?: number;
-  readonly islandAreaPopulation2020?: number;
-}
-export const residentsOf = (base: StateBase) =>
-  base.population2024 ??
-  base.puertoRicoPopulation2025 ??
-  base.islandAreaPopulation2020 ??
-  0;
-export const STATES = (
-  budgetBases as unknown as { places: Record<string, StateBase> }
-).places;
 
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 
