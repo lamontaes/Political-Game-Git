@@ -9,6 +9,7 @@ import { advanceCore } from "../core2/life";
 import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
+import sceneTalkBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { purposeScene } from "./purpose-scene";
 import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
 
@@ -88,12 +89,25 @@ const WRITTEN_FOR: readonly (readonly [string, RegExp, string])[] = [
   ["victory-night", /The room is loud|in the ballroom/, "venue"],
 ];
 
-it(`a scene's lines name the room the scene is set in (seed ${seed})`, () => {
-  const seen: string[] = [];
-  let scenes = 0;
-  let withFact = 0;
-  const report = stageWorldHeld({
-    id: "reads-wrong-room",
+interface Played {
+  where: string;
+  scenes: {
+    typeKey: string;
+    kind: string;
+    recordId: string;
+    purpose: string;
+    facts: { key: string; text: string; recordIds: string[] }[];
+    said: string;
+  }[];
+}
+
+let played: Played | undefined;
+/** One generated year at a drawn place; every staged scene played as the player meets it. */
+function playedYear(): Played {
+  if (played) return played;
+  const scenes: Played["scenes"] = [];
+  const world = stageWorldHeld({
+    id: "reads-wrong",
     seed,
     days: 365,
     onStaged: (staged, _scene, core, director) => {
@@ -108,25 +122,64 @@ it(`a scene's lines name the room the scene is set in (seed ${seed})`, () => {
         entry,
       );
       if (result?.kind !== "composed") return;
-      scenes += 1;
-      const kind = staged.setting.kind;
-      const fact = result.scene.facts.find(
-        (row) => row.key === `setting-${kind}`,
-      );
-      if (fact) withFact += 1;
-      expect(
-        fact?.recordIds,
-        `${staged.momentId}: the room is on the scene`,
-      ).toContain(staged.setting.recordId);
-      const said = JSON.stringify(result.scene.talk);
-      for (const [purpose, line, written] of WRITTEN_FOR) {
-        if (result.scene.purpose === purpose && kind !== written)
-          expect(said, `${staged.typeKey} in ${kind}`).not.toMatch(line);
-      }
-      seen.push(`${staged.typeKey}:${kind}`);
+      scenes.push({
+        typeKey: staged.typeKey,
+        kind: staged.setting.kind,
+        recordId: staged.setting.recordId,
+        purpose: result.scene.purpose,
+        facts: result.scene.facts,
+        said: JSON.stringify(result.scene.talk),
+      });
     },
   });
-  const where = `${report.report.place.name} (${report.report.place.key}), seed ${seed}`;
-  expect(scenes, where).toBeGreaterThan(0);
-  expect(withFact, where).toBe(scenes);
+  const { place } = world.report;
+  played = {
+    where: `${place.name} (${place.key}), seed ${seed}`,
+    scenes,
+  };
+  return played;
+}
+
+it(`a scene's lines name the room the scene is set in (seed ${seed})`, () => {
+  const { where, scenes } = playedYear();
+  expect(scenes.length, where).toBeGreaterThan(0);
+  for (const scene of scenes) {
+    const fact = scene.facts.find((row) => row.key === `setting-${scene.kind}`);
+    expect(fact?.recordIds, `${where}: ${scene.typeKey}`).toContain(
+      scene.recordId,
+    );
+    for (const [purpose, line, written] of WRITTEN_FOR) {
+      if (scene.purpose === purpose && scene.kind !== written)
+        expect(
+          scene.said,
+          `${where}: ${scene.typeKey} in ${scene.kind}`,
+        ).not.toMatch(line);
+    }
+  }
 }, 1_200_000);
+
+it(`an office is said in sentence case, and the oath names the office with its article (seed ${seed})`, () => {
+  const { where, scenes } = playedYear();
+  let named = 0;
+  for (const scene of scenes) {
+    const office = scene.facts.find((row) => row.key === "office");
+    if (!office) continue;
+    named += 1;
+    // "Council member" is "council member" inside a sentence.
+    expect(office.text, `${where}: ${scene.typeKey}`).not.toMatch(
+      /^[A-Z][^A-Z]*$/,
+    );
+    expect(scene.said, `${where}: ${scene.typeKey}`).not.toMatch(
+      /work of (?!the )[a-z]/,
+    );
+  }
+  expect(named, where).toBeGreaterThan(0);
+}, 1_200_000);
+
+it("no piece asks for the work of an office without its article", () => {
+  const parts = (sceneTalkBank as unknown as { parts: { text: string }[] })
+    .parts;
+  expect(parts.filter((part) => /work of \{office\}/.test(part.text))).toEqual(
+    [],
+  );
+});

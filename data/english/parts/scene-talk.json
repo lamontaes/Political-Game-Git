@@ -133162,7 +133162,7 @@
       "key": "scene-talk.state-request.raise-your-right-hand-do-you-swear-to-follow-the-law-and-to-do-the-work",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Raise your right hand. Do you swear to follow the law and to do the work of {office} honestly?",
+      "text": "Raise your right hand. Do you swear to follow the law and to do the work of the {office} honestly?",
       "uses": [
         {
           "subject": "scene",
