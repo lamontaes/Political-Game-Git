@@ -598,6 +598,9 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
     "replacement": "The circumstance casts from the news.read records of the story the report became, then by stake.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORDS-address-no-reader",
     "kind": "missing-hook",
     "file": "data/english/parts/address.json",
