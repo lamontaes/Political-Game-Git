@@ -4944,6 +4944,15 @@ select.release-pick {
 .news-story.lead .news-text {
   column-count: 2;
 }
+/* The lead's front-page photo sits between its headline and its text, cut to a fixed band. */
+.news-story.lead .story-image {
+  display: block;
+  width: 100%;
+  height: 190px;
+  aspect-ratio: auto;
+  object-fit: cover;
+  margin: 10px 0 12px;
+}
 /* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
 .news-story.lead .news-text > * {
   break-inside: avoid;
