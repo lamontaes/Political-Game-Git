@@ -27,6 +27,8 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devBillCard } from "./ui/dev-bill-card.mjs";
+import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
@@ -2865,6 +2867,37 @@ async function openBillPaper(billId, show, back, backLabel) {
         },
       },
     ),
+    // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
+    ...(devModeOn()
+      ? [
+          await devBillCard({
+            paper,
+            labels: controls.devBill,
+            traceLabel: controls.devTrace.trace,
+            onTrace: async () => {
+              const drawTrace = async (chosen) => {
+                const traced = await api(
+                  `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+                );
+                show(
+                  backButton,
+                  devTraceVote({
+                    stage: traced,
+                    paper,
+                    labels: controls.devTrace,
+                    words: controls.billStage,
+                    floor: controls.floor,
+                    chosen,
+                    onPick: drawTrace,
+                  }),
+                );
+              };
+              await drawTrace(null);
+            },
+            onDone: () => openBillPaper(billId, show, back, backLabel),
+          }),
+        ].filter(Boolean)
+      : []),
   );
 }
 
@@ -3539,7 +3572,8 @@ const sheets = {
     // budget lines by category rather than departments, so each spending line is a
     // department; Last year comes from the government's previous budget; "Asked" is the line
     // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
-    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
+    // record's chief executive; a department's head is the executive's appointee for its line
+    // (budget.ts headsOf).
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3787,6 +3821,7 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
+        photoOf: storyPhoto,
       }),
     ];
   },
