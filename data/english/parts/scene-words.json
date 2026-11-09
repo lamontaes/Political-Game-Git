@@ -17,7 +17,9 @@
     "cost": "What a law costs the household each month, from the price record it moved.",
     "law": "A law in force, by its policy's name, from the law record.",
     "refund": "What a law gave back to the household, from the payment record.",
-    "topic": "What a law is about, as the policy catalog names it, from the law record."
+    "topic": "What a law is about, as the policy catalog names it, from the law record.",
+    "begins": "The day a scene starts on, with the part of the day, as people say it ('First thing on June 7th'), from the clock.",
+    "where": "The workplace, office or school the scene is set in, from the setting's organization record."
   },
   "maxWords": 10,
   "mining": {
@@ -4988,6 +4990,1106 @@
       "origin": "authored",
       "author": "Claude Sonnet 5.5 (Lives, night crew)",
       "date": "2026-11-08",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-comes-to-the-house",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} comes to the house.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-you-re-home-when-name-stops-in",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you're home when {name} stops in.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-name-is-at-your-door",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} is at your door.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-other.begins-you-re-at-home-with-name",
+      "move": "arrival-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you're at home with {name}.",
+      "uses": [
+        {
+          "move": "arrival-home-other",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-you-re-at-home-with-nothing-pressing",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at home, with nothing pressing.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-you-re-at-home",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at home.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-home-alone.begins-finds-you-at-home",
+      "move": "arrival-home-alone",
+      "kind": "spoken",
+      "text": "{begins} finds you at home.",
+      "uses": [
+        {
+          "move": "arrival-home-alone",
+          "subject": "arrival",
+          "role": "home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-stop-by-name-s-place",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you stop by {name}'s place.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-re-at-name-s-house",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you're at {name}'s house.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-other.begins-you-go-over-to-see-name",
+      "move": "arrival-other-home-other",
+      "kind": "spoken",
+      "text": "{begins}, you go over to see {name}.",
+      "uses": [
+        {
+          "move": "arrival-other-home-other",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-alone.begins-you-re-at-a-neighbor-s-house",
+      "move": "arrival-other-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at a neighbor's house.",
+      "uses": [
+        {
+          "move": "arrival-other-home-alone",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-other-home-alone.begins-you-stop-by-a-friend-s-place",
+      "move": "arrival-other-home-alone",
+      "kind": "spoken",
+      "text": "{begins}, you stop by a friend's place.",
+      "uses": [
+        {
+          "move": "arrival-other-home-alone",
+          "subject": "arrival",
+          "role": "other-home",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-the-phone-rings-it-s-name",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings. It's {name}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-your-phone-lights-up-with-name-s-name",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, your phone lights up with {name}'s name.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-you-pick-up-the-phone-and-it-s-name",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, you pick up the phone and it's {name}.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-other.begins-name-calls",
+      "move": "arrival-phone-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} calls.",
+      "uses": [
+        {
+          "move": "arrival-phone-other",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-the-phone-rings",
+      "move": "arrival-phone-alone",
+      "kind": "spoken",
+      "text": "{begins}, the phone rings.",
+      "uses": [
+        {
+          "move": "arrival-phone-alone",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-phone-alone.begins-your-phone-rings",
+      "move": "arrival-phone-alone",
+      "kind": "spoken",
+      "text": "{begins}, your phone rings.",
+      "uses": [
+        {
+          "move": "arrival-phone-alone",
+          "subject": "arrival",
+          "role": "phone",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-a-letter-comes-from-name",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes from {name}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-you-open-a-letter-from-name",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, you open a letter from {name}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-other.begins-the-mail-brings-a-letter-from-name",
+      "move": "arrival-letter-other",
+      "kind": "spoken",
+      "text": "{begins}, the mail brings a letter from {name}.",
+      "uses": [
+        {
+          "move": "arrival-letter-other",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-alone.begins-a-letter-comes-for-you",
+      "move": "arrival-letter-alone",
+      "kind": "spoken",
+      "text": "{begins}, a letter comes for you.",
+      "uses": [
+        {
+          "move": "arrival-letter-alone",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-letter-alone.begins-you-open-a-letter-that-came-in-the-mail",
+      "move": "arrival-letter-alone",
+      "kind": "spoken",
+      "text": "{begins}, you open a letter that came in the mail.",
+      "uses": [
+        {
+          "move": "arrival-letter-alone",
+          "subject": "arrival",
+          "role": "letter",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-you-re-at-where-and-name-comes-over",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, you're at {where}, and {name} comes over.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-name-finds-you-at-work-at-where",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} finds you at work at {where}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-you-re-on-the-job-when-name-stops-by",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, you're on the job when {name} stops by.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-other.begins-at-work-you-talk-with-name",
+      "move": "arrival-workplace-other",
+      "kind": "spoken",
+      "text": "{begins}, at work, you talk with {name}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-other",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-alone.begins-you-re-at-work-at-where",
+      "move": "arrival-workplace-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at work at {where}.",
+      "uses": [
+        {
+          "move": "arrival-workplace-alone",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-workplace-alone.begins-you-re-on-the-job",
+      "move": "arrival-workplace-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're on the job.",
+      "uses": [
+        {
+          "move": "arrival-workplace-alone",
+          "subject": "arrival",
+          "role": "workplace",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-head-to-where-and-speak-to-name",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you head to {where} and speak to {name}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-walk-into-where-to-see-name",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you walk into {where} to see {name}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-you-stop-by-the-office-to-speak-with-name",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, you stop by the office to speak with {name}.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-other.begins-name-meets-you-at-the-office",
+      "move": "arrival-office-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} meets you at the office.",
+      "uses": [
+        {
+          "move": "arrival-office-other",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-alone.begins-you-re-at-where",
+      "move": "arrival-office-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at {where}.",
+      "uses": [
+        {
+          "move": "arrival-office-alone",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-office-alone.begins-you-re-at-the-office",
+      "move": "arrival-office-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at the office.",
+      "uses": [
+        {
+          "move": "arrival-office-alone",
+          "subject": "arrival",
+          "role": "office",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-you-re-in-the-chamber-and-name-turns-to-you",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, you're in the chamber, and {name} turns to you.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-you-take-your-seat-and-name-is-beside-you",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, you take your seat, and {name} is beside you.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-other.begins-in-the-chamber-you-speak-with-name",
+      "move": "arrival-chamber-other",
+      "kind": "spoken",
+      "text": "{begins}, in the chamber, you speak with {name}.",
+      "uses": [
+        {
+          "move": "arrival-chamber-other",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-alone.begins-you-take-your-seat-in-the-chamber",
+      "move": "arrival-chamber-alone",
+      "kind": "spoken",
+      "text": "{begins}, you take your seat in the chamber.",
+      "uses": [
+        {
+          "move": "arrival-chamber-alone",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-chamber-alone.begins-the-chamber-is-filling-up",
+      "move": "arrival-chamber-alone",
+      "kind": "spoken",
+      "text": "{begins}, the chamber is filling up.",
+      "uses": [
+        {
+          "move": "arrival-chamber-alone",
+          "subject": "arrival",
+          "role": "chamber",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-you-re-at-where-and-name-finds-you",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, you're at {where}, and {name} finds you.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-at-school-you-talk-with-name",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, at school, you talk with {name}.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-other.begins-name-catches-you-at-school",
+      "move": "arrival-school-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} catches you at school.",
+      "uses": [
+        {
+          "move": "arrival-school-other",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-alone.begins-you-re-at-where",
+      "move": "arrival-school-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at {where}.",
+      "uses": [
+        {
+          "move": "arrival-school-alone",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-school-alone.begins-you-re-at-school",
+      "move": "arrival-school-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're at school.",
+      "uses": [
+        {
+          "move": "arrival-school-alone",
+          "subject": "arrival",
+          "role": "school",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-you-run-into-name-on-the-street",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, you run into {name} on the street.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-out-and-about-you-stop-to-talk-with-name",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, out and about, you stop to talk with {name}.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-other.begins-name-walks-up-to-you-in-the-street",
+      "move": "arrival-public-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} walks up to you in the street.",
+      "uses": [
+        {
+          "move": "arrival-public-other",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-alone.begins-you-re-out-and-about",
+      "move": "arrival-public-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're out and about.",
+      "uses": [
+        {
+          "move": "arrival-public-alone",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-public-alone.begins-you-re-out-in-town",
+      "move": "arrival-public-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're out in town.",
+      "uses": [
+        {
+          "move": "arrival-public-alone",
+          "subject": "arrival",
+          "role": "public",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-you-meet-name-downtown",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, you meet {name} downtown.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-you-re-out-in-public-and-name-comes-over",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, you're out in public, and {name} comes over.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-other.begins-name-is-waiting-for-you-downtown",
+      "move": "arrival-venue-other",
+      "kind": "spoken",
+      "text": "{begins}, {name} is waiting for you downtown.",
+      "uses": [
+        {
+          "move": "arrival-venue-other",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "other"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-alone.begins-you-re-out-and-about",
+      "move": "arrival-venue-alone",
+      "kind": "spoken",
+      "text": "{begins}, you're out and about.",
+      "uses": [
+        {
+          "move": "arrival-venue-alone",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate"
+      }
+    },
+    {
+      "key": "scene-words.arrival-venue-alone.begins-you-ve-come-out-to-a-public-place",
+      "move": "arrival-venue-alone",
+      "kind": "spoken",
+      "text": "{begins}, you've come out to a public place.",
+      "uses": [
+        {
+          "move": "arrival-venue-alone",
+          "subject": "arrival",
+          "role": "venue",
+          "choice": "alone"
+        }
+      ],
+      "origin": "authored",
+      "author": "Story (Claude Code), civic-prose",
+      "date": "2026-11-09",
       "tag": {
         "move": "narrate"
       }
