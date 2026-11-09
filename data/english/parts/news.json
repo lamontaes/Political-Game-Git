@@ -8525,10 +8525,10 @@
       }
     },
     {
-      "key": "news.business-kind.subject-is-listed-under-industry",
+      "key": "news.business-kind.subject-works-in-the-industry-field",
       "move": "business-kind",
       "kind": "written",
-      "text": "{subject} is listed under {industry}.",
+      "text": "{subject} works in the {industry} field.",
       "uses": [
         {
           "move": "business-kind",
@@ -8547,10 +8547,10 @@
       }
     },
     {
-      "key": "news.business-kind.the-business-is-in-industry",
+      "key": "news.business-kind.it-counts-as-part-of-the-industry-field",
       "move": "business-kind",
       "kind": "written",
-      "text": "The business is in {industry}.",
+      "text": "It counts as part of the {industry} field.",
       "uses": [
         {
           "move": "business-kind",
@@ -8569,10 +8569,10 @@
       }
     },
     {
-      "key": "news.business-kind.subject-is-in-industry",
+      "key": "news.business-kind.subject-is-one-of-the-towns-industry-businesses",
       "move": "business-kind",
       "kind": "written",
-      "text": "{subject} is in {industry}.",
+      "text": "{subject} is one of the town's {industry} businesses.",
       "uses": [
         {
           "move": "business-kind",
@@ -8591,10 +8591,10 @@
       }
     },
     {
-      "key": "news.business-kind.it-works-in-industry",
+      "key": "news.business-kind.its-work-is-in-the-industry-field",
       "move": "business-kind",
       "kind": "written",
-      "text": "It works in {industry}.",
+      "text": "Its work is in the {industry} field.",
       "uses": [
         {
           "move": "business-kind",
@@ -8613,10 +8613,10 @@
       }
     },
     {
-      "key": "news.business-kind.subject-does-business-in-industry",
+      "key": "news.business-kind.subject-does-industry-work",
       "move": "business-kind",
       "kind": "written",
-      "text": "{subject} does business in {industry}.",
+      "text": "{subject} does {industry} work.",
       "uses": [
         {
           "move": "business-kind",
