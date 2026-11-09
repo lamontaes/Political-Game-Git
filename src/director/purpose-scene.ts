@@ -31,7 +31,11 @@ import {
   isExplicitlyControlledPersonV1,
   playerClockFrontierV1,
 } from "../core2/life";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfJurisdictionId,
+  coreStateName,
+} from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
@@ -75,6 +79,12 @@ import {
 import type { Fact } from "../english/scene-talk-words";
 import { chooseVariant, type VariantChoice } from "./arc-variant";
 
+/** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
+const STATE_KEY_PREFIX = "US-";
+
+/** The moves engine's basis for a move to somewhere else in the same state. */
+const STATE_BASIS = "state";
+
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
 import {
@@ -97,7 +107,7 @@ import {
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
-import { properName, spoken, spokenDate } from "./words";
+import { properName, spoken, spokenDate, stateInSentence } from "./words";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -218,6 +228,28 @@ export function purposeScene(
     skipped ??= result;
   }
   return skipped;
+}
+
+/**
+ * Where a move went, as people name the place: a town or county by its
+ * jurisdiction; for a move to "somewhere in the state" (basis `state`, the
+ * state the person already lives in), another part of the state, by its name
+ * ("another part of Kentucky", "another part of the U.S. Virgin Islands").
+ * Null for an id that names no place.
+ */
+export function destinationSaid(
+  destinationId: string,
+  basis: string,
+): string | null {
+  const stateKey = coreStateKeyOfJurisdictionId(destinationId);
+  const name = stateKey
+    ? coreStateName(stateKey.slice(STATE_KEY_PREFIX.length))
+    : null;
+  if (name && basis === STATE_BASIS)
+    return `another part of ${stateInSentence(name)}`;
+  const place = corePlaceByJurisdictionId(destinationId as never);
+  if (place) return spoken(place);
+  return name ? stateInSentence(name) : null;
 }
 
 /**
@@ -492,12 +524,13 @@ function composeBinding(
     record?.kind === MOVED_AWAY_EVENT ? departureOf(record.facts) : null;
   if (departure) {
     const cited = [moment.causeId, departure.id];
-    const destination = corePlaceByJurisdictionId(
-      departure.destinationId as never,
+    const where = destinationSaid(
+      departure.destinationId,
+      departure.destinationBasis,
     );
-    if (destination)
+    if (where)
       facts.destination = {
-        text: spoken(destination),
+        text: where,
         sourceRecordIds: [...cited, departure.destinationId],
       };
     const along = departure.withIds

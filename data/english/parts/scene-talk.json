@@ -158020,10 +158020,10 @@
       }
     },
     {
-      "key": "scene-talk.state-tell.so-destination-i-m-going-first-and-i-wanted-to-see-you-before-i-did",
+      "key": "scene-talk.state-tell.so-it-s-destination-i-m-going-first-and-i-wanted-to-see-you-before-i-d",
       "move": "state-tell",
       "kind": "spoken",
-      "text": "So. {destination}. I'm going, {first}, and I wanted to see you before I did.",
+      "text": "So it's {destination}. I'm going, {first}, and I wanted to see you before I did.",
       "uses": [
         {
           "subject": "scene",
