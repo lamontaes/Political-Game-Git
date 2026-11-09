@@ -74,6 +74,19 @@
       },
       {
         "level": "federal",
+        "series": "ssi-federal-benefit-rate",
+        "tier": "general",
+        "value": 994,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://fhb.hhs.texas.gov/sites/default/files/documents/ccse-bulletin-26-01.pdf",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "USD/month",
+        "terms": { "coupleDollars": 1491, "colaPercent": 2.8 }
+      },
+      {
+        "level": "federal",
         "series": "federal-campaign-contribution-limit",
         "tier": "general",
         "value": 3500,

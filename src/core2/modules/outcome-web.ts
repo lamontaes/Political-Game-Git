@@ -101,7 +101,7 @@ const SCHOOL_MEASURED = new Set([
   "school.graduation-pct",
 ]);
 
-export { OUTCOME_WEB_MODULE_ID };
+export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
 const STATE_ID = "outcome-web:state";

@@ -698,8 +698,18 @@
         },
         {
           "name": "Disability support",
-          "supported": false,
-          "policies": []
+          "supported": true,
+          "policies": [
+            {
+              "id": "law:ssi-federal-benefit-rate",
+              "name": "SSI federal benefit rate (individual)",
+              "kind": "law-amount",
+              "series": "ssi-federal-benefit-rate",
+              "unit": "USD/month",
+              "operations": ["raise", "lower"],
+              "levels": ["federal"]
+            }
+          ]
         },
         {
           "name": "Unemployment benefits",

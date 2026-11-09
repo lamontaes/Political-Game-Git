@@ -11,7 +11,7 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "./world";
 import { BenchPlayer } from "./player";
 import { gameStartDate } from "../core2/game-start";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI } from "../core2/state";

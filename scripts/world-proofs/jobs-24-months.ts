@@ -47,7 +47,12 @@ function snapshot(label: string) {
   const counted = [...rt.jobs.values()].filter(
     (job) => job.endsAt === undefined,
   ).length;
-  const force = unemployed + named + counted;
+  // The opening's employment target also holds working-age members at work outside a recorded job; they are in the labor force until a fill-in gives them a commuter job.
+  let unplaced = 0;
+  for (const h of rt.store.liveHouseholds())
+    if (h.placeId === world.placeId)
+      unplaced += h.unplacedWorkers / rt.store.weightOf(h);
+  const force = unemployed + named + counted + Math.round(unplaced);
   const open = table("positions").filter((row) => row.status === "open");
   const commuters = [...core.jobs.values()].filter(
     (job) => job.endsAt === undefined && job.id.startsWith("job:commuter:"),
@@ -93,4 +98,9 @@ console.log(
     .slice(0, 3)
     .map((row) => row.id)
     .join(", ")}`,
+);
+// Hours cuts: the jobs whose hours the employers changed (core.work.hourChanges), the record that hours moved before staff.
+const hourRows = [...world.core.work.hourChanges.values()].flat();
+console.log(
+  `jobs with an hours change ${world.core.work.hourChanges.size}; changes ${hourRows.length}; first: ${[...world.core.work.hourChanges.keys()].slice(0, 3).join(", ")}`,
 );

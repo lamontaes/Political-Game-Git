@@ -106,6 +106,7 @@ export function openLawReach(core: CoreState): void {
 const STANDING_BENEFITS: readonly string[] = [
   "snap-maximum",
   "child-care-income-limit",
+  "ssi-federal-benefit-rate",
   "energy-assistance-income-limit",
   "state-eitc-percent",
 ];

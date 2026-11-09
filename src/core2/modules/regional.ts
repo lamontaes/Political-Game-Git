@@ -21,7 +21,9 @@ import {
   type RegionRow,
 } from "../regional-model";
 import type { EntityId } from "../kernel/brands";
-import type { CoreAPI, CoreModule, CoreState } from "../types";
+import severityData from "../data/disasters/severity.json" with { type: "json" };
+import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
+import { disasterJobsLossShare } from "./national-events";
 import { countedStateGrowth } from "./counted-moves";
 
 export const REGIONAL_MODULE_ID = "regional";
@@ -91,6 +93,59 @@ export function openRegional(
   }
 }
 
+/** A disaster's toll on a state's jobs: a share of them lost at its start, fading to nothing over the recovery. */
+export interface RegionalShock {
+  readonly id: string;
+  /** The state's two-letter code. */
+  readonly stateUsps: string;
+  /** The first month stepped under the loss (a month after the stored ones). */
+  readonly startMonth: string;
+  /** The share of the state's jobs lost at the start (0.01 is one percent). */
+  readonly jobsLossShare: number;
+  /** Months over which the loss fades linearly to nothing. */
+  readonly durationMonths: number;
+  /** The record the loss was sized from. */
+  readonly sourceId: string;
+}
+
+const monthIndex = (month: string) => {
+  const [y, m] = month.split("-").map(Number) as [number, number];
+  return y * 12 + (m - 1);
+};
+
+const monthAfterDate = (date: string) => {
+  const index = monthIndex(date.slice(0, "YYYY-MM".length)) + 1;
+  return `${Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}`;
+};
+
+/**
+ * Record a shock on a state's regions. It is a dated, fading offset the
+ * monthly step reads (`jobsFactor`): the stored months are never edited, so
+ * the model's pull back to the nation's trend does not undo it, and the
+ * recovery is the offset ending, not the row being rewritten.
+ */
+export function regionalShock(api: CoreAPI, shock: RegionalShock): void {
+  store(api)
+    .table("shocks")
+    .put({ ...shock } as unknown as { id: string });
+}
+
+/** The factor on a state's jobs in a month: each shock's loss, faded linearly to nothing. */
+function jobsFactor(
+  shocks: readonly RegionalShock[],
+  stateUsps: string,
+  month: string,
+): number {
+  let factor = 1;
+  for (const shock of shocks) {
+    if (shock.stateUsps !== stateUsps) continue;
+    const age = monthIndex(month) - monthIndex(shock.startMonth);
+    if (age < 0 || age >= shock.durationMonths) continue;
+    factor *= 1 - shock.jobsLossShare * (1 - age / shock.durationMonths);
+  }
+  return factor;
+}
+
 export function stepRegional(
   api: CoreAPI,
   before: Readonly<MacroMonth>,
@@ -99,11 +154,26 @@ export function stepRegional(
   const p = (key: string) => api.parameter(key);
   const months = store(api).table("months");
   const stepped: RegionMonth[] = [];
+  const shocks = store(api)
+    .table("shocks")
+    .rows() as unknown as RegionalShock[];
   for (const region of REGIONS) {
-    const previous = months.get(
+    const stored = months.get(
       `${region.id}:${before.month}`,
     ) as unknown as RegionMonth;
+    // The stored month carries last month's shock; the step runs on the
+    // month the model would have without it, and this month's shock is put on.
+    const previous = shocks.length
+      ? {
+          ...stored,
+          jobsThousands:
+            stored.jobsThousands /
+            jobsFactor(shocks, region.stateUsps, before.month),
+        }
+      : stored;
     const row = stepRegionMonth(previous, region, before, now, p);
+    if (shocks.length)
+      row.jobsThousands *= jobsFactor(shocks, region.stateUsps, now.month);
     // Where counted people move from causes, a region's people follow its
     // state's counts (one model, two tiers) instead of its own unemployment term.
     const growth = countedStateGrowth(api.state as CoreState, region.stateUsps);
@@ -261,6 +331,33 @@ export const REGIONAL_MODULE: CoreModule = {
     tables: {
       months: { indexes: { byMonth: { fields: ["month"] } } },
       places: {},
+      shocks: {},
     },
   },
+  // A disaster elsewhere takes jobs from the struck state for its recovery.
+  eventKinds: ["national.disaster"],
+  onEvent(api, event) {
+    disasterToll(api, event);
+  },
 };
+
+/**
+ * A national disaster's toll on the struck state's jobs, sized from FEMA's
+ * record when the disaster is opened (`disasterJobsLossShare`) and put on the
+ * state's regions as a shock that fades over the disaster research's effect
+ * years (severity.json).
+ */
+function disasterToll(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const loss = disasterJobsLossShare(api, event.id);
+  if (!loss || loss.share <= 0) return;
+  regionalShock(api, {
+    id: `shock:${event.id}`,
+    stateUsps: loss.stateKey.slice("US-".length),
+    // From the month after the disaster: the months already stored are
+    // unshocked, and every month stepped from then on is built under it.
+    startMonth: monthAfterDate(event.date),
+    jobsLossShare: loss.share,
+    durationMonths: severityData.effectYears.value * 12,
+    sourceId: event.id,
+  });
+}

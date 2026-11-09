@@ -94,7 +94,7 @@ describe("M5-02 the governor's budget priorities", () => {
     const next = budgetsOf(api, gov.id).find(
       (b) => b.fiscalYear === current.fiscalYear + 1,
     )!;
-    const adopted = !/carried forward|rejected/i.test(next.adoptedBy);
+    const adopted = next.adoptedBy.kind === "vote";
     const reached = core.modules.has(REACH_B_MODULE_ID)
       ? (
           api

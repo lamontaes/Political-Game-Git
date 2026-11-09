@@ -73,15 +73,13 @@ function councilReason(
     (b) =>
       b.kind === "budget" &&
       votingBodies.has(b.bodyOfficeId) &&
-      new RegExp(`(^|[ ,])${b.number.replace(/\W/g, "\\$&")}( |$)`).test(
-        adopted.adoptedBy,
-      ),
+      adopted.adoptedBy.bill?.id === b.id,
   );
   const bill = own.at(-1);
   if (!bill)
     return {
       recorded: false,
-      note: `budget ${adopted.id} (${adopted.adoptedBy}) names no recorded budget bill; adopted schools line ${adopted.spendingMinor.schools}, requested ${requested}`,
+      note: `budget ${adopted.id} (${JSON.stringify(adopted.adoptedBy)}) names no recorded budget bill; adopted schools line ${adopted.spendingMinor.schools}, requested ${requested}`,
     };
   const rolls = votesOn(api, bill.id);
   if (!rolls.length)
@@ -96,12 +94,12 @@ function councilReason(
   if (bill.status === "failed")
     return {
       recorded: true,
-      note: `council rejected or the executive vetoed ${bill.id} (${votes}; ${adopted.adoptedBy})`,
+      note: `council rejected or the executive vetoed ${bill.id} (${votes}; ${JSON.stringify(adopted.adoptedBy)})`,
     };
   if (!section || section.value !== change)
     return {
       recorded: true,
-      note: `council amended the schools section of ${bill.id} to ${section?.value ?? "dropped"} from ${change} (${votes}; ${adopted.adoptedBy})`,
+      note: `council amended the schools section of ${bill.id} to ${section?.value ?? "dropped"} from ${change} (${votes}; ${JSON.stringify(adopted.adoptedBy)})`,
     };
   return {
     recorded: false,
@@ -330,7 +328,7 @@ it("a raise to the city's schools line hires named adults who had no work at the
     `${r.where}: schools line ${r.priorLine} raised by ${r.change}, adopted ${r.adopted?.id}; ${r.staffBefore.length} teachers before`,
   ).toBeGreaterThan(0);
   console.log(
-    `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; budget ${r.adopted.id} (${r.adopted.adoptedBy}); jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
+    `schools raise: ${r.where}: ${hired.length} hired at ${r.district.id}; budget ${r.adopted.id} (${JSON.stringify(r.adopted.adoptedBy)}); jobs ${jobIds.slice(0, 5).join(", ")}; people ${hired.slice(0, 5).join(", ")}`,
   );
   // Each hire, named or counted, held no job still running when hired: every
   // job the person held when the line was proposed had ended on or before the

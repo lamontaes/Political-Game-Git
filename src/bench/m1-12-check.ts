@@ -17,7 +17,7 @@ import { gameStartDate } from "../core2/game-start";
 import { coreAPI } from "../core2/state";
 import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { allOfficials, officialStance } from "../core2/modules/officials";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { corePlaceStateIdentities } from "../core2/place-lookup";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? "m1-12-check";

@@ -66,7 +66,7 @@ import {
   reviseBill,
   type Provision,
 } from "./modules/legislature";
-import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { partySide } from "./appointments";
 import { officialLean, officialOf } from "./modules/officials";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
@@ -332,7 +332,7 @@ describe(
       )!;
       if (["enacted", "signed", "overridden"].includes(after.status)) {
         expect(now.spendingMinor.parks).toBe(before + 50_000_000);
-        expect(now.adoptedBy).toContain(bill.number);
+        expect(now.adoptedBy.amendedBy).toContain(bill.number);
       } else expect(now.spendingMinor.parks ?? 0).toBe(before);
       govReport(
         "legislature",
@@ -643,8 +643,8 @@ describe(
         (b) => b.fiscalYear === before.fiscalYear + 1,
       )!;
       expect(next.adoptedOn).toBe(start);
-      expect(next.adoptedBy).toMatch(/council vote|council rejected/);
-      if (next.adoptedBy.startsWith("council vote"))
+      expect(["vote", "carried"]).toContain(next.adoptedBy.kind);
+      if (next.adoptedBy.kind === "vote")
         expect(next.spendingMinor.parks).toBe(
           (before.spendingMinor.parks ?? 0) + 10_000_000,
         );
@@ -744,9 +744,9 @@ describe(
         (b) =>
           b.kind === "budget" &&
           councils.has(b.bodyOfficeId) &&
-          next.adoptedBy.includes(b.number),
+          next.adoptedBy.bill?.number === b.number,
       );
-      const label = `${key}, seed ${seed}: ${next.adoptedBy}`;
+      const label = `${key}, seed ${seed}: ${JSON.stringify(next.adoptedBy)}`;
       expect(bill, label).toBeDefined();
       const changes: Record<string, number> = {};
       if (bill!.status === "enacted")
