@@ -24,6 +24,7 @@
  * SG-NATION-climate-unread until a disaster reads a level).
  */
 import emissions from "../data/climate/emissions.json" with { type: "json" };
+import history from "../data/climate/hazard-history.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
 import type { ModuleRow } from "../module-data";
 import { registerModule } from "../state";
@@ -225,6 +226,46 @@ export function warmingNow(api: CoreAPI): number {
 /** A hazard's level against the recorded history's own (1 before the climate has a month). */
 export function hazardFactor(api: CoreAPI, hazard: Hazard): number {
   return climateNow(api)?.hazard[hazard] ?? 1;
+}
+
+/** The season a calendar month (1 to 12) falls in: 0 winter (Dec to Feb), 1 spring, 2 summer, 3 fall. */
+export function seasonOf(month: number): 0 | 1 | 2 | 3 {
+  return ([0, 0, 1, 1, 1, 2, 2, 2, 3, 3, 3, 0] as const)[month - 1]!;
+}
+
+const COUNTY_CELLS = history.byCounty as unknown as Record<string, number[][]>;
+
+/**
+ * Declarations per month the county's recorded history shows for a hazard in a
+ * calendar month's season (its season's count over the record's years, spread
+ * over the season's three months); none where the county or the hazard has no
+ * history.
+ */
+export function recordedHazardRate(
+  countyGeoid: string,
+  hazard: Hazard,
+  month: number,
+): number {
+  const at = (history.hazards as readonly string[]).indexOf(hazard);
+  const cell = COUNTY_CELLS[countyGeoid]?.[at];
+  if (!cell) return 0;
+  return cell[seasonOf(month)]! / history.years / 3;
+}
+
+/**
+ * Declarations per month a county's hazard now gives in a calendar month: the
+ * recorded history's rate times the climate's level for the hazard, which
+ * moves only with the carbon laws in force.
+ */
+export function hazardRate(
+  api: CoreAPI,
+  countyGeoid: string,
+  hazard: Hazard,
+  month: number,
+): number {
+  return (
+    recordedHazardRate(countyGeoid, hazard, month) * hazardFactor(api, hazard)
+  );
 }
 
 /** Install the engine in a world (after the laws and the outside budgets). */
