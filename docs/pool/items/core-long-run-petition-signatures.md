@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: memory/petition-signatures
 pr: #8080
 blocked-on:
