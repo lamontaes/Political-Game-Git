@@ -242,6 +242,7 @@ export async function handleDev(
           value: input.value === undefined ? undefined : Number(input.value),
           unit: input.unit === undefined ? undefined : String(input.unit),
           billId: input.billId === undefined ? undefined : String(input.billId),
+          schedule: input.schedule === true,
         }),
       );
       return true;

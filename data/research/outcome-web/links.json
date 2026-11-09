@@ -1896,8 +1896,8 @@
     },
     {
       "key": "rent-burden-to-homelessness",
-      "status": "size-not-set",
-      "unsupportedReason": "size-not-set",
+      "status": "built",
+      "unsupportedReason": null,
       "to": "housing.homelessness",
       "strength": "strong",
       "shape": {
@@ -1906,7 +1906,7 @@
         "steeperAt": 32,
         "steeperExtraSize": null
       },
-      "size": null,
+      "size": 0.033,
       "per": "point above 22%, steeper above 32%",
       "lagMonths": 12,
       "group": "place",
@@ -1914,8 +1914,10 @@
       "anchor": "Rises past 22%, faster past 32%; rents and vacancy explain regional homelessness best",
       "source": "Zillow and UNH 2018; Colburn and Aldern 2022",
       "from": "housing.rent-to-income-pct",
-      "evidence": "researched",
-      "notes": "Unread (stopgap SG-WEB-unread-housing-homelessness): the study gives thresholds at 22% and 32% rent burden but no published slope, so the web runs no size, and no played record yet shows the housing engine carrying burden into homelessness. Its eviction path is real (a named household's lease falls into arrears when its pay and cash cannot cover the rent; counted households fall behind by their group's pooled arrears, charged to the group's lowest-income households first, countedLate in src/core2/housing-homeless.ts), but src/core2/housing-calibration.test.ts checks burden against court cases only once a year holds 10 cases, which the drawn towns did not reach, and the pinned Puerto Rico town (place 7237336), the one played year that did, fails its faster-past-32 check (on main too). The place's rent-to-income share (world-metrics months.rentToEarnings) is a ratio of medians, a year of the median rent over the median household earnings. The link is carried by the housing engine once a played year with 10 or more cases passes those checks."
+      "evidence": "provisional",
+      "notes": "Carried through the outcome web's factor on the town's homelessness: reviewHomeless (src/core2/housing-homeless.ts) reads webFactorFor(housing.homelessness) when a household without a home asks whether it can rent again, so a rent burden above 22 percent raises the income a landlord asks for, as a slope from 22 (no flip at 22). The faster-past-32 part has no published slope and is registered (SG-WEB-rent-burden-steeper-past-32); Colburn and Aldern 2022 would size it. housing-calibration.test.ts checks the curve in a year's court cases only once a year holds 10 or more, which the drawn towns often do not reach; it passes on main in a drawn town and in place 7237336.",
+      "range": [0.025, 0.041],
+      "sizeSource": "ESTIMATED from GAO-20-433 (https://www.gao.gov/assets/d20433.pdf): a $100 monthly rise in median rent is associated with about a 9 percent rise in homelessness, controlling for wages, unemployment and poverty. An association, not a cause. A $100 rise is 2.2 to 3.6 points of rent burden between a 22 and a 40 percent burden, so 9 percent over those points is 0.041 to 0.025 a point; 0.033 is the middle. Not read from Colburn and Aldern 2022, whose charts give the 22 and 32 percent thresholds but no slope."
     },
     {
       "key": "eviction-to-homelessness",
@@ -6059,10 +6061,12 @@
       "group": "state governments",
       "owner": "F",
       "evidence": "researched",
-      "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
+      "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper reports a band of 20 to 40 basis points around the typical 25, so that is the spread.",
       "floor": -19,
       "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
-      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
+      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing).",
+      "range": [20, 40],
+      "rangeSource": "Laubach, 'New Evidence on the Interest Rate Effects of Budget Deficits and Debt' (Federal Reserve Board FEDS 2003-12, https://www.federalreserve.gov/pubs/feds/2003/200312/200312pap.pdf, introduction, read in full on Nov 9, 2026): 'a percentage point increase in the projected deficit-to-GDP ratio raises the 10-year bond rate expected to prevail five years into the future by 20 to 40 basis points; a typical estimate is about 25 basis points.' The journal version (JEEA 7(4), 2009) states the 25 basis point estimate. The band is the author's range across specifications, not a confidence interval."
     },
     {
       "key": "mileage-fee-to-vehicle-miles",

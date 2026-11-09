@@ -16,6 +16,7 @@ import { journalCheckCounts } from "../core2/journal";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { parameter } from "../core2/parameters";
 import { coreAPI, personOrFillIn } from "../core2/state";
+import { isForgetDay } from "../core2/knowledge-retention";
 import { advanceCore, availableActs, type Controller } from "../core2/life";
 import {
   considerBribe,
@@ -47,6 +48,7 @@ import {
   committeeMemberKeys,
   committeeRecords,
   draftBill,
+  scheduleVote,
   executiveDecision,
   executiveOf,
   FEDERAL_HOUSE,
@@ -737,6 +739,8 @@ export class DevMode {
     value?: number;
     unit?: string;
     billId?: string;
+    /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
+    schedule?: boolean;
   }) {
     let provisions: Provision[];
     let sponsorId = input.sponsorId;
@@ -776,6 +780,7 @@ export class DevMode {
       sponsorId: sponsorId!,
       provisions,
     });
+    if (input.schedule) scheduleVote(this.api, bill.id);
     return {
       mark: this.mark("introduce", [bill.id], {
         billId: bill.id,
@@ -1634,7 +1639,7 @@ export class DevMode {
 
   /**
    * What a person remembers: each event they lived through that their knowledge still holds, when
-   * they learned it and when the monthly pass forgets it (the first of a month once its retention
+   * they learned it and when the weekly pass forgets it (the next forget day once its retention
    * window is past). The player keeps everything; a held drive keeps its source event.
    */
   memory(personId: string) {
@@ -1652,7 +1657,7 @@ export class DevMode {
     );
     const fadesOn = (learnedAt: string) => {
       let day = addDays(makeIsoDate(learnedAt), retention + 1);
-      while (!day.endsWith("-01")) day = addDays(makeIsoDate(day), 1);
+      while (!isForgetDay(day)) day = addDays(makeIsoDate(day), 1);
       return day;
     };
     const rows = [];

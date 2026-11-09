@@ -1,6 +1,6 @@
 {
   "schema": "director-arc-variants/1",
-  "note": "One kind of scene, several arcs (owner, Nov 8, 9:50 voice note: 'they've gotta have like a variance. So even though there's only 5 in corruption scenes right now, you could get, I'm just making a number up, 30 different scenes within there'). A family is a purpose in purpose-arcs.json; its variants are the arcs it can play. src/director/arc-variant.ts scores each variant from the records, as an address's kind is scored (address-kinds.json): a variant's score is its base plus each term's weight times a read between 0 and 1 (`low` reads one minus the read), never below nothing, times one plus the asker's pull toward it (the mean of the personality facets listed). The highest score plays and a tie goes to the name first in the alphabet; no roll, no threshold. A read looks at the records in one of three ways: a number kept on a module's row that the cause record names (`record`), how many earlier records of some kinds name both people (`history`), or where the scene is set (`setting`). A variant holds the arc (state, replies, follow, again, endings: moves only, no sentence) and the purpose id its bank pieces are written under; the family's own pieces serve where it has none of its own. Ending ids the engines read downstream (took-it, put-off, left-there, said-you-would-report) keep their meaning in every variant; a variant's other endings are refusals to the engine. Every weight is TUNABLE and registered as SG-STORY-arc-variant-weights.",
+  "note": "One kind of scene, several arcs (owner, Nov 8, 9:50 voice note: 'they've gotta have like a variance. So even though there's only 5 in corruption scenes right now, you could get, I'm just making a number up, 30 different scenes within there'). A family is a purpose in purpose-arcs.json; its variants are the arcs it can play. src/director/arc-variant.ts scores each variant from the records, as an address's kind is scored (address-kinds.json): a variant's score is its base plus each term's weight times a read between 0 and 1 (`low` reads one minus the read), never below nothing, times one plus the asker's pull toward it (the mean of the personality facets listed). The highest score plays and a tie goes to the name first in the alphabet; no roll, no threshold. A read looks at the records in one of six ways: a number kept on a module's row that the cause record names (`record`), a number the cause record itself carries (`fact`), how close the two people are (`closeness`), how many earlier records of some kinds name both people, optionally only those whose facts match (`history`), the asker's money pressure (`strain`), or where the scene is set (`setting`). A variant holds the arc (state, replies, follow, again, endings: moves only, no sentence) and the purpose id its bank pieces are written under; the family's own pieces serve where it has none of its own. Ending ids the engines read downstream (took-it, put-off, left-there, said-you-would-report) keep their meaning in every variant; a variant's other endings are refusals to the engine. Every weight is TUNABLE and registered as SG-STORY-arc-variant-weights.",
   "reads": {
     "tie": {
       "kind": "record",
@@ -69,6 +69,50 @@
     "public": {
       "kind": "setting",
       "is": "venue"
+    },
+    "gift-size": {
+      "kind": "fact",
+      "fact": "amountMinor",
+      "against": "asker-year",
+      "of": {
+        "value": 0.05,
+        "tag": "TUNABLE",
+        "spread": [0.02, 0.1],
+        "checkedAgainst": "The gift against the donor's own year of living costs: at one twentieth of a year the read is one half, so a gift of a few hundred dollars reads small and one of several thousand reads large for most households."
+      }
+    },
+    "gift-share": {
+      "kind": "fact",
+      "fact": "share"
+    },
+    "close": {
+      "kind": "closeness"
+    },
+    "gave-before": {
+      "kind": "history",
+      "events": ["campaign-gift"],
+      "exceptSameFact": "totalMinor",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for earlier gifts from the same donor to the same candidate."
+      }
+    },
+    "put-off-before": {
+      "kind": "history",
+      "events": ["scene.reply"],
+      "where": {
+        "typeKey": "donor-ask",
+        "ending": "put-off"
+      },
+      "exceptSameFact": "causeId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for an earlier donor-ask between the same two people that the candidate put off."
+      }
     }
   },
   "families": {
@@ -752,6 +796,313 @@
                 "keeps": "none",
                 "when": {
                   "reply": ["deflect", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "donor-ask": {
+      "variants": {
+        "plain": {
+          "purpose": "donor-ask",
+          "base": 0.3
+        },
+        "small": {
+          "purpose": "donor-ask.small",
+          "base": -0.35,
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.0,
+              "low": true
+            },
+            {
+              "read": "gift-share",
+              "weight": 0.3,
+              "low": true
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.1,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sincere",
+            "personality-v1:facet-self-conscious",
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-approval-seeking"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "offer", "decline", "deflect"],
+            "follow": {
+              "agree": ["thank"],
+              "offer": ["thank", "plea"],
+              "decline": ["plea", "accept"],
+              "deflect": ["press", "plea"]
+            },
+            "again": {
+              "plea": ["agree", "decline", "deflect", "leave"],
+              "press": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll hear them out",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "process",
+                "label": "Handed to your chief of staff",
+                "keeps": "meeting-set",
+                "when": {
+                  "reply": ["offer"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deflect", "stall", "leave", "apologize"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "large": {
+          "purpose": "donor-ask.large",
+          "base": -0.5,
+          "terms": [
+            {
+              "read": "gift-size",
+              "weight": 1.2
+            },
+            {
+              "read": "gift-share",
+              "weight": 0.6
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-assertive",
+            "personality-v1:facet-cocky",
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-competitive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "bargain", "decline", "stall"],
+            "follow": {
+              "agree": ["thank"],
+              "bargain": ["accept", "press"],
+              "decline": ["threaten", "press", "accept"],
+              "stall": ["press", "threaten"]
+            },
+            "again": {
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll look at it again",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["stall", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "donor-ask.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "close",
+              "weight": 1.3
+            },
+            {
+              "read": "gift-size",
+              "weight": 0.2,
+              "low": true
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-friendly",
+            "personality-v1:facet-affectionate",
+            "personality-v1:facet-comforting",
+            "personality-v1:facet-sincere"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "offer", "decline", "apologize"],
+            "follow": {
+              "agree": ["thank"],
+              "offer": ["thank", "plea"],
+              "decline": ["plea"],
+              "apologize": ["accept", "plea"]
+            },
+            "again": {
+              "plea": ["agree", "decline", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll sit down with a friend",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "process",
+                "label": "Handed to your chief of staff",
+                "keeps": "meeting-set",
+                "when": {
+                  "reply": ["offer"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "You gave a friend a hearing",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "again": {
+          "purpose": "donor-ask.again",
+          "base": -0.35,
+          "terms": [
+            {
+              "read": "put-off-before",
+              "weight": 1.6
+            },
+            {
+              "read": "gave-before",
+              "weight": 0.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-argumentative",
+            "personality-v1:facet-assertive"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["agree", "decline", "stall", "bargain"],
+            "follow": {
+              "agree": ["thank"],
+              "decline": ["press", "threaten"],
+              "stall": ["press", "confront"],
+              "bargain": ["accept", "press"]
+            },
+            "again": {
+              "press": ["agree", "decline", "bargain", "leave"],
+              "threaten": ["agree", "decline", "leave"],
+              "confront": ["deflect", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "looking-again",
+                "opens": "office",
+                "label": "You'll finally answer",
+                "keeps": "favor-owed",
+                "when": {
+                  "reply": ["agree", "relent"]
+                }
+              },
+              {
+                "id": "hearing-only",
+                "opens": "meeting",
+                "label": "A hearing, not a vote",
+                "keeps": "none",
+                "when": {
+                  "reply": ["decline", "bargain"]
+                }
+              },
+              {
+                "id": "put-off",
+                "label": "Put off",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["stall", "leave", "deflect", "apologize"]
                 }
               },
               {
