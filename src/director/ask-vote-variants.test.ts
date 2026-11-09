@@ -254,7 +254,18 @@ it(`a colleague's ask for a vote plays the variant its records give (seed ${seed
       } as never);
     const withPost = pick();
     expect(withPost.reads["holds-post"]).toBe(1);
-    expect(withPost.recordIds).toContain("probe:whip");
+    // The read cites the first post the asker holds: the probe's, or a real
+    // one the sponsor already held in this world.
+    const held = (
+      api.moduleState(LEADERSHIP_MODULE_ID).table("posts").rows() as {
+        id: string;
+        holderId?: string;
+      }[]
+    )
+      .filter((row) => row.holderId === sponsorId)
+      .map((row) => row.id);
+    expect(held).toContain("probe:whip");
+    expect(withPost.recordIds.some((id) => held.includes(id))).toBe(true);
     const post = VARIANTS.whip!.terms!.find((t) => t.read === "holds-post")!;
     expect(scoreOf(withPost, "whip") - scoreOf(before, "whip")).toBeCloseTo(
       holds ? 0 : post.weight * (1 + pullFor("whip")),
@@ -270,7 +281,10 @@ it(`a colleague's ask for a vote plays the variant its records give (seed ${seed
       const together = pick();
       expect(together.reads["same-party"]).toBe(1);
       expect(together.recordIds).toContain(party.id);
-      if (sameParty)
+      // An asker whose temper pulls fully against the whip arc scores it 0
+      // whatever the records say (score times one plus the pull), so the
+      // party moves nothing then (seed 77db72ef2265822c).
+      if (sameParty || 1 + pullFor("whip") <= 0)
         expect(scoreOf(together, "whip")).toBeCloseTo(
           scoreOf(withPost, "whip"),
           10,
@@ -306,9 +320,12 @@ it(`a colleague's ask for a vote plays the variant its records give (seed ${seed
     });
     const traded = pick();
     expect(traded.reads["favor-given"]).toBeCloseTo(3 / 4, 10);
-    expect(
-      traded.scores.find((s) => s.variant === "trade")!.score,
-    ).toBeGreaterThan(scoreOf(before, "trade"));
+    // A temper pulling fully against the trade arc holds its score at 0.
+    if (1 + pullFor("trade") > 0)
+      expect(
+        traded.scores.find((s) => s.variant === "trade")!.score,
+      ).toBeGreaterThan(scoreOf(before, "trade"));
+    else expect(scoreOf(traded, "trade")).toBe(0);
     // No vote of the asker's own on the member's bill, or a bill of someone
     // else's: nothing is owed.
     recordVote(api, {
