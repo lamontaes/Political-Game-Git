@@ -24,8 +24,10 @@ import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { PARTIES_MODULE_ID } from "../core2/modules/parties";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  PARTIES_MODULE_ID,
+} from "../core2/modules/elections";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
