@@ -275,7 +275,6 @@ const EVENING_AHEAD = new Set([
   "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
   "scene-talk.reply-stall.send-me-the-draft-i-ll-read-it-tonight",
   "scene-talk.follow-thank.good-i-ll-get-you-the-file-tonight",
-  "scene-talk.reply-thank.you-call-her-i-can-t-tonight",
   "scene-talk.reply-comfort.go-easy-tonight-saturday-s-a-long-day",
   "scene-talk.reply-press.tonight-would-be-better",
   "scene-talk.follow-accept.tonight-then",
