@@ -1686,7 +1686,10 @@ export function composeJournal(
 }
 
 /** The names a record carries: its own id, its people and its facts' ids. */
-function namesOf(core: Readonly<CoreState>, recordId: string): Set<string> {
+export function namesOf(
+  core: Readonly<CoreState>,
+  recordId: string,
+): Set<string> {
   const record = core.durableLog.get(recordId as never);
   const names = new Set<string>([recordId]);
   for (const value of Object.values(record?.facts ?? {}))
@@ -1720,15 +1723,19 @@ function linkLines(
         makeIsoDate(earlier.date),
         makeIsoDate(line.date),
       );
-      // A person or a place both lines name (the player, their town) is
-      // who and where, never a cause.
+      // A person, a place, a household, an employer or a job both lines name
+      // is who and where, not a cause: a job taken after another one, or a
+      // sister who moved after a line naming the same employer, did not
+      // come of it (playtest C31). Only a record both lines hang on joins them.
       const theirs = new Map<string, string>();
       for (const id of earlier.sourceRecordIds)
         for (const name of namesOf(core, id))
           if (
             !core.people.has(name as never) &&
             !corePlaceByJurisdictionId(name as never) &&
-            !core.households.has(name)
+            !core.households.has(name) &&
+            !core.organizations.has(name) &&
+            !core.jobs.has(name)
           )
             theirs.set(name, id);
       const shared = line.sourceRecordIds.flatMap((id) =>

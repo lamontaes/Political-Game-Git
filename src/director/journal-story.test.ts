@@ -6,7 +6,7 @@ import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";
 import { preStartHistory } from "../core2/pre-start";
-import { composeJournal } from "./journal";
+import { composeJournal, namesOf } from "./journal";
 import { tieSide } from "./purpose-scene";
 import journalBank from "../../data/english/parts/journal.json";
 import type { PersonId } from "../core2/types";
@@ -259,7 +259,32 @@ describe("the journal as a story from birth", () => {
         line.link!.recordIds.length,
         `${where}: ${line.id}`,
       ).toBeGreaterThan(0);
-      if (line.link!.by === "cause")
+      if (line.link!.by === "cause") {
+        // What joins two lines is an event they both hang on, or an echo of
+        // the one in the other, never an employer, a job or a household they
+        // only both name ("Because of that, after Rodriguez Supply Company, I
+        // took a job at Holloway Manufacturing").
+        const entity = (name: string) =>
+          core.organizations.has(name) ||
+          core.jobs.has(name) ||
+          core.households.has(name) ||
+          core.people.has(name as PersonId);
+        const mine = new Set(
+          earlier.sourceRecordIds.flatMap((rid) => [...namesOf(core, rid)]),
+        );
+        const sharesEvent = line.sourceRecordIds
+          .flatMap((rid) => [...namesOf(core, rid)])
+          .some((name) => mine.has(name) && !entity(name));
+        const echoes = line.momentIds.some((mid) =>
+          director.ledger.people
+            .get(id)
+            ?.momentsById.get(mid)
+            ?.echoes.some((echo) => earlier.momentIds.includes(echo.earlierId)),
+        );
+        expect(
+          sharesEvent || echoes,
+          `${where}: "${line.text}" follows "${earlier.text}" on no event of their own`,
+        ).toBe(true);
         // A cause names records of both lines.
         expect(
           line.link!.recordIds.some((rid) =>
@@ -270,6 +295,7 @@ describe("the journal as a story from birth", () => {
             ),
           `${where}: ${line.id} after ${earlier.id}, ${line.link!.recordIds.join(", ")}`,
         ).toBe(true);
+      }
       // A line opens on how it follows the one before only for a cause or a
       // month or more ("Because of that, ...", "Three months later, ...");
       // the rest of the line is the event as told.
