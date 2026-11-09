@@ -51,7 +51,8 @@
         "src/core2/modules/voting.ts",
         "src/core2/modules/campaigns.ts",
         "src/core2/modules/candidacy.ts",
-        "src/core2/campaign-data.ts"
+        "src/core2/campaign-data.ts",
+        "src/core2/modules/national-opinion.ts"
       ],
       "paths": [
         "src/core2/modules/elections.ts",
@@ -77,7 +78,8 @@
         "src/core2/civic-inputs.ts",
         "src/core2/membership-dues.ts",
         "src/core2/gov-test-clock.ts",
-        "src/core2/campaign-data.ts"
+        "src/core2/campaign-data.ts",
+        "src/core2/modules/national-opinion.ts"
       ]
     },
     {
