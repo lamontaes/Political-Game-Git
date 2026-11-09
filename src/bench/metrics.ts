@@ -1,4 +1,6 @@
 import { macroMonths } from "../director/opening-story";
+import { coreAPI } from "../core2/state";
+import { townJobsPanel } from "../core2/modules/world-panels";
 import type { CoreState } from "../core2/types";
 
 /**
@@ -15,8 +17,13 @@ const NATION = [
   ["policyRate", "percent", "policyRatePct"],
 ] as const;
 
-export function metricsView(core: CoreState) {
+export function metricsView(core: CoreState, placeId: string) {
   const months = macroMonths(core);
+  // The town's own figures: what its people and firms hold now. The world keeps no year-ago
+  // reading of them (SG-SCREENS-metrics-no-prior-year), so each shows the current value only.
+  const jobs = core.modules.has("jobs")
+    ? townJobsPanel(coreAPI(core), placeId)
+    : null;
   return {
     sections: months
       ? [
@@ -29,6 +36,25 @@ export function metricsView(core: CoreState) {
               before: months.before?.[field] ?? null,
             })),
           },
+          ...(jobs
+            ? [
+                {
+                  key: "city",
+                  rows: (
+                    [
+                      ["employed", jobs.employed],
+                      ["seekers", jobs.seekers],
+                      ["openPositions", jobs.openPositions],
+                    ] as const
+                  ).map(([key, now]) => ({
+                    key,
+                    unit: "count" as const,
+                    now,
+                    before: null,
+                  })),
+                },
+              ]
+            : []),
         ]
       : [],
   };

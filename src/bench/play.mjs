@@ -3366,7 +3366,9 @@ const sheets = {
     const figure = (row, value) =>
       row.unit === "dollars"
         ? roundedMoney(Math.round(value * 100))
-        : `${value.toFixed(1)} ${words.percent}`;
+        : row.unit === "count"
+          ? Math.round(value).toLocaleString("en-US")
+          : `${value.toFixed(1)} ${words.percent}`;
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,

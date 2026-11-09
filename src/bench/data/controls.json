@@ -934,6 +934,10 @@
     "empty": "Nothing is written here yet."
   },
   "metrics": {
+    "city": "Your town",
+    "employed": "People at work",
+    "seekers": "People looking for work",
+    "openPositions": "Jobs open",
     "nation": "The country",
     "unemployment": "Unemployment",
     "inflation": "Price growth",

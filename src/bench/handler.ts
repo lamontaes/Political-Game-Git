@@ -854,7 +854,7 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/metrics",
     run: async ({ send }) => {
-      send(200, metricsView(requireCore()));
+      send(200, metricsView(requireCore(), state.placeId));
       return;
     },
   },
