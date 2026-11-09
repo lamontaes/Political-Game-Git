@@ -33,8 +33,14 @@ const count = () => {
   }
   return { full, demoted, husks, demotedHouseholds: households };
 };
+let peak = 0;
+const stamp = () => {
+  peak = Math.max(peak, process.memoryUsage().rss);
+  return { peakMB: Math.round(peak / 1048576) };
+};
 console.log(`FULL ${label} year 0`, JSON.stringify(count()));
 for (let y = 1; y <= Number(years); y++) {
+  const t0 = Date.now();
   try {
     advanceCore(w.core, addDays(makeIsoDate(w.core.date), 365));
   } catch (error) {
@@ -71,5 +77,12 @@ for (let y = 1; y <= Number(years); y++) {
     }
     break;
   }
-  console.log(`FULL ${label} year ${y}`, JSON.stringify(count()));
+  console.log(
+    `FULL ${label} year ${y}`,
+    JSON.stringify({
+      ...count(),
+      seconds: Math.round((Date.now() - t0) / 1000),
+      ...stamp(),
+    }),
+  );
 }
