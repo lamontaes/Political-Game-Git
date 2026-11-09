@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Boulevard, California (key 0607694, seed pp-a, npx tsx scripts/money/pay-shortfall.ts pp-a 1 0607694): organization_cd524c66abde5ef1 San Diego County Business Services (enterprise:corporate-office, kind employer) opens with liquidMinor 0 and no customer; work-relationship_9f0d2babaf670fc8 (earned 347,556) and work-relationship_00dcb5339fc58315 (earned 315,832) are paid nothing in a year. Same cause as world-community-nonprofit-opens-unfunded: the class has no business kind, so the opening gives it zero cash (opening-capital.ts unsupportedOpening) and no household or firm buys from it.
+**What.** Boulevard, California (key 0607694, seed pp-a, npx tsx scripts/money/pay-shortfall.ts pp-a 1 0607694): organization_cd524c66abde5ef1 San Diego County Business Services (enterprise:corporate-office, kind employer) opens with liquidMinor 0 and no customer; work-relationship_9f0d2babaf670fc8 (earned 347,556) and work-relationship_00dcb5339fc58315 (earned 315,832) are paid nothing in a year. Same cause as world-community-nonprofit-opens-unfunded: the class has no business kind, so the opening gives it zero cash (opening-capital.ts unsupportedOpening) and no household or firm buys from it. The nonprofit class had the same cause and is funded through households' giving (PR jobs/nonprofit-funding). A corporate office is not a household seller, so its funding is the other route.
 
 **Rules.** Wire to the world: its money comes from a customer on the journal (firms and public bodies buying headquarters services), read by the engine that runs payday; no invented refill. One rule for all 56 places. One model, two tiers.
 
