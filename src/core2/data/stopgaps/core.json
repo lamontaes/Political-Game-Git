@@ -594,5 +594,17 @@
     "addedAt": "2026-10-20",
     "replacement": "Resolved: counted families are ranked with the full families each August (private-tuition-reenroll.ts) and their tuition is a part of the school's merged purchase flow, started or ended with setCountedTuition (modules/residents.ts). Shown in private-tuition-counted.test.ts (pool item core-private-tuition-counted).",
     "status": "resolved"
+  },
+  {
+    "id": "SG-CORE-outside-share-price-only",
+    "kind": "estimated-behavior",
+    "file": "src/core2/residents-economy.ts",
+    "line": 470,
+    "whatItFakes": "Buyers outside the town divide their spending among the sellers of one kind by each seller's price now against its own opening price, relative to its rivals', at the elasticity of substitution between rival sellers; a seller's quality, reputation, capacity and location do not move its share, and a lone seller of its kind keeps all of it.",
+    "why": "The business books record a price and an opening price for every seller but no quality or reputation, and capacity is already capped where a seller takes payment (residents.ts). Price is the one cause the records carry for sellers of one kind to diverge.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-09",
+    "replacement": "Shares from each seller's price, quality or reputation (customers' own experience with it), and capacity, once the business engine keeps those records.",
+    "status": "open"
   }
 ]

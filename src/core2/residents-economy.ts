@@ -13,6 +13,7 @@ import {
 import type { ResidentFlowInput } from "./residents";
 import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
+import { stopgap } from "./stopgaps";
 
 type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
 type Flow = Runtime["flows"] extends Map<string, infer F> ? F : never;
@@ -377,6 +378,11 @@ const outputLimits = new WeakMap<CoreState, Map<string, number>>();
 registerWorldMapPart("core2-output-limits", outputLimits);
 const limitOf = (core: CoreState, organizationId: string) =>
   outputLimits.get(core)?.get(organizationId) ?? 1;
+/** The share of its kind's outside buyers a seller holds against its rivals' (1 at the opening), by outside-sales flow id. */
+const outsideShares = new WeakMap<CoreState, Map<string, number>>();
+registerWorldMapPart("core2-outside-shares", outsideShares);
+const shareOfFlow = (core: CoreState, flowId: string) =>
+  outsideShares.get(core)?.get(flowId) ?? 1;
 
 export function shiftPurchaseShare(
   core: CoreState,
@@ -492,14 +498,80 @@ export function scaleOutsideSales(
     if (!bases.has(flow.id))
       bases.set(
         flow.id,
-        flow.amountMinor / (before * limitOf(core, flow.payeeId)),
+        flow.amountMinor /
+          (before * limitOf(core, flow.payeeId) * shareOfFlow(core, flow.id)),
       );
     flow.amountMinor = Math.round(
-      bases.get(flow.id)! * factor * limitOf(core, flow.payeeId),
+      bases.get(flow.id)! *
+        factor *
+        limitOf(core, flow.payeeId) *
+        shareOfFlow(core, flow.id),
     );
     changed += 1;
   }
+  divideOutsideSales(core, placeId);
   return changed;
+}
+
+/**
+ * Buyers outside the town divide their spending among the sellers of one
+ * kind by what each now charges against its rivals (SG-CORE-outside-share-price-only):
+ * a seller's share moves with its price relative to its own opening price,
+ * against the kind's average, at the elasticity of substitution between rival
+ * sellers (`businessRivalPriceElasticity`, spending moves with price to the
+ * power of one less that elasticity). The kind's total is unchanged, so one
+ * seller's loss is its rivals' gain; a lone seller keeps all of it.
+ */
+function divideOutsideSales(core: CoreState, placeId: string): void {
+  stopgap("SG-CORE-outside-share-price-only", core);
+  const rt = residentsRuntime(core);
+  if (!rt) return;
+  const sigma = core.data.parameters.businessRivalPriceElasticity?.value;
+  if (sigma === undefined) return;
+  const bases = outsideBases.get(core);
+  let shares = outsideShares.get(core);
+  if (!shares) outsideShares.set(core, (shares = new Map()));
+  const groups = new Map<
+    string,
+    { flow: Flow; raw: number; relative: number }[]
+  >();
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "outside-sales" ||
+      flow.endedAt ||
+      flow.placeId !== placeId
+    )
+      continue;
+    const book = core.finance.businesses.get(flow.payeeId);
+    const base = bases?.get(flow.id);
+    if (!book || book.closedAt || !(book.anchorPrice > 0) || base === undefined)
+      continue;
+    const raw =
+      base *
+      (outsideFactors.get(core)?.get(placeId) ?? 1) *
+      limitOf(core, flow.payeeId);
+    const group = groups.get(book.kindId) ?? [];
+    group.push({ flow, raw, relative: book.price / book.anchorPrice });
+    groups.set(book.kindId, group);
+  }
+  for (const group of groups.values()) {
+    const total = group.reduce((n, row) => n + row.raw, 0);
+    if (group.length < 2 || !(total > 0)) {
+      for (const row of group) shares.set(row.flow.id, 1);
+      continue;
+    }
+    const mean =
+      group.reduce((n, row) => n + row.raw * row.relative, 0) / total;
+    const weights = group.map(
+      (row) => row.raw * (row.relative / mean) ** (1 - sigma),
+    );
+    const sum = weights.reduce((n, w) => n + w, 0);
+    group.forEach((row, i) => {
+      const share = row.raw > 0 ? (weights[i]! * total) / (sum * row.raw) : 1;
+      shares!.set(row.flow.id, share);
+      row.flow.amountMinor = Math.round(row.raw * share);
+    });
+  }
 }
 
 /**
@@ -533,10 +605,14 @@ export function limitOutsideSales(
     if (!bases.has(flow.id))
       bases.set(
         flow.id,
-        flow.amountMinor / (placeFactor(flow.placeId) * before),
+        flow.amountMinor /
+          (placeFactor(flow.placeId) * before * shareOfFlow(core, flow.id)),
       );
     flow.amountMinor = Math.round(
-      bases.get(flow.id)! * placeFactor(flow.placeId) * limit,
+      bases.get(flow.id)! *
+        placeFactor(flow.placeId) *
+        limit *
+        shareOfFlow(core, flow.id),
     );
     changed += 1;
   }
