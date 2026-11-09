@@ -715,6 +715,7 @@
   },
   "macroNeutralRateMonths": {
     "value": 120,
+    "role": "coefficient",
     "tag": "ESTIMATED",
     "citation": "How fast the neutral real rate follows the real long-term rate lived with. Holston, Laubach and Williams (2017, 'Measuring the Natural Rate of Interest', Journal of International Economics) and the New York Fed's updates estimate it falling from about 3 percent around 2000 to about 0.5 percent by 2020, following the real long-term yield with a lag of years; no source publishes a speed. The neutral rate is a state of the economy, not a resting point: at the opening it starts at macroNeutralRealRatePct and moves with experience.",
     "estimatedFrom": "The direction and size of the published series; the speed itself is not published.",
