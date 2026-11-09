@@ -21,6 +21,8 @@ claimed-at:
 
 **Done when.** Each row of the batch 4 "Reads wrong in play" list is fixed or explained; `npx tsx scripts/dialogue-batch/batch-four.ts --world 0` (and 1, 2) re-run on main after the fix, in the same drawn places and seeds, shows none of these lines; a test per fix in src/director or src/english reads the line in a played world.
 
+**Files.** data/english/parts/scene-talk.json, data/english/parts/conversation.json, src/director/scene.ts, src/director/conversation.ts
+
 **Time box.** 3 hours.
 
 **You will see.** Office hours without a microphone, letters that ask what a letter asks, and offices named with "a" and "the".
