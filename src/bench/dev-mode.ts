@@ -47,6 +47,7 @@ import {
   committeeMemberKeys,
   committeeRecords,
   draftBill,
+  scheduleVote,
   executiveDecision,
   executiveOf,
   FEDERAL_HOUSE,
@@ -737,6 +738,8 @@ export class DevMode {
     value?: number;
     unit?: string;
     billId?: string;
+    /** Put the bill on the body's next sitting, as its sponsor's calendar would (a floor day the member is held for). */
+    schedule?: boolean;
   }) {
     let provisions: Provision[];
     let sponsorId = input.sponsorId;
@@ -776,6 +779,7 @@ export class DevMode {
       sponsorId: sponsorId!,
       provisions,
     });
+    if (input.schedule) scheduleVote(this.api, bill.id);
     return {
       mark: this.mark("introduce", [bill.id], {
         billId: bill.id,

@@ -108,6 +108,25 @@ describe(`a bill's stage (seed ${seed})`, () => {
         for (const v of [...chamber.yes, ...chamber.no])
           expect(v.name.length, v.memberId).toBeGreaterThan(0);
       }
+      // Each member the record weighed carries the reasons that pulled, strongest first, each
+      // with its side and its signed magnitude (the position's own number).
+      const weighed = after.floor
+        .flatMap((c) => [...c.yes, ...c.no])
+        .filter((v) => (v.reasons?.length ?? 0) > 0);
+      expect(
+        weighed.length,
+        "members with reasons on the floor",
+      ).toBeGreaterThan(0);
+      for (const v of weighed) {
+        const magnitudes = v.reasons!.map((r) => Math.abs(r.magnitude));
+        expect(magnitudes, v.memberId).toEqual(
+          [...magnitudes].sort((x, y) => y - x),
+        );
+        for (const r of v.reasons!)
+          expect(r.side, `${v.memberId} ${r.reason}`).toBe(
+            r.magnitude > 0 ? "for" : "against",
+          );
+      }
       expect(after.stage).not.toBe("drafted");
       // A bill the executive signed or vetoed names them and the reasons the record kept.
       if (after.status === "signed" || after.status === "vetoed") {

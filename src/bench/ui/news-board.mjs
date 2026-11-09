@@ -16,7 +16,7 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-export function newsBoard({ outlets, labels, date, headlineOf }) {
+export function newsBoard({ outlets, labels, date, headlineOf, photoOf }) {
   let chosen = outlets.keys().next().value;
   let opened = null;
   const holder = el("div", { className: "news-board" });
@@ -69,11 +69,19 @@ export function newsBoard({ outlets, labels, date, headlineOf }) {
       });
       return node;
     };
+    // The lead of a government acting carries that room's front-page photo, when the record has one.
+    const photo = (story, className) => {
+      const url = className === "lead" ? photoOf?.(story) : undefined;
+      return url
+        ? [el("img", { className: "story-image", src: url, alt: "" })]
+        : [];
+    };
     const storyNode = (story, className) =>
       el(
         "article",
         { className: `news-story ${className}` },
         headline(story, className),
+        ...photo(story, className),
         el(
           "div",
           { className: "news-text" },
