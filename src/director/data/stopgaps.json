@@ -569,7 +569,7 @@
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/arc-variants.json",
     "line": 1,
-    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
+    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set; for a donor's ask, the gift against the donor's own year, its share of what others gave, how close the two are, earlier gifts and earlier asks the candidate put off) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
     "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
