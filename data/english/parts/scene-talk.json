@@ -130559,7 +130559,7 @@
       "key": "scene-talk.narrate-narrate.you-are-here-to-file-for-office-and-name-takes-your-papers-to-check-them",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are here to file for {office}, and {name} takes your papers to check them.",
+      "text": "You've come to file for {office}, and {name} takes your papers to check them.",
       "uses": [
         {
           "subject": "scene",
