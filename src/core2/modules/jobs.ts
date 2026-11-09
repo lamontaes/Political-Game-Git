@@ -666,16 +666,32 @@ function openingOwed(c: CoreState): Map<string, number> {
  * the bands by largest remainder, so a small place keeps its seekers.
  * `held` is keyed `place|band`; the result is keyed the same way.
  */
+// stopgapId: SG-LABOR-opening-band-ratios-town-mix (the bands' ratios are scaled to the town's own worker age mix, not the county's)
 function bandQuotas(
   api: CoreAPI,
   held: Map<string, number>,
 ): Map<string, number> {
+  stopgap("SG-LABOR-opening-band-ratios-town-mix");
   const hundred = api.parameter("macroHundred"),
     byPlace = new Map<string, { key: string; exact: number }[]>();
+  // The region's rate already holds the region's own age mix, so the bands'
+  // ratios are scaled to average one over the jobs held (SG-LABOR-opening-band-ratios-town-mix:
+  // the town's own mix stands for the county's, which the opening does not read).
+  const weighted = new Map<string, { jobs: number; ratio: number }>();
+  for (const [key, jobs] of held) {
+    const [placeId, index] = key.split("|") as [string, string];
+    const row = weighted.get(placeId) ?? { jobs: 0, ratio: 0 };
+    row.jobs += jobs;
+    row.ratio += jobs * bandRatio(Number(index), core(api).seed);
+    weighted.set(placeId, row);
+  }
   for (const [key, jobs] of [...held].sort(([a], [b]) => a.localeCompare(b))) {
     const [placeId, index] = key.split("|") as [string, string];
+    const mix = weighted.get(placeId)!;
+    const mean = mix.jobs > 0 ? mix.ratio / mix.jobs : 1;
     const rate =
-      bandRatio(Number(index), core(api).seed) * openingRate(api, placeId);
+      (bandRatio(Number(index), core(api).seed) / mean) *
+      openingRate(api, placeId);
     byPlace.set(placeId, [
       ...(byPlace.get(placeId) ?? []),
       { key, exact: (jobs * rate) / (hundred - rate) },
@@ -4583,3 +4599,7 @@ export function registerEmployer(
           }),
     });
 }
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { residentEmploymentRate } from "../opening-employment";
+export { countySectorEmployment } from "../town-employment-mix";
+export { nationalMedianAnnualWage } from "../town-pay";

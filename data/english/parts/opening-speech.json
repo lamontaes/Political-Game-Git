@@ -15265,6 +15265,33 @@
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"
+    },
+    {
+      "key": "opening-speech.salutation.plain-sta-thank-you-very-much",
+      "move": "salutation",
+      "kind": "spoken",
+      "text": "Thank you very much.",
+      "uses": [
+        {
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "voice": "plain",
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
+        "date": "2026-09-11",
+        "granule": "DCPD-202600596",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600596",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "restoredFrom": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

@@ -114,17 +114,9 @@ try {
   await browser.close();
 }
 
-// The subjects list pages; visit each subject on every page.
+// The subjects list scrolls inside its box; visit each subject.
 async function eachSubject(page, visit) {
-  const arrows = page.locator(
-    "#sheet-body .issues-screen > .roster .pager-arrow",
-  );
-  while (
-    (await arrows.first().isVisible()) &&
-    (await arrows.first().isEnabled())
-  )
-    await arrows.first().click();
-  for (;;) {
+  {
     const rows = page.locator(
       "#sheet-body .issues-screen > .roster .roster-row",
     );
@@ -136,8 +128,5 @@ async function eachSubject(page, visit) {
         .waitFor();
       if ((await visit()) === true) return;
     }
-    const next = arrows.nth(1);
-    if (!(await next.isVisible()) || !(await next.isEnabled())) break;
-    await next.click();
   }
 }
