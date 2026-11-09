@@ -1696,6 +1696,18 @@ function addEventPull(api: CoreAPI, event: CoreEventInput): void {
 
 /** The departure record rides on its event, for tests and proofs that watch departures. */
 const DEPARTURE_FACT = "moves:departure";
+
+/**
+ * The departure a `person.moved-away` record carries: who left and with whom,
+ * where they went and the reasons the pull read. A reader of the record (the
+ * farewell scene) takes it here, not by the fact's key.
+ */
+export function departureOf(
+  facts: Readonly<Record<string, string>> | undefined,
+): Departure | null {
+  const raw = facts?.[DEPARTURE_FACT];
+  return raw ? (JSON.parse(raw) as Departure) : null;
+}
 const watched = new WeakMap<object, Departure[]>();
 
 /**

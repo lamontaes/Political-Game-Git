@@ -99,8 +99,10 @@ import {
   agreementWith,
   countedStanceProfile,
   viewOn,
+  VIEWS_MODULE_ID,
   VIEWS_SPEAKER_KEY,
 } from "./views";
+import { hearAsGroups, hearsAsPerson } from "../hearer-groups";
 import {
   LEGISLATURE_MODULE_ID,
   obligationsOwedBetween,
@@ -4306,6 +4308,7 @@ export function makeStatements(
         topic: statement.question,
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
+        groupUnwatched: true,
       }),
     );
   }
@@ -4583,6 +4586,34 @@ function emitMessage(
     kept.noted = messages.get(input.id);
   }
   if (input.kind === CANVASS_MESSAGE_KIND) return;
+  // Level of detail (owner, Nov 9): a world candidate's paid message reaches
+  // the viewers nobody watches once per group of like hearers, the rest as
+  // people (`hearAsGroups`). The message row above keeps every viewer.
+  let asPeople = witnessIds;
+  if (
+    campaign.candidateId !== api.state.playerId &&
+    api.state.modules.has(VIEWS_MODULE_ID)
+  ) {
+    asPeople = witnessIds.filter((id) => hearsAsPerson(api, id));
+    if (asPeople.length < witnessIds.length) {
+      const people = new Set(asPeople);
+      const impulse = Math.abs(campaignParameter("adViewsImpulse"));
+      hearAsGroups(
+        api,
+        {
+          event: { id: input.id, date: api.state.date },
+          speakerId: campaign.candidateId,
+          topic: lead.question,
+          desiredChange: lead.position > 0 ? "enact" : "repeal",
+          size: impulse > 0 ? impulse : 1,
+        },
+        witnessIds.filter(
+          (id) => !people.has(id) && api.state.people.get(id)?.alive,
+        ),
+      );
+    }
+    if (!asPeople.length) return;
+  }
   api.emit({
     id: input.id,
     date: api.state.date,
@@ -4590,7 +4621,7 @@ function emitMessage(
     personIds: api.state.people.has(campaign.candidateId)
       ? [campaign.candidateId]
       : [],
-    witnessIds,
+    witnessIds: asPeople,
     placeId: townRow(api).townPlaceId,
     topic: lead.question,
     desiredChange: lead.position > 0 ? "enact" : "repeal",
