@@ -64,6 +64,9 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+// A views label (the views engine's key, "veryLiberal") in the player's words (controls.leanWords).
+const leanWord = (label) =>
+  controls.leanWords?.[label === "not-sure" ? "notSure" : label] ?? "";
 import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
@@ -73,6 +76,7 @@ import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
 import { billFigures } from "./ui/bill-figures.mjs";
+import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
 import { draftCard } from "./ui/draft-card.mjs";
@@ -523,14 +527,17 @@ const controlsReady = api("/api/controls").then((value) => {
       el.dataset.label
         .split(".")
         .reduce((node, key) => node?.[key], controls) ?? "";
+  $("hour").textContent = controls.time?.hour ?? "";
   $("week").textContent = controls.time?.week ?? "";
+  $("day").textContent = controls.time?.day ?? "";
+  $("continue").textContent = controls.time?.continue ?? "";
   return value;
 });
 
 function renderPacket(value) {
   packet = value ?? packet;
   const open = packet?.kind === "stop";
-  $("day").disabled = $("week").disabled = busy || open;
+  $("hour").disabled = $("day").disabled = $("week").disabled = busy || open;
   show("continue", packet?.kind === "stop");
   if (packet) setClock(packet.at);
 }
@@ -1244,6 +1251,13 @@ for (const mode of ["day", "week"])
     hideNewsToast();
     return act(`/api/advance?mode=${mode}`);
   });
+// Hour lets an hour go by where the player stands (the clock's own wait, /api/wait):
+// the people at a place are those there at that hour, so waiting is how a player
+// lets the shift change. A scene the director fires stops it there, as with Day.
+$("hour").addEventListener("click", () => {
+  hideNewsToast();
+  return act("/api/wait?hours=1");
+});
 // Stories News held when it was last open: a dot on the rail's News icon until it is read.
 // The first count a life is opened with is already read: a reload starts with
 // nothing unread, and only what arrives after it lights the dot (P12).
@@ -2312,6 +2326,17 @@ async function personCardNode(
           ),
         ]
       : []),
+    // Where they place themselves politically, once the player has learned it; until then the
+    // card says so (the world still holds the real view).
+    ...(c.view || c.viewUnknown
+      ? [
+          stripSection(
+            2,
+            controls.who.views,
+            introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+          ),
+        ]
+      : []),
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
@@ -3124,13 +3149,7 @@ const sheets = {
               : []),
             // Where the player places themselves politically: the views engine's own label.
             ...(c.view
-              ? [
-                  stripSection(
-                    2,
-                    labels.views,
-                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
-                  ),
-                ]
+              ? [stripSection(2, labels.views, introText(leanWord(c.view)))]
               : []),
             ...(c.traitLines?.length
               ? [
@@ -3382,6 +3401,43 @@ const sheets = {
       ],
     });
   },
+  // How the place is doing (owner, Nov 5, ruling 23: "Keep it, call it Metrics"): plain numbers,
+  // this year beside last, no charts. Every figure is the record's; the words are control names.
+  async metrics() {
+    const view = await api("/api/metrics");
+    const words = controls.metrics;
+    const figure = (row, value) =>
+      row.unit === "dollars"
+        ? roundedMoney(Math.round(value * 100))
+        : row.unit === "count"
+          ? Math.round(value).toLocaleString("en-US")
+          : `${value.toFixed(1)} ${words.percent}`;
+    const sections = view.sections.map((section, at) =>
+      stripSection(
+        at + 1,
+        words[section.key],
+        ...section.rows.map((row) => {
+          const moved = row.before === null ? null : row.now - row.before;
+          const direction =
+            moved === null
+              ? ""
+              : Math.abs(moved) < 0.05
+                ? words.same
+                : moved > 0
+                  ? words.up
+                  : words.down;
+          return typedRow(
+            words[row.key],
+            figure(row, row.now),
+            row.before === null
+              ? ""
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+          );
+        }),
+      ),
+    );
+    return [stripBoard({ columns: [sections] })];
+  },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
@@ -3449,8 +3505,38 @@ const sheets = {
       latest.spending.find((r) => r.line === budgetLine) ??
       spending[0] ??
       latest.spending[0];
+    // "Since last year ... up by ..." from the record's own change, and its history as a line
+    // (Nation's budgetView: changeMinor, changePct, history oldest first); never computed here.
+    const pctFormat = new Intl.NumberFormat("en-US", {
+      style: "percent",
+      maximumFractionDigits: 1,
+    });
+    const sinceLast = (record, { short = false } = {}) => {
+      if (record?.changeMinor === undefined || record.changeMinor === null)
+        return [];
+      const how =
+        record.changeMinor === 0
+          ? words.unchanged
+          : (record.changeMinor > 0 ? words.increased : words.decreased)
+              .replace("{amount}", roundedMoney(Math.abs(record.changeMinor)))
+              // A total's row is the amount alone; a line's carries its share too.
+              .replace(
+                short ? " ({pct})" : "{pct}",
+                short
+                  ? ""
+                  : pctFormat.format(Math.abs(record.changePct ?? 0) / 100),
+              );
+      return [typedRow(words.sinceLastYear, how)];
+    };
+    const history = (record, size) => {
+      const line = trendLine(record?.history, size);
+      return line ? [line] : [];
+    };
+    // Last year is a row of its own with the figure on the same line, never a note under.
     const lastYear = (minor) =>
-      minor === undefined ? "" : `${words.lastYear} ${roundedMoney(minor)}`;
+      minor === undefined
+        ? []
+        : [typedRow(words.lastYear, roundedMoney(minor))];
     const stepButtons = steps(opened).map((step) => {
       const button = makeButton({
         className: "action small",
@@ -3503,11 +3589,10 @@ const sheets = {
             stripSection(
               2,
               opened.name ?? opened.line,
-              typedRow(
-                opened.name ?? opened.line,
-                roundedMoney(opened.minor),
-                lastYear(lastOf(prior?.spending, opened.line)),
-              ),
+              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
+              ...lastYear(lastOf(prior?.spending, opened.line)),
+              ...sinceLast(opened),
+              ...history(opened),
               ...(opened.askedMinor !== undefined
                 ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
                 : []),
@@ -3518,20 +3603,19 @@ const sheets = {
             stripSection(
               3,
               gov.name,
-              typedRow(
-                words.comingIn,
-                roundedMoney(latest.revenueMinor),
-                lastYear(prior?.revenueMinor),
-              ),
-              typedRow(
-                words.goingOut,
-                roundedMoney(latest.spendingMinor),
-                lastYear(prior?.spendingMinor),
-              ),
+              typedRow(words.comingIn, roundedMoney(latest.revenueMinor)),
+              ...lastYear(prior?.revenueMinor),
+              ...sinceLast(latest.totals?.revenue, { short: true }),
+              ...history(latest.totals?.revenue, { height: 36 }),
+              typedRow(words.goingOut, roundedMoney(latest.spendingMinor)),
+              ...lastYear(prior?.spendingMinor),
+              ...sinceLast(latest.totals?.spending, { short: true }),
+              ...history(latest.totals?.spending, { height: 36 }),
               typedRow(
                 words.balance,
                 `${roundedMoney(Math.abs(balance))} ${balance < 0 ? words.short : words.ahead}`,
               ),
+              ...sinceLast(latest.totals?.balance, { short: true }),
               ...(books
                 ? [typedRow(words.savings, roundedMoney(books.cashMinor))]
                 : []),
@@ -3560,13 +3644,10 @@ const sheets = {
                   stripSection(
                     5,
                     words.whoWrote,
+                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
+                    // Screens words it from the record with the Budgets labels.
                     introText(
-                      [
-                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                        latest.adoptedBy,
-                      ]
-                        .filter(Boolean)
-                        .join(", "),
+                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
                     ),
                   ),
                 ]
@@ -4981,6 +5062,7 @@ const groups = {
     "issues",
     "bills",
     "budgets",
+    "metrics",
   ],
   who: ["who", "jobs", "history"],
 };
@@ -5045,6 +5127,7 @@ async function openSheet(tab) {
     "strip-sheet",
     tab === "who" ||
       tab === "budgets" ||
+      tab === "metrics" ||
       tab === "journal" ||
       tab === "money" ||
       tab === "campaign" ||

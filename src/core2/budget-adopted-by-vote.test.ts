@@ -33,19 +33,24 @@ it("every government's budget in a played year is adopted by a vote", () => {
     const api = coreAPI(core);
     advanceCore(core, addDays(makeIsoDate(core.date), 400));
     for (const gov of governments(api)) {
-      const adopted = budgetsOf(api, gov.id).filter((b) =>
-        / vote /.test(b.adoptedBy),
+      const adopted = budgetsOf(api, gov.id).filter(
+        (b) => b.adoptedBy.kind === "vote",
       );
       expect(
         adopted.length,
         `${where}: ${gov.id} adopted a budget by vote`,
       ).toBeGreaterThan(0);
+      // Each chamber's tally carries the chamber's own name, never its key.
+      for (const budget of adopted)
+        for (const tally of budget.adoptedBy.tallies ?? [])
+          expect(
+            tally.title,
+            `${where}: ${budget.id} ${tally.chamber}`,
+          ).toMatch(/^[A-Z][A-Za-z' .-]+$/);
     }
     for (const gov of governments(api))
       for (const b of budgetsOf(api, gov.id))
-        expect(b.adoptedBy, `${where}: ${b.id}`).not.toMatch(
-          /carried forward by the budget rule/,
-        );
+        expect(b.adoptedBy.kind, `${where}: ${b.id}`).not.toBe("rule");
   } finally {
     setBookkeeping(true);
   }

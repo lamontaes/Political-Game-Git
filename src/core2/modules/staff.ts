@@ -38,7 +38,8 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import { outsideLaborForce } from "../gov-rules/place-population";
 import { residentsRuntime } from "./residents";
 import type { ModuleRow } from "../module-data";
-import { campaignParameter, personLean } from "../campaign-views";
+import { personLean } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { viewOn } from "./views";
 import { keepsWhy } from "../why-kept";
 import {

@@ -635,5 +635,41 @@
     "addedAt": "2026-11-08",
     "replacement": "A notice printed in the paper and posted by the clerk or board of elections for each contest, worded from this piece and the election's records; pool item words-election-notice-printed.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkViewImpact",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much where a person stands politically weighs as a talk's topic, times how readily they say it.",
+    "why": "Set so it leads only for the close and engaged and never over a life event of their own; the size is a guess until a played year is counted.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkViewTraitWeight",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How much the speaker's temperament scales how readily they say where they stand.",
+    "why": "The direction (outgoing people talk politics more) is sourced; the size is a guess.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-param-directorTalkSmallTalkWeight",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "What ordinary small talk weighs against where someone stands politically as a talk's topic.",
+    "why": "A competitor weight so the slide never becomes a flat rule; the size is a guess until a played year is counted.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A tested calibration against played talks (how many close people say where they stand in a year), or an owner answer.",
+    "status": "open"
   }
 ]

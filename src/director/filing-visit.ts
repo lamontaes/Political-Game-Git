@@ -128,7 +128,7 @@ export function openFilingVisit(
  * person names the office.
  */
 export function spokenOffice(note: string): string {
-  const first = note.split(/\s*[;(]|\s+\/\s+|,\s/)[0]!.trim();
+  const first = note.split(/\s*[;(]|\s+\/\s+|,\s/)[P.zero]!.trim();
   return first || note.trim();
 }
 

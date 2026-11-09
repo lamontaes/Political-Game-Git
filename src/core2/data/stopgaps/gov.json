@@ -24,18 +24,6 @@
     "status": "resolved"
   },
   {
-    "id": "SG-GOV-official-identity-only",
-    "kind": "missing-core-api",
-    "file": "src/core2/modules/offices.ts",
-    "line": 607,
-    "whatItFakes": "A state or federal officeholder seated after the opening (a successor, a replacement, the next term) is a term with an identity (name, gender, birth date, party) and personId null until their seat is first read. Until then a body reads them by party alone (leadership.ts leanFor: the party's side times campaign parameter identityLeanScale), and a governor's cabinet candidates are fictional identities whose lean is the governor's side times identityLeanScale (executive.ts, governor cabinet pool).",
-    "why": "Reopened Nov 8, 2026 (Legislation): the Oct 13 fix filled every official at the opening, but seatNamedOfficial still seats later holders as identities, and two readers still stand in for a person by party: leadership.ts leanFor and the governor's cabinet candidates in executive.ts. The successor-governor item (gov-successor-governor-identity-only-no-office-day) showed the same seam in the office-day engine.",
-    "addedBy": "OPUS-GOV",
-    "addedAt": "2026-10-12",
-    "replacement": "Seat a later holder as a person at seating (officials.ts seatOfficial / fillIn from the identity and the seat) so memberKey is a person and leanOf is read, and draw a governor's cabinet candidates as residents of the capital's place (the two-level fill-in) with their own leans. Then delete the identityLeanScale parameter and this marker.",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-start-law-carried-back",
     "kind": "data-gap",
     "file": "src/core2/modules/laws.ts",
@@ -1016,6 +1004,18 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
     "replacement": "Each revenue line from its real payer on its real dates, and each spending line to its real payees on theirs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-outside-revenue-base-national",
+    "kind": "estimated-behavior",
+    "file": "src/core2/budgets-treasury.ts",
+    "line": 1062,
+    "whatItFakes": "A named-payer tax line's installment is the plan's installment moved by the nation's wage bill (payroll jobs times hourly earnings) since the budget year began, for every government alike: a state's receipts follow the nation's wage bill, not its own.",
+    "why": "The states' own jobs and pay are in the regional rows, which the treasuries do not read yet; the nation's wage bill is the nearest base the budgets can read now.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-08",
+    "replacement": "Each government's installment moved by its own base: the state's jobs and pay from the regional rows for income and sales taxes, output for corporate taxes, house prices for property taxes (gov-outside-revenue-real-payers, with Nation's other-states rows).",
     "status": "open"
   },
   {
@@ -2186,6 +2186,18 @@
     "status": "open"
   },
   {
+    "id": "SG-EXECUTIVE-administrator-appoints",
+    "kind": "partial-model",
+    "file": "src/core2/modules/executive.ts",
+    "line": 240,
+    "whatItFakes": "In a county whose board hires an administrator who appoints the department heads (research: council-administrator form), the board's seat holder stands in as the appointer of the heads the administrator would pick, so their reasons (loyalty against merit, lean, acquaintance) are the board member's, not the administrator's.",
+    "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
+    "addedBy": "Legislation (town heads for county-run places)",
+    "addedAt": "2026-11-08",
+    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-REACH-B-child-care-enrollment",
     "kind": "missing-engine",
     "file": "src/core2/data/laws/reach-group-b.json",
@@ -2195,6 +2207,18 @@
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
     "replacement": "A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-REACH-B-energy-assistance-enrollment",
+    "kind": "missing-engine",
+    "file": "src/core2/data/laws/reach-group-b.json",
+    "line": 325,
+    "whatItFakes": "A household within the home energy assistance income limit (percent of the poverty line for its size) is paid the average yearly benefit, a twelfth a month, times the share of eligible households the program serves; there is no application, no benefit-by-state table and no utility bill the payment offsets, and every state starts at the statute's 150 percent ceiling until its own plan is read.",
+    "why": "The average benefit ($301, FY2014) and the 16% served are national figures (CRS RL31865); the state plans' income limits and benefit tables sit on acf.gov and liheapch.acf.gov, which the build session could not reach.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-08",
+    "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
     "status": "open"
   }
 ]
