@@ -39,15 +39,18 @@
       "setup": {
         "narration": [
           "Late in the morning on March 3rd, in the chamber, you speak with Danielle McClain.",
-          "You're going over Ordinance 2025-10 at your desk when Danielle McClain knocks on the open door."
+          "The vote on Ordinance 2025-10 is coming up. Danielle McClain catches you outside the chamber."
         ],
         "narrationKeys": [
           "scene-words.arrival-chamber-other.begins-in-the-chamber-you-speak-with-name",
-          "scene-talk.narrate-narrate.you-re-going-over-bill-at-your-desk-when-name-knocks-on-the-open-door"
+          "scene-talk.narrate-narrate.the-vote-on-bill-is-coming-up-name-catches-you-outside-the-chamber"
         ],
         "when": "March 3rd, 2025, 9:00 a.m.",
         "where": "chamber (ordinary)",
-        "who": ["Danielle McClain", "Dennis Rios"]
+        "who": [
+          "Danielle McClain",
+          "Dennis Rios"
+        ]
       },
       "nodes": [
         {
@@ -518,7 +521,10 @@
         ],
         "when": "February 10th, 2025, 9:00 a.m.",
         "where": "venue (ordinary)",
-        "who": ["Rowan Lambert", "Kimberly Russo"]
+        "who": [
+          "Rowan Lambert",
+          "Kimberly Russo"
+        ]
       },
       "nodes": [
         {
@@ -778,7 +784,9 @@
         "narrationKeys": [],
         "when": "July 23rd, 2025",
         "where": "the speech screen (no narrator beat is written for it)",
-        "who": ["Sarah Russo"]
+        "who": [
+          "Sarah Russo"
+        ]
       },
       "nodes": [
         {
@@ -1110,7 +1118,10 @@
         ],
         "when": "April 2nd, 2025, 6:30 p.m.",
         "where": "office (ordinary)",
-        "who": ["Rafael Harper", "Danielle McClain"]
+        "who": [
+          "Rafael Harper",
+          "Danielle McClain"
+        ]
       },
       "nodes": [
         {
@@ -1597,337 +1608,268 @@
     {
       "id": "5",
       "kind": "constituent",
-      "world": "batch-4-nov-9:2",
+      "world": "batch-4-nov-9:0",
       "source": {
         "typeKey": "office-hours",
         "purpose": "constituent-help",
-        "causeId": "office-approached:case:person_9ad4c80087957e85:2025-02-19",
-        "date": "2025-02-19",
+        "causeId": "office-approached:case:person_0f3b01dc65650752:2025-03-21",
+        "date": "2025-03-21",
         "kindKey": "office-hours",
-        "player": "Kathleen Ratliff"
+        "player": "Jennifer Davenport"
       },
       "setup": {
         "narration": [
-          "On the afternoon of February 19th, you stop by the office to speak with Quinn Hansen.",
-          "It's office hours, and Quinn Hansen is next in line."
+          "Late in the morning on March 21st, Samir Zimmerman meets you at the office.",
+          "It's office hours, and Samir Zimmerman is next in line."
         ],
         "narrationKeys": [
-          "scene-words.arrival-office-other.begins-you-stop-by-the-office-to-speak-with-name",
+          "scene-words.arrival-office-other.begins-name-meets-you-at-the-office",
           "scene-talk.narrate-narrate.it-s-office-hours-and-name-is-next-in-line"
         ],
-        "when": "February 19th, 2025, 2:00 p.m.",
+        "when": "March 21st, 2025, 10:30 a.m.",
         "where": "office (ordinary)",
-        "who": ["Quinn Hansen", "Kathleen Ratliff"]
+        "who": [
+          "Samir Zimmerman",
+          "Jennifer Davenport"
+        ]
       },
       "nodes": [
         {
           "id": "5.1",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.open-greet.i-didn-t-know-who-else-to-go-to",
-          "text": "I didn't know who else to go to.",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.open-greet.you-got-a-minute",
+          "text": "You got a minute?",
           "move": "greet",
           "choices": [],
           "next": "5.2"
         },
         {
           "id": "5.2",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.state-request.i-ve-been-out-of-work-for-months-and-my-savings-are-almost-gone",
-          "text": "I've been out of work for months, and my savings are almost gone.",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.state-request.i-can-t-find-work-and-i-m-running-out-of-money",
+          "text": "I can't find work, and I'm running out of money.",
           "move": "request",
-          "choices": [],
-          "next": "5.3"
-        },
-        {
-          "id": "5.3",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.the-moderator-glances-at-the-clock-and-lets-it-run",
-          "text": "The moderator glances at the clock and lets it run.",
-          "move": "beat",
           "choices": [
             {
-              "id": "5.3.a",
+              "id": "5.2.a",
               "label": "I'll get you in with the workforce office this week.",
-              "tests": "move: making a promise; tone: calm; personality: the reply your traits lean toward",
+              "tests": "move: making a promise; tone: calm",
               "key": "scene-talk.reply-promise.i-ll-get-you-in-with-the-workforce-office-this-week",
               "text": "I'll get you in with the workforce office this week.",
-              "next": "5.4"
+              "next": "5.3"
             },
             {
-              "id": "5.3.b",
-              "label": "What would it mean for you?",
-              "tests": "move: asking a question; tone: curious",
-              "key": "scene-talk.reply-ask.what-would-it-mean-for-you",
-              "text": "What would it mean for you?",
-              "next": "5.10"
+              "id": "5.2.b",
+              "label": "Why does it matter to you?",
+              "tests": "move: asking a question; tone: curious; personality: the reply your traits lean toward",
+              "key": "scene-talk.reply-ask.why-does-it-matter-to-you",
+              "text": "Why does it matter to you?",
+              "next": "5.8"
             },
             {
-              "id": "5.3.c",
+              "id": "5.2.c",
               "label": "That one isn't the city's to decide. I won't pretend it is.",
               "tests": "move: turning it down politely; tone: guarded",
               "key": "scene-talk.reply-decline.that-one-isn-t-the-city-s-to-decide-i-won-t-pretend-it-is",
               "text": "That one isn't the city's to decide. I won't pretend it is.",
-              "next": "5.18"
+              "next": "5.16"
             },
             {
-              "id": "5.3.d",
-              "label": "Leave your name with my aide, and I'll follow up this week.",
+              "id": "5.2.d",
+              "label": "Leave your number with my office tonight. I'll call you this week.",
               "tests": "move: making an offer; tone: calm",
-              "key": "scene-talk.reply-offer.leave-your-name-with-my-aide-and-i-ll-follow-up-this-week",
-              "text": "Leave your name with my aide, and I'll follow up this week.",
-              "next": "5.25"
+              "key": "scene-talk.reply-offer.leave-your-number-with-my-office-tonight-i-ll-call-you-this-week",
+              "text": "Leave your number with my office tonight. I'll call you this week.",
+              "next": "5.24"
             },
             {
-              "id": "5.3.e",
+              "id": "5.2.e",
               "label": "It's already on next month's agenda.",
               "tests": "move: a lie; tone: calm",
               "key": "scene-talk.reply-lie.it-s-already-on-next-month-s-agenda",
               "text": "It's already on next month's agenda.",
-              "next": "5.26"
+              "next": "5.29"
+            }
+          ]
+        },
+        {
+          "id": "5.3",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-press.when-today",
+          "text": "When? Today?",
+          "move": "press",
+          "choices": [
+            {
+              "id": "5.3.a",
+              "label": "Fair. I'll stop hiding behind the calendar.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.fair-i-ll-stop-hiding-behind-the-calendar",
+              "text": "Fair. I'll stop hiding behind the calendar.",
+              "next": "5.4"
+            },
+            {
+              "id": "5.3.b",
+              "label": "We have to keep moving. I'll find you after.",
+              "tests": "move: ending the talk; tone: calm",
+              "key": "scene-talk.reply-leave.we-have-to-keep-moving-i-ll-find-you-after",
+              "text": "We have to keep moving. I'll find you after.",
+              "next": "5.5"
+            },
+            {
+              "id": "5.3.c",
+              "label": "It's already on the calendar.",
+              "tests": "move: a lie; tone: calm",
+              "key": "scene-talk.reply-lie.it-s-already-on-the-calendar",
+              "text": "It's already on the calendar.",
+              "next": "5.6"
             }
           ]
         },
         {
           "id": "5.4",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-press.then-what-are-you-for",
-          "text": "Then what are you for?",
-          "move": "press",
-          "choices": [
-            {
-              "id": "5.4.a",
-              "label": "Fair. I'll stop hiding behind the calendar.",
-              "tests": "move: an apology; tone: contrite; personality: the reply your traits lean toward",
-              "key": "scene-talk.reply-apologize.fair-i-ll-stop-hiding-behind-the-calendar",
-              "text": "Fair. I'll stop hiding behind the calendar.",
-              "next": "5.5"
-            },
-            {
-              "id": "5.4.b",
-              "label": "We have to keep moving. I'll find you after.",
-              "tests": "move: ending the talk; tone: calm",
-              "key": "scene-talk.reply-leave.we-have-to-keep-moving-i-ll-find-you-after",
-              "text": "We have to keep moving. I'll find you after.",
-              "next": "5.7"
-            },
-            {
-              "id": "5.4.c",
-              "label": "It's already scheduled. I just can't say the date yet.",
-              "tests": "move: a lie; tone: calm",
-              "key": "scene-talk.reply-lie.it-s-already-scheduled-i-just-can-t-say-the-date-yet",
-              "text": "It's already scheduled. I just can't say the date yet.",
-              "next": "5.8"
-            }
-          ]
-        },
-        {
-          "id": "5.5",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-accept.okay-now-prove-it",
-          "text": "Okay. Now prove it.",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-accept.all-right-i-ll-take-sorry-for-tonight",
+          "text": "All right. I'll take sorry, for tonight.",
           "move": "accept",
-          "choices": [],
-          "next": "5.6"
-        },
-        {
-          "id": "5.6",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.someone-near-the-front-starts-clapping-and-a-few-others-join-in",
-          "text": "Someone near the front starts clapping, and a few others join in.",
-          "move": "beat",
           "choices": [],
           "end": "resolved: You'll make the call"
         },
         {
-          "id": "5.7",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.close-press.i-m-not-done-with-this",
-          "text": "I'm not done with this.",
+          "id": "5.5",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.close-press.i-ll-be-back-next-month-with-the-same-question",
+          "text": "I'll be back next month with the same question.",
           "move": "press",
           "choices": [],
           "end": "open: You'll make the call"
         },
         {
-          "id": "5.8",
+          "id": "5.6",
           "speaker": "Narrator",
           "key": "",
           "text": "(what happens next depends on whether they already know the truth)",
           "move": "narrate",
           "choices": [
             {
-              "id": "5.8.a",
+              "id": "5.6.a",
               "label": "if not",
               "tests": "the world decides: they do not know",
               "key": "",
               "text": "",
+              "next": "5.7"
+            }
+          ]
+        },
+        {
+          "id": "5.7",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.thank-you-i-ll-wait-to-hear-from-them",
+          "text": "Thank you. I'll wait to hear from them.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: You'll make the call"
+        },
+        {
+          "id": "5.8",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us",
+          "text": "Because nobody's ever explained it to us.",
+          "move": "answer",
+          "choices": [
+            {
+              "id": "5.8.a",
+              "label": "Then you'll get a straight answer from me before the next meeting.",
+              "tests": "move: making a promise; tone: calm; personality: the reply your traits lean toward",
+              "key": "scene-talk.reply-promise.then-you-ll-get-a-straight-answer-from-me-before-the-next-meeting",
+              "text": "Then you'll get a straight answer from me before the next meeting.",
               "next": "5.9"
+            },
+            {
+              "id": "5.8.b",
+              "label": "Talk to me after. I want the details.",
+              "tests": "move: making an offer; tone: calm",
+              "key": "scene-talk.reply-offer.talk-to-me-after-i-want-the-details",
+              "text": "Talk to me after. I want the details.",
+              "next": "5.10"
+            },
+            {
+              "id": "5.8.c",
+              "label": "I hear you. The city still can't change it by itself.",
+              "tests": "move: turning it down politely; tone: guarded",
+              "key": "scene-talk.reply-decline.i-hear-you-the-city-still-can-t-change-it-by-itself",
+              "text": "I hear you. The city still can't change it by itself.",
+              "next": "5.11"
+            },
+            {
+              "id": "5.8.d",
+              "label": "I have someone waiting. Leave your number at the front desk.",
+              "tests": "move: ending the talk; tone: calm",
+              "key": "scene-talk.reply-leave.i-have-someone-waiting-leave-your-number-at-the-front-desk",
+              "text": "I have someone waiting. Leave your number at the front desk.",
+              "next": "5.15"
             }
           ]
         },
         {
           "id": "5.9",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-thank.then-i-ll-ask-the-clerk-for-it-tomorrow",
-          "text": "Then I'll ask the clerk for it tomorrow.",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.before-the-next-meeting-then-i-ll-be-at-the-front-of-the-room",
+          "text": "Before the next meeting, then. I'll be at the front of the room.",
           "move": "thank",
           "choices": [],
           "end": "resolved: You'll make the call"
         },
         {
           "id": "5.10",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-answer.i-rent-and-i-work-for-a-living-i-want-to-know-what-i-d-be-getting",
-          "text": "I rent, and I work for a living. I want to know what I'd be getting.",
-          "move": "answer",
-          "choices": [
-            {
-              "id": "5.10.a",
-              "label": "Fair. You'll have my answer, out loud, by the next meeting.",
-              "tests": "move: making a promise; tone: calm",
-              "key": "scene-talk.reply-promise.fair-you-ll-have-my-answer-out-loud-by-the-next-meeting",
-              "text": "Fair. You'll have my answer, out loud, by the next meeting.",
-              "next": "5.11"
-            },
-            {
-              "id": "5.10.b",
-              "label": "Come see me Friday. I'll walk you through it line by line.",
-              "tests": "move: making an offer; tone: calm",
-              "key": "scene-talk.reply-offer.come-see-me-friday-i-ll-walk-you-through-it-line-by-line",
-              "text": "Come see me Friday. I'll walk you through it line by line.",
-              "next": "5.13"
-            },
-            {
-              "id": "5.10.c",
-              "label": "I haven't made up my mind, and I won't pretend I have.",
-              "tests": "move: turning it down politely; tone: guarded",
-              "key": "scene-talk.reply-decline.i-haven-t-made-up-my-mind-and-i-won-t-pretend-i-have",
-              "text": "I haven't made up my mind, and I won't pretend I have.",
-              "next": "5.15"
-            },
-            {
-              "id": "5.10.d",
-              "label": "That's a good reason to ask. Let me take the next question.",
-              "tests": "move: ending the talk; tone: guarded",
-              "key": "scene-talk.reply-leave.that-s-a-good-reason-to-ask-let-me-take-the-next-question",
-              "text": "That's a good reason to ask. Let me take the next question.",
-              "next": "5.17"
-            }
-          ]
-        },
-        {
-          "id": "5.11",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-thank.out-loud-i-ll-hold-you-to-that",
-          "text": "Out loud. I'll hold you to that.",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.i-ll-be-by-the-door",
+          "text": "I'll be by the door.",
           "move": "thank",
-          "choices": [],
-          "next": "5.12"
-        },
-        {
-          "id": "5.12",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.two-people-near-the-back-lean-together-and-whisper",
-          "text": "Two people near the back lean together and whisper.",
-          "move": "beat",
-          "choices": [],
-          "end": "resolved: You'll make the call"
-        },
-        {
-          "id": "5.13",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-thank.friday-i-ll-bring-my-questions",
-          "text": "Friday. I'll bring my questions.",
-          "move": "thank",
-          "choices": [],
-          "next": "5.14"
-        },
-        {
-          "id": "5.14",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.someone-near-the-front-starts-clapping-and-a-few-others-join-in",
-          "text": "Someone near the front starts clapping, and a few others join in.",
-          "move": "beat",
           "choices": [],
           "end": "resolved: Handed to a caseworker"
         },
         {
-          "id": "5.15",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-accept.at-least-that-s-straight",
-          "text": "At least that's straight.",
-          "move": "accept",
-          "choices": [],
-          "next": "5.16"
-        },
-        {
-          "id": "5.16",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
-          "text": "Somebody in the back says \"Answer the question\" just loud enough.",
-          "move": "beat",
-          "choices": [],
-          "end": "refused: Can't help"
-        },
-        {
-          "id": "5.17",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.close-press.please-don-t-forget-about-us",
-          "text": "Please don't forget about us.",
-          "move": "press",
-          "choices": [],
-          "end": "open: Left waiting"
-        },
-        {
-          "id": "5.18",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-plea.then-whose-is-it-i-keep-getting-sent-somewhere-else",
-          "text": "Then whose is it? I keep getting sent somewhere else.",
+          "id": "5.11",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-plea.then-who-can-somebody-has-to",
+          "text": "Then who can? Somebody has to.",
           "move": "plea",
           "choices": [
             {
-              "id": "5.18.a",
+              "id": "5.11.a",
               "label": "Fair. I'll find out whose it is and tell you myself.",
               "tests": "move: making a promise; tone: calm",
               "key": "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
               "text": "Fair. I'll find out whose it is and tell you myself.",
-              "next": "5.19"
+              "next": "5.12"
             },
             {
-              "id": "5.18.b",
+              "id": "5.11.b",
               "label": "Call my office Monday. I'll walk it to the right desk.",
               "tests": "move: making an offer; tone: calm",
               "key": "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk",
               "text": "Call my office Monday. I'll walk it to the right desk.",
-              "next": "5.21"
+              "next": "5.13"
             },
             {
-              "id": "5.18.c",
+              "id": "5.11.c",
               "label": "The state. I'm sorry, but it's the state.",
               "tests": "move: turning it down politely; tone: guarded",
               "key": "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state",
               "text": "The state. I'm sorry, but it's the state.",
-              "next": "5.23"
+              "next": "5.14"
             }
           ]
         },
         {
-          "id": "5.19",
-          "speaker": "Quinn Hansen",
+          "id": "5.12",
+          "speaker": "Samir Zimmerman",
           "key": "scene-talk.follow-press.when-though-people-have-heard-find-out-before",
           "text": "When, though? People have heard 'find out' before.",
           "move": "press",
-          "choices": [],
-          "next": "5.20"
-        },
-        {
-          "id": "5.20",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.the-microphone-squeals-and-the-whole-room-winces",
-          "text": "The microphone squeals, and the whole room winces.",
-          "move": "beat",
           "choices": [
             {
-              "id": "5.20.a",
+              "id": "5.12.a",
               "label": "You're right to be tired of it. I'm sorry.",
               "tests": "move: an apology; tone: contrite",
               "key": "scene-talk.reply-apologize.you-re-right-to-be-tired-of-it-i-m-sorry",
@@ -1936,7 +1878,7 @@
               "cut": true
             },
             {
-              "id": "5.20.b",
+              "id": "5.12.b",
               "label": "We have to keep moving. I'll find you after.",
               "tests": "move: ending the talk; tone: calm",
               "key": "scene-talk.reply-leave.we-have-to-keep-moving-i-ll-find-you-after",
@@ -1945,7 +1887,7 @@
               "cut": true
             },
             {
-              "id": "5.20.c",
+              "id": "5.12.c",
               "label": "It's already on the calendar.",
               "tests": "move: a lie; tone: calm",
               "key": "scene-talk.reply-lie.it-s-already-on-the-calendar",
@@ -1956,72 +1898,259 @@
           ]
         },
         {
-          "id": "5.21",
-          "speaker": "Quinn Hansen",
+          "id": "5.13",
+          "speaker": "Samir Zimmerman",
           "key": "scene-talk.follow-thank.monday-i-ll-call-at-nine",
           "text": "Monday. I'll call at nine.",
           "move": "thank",
           "choices": [],
-          "next": "5.22"
-        },
-        {
-          "id": "5.22",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.someone-near-the-front-starts-clapping-and-a-few-others-join-in",
-          "text": "Someone near the front starts clapping, and a few others join in.",
-          "move": "beat",
-          "choices": [],
           "end": "resolved: Handed to a caseworker"
         },
         {
-          "id": "5.23",
-          "speaker": "Quinn Hansen",
+          "id": "5.14",
+          "speaker": "Samir Zimmerman",
           "key": "scene-talk.follow-accept.then-i-ll-go-bother-the-state-thanks",
           "text": "Then I'll go bother the state. Thanks.",
           "move": "accept",
           "choices": [],
-          "next": "5.24"
-        },
-        {
-          "id": "5.24",
-          "speaker": "Narrator",
-          "key": "scene-talk.beat-beat.the-microphone-squeals-and-the-whole-room-winces",
-          "text": "The microphone squeals, and the whole room winces.",
-          "move": "beat",
-          "choices": [],
           "end": "refused: Can't help"
         },
         {
-          "id": "5.25",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-thank.this-week-i-ll-leave-it",
-          "text": "This week. I'll leave it.",
-          "move": "thank",
+          "id": "5.15",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.close-press.i-m-not-done-with-this",
+          "text": "I'm not done with this.",
+          "move": "press",
           "choices": [],
-          "end": "resolved: Handed to a caseworker"
+          "end": "open: Left waiting"
         },
         {
-          "id": "5.26",
+          "id": "5.16",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-plea.then-whose-is-it-i-keep-getting-sent-somewhere-else",
+          "text": "Then whose is it? I keep getting sent somewhere else.",
+          "move": "plea",
+          "choices": [
+            {
+              "id": "5.16.a",
+              "label": "Fair. I'll find out whose it is and tell you myself.",
+              "tests": "move: making a promise; tone: calm",
+              "key": "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself",
+              "text": "Fair. I'll find out whose it is and tell you myself.",
+              "next": "5.17"
+            },
+            {
+              "id": "5.16.b",
+              "label": "Call my office Monday. I'll walk it to the right desk.",
+              "tests": "move: making an offer; tone: calm",
+              "key": "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk",
+              "text": "Call my office Monday. I'll walk it to the right desk.",
+              "next": "5.22"
+            },
+            {
+              "id": "5.16.c",
+              "label": "The state. I'm sorry, but it's the state.",
+              "tests": "move: turning it down politely; tone: guarded",
+              "key": "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state",
+              "text": "The state. I'm sorry, but it's the state.",
+              "next": "5.23"
+            }
+          ]
+        },
+        {
+          "id": "5.17",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-press.when-though-people-have-heard-find-out-before",
+          "text": "When, though? People have heard 'find out' before.",
+          "move": "press",
+          "choices": [
+            {
+              "id": "5.17.a",
+              "label": "Fair. I'll stop hiding behind the calendar.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.fair-i-ll-stop-hiding-behind-the-calendar",
+              "text": "Fair. I'll stop hiding behind the calendar.",
+              "next": "5.18"
+            },
+            {
+              "id": "5.17.b",
+              "label": "We have to keep moving. I'll find you after.",
+              "tests": "move: ending the talk; tone: calm",
+              "key": "scene-talk.reply-leave.we-have-to-keep-moving-i-ll-find-you-after",
+              "text": "We have to keep moving. I'll find you after.",
+              "next": "5.19"
+            },
+            {
+              "id": "5.17.c",
+              "label": "It's already scheduled. I just can't say the date yet.",
+              "tests": "move: a lie; tone: calm",
+              "key": "scene-talk.reply-lie.it-s-already-scheduled-i-just-can-t-say-the-date-yet",
+              "text": "It's already scheduled. I just can't say the date yet.",
+              "next": "5.20"
+            }
+          ]
+        },
+        {
+          "id": "5.18",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-accept.all-right-i-ll-take-sorry-for-tonight",
+          "text": "All right. I'll take sorry, for tonight.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: You'll make the call"
+        },
+        {
+          "id": "5.19",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.close-press.i-m-not-done-with-this",
+          "text": "I'm not done with this.",
+          "move": "press",
+          "choices": [],
+          "end": "open: You'll make the call"
+        },
+        {
+          "id": "5.20",
           "speaker": "Narrator",
           "key": "",
           "text": "(what happens next depends on whether they already know the truth)",
           "move": "narrate",
           "choices": [
             {
-              "id": "5.26.a",
+              "id": "5.20.a",
               "label": "if not",
               "tests": "the world decides: they do not know",
               "key": "",
               "text": "",
+              "next": "5.21"
+            }
+          ]
+        },
+        {
+          "id": "5.21",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.then-i-ll-ask-the-clerk-for-it-tomorrow",
+          "text": "Then I'll ask the clerk for it tomorrow.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: You'll make the call"
+        },
+        {
+          "id": "5.22",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.monday-i-ll-call-at-nine",
+          "text": "Monday. I'll call at nine.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: Handed to a caseworker"
+        },
+        {
+          "id": "5.23",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-accept.then-i-ll-go-bother-the-state-thanks",
+          "text": "Then I'll go bother the state. Thanks.",
+          "move": "accept",
+          "choices": [],
+          "end": "refused: Can't help"
+        },
+        {
+          "id": "5.24",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-press.your-office-took-my-number-last-year-too",
+          "text": "Your office took my number last year too.",
+          "move": "press",
+          "choices": [
+            {
+              "id": "5.24.a",
+              "label": "You're right. I'll call while you're sitting here.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.you-re-right-i-ll-call-while-you-re-sitting-here",
+              "text": "You're right. I'll call while you're sitting here.",
+              "next": "5.25"
+            },
+            {
+              "id": "5.24.b",
+              "label": "We have to keep moving. I'll find you after.",
+              "tests": "move: ending the talk; tone: calm",
+              "key": "scene-talk.reply-leave.we-have-to-keep-moving-i-ll-find-you-after",
+              "text": "We have to keep moving. I'll find you after.",
+              "next": "5.26"
+            },
+            {
+              "id": "5.24.c",
+              "label": "It's already scheduled. I just can't say the date yet.",
+              "tests": "move: a lie; tone: calm",
+              "key": "scene-talk.reply-lie.it-s-already-scheduled-i-just-can-t-say-the-date-yet",
+              "text": "It's already scheduled. I just can't say the date yet.",
               "next": "5.27"
             }
           ]
         },
         {
+          "id": "5.25",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-accept.okay-now-prove-it",
+          "text": "Okay. Now prove it.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: You'll make the call"
+        },
+        {
+          "id": "5.26",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.close-press.please-don-t-forget-about-us",
+          "text": "Please don't forget about us.",
+          "move": "press",
+          "choices": [],
+          "end": "open: Handed to a caseworker"
+        },
+        {
           "id": "5.27",
-          "speaker": "Quinn Hansen",
-          "key": "scene-talk.follow-thank.okay-i-ll-look-that-up",
-          "text": "Okay. I'll look that up.",
+          "speaker": "Narrator",
+          "key": "",
+          "text": "(what happens next depends on whether they already know the truth)",
+          "move": "narrate",
+          "choices": [
+            {
+              "id": "5.27.a",
+              "label": "if not",
+              "tests": "the world decides: they do not know",
+              "key": "",
+              "text": "",
+              "next": "5.28"
+            }
+          ]
+        },
+        {
+          "id": "5.28",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.then-i-ll-ask-the-clerk-for-it-tomorrow",
+          "text": "Then I'll ask the clerk for it tomorrow.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: Handed to a caseworker"
+        },
+        {
+          "id": "5.29",
+          "speaker": "Narrator",
+          "key": "",
+          "text": "(what happens next depends on whether they already know the truth)",
+          "move": "narrate",
+          "choices": [
+            {
+              "id": "5.29.a",
+              "label": "if not",
+              "tests": "the world decides: they do not know",
+              "key": "",
+              "text": "",
+              "next": "5.30"
+            }
+          ]
+        },
+        {
+          "id": "5.30",
+          "speaker": "Samir Zimmerman",
+          "key": "scene-talk.follow-thank.thank-you-i-ll-wait-to-hear-from-them",
+          "text": "Thank you. I'll wait to hear from them.",
           "move": "thank",
           "choices": [],
           "end": "resolved: A call you never made"
@@ -2043,7 +2172,7 @@
       "setup": {
         "narration": [
           "On the afternoon of November 4th, you sit down at home with Veronica Green.",
-          "The results are in: you won the race for Council member. Veronica Green is the first to reach you."
+          "The results are in: you won the race for council member. Veronica Green is the first to reach you."
         ],
         "narrationKeys": [
           "scene-words.arrival-home-other.begins-you-sit-down-at-home-with-name",
@@ -2051,7 +2180,10 @@
         ],
         "when": "November 4th, 2025, 2:00 p.m.",
         "where": "home (ordinary)",
-        "who": ["Veronica Green", "Shawn Green"]
+        "who": [
+          "Veronica Green",
+          "Shawn Green"
+        ]
       },
       "nodes": [
         {
@@ -2540,60 +2672,94 @@
       "world": "batch-4-nov-9:0",
       "source": {
         "typeKey": "news-arrives",
-        "causeId": "person_57fb701e785c5b3a:2025-02-23:life.death:person_868f5146fa429222:2025-02-23",
-        "date": "2025-02-23",
+        "causeId": "person_11b8926f1bd31706:2025-06-22:work-relationship_b13ca1bbfa71e21b",
+        "date": "2025-06-22",
         "kindKey": "news-arrives",
-        "player": "Angela Rios"
+        "player": "Megan Hayes"
       },
       "setup": {
         "narration": [
-          "On the afternoon of February 23rd, you sit down at home with Dennis Rios. Your partner has something to tell you the moment you're in."
+          "Late in the morning on June 22nd, Charles Hayes is at your door. Your partner has something to tell you the moment you're in."
         ],
         "narrationKeys": [
-          "scene-words.arrival-home-other.begins-you-sit-down-at-home-with-name + scene-words.lead-news-arrives-other.other-has-something-to-tell-you-the-moment-youre-in"
+          "scene-words.arrival-home-other.begins-name-is-at-your-door + scene-words.lead-news-arrives-other.other-has-something-to-tell-you-the-moment-youre-in"
         ],
-        "when": "February 23rd, 2025, 2:00 p.m.",
+        "when": "June 22nd, 2025, 10:30 a.m.",
         "where": "home (ordinary)",
-        "who": ["Angela Rios", "Dennis Rios"]
+        "who": [
+          "Megan Hayes",
+          "Charles Hayes"
+        ]
       },
       "nodes": [
         {
           "id": "7.1",
-          "speaker": "Dennis Rios",
-          "key": "conversation.family-open-open.have-a-seat",
-          "text": "Have a seat.",
+          "speaker": "Charles Hayes",
+          "key": "conversation.family-open-open.there-s-something-i-need-to-tell-you",
+          "text": "There's something I need to tell you.",
           "choices": [],
           "next": "7.2"
         },
         {
           "id": "7.2",
-          "speaker": "Dennis Rios",
-          "key": "conversation.news-ask-think.what-do-you-think",
-          "text": "What do you think?",
+          "speaker": "Charles Hayes",
+          "key": "conversation.job-lost-raise.i-need-to-tell-you-something-i-lost-my-job",
+          "text": "I need to tell you something. I lost my job.",
           "choices": [
             {
               "id": "7.2.a",
-              "label": "I'd want more than a headline before I decide.",
-              "tests": "move: opinion",
-              "key": "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide",
-              "text": "I'd want more than a headline before I decide.",
+              "label": "Oh. Are you okay?",
+              "tests": "move: brief",
+              "key": "conversation.job-lost-reply-answer-brief.oh-are-you-okay",
+              "text": "Oh. Are you okay?",
               "next": "7.3"
+            },
+            {
+              "id": "7.2.b",
+              "label": "I'm so sorry. That's family.",
+              "tests": "move: comfort",
+              "key": "conversation.other-work-answer-ack-none.i-m-so-sorry-that-s-family",
+              "text": "I'm so sorry. That's family.",
+              "next": "7.5"
             }
           ]
         },
         {
           "id": "7.3",
-          "speaker": "Angela Rios",
-          "key": "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide",
-          "text": "I'd want more than a headline before I decide.",
+          "speaker": "Megan Hayes",
+          "key": "conversation.job-lost-reply-answer-brief.oh-are-you-okay",
+          "text": "Oh. Are you okay?",
           "choices": [],
           "next": "7.4"
         },
         {
           "id": "7.4",
-          "speaker": "Dennis Rios",
-          "key": "scene-talk.follow-accept.uh-huh",
-          "text": "Uh-huh.",
+          "speaker": "Charles Hayes",
+          "key": "conversation.farewell-leave-home.let-me-know-if-you-need-anything",
+          "text": "Let me know if you need anything.",
+          "choices": []
+        },
+        {
+          "id": "7.5",
+          "speaker": "Megan Hayes",
+          "key": "conversation.charge-reply-answer-comfort.i-m-here",
+          "text": "I'm here.",
+          "choices": [],
+          "next": "7.6"
+        },
+        {
+          "id": "7.6",
+          "speaker": "Charles Hayes",
+          "key": "scene-talk.state-accept-terms.okay",
+          "text": "Okay.",
+          "choices": [],
+          "next": "7.7"
+        },
+        {
+          "id": "7.7",
+          "speaker": "Charles Hayes",
+          "key": "conversation.farewell-leave-home.let-s-leave-it-there-for-now",
+          "text": "Let's leave it there for now.",
           "choices": []
         }
       ]
@@ -2621,7 +2787,10 @@
         ],
         "when": "January 23rd, 2025, 12:30 p.m.",
         "where": "home (ordinary)",
-        "who": ["Kelsey Malone", "Reuben Schwartz"]
+        "who": [
+          "Kelsey Malone",
+          "Reuben Schwartz"
+        ]
       },
       "nodes": [
         {
@@ -2637,7 +2806,7 @@
           "id": "8.2",
           "speaker": "Kelsey Malone",
           "key": "scene-talk.state-request.we-need-a-name-on-the-ballot-for-office-people-in-place-know-you-and-you-re-one-of-ours-would-you-run",
-          "text": "We need a name on the ballot for Assemblymember. People in Oceanport know you, and you're one of ours. Would you run?",
+          "text": "We need a name on the ballot for assemblymember. People in Oceanport know you, and you're one of ours. Would you run?",
           "template": "We need a name on the ballot for {office}. People in {place} know you, and you're one of ours. Would you run?",
           "move": "request",
           "choices": [
@@ -3443,7 +3612,9 @@
         "player": "Sam Williamson"
       },
       "setup": {
-        "narration": ["On the afternoon of January 21st finds you at home."],
+        "narration": [
+          "On the afternoon of January 21st finds you at home."
+        ],
         "narrationKeys": [
           "scene-words.arrival-home-alone.begins-finds-you-at-home"
         ],
@@ -3548,7 +3719,10 @@
         ],
         "when": "July 1st, 2025, 10:30 a.m.",
         "where": "office (ordinary)",
-        "who": ["Beth O'Donnell", "Kimberly Russo"]
+        "who": [
+          "Beth O'Donnell",
+          "Kimberly Russo"
+        ]
       },
       "nodes": [
         {
@@ -3894,60 +4068,72 @@
       "world": "batch-4-nov-9:2",
       "source": {
         "typeKey": "letter",
-        "causeId": "person_5c5c0d6bf903a466:2025-04-01:family.contact:person_4411895404834e42:person_5c5c0d6bf903a466:2025-04-01",
-        "date": "2025-04-01",
+        "causeId": "person_9ad4c60087957b1f:2025-05-01:family.contact:person_9ad4c60087957b1f:person_2ae3336ad48a3d4c:2025-05-01",
+        "date": "2025-05-01",
         "kindKey": "letter",
-        "player": "Kimberly Wyatt"
+        "player": "Brandon Hansen"
       },
       "setup": {
         "narration": [
-          "Around noon on April 1st, the mail brings a letter from Marshall Wyatt."
+          "On the afternoon of May 1st, you open a letter from Jasmine Hansen."
         ],
         "narrationKeys": [
-          "scene-words.arrival-letter-other.begins-the-mail-brings-a-letter-from-name"
+          "scene-words.arrival-letter-other.begins-you-open-a-letter-from-name"
         ],
-        "when": "April 1st, 2025, 12:30 p.m.",
+        "when": "May 1st, 2025, 2:00 p.m.",
         "where": "letter (ordinary)",
-        "who": ["Kimberly Wyatt", "Marshall Wyatt"]
+        "who": [
+          "Brandon Hansen",
+          "Jasmine Hansen"
+        ]
       },
       "nodes": [
         {
           "id": "12.1",
-          "speaker": "Marshall Wyatt",
-          "key": "conversation.greet-open-hello.good-to-see-you-name",
-          "text": "Good to see you, Kimberly.",
+          "speaker": "Jasmine Hansen",
+          "key": "conversation.greet-open-hello.hello-name",
+          "text": "Hello, Brandon.",
           "choices": [],
           "next": "12.2"
         },
         {
           "id": "12.2",
-          "speaker": "Marshall Wyatt",
-          "key": "conversation.news-raise-heard.did-you-hear-about-topic",
-          "text": "Did you hear about New Albany Times?",
+          "speaker": "Jasmine Hansen",
+          "key": "conversation.eviction-raise.the-landlord-says-we-have-to-leave",
+          "text": "The landlord says we have to leave.",
           "choices": [
             {
               "id": "12.2.a",
-              "label": "Huh.",
-              "tests": "move: react",
-              "key": "conversation.mutual-answer-brief.huh",
-              "text": "Huh.",
+              "label": "Wait. We have to move?",
+              "tests": "move: brief",
+              "key": "conversation.eviction-reply-answer-brief.wait-we-have-to-move",
+              "text": "Wait. We have to move?",
               "next": "12.3"
             },
             {
               "id": "12.2.b",
-              "label": "I haven't heard.",
-              "tests": "move: no",
-              "key": "conversation.news-answer-no.i-havent-heard",
-              "text": "I haven't heard.",
+              "label": "That's terrible.",
+              "tests": "move: comfort",
+              "key": "conversation.news-answer-react.thats-terrible",
+              "text": "That's terrible.",
               "next": null,
               "cut": true
             },
             {
               "id": "12.2.c",
-              "label": "I don't know.",
-              "tests": "move: opinion",
-              "key": "conversation.news-answer-opinion.i-dont-know",
-              "text": "I don't know.",
+              "label": "Tell me what I can do.",
+              "tests": "move: help",
+              "key": "conversation.eviction-reply-answer-help.tell-me-what-i-can-do",
+              "text": "Tell me what I can do.",
+              "next": null,
+              "cut": true
+            },
+            {
+              "id": "12.2.d",
+              "label": "We'll find a place.",
+              "tests": "move: reassure",
+              "key": "conversation.eviction-reply-answer-reassure.we-ll-find-a-place",
+              "text": "We'll find a place.",
               "next": null,
               "cut": true
             }
@@ -3955,17 +4141,17 @@
         },
         {
           "id": "12.3",
-          "speaker": "Kimberly Wyatt",
-          "key": "conversation.mutual-answer-brief.huh",
-          "text": "Huh.",
+          "speaker": "Brandon Hansen",
+          "key": "conversation.eviction-reply-answer-brief.wait-we-have-to-move",
+          "text": "Wait. We have to move?",
           "choices": [],
           "next": "12.4"
         },
         {
           "id": "12.4",
-          "speaker": "Marshall Wyatt",
-          "key": "scene-talk.follow-answer.that-s-what-i-heard",
-          "text": "That's what I heard.",
+          "speaker": "Jasmine Hansen",
+          "key": "conversation.farewell-leave-bye.take-care",
+          "text": "Take care.",
           "choices": []
         }
       ]
@@ -3993,7 +4179,10 @@
         ],
         "when": "March 3rd, 2025, 2:00 p.m.",
         "where": "office (ordinary)",
-        "who": ["Dennis Rios", "Danielle McClain"]
+        "who": [
+          "Dennis Rios",
+          "Danielle McClain"
+        ]
       },
       "nodes": [
         {
@@ -4109,7 +4298,10 @@
         ],
         "when": "November 4th, 2025, 2:00 p.m.",
         "where": "phone (ordinary)",
-        "who": ["Kelsey Malone", "James Schwartz"]
+        "who": [
+          "Kelsey Malone",
+          "James Schwartz"
+        ]
       },
       "nodes": [
         {
@@ -4126,7 +4318,7 @@
           "id": "14.2",
           "speaker": "Kelsey Malone",
           "key": "scene-talk.state-congratulate.the-count-has-you-ahead-by-lead-congratulations",
-          "text": "The count has you ahead by 137 votes. Congratulations.",
+          "text": "The count has you ahead by 139 votes. Congratulations.",
           "template": "The count has you ahead by {lead} votes. Congratulations.",
           "move": "congratulate",
           "choices": [
@@ -4251,10 +4443,10 @@
           "choices": [
             {
               "id": "14.8.a",
-              "label": "The last report I saw had me ahead by 137 votes. I wouldn't expect that to change.",
+              "label": "The last report I saw had me ahead by 139 votes. I wouldn't expect that to change.",
               "tests": "move: a plain answer; tone: calm",
               "key": "scene-talk.reply-answer.the-last-report-i-saw-had-me-ahead-by-lead-i-wouldn-t-expect-that-to-c",
-              "text": "The last report I saw had me ahead by 137 votes. I wouldn't expect that to change.",
+              "text": "The last report I saw had me ahead by 139 votes. I wouldn't expect that to change.",
               "next": "14.9"
             },
             {
@@ -4346,10 +4538,10 @@
           "choices": [
             {
               "id": "14.15.a",
-              "label": "The last report I saw had me ahead by 137 votes. I wouldn't expect that to change.",
+              "label": "The last report I saw had me ahead by 139 votes. I wouldn't expect that to change.",
               "tests": "move: a plain answer; tone: calm",
               "key": "scene-talk.reply-answer.the-last-report-i-saw-had-me-ahead-by-lead-i-wouldn-t-expect-that-to-c",
-              "text": "The last report I saw had me ahead by 137 votes. I wouldn't expect that to change.",
+              "text": "The last report I saw had me ahead by 139 votes. I wouldn't expect that to change.",
               "next": "14.16"
             },
             {
@@ -4431,22 +4623,25 @@
       "setup": {
         "narration": [
           "On the afternoon of June 1st, Arjun Williamson comes to the house.",
-          "After the meeting, Arjun Williamson waits until the room is nearly empty."
+          "The parking lot has mostly emptied out. Arjun Williamson is leaning on your car."
         ],
         "narrationKeys": [
           "scene-words.arrival-home-other.begins-name-comes-to-the-house",
-          "scene-talk.narrate-narrate.after-the-meeting-name-waits-until-the-room-is-nearly-empty"
+          "scene-talk.narrate-narrate.the-parking-lot-has-mostly-emptied-out-name-is-leaning-on-your-car"
         ],
         "when": "June 1st, 2025, 4:00 p.m.",
         "where": "home (ordinary)",
-        "who": ["Arjun Williamson", "Robin Williamson"]
+        "who": [
+          "Arjun Williamson",
+          "Robin Williamson"
+        ]
       },
       "nodes": [
         {
           "id": "15.1",
           "speaker": "Arjun Williamson",
-          "key": "scene-talk.open-greet.you-and-i-need-to-talk-and-i-d-rather-do-it-out-here",
-          "text": "You and I need to talk, and I'd rather do it out here.",
+          "key": "scene-talk.open-greet.do-you-have-a-minute-or-are-you-going-to-walk-past-me-again",
+          "text": "Do you have a minute, or are you going to walk past me again?",
           "move": "greet",
           "choices": [],
           "next": "15.2"
@@ -4972,7 +5167,10 @@
         ],
         "when": "March 31st, 2025, 2:00 p.m.",
         "where": "office (ordinary)",
-        "who": ["Kayla Vinson", "Robin Williamson"]
+        "who": [
+          "Kayla Vinson",
+          "Robin Williamson"
+        ]
       },
       "nodes": [
         {
@@ -5660,28 +5858,31 @@
       "source": {
         "typeKey": "volunteer-offer",
         "purpose": "offer-help",
-        "causeId": "volunteer-offered:filing:contest:seat:gus2025:170202:council:2:2025-11-04:person_6501c833ca3a2948:person_be89e8f16279a0c9",
-        "date": "2025-07-12",
+        "causeId": "volunteer-offered:filing:contest:seat:gus2025:170202:council:2:2025-11-04:person_6501c833ca3a2948:person_c7d6c75c8eba2240",
+        "date": "2025-08-02",
         "kindKey": "volunteer-offer",
         "player": "James Schwartz"
       },
       "setup": {
         "narration": [
-          "On the afternoon of July 12th, Jasper Schwartz stops in at the house.",
-          "Jasper Schwartz stands on the doorstep."
+          "On the afternoon of August 2nd, you sit down at home with Brittany Hubbard.",
+          "Brittany Hubbard doesn't come in, just leans in the doorway."
         ],
         "narrationKeys": [
-          "scene-words.arrival-home-other.begins-name-stops-in-at-the-house",
-          "scene-talk.narrate-narrate.name-stands-on-the-doorstep"
+          "scene-words.arrival-home-other.begins-you-sit-down-at-home-with-name",
+          "scene-talk.narrate-narrate.name-doesn-t-come-in-just-leans-in-the-doorway"
         ],
-        "when": "July 12th, 2025, 4:00 p.m.",
+        "when": "August 2nd, 2025, 2:00 p.m.",
         "where": "home (ordinary)",
-        "who": ["Jasper Schwartz", "James Schwartz"]
+        "who": [
+          "Brittany Hubbard",
+          "James Schwartz"
+        ]
       },
       "nodes": [
         {
           "id": "18.1",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.open-greet.first-i-hoped-i-d-catch-you",
           "text": "James! I hoped I'd catch you.",
           "template": "{first}! I hoped I'd catch you.",
@@ -5691,10 +5892,10 @@
         },
         {
           "id": "18.2",
-          "speaker": "Jasper Schwartz",
-          "key": "scene-talk.state-request.i-heard-you-re-running-for-office-i-want-to-help-whatever-you-need",
-          "text": "I heard you're running for Council member. I want to help, whatever you need.",
-          "template": "I heard you're running for {office}. I want to help, whatever you need.",
+          "speaker": "Brittany Hubbard",
+          "key": "scene-talk.state-request.i-heard-you-re-running-for-office-put-me-to-work",
+          "text": "I heard you're running for council member. Put me to work.",
+          "template": "I heard you're running for {office}. Put me to work.",
           "move": "request",
           "choices": [
             {
@@ -5715,27 +5916,27 @@
             },
             {
               "id": "18.2.c",
-              "label": "Thanks, but I've got it covered for now.",
+              "label": "I appreciate it, but I'd rather keep this small.",
               "tests": "move: turning it down politely",
-              "key": "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
-              "text": "Thanks, but I've got it covered for now.",
+              "key": "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small",
+              "text": "I appreciate it, but I'd rather keep this small.",
               "next": "18.9"
             },
             {
               "id": "18.2.d",
-              "label": "Let me see what I need first, and I'll call you.",
+              "label": "Can I get back to you on that?",
               "tests": "move: buying time",
-              "key": "scene-talk.reply-stall.let-me-see-what-i-need-first-and-i-ll-call-you",
-              "text": "Let me see what I need first, and I'll call you.",
+              "key": "scene-talk.reply-stall.can-i-get-back-to-you-on-that",
+              "text": "Can I get back to you on that?",
               "next": "18.14"
             }
           ]
         },
         {
           "id": "18.3",
-          "speaker": "Jasper Schwartz",
-          "key": "scene-talk.follow-answer.doors-phones-envelopes-whatever-needs-doing",
-          "text": "Doors, phones, envelopes. Whatever needs doing.",
+          "speaker": "Brittany Hubbard",
+          "key": "scene-talk.follow-answer.evenings-and-weekends-mostly-i-can-make-calls-or-walk-a-street",
+          "text": "Evenings and weekends, mostly. I can make calls or walk a street.",
           "move": "answer",
           "choices": [
             {
@@ -5748,34 +5949,34 @@
             },
             {
               "id": "18.3.b",
-              "label": "I appreciate it, but I'd rather keep this small.",
+              "label": "Thanks, but I've got it covered for now.",
               "tests": "move: turning it down politely",
-              "key": "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small",
-              "text": "I appreciate it, but I'd rather keep this small.",
+              "key": "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
+              "text": "Thanks, but I've got it covered for now.",
               "next": "18.5"
             },
             {
               "id": "18.3.c",
-              "label": "Let's talk another time.",
+              "label": "I can't talk now. Later?",
               "tests": "move: ending the talk",
-              "key": "scene-talk.reply-leave.let-s-talk-another-time",
-              "text": "Let's talk another time.",
+              "key": "scene-talk.reply-leave.i-can-t-talk-now-later",
+              "text": "I can't talk now. Later?",
               "next": "18.7"
             }
           ]
         },
         {
           "id": "18.4",
-          "speaker": "Jasper Schwartz",
-          "key": "scene-talk.follow-thank.good-tell-me-when-and-where",
-          "text": "Good. Tell me when and where.",
+          "speaker": "Brittany Hubbard",
+          "key": "scene-talk.follow-thank.great-just-tell-me-where-to-be",
+          "text": "Great. Just tell me where to be.",
           "move": "thank",
           "choices": [],
           "end": "resolved: They're on your team"
         },
         {
           "id": "18.5",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.follow-press.you-can-t-do-it-all-yourself",
           "text": "You can't do it all yourself.",
           "move": "press",
@@ -5784,7 +5985,7 @@
         },
         {
           "id": "18.6",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.close-accept.good-luck-with-it",
           "text": "Good luck with it.",
           "move": "accept",
@@ -5793,7 +5994,7 @@
         },
         {
           "id": "18.7",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.close-accept.good-luck-with-it",
           "text": "Good luck with it.",
           "move": "accept",
@@ -5802,7 +6003,7 @@
         },
         {
           "id": "18.8",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.follow-thank.great-just-tell-me-where-to-be",
           "text": "Great. Just tell me where to be.",
           "move": "thank",
@@ -5811,7 +6012,7 @@
         },
         {
           "id": "18.9",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.follow-press.you-can-t-do-it-all-yourself",
           "text": "You can't do it all yourself.",
           "move": "press",
@@ -5826,10 +6027,10 @@
             },
             {
               "id": "18.9.b",
-              "label": "I appreciate it, but I'd rather keep this small.",
+              "label": "Thanks, but I've got it covered for now.",
               "tests": "move: turning it down politely",
-              "key": "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small",
-              "text": "I appreciate it, but I'd rather keep this small.",
+              "key": "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
+              "text": "Thanks, but I've got it covered for now.",
               "next": "18.11"
             },
             {
@@ -5844,16 +6045,16 @@
         },
         {
           "id": "18.10",
-          "speaker": "Jasper Schwartz",
-          "key": "scene-talk.follow-thank.great-just-tell-me-where-to-be",
-          "text": "Great. Just tell me where to be.",
+          "speaker": "Brittany Hubbard",
+          "key": "scene-talk.follow-thank.good-tell-me-when-and-where",
+          "text": "Good. Tell me when and where.",
           "move": "thank",
           "choices": [],
           "end": "resolved: They're on your team"
         },
         {
           "id": "18.11",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.follow-press.everybody-needs-help-with-a-race-like-this",
           "text": "Everybody needs help with a race like this.",
           "move": "press",
@@ -5862,7 +6063,7 @@
         },
         {
           "id": "18.12",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.close-accept.good-luck-with-it",
           "text": "Good luck with it.",
           "move": "accept",
@@ -5871,7 +6072,7 @@
         },
         {
           "id": "18.13",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.close-accept.good-luck-with-it",
           "text": "Good luck with it.",
           "move": "accept",
@@ -5880,7 +6081,7 @@
         },
         {
           "id": "18.14",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.follow-press.you-can-t-do-it-all-yourself",
           "text": "You can't do it all yourself.",
           "move": "press",
@@ -5895,10 +6096,10 @@
             },
             {
               "id": "18.14.b",
-              "label": "I appreciate it, but I'd rather keep this small.",
+              "label": "Thanks, but I've got it covered for now.",
               "tests": "move: turning it down politely",
-              "key": "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small",
-              "text": "I appreciate it, but I'd rather keep this small.",
+              "key": "scene-talk.reply-decline.thanks-but-i-ve-got-it-covered-for-now",
+              "text": "Thanks, but I've got it covered for now.",
               "next": "18.16"
             },
             {
@@ -5913,16 +6114,16 @@
         },
         {
           "id": "18.15",
-          "speaker": "Jasper Schwartz",
-          "key": "scene-talk.follow-thank.great-just-tell-me-where-to-be",
-          "text": "Great. Just tell me where to be.",
+          "speaker": "Brittany Hubbard",
+          "key": "scene-talk.follow-thank.good-tell-me-when-and-where",
+          "text": "Good. Tell me when and where.",
           "move": "thank",
           "choices": [],
           "end": "resolved: They're on your team"
         },
         {
           "id": "18.16",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.follow-press.everybody-needs-help-with-a-race-like-this",
           "text": "Everybody needs help with a race like this.",
           "move": "press",
@@ -5931,7 +6132,7 @@
         },
         {
           "id": "18.17",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.close-accept.good-luck-with-it",
           "text": "Good luck with it.",
           "move": "accept",
@@ -5940,7 +6141,7 @@
         },
         {
           "id": "18.18",
-          "speaker": "Jasper Schwartz",
+          "speaker": "Brittany Hubbard",
           "key": "scene-talk.close-accept.good-luck-with-it",
           "text": "Good luck with it.",
           "move": "accept",
@@ -5997,8 +6198,8 @@
           "id": "19.2",
           "speaker": "Jeffrey Sherman",
           "key": "scene-talk.state-request.raise-your-right-hand-do-you-swear-to-follow-the-law-and-to-do-the-work",
-          "text": "Raise your right hand. Do you swear to follow the law and to do the work of commissioner honestly?",
-          "template": "Raise your right hand. Do you swear to follow the law and to do the work of {office} honestly?",
+          "text": "Raise your right hand. Do you swear to follow the law and to do the work of the commissioner honestly?",
+          "template": "Raise your right hand. Do you swear to follow the law and to do the work of the {office} honestly?",
           "move": "request",
           "choices": [
             {
@@ -6157,74 +6358,469 @@
     {
       "id": "20",
       "kind": "family",
-      "world": "batch-4-nov-9:1",
+      "world": "batch-4-nov-9:2",
       "source": {
-        "typeKey": "new-baby",
-        "causeId": "person_fc1d8ed1ebfb81ab:2025-04-09:person_2ddc78e3fc3a6a78:birth",
-        "date": "2025-04-09",
-        "kindKey": "new-baby",
-        "player": "Luna Harvey"
+        "typeKey": "family-filing",
+        "purpose": "family-filing",
+        "causeId": "candidate-filed:filing:contest:seat:gus2025:209052:council:4:2025-11-04:person_4ea2e66c13ab2363",
+        "date": "2025-06-07",
+        "kindKey": "family-filing",
+        "player": "Rosa Pearson"
       },
       "setup": {
         "narration": [
-          "On the afternoon of April 9th, Jason Harvey is at your door. Your sister was born."
+          "Around noon on June 7th, you sit down at home with Christopher Pearson.",
+          "The filing for council member is on the record. Somebody still has to get Kelsey to bed every night."
         ],
         "narrationKeys": [
-          "scene-words.arrival-home-other.begins-name-is-at-your-door + scene-words.cause-birth-other.other-was-born"
+          "scene-words.arrival-home-other.begins-you-sit-down-at-home-with-name",
+          "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-somebody-still-has-to-get-child-to-bed-ev"
         ],
-        "when": "April 9th, 2025, 2:00 p.m.",
+        "when": "June 7th, 2025, 12:30 p.m.",
         "where": "home (ordinary)",
-        "who": ["Luna Harvey", "Jason Harvey"]
+        "who": [
+          "Christopher Pearson",
+          "Rosa Pearson"
+        ]
       },
       "nodes": [
         {
           "id": "20.1",
-          "speaker": "Jason Harvey",
-          "key": "conversation.news-raise-heard.did-you-hear-about-topic",
-          "text": "Did you hear about Wgdz?",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.open-greet.so-you-did-it",
+          "text": "So. You did it.",
+          "move": "greet",
+          "choices": [],
+          "next": "20.2"
+        },
+        {
+          "id": "20.2",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.state-ask.who-is-with-child-on-the-nights-you-re-out",
+          "text": "Who is with Kelsey on the nights you're out?",
+          "template": "Who is with {child} on the nights you're out?",
+          "move": "ask",
           "choices": [
             {
-              "id": "20.1.a",
-              "label": "Oh, my.",
-              "tests": "move: react",
-              "key": "conversation.news-answer-react.oh-my",
-              "text": "Oh, my.",
-              "next": "20.2"
+              "id": "20.2.a",
+              "label": "I filed knowing the evenings it takes. I'll put them on the calendar for you.",
+              "tests": "move: telling them something; tone: guarded",
+              "key": "scene-talk.reply-tell.i-filed-knowing-the-evenings-it-takes-i-ll-put-them-on-the-calendar-for-you",
+              "text": "I filed knowing the evenings it takes. I'll put them on the calendar for you.",
+              "next": "20.3"
             },
             {
-              "id": "20.1.b",
-              "label": "I haven't heard.",
-              "tests": "move: no",
-              "key": "conversation.news-answer-no.i-havent-heard",
-              "text": "I haven't heard.",
-              "next": null,
-              "cut": true
+              "id": "20.2.b",
+              "label": "I need you with me on this. Can you take the school nights when I'm out?",
+              "tests": "move: making a request; tone: hopeful; personality: the reply your traits lean toward",
+              "key": "scene-talk.reply-request.i-need-you-with-me-on-this-can-you-take-the-school-nights-when-i-m-out",
+              "text": "I need you with me on this. Can you take the school nights when I'm out?",
+              "next": "20.12"
             },
             {
-              "id": "20.1.c",
-              "label": "It's about time.",
-              "tests": "move: opinion",
-              "key": "conversation.news-answer-opinion.its-about-time",
-              "text": "It's about time.",
+              "id": "20.2.c",
+              "label": "I haven't worked out the nights. Let me see the schedule first.",
+              "tests": "move: dodging it; tone: nervous",
+              "key": "scene-talk.reply-deflect.i-haven-t-worked-out-the-nights-let-me-see-the-schedule-first",
+              "text": "I haven't worked out the nights. Let me see the schedule first.",
+              "next": "20.16"
+            },
+            {
+              "id": "20.2.d",
+              "label": "Kelsey comes first. If a night has to go, the night goes.",
+              "tests": "move: comforting them; tone: tender",
+              "key": "scene-talk.reply-comfort.child-comes-first-if-a-night-has-to-go-the-night-goes",
+              "text": "Kelsey comes first. If a night has to go, the night goes.",
+              "next": "20.24"
+            }
+          ]
+        },
+        {
+          "id": "20.3",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-ask.how-many-nights-is-that-really",
+          "text": "How many nights is that, really?",
+          "move": "ask",
+          "choices": [
+            {
+              "id": "20.3.a",
+              "label": "I've thought about council member for a long time. I'm ready.",
+              "tests": "move: telling them something; tone: proud",
+              "key": "scene-talk.reply-tell.i-ve-thought-about-office-for-a-long-time-i-m-ready",
+              "text": "I've thought about council member for a long time. I'm ready.",
+              "next": "20.4"
+            },
+            {
+              "id": "20.3.b",
+              "label": "You're right. I should have told you first.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.you-re-right-i-should-have-told-you-first",
+              "text": "You're right. I should have told you first.",
+              "next": "20.7"
+            },
+            {
+              "id": "20.3.c",
+              "label": "Would you take Kelsey on the nights I'm at the meetings? I'll take the weekends.",
+              "tests": "move: making a request; tone: nervous",
+              "key": "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+              "text": "Would you take Kelsey on the nights I'm at the meetings? I'll take the weekends.",
+              "next": "20.8"
+            }
+          ]
+        },
+        {
+          "id": "20.4",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-ask.why-this-and-why-now",
+          "text": "Why this, and why now?",
+          "move": "ask",
+          "choices": [
+            {
+              "id": "20.4.a",
+              "label": "Somebody has to run for council member. Why not me?",
+              "tests": "move: telling them something; tone: proud",
+              "key": "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me",
+              "text": "Somebody has to run for council member. Why not me?",
+              "next": "20.5"
+            },
+            {
+              "id": "20.4.b",
+              "label": "I'm sorry. I wanted to be sure first.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first",
+              "text": "I'm sorry. I wanted to be sure first.",
+              "next": "20.6"
+            }
+          ]
+        },
+        {
+          "id": "20.5",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-ask.what-made-you-decide",
+          "text": "What made you decide?",
+          "move": "ask",
+          "choices": [
+            {
+              "id": "20.5.a",
+              "label": "Council member needs someone who'll show up. I think that's me.",
+              "tests": "move: telling them something; tone: proud",
+              "key": "scene-talk.reply-tell.office-needs-someone-who-ll-show-up-i-think-that-s-me",
+              "text": "Council member needs someone who'll show up. I think that's me.",
               "next": null,
               "cut": true
             }
           ]
         },
         {
-          "id": "20.2",
-          "speaker": "Luna Harvey",
-          "key": "conversation.news-answer-react.oh-my",
-          "text": "Oh, my.",
+          "id": "20.6",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-accept.okay-next-time-be-sure-with-me",
+          "text": "Okay. Next time, be sure with me.",
+          "move": "accept",
           "choices": [],
-          "next": "20.3"
+          "end": "resolved: Explained"
         },
         {
-          "id": "20.3",
-          "speaker": "Jason Harvey",
-          "key": "scene-talk.follow-answer.that-s-what-i-heard",
-          "text": "That's what I heard.",
-          "choices": []
+          "id": "20.7",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-accept.yes-you-should-have",
+          "text": "Yes, you should have.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: Explained"
+        },
+        {
+          "id": "20.8",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
+          "text": "I'll take the school nights. You take the weekends.",
+          "move": "promise",
+          "choices": [
+            {
+              "id": "20.8.a",
+              "label": "Thank you. I mean it.",
+              "tests": "move: gratitude; tone: tender",
+              "key": "scene-talk.reply-thank.thank-you-i-mean-it",
+              "text": "Thank you. I mean it.",
+              "next": "20.9"
+            },
+            {
+              "id": "20.8.b",
+              "label": "That's fair. Let's try it.",
+              "tests": "move: going along with it; tone: calm",
+              "key": "scene-talk.reply-accept.that-s-fair-let-s-try-it",
+              "text": "That's fair. Let's try it.",
+              "next": "20.10"
+            },
+            {
+              "id": "20.8.c",
+              "label": "I'm worn out. Let's pick this up tomorrow.",
+              "tests": "move: ending the talk; tone: guarded",
+              "key": "scene-talk.reply-leave.i-m-worn-out-let-s-pick-this-up-tomorrow",
+              "text": "I'm worn out. Let's pick this up tomorrow.",
+              "next": "20.11"
+            }
+          ]
+        },
+        {
+          "id": "20.9",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-thank.then-it-goes-on-the-calendar-and-i-m-holding-you-to-it",
+          "text": "Then it goes on the calendar, and I'm holding you to it.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: On board"
+        },
+        {
+          "id": "20.10",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-accept.okay-but-i-get-to-be-there-when-you-tell-people",
+          "text": "Okay. But I get to be there when you tell people.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: On board"
+        },
+        {
+          "id": "20.11",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.close-accept.fine-morning-then",
+          "text": "Fine. Morning, then.",
+          "move": "accept",
+          "choices": [],
+          "end": "open: Not talked through"
+        },
+        {
+          "id": "20.12",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
+          "text": "I'll take the school nights. You take the weekends.",
+          "move": "promise",
+          "choices": [
+            {
+              "id": "20.12.a",
+              "label": "I appreciate that more than you know.",
+              "tests": "move: gratitude; tone: tender; personality: the reply your traits lean toward",
+              "key": "scene-talk.reply-thank.i-appreciate-that-more-than-you-know",
+              "text": "I appreciate that more than you know.",
+              "next": "20.13"
+            },
+            {
+              "id": "20.12.b",
+              "label": "Good. I can plan around that.",
+              "tests": "move: going along with it; tone: calm",
+              "key": "scene-talk.reply-accept.good-i-can-plan-around-that",
+              "text": "Good. I can plan around that.",
+              "next": "20.14"
+            },
+            {
+              "id": "20.12.c",
+              "label": "Give me some time. I'll find you later.",
+              "tests": "move: ending the talk; tone: guarded",
+              "key": "scene-talk.reply-leave.give-me-some-time-i-ll-find-you-later",
+              "text": "Give me some time. I'll find you later.",
+              "next": "20.15"
+            }
+          ]
+        },
+        {
+          "id": "20.13",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-thank.then-it-goes-on-the-calendar-and-i-m-holding-you-to-it",
+          "text": "Then it goes on the calendar, and I'm holding you to it.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: On board"
+        },
+        {
+          "id": "20.14",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-accept.okay-but-you-re-telling-your-mother",
+          "text": "Okay. But you're telling your mother.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: On board"
+        },
+        {
+          "id": "20.15",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.close-accept.go-but-we-do-come-back-to-this",
+          "text": "Go. But we do come back to this.",
+          "move": "accept",
+          "choices": [],
+          "end": "open: Not talked through"
+        },
+        {
+          "id": "20.16",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-press.not-on-the-weekend-tell-me-now-what-you-re-giving-up",
+          "text": "Not on the weekend. Tell me now what you're giving up.",
+          "move": "press",
+          "choices": [
+            {
+              "id": "20.16.a",
+              "label": "I'm running. I'll be home for dinner with Kelsey most nights, and I'll tell you the nights I'm not.",
+              "tests": "move: telling them something; tone: proud",
+              "key": "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the",
+              "text": "I'm running. I'll be home for dinner with Kelsey most nights, and I'll tell you the nights I'm not.",
+              "next": "20.17"
+            },
+            {
+              "id": "20.16.b",
+              "label": "You're right. I should have told you first.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.you-re-right-i-should-have-told-you-first",
+              "text": "You're right. I should have told you first.",
+              "next": "20.21"
+            },
+            {
+              "id": "20.16.c",
+              "label": "I'll still be at dinner. I promise.",
+              "tests": "move: making a promise; tone: tender",
+              "key": "scene-talk.reply-promise.i-ll-still-be-at-dinner-i-promise",
+              "text": "I'll still be at dinner. I promise.",
+              "next": "20.22"
+            },
+            {
+              "id": "20.16.d",
+              "label": "Let's talk about it tomorrow, once we've both cooled off.",
+              "tests": "move: ending the talk; tone: calm",
+              "key": "scene-talk.reply-leave.let-s-talk-about-it-tomorrow-once-we-ve-both-cooled-off",
+              "text": "Let's talk about it tomorrow, once we've both cooled off.",
+              "next": "20.23"
+            }
+          ]
+        },
+        {
+          "id": "20.17",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-ask.what-made-you-decide",
+          "text": "What made you decide?",
+          "move": "ask",
+          "choices": [
+            {
+              "id": "20.17.a",
+              "label": "Somebody has to run for council member. Why not me?",
+              "tests": "move: telling them something; tone: proud",
+              "key": "scene-talk.reply-tell.somebody-has-to-run-for-office-why-not-me",
+              "text": "Somebody has to run for council member. Why not me?",
+              "next": "20.18"
+            },
+            {
+              "id": "20.17.b",
+              "label": "I'm sorry. I wanted to be sure first.",
+              "tests": "move: an apology; tone: contrite",
+              "key": "scene-talk.reply-apologize.i-m-sorry-i-wanted-to-be-sure-first",
+              "text": "I'm sorry. I wanted to be sure first.",
+              "next": "20.19"
+            },
+            {
+              "id": "20.17.c",
+              "label": "Would you take Kelsey on the nights I'm at the meetings? I'll take the weekends.",
+              "tests": "move: making a request; tone: nervous",
+              "key": "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+              "text": "Would you take Kelsey on the nights I'm at the meetings? I'll take the weekends.",
+              "next": "20.20"
+            }
+          ]
+        },
+        {
+          "id": "20.18",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-ask.what-happened-that-made-you-want-this",
+          "text": "What happened that made you want this?",
+          "move": "ask",
+          "choices": [
+            {
+              "id": "20.18.a",
+              "label": "I've thought about council member for a long time. I'm ready.",
+              "tests": "move: telling them something; tone: proud",
+              "key": "scene-talk.reply-tell.i-ve-thought-about-office-for-a-long-time-i-m-ready",
+              "text": "I've thought about council member for a long time. I'm ready.",
+              "next": null,
+              "cut": true
+            }
+          ]
+        },
+        {
+          "id": "20.19",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-accept.okay-next-time-be-sure-with-me",
+          "text": "Okay. Next time, be sure with me.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: Explained"
+        },
+        {
+          "id": "20.20",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-promise.i-ll-take-the-school-nights-you-take-the-weekends",
+          "text": "I'll take the school nights. You take the weekends.",
+          "move": "promise",
+          "choices": [
+            {
+              "id": "20.20.a",
+              "label": "Thank you. I mean it.",
+              "tests": "move: gratitude; tone: tender",
+              "key": "scene-talk.reply-thank.thank-you-i-mean-it",
+              "text": "Thank you. I mean it.",
+              "next": null,
+              "cut": true
+            },
+            {
+              "id": "20.20.b",
+              "label": "That's all I'm asking.",
+              "tests": "move: going along with it; tone: calm",
+              "key": "scene-talk.follow-accept.that-s-all-i-m-asking",
+              "text": "That's all I'm asking.",
+              "next": null,
+              "cut": true
+            },
+            {
+              "id": "20.20.c",
+              "label": "I'm going to bed. We'll talk in the morning.",
+              "tests": "move: ending the talk; tone: guarded",
+              "key": "scene-talk.reply-leave.i-m-going-to-bed-we-ll-talk-in-the-morning",
+              "text": "I'm going to bed. We'll talk in the morning.",
+              "next": null,
+              "cut": true
+            }
+          ]
+        },
+        {
+          "id": "20.21",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-accept.yes-you-should-have",
+          "text": "Yes, you should have.",
+          "move": "accept",
+          "choices": [],
+          "end": "resolved: Explained"
+        },
+        {
+          "id": "20.22",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-thank.then-it-goes-on-the-calendar-and-i-m-holding-you-to-it",
+          "text": "Then it goes on the calendar, and I'm holding you to it.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: On board"
+        },
+        {
+          "id": "20.23",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.close-accept.go-but-we-do-come-back-to-this",
+          "text": "Go. But we do come back to this.",
+          "move": "accept",
+          "choices": [],
+          "end": "open: Not talked through"
+        },
+        {
+          "id": "20.24",
+          "speaker": "Christopher Pearson",
+          "key": "scene-talk.follow-thank.then-it-goes-on-the-calendar-and-i-m-holding-you-to-it",
+          "text": "Then it goes on the calendar, and I'm holding you to it.",
+          "move": "thank",
+          "choices": [],
+          "end": "resolved: On board"
         }
       ]
     }
@@ -6238,116 +6834,11 @@
       "why": "the reply to \"I'll need your vote on mine\" does not answer a trade"
     },
     {
-      "scene": "1",
-      "node": "narration",
-      "key": "scene-talk.narrate-narrate.you-re-going-over-bill-at-your-desk-when-name-knocks-on-the-open-door",
-      "text": "You're going over Ordinance 2025-10 at your desk when Danielle McClain knocks on the open door.",
-      "why": "the arrival line puts both people in the chamber; this line has the player at a desk behind an open door"
-    },
-    {
-      "scene": "5",
-      "node": "5.3",
-      "key": "scene-talk.beat-beat.the-moderator-glances-at-the-clock-and-lets-it-run",
-      "text": "The moderator glances at the clock and lets it run.",
-      "why": "a town-hall beat (a heckler, a microphone, a moderator, \"next question\") in a one-on-one at office hours"
-    },
-    {
-      "scene": "5",
-      "node": "5.16",
-      "key": "scene-talk.beat-beat.somebody-in-the-back-says-answer-the-question-just-loud-enough",
-      "text": "Somebody in the back says \"Answer the question\" just loud enough.",
-      "why": "a town-hall beat (a heckler, a microphone, a moderator, \"next question\") in a one-on-one at office hours"
-    },
-    {
-      "scene": "5",
-      "node": "5.20, 5.24",
-      "key": "scene-talk.beat-beat.the-microphone-squeals-and-the-whole-room-winces",
-      "text": "The microphone squeals, and the whole room winces.",
-      "why": "a town-hall beat (a heckler, a microphone, a moderator, \"next question\") in a one-on-one at office hours"
-    },
-    {
-      "scene": "7",
-      "node": "7.2",
-      "key": "conversation.news-ask-think.what-do-you-think",
-      "text": "What do you think?",
-      "why": "the scene is news of a death or a mentor; the talk is the generic \"headline\" opinion exchange and never names the news"
-    },
-    {
-      "scene": "7",
-      "node": "7.2.a, 7.3",
-      "key": "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide",
-      "text": "I'd want more than a headline before I decide.",
-      "why": "the scene is news of a death or a mentor; the talk is the generic \"headline\" opinion exchange and never names the news"
-    },
-    {
-      "scene": "7",
-      "node": "7.4",
-      "key": "scene-talk.follow-accept.uh-huh",
-      "text": "Uh-huh.",
-      "why": "the scene is news of a death or a mentor; the talk is the generic \"headline\" opinion exchange and never names the news"
-    },
-    {
       "scene": "10",
       "node": "10.6",
       "key": "address",
       "text": "I trust Vice President James Johnson. You'll see why.",
       "why": "a promise of a reason that the address never gives"
-    },
-    {
-      "scene": "12",
-      "node": "12.1",
-      "key": "conversation.greet-open-hello.good-to-see-you-name",
-      "text": "Good to see you, Kimberly.",
-      "why": "a greeting for meeting face to face, said in a letter"
-    },
-    {
-      "scene": "12",
-      "node": "12.2",
-      "key": "conversation.news-raise-heard.did-you-hear-about-topic",
-      "text": "Did you hear about New Albany Times?",
-      "why": "the topic slot holds the name of an outlet or a station, not what happened; the scene is a letter or a birth, and the line asks about neither"
-    },
-    {
-      "scene": "15",
-      "node": "15.1",
-      "key": "scene-talk.open-greet.you-and-i-need-to-talk-and-i-d-rather-do-it-out-here",
-      "text": "You and I need to talk, and I'd rather do it out here.",
-      "why": "the arrival line says the other person comes to the house; this line is in a meeting room, out in the hall"
-    },
-    {
-      "scene": "15",
-      "node": "narration",
-      "key": "scene-talk.narrate-narrate.after-the-meeting-name-waits-until-the-room-is-nearly-empty",
-      "text": "After the meeting, Arjun Williamson waits until the room is nearly empty.",
-      "why": "the arrival line says the other person comes to the house; this line is in a meeting room, out in the hall"
-    },
-    {
-      "scene": "18",
-      "node": "18.2",
-      "key": "scene-talk.state-request.i-heard-you-re-running-for-office-i-want-to-help-whatever-you-need",
-      "text": "I heard you're running for Council member. I want to help, whatever you need.",
-      "why": "no article before the office (\"running for Council member\")"
-    },
-    {
-      "scene": "19",
-      "node": "19.2",
-      "key": "scene-talk.state-request.raise-your-right-hand-do-you-swear-to-follow-the-law-and-to-do-the-work",
-      "text": "Raise your right hand. Do you swear to follow the law and to do the work of commissioner honestly?",
-      "why": "no article before the office (\"the work of commissioner\")"
-    },
-    {
-      "scene": "20",
-      "node": "20.1",
-      "key": "conversation.news-raise-heard.did-you-hear-about-topic",
-      "text": "Did you hear about Wgdz?",
-      "why": "the topic slot holds the name of an outlet or a station, not what happened; the scene is a letter or a birth, and the line asks about neither"
-    },
-    {
-      "scene": "20",
-      "node": "20.1.c",
-      "key": "conversation.news-answer-opinion.its-about-time",
-      "text": "It's about time.",
-      "why": "a reply drawn for news in general, offered to a birth"
     }
   ]
 }
