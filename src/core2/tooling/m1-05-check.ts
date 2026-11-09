@@ -160,10 +160,21 @@ type Case = {
   };
 };
 const cases = housing.table("cases").rows() as unknown as Case[];
-const lawRow = (
-  housingData.eviction as unknown as Record<string, Case["law"] | undefined>
-)[usps];
+const evictionLaws = housingData.eviction as unknown as Record<
+  string,
+  Case["law"] | undefined
+>;
+const lawRow = evictionLaws[usps];
 if (!lawRow) failures.push(`no recorded eviction steps for ${usps}`);
+const dwellingRows = housing.table("dwellings");
+/** The state whose eviction law a case follows: the state its household's dwelling is in (a national address, such as a Washington press household's, is in its own state), else the town's. */
+const lawStateOf = (row: Case): string =>
+  String(
+    (
+      dwellingRows.get(`dwelling:${row.householdId}`) as
+        { usps?: string } | undefined
+    )?.usps ?? usps,
+  );
 const later = (date: string, days: number) =>
   addDays(makeIsoDate(date), Math.max(1, days));
 const stages: Record<string, number> = {};
@@ -179,7 +190,9 @@ for (const row of cases) {
     fail(row.id, `opened with ${row.owedAtNoticeMinor} owed`);
   if (!row.counted && !core.finance.contracts.has(row.leaseId))
     fail(row.id, `names lease ${row.leaseId}, which is no record`);
-  if (lawRow)
+  const caseState = lawStateOf(row);
+  const caseLaw = evictionLaws[caseState];
+  if (caseLaw)
     for (const key of [
       "noticeDays",
       "hearingDays",
@@ -188,10 +201,10 @@ for (const row of cases) {
       "cureAllowed",
       "statute",
     ] as const)
-      if (row.law[key] !== lawRow[key])
+      if (row.law[key] !== caseLaw[key])
         fail(
           row.id,
-          `followed ${key} ${row.law[key]}, the law of ${usps} says ${lawRow[key]}`,
+          `followed ${key} ${row.law[key]}, the law of ${caseState} (its dwelling's state) says ${caseLaw[key]}`,
         );
   // (4) The steps, in order, on the law's days.
   if (row.cureBy !== later(row.noticeAt, row.law.noticeDays))
