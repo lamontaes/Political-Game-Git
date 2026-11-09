@@ -35,6 +35,11 @@ import {
   recordEmployerBound,
   recordHiredUnderBan,
 } from "../jobs-age-bias";
+import {
+  recordBiasAt,
+  recordRanking,
+  recordHiredUnderBan as recordHiredWithRecordUnderBan,
+} from "../jobs-record-bias";
 import { LAWS_MODULE_ID, lawInForce, socialSecurityAges } from "./laws";
 import { publicPayFloorHourly } from "../public-pay-floor";
 import { inCustody } from "./justice";
@@ -3175,10 +3180,27 @@ function runWeek(api: CoreAPI): void {
     const birthOf = (personId: string) =>
       c.people.get(personId)?.birthDate ??
       residentFacts(c, personId)?.birthDate;
+    // A public employer that may ask about a criminal record weighs an applicant
+    // with a conviction down; a ban-the-box law in the town takes that off.
+    const recordBias = recordBiasAt(
+      api,
+      position.organizationId,
+      position.placeId,
+    );
     const weighed = (seeker: SeekerRow, penalized: boolean) => {
       const born = penalized && bias ? birthOf(seeker.personId) : undefined;
-      return fit(seeker) - (born && bias ? bias.penaltyOf(born) : 0);
+      return (
+        fit(seeker) -
+        (born && bias ? bias.penaltyOf(born) : 0) -
+        (recordBias && !recordBias.ban
+          ? recordBias.penaltyOf(seeker.personId)
+          : 0)
+      );
     };
+    // Under a ban-the-box law: who the penalty would have chosen, to tell whether the ban changed the hire.
+    const unbanned = (seeker: SeekerRow) =>
+      weighed(seeker, !bias?.ban) -
+      (recordBias?.ban ? recordBias.penaltyOf(seeker.personId) : 0);
     const pick = (pool: readonly SeekerRow[], penalized: boolean) => {
       let top = pool[0]!;
       for (const row of pool) {
@@ -3199,6 +3221,17 @@ function runWeek(api: CoreAPI): void {
     // ranking, picking whom the scan would. Where no ranking stands
     // (`rankedOrder`), the scan picks; bookkeeping runs it beside the
     // ranking and throws on any difference.
+    // A public opening's ranking is kept by record: each applicant's place and weight, and whether a conviction is on their record, so the law's reach reads in the order itself.
+    if (recordBias)
+      recordRanking(
+        api,
+        recordBias,
+        position.id,
+        pool.map((row) => ({
+          personId: row.personId,
+          weight: weighed(row, !bias?.ban),
+        })),
+      );
     const order = rankedOrder(pool, (row) => weighed(row, !bias?.ban));
     const penalizedOrder =
       order && bias?.ban
@@ -3292,6 +3325,33 @@ function runWeek(api: CoreAPI): void {
           `job:${position.id}:${best.personId}`;
       }
       if (!placed) continue;
+      if (recordBias?.ban && recordBias.hasRecord(best.personId)) {
+        // Would the penalty have chosen someone else among those still in the pool?
+        const rivals = applicants.filter(
+          (row) =>
+            row !== best && !c.jobs.has(`job:${position.id}:${row.personId}`),
+        );
+        if (
+          rivals.some((row) => unbanned(row) > unbanned(best)) &&
+          !isCounted(api, best.personId)
+        )
+          recordHiredWithRecordUnderBan(
+            api,
+            recordBias,
+            {
+              personId: best.personId,
+              organizationId: position.organizationId,
+            },
+            Math.round(
+              position.hourlyMinor *
+                ((
+                  c.jobs.get(position.templateJobId) ??
+                  residentsRuntime(c)?.jobs.get(position.templateJobId)
+                )?.hoursDaily ?? 0) *
+                p("jobsDaysPerYear"),
+            ),
+          );
+      }
       if (overruled && bias)
         recordHiredUnderBan(
           api,

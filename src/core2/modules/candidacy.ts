@@ -1245,10 +1245,17 @@ export function fileRunners(
     first.date < api.state.date
       ? weighContest(api, contest, localRank, false, true)
       : first;
+  // Every drawn counted runner is filled in before any platform is read, so
+  // the electorate the platforms weigh is rebuilt once for the contest, not
+  // once per runner (a fill-in changes the people it is keyed on).
+  for (const personId of row.runIds)
+    if (
+      decisionOf(api, contest.id, personId) &&
+      !api.state.people.has(personId)
+    )
+      fillInPerson(api.state as CoreState, personId);
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
-    if (decision && !api.state.people.has(personId))
-      fillInPerson(api.state as CoreState, personId);
     const person = api.state.people.get(personId);
     if (!decision || !person) continue;
     const filing: NonNullable<CandidacyDecision["filing"]> = person.alive
@@ -1695,13 +1702,17 @@ function weighClosedContest(
   );
   const filings = api.moduleState(ELECTIONS_MODULE_ID).table("filings");
   const positions = contestPositions(api, contest);
+  // A counted adult who decided to run on their counted record is made a
+  // full person the day they file, all before any platform is read.
+  for (const personId of row.runIds)
+    if (
+      decisionOf(api, contest.id, personId) &&
+      !api.state.people.has(personId)
+    )
+      fillInPerson(api.state as CoreState, personId);
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     if (!decision) continue;
-    // A counted adult who decided to run on their counted record is made a
-    // full person the day they file.
-    if (!api.state.people.has(personId))
-      fillInPerson(api.state as CoreState, personId);
     let party: string | null = seatParty(api, contest)
       ? partyOf(api, personId)
       : null;
