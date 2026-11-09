@@ -471,6 +471,84 @@
       "purpose": "a higher pay floor for public employees",
       "repealName": "Public Pay Floor Reduction",
       "repealPurpose": "a lower pay floor for public employees"
+    },
+    "us-federal-positions:health.medicare-drug-price-negotiation": {
+      "name": "Medicare Drug Price Negotiation",
+      "purpose": "Medicare negotiating the prices it pays for prescription drugs",
+      "repealName": "Medicare Drug Price Negotiation Repeal",
+      "repealPurpose": "ending Medicare's negotiation of prescription drug prices"
+    },
+    "us-federal-positions:budget.pay-for-a-higher-debt-limit": {
+      "name": "Debt Limit Offset",
+      "purpose": "raising the debt limit only with spending cuts or new revenue to pay for it",
+      "repealName": "Debt Limit Offset Repeal",
+      "repealPurpose": "letting the debt limit rise without a matching offset"
+    },
+    "us-federal-positions:education.forgive-student-loans": {
+      "name": "Student Loan Relief",
+      "purpose": "forgiving federal student loan debt",
+      "repealName": "Student Loan Relief Repeal",
+      "repealPurpose": "ending federal student loan forgiveness"
+    },
+    "us-federal-positions:emergencies.states-share-disaster-costs": {
+      "name": "Disaster Cost Sharing",
+      "purpose": "states paying a share of their own disaster costs",
+      "repealName": "Full Federal Disaster Aid",
+      "repealPurpose": "the federal government paying the full cost of disaster response"
+    },
+    "us-federal-positions:energy-environment.limit-power-plant-carbon": {
+      "name": "Clean Power Plant Standards",
+      "purpose": "limits on the carbon power plants may emit",
+      "repealName": "Power Plant Carbon Limits Repeal",
+      "repealPurpose": "ending the limits on carbon from power plants"
+    },
+    "us-federal-positions:government.ban-congressional-stock-trading": {
+      "name": "Congressional Stock Trading Ban",
+      "purpose": "barring members of Congress from trading stocks",
+      "repealName": "Congressional Stock Trading Allowance",
+      "repealPurpose": "letting members of Congress trade stocks again"
+    },
+    "us-federal-positions:housing.vouchers-for-every-eligible-family": {
+      "name": "Universal Housing Vouchers",
+      "purpose": "a housing voucher for every eligible family",
+      "repealName": "Housing Voucher Limits",
+      "repealPurpose": "capping housing vouchers below every eligible family"
+    },
+    "us-federal-positions:immigration.admit-more-immigrants": {
+      "name": "Immigration Expansion",
+      "purpose": "admitting more immigrants each year",
+      "repealName": "Immigration Reduction",
+      "repealPurpose": "admitting fewer immigrants each year"
+    },
+    "us-federal-positions:justice-rights.reduce-mandatory-minimums": {
+      "name": "Sentencing Flexibility",
+      "purpose": "reducing mandatory minimum sentences",
+      "repealName": "Mandatory Minimum Restoration",
+      "repealPurpose": "restoring mandatory minimum sentences"
+    },
+    "us-federal-positions:science-communications.national-data-privacy": {
+      "name": "National Data Privacy Protection",
+      "purpose": "one national standard for personal data privacy",
+      "repealName": "National Data Privacy Repeal",
+      "repealPurpose": "ending the national standard for personal data privacy"
+    },
+    "us-federal-positions:territories-culture.statehood-for-dc": {
+      "name": "Washington Statehood Admission",
+      "purpose": "admitting the District of Columbia as a state",
+      "repealName": "Washington Statehood Repeal",
+      "repealPurpose": "returning the District of Columbia to non-state status"
+    },
+    "us-federal-positions:trade.raise-tariffs": {
+      "name": "Tariff Increase",
+      "purpose": "raising tariffs on imported goods",
+      "repealName": "Tariff Reduction",
+      "repealPurpose": "lowering tariffs on imported goods"
+    },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "name": "Electric Choice",
+      "purpose": "letting customers pick their electricity supplier",
+      "repealName": "Electric Choice Repeal",
+      "repealPurpose": "ending customers' choice of electricity supplier"
     }
   },
   "list": {

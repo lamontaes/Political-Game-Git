@@ -56,7 +56,7 @@ import { stableHash } from "../kernel/ids";
 import { parameter } from "../parameters";
 import { countedIllnessOf, endCountedIllness } from "../counted-illness";
 import { isDemoted } from "../counted-groups";
-import { huskIdentityOf } from "../husk-promoters";
+import { huskIdentityOf, huskIncomeOf } from "../husk-promoters";
 import { personOrFillIn } from "../state";
 import { declareSnapshotCovered, registerWorldMapPart } from "../snapshot";
 import type { EntityId } from "../kernel/brands";
@@ -816,23 +816,50 @@ export function youthCannabisRecordOf(
 
 function initialize(api: CoreAPI, data: HealthData, row: HealthRuntime) {
   api.stopgap(data.stopgapId);
+  const p = (key: string) => api.parameter(key);
   const start = makeIsoDate(api.state.startedAt);
   const pay = householdMonthlyPay(api);
   const alive = [...api.state.people.values()].filter((person) => person.alive);
   setTraitNorms(api, data, row, alive);
+  // Another state's legislators are husks, but their conditions are ranked in
+  // their cell by their seat's pay with everyone else's, as they were when they
+  // were people (`admitHusks` books the rest of them as they appear).
+  const core = api.state as CoreState;
+  const members = [
+    ...alive.map((who) => ({
+      who: who as Readonly<PersonState>,
+      monthly: pay.get(who.householdId) ?? null,
+    })),
+    ...[...core.husks.keys()].flatMap((id) => {
+      const who = huskIdentityOf(core, id);
+      if (!who) return [];
+      const income = huskIncomeOf(core, id);
+      return [
+        {
+          who: {
+            id,
+            birthDate: who.birthDate,
+            placeId: who.placeId,
+            traits: who.traits,
+          } as unknown as Readonly<PersonState>,
+          monthly: income === undefined ? null : income / p("monthsPerYear"),
+        },
+      ];
+    }),
+  ];
   const assignments = startingConditionAssignments(
-    alive.map((person) => ({
-      personId: person.id as EntityId,
-      placeKey: person.placeId,
-      age: exactAge(api, person.birthDate, start),
+    members.map(({ who, monthly }) => ({
+      personId: who.id as EntityId,
+      placeKey: who.placeId,
+      age: exactAge(api, who.birthDate, start),
       category: data.calibrationCategory,
-      monthlyHouseholdIncomeMinor: pay.get(person.householdId) ?? null,
-      conscientiousness: conscientiousness(data, person),
+      monthlyHouseholdIncomeMinor: monthly,
+      conscientiousness: conscientiousness(data, who),
     })),
     behaviorSlopes(api, data),
     worldRateFactor(api.state.seed, "conditions"),
   );
-  for (const person of alive)
+  for (const { who: person } of members)
     assignPerson(
       api,
       data,
@@ -1058,11 +1085,30 @@ export function createHealthModule(
       }
       const date = makeIsoDate(api.state.date);
       for (const id of [...(row.onsetsByDate.get(date) ?? [])].sort()) {
-        // A husk whose illness begins is opened: the person is built now.
+        const core = api.state as CoreState;
         const person =
           api.state.people.get(id) ??
-          personOrFillIn(api.state as CoreState, id);
+          (core.husks.has(id) ? undefined : personOrFillIn(core, id));
         const found = row.cases.get(id);
+        // A husk whose illness begins is not built: nobody close to them is
+        // a full person to hear it (the onset is private), so it begins
+        // unseen on the same day and their death, on the day it falls due,
+        // builds them (below).
+        if (!person && found && core.husks.has(id)) {
+          const who = huskIdentityOf(core, id);
+          if (!who) continue;
+          api.stopgap(data.stopgapId);
+          const days = remainingDaysAfterOnset({
+            age: ageOnDate(makeIsoDate(who.birthDate), date),
+            severity: found.severity,
+            covered: null,
+          });
+          found.onsetEventId = `${data.onsetEventKind}:${id}:${date}`;
+          found.deathDate = addDays(date, days);
+          index(row.deathsByDate, found.deathDate, id);
+          row.onsets += api.parameter("one");
+          continue;
+        }
         // Someone back in the counts is counted: the counted flows decide
         // their illness and death, by the same life-table share, and their
         // kept record waits for them to be met again (one model, two tiers).
@@ -1089,7 +1135,13 @@ export function createHealthModule(
         api.emit(event);
       }
       for (const id of [...(row.deathsByDate.get(date) ?? [])].sort()) {
-        const person = api.state.people.get(id);
+        // A husk whose death falls due is built now, then dies as anyone does.
+        const person =
+          api.state.people.get(id) ??
+          ((api.state as CoreState).husks.has(id) &&
+          row.cases.get(id)?.onsetEventId
+            ? personOrFillIn(api.state as CoreState, id)
+            : undefined);
         const found = row.cases.get(id);
         if (!person?.alive || !found || isDemoted(person)) continue;
         api.stopgap(data.stopgapId);

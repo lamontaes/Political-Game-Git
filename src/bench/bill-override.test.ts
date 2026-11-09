@@ -21,7 +21,7 @@ import {
   holdVote,
 } from "../core2/modules/legislature";
 import { lawInForce } from "../core2/modules/laws";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { heldFederal, releaseFederal } from "../core2/office-day-federal";
 import { billStage, callOverrideVote, chooseOverrideVote } from "./bill-stage";
 import { drawPlace } from "../../scripts/core2-year/place";

@@ -130,8 +130,12 @@ describe(
       // large against the cash on hand and against the month's due spending,
       // so a close that borrowed only the due spending would pay the lines short.
       const budget = budgetInForce(api, us.id)!;
+      // On top of the cash the treasury opened with (a world-drawn balance
+      // that can itself exceed a tenth of the year), so the reserve is always
+      // larger than the cash on hand.
       const reserve = Math.round(
-        Object.values(budget.spendingMinor).reduce((n, m) => n + m, 0) / 10,
+        accounts.balance(main) +
+          Object.values(budget.spendingMinor).reduce((n, m) => n + m, 0) / 10,
       );
       accounts.addObligation({
         id: "reserve-test:big",

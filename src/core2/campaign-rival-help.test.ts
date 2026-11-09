@@ -82,11 +82,8 @@ import { openParties } from "./modules/parties";
 import { openPress } from "./modules/press";
 import { agreementWith, viewsModule } from "./modules/views";
 import { sharedHistory } from "./shared-history";
-import {
-  PLATFORM_QUESTIONS,
-  campaignParameter,
-  personLean,
-} from "./campaign-views";
+import { personLean } from "./campaign-views";
+import { PLATFORM_QUESTIONS, campaignParameter } from "./campaign-data";
 
 const START = "2026-01-05";
 const runSeed =

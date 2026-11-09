@@ -446,6 +446,9 @@ export function localRaces(core: CoreState) {
         title: raceTitle(contest.title, contest.district),
         electionDate: contest.electionDate,
         filingDeadline: contest.filingDeadline,
+        // The day filing opens, from the contest's record: null where the
+        // place's records give no opening day.
+        filingOpens: contest.filingOpens ?? null,
         filingClosed: contest.filingDeadline < core.date,
         // Filing is open today: the office takes a filing for it, by the
         // elections engine's one window (`filingWindowOpen`).

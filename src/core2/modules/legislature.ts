@@ -54,7 +54,8 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { personLean, personStance } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
   calibrationRows,
@@ -211,6 +212,8 @@ export interface BillRow {
   readonly introduced: string;
   /** The day it passed its last chamber; a state act's session is the one sitting then, whenever it is signed. */
   readonly passedOn?: string;
+  /** The day a vote or a committee ended the bill (status "failed"). */
+  readonly failedOn?: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
   /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
@@ -1021,7 +1024,12 @@ function councilBudget(
   // changes; every chamber must pass it (the U.S. Senate by cloture first).
   const roll = (kept: readonly Provision[]) => {
     const trial = { ...bill, provisions: kept } as BillRow;
-    const tallies: string[] = [];
+    const tallies: {
+      chamber: string;
+      title: string;
+      yes: number;
+      no: number;
+    }[] = [];
     const rows: ModuleRow[] = [];
     for (const chamber of chambers.chambers) {
       let yes = 0;
@@ -1048,7 +1056,14 @@ function councilBudget(
           position: { ...position, total },
         } as unknown as ModuleRow);
       }
-      tallies.push(`${yes}-${no}`);
+      // The chamber's own name from its body record (House, Senate, Assembly...), never its key.
+      const named = bodyOf(api, chamber);
+      tallies.push({
+        chamber,
+        title: named?.bodyName ?? named?.governmentName ?? "",
+        yes,
+        no,
+      });
       const cloture =
         chamber === FEDERAL_SENATE &&
         yes <
@@ -1149,34 +1164,31 @@ function councilBudget(
       return [line.line, line.value];
     }),
   );
-  const votes = tallies.join(", ");
+  // What the vote and the negotiation did, as the record the screens word.
+  const adoption = {
+    body: chambers.body,
+    tallies,
+    bill: { id: bill.id, number: bill.number },
+    amendments: [
+      ...[...halved.entries()]
+        .filter(([line]) => !dropped.includes(line))
+        .map(([line, times]) => ({ line, how: "halved" as const, times })),
+      ...dropped.map((line) => ({
+        line,
+        how: "dropped" as const,
+        times: halved.get(line) ?? 0,
+      })),
+    ],
+  };
   // A passed bill's line changes become the government's enacted lines; a
   // failed one leaves last year's enacted lines in force.
   const budget = adopted
-    ? enactBudget(
-        api,
-        gov,
-        fy,
-        `${chambers.body} vote ${votes}${
-          halved.size || dropped.length
-            ? ` (amended: ${[
-                ...[...halved.entries()]
-                  .filter(([line]) => !dropped.includes(line))
-                  .map(([line, n]) => `${line} cut to 1/${2 ** n}`),
-                ...dropped.map((line) => `${line} dropped`),
-              ].join(", ")})`
-            : ""
-        }, ${bill.number}`,
-        passed,
-      )
-    : carriedBudget(
-        api,
-        gov,
-        fy,
-        desk === "vetoed"
-          ? `carried forward after the executive vetoed ${bill.number} ${votes}`
-          : `carried forward after ${chambers.body} rejected ${bill.number} ${votes}`,
-      );
+    ? enactBudget(api, gov, fy, { kind: "vote", ...adoption }, passed)
+    : carriedBudget(api, gov, fy, {
+        kind: "carried",
+        ...adoption,
+        carried: desk === "vetoed" ? "vetoed" : "rejected",
+      });
   clearBudgetPriorities(api, gov.id);
   table(api, "bills").put({
     ...bill,
@@ -4889,7 +4901,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     // The bill as its markup left it.
     bill = table(api, "bills").get(bill.id) as unknown as BillRow;
     if (committee && !committee.reported) {
-      const held: BillRow = { ...bill, status: "failed" };
+      const held: BillRow = {
+        ...bill,
+        status: "failed",
+        failedOn: api.state.date,
+      };
       table(api, "bills").put(held as unknown as ModuleRow);
       if (committee.heard)
         recordFailure(api, held, chamber, "committee", committee);
@@ -4937,7 +4953,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
             campaignParameter("senateClotureShare"),
         );
     if (tally.yes <= tally.no || cloture) {
-      const failed: BillRow = { ...bill, status: "failed" };
+      const failed: BillRow = {
+        ...bill,
+        status: "failed",
+        failedOn: api.state.date,
+      };
       table(api, "bills").put(failed as unknown as ModuleRow);
       recordFailure(api, failed, chamber, "floor", tally);
       return failed;
@@ -6011,6 +6031,7 @@ export function holdCommittee(
     table(api, "bills").put({
       ...held,
       status: "failed",
+      failedOn: api.state.date,
     } as unknown as ModuleRow);
     // The bill's fate is on the record as it is when a vote ends it.
     for (const hook of afterVoteHooks) hook(api, billId);
