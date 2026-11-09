@@ -661,6 +661,17 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
   const reach = billReach(api, bill);
   const minorUnit = (unit: string | null | undefined) =>
     typeof unit === "string" && unit.startsWith("minor");
+  const clauseOf = (provisions: readonly Provision[], index: number) => {
+    const copy: BillRow = { ...bill, provisions };
+    const f = billForm(api, copy);
+    return (
+      composeBill({
+        ...copy,
+        effective: f.effectiveSection,
+        before: f.sections.map((row) => row.before),
+      })?.sections[index] ?? null
+    );
+  };
   const rows = bill.provisions.map((provision, index) => {
     const before = form.sections[index]?.before;
     const budgetLine = provision.kind === "budget-line";
@@ -684,6 +695,26 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
       section: {
         index,
         kind: provision.kind,
+        // The clause as the bill words it (inserted) and as it would read with the law in force
+        // today in its place (struck), for a screen to strike and insert; null where the law in
+        // force gives no value to put back.
+        inserted: clauseOf(bill.provisions, index),
+        struck:
+          before && typeof before.value === "number" && !budgetLine
+            ? clauseOf(
+                bill.provisions.map((p, i) =>
+                  i === index
+                    ? ({ ...p, value: before.value } as Provision)
+                    : p,
+                ),
+                index,
+              )
+            : null,
+        // The law the section changes, to open: its record id and the citation the records give.
+        amends:
+          before && (before.lawId || before.statute)
+            ? { lawId: before.lawId ?? null, citation: before.statute ?? null }
+            : null,
         // The catalog policy, question or budget line the section names: the key for its label.
         labelKey:
           provision.policyId ??
@@ -733,13 +764,37 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
       yes: c.yes,
       no: c.no,
     })),
-    ...stage.floor.map((c) => ({
-      stage: "floor" as const,
-      chamber: c.chamber,
-      date: paper.floorDate ?? null,
-      yes: c.yes.length,
-      no: c.no.length,
-    })),
+    ...stage.floor.map((c) => {
+      // Each party's yes and no, and how many of the chamber's members cast no vote.
+      const partyOf = new Map(
+        members(api, c.chamber).map((t) => [memberKey(t), t.party ?? ""]),
+      );
+      const byParty = new Map<string, { yes: number; no: number }>();
+      for (const [side, list] of [
+        ["yes", c.yes],
+        ["no", c.no],
+      ] as const)
+        for (const vote of list) {
+          const party = partyOf.get(vote.memberId) ?? "";
+          const row = byParty.get(party) ?? { yes: 0, no: 0 };
+          row[side] += 1;
+          byParty.set(party, row);
+        }
+      return {
+        stage: "floor" as const,
+        chamber: c.chamber,
+        date: paper.floorDate ?? null,
+        yes: c.yes.length,
+        no: c.no.length,
+        byParty: [...byParty.entries()]
+          .map(([party, row]) => ({ party: party || null, ...row }))
+          .sort((x, y) => y.yes + y.no - (x.yes + x.no)),
+        notVoting: Math.max(
+          0,
+          partyOf.size - c.yes.length - c.no.length - c.other.length,
+        ),
+      };
+    }),
     ...stage.override.map((c) => ({
       stage: "override" as const,
       chamber: c.chamber,
@@ -758,6 +813,20 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
     stageDate:
       paper.decision?.decidedOn ?? paper.floorDate ?? paper.agendaDate ?? null,
     sponsor: { id: bill.sponsorId, name: paper.sponsor },
+    /** Where it is: the body it sits in, the committee that has it now, who filed it and when. */
+    where: {
+      bodyTitle:
+        stage.committees.at(-1)?.chamberTitle ??
+        bodyOf(api, bill.bodyOfficeId)?.bodyName ??
+        null,
+      committee: stage.committees.at(-1)?.committee ?? null,
+      filedBy: { id: bill.sponsorId, name: paper.sponsor },
+      filedOn: bill.introduced,
+      // The day its newest committee took it up in this chamber, else null (not yet referred).
+      reachedChamberOn: stage.committees.at(-1)?.date ?? null,
+      // The day the chamber has until is not in the records yet (each body's session end, by level).
+      until: null as string | null,
+    },
     sections,
     totalChangeMinor,
     tallies,

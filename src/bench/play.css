@@ -2766,6 +2766,25 @@ details.entry[open] {
   max-width: none;
 }
 
+/* Compare: the clause the law in force holds struck, the bill's inserted. */
+.bill-clause {
+  margin: 4px 0;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+.bill-doc .dotvalue {
+  white-space: normal;
+  text-align: right;
+  overflow-wrap: anywhere;
+}
+.bill-clause s {
+  color: var(--muted);
+}
+.bill-clause u {
+  text-decoration-color: var(--gold);
+  text-underline-offset: 3px;
+}
+
 /* The bill on paper: the document and its estimate side by side. */
 .bill-doc {
   display: grid;
@@ -4922,6 +4941,10 @@ select.release-pick {
 }
 .news-story.lead .news-text {
   column-count: 2;
+}
+/* A paragraph stays whole in its column: a short lead never breaks a sentence across the two. */
+.news-story.lead .news-text > * {
+  break-inside: avoid;
 }
 
 /* The roster screens (Elections, to pl-elections): a titled list grouped under small

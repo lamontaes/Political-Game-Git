@@ -973,7 +973,20 @@
     "empty": "Nothing is written here yet."
   },
   "metrics": {
+    "state": "Your state",
+    "jobs": "Jobs",
     "city": "Your town",
+    "housing": "Homes",
+    "rentals": "Rental homes",
+    "vacant": "Rentals standing empty",
+    "rent": "Typical monthly rent",
+    "homeValue": "Typical home value",
+    "evictions": "Evictions",
+    "benefits": "Help for the unemployed",
+    "claims": "People claiming now",
+    "budget": "The town's books",
+    "revenue": "Coming in",
+    "spending": "Going out",
     "employed": "People at work",
     "seekers": "People looking for work",
     "openPositions": "Jobs open",
@@ -1154,5 +1167,15 @@
       "looking-for-work": "Looking for work",
       "paid-under-minimum-wage": "Paid under the minimum wage"
     }
+  },
+  "billPage": {
+    "filedBy": "Filed by",
+    "filedOn": "Filed on",
+    "reached": "Taken up",
+    "clean": "Clean copy",
+    "compare": "Compare",
+    "to": "to",
+    "notVoting": "Didn't vote",
+    "noParty": "No party"
   }
 }

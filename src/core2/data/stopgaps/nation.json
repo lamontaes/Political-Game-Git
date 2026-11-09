@@ -48,6 +48,54 @@
     "status": "open"
   },
   {
+    "id": "SG-NATION-climate-unread",
+    "kind": "missing-reader",
+    "file": "src/core2/modules/climate.ts",
+    "line": 1,
+    "whatItFakes": "The climate keeps one national warming level and each hazard's level month by month from the carbon laws in force, but no disaster reads a level yet: the real FEMA disasters replay as before and a hazard level moves nothing a player can see.",
+    "why": "The owner's weather ruling (Nov 8) is built in three pieces: the links and the warming, each county's hazard levels, then disasters drawn from them; this is the first.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Each county's hazard level by season from its recorded history, moved by hazardFactor; disasters drawn month by month from those levels.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-climate-sizes-national",
+    "kind": "estimated-parameter",
+    "file": "data/research/outcome-web/links.json",
+    "line": 1,
+    "whatItFakes": "The warming-to-hazard links use one size for every county: drought from the Southwest's vapor-pressure rise, wildfire from western forest studies, heat from a doubling over half a degree (no range); storm and flood from global and national figures converted to a per-degree size.",
+    "why": "The National Climate Assessment and IPCC pages could not be fetched, and no source found gives a United States per-degree figure for heat, wildfire or drought by region or season.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Sizes by region and season from the National Climate Assessment (2023) chapters and the Littell et al. (2009) ecoprovince figure.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-hazard-heat-drought-history",
+    "kind": "missing-data",
+    "file": "src/core2/modules/climate.ts",
+    "line": 1,
+    "whatItFakes": "A county's recorded hazard history is its FEMA declarations (flood, storm, wildfire); heat and drought have none (FEMA declared one drought), so their recorded rate is none and the climate's heat and drought levels move nothing until a history is read.",
+    "why": "The NOAA Storm Events episodes (excessive heat, drought) by county were not fetched; FEMA's record is what the disasters module holds.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "Counts of NOAA storm episodes (excessive heat, extreme heat, drought) by county, hazard and season in hazard-history.json, built by the same script.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-climate-world-path",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/climate/emissions.json",
+    "line": 1,
+    "whatItFakes": "The rest of the world's fossil CO2 follows a straight line between three published points (38.1 Gt in 2025, 35 in 2035, 30 in 2050, held flat after) and does not respond to any other country's law, price or event; its spread (flat near 38 Gt under current policies) is not run.",
+    "why": "No year-by-year published scenario path was reachable; the IEA pages returned 403 and the points come from a search summary.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "The IEA or IPCC scenario table by year, with other countries' own laws moving their share.",
+    "status": "open"
+  },
+  {
     "id": "SG-NATION-vulnerability-proxy",
     "kind": "assumed-data",
     "file": "src/core2/modules/disasters.ts",
