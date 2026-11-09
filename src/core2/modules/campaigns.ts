@@ -4593,9 +4593,7 @@ function emitMessage(
     campaign.candidateId !== api.state.playerId &&
     api.state.modules.has(VIEWS_MODULE_ID)
   ) {
-    asPeople = witnessIds.filter((id) =>
-      hearsAsPerson(api, id, campaign.candidateId),
-    );
+    asPeople = witnessIds.filter((id) => hearsAsPerson(api, id));
     if (asPeople.length < witnessIds.length) {
       const people = new Set(asPeople);
       const impulse = Math.abs(campaignParameter("adViewsImpulse"));
