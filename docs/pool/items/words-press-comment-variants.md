@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/press-comment-variants
-pr: pending
+pr: "#8034"
 blocked-on:
 lead: words
 source: owner, Nov 8 ("they've gotta have like a variance ... you could get 30 different scenes within there") and Nov 9 ("add a bunch of different scenes and scenarios and variants")
