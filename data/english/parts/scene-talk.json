@@ -84,7 +84,11 @@
     "aid": "What the disaster aid paid the household, as people round a sum, from the damaged-home record.",
     "left": "What the household still owes on the repairs, as people round a sum, from the damaged-home record.",
     "late": "How long the rent has gone unpaid, as people say it (\"about two months\"), from the notice record.",
-    "destination": "Where a person who is moving away is going, as people name the place, from the departure record."
+    "destination": "Where a person who is moving away is going, as people name the place, from the departure record.",
+    "away": "How long the person was in prison before they came home, as people say a span of time, from the justice engine's custody record.",
+    "sentence": "How long a prison sentence runs, as people say a span of time, from the justice engine's sentence record.",
+    "release": "The day a person in prison gets out, as people say a date, from the justice engine's sentence record.",
+    "bail": "What a person held before trial would have to pay to get out, as people round a sum, from the justice engine's pretrial record."
   },
   "maxWords": 70,
   "parts": [
@@ -158813,6 +158817,15 @@
           "key": "damage",
           "after": "promise",
           "excludesFacts": ["paid-up"]
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "agree"
         }
       ],
       "bearing": "tender",
@@ -178627,6 +178640,2513 @@
       "tag": {
         "move": "ask",
         "key": "moving-goodbye"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-out-of-prison-and-has-come-to-ask-you-for-help",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is out of prison, and has come to ask you for help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-came-back-from-prison-after-away-and-needs-more-than-a-welcome",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} came back from prison after {away}, and needs more than a welcome.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-came-back-from-prison-after-away-to-find-no-job-waiting",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} came back from prison after {away} to find no job waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away", "job-lost"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-home-from-prison-and-name-wants-to-know-what-happens-now",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You are home from prison, and {name} wants to know what happens now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waited-away-for-you-to-come-home-and-wants-to-hear-what-you-plan-to-do",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waited {away} for you to come home, and wants to hear what you plan to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "away"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-and-you-have-a-lot-to-settle-now-that-the-prison-term-is-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You and {name} have a lot to settle now that the prison term is over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-hearing-me-out-first-i-know-this-isn-t-easy-to-ask",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for hearing me out, {first}. I know this isn't easy to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-a-place-to-stay-until-i-find-work-first-i-wouldn-t-ask-if-there-were-anyone-else",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need a place to stay until I find work, {first}. I wouldn't ask if there were anyone else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-back-first-can-i-have-my-old-place-in-this-house-until-i-m-working-again",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm back, {first}. Can I have my old place in this house until I'm working again?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "same-home"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-let-my-job-go-while-i-was-inside-i-need-a-bed-and-a-month-to-find-another-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They let my job go while I was inside. I need a bed and a month to find another one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "job-lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.nobody-will-hire-me-with-this-on-my-record-do-you-know-anyone-who-would-give-me-a-chance",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Nobody will hire me with this on my record. Do you know anyone who would give me a chance?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-was-gone-away-and-i-know-what-that-cost-you-can-i-stay-until-i-find-work",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I was gone {away}, and I know what that cost you. Can I stay until I find work?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "away"]
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.how-is-child-i-d-like-to-see-child-and-i-need-somewhere-to-stay-while-i-find-work",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "How is {child}? I'd like to see them, and I need somewhere to stay while I find work.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.you-re-out-and-i-m-glad-have-you-thought-about-what-happens-now-with-work-and-everything-else",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You're out, and I'm glad. Have you thought about what happens now, with work and everything else?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-do-i-tell-child-about-what-happens-now-do-you-have-a-plan-yet",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What do I tell {child} about what happens now? Do you have a plan yet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back", "child"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-term-is-over-first-we-have-to-decide-what-happens-now-and-i-don-t-want-to-put-it-off",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The term is over, {first}. We have to decide what happens now, and I don't want to put it off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-we-ll-work-it-out-together",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. We'll work it out together.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-my-part-you-ll-see",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do my part. You'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-need-most-right-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need most right now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.not-tonight-give-me-a-few-days-to-think-it-over",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Not tonight. Give me a few days to think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-can-stay-we-ll-sort-out-the-rest-as-it-comes",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You can stay. We'll sort out the rest as it comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.your-place-is-still-yours-stay-as-long-as-you-need",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Your place is still yours. Stay as long as you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back", "same-home"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.you-re-right-work-comes-first-then-everything-else",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "You're right. Work comes first, then everything else.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-ask-around-at-work-this-week-somebody-knows-somebody-who-hires",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask around this week. Somebody knows somebody who hires.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-start-looking-this-week-and-i-ll-tell-you-how-it-goes-you-won-t-carry-this-alone",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll start looking this week, and I'll tell you how it goes. You won't carry this alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-do-you-think-you-ll-need-to-stay",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long do you think you'll need to stay?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-they-tell-you-at-release-about-what-you-have-to-do-now",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did they tell you at release about what you have to do now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-need-from-me-while-i-find-my-feet",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need from me while I find my feet?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-can-t-answer-that-tonight-give-me-a-few-days-to-think-it-through",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I can't answer that tonight. Give me a few days to think it through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.give-me-a-few-days-just-to-be-home-then-we-ll-talk-about-the-rest",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Give me a few days just to be home. Then we'll talk about the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-we-ll-do-it-your-way",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. We'll do it your way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-mean-it-you-ll-see-it-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I mean it. You'll see it this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-keep-doing-this-tonight-we-ll-finish-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't keep doing this tonight. We'll finish tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-have-tonight-i-ll-find-you-in-the-morning",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I have tonight. I'll find you in the morning.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-can-do-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I can do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-start-on-it-tomorrow-and-i-ll-tell-you-how-it-goes",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll start on it tomorrow, and I'll tell you how it goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Let me think it over before I say yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-ll-hold-up-my-end",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll hold up my end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-that-s-more-than-i-hoped-for",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. That's more than I hoped for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-knowing-you-re-in-it-with-me-helps",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Knowing you're in it with me helps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.this-week-you-said-which-day",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "This week, you said. Which day?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.who-do-you-have-in-mind-i-need-a-name-not-a-hope",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Who do you have in mind? I need a name, not a hope.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-take-the-time-you-need",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. Take the time you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ve-waited-away-already-first-give-me-an-answer-i-can-plan-around",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I've waited {away} already, {first}. Give me an answer I can plan around.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "deflect",
+          "requiresFacts": ["away"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-few-days-is-a-long-time-when-everything-is-on-hold",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A few days is a long time when everything is on hold.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.what-we-both-need-is-a-plan-a-place-to-start-and-someone-in-our-corner",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A place to sleep and a job. After that, just you in my corner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.a-bed-and-a-month-and-the-names-of-people-who-hire-after-that-i-m-on-my-own",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "A bed and a month, and the names of people who hire. After that I'm on my own.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["asker-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.until-i-find-a-job-that-will-take-me-with-a-record-maybe-longer-and-i-d-rather-say-so-now",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Until I find a job that will take me with a record. Maybe longer, and I'd rather say so now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["asker-back", "job-lost"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.tell-me-what-you-re-planning-and-tell-me-when-it-goes-wrong-i-can-take-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Tell me what you're planning, and tell me when it goes wrong. I can take that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival",
+          "after": "ask",
+          "requiresFacts": ["you-back"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-this-i-ll-earn-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for this. I'll earn it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-do-my-part-first-you-ll-see",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll do my part, {first}. You'll see.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-we-ll-pick-it-up-tomorrow",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll pick it up tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.we-still-have-to-settle-this-first-don-t-let-it-slide",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "We still have to settle this, {first}. Don't let it slide.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-can-t-wait-forever-on-this-it-only-gets-harder-the-longer-we-leave-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I can't wait forever on this. It only gets harder the longer we leave it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "homecoming",
+          "key": "arrival"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "arrival"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-serving-sentence-a-guard-stands-by-you-talk-through-glass-and-the-visit-ends-when-the-guard-says",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is serving {sentence}. A guard stands by, you talk through glass, and the visit ends when the guard says.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["sentence"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-serving-sentence-and-gets-out-on-release-you-talk-through-glass-the-visit-is-short-and-a-guard-keeps-the-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is serving {sentence} and gets out on {release}. You talk through glass, the visit is short, and a guard keeps the time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["sentence", "release"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-being-held-until-the-case-is-heard-a-guard-stands-by-and-the-visit-will-not-be-long",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is being held until the case is heard. A guard stands by, and the visit will not be long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["awaiting-trial"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-held-because-bail-bail-was-never-paid-a-guard-stays-in-the-room-and-the-visit-will-be-short",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is held because bail, {bail}, was never paid. A guard stays in the room, and the visit will be short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["awaiting-trial", "bail"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-is-in-prison-and-a-guard-watches-the-visit-so-there-is-time-for-only-a-thing-or-two",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is in prison. A guard watches the visit, and there's only time for a thing or two.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-coming-first-they-don-t-give-me-long",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for coming, {first}. They don't give me long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.can-you-put-some-money-on-my-account-first-the-commissary-is-how-i-get-anything-in-here-even-a-stamp",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can you put some money on my account, {first}? The commissary is how I get anything in here, even a stamp.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-have-sentence-to-do-and-nothing-on-my-account-could-you-put-something-on-it-when-you-can",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I have {sentence} to do and nothing on my account. Could you put something on it when you can?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["sentence"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.who-is-looking-after-child-i-can-t-do-a-thing-about-it-from-in-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Who is looking after {child}? I can't do a thing about it from in here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.child-will-grow-a-lot-in-sentence-please-look-after-child-for-me-and-bring-child-to-see-me-if-you-can",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{child} is going to be so much bigger by the time I'm out. Please look after {child} for me, and bring them by if you can.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["child", "sentence"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-need-a-lawyer-before-the-hearing-can-you-call-someone-for-me",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I need a lawyer before the hearing. Can you call someone for me?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["awaiting-trial"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.bail-is-bail-and-i-can-t-make-it-can-you-find-out-what-it-would-take-to-get-me-out",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Bail is {bail} and I can't make it. Can you find out what it would take to get me out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["awaiting-trial", "bail"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.could-you-call-my-lawyer-and-ask-if-anything-can-be-done-about-the-sentence",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Could you call my lawyer and ask if anything can be done about my sentence?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["sentence"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.tell-the-family-i-m-all-right-first-don-t-tell-them-what-it-s-really-like",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell the family I'm alright, {first}. Don't tell them what it's really like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.tell-the-family-i-get-out-on-release-they-should-hear-it-from-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Tell the family I get out on {release}. They should hear it from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "requiresFacts": ["release"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "request",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-ll-take-care-of-it-before-the-week-is-out",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'll take care of it before the week is out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.done-don-t-worry-about-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Done. Don't worry about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-take-care-of-it-and-write-you-when-it-s-done",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll take care of it and write you when it's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-ll-hear-from-me-by-the-weekend",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You'll hear from me by the weekend.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-how-to-do-it-i-ve-never-had-to-do-any-of-this",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me how to do it. I've never had to do any of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-do-i-talk-to-and-what-do-i-say",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who do I talk to, and what do I say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-do-that-one-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't do that one. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-don-t-have-it-to-give-right-now-and-i-won-t-promise-what-i-can-t-do",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I don't have it to give right now, and I won't promise what I can't do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-mean-it-i-ll-do-it-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I mean it. I'll do it this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.the-guard-is-waving-me-out-i-ll-write",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "The guard is waving me out. I'll write.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.time-s-up-i-ll-write-before-i-come-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Time's up. I'll write before I come back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-have-it-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, I have it. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "agree",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-start-tomorrow-and-write-you-what-i-find",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll start tomorrow and write you what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-more-than-i-can-do-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's more than I can do. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "answer"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "decline",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-you-don-t-know-what-that-does-for-me-in-here",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. You don't know what that does for me in here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-first-i-won-t-forget-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. I won't forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-that-s-all-i-wanted-to-hear",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. That's all I wanted to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-just-write-me-when-it-s-done-so-i-know",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. Just write me when it's done, so I know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "promise"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.it-s-easy-to-promise-from-your-side-of-the-glass-i-need-it-done",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "It's easy to promise from your side of the glass. I need it done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.write-it-down-so-you-don-t-lose-it-please",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Write it down so you don't lose it. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-understand-i-shouldn-t-have-asked",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I understand. I shouldn't have asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.okay-i-ll-find-another-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Okay. I'll find another way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "decline"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-first-you-re-the-only-one-who-still-comes",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please, {first}. You're the only one who still comes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.then-who-everyone-else-stopped-answering",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then who? Everyone else stopped answering.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-you-can-whenever-you-can-i-m-not-going-anywhere",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever you can, whenever you can. I'm not going anywhere.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.child-needs-to-be-fed-and-get-to-school-that-s-all-i-need-from-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with {child}. Anything for me can wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "ask",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-court-will-give-me-someone-if-i-can-t-find-a-lawyer-but-i-d-rather-have-the-one-i-pick",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Start with the court clerk. They can tell you who has my case and what it would take.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "ask",
+          "requiresFacts": ["awaiting-trial"]
+        }
+      ],
+      "bearing": "solemn",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.do-it-however-you-can-i-get-out-on-release-and-i-want-to-have-something-to-come-back-to",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Do it however you can. I get out on {release}, and I want to have something to come back to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit",
+          "after": "ask",
+          "requiresFacts": ["release"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-coming-it-s-a-long-way-to-come-for-so-little-time",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for coming. It's a long way to come for so little time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-write-you-as-soon-as-i-hear-anything-on-my-end",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll write you as soon as I hear anything on my end.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-take-care-of-yourself-out-there",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. Take care of yourself out there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.don-t-make-me-ask-twice-first",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Don't make me ask twice, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "prison-visit"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.don-t-forget-i-m-in-here-first-please",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Don't forget I'm in here, {first}. Please.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "prison-visit",
+          "key": "prison-visit"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, return and visit purposes)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "prison-visit"
       }
     }
   ]
