@@ -1,0 +1,14 @@
+[
+  {
+    "id": "SG-EXECUTIVE-administrator-appoints",
+    "kind": "partial-model",
+    "file": "src/core2/modules/executive.ts",
+    "line": 240,
+    "whatItFakes": "In a county whose board hires an administrator who appoints the department heads (research: council-administrator form), the board's seat holder stands in as the appointer of the heads the administrator would pick, so their reasons (loyalty against merit, lean, acquaintance) are the board member's, not the administrator's.",
+    "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
+    "addedBy": "Legislation (town heads for county-run places)",
+    "addedAt": "2026-11-08",
+    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
+    "status": "open"
+  }
+]

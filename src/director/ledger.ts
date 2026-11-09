@@ -1529,7 +1529,8 @@ export function createDirector(
             ),
           // The same person is not cast again inside the scheduler's window
           // for the same scene with the same people: the next with a reason is.
-          castDue: (id) =>
+          castDue: (id, row) =>
+            !!row.recast ||
             spacingAllows(
               ledger.circumstanceLast.get(`${book.personId}|cast|${id}`),
               SITUATION_LIBRARY.scheduling.repeatDays,
