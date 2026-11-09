@@ -207,6 +207,30 @@ try {
     results.some((text) => /Yes:/.test(text) && /No:/.test(text)),
     "the override roll call is on the paper",
   );
+  // The committee stage is on the same paper: where the bill was referred, who chaired it, and
+  // whom it heard from (or that the chair held it).
+  const paper = await page.locator("#sheet-body").innerText();
+  assert.match(paper, /In committee: /, "the paper shows the committee stage");
+  assert.match(
+    paper,
+    /Referred to /,
+    "the paper names the committee it went to",
+  );
+  assert.match(paper, /Chaired by /, "the paper names the chair");
+  assert.match(
+    paper,
+    /Heard from|The chair held it and did not hear it/,
+    "the paper says whom the committee heard from, or that the chair held it",
+  );
+  console.log(
+    "committee on the paper:",
+    paper
+      .split("\n")
+      .filter((line) =>
+        /In committee|Referred to|Chaired by|Heard from|held it/.test(line),
+      )
+      .join(" | "),
+  );
   assert.deepEqual(errors, [], "page errors");
   console.log(
     "ok: the player voted the override of a veto and the body took it up",
