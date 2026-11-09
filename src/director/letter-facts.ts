@@ -11,7 +11,7 @@ import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import {
   FAMILY_CONTACT,
   FAMILY_GATHERING_MISSED,
-} from "../core2/modules/kin-contact";
+} from "../core2/modules/people";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };

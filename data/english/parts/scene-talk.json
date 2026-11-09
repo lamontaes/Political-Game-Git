@@ -170950,7 +170950,7 @@
       "key": "scene-talk.reply-agree.alright-yes-i-ll-do-what-you-re-asking",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, yes. I'll do what you're asking.",
+      "text": "Alright, yes. I can do that.",
       "uses": [
         {
           "subject": "scene",
@@ -171030,7 +171030,7 @@
       "key": "scene-talk.reply-ask.what-exactly-are-you-hoping-i-will-do",
       "move": "reply-ask",
       "kind": "spoken",
-      "text": "What exactly are you hoping I will do?",
+      "text": "What are you hoping I'll do?",
       "uses": [
         {
           "subject": "scene",
@@ -171302,7 +171302,7 @@
       "key": "scene-talk.follow-press.you-really-mean-it-i-ve-heard-sometime-from-people-before",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "You really mean it? I've heard \"sometime\" from people before.",
+      "text": "You really mean it? I've heard that from people before.",
       "uses": [
         {
           "subject": "scene",
@@ -171368,7 +171368,7 @@
       "key": "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-your-help-and-i-came-to-you-first-tell-me-what-you-can-do",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm asking for a little of your time and your help, and I came to you first. Tell me what you can do.",
+      "text": "Whatever you can manage, {first}. It's more than I had before I came.",
       "uses": [
         {
           "subject": "scene",
@@ -171390,7 +171390,7 @@
       "key": "scene-talk.follow-answer.i-came-to-you-because-i-d-rather-ask-someone-i-know-than-a-stranger-i-d-be-grateful-for-whatever-you-can-do",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I came to you because I'd rather ask someone I know than a stranger. I'd be grateful for whatever you can do.",
+      "text": "Just some of your time, {first}. I'd rather start with someone I know.",
       "uses": [
         {
           "subject": "scene",
@@ -172320,7 +172320,7 @@
       "key": "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'm asking for a little of your time, and I thought of you first. Tell me what you can do.",
+      "text": "A letter now and then, or a visit when you can. I thought of you first.",
       "uses": [
         {
           "subject": "scene",
@@ -172342,7 +172342,7 @@
       "key": "scene-talk.follow-answer.i-d-rather-ask-family-than-a-stranger-i-d-be-grateful-for-whatever-you-can-do",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "I'd rather ask family than a stranger. I'd be grateful for whatever you can do.",
+      "text": "Whatever you can manage, {first}. Hearing from you is what matters.",
       "uses": [
         {
           "subject": "scene",
