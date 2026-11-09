@@ -14,10 +14,6 @@
       "reason": "Raw enacted-bill sample, the evidence the lever table and docs/research/bill-samples were measured from; the game reads what was measured, not the sample."
     },
     {
-      "file": "data/research/budgets/local-spending-by-type.json",
-      "reason": "Raw Census 2022 shares of local spending by type of government; scripts/research/export-public-budget-bases.py measures each place's county and city base rows from it into data/research/money/public-budget-bases.json, which the budgets engine reads."
-    },
-    {
       "file": "data/research/business/roadmap-r8-PR.json",
       "reason": "Raw BDS business-dynamics rows for Puerto Rico, the evidence the business-opening and closing rates cite (docs/research/requests/businesses-owners-and-wealth.json). Its only readers were the roadmap M1-08 check, which since 622a9b251e tests openings and closings by record and no longer reads the state's BDS rates."
     },
@@ -66,10 +62,6 @@
       "reason": "Raw source the game does not read directly: source cited by the stopgap register (src/core2/data/stopgaps/). Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/money/federal-income-tax-schedules.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/build-starting-law.py, which writes data the game reads; checked against by src/core2/laws.test.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
       "file": "data/research/money/minimum-wage-2026.json",
       "reason": "Raw source the game does not read directly: source cited by src/core2/reference/town-pay.generated.ts. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
@@ -78,36 +70,12 @@
       "reason": "Raw source the game does not read directly: checked against by src/core2/opening-capital.test.ts; source cited by src/core2/data/opening-employer-cash-reference.json and src/core2/data/opening-capital.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
-      "file": "data/research/money/pension-contribution-paid.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-contribution-paid.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
-      "file": "data/research/money/pension-flows.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-flows.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
-      "file": "data/research/money/pension-funded-ratio.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-funded-ratio.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
-      "file": "data/research/money/pension-liability-ratio.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/export-pension-liability-ratio.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
       "file": "data/research/money/public-programs-2026.json",
       "reason": "Raw source the game does not read directly: source cited by src/core2/tooling/calibration-targets.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/money/state-paid-leave-premiums-2026.json",
       "reason": "Raw source the game does not read directly: input to scripts/research/build-starting-law.py, which writes data the game reads; source cited by src/core2/data/laws/starting-law.json. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
-      "file": "data/research/money/state-reserve-rules.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/export-state-reserve-rules.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
-    },
-    {
-      "file": "data/research/money/state-tuition-revenue.json",
-      "reason": "Raw source the game does not read directly: input to scripts/research/export-state-tuition-revenue.py, which writes data the game reads. Its only direct reader was the old engine, deleted Oct 28, 2026."
     },
     {
       "file": "data/research/money/town-business-a71-2026.json",
@@ -140,18 +108,6 @@
       "reason": "The 61 kinds of bill part (04 SYSTEM SPECS, spec 3); no bill builder reads it yet. Owner: Team 1 owns lawmaking, where bill parts are built."
     },
     {
-      "file": "data/research/money/minimum-wage-dated-matrix-2026.json",
-      "engine": "Financial",
-      "readerOwner": "Team 3",
-      "reason": "Dated minimum-wage rows for all 56 places, to be integrated into the starting-law wage terms; the file says no game code reads it. Owner: Team 3 owns pay and jobs."
-    },
-    {
-      "file": "data/research/money/population-2024.json",
-      "engine": "Elections",
-      "readerOwner": "Cloud C",
-      "reason": "State populations for 2024; nothing reads them yet. Owner: an electorate is population times turnout (A110)."
-    },
-    {
       "file": "data/research/jobs/employer-callback-gaps.json",
       "engine": "Financial",
       "readerOwner": "Team 3",
@@ -181,7 +137,7 @@
     },
     {
       "prefix": "data/research/laws/local-starting-law/",
-      "files": 12,
+      "files": 11,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {
@@ -192,11 +148,6 @@
     {
       "prefix": "data/research/macro/",
       "files": 1,
-      "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
-    },
-    {
-      "prefix": "data/research/money/",
-      "files": 4,
       "reason": "Research evidence gathered for this area; no code under src/ or scripts/ reads these files yet. Found unread on Oct 16 when the scanner stopped counting a quoted \"data/research/\" prefix as a read of everything under it."
     },
     {

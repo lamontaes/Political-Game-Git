@@ -5285,3 +5285,13 @@ body.color-blind .meeting-member.vote-abstain {
   display: block;
   margin: 8px 0;
 }
+
+/* Budgets' right column can be taller than the sheet (a governor's card and how the budget was
+   adopted): it scrolls inside itself so the sheet never overflows and the department list keeps
+   its rows. */
+.strip-board .board-cols > .mx3col:last-child {
+  max-height: calc(var(--vh) - 330px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
+}
