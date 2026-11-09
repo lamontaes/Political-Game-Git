@@ -1835,6 +1835,10 @@ export function attributeLanded(api: CoreAPI): void {
     if (!row.learnedFrom) attribute(api, row);
 }
 
+/** The months in a year, as the treasuries count them. */
+export const treasuryMonthsPerYear = (): number =>
+  treasuryParameter("monthsPerYear");
+
 export function treasuryMonthsOf(
   api: CoreAPI,
   governmentId: string,

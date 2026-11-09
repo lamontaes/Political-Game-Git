@@ -2208,5 +2208,17 @@
     "addedAt": "2026-11-08",
     "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-spending-vote-state-county",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 1300,
+    "whatItFakes": "A state's or county's next budget spends the Census base times how much it collected last fiscal year over what its plan expected, in every spending line alike; a city's or town's budget and the federal government's are not voted from receipts, and no bill chooses which lines give.",
+    "why": "A town's own payers collect far more than its plan line (Wooster IN: 2.85 times in 2026), so a town's vote needs its plan rebuilt from its payers first; the federal government borrows. Which lines take a cut or a rise is a legislature's choice the engine does not yet make.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-09",
+    "replacement": "The legislature votes each line from the revenue it collected, with its priorities and the law's rainy-day cap (gov-budget-spending-voted-from-revenue).",
+    "status": "open"
   }
 ]
