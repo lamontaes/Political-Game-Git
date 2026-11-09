@@ -3098,6 +3098,37 @@ const publicAction =
     );
   };
 
+/** A cabinet nominee told: the president's pick, the Senate's vote that confirmed or rejected them (office-day-federal-president.ts). */
+const cabinet =
+  (
+    kind: "cabinet-nominated" | "cabinet-confirmed" | "cabinet-rejected",
+  ): Builder =>
+  (read, f) => {
+    const yeas = num(f.yes);
+    const nays = num(f.no);
+    return story(
+      kind,
+      {
+        ...read.who(f.nomineeId, "name", false),
+        ...read.who(
+          read.people.find((id) => id !== f.nomineeId),
+          "by",
+          false,
+        ),
+        ...(f.title ? { office: read.fact(f.title, f.postId ?? "") } : {}),
+        ...(kind !== "cabinet-nominated" &&
+        yeas !== undefined &&
+        nays !== undefined
+          ? {
+              yeas: read.fact(count(yeas), f.postId ?? ""),
+              nays: read.fact(count(nays), f.postId ?? ""),
+            }
+          : {}),
+      },
+      ["name", "office"],
+    );
+  };
+
 /** The other side's answer to a governor's address (director/address-response.ts): who answered, whom, and the ask they objected to. */
 const addressResponse: Builder = (read, f) =>
   story(
@@ -3380,6 +3411,9 @@ const BUILDERS: Readonly<Record<string, Builder>> = {
   "governor.address": localAddress("state"),
   "mayor.address": localAddress("town"),
   "governor.response": addressResponse,
+  "cabinet-nominated": cabinet("cabinet-nominated"),
+  "cabinet-confirmed": cabinet("cabinet-confirmed"),
+  "cabinet-rejected": cabinet("cabinet-rejected"),
   "floor-debate": floorDebate,
   "civic.protest": publicAction("protest"),
   "civic.strike": publicAction("strike"),
