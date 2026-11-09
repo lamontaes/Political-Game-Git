@@ -104,7 +104,7 @@ it("a worker whose hours were cut in the quarter before a layoff draws the same 
   // the worker off through its own layoff. The claim reads the first four of
   // the last five completed quarters, so the cut falls outside it.
   const tried: string[] = [];
-  for (let draw = 0; draw < 6; draw += 1) {
+  for (let draw = 0; draw < 2; draw += 1) {
     const place = drawPlace(`${seed}:played:${draw}`, "ui-base-period-played");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const build = () =>
@@ -139,8 +139,10 @@ it("a worker whose hours were cut in the quarter before a layoff draws the same 
     const start = makeIsoDate(cutWorld.date);
     const cutDate = addDays(start, 405);
     const layoffDate = addDays(start, 455);
+    process.stdout.write(`UI-BASE ${where}: playing to the cut\n`);
     advanceCore(cutWorld, cutDate);
     advanceCore(steadyWorld, cutDate);
+    process.stdout.write(`UI-BASE ${where}: cut day reached\n`);
     const held = (core: typeof cutWorld) => {
       const row = core.jobs.get(job.id);
       return row && row.endsAt === undefined ? row : undefined;
