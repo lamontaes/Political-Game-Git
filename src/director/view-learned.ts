@@ -151,7 +151,9 @@ function learnFromStory(api: CoreAPI, personId: PersonId, story: Story): void {
   if (personId !== api.state.playerId) return;
   const writerId = story.facts.personId;
   const topic = story.facts.topic;
-  if (!writerId || !topic || writerId === personId) return;
+  // The writer may be the player: a letter the player wrote is read back to
+  // them like any other, and the key says they know where its writer stands.
+  if (!writerId || !topic) return;
   if (printedStoryOf(api, story.id)?.kind !== LETTER) return;
   if (!api.state.people.has(writerId)) return;
   learnView(

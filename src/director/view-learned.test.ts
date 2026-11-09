@@ -39,6 +39,9 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(10).toString("hex");
 const DRAWS = 4;
 const TURNS = 3;
 const AFTER_ADDRESS_DAYS = 28;
+// Only some towns print letters the player's habits bring to them (about one
+// in three of the draws), so the news test draws until one does.
+const NEWS_DRAWS = 10;
 const VIEW_MOVES = (rules.replyMoves as Record<string, unknown>)[
   "own-view"
 ] as Record<string, string>;
@@ -162,7 +165,7 @@ it(`a letter to the editor the player reads teaches where its writer stands, and
   setBookkeeping(false);
   const notes: string[] = [];
   let proved = 0;
-  for (let draw = 0; draw < 4 && !proved; draw += 1) {
+  for (let draw = 0; draw < NEWS_DRAWS && !proved; draw += 1) {
     const place = drawPlace(`${seed}:news:${draw}`, "view-learned-news");
     const where = `${place.name} (${place.key}), seed ${place.seed}`;
     const { core, playerId } = buildBenchWorld(place.seed, gameStartDate(), {
