@@ -401,7 +401,9 @@ function hostFor(
             closeness = Math.max(closeness, currentCloseness(c, tie));
         }
       else {
-        // The tie as it stands, else the family tie fill-in opens at.
+        // The tie as it stands, else the family tie fill-in opens at (read
+        // from the full relative's side: the counted member has no record of
+        // their own to read it from).
         const tie = c.relationships.get(pairKey(memberId, relativeId));
         closeness = Math.max(
           closeness,
@@ -409,7 +411,7 @@ function hostFor(
             ? currentCloseness(c, tie)
             : levelFromHours(
                 (key) => api.parameter(key),
-                openingClosenessHours(c, memberId, relativeId),
+                openingClosenessHours(c, relativeId, memberId),
               ),
         );
       }
