@@ -122,6 +122,7 @@ it("moves the town's part of each government's charges from households' living c
           payerId: string;
           amountMinor: number;
           installmentMinor: number;
+          baseIndex: number;
           townPaidMinor: number;
         }[]
       ).filter(
@@ -139,8 +140,15 @@ it("moves the town's part of each government's charges from households' living c
           row.id.startsWith("treasury-charges:chargesAndFees:service-users:"),
           row.id,
         ).toBe(true);
-        expect(row.installmentMinor, row.id).toBe(twelfth);
-        expect(row.amountMinor + row.townPaidMinor, row.id).toBe(twelfth);
+        // The plan's twelfth moved by the economy's wage bill since the plan began.
+        const moved = Math.round(twelfth * row.baseIndex);
+        expect(
+          Math.abs(row.installmentMinor - moved),
+          row.id,
+        ).toBeLessThanOrEqual(1);
+        expect(row.amountMinor + row.townPaidMinor, row.id).toBe(
+          row.installmentMinor,
+        );
       }
       // The town's households paid their part, which came off an installment.
       expect(

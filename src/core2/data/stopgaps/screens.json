@@ -46,5 +46,17 @@
     "addedAt": "2026-10-28",
     "replacement": "An office-duties bank from the words session (one piece per office kind, graded like every bank) that the hover card reads first, the record's facts after it.",
     "status": "open"
+  },
+  {
+    "id": "SG-SCREENS-metrics-no-prior-year",
+    "kind": "missing-record",
+    "file": "src/bench/metrics.ts",
+    "line": 23,
+    "whatItFakes": "The Metrics tab's town figures (people at work, people looking for work, jobs open) show the current value only, with no 'last year' beside them.",
+    "why": "The jobs engine keeps no year-ago reading of its counts, and the town's monthly metrics months are empty until the world has run: only the national months have a year of drawn history at the opening.",
+    "addedBy": "Small fixes session",
+    "addedAt": "2026-11-09",
+    "replacement": "The world-metrics module keeping the town's monthly numbers from the opening (a drawn year of history) so every town figure has last year beside it; the Metrics screen already reads this year and last as two columns.",
+    "status": "open"
   }
 ]

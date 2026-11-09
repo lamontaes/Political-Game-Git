@@ -182,7 +182,7 @@ for (const gov of govs) {
     budget: budget.id,
     startsOn: budget.startsOn,
     adoptedOn: budget.adoptedOn,
-    adoptedBy: budget.adoptedBy.slice(0, 60),
+    adoptedBy: budget.adoptedBy.kind,
   });
 }
 

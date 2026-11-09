@@ -66,7 +66,7 @@ import { coreAPI } from "./state";
 import type { CoreAPI, CoreState } from "./types";
 import type * as Stances from "./campaign-stances";
 import { candidatePlatform, type PlatformScore } from "./campaign-stances";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import campaignParameters from "./data/campaigns/parameters.json" with { type: "json" };
 import { contestPositions } from "./contest-positions";
 import { CAMPAIGNS_MODULE_ID, type CampaignRow } from "./modules/campaigns";
