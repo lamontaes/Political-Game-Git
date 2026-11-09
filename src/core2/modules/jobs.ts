@@ -1230,7 +1230,6 @@ function reviewHours(
 ): number {
   const c = core(api),
     p = (key: string) => api.parameter(key);
-  const applied = row.hoursFactor ?? p("one");
   const shortfall =
     staff > p("zero")
       ? Math.max(p("zero"), p("one") - target / staff)
@@ -1240,7 +1239,8 @@ function reviewHours(
   const cut =
     shortfall > p("zero") ? (shortfall * room) / (room + shortfall) : p("zero");
   const desired = p("one") - cut;
-  const factor = applied + p("jobsStaffGapActedPerMonth") * (desired - applied);
+  // Hours follow the firm's own records each month: the curve is already smooth in the shortfall and the loss months, so no pull toward a level.
+  const factor = desired;
   const fullHours = store(api).table("fullHours");
   const quantum = p("jobsHoursQuantumHours");
   for (const job of jobs) {

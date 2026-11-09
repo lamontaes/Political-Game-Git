@@ -31,7 +31,8 @@
       "high": 0.95,
       "unit": "share of a job's full daily hours",
       "citation": "BLS CES average weekly hours, private, 2007-2019."
-    }
+    },
+    "role": "coefficient"
   },
   "jobsHoursQuantumHours": {
     "value": 0.25,
@@ -42,7 +43,8 @@
       "high": 0.5,
       "unit": "hours",
       "citation": "Scheduling practice."
-    }
+    },
+    "role": "coefficient"
   },
   "jobsCashCoverMonths": {
     "value": 2,
