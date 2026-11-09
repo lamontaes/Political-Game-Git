@@ -108,6 +108,7 @@ const STANDING_BENEFITS: readonly string[] = [
   "child-care-income-limit",
   "ssi-federal-benefit-rate",
   "energy-assistance-income-limit",
+  "state-eitc-percent",
 ];
 
 /**

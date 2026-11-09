@@ -644,6 +644,14 @@
       "purpose": "decide whether the state pays weekly benefits to workers who lose their jobs through no fault of their own",
       "grant": "the state shall pay weekly unemployment insurance benefits to eligible workers who lose their jobs",
       "withdraw": "the state shall pay no unemployment insurance benefits, and any such program in force shall end"
+    },
+    "state-eitc-percent": {
+      "subject": "the state earned income tax credit",
+      "purpose": "set the state earned income tax credit as a percent of the federal credit",
+      "raise": "the state earned income tax credit shall be raised from {before} to {value}",
+      "lower": "the state earned income tax credit shall be lowered from {before} to {value}",
+      "raiseTo": "the state earned income tax credit shall be raised to {value}",
+      "lowerTo": "the state earned income tax credit shall be lowered to {value}"
     }
   },
   "units": {
@@ -653,7 +661,8 @@
     "USD/month": "{dollars} a month",
     "USD/week": "{dollars} a week",
     "years": "{value} years",
-    "USD/election": "{dollars} for each election"
+    "USD/election": "{dollars} for each election",
+    "percent-of-federal-credit": "{value} percent of the federal credit"
   },
   "cited": "{clause}, amending {statute}"
 }

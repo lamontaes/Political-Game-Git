@@ -17,6 +17,7 @@
  * assistance benefit from the treasury (welfare), and a service level on the
  * people it serves.
  */
+import { federalEitcDollars } from "./group-b-eitc";
 import reach from "../data/laws/reach-group-b.json" with { type: "json" };
 import type { CoreAPI } from "../types";
 import { registerPolicyHandler } from "./host";
@@ -70,6 +71,7 @@ import {
   recordCoverage,
   payPreschool,
   paySsi,
+  payStateEitc,
   payChildCare,
   payEnergyAssistance,
   payVouchers,
@@ -86,6 +88,7 @@ type Mechanic =
   | "records"
   | "medicaid-coverage"
   | "ssi-payment"
+  | "state-eitc-payment"
   | "preschool-payment"
   | "child-care-payment"
   | "energy-assistance-payment"
@@ -637,6 +640,70 @@ function runPolicy(
             )
           : [];
       const paid = payEnergyAssistance(api, {
+        key,
+        lawId,
+        inForce,
+        households,
+        residents: facts.residents,
+      });
+      finish(
+        api,
+        key,
+        def,
+        { ...input, lawId },
+        inForce,
+        inForce
+          ? reachOf(api, {
+              organizations: def.organizations,
+              terms,
+              personTerms: paid.named,
+              selected: [],
+              counted: paid.counted,
+              countedOf: facts.residents
+                .filter((r) => !r.named)
+                .reduce((n, r) => n + (r.scale ?? 1), 0),
+            })
+          : null,
+      );
+      return;
+    }
+    case "state-eitc-payment": {
+      // The law's value is the state's credit as a percent of the federal one;
+      // a state that sets it by children names the percents in its terms.
+      const answer = lawInForce(api, key);
+      const percent = answer.value;
+      const lawId = input.lawId || answer.governing?.id || key;
+      const byChildren = (
+        answer.governing?.terms as { byChildren?: Record<string, number> }
+      )?.byChildren;
+      const below = reachParameter("eitcQualifyingChildAgeBelow");
+      const households =
+        inForce && percent
+          ? [...facts.households.values()].flatMap((h) => {
+              const children = Math.min(
+                3,
+                h.ages.filter((a) => a < below).length,
+              );
+              const married = h.ages.filter((a) => a >= below).length >= 2;
+              const earned = Math.max(
+                0,
+                h.incomeDollars - (h.retirementDollars ?? 0),
+              );
+              const federal = federalEitcDollars({
+                children,
+                married,
+                earned,
+                agi: h.incomeDollars,
+                parameter: reachParameter,
+              });
+              const rate = byChildren?.[String(children)] ?? percent;
+              const creditDollars = (federal * rate) / 100;
+              return creditDollars > 0
+                ? [{ id: h.id, named: h.named, scale: h.scale, creditDollars }]
+                : [];
+            })
+          : [];
+      const paid = payStateEitc(api, {
         key,
         lawId,
         inForce,

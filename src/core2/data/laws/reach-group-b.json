@@ -331,6 +331,14 @@
       "enforcer": "state energy assistance office",
       "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state may serve households with income up to the greater of 150 percent of the poverty level or 60 percent of the state median income, and may not exclude a household below 110 percent of the poverty level on income alone.",
       "stopgapId": "SG-GOV-REACH-B-energy-assistance-enrollment"
+    },
+    "state-eitc-percent": {
+      "mechanic": "state-eitc-payment",
+      "effect": "state-eitc-paid",
+      "kind": "eligibility",
+      "enforcer": "state revenue department",
+      "source": "26 U.S.C. 32 sets the federal earned income tax credit; a state's own credit is a percent of it set by state law (IRS list of states with an Earned Income Tax Credit, reviewed 26 Nov 2025).",
+      "stopgapId": "SG-GOV-REACH-B-state-eitc-filing"
     }
   },
   "budgetLines": {

@@ -3,321 +3,381 @@
   "parameters": {
     "daysPerYear": {
       "value": 365,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Calendar year (the core's calendar-day wage average, src/core2/modules/residents.ts)."
     },
     "weeksPerYear": {
       "value": 52,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Calendar year."
     },
     "monthsPerYear": {
       "value": 12,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Calendar year."
     },
     "minutesPerHour": {
       "value": 60,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "Clock."
     },
     "centsPerDollar": {
       "value": 100,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "U.S. currency; the core keeps money in cents (minor units)."
     },
     "percentPerWhole": {
       "value": 100,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "A percent is a hundredth; the Medicaid match law (42 U.S.C. 1396d(b)) states the federal share in percent."
     },
     "reviewEveryMonths": {
       "value": 1,
+      "role": "coefficient",
       "tag": "TUNABLE",
       "source": "How often a policy in force re-checks who it reaches (ages, income and work hours change). Monthly matches the monthly eligibility reporting most benefit programs use (7 CFR 273.12; 42 CFR 435.916 allows changes reported any time).",
       "spread": [1, 3]
     },
     "povertyGuidelineFirstPersonDollars": {
       "value": 15650,
+      "role": "law",
       "tag": "SOURCED",
       "source": "HHS 2025 poverty guidelines, 48 contiguous states and D.C., one person (90 FR 5917, Jan. 17, 2025). Alaska and Hawaii use their own rows (povertyGuidelineByState)."
     },
     "povertyGuidelinePerAddedPersonDollars": {
       "value": 5500,
+      "role": "law",
       "tag": "SOURCED",
       "source": "HHS 2025 poverty guidelines, each additional person, 48 contiguous states and D.C. (90 FR 5917)."
     },
     "medicaidExpansionIncomeShare": {
       "value": 1.38,
+      "role": "law",
       "tag": "SOURCED",
       "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII) and 1396a(e)(14)(I): 133% of the poverty line plus the 5-point income disregard."
     },
     "medicaidExpansionAgeFrom": {
       "value": 19,
+      "role": "law",
       "tag": "SOURCED",
       "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII): adults 19 through 64."
     },
     "medicaidExpansionAgeBelow": {
       "value": 65,
+      "role": "law",
       "tag": "SOURCED",
       "source": "42 U.S.C. 1396a(a)(10)(A)(i)(VIII): adults 19 through 64."
     },
     "medicaidWorkHoursPerMonth": {
       "value": 80,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Pub. L. 119-21 (2025), sec. 71119 (42 U.S.C. 1396a(xx)): 80 hours a month of work, community service or school."
     },
     "medicaidWorkExemptChildBelow": {
       "value": 14,
+      "role": "law",
       "tag": "SOURCED",
       "source": "Pub. L. 119-21 (2025), sec. 71119: parents and caretakers of a dependent child 13 or younger are exempt."
     },
     "snapGrossIncomeShare": {
       "value": 1.3,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 CFR 273.9(a)(1): gross monthly income at or under 130 percent of the poverty line."
     },
     "snapNetIncomeShare": {
       "value": 1.0,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 CFR 273.9(a)(2): net monthly income at or under 100 percent of the poverty line."
     },
     "snapEarnedIncomeDeductionShare": {
       "value": 0.2,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 CFR 273.9(d)(2): 20 percent of earned income is deducted."
     },
     "snapContributionShare": {
       "value": 0.3,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2017(a) and 7 CFR 273.10(e)(2)(ii)(A): a household is expected to spend 30 percent of its net income on food; the benefit is the maximum allotment less that."
     },
     "snapMinimumBenefitShare": {
       "value": 0.08,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 CFR 273.10(e)(2)(ii)(C)(1): one- and two-person households that qualify get at least 8 percent of the one-person maximum allotment, rounded down to the dollar."
     },
     "snapMinimumBenefitMaxSize": {
       "value": 2,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 CFR 273.10(e)(2)(ii)(C)(1): the minimum benefit is for households of one or two."
     },
     "snapStandardDeductionSize1To3Dollars": {
       "value": 204,
+      "role": "law",
       "tag": "ESTIMATED",
       "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 1 to 3. Later years run about 2 to 3 percent higher; the benefit moves by about $1 for each dollar.",
       "spread": [204, 210]
     },
     "snapStandardDeductionSize4Dollars": {
       "value": 217,
+      "role": "law",
       "tag": "ESTIMATED",
       "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 4.",
       "spread": [217, 224]
     },
     "snapStandardDeductionSize5Dollars": {
       "value": 254,
+      "role": "law",
       "tag": "ESTIMATED",
       "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 5.",
       "spread": [254, 262]
     },
     "snapStandardDeductionSize6PlusDollars": {
       "value": 291,
+      "role": "law",
       "tag": "ESTIMATED",
       "source": "USDA FNS SNAP standard deductions, FY2025 (48 states and D.C.), households of 6 or more.",
       "spread": [291, 300]
     },
     "snapWorkHoursPerWeek": {
       "value": 20,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(2): 20 hours a week of work or a work program."
     },
     "ownerWeeklyHours": {
       "value": 34.9,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "BLS, Current Population Survey 2023 annual averages, Table 21 (Persons at work in nonagricultural industries by class of worker and usual full- or part-time status), https://www.bls.gov/cps/data/aa2023/cpsaat21.pdf, row \"Self-employed workers, unincorporated\": average hours 34.9 for all persons at work (42.2 for those usually working full time). The hours an owner who has no work commitment of their own works at their business, which a work requirement counts."
     },
     "snapWorkTimeLimitMonths": {
       "value": 3,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(2): an able-bodied adult without dependents who is not working 20 hours a week gets benefits for 3 months in any 36-month period."
     },
     "snapWorkTimeLimitWindowMonths": {
       "value": 36,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(2): the 36-month period the 3-month limit counts within."
     },
     "snapWorkAgeFrom": {
       "value": 18,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(3) as amended by Pub. L. 119-21 (2025), sec. 10102: ages 18 through 64."
     },
     "snapWorkAgeBelow": {
       "value": 65,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(3) as amended by Pub. L. 119-21 (2025), sec. 10102: ages 18 through 64."
     },
     "snapWorkExemptChildBelow": {
       "value": 14,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2015(o)(3) as amended by Pub. L. 119-21 (2025), sec. 10102: a household member under 14 exempts the adult."
     },
     "assistanceIncomeShare": {
       "value": 1.3,
+      "role": "law",
       "tag": "SOURCED",
       "source": "7 U.S.C. 2014(c): SNAP gross income limit, 130% of the poverty line (the common test for means-tested assistance)."
     },
     "preschoolStateSpendingPerChildDollars": {
       "value": 7888,
+      "role": "opening",
       "tag": "SOURCED",
       "source": "NIEER, The State of Preschool 2024 (2023-24 school year): state spending per enrolled child, $7,888 (all sources, $8,857)."
     },
     "preschoolEnrolledShare": {
       "value": 0.7,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "Boston's universal preschool enrolled about 70% of four-year-olds (Gray-Lobe, Pathak and Walters 2023); the national rate without a universal program is 37% of four-year-olds and 8% of three-year-olds (NIEER 2024). Spread 0.4 to 0.9."
     },
     "preschoolAgeFrom": {
       "value": 3,
+      "role": "law",
       "tag": "SOURCED",
       "source": "NIEER, The State of Preschool 2024: state pre-K programs serve 3- and 4-year-olds."
     },
     "preschoolAgeBelow": {
       "value": 5,
+      "role": "law",
       "tag": "SOURCED",
       "source": "NIEER, The State of Preschool 2024: state pre-K programs serve 3- and 4-year-olds."
     },
     "schoolAgeFrom": {
       "value": 5,
+      "role": "law",
       "tag": "SOURCED",
       "source": "NCES, State Education Practices table 5.1: compulsory and kindergarten entry ages, 5 through 17."
     },
     "schoolAgeBelow": {
       "value": 18,
+      "role": "law",
       "tag": "SOURCED",
       "source": "NCES, State Education Practices table 5.1: compulsory and kindergarten entry ages, 5 through 17."
     },
     "collegeAgeFrom": {
       "value": 18,
+      "role": "law",
       "tag": "SOURCED",
       "source": "NCES, Digest of Education Statistics 2023, table 303.50: most undergraduates are 18 to 24."
     },
     "collegeAgeBelow": {
       "value": 25,
+      "role": "law",
       "tag": "SOURCED",
       "source": "NCES, Digest of Education Statistics 2023, table 303.50: most undergraduates are 18 to 24."
     },
     "drivingAge": {
       "value": 16,
+      "role": "law",
       "tag": "SOURCED",
       "source": "FHWA Highway Statistics 2023, table DL-20: licensed drivers by age start at 16."
     },
     "transitRiderAgeFrom": {
       "value": 5,
+      "role": "law",
       "tag": "ESTIMATED",
       "source": "Most U.S. transit agencies carry children under 5 free with a paying rider (APTA fare survey 2023); a fare-free policy reaches riders 5 and older.",
       "spread": [2, 6]
     },
     "teacherMinimumSalaryDollars": {
       "value": 50000,
+      "role": "opening",
       "tag": "SOURCED",
       "source": "Arkansas LEARNS Act (Act 237 of 2023): minimum teacher salary $50,000; New Mexico HB 13 (2022): level-one license floor $50,000."
     },
     "schoolCompensationShare": {
       "value": 0.8,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "NCES, Digest of Education Statistics 2023, table 236.10: salaries and benefits are about 80% of public school current expenditures."
     },
     "healthCompensationShare": {
       "value": 0.55,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "Census Bureau, 2022 Annual Survey of Public Employment and Payroll (health and hospital payroll) against the 2022 Annual Survey of State and Local Government Finances (health and hospital spending).",
       "spread": [0.4, 0.7]
     },
     "voucherAmountDollars": {
       "value": 7000,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "EdChoice, The ABCs of School Choice 2025: average education savings account and voucher amounts run about $4,000 to $10,000 a student.",
       "spread": [4000, 10000]
     },
     "transitFareboxPerResidentDollars": {
       "value": 28,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "FTA National Transit Database 2023: fare revenue about $9.5 billion over 335 million residents; the public money that replaces fares when they end.",
       "spread": [10, 60]
     },
     "mileageFeeCentsPerMile": {
       "value": 2,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "Oregon OReGO and Utah Road Usage Charge per-mile rates, 2024-25 (about 1 to 2.5 cents a mile).",
       "spread": [1, 2.5]
     },
     "broadbandMonthlyDollars": {
       "value": 60,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "Entry tiers of municipal broadband utilities, 2024 (Institute for Local Self-Reliance community network list): about $40 to $90 a month.",
       "spread": [40, 90]
     },
     "highwayShareShifted": {
       "value": 0.1,
+      "role": "opening",
       "tag": "TUNABLE",
       "source": "Share of the highway line an act moves to transit. Checked against flexible-funding transfers (FHWA flex funding reports 2019-2023: states moved a few percent up to about a quarter of eligible highway funds to transit).",
       "spread": [0.03, 0.25]
     },
     "stateFlatIncomeTaxPercent": {
       "value": 4.25,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "Tax Foundation, State Individual Income Tax Rates and Brackets, as of January 1, 2025 (https://taxfoundation.org/data/all/state/state-income-tax-rates/): the median of the 14 flat-rate states' rates, 2.5% (Arizona) to 5.695% (Idaho); data/research/laws/taxfoundation-2022-2026-flat-tax-conversions.json, checked by scripts/research/check-law-reach-sources.ts. ESTIMATED: one national rate stands in for the rate a sponsor writes (SG-GOV-REACH-B-flat-tax-replacement).",
       "spread": [2.5, 5.695]
     },
     "localFlatIncomeTaxPercent": {
       "value": 1.5,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "Tax Foundation, Local Income Taxes (2019 update): city and county income taxes run about 0.5% to 3.9%.",
       "spread": [0.5, 3.9]
     },
     "propertyTaxGrowthCapShare": {
       "value": 0.02,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "California Constitution art. XIII A (Proposition 13): 2% a year on assessed value; Lincoln Institute, Significant Features of the Property Tax (2023): levy and assessment caps of 2% to 5%.",
       "spread": [0.02, 0.05]
     },
     "pensionShortfallPerResidentDollars": {
       "value": 70,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "Pew Charitable Trusts, The State Pension Funding Gap (2023), and Equable Institute, State of Pensions 2024: state and local contributions fell about $20 to $45 billion short of the actuarially determined contribution, about $60 to $135 per resident.",
       "spread": [20, 150]
     },
     "reserveShareOfSpending": {
       "value": 0.1667,
+      "role": "coefficient",
       "tag": "SOURCED",
       "source": "GFOA best practice, Fund Balance Guidelines for the General Fund (2015): unrestricted fund balance of no less than two months of regular operating spending."
     },
     "groceryShareOfRetailSales": {
       "value": 0.757,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "BLS Consumer Expenditure Survey 2024 (data/research/core-figures/P0-1/ce-region-categories-2024.json): households' retail purchases in the opening are food at home ($6,224 a year) and apparel and services ($2,001), so food at home is 6,224 / 8,225 of what retail sellers sell households. State exemptions cover unprepared food only; the share is the same everywhere.",
       "spread": [0.7, 0.8]
     },
     "cleanElectricityPriceShare": {
       "value": 0.03,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "Lawrence Berkeley National Laboratory, U.S. State Renewables Portfolio and Clean Electricity Standards: 2023 Status Update: compliance costs about 3% to 4% of average retail electricity bills.",
       "spread": [0.01, 0.06]
     },
     "carbonPricePerTonDollars": {
       "value": 50,
+      "role": "opening",
       "tag": "ESTIMATED",
       "source": "Washington Climate Commitment Act auction settlement prices 2023-2024 (about $25 to $63 a ton); California-Quebec cap-and-trade 2024 (about $30 to $42).",
       "spread": [20, 80]
     },
     "householdTonsPerYear": {
       "value": 10,
+      "role": "coefficient",
       "tag": "ESTIMATED",
       "source": "EIA, Energy-Related CO2 Emissions by sector 2023: residential plus personal-vehicle emissions per household, about 6 to 16 tons a year.",
       "spread": [6, 16]
     },
     "bottleDepositCents": {
       "value": 5,
+      "role": "opening",
       "tag": "SOURCED",
       "source": "Container Recycling Institute, bottle bill states 2024: the common deposit is 5 cents (10 cents in Michigan and Oregon)."
     },
@@ -364,19 +424,19 @@
       "spread": [0.3, 0.7]
     },
     "ssiAgedFrom": {
-      "role": "level",
+      "role": "law",
       "value": 65,
       "tag": "SOURCED",
       "source": "42 U.S.C. 1382c(a)(1)(A) (Cornell): \"is 65 years of age or older, is blind ..., or is disabled\". Only the aged part is read; blindness and disability are not."
     },
     "ssiGeneralIncomeExclusionDollars": {
-      "role": "level",
+      "role": "law",
       "value": 20,
       "tag": "SOURCED",
       "source": "CRS RS20294 (https://www.everycrsreport.com/reports/RS20294.html): \"a general income exclusion of $20 per month\"; the earned-income exclusions ($65 and half the rest) are not applied."
     },
     "ssiTakeUpShare": {
-      "role": "level",
+      "role": "coefficient",
       "value": 1,
       "tag": "ESTIMATED",
       "source": "Every aged resident whose income leaves a benefit is paid; the share of eligible who apply is not read. Spread: SSA participation among eligible aged is below 100 percent.",
@@ -395,6 +455,139 @@
       "tag": "SOURCED",
       "source": "Congressional Research Service, LIHEAP: Program and Funding (RL31865), https://www.everycrsreport.com/reports/RL31865.html: \"the percentage of eligible households served settled again at 16% in FY2013 and FY2014\" (21% and 22% at the FY2009-FY2010 funding peak).",
       "spread": [0.14, 0.22]
+    },
+    "eitcCreditRate0": {
+      "value": 0.0765,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 0 qualifying children"
+    },
+    "eitcEarnedIncomeAmount0": {
+      "value": 8680,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 0 qualifying children"
+    },
+    "eitcPhaseoutThresholdUnmarried0": {
+      "value": 10860,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 0 qualifying children"
+    },
+    "eitcPhaseoutThresholdMarried0": {
+      "value": 18140,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 0 qualifying children"
+    },
+    "eitcPhaseoutRate0": {
+      "value": 0.0765,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 0 qualifying children"
+    },
+    "eitcCreditRate1": {
+      "value": 0.34,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 1 qualifying children"
+    },
+    "eitcEarnedIncomeAmount1": {
+      "value": 13020,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 1 qualifying children"
+    },
+    "eitcPhaseoutThresholdUnmarried1": {
+      "value": 23890,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 1 qualifying children"
+    },
+    "eitcPhaseoutThresholdMarried1": {
+      "value": 31160,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 1 qualifying children"
+    },
+    "eitcPhaseoutRate1": {
+      "value": 0.1598,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 1 qualifying children"
+    },
+    "eitcCreditRate2": {
+      "value": 0.4,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 2 qualifying children"
+    },
+    "eitcEarnedIncomeAmount2": {
+      "value": 18290,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 2 qualifying children"
+    },
+    "eitcPhaseoutThresholdUnmarried2": {
+      "value": 23890,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 2 qualifying children"
+    },
+    "eitcPhaseoutThresholdMarried2": {
+      "value": 31160,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 2 qualifying children"
+    },
+    "eitcPhaseoutRate2": {
+      "value": 0.2106,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 2 qualifying children"
+    },
+    "eitcCreditRate3": {
+      "value": 0.45,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32; 26 U.S.C. 32(b)(1) credit percentage, 3 qualifying children"
+    },
+    "eitcEarnedIncomeAmount3": {
+      "value": 18290,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: earned income amount, 3 qualifying children"
+    },
+    "eitcPhaseoutThresholdUnmarried3": {
+      "value": 23890,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, unmarried, 3 qualifying children"
+    },
+    "eitcPhaseoutThresholdMarried3": {
+      "value": 31160,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout threshold, married filing jointly, 3 qualifying children"
+    },
+    "eitcPhaseoutRate3": {
+      "value": 0.2106,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: phaseout rate, 3 qualifying children"
+    },
+    "eitcParticipationShare": {
+      "value": 0.79,
+      "role": "coefficient",
+      "tag": "SOURCED",
+      "source": "Congressional Research Service, The Earned Income Tax Credit (R43805), https://www.everycrsreport.com/reports/R43805.html, 2026 parameters table from IRS Revenue Procedure 2025-32: \"the EITC's nonparticipation rate is 21% (the inverse of the 79% participation rate)\"",
+      "spread": [0.75, 0.85]
+    },
+    "eitcQualifyingChildAgeBelow": {
+      "value": 19,
+      "role": "law",
+      "tag": "SOURCED",
+      "source": "26 U.S.C. 152(c)(3): a qualifying child is under 19 (24 if a student); students are not told apart here, so under 19 is a floor."
     }
   },
   "povertyGuidelineByState": {
