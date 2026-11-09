@@ -131,6 +131,309 @@
   },
   "parts": [
     {
+      "key": "headlines.law-amount-passed.raises-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} raises {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.congress-raises-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress raises {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["up", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.law-to-raise-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Law to raise {measure} from {from} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["up"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.cuts-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} cuts {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.congress-cuts-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress cuts {measure} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["down", "federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.law-to-cut-from-to",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Law to cut {measure} from {from} to {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["down"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.new-law-keeps-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "New law keeps {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["same"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.sets-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "{place} sets {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.congress-sets-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "Congress sets {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-amount-passed.new-law-sets-at",
+      "move": "law-amount-passed",
+      "kind": "written",
+      "text": "New law sets {measure} at {to}",
+      "uses": [
+        {
+          "move": "law-amount-passed",
+          "subject": "headline",
+          "role": "law-amount-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.passes",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{place} passes {law}",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.congress-passes",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "Congress passes {law}",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline",
+          "requiresFacts": ["federal"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.becomes-law-in",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{law} becomes law in {place}",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "headlines.law-passed.becomes-law",
+      "move": "law-passed",
+      "kind": "written",
+      "text": "{law} becomes law",
+      "uses": [
+        {
+          "move": "law-passed",
+          "subject": "headline",
+          "role": "law-passed",
+          "choice": "headline"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet 5.5 (night: story)",
+      "date": "2026-11-08",
+      "tag": {
+        "move": "headline",
+        "key": "news-received"
+      }
+    },
+    {
       "key": "headlines.organization-closed.subject-closes",
       "move": "organization-closed",
       "kind": "spoken",

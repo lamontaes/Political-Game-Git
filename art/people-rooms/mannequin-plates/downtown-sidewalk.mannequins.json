@@ -1,0 +1,65 @@
+{
+  "scene": "downtown-sidewalk",
+  "size": [
+    1672,
+    941
+  ],
+  "backdrop": "downtown-sidewalk__midday.jpg",
+  "backdrops": [],
+  "spots": [
+    {
+      "id": "downtown-sidewalk-0",
+      "pose": "walk",
+      "seat": "none",
+      "facing": 45,
+      "head": {
+        "top": 522,
+        "x": 700.0,
+        "width": 47
+      },
+      "box": [
+        652,
+        522,
+        748,
+        920
+      ],
+      "feet": 919
+    },
+    {
+      "id": "downtown-sidewalk-1",
+      "pose": "stand",
+      "seat": "none",
+      "facing": -45,
+      "head": {
+        "top": 549,
+        "x": 900.0,
+        "width": 28
+      },
+      "box": [
+        871,
+        549,
+        929,
+        790
+      ],
+      "feet": 789
+    },
+    {
+      "id": "downtown-sidewalk-2",
+      "pose": "stand",
+      "seat": "none",
+      "facing": 0,
+      "head": {
+        "top": 567,
+        "x": 1000.0,
+        "width": 16
+      },
+      "box": [
+        984,
+        567,
+        1016,
+        700
+      ],
+      "feet": 699
+    }
+  ]
+}

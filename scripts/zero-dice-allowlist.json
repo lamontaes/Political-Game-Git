@@ -282,6 +282,17 @@
       "code": "const apart = r.fork(\"marriage\").next() >= marriageIntact(married);"
     },
     {
+      "file": "src/core2/opening-origin.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const pick = new SeededRng(seed) .fork(`origin:${childId}`) .integer(0, known.length);",
+      "class": "GENERATION",
+      "keyedBy": "the newborn's own id + world seed",
+      "reason": "Which parent's origin a newborn carries: drawn once, from the child's own id, when the person is created (who exists); nothing a person does afterward reads it.",
+      "replacement": null
+    },
+    {
       "file": "src/core2/opening-partnership.ts",
       "kind": "list-pick",
       "build": null,

@@ -2,11 +2,7 @@
 import type { CoreAPI } from "./types";
 import type { LawRowInput } from "./laws-starting";
 import { lawChain, lawInForce } from "./modules/laws";
-import {
-  BUDGETS_MODULE_ID,
-  budgetInForce,
-  governments,
-} from "./modules/budgets";
+import { budgetInForce, governmentOfJurisdiction } from "./modules/budgets";
 
 export interface BillSubject {
   readonly kind: string;
@@ -43,7 +39,7 @@ export function billValueInForce(
   jurisdiction: string,
 ): BillValue {
   if (subject.kind === "budget-line") {
-    const government = governmentFor(api, jurisdiction);
+    const government = governmentOfJurisdiction(api, jurisdiction);
     const budget = government && budgetInForce(api, government.id);
     return {
       value:
@@ -67,7 +63,7 @@ export function billValueInForce(
   if (at < 0) {
     // Offices use government-unit keys. A township key already in the law
     // chain stays itself; county and municipal keys resolve via their treasury.
-    const government = governmentFor(api, jurisdiction);
+    const government = governmentOfJurisdiction(api, jurisdiction);
     at = answer.levels.findIndex((row) => row.jurisdiction === government?.id);
   }
   if (at < 0) return { value: null, unit: null, recordId: null, row: null };
@@ -103,14 +99,3 @@ export function billValueInForce(
 }
 
 /** The treasury already records both its law key and its office unit key. */
-function governmentFor(api: CoreAPI, jurisdiction: string) {
-  const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
-  return (
-    all.find((row) => row.id === jurisdiction) ??
-    all.find(
-      (row) =>
-        api.state.organizations.get(row.organizationId)?.governmentFacts
-          ?.governmentKey === jurisdiction,
-    )
-  );
-}

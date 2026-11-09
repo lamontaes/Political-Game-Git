@@ -90,16 +90,11 @@ try {
     return body.scrollHeight <= body.clientHeight + 1;
   });
   assert.ok(fit, "the sheet body scrolls");
-  if (await page.locator(".pager-controls:visible").count()) {
-    const before = await page.locator(".travel-tile").allInnerTexts();
-    await page.getByRole("button", { name: "Next page" }).click();
-    assert.notDeepEqual(
-      await page.locator(".travel-tile").allInnerTexts(),
-      before,
-      "the arrow turns to other destinations",
-    );
-    await page.getByRole("button", { name: "Previous page" }).click();
-  }
+  assert.equal(
+    await page.locator(".pager-arrow").count(),
+    0,
+    "Travel has arrows",
+  );
   await page.evaluate(() => document.fonts.ready);
   await page.screenshot({
     path: `${process.env.SHOTS ?? "docs/reports/travel-cards-2026-10-27"}/travel.png`,

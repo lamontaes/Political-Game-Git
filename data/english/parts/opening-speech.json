@@ -18126,21 +18126,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-i-want-to-speak-to-you-about-something-harder-than-any-one",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "I want to speak to you about something harder than any one law: the country has lost some of its confidence in itself, and in us.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18168,21 +18154,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-i-want-to-talk-about-something-harder-than-a-bill-a-lot",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "I want to talk about something harder than a bill. A lot of us have lost confidence in this country, and in the people running it.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18210,21 +18182,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-the-truth-is-that-this-has-been-a-year-of-doubt-and",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "The truth is that this has been a year of doubt, and I would rather say so plainly than pretend it away.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18252,21 +18210,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-this-was-a-year-of-doubt-id-rather-say-that-straight-than",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "This was a year of doubt. I'd rather say that straight than dress it up.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18294,21 +18238,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-the-trouble-is-not-only-in-the-numbers-it-is-in-how",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "The trouble is not only in the numbers. It is in how many of you have stopped believing that anyone here is listening.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -18336,21 +18266,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-it-isnt-just-the-numbers-too-many-of-you-have-stopped-believing",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "It isn't just the numbers. Too many of you have stopped believing anyone here is listening.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -18378,21 +18294,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-no-program-will-mend-that-alone-it-begins-with-an-honest-look",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "No program will mend that alone. It begins with an honest look at ourselves, and I mean to start with myself.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -18420,21 +18322,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-no-program-fixes-that-by-itself-it-starts-with-an-honest-look",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "No program fixes that by itself. It starts with an honest look at ourselves, and I'll start with me.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -18462,21 +18350,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-i-will-not-promise-you-that-this-will-be-easy-or-quick",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I will not promise you that this will be easy, or quick. I promise to tell you the truth, and to ask the same of everyone who serves with me.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -18504,21 +18378,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-i-wont-promise-easy-or-quick-ill-promise-to-tell-you-the",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I won't promise easy or quick. I'll promise to tell you the truth, and to ask the same of everyone who works for me.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -18546,21 +18406,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-confidence-returns-the-way-it-was-lost-slowly-through-work-you-can",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Confidence returns the way it was lost: slowly, through work you can see for yourselves. Hold me to that.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -18588,21 +18434,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-confidence-comes-back-the-way-it-left-slowly-through-work-you-can",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Confidence comes back the way it left, slowly, through work you can see for yourselves. Hold me to it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -18630,21 +18462,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-we-have-doubted-ourselves-before-and-found-our-way-back-i-believe",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "We have doubted ourselves before and found our way back. I believe we will again, because the strength to do it was never in this city. It has always been in you.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -18672,21 +18490,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-weve-doubted-ourselves-before-and-found-our-way-back-we-will-again",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "We've doubted ourselves before and found our way back. We will again, because that strength was never in this city. It's in you.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -18714,21 +18518,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-hard-seasons-end-when-enough-people-decide-that-they-will-i-have",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Hard seasons end when enough people decide that they will. I have decided, and I am asking you to decide with me.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -18756,21 +18546,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-hard-seasons-end-when-enough-of-us-decide-they-will-ive-decided",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Hard seasons end when enough of us decide they will. I've decided. I'm asking you to decide with me.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -18798,21 +18574,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-let-us-be-honest-about-what-was-done-to-this-country-for",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "Let us be honest about what was done to this country. For years you were told that everything was fine, while you paid the bills.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18840,21 +18602,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-lets-be-honest-about-what-was-done-to-this-country-for-years",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "Let's be honest about what was done to this country. For years you were told everything was fine, and you paid the bills.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18882,21 +18630,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-i-did-not-make-this-mess-and-i-will-not-apologize-for",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "I did not make this mess, and I will not apologize for saying who did.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18924,21 +18658,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-i-didnt-make-this-mess-and-i-wont-apologize-for-saying-who",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "I didn't make this mess, and I won't apologize for saying who did.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -18966,21 +18686,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-the-people-who-got-us-here-want-credit-for-the-cleanup-and",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "The people who got us here want credit for the cleanup, and they will not get it from me.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19008,21 +18714,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-the-people-who-got-us-here-want-credit-for-cleaning-up-they",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "The people who got us here want credit for cleaning up. They won't get it from me.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19050,21 +18742,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-some-in-this-city-will-call-that-harsh-the-families-living-with",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Some in this city will call that harsh. The families living with it call it accurate.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19092,21 +18770,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-some-people-here-will-call-that-harsh-the-families-living-with-it",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Some people here will call that harsh. The families living with it call it accurate.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19134,21 +18798,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-i-will-fight-for-you-and-i-will-not-be-polite-about",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I will fight for you, and I will not be polite about it when the fight is worth having.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19176,21 +18826,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-ill-fight-for-you-and-i-wont-be-polite-about-it-when",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I'll fight for you, and I won't be polite about it when the fight is worth having.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19218,21 +18854,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-anyone-who-stands-in-the-way-of-fixing-this-will-hear-from",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Anyone who stands in the way of fixing this will hear from me directly, and so will you.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19260,21 +18882,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-anyone-who-stands-in-the-way-of-fixing-this-will-hear-from",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Anyone who stands in the way of fixing this will hear from me, and so will you.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19302,21 +18910,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-they-counted-this-country-out-before-they-were-wrong-then-and-they",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "They counted this country out before. They were wrong then, and they are wrong now.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -19344,21 +18938,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-they-counted-this-country-out-before-they-were-wrong-then-and-theyre",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "They counted this country out before. They were wrong then and they're wrong now.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -19386,21 +18966,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-stand-up-straight-we-have-more-strength-than-the-people-who-doubt",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Stand up straight. We have more strength than the people who doubt us ever understood.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -19428,21 +18994,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-stand-up-straight-were-stronger-than-the-people-who-doubt-us-ever",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Stand up straight. We're stronger than the people who doubt us ever understood.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -19470,21 +19022,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-i-stand-before-you-more-hopeful-about-this-country-than-i-have",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "I stand before you more hopeful about this country than I have been in a long while.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -19512,21 +19050,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-im-more-hopeful-about-this-country-than-ive-been-in-a-long",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "I'm more hopeful about this country than I've been in a long time.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -19554,21 +19078,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-there-is-a-good-deal-to-be-glad-about-tonight-and-i",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "There is a good deal to be glad about tonight, and I intend to enjoy it with you before we get back to work.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -19596,21 +19106,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-theres-a-lot-to-be-glad-about-tonight-and-i-plan-to",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "There's a lot to be glad about tonight, and I plan to enjoy it with you before we get back to work.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -19638,21 +19134,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-none-of-that-happened-by-accident-it-happened-because-millions-of-people",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "None of that happened by accident. It happened because millions of people kept showing up, to work and to one another.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19680,21 +19162,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-none-of-that-happened-by-accident-millions-of-people-kept-showing-up",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "None of that happened by accident. Millions of people kept showing up, to work and to each other.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19722,21 +19190,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-hope-is-not-the-same-as-being-satisfied-it-is-the-belief",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Hope is not the same as being satisfied. It is the belief that next year can be better than this one, and the willingness to work for it.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19764,21 +19218,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-hope-isnt-being-satisfied-its-believing-next-year-can-be-better-than",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Hope isn't being satisfied. It's believing next year can be better than this one, and working for it.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -19806,21 +19246,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-i-intend-to-build-on-what-is-working-and-mend-what-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I intend to build on what is working and mend what is not, without losing the good feeling we have earned.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19848,21 +19274,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-i-plan-to-build-on-whats-working-and-fix-what-isnt-without",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I plan to build on what's working and fix what isn't, without losing the good feeling we've earned.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19890,21 +19302,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-optimism-is-a-promise-we-make-to-one-another-that-we-will",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Optimism is a promise we make to one another that we will not waste a good year. I mean to keep it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19932,21 +19330,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-optimism-is-a-promise-we-make-to-each-other-not-to-waste",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Optimism is a promise we make to each other not to waste a good year. I mean to keep it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -19974,21 +19358,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-the-best-of-this-country-is-still-ahead-of-it-i-can",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The best of this country is still ahead of it. I can see it from here, and I hope you can too.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -20005,10 +19375,10 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.hope.plain-ina-the-best-of-this-country-is-still-ahead-of-it-i-can",
+      "key": "opening-speech.hope.plain-ina-sta-the-best-of-this-country-is-still-ahead-of",
       "move": "hope",
       "kind": "spoken",
-      "text": "The best of this country is still ahead of it. I can see it from here, and I hope you can too.",
+      "text": "The best of this country is still ahead of us. I can see it, and I hope you can too.",
       "uses": [
         {
           "move": "hope",
@@ -20016,21 +19386,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-the-best-of-this-country-is-still-ahead-of-it-i-can",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The best of this country is still ahead of it. I can see it from here, and I hope you can too.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -20058,21 +19414,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-whatever-comes-next-we-will-meet-it-as-people-who-know-what",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Whatever comes next, we will meet it as people who know what we are capable of.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -20100,21 +19442,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-whatever-comes-next-well-meet-it-as-people-who-know-what-we",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Whatever comes next, we'll meet it as people who know what we can do.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -20310,6 +19638,20 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-victory"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-victory"]
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-victory"]
         }
       ],
       "voice": "polished",
@@ -20328,6 +19670,20 @@
         {
           "move": "pledge",
           "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-victory"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-victory"]
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-victory"]
@@ -20478,21 +19834,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-my-first-words-tonight-are-for-the-families-who-have-lost-someone",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "My first words tonight are for the families who have lost someone. The whole country grieves with you.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -20520,21 +19862,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-my-first-words-tonight-are-for-the-families-who-lost-someone-the",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "My first words tonight are for the families who lost someone. The whole country grieves with you.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -20562,21 +19890,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.polished-sta-this-has-been-a-season-of-loss-and-it-would-be-wrong",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "This has been a season of loss, and it would be wrong to speak of anything else before we have named it.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -20604,21 +19918,7 @@
           "role": "story-open",
           "choice": "story-open",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-open.plain-sta-this-has-been-a-season-of-loss-and-itd-be-wrong-to",
-      "move": "story-open",
-      "kind": "spoken",
-      "text": "This has been a season of loss, and it'd be wrong to talk about anything else before we've said so.",
-      "uses": [
+        },
         {
           "move": "story-open",
           "subject": "state-of-the-union",
@@ -20646,21 +19946,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-grief-is-not-a-policy-but-how-a-country-treats-those-who",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Grief is not a policy, but how a country treats those who mourn says more about it than any speech.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -20688,21 +19974,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-grief-isnt-a-policy-but-how-a-country-treats-people-in-mourning",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Grief isn't a policy, but how a country treats people in mourning says more than any speech.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -20730,21 +20002,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-sta-in-the-worst-hours-we-saw-neighbors-carrying-neighbors-out-of-harms",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "In the worst hours we saw neighbors carrying neighbors out of harm's way. That is the country I am proud to serve.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -20772,21 +20030,7 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-sta-in-the-worst-hours-we-saw-neighbors-carrying-neighbors-out-of-harms",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "In the worst hours we saw neighbors carrying neighbors out of harm's way. That's the country I'm proud to serve.",
-      "uses": [
+        },
         {
           "move": "story-turn",
           "subject": "state-of-the-union",
@@ -20814,24 +20058,24 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-we-will-rebuild-what-was-lost-and-we-will-stay-until-the",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "We will rebuild what was lost, and we will stay until the work is done, long after the cameras have gone.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-mourning"]
@@ -20856,24 +20100,24 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-well-rebuild-what-was-lost-and-well-stay-until-the-work-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "We'll rebuild what was lost, and we'll stay until the work is done, long after the cameras leave.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "pledge",
+          "subject": "state-of-the-state",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-mourning"]
@@ -20898,21 +20142,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-no-family-will-be-left-to-face-this-alone-that-is-a",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "No family will be left to face this alone. That is a promise I can keep, and I will.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -20940,21 +20170,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-no-family-will-be-left-to-face-this-alone-thats-a-promise",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "No family will be left to face this alone. That's a promise I can keep, and I will.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -20982,21 +20198,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-out-of-loss-people-find-what-they-owe-one-another-i-believe",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Out of loss, people find what they owe one another. I believe we will carry that forward.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -21024,21 +20226,7 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-out-of-loss-people-find-what-they-owe-each-other-i-believe",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Out of loss, people find what they owe each other. I believe we'll carry that forward.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
@@ -21066,24 +20254,24 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sta-those-we-lost-would-want-us-to-look-after-the-living-we",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Those we lost would want us to look after the living. We will.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "hope",
+          "subject": "state-of-the-state",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-mourning"]
@@ -21108,24 +20296,24 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sta-the-ones-we-lost-would-want-us-to-look-after-the-living",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The ones we lost would want us to look after the living. We will.",
-      "uses": [
+        },
         {
           "move": "hope",
           "subject": "state-of-the-union",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "hope",
+          "subject": "state-of-the-state",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-mourning"]
@@ -21150,24 +20338,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-rent-takes-a-larger-share-of-every-paycheck-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rent takes a larger share of every paycheck than when this term began, and for many families the lease is the first bill and the last worry.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse"]
@@ -21192,24 +20380,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-rent-takes-more-of-every-paycheck-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rent takes more of every paycheck than when this term began, and for a lot of families it's the first bill and the last worry.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-worse"]
@@ -21234,24 +20422,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-rents-have-eased-since-this-term-began-and-for-some-families-that",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rents have eased since this term began, and for some families that is the first room to breathe in years.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better"]
@@ -21276,24 +20464,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-rents-have-eased-since-this-term-began-and-for-some-families-thats",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rents have eased since this term began, and for some families that's the first room to breathe in years.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["rent-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["rent-better"]
@@ -21318,21 +20506,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-a-roof-over-a-familys-head-comes-before-nearly-everything-else-i",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "A roof over a family's head comes before nearly everything else I will ask of you.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -21360,21 +20534,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-a-roof-over-a-familys-head-comes-before-nearly-everything-else-ill",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "A roof over a family's head comes before nearly everything else I'll ask of you.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -21402,24 +20562,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-our-streets-feel-less-safe-than-when-this-term-began-and-no",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets feel less safe than when this term began, and no family should have to weigh whether to walk to the corner store.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse"]
@@ -21444,24 +20604,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-our-streets-feel-less-safe-than-when-this-term-began-and-no",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets feel less safe than when this term began, and no family should have to think twice about walking to the corner store.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-worse"]
@@ -21486,24 +20646,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-our-streets-are-safer-than-when-this-term-began-and-families-are",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better"]
@@ -21517,10 +20677,10 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.plain-ina-our-streets-are-safer-than-when-this-term-began-and-families-are",
+      "key": "opening-speech.story-says.plain-ina-our-streets-are-safer-than-they-were-when-this",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
+      "text": "Our streets are safer than they were when this term started, and families are taking them back.",
       "uses": [
         {
           "move": "story-says",
@@ -21528,24 +20688,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-our-streets-are-safer-than-when-this-term-began-and-families-are",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["crime-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["crime-better"]
@@ -21570,21 +20730,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-a-family-that-is-safe-on-its-own-street-is-the-first",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "A family that is safe on its own street is the first thing a government owes, and I will answer for it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -21612,21 +20758,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-a-family-thats-safe-on-its-own-street-is-the-first-thing",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "A family that's safe on its own street is the first thing a government owes, and I'll answer for it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -21654,21 +20786,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-our-schools-are-doing-less-for-our-children-than-they-were-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our schools are doing less for our children than they were, and no country can ask its young to carry what it has not taught them.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
@@ -21696,21 +20814,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-our-schools-are-doing-less-for-our-kids-than-they-were-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our schools are doing less for our kids than they were, and no country can ask its young to carry what it hasn't taught them.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
@@ -21738,21 +20842,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-our-children-are-learning-more-than-they-were-and-that-is-the",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our children are learning more than they were, and that is the surest investment this country makes.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
@@ -21780,21 +20870,7 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["schools-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-our-kids-are-learning-more-than-they-were-and-thats-the-surest",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our kids are learning more than they were, and that's the surest investment this country makes.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
@@ -21822,21 +20898,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["schools-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-every-child-should-leave-school-ready-for-what-comes-next-and-until",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Every child should leave school ready for what comes next, and until that is true it is the first thing I will answer for.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -21864,21 +20926,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["schools-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "schools",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-every-kid-should-leave-school-ready-for-what-comes-next-and-until",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Every kid should leave school ready for what comes next, and until that's true it's the first thing I'll answer for.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -21906,24 +20954,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-more-families-are-going-without-care-or-going-broke-getting-it-than",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families are going without care, or going broke getting it, than when this term began. That is not who we are.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse"]
@@ -21948,24 +20996,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-more-families-are-going-without-care-or-going-broke-getting-it-than",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families are going without care, or going broke getting it, than when this term began. That's not who we are.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-worse"]
@@ -21990,24 +21038,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-more-families-can-see-a-doctor-today-than-when-this-term-began",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families can see a doctor today than when this term began, and fewer are lost to what could have been treated.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better"]
@@ -22032,24 +21080,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-more-families-can-see-a-doctor-today-than-when-this-term-began",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families can see a doctor today than when this term began, and fewer are lost to what could've been treated.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["health-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["health-better"]
@@ -22074,21 +21122,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-no-one-should-lose-a-home-to-a-hospital-bill-and-i",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "No one should lose a home to a hospital bill, and I will not rest until that is true.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -22116,21 +21150,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-nobody-should-lose-a-home-to-a-hospital-bill-and-i-wont",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Nobody should lose a home to a hospital bill, and I won't rest until that's true.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -22158,24 +21178,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse"]
@@ -22189,10 +21209,10 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.plain-ina-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
+      "key": "opening-speech.story-says.plain-ina-our-roads-and-bridges-are-in-worse-shape-than",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
+      "text": "Our roads and bridges are in worse shape than when this term started, and every pothole is a tax nobody voted for.",
       "uses": [
         {
           "move": "story-says",
@@ -22200,24 +21220,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-worse"]
@@ -22242,24 +21262,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-our-roads-are-in-better-repair-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads are in better repair than when this term began, and people are getting where they are going more safely.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better"]
@@ -22284,24 +21304,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-our-roads-are-in-better-repair-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads are in better repair than when this term began, and people are getting where they're going more safely.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["roads-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["roads-better"]
@@ -22326,21 +21346,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-a-country-that-cannot-keep-its-roads-safe-has-forgotten-how-it",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "A country that cannot keep its roads safe has forgotten how it was built, and I mean to remind it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -22368,21 +21374,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-a-country-that-cant-keep-its-roads-safe-has-forgotten-how-it",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "A country that can't keep its roads safe has forgotten how it was built, and I mean to remind it.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -22410,24 +21402,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-the-air-and-the-water-are-not-as-clean-as-they-were",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are not as clean as they were, and our children breathe what we allow.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse"]
@@ -22452,24 +21444,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-the-air-and-the-water-arent-as-clean-as-they-were-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water aren't as clean as they were, and our kids breathe what we allow.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-worse"]
@@ -22494,24 +21486,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sta-the-air-and-the-water-are-cleaner-than-they-were-and-children",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are cleaner than they were, and children are breathing easier for it.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better"]
@@ -22536,24 +21528,24 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sta-the-air-and-the-water-are-cleaner-than-they-were-and-kids",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are cleaner than they were, and kids are breathing easier for it.",
-      "uses": [
+        },
         {
           "move": "story-says",
           "subject": "state-of-the-union",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["environment-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["environment-better"]
@@ -22578,21 +21570,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sta-clean-air-and-clean-water-are-not-a-luxury-and-i-will",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Clean air and clean water are not a luxury, and I will not trade them away.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -22620,21 +21598,7 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sta-clean-air-and-clean-water-arent-a-luxury-and-i-wont-trade",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Clean air and clean water aren't a luxury, and I won't trade them away.",
-      "uses": [
+        },
         {
           "move": "pledge",
           "subject": "state-of-the-union",
@@ -22780,6 +21744,13 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-crisis"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-crisis"]
         }
       ],
       "voice": "polished",
@@ -22798,6 +21769,13 @@
         {
           "move": "story-turn",
           "subject": "state-of-the-state",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-crisis"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-crisis"]
@@ -22864,6 +21842,13 @@
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-crisis"]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["kind-crisis"]
         }
       ],
       "voice": "polished",
@@ -22882,6 +21867,13 @@
         {
           "move": "hope",
           "subject": "state-of-the-state",
+          "role": "hope",
+          "choice": "hope",
+          "requiresFacts": ["kind-crisis"]
+        },
+        {
+          "move": "hope",
+          "subject": "town-address",
           "role": "hope",
           "choice": "hope",
           "requiresFacts": ["kind-crisis"]
@@ -22948,6 +21940,13 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-combative"]
         }
       ],
       "voice": "polished",
@@ -22966,6 +21965,13 @@
         {
           "move": "story-turn",
           "subject": "state-of-the-state",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-combative"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
@@ -23116,6 +22122,13 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-hopeful"]
         }
       ],
       "voice": "polished",
@@ -23134,6 +22147,13 @@
         {
           "move": "story-turn",
           "subject": "state-of-the-state",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-hopeful"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-hopeful"]
@@ -23158,6 +22178,13 @@
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-hopeful"]
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-hopeful"]
         }
       ],
       "voice": "polished",
@@ -23176,6 +22203,13 @@
         {
           "move": "pledge",
           "subject": "state-of-the-state",
+          "role": "pledge",
+          "choice": "pledge",
+          "requiresFacts": ["kind-hopeful"]
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
           "role": "pledge",
           "choice": "pledge",
           "requiresFacts": ["kind-hopeful"]
@@ -23210,10 +22244,10 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.hope.plain-sos-the-best-of-this-state-is-still-ahead-of-it-and-i",
+      "key": "opening-speech.hope.plain-sos-the-best-of-this-state-is-still-ahead-of",
       "move": "hope",
       "kind": "spoken",
-      "text": "The best of this state is still ahead of it, and I hope you can see it from here.",
+      "text": "The best of this state is still ahead of us, and I hope you can see it too.",
       "uses": [
         {
           "move": "hope",
@@ -23284,6 +22318,13 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-victory"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-victory"]
         }
       ],
       "voice": "polished",
@@ -23305,52 +22346,17 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-victory"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-victory"]
         }
       ],
       "voice": "plain",
       "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sos-i-will-not-spend-the-coming-year-admiring-this-one-a-good",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I will not spend the coming year admiring this one. A good record is a reason to aim higher.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "state-of-the-state",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-victory"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sos-i-wont-spend-next-year-admiring-this-one-a-good-record-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I won't spend next year admiring this one. A good record is a reason to aim higher.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "state-of-the-state",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-victory"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
       "addressKind": "victory",
       "origin": "authored",
       "author": "Story (Claude Code)",
@@ -23452,6 +22458,13 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
+        },
+        {
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
+          "requiresFacts": ["kind-mourning"]
         }
       ],
       "voice": "polished",
@@ -23473,89 +22486,12 @@
           "role": "story-turn",
           "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-sos-we-will-rebuild-what-was-lost-and-we-will-stay-until-the",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "We will rebuild what was lost, and we will stay until the work is done, long after the cameras have gone.",
-      "uses": [
+        },
         {
-          "move": "pledge",
-          "subject": "state-of-the-state",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-sos-well-rebuild-what-was-lost-and-well-stay-until-the-work-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "We'll rebuild what was lost, and we'll stay until the work is done, long after the cameras leave.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "state-of-the-state",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-sos-those-we-lost-would-want-us-to-look-after-the-living-we",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Those we lost would want us to look after the living. We will.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "state-of-the-state",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-sos-the-ones-we-lost-would-want-us-to-look-after-the-living",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The ones we lost would want us to look after the living. We will.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "state-of-the-state",
-          "role": "hope",
-          "choice": "hope",
+          "move": "story-turn",
+          "subject": "town-address",
+          "role": "story-turn",
+          "choice": "story-turn",
           "requiresFacts": ["kind-mourning"]
         }
       ],
@@ -23643,14 +22579,20 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.pledge.polished-sos-where-we-have-gained-i-will-hold-on-and-where-we-have",
+      "key": "opening-speech.pledge.polished-sos-twn-where-we-have-gained-i-will-hold-on-to",
       "move": "pledge",
       "kind": "spoken",
-      "text": "Where we have gained, I will hold on, and where we have slipped, I will start.",
+      "text": "Where we have gained, I will hold on to it, and where we have slipped, I will start again.",
       "uses": [
         {
           "move": "pledge",
           "subject": "state-of-the-state",
+          "role": "pledge",
+          "choice": "pledge"
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
           "role": "pledge",
           "choice": "pledge"
         }
@@ -23672,6 +22614,12 @@
           "subject": "state-of-the-state",
           "role": "pledge",
           "choice": "pledge"
+        },
+        {
+          "move": "pledge",
+          "subject": "town-address",
+          "role": "pledge",
+          "choice": "pledge"
         }
       ],
       "voice": "plain",
@@ -23691,6 +22639,12 @@
           "subject": "state-of-the-state",
           "role": "close",
           "choice": "close"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
+          "role": "close",
+          "choice": "close"
         }
       ],
       "voice": "polished",
@@ -23708,6 +22662,12 @@
         {
           "move": "close",
           "subject": "state-of-the-state",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "close",
+          "subject": "town-address",
           "role": "close",
           "choice": "close"
         }
@@ -23789,6 +22749,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-worse"]
         }
       ],
       "voice": "plain",
@@ -23828,6 +22795,13 @@
         {
           "move": "story-says",
           "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["jobs-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["jobs-better"]
@@ -23873,6 +22847,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-worse"]
         }
       ],
       "voice": "plain",
@@ -23912,6 +22893,13 @@
         {
           "move": "story-says",
           "subject": "state-of-the-state",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["pay-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["pay-better"]
@@ -23957,6 +22945,13 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-worse"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-worse"]
         }
       ],
       "voice": "plain",
@@ -23999,179 +22994,18 @@
           "role": "story-says",
           "choice": "story-says",
           "requiresFacts": ["prices-better"]
+        },
+        {
+          "move": "story-says",
+          "subject": "town-address",
+          "role": "story-says",
+          "choice": "story-says",
+          "requiresFacts": ["prices-better"]
         }
       ],
       "voice": "plain",
       "bearing": "glad",
       "topic": "prices",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-rent-takes-a-larger-share-of-every-paycheck-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rent takes a larger share of every paycheck than when this term began, and for many families the lease is the first bill and the last worry.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-rent-takes-more-of-every-paycheck-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rent takes more of every paycheck than when this term began, and for a lot of families it's the first bill and the last worry.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-rents-have-eased-since-this-term-began-and-for-some-families-that",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rents have eased since this term began, and for some families that is the first room to breathe in years.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-rents-have-eased-since-this-term-began-and-for-some-families-thats",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rents have eased since this term began, and for some families that's the first room to breathe in years.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-our-streets-feel-less-safe-than-when-this-term-began-and-no",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets feel less safe than when this term began, and no family should have to weigh whether to walk to the corner store.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-our-streets-feel-less-safe-than-when-this-term-began-and-no",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets feel less safe than when this term began, and no family should have to think twice about walking to the corner store.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-our-streets-are-safer-than-when-this-term-began-and-families-are",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-our-streets-are-safer-than-when-this-term-began-and-families-are",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "crime",
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"
@@ -24261,258 +23095,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.polished-sos-more-families-are-going-without-care-or-going-broke-getting-it-than",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families are going without care, or going broke getting it, than when this term began. That is not who we are.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-more-families-are-going-without-care-or-going-broke-getting-it-than",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families are going without care, or going broke getting it, than when this term began. That's not who we are.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-more-families-can-see-a-doctor-today-than-when-this-term-began",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families can see a doctor today than when this term began, and fewer are lost to what could have been treated.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-more-families-can-see-a-doctor-today-than-when-this-term-began",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families can see a doctor today than when this term began, and fewer are lost to what could've been treated.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-our-roads-are-in-better-repair-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads are in better repair than when this term began, and people are getting where they are going more safely.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-our-roads-are-in-better-repair-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads are in better repair than when this term began, and people are getting where they're going more safely.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-the-air-and-the-water-are-not-as-clean-as-they-were",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are not as clean as they were, and our children breathe what we allow.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-the-air-and-the-water-arent-as-clean-as-they-were-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water aren't as clean as they were, and our kids breathe what we allow.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-sos-the-air-and-the-water-are-cleaner-than-they-were-and-children",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are cleaner than they were, and children are breathing easier for it.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-sos-the-air-and-the-water-are-cleaner-than-they-were-and-kids",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are cleaner than they were, and kids are breathing easier for it.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "state-of-the-state",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.ask.polished-sos-i-will-ask-the-legislature-to-to-and-i-will-not-let",
       "move": "ask",
       "kind": "spoken",
@@ -24564,6 +23146,13 @@
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["to", "stance-against", "law-not-in-force"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"]
         }
       ],
       "voice": "polished",
@@ -24581,6 +23170,13 @@
         {
           "move": "ask",
           "subject": "state-of-the-state",
+          "role": "ask",
+          "choice": "ask",
+          "requiresFacts": ["to", "stance-against", "law-not-in-force"]
+        },
+        {
+          "move": "ask",
+          "subject": "town-address",
           "role": "ask",
           "choice": "ask",
           "requiresFacts": ["to", "stance-against", "law-not-in-force"]
@@ -24711,48 +23307,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-turn.polished-twn-no-program-mends-that-alone-it-begins-with-an-honest-look-at",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "No program mends that alone. It begins with an honest look at what went wrong on my watch.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-twn-no-program-fixes-that-by-itself-it-starts-with-an-honest-look",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "No program fixes that by itself. It starts with an honest look at what went wrong on my watch.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.pledge.polished-twn-i-will-tell-you-the-truth-about-this-town-the-good-and",
       "move": "pledge",
       "kind": "spoken",
@@ -24795,48 +23349,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.hope.polished-twn-we-have-been-through-hard-seasons-before-and-come-out-of-them",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "We have been through hard seasons before and come out of them together. I believe we will again.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-twn-weve-been-through-hard-seasons-before-and-come-out-of-them-together",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "We've been through hard seasons before and come out of them together. We will again.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": ["kind-crisis"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "crisis",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-open.polished-twn-let-us-be-honest-about-what-happened-to-this-town-for-years",
       "move": "story-open",
       "kind": "spoken",
@@ -24868,48 +23380,6 @@
           "subject": "town-address",
           "role": "story-open",
           "choice": "story-open",
-          "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-twn-those-who-let-it-slide-want-credit-for-the-repair-and-they",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "Those who let it slide want credit for the repair, and they will not get it from me.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-combative"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "addressKind": "combative",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-twn-the-people-who-let-it-slide-want-credit-for-fixing-it-they",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "The people who let it slide want credit for fixing it. They won't get it from me.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
           "requiresFacts": ["kind-combative"]
         }
       ],
@@ -25047,90 +23517,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-turn.polished-twn-that-did-not-happen-by-accident-it-happened-because-neighbors-kept-showing",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "That did not happen by accident. It happened because neighbors kept showing up, for their work and for one another.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-twn-that-didnt-happen-by-accident-neighbors-kept-showing-up-for-their-work",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "That didn't happen by accident. Neighbors kept showing up, for their work and for each other.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-twn-i-intend-to-build-on-what-is-working-and-mend-what-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I intend to build on what is working and mend what is not, and to keep the good feeling we have earned.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-twn-i-plan-to-build-on-whats-working-and-fix-what-isnt-and",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I plan to build on what's working and fix what isn't, and keep the good feeling we've earned.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-hopeful"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "hopeful",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.hope.polished-twn-the-best-of-this-town-is-still-ahead-of-it-and-i",
       "move": "hope",
       "kind": "spoken",
@@ -25152,10 +23538,10 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.hope.plain-twn-the-best-of-this-town-is-still-ahead-of-it-and-i",
+      "key": "opening-speech.hope.plain-twn-the-best-of-this-town-is-still-ahead-of",
       "move": "hope",
       "kind": "spoken",
-      "text": "The best of this town is still ahead of it, and I hope you can see it from here.",
+      "text": "The best of this town is still ahead of us, and I hope you can see it too.",
       "uses": [
         {
           "move": "hope",
@@ -25209,90 +23595,6 @@
       ],
       "voice": "plain",
       "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.polished-twn-none-of-it-was-luck-people-worked-and-the-decisions-we-argued",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "None of it was luck. People worked, and the decisions we argued over for months began to pay off.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-victory"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-twn-none-of-it-was-luck-people-worked-and-the-decisions-we-fought",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "None of it was luck. People worked, and the decisions we fought over for months started to pay off.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-victory"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-twn-i-will-not-spend-the-coming-year-admiring-this-one-a-good",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I will not spend the coming year admiring this one. A good record is a reason to aim higher.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-victory"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "addressKind": "victory",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-twn-i-wont-spend-next-year-admiring-this-one-a-good-record-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "I won't spend next year admiring this one. A good record is a reason to aim higher.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-victory"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
       "addressKind": "victory",
       "origin": "authored",
       "author": "Story (Claude Code)",
@@ -25383,132 +23685,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-turn.polished-twn-in-the-worst-hours-we-saw-neighbors-carry-neighbors-out-of-harms",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "In the worst hours we saw neighbors carry neighbors out of harm's way. That is who lives here.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-turn.plain-twn-in-the-worst-hours-we-saw-neighbors-carry-neighbors-out-of-harms",
-      "move": "story-turn",
-      "kind": "spoken",
-      "text": "In the worst hours we saw neighbors carry neighbors out of harm's way. That's who lives here.",
-      "uses": [
-        {
-          "move": "story-turn",
-          "subject": "town-address",
-          "role": "story-turn",
-          "choice": "story-turn",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.polished-twn-we-will-rebuild-what-was-lost-and-we-will-stay-until-the",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "We will rebuild what was lost, and we will stay until the work is done, long after the cameras have gone.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-twn-well-rebuild-what-was-lost-and-well-stay-until-the-work-is",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "We'll rebuild what was lost, and we'll stay until the work is done, long after the cameras leave.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.polished-twn-those-we-lost-would-want-us-to-look-after-the-living-we",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "Those we lost would want us to look after the living. We will.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.hope.plain-twn-the-ones-we-lost-would-want-us-to-look-after-the-living",
-      "move": "hope",
-      "kind": "spoken",
-      "text": "The ones we lost would want us to look after the living. We will.",
-      "uses": [
-        {
-          "move": "hope",
-          "subject": "town-address",
-          "role": "hope",
-          "choice": "hope",
-          "requiresFacts": ["kind-mourning"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "tender",
-      "addressKind": "mourning",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-open.polished-twn-i-want-to-report-on-this-town-as-it-stands-in-plain",
       "move": "story-open",
       "kind": "spoken",
@@ -25585,82 +23761,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.pledge.polished-twn-where-we-have-gained-i-will-hold-on-and-where-we-have",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Where we have gained, I will hold on, and where we have slipped, I will start.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.pledge.plain-twn-where-weve-gained-ill-hold-on-and-where-weve-slipped-ill-start",
-      "move": "pledge",
-      "kind": "spoken",
-      "text": "Where we've gained, I'll hold on, and where we've slipped, I'll start.",
-      "uses": [
-        {
-          "move": "pledge",
-          "subject": "town-address",
-          "role": "pledge",
-          "choice": "pledge"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.polished-twn-thank-you-it-is-an-honor-to-work-for-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you. It is an honor to work for you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "polished",
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.close.plain-twn-thank-you-its-an-honor-to-work-for-you",
-      "move": "close",
-      "kind": "spoken",
-      "text": "Thank you. It's an honor to work for you.",
-      "uses": [
-        {
-          "move": "close",
-          "subject": "town-address",
-          "role": "close",
-          "choice": "close"
-        }
-      ],
-      "voice": "plain",
-      "bearing": "solemn",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.close.polished-twn-that-is-where-this-town-stands-and-what-i-intend-thank-you",
       "move": "close",
       "kind": "spoken",
@@ -25720,27 +23820,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.plain-twn-fewer-people-here-have-work-than-when-this-term-began-and-a",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Fewer people here have work than when this term began, and a missing paycheck is hard to explain at a kitchen table.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-says.polished-twn-more-of-the-people-of-this-town-are-working-than-when-this",
       "move": "story-says",
       "kind": "spoken",
@@ -25755,27 +23834,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "glad",
-      "topic": "jobs",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-more-people-here-are-working-than-when-this-term-began-and-it",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More people here are working than when this term began, and it shows in every shop on Main Street.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["jobs-better"]
-        }
-      ],
-      "voice": "plain",
       "bearing": "glad",
       "topic": "jobs",
       "origin": "authored",
@@ -25804,27 +23862,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.plain-twn-pay-here-has-fallen-behind-what-a-family-needs-and-the-gaps",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Pay here has fallen behind what a family needs, and the shortfall's bigger than when this term began.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["pay-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "pay",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-says.polished-twn-pay-in-this-town-has-risen-since-this-term-began-and-for",
       "move": "story-says",
       "kind": "spoken",
@@ -25839,27 +23876,6 @@
         }
       ],
       "voice": "polished",
-      "bearing": "glad",
-      "topic": "pay",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-pay-here-has-gone-up-since-this-term-began-and-for-a",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Pay here has gone up since this term began, and for a lot of families that's the first room to breathe in years.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["pay-better"]
-        }
-      ],
-      "voice": "plain",
       "bearing": "glad",
       "topic": "pay",
       "origin": "authored",
@@ -25888,27 +23904,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.plain-twn-prices-here-have-climbed-faster-than-they-should-and-families-feel-it",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Prices here have climbed faster than they should, and families feel it every time they fill a cart or a tank.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["prices-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "prices",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.story-says.polished-twn-prices-in-this-town-have-eased-since-this-term-began-and-the",
       "move": "story-says",
       "kind": "spoken",
@@ -25925,195 +23920,6 @@
       "voice": "polished",
       "bearing": "glad",
       "topic": "prices",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-prices-here-have-eased-since-this-term-began-and-the-month-stretches",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Prices here have eased since this term began, and the month stretches a little further.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["prices-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "prices",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-rent-takes-a-larger-share-of-every-paycheck-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rent takes a larger share of every paycheck than when this term began, and for many families the lease is the first bill and the last worry.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-rent-takes-more-of-every-paycheck-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rent takes more of every paycheck than when this term began, and for a lot of families it's the first bill and the last worry.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-rents-have-eased-since-this-term-began-and-for-some-families-that",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rents have eased since this term began, and for some families that is the first room to breathe in years.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-rents-have-eased-since-this-term-began-and-for-some-families-thats",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Rents have eased since this term began, and for some families that's the first room to breathe in years.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["rent-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "rent",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-our-streets-feel-less-safe-than-when-this-term-began-and-no",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets feel less safe than when this term began, and no family should have to weigh whether to walk to the corner store.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-our-streets-feel-less-safe-than-when-this-term-began-and-no",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets feel less safe than when this term began, and no family should have to think twice about walking to the corner store.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-our-streets-are-safer-than-when-this-term-began-and-families-are",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "crime",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-our-streets-are-safer-than-when-this-term-began-and-families-are",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our streets are safer than when this term began, and families are taking them back.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["crime-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "crime",
       "origin": "authored",
       "author": "Story (Claude Code)",
       "date": "2026-11-08"
@@ -26203,258 +24009,6 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.story-says.polished-twn-more-families-are-going-without-care-or-going-broke-getting-it-than",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families are going without care, or going broke getting it, than when this term began. That is not who we are.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-more-families-are-going-without-care-or-going-broke-getting-it-than",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families are going without care, or going broke getting it, than when this term began. That's not who we are.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-more-families-can-see-a-doctor-today-than-when-this-term-began",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families can see a doctor today than when this term began, and fewer are lost to what could have been treated.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-more-families-can-see-a-doctor-today-than-when-this-term-began",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "More families can see a doctor today than when this term began, and fewer are lost to what could've been treated.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["health-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "health",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-our-roads-and-bridges-are-in-worse-shape-than-when-this-term",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads and bridges are in worse shape than when this term began, and every pothole is a tax nobody voted for.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-our-roads-are-in-better-repair-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads are in better repair than when this term began, and people are getting where they are going more safely.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-our-roads-are-in-better-repair-than-when-this-term-began-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "Our roads are in better repair than when this term began, and people are getting where they're going more safely.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["roads-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "roads",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-the-air-and-the-water-are-not-as-clean-as-they-were",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are not as clean as they were, and our children breathe what we allow.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-the-air-and-the-water-arent-as-clean-as-they-were-and",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water aren't as clean as they were, and our kids breathe what we allow.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-worse"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "braced",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.polished-twn-the-air-and-the-water-are-cleaner-than-they-were-and-children",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are cleaner than they were, and children are breathing easier for it.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "glad",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.story-says.plain-twn-the-air-and-the-water-are-cleaner-than-they-were-and-kids",
-      "move": "story-says",
-      "kind": "spoken",
-      "text": "The air and the water are cleaner than they were, and kids are breathing easier for it.",
-      "uses": [
-        {
-          "move": "story-says",
-          "subject": "town-address",
-          "role": "story-says",
-          "choice": "story-says",
-          "requiresFacts": ["environment-better"]
-        }
-      ],
-      "voice": "plain",
-      "bearing": "glad",
-      "topic": "environment",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
       "key": "opening-speech.ask.polished-twn-i-will-ask-the-council-to-to-and-i-will-not-let",
       "move": "ask",
       "kind": "spoken",
@@ -26495,44 +24049,31 @@
       "date": "2026-11-08"
     },
     {
-      "key": "opening-speech.ask.polished-twn-there-is-one-thing-i-will-not-move-on-i-will-oppose",
-      "move": "ask",
+      "key": "opening-speech.salutation.plain-sta-thank-you-very-much",
+      "move": "salutation",
       "kind": "spoken",
-      "text": "There is one thing I will not move on: I will oppose any bill to {to}.",
+      "text": "Thank you very much.",
       "uses": [
         {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"]
-        }
-      ],
-      "voice": "polished",
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
-    },
-    {
-      "key": "opening-speech.ask.plain-twn-theres-one-thing-i-wont-move-on-ill-oppose-any-bill-to",
-      "move": "ask",
-      "kind": "spoken",
-      "text": "There's one thing I won't move on: I'll oppose any bill to {to}.",
-      "uses": [
-        {
-          "move": "ask",
-          "subject": "town-address",
-          "role": "ask",
-          "choice": "ask",
-          "requiresFacts": ["to", "stance-against", "law-not-in-force"]
+          "move": "salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
         }
       ],
       "voice": "plain",
-      "bearing": "braced",
-      "origin": "authored",
-      "author": "Story (Claude Code)",
-      "date": "2026-11-08"
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
+        "date": "2026-09-11",
+        "granule": "DCPD-202600596",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600596",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "restoredFrom": "opening-speech.state-of-the-union-salutation.thank-you-very-much",
+      "restoredOn": "2026-11-08"
     }
   ]
 }
