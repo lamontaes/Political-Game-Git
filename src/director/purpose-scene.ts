@@ -85,6 +85,7 @@ import { reunionFacts } from "./reunion-facts";
 import { letterFacts } from "./letter-facts";
 import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
+import { rescueFacts } from "./rescue-facts";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -628,6 +629,9 @@ function composeBinding(
       placeNamed,
       (aId, bId) => tieSide(core, aId, bId)?.side === "rival",
     ),
+    // A rescue (`health.rescued`): who got help, who was there to see it.
+    // stopgapId: SG-WORDS-rescue-ask-unrecorded
+    ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   }))
     facts[key] = fact;
   // A damaged home (disasters.ts, the day its aid is paid): the kind of home,

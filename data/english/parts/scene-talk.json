@@ -182786,6 +182786,886 @@
         "move": "press",
         "key": "loss"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-name-was-the-one-who-called-for-help-now-they-want-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "When you fell seriously ill, {name} was the one who called for help. Now they want to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "When you fell seriously ill, your partner {name} called for help. Afterward they sit you down to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["partner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-fell-seriously-ill-at-home-with-child-in-the-room-name-called-for-help-and-afterward-comes-to-ask-you-something",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You fell seriously ill at home with {child} in the room. {name} called for help, and afterward comes to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-fall-seriously-ill-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Other people in the house saw you fall seriously ill, and {name} was the one who called for help. Now they pull you aside with a question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["others-there"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.are-you-alright-first-i-haven-t-been-able-to-sit-still-since-i-called-for-help",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Are you alright, {first}? I haven't been able to sit still since I called for help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.can-i-sit-with-you-a-minute-first-i-want-to-ask-you-something-about-getting-you-well",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can I sit with you a minute, {first}? I want to ask you something about getting you well.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-thought-i-was-losing-you-first-can-i-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I thought I was losing you, {first}. Can I ask you something?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["partner"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-only-did-what-anyone-would-have-done-first-but-i-do-need-to-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I only did what anyone would have done, {first}. But I do need to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-let-me-drive-you-to-the-doctor-first-i-d-feel-a-lot-better-if-someone-checked-you-over",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you let me drive you to the doctor, {first}? I'd feel a lot better if someone checked you over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-see-a-doctor-this-week-first-i-ll-go-with-you-if-you-want-me-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you see a doctor this week, {first}? I'll go with you if you want me there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-let-me-stay-close-for-the-next-few-days-first-i-keep-going-over-the-minutes-before-i-called-for-help",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you let me stay close for the next few days, {first}? I keep going over the minutes before I called for help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-promise-to-tell-me-the-moment-you-start-feeling-sick-again-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you promise to tell me the moment you start feeling sick again, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-let-me-call-the-rest-of-the-family-first-they-should-hear-what-happened-from-someone-who-was-here",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you let me call the rest of the family, {first}? They should hear what happened from someone who was here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you talk to {child} yourself, {first}? They were in the room when you fell ill.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.you-scared-me-badly-first-will-you-promise-me-you-ll-slow-down-for-a-few-days",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You scared me badly, {first}. Will you promise me you'll slow down for a few days?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["partner"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-let-the-others-in-the-house-sit-with-you-for-a-while-first-they-have-been-worried-about-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you let the others in the house sit with you for a while, {first}? They have been worried about you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "requiresFacts": ["others-there"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, you're right. I'll do that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright. You were the one who called for help, so I won't argue.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I owe you more than I can say, so I'll do what you're asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Alright, I'll do it. Thank you for asking me instead of deciding for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "agree", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll do it, and I won't put it off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise. You were there when I needed someone, and I won't forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do exactly that, and I promise to keep my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I promise. I know what it cost you to stand there and wait for help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What are you most afraid will happen if I don't?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-fell-ill",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Why are you asking me now? What did you see when I fell ill?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I know you were scared, but I can't do that right now. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I owe you more than I can say, and I still can't do that right now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I understand why you're asking, but I can't promise that. I hope you'll forgive me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm tired, and I can't keep talking about my illness today. I'll come to you when I'm ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-ll-sleep-better-tonight-knowing-that",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'll sleep better tonight knowing that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-first-i-was-afraid-you-would-brush-me-off",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I was afraid you would brush me off.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-all-i-wanted-to-hear",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Good. That's all I wanted to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-m-glad-you-said-yes",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'm glad you said yes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Can I count on that, {first}? I was frightened when I called for help, and I don't want to feel that way again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Will you really follow through, {first}? I'm asking because I was the one who called for help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "promise"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'm afraid of walking in and finding you worse, {first}. That's all it is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-only-want-you-looked-after-first-whatever-you-can-manage-is-enough-for-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I only want you looked after, {first}. Whatever you can manage is enough for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-first-i-can-rest-easier-now",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I can rest easier now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-right-here-first-whatever-you-need-just-say-so",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be right here, {first}. Whatever you need, just say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-accept.alright-i-ll-leave-you-to-rest",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll leave you to rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-you-again-in-a-few-days-if-that-is-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask you again in a few days, if that is alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "rescue-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, rescue purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "threat" }
     }
   ]
 }

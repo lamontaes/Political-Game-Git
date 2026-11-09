@@ -4887,6 +4887,45 @@
         }
       ]
     },
+    "rescue-ask": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-yes-after-the-rescue",
+          "label": "You said yes to the one who got you help",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "turned-down-who-got-you-help",
+          "label": "You turned down the one who got you help, and it showed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "rescue-ask-left-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "swearing-in": {
       "state": "request",
       "replies": ["agree", "promise", "thank", "ask"],
