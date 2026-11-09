@@ -222,7 +222,7 @@ function normal(key: string): number {
   );
 }
 
-function ageBand(age: number): string {
+export function ageBand(age: number): string {
   for (const band of VIEWS_KEYS.ageBands) {
     const [low, high] = band.split("-");
     if (age >= Number(low) && (high === "plus" || age <= Number(high)))
@@ -590,6 +590,30 @@ export function stanceOn(
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return v("zero");
   const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
     Stance | undefined;
+  return (
+    (stance ? direction(stance.desiredChange) * stance.strength : v("zero")) +
+    groupShift(api, personId, question)
+  );
+}
+
+/**
+ * The shift a person took as one of a group of like hearers nobody watches
+ * (`hearAsGroups`, owner's level of detail, Nov 9): the group's stance on the
+ * question, read by the group the person was first heard in. Zero for anyone
+ * never heard as a group. One row read for the membership, one for the stance.
+ */
+export function groupShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  const state = api.moduleState(VIEWS_MODULE_ID);
+  const member = state.table("groupHearers").get(personId) as unknown as
+    { groupId: string } | undefined;
+  if (!member) return v("zero");
+  const stance = state
+    .table("groupStances")
+    .get(`${member.groupId}:${question}`) as unknown as Stance | undefined;
   return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
 }
 
@@ -910,6 +934,12 @@ export const viewsModule: CoreModule = {
     tables: {
       people: {},
       countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Groups of like full hearers nobody watches, and their member counts (`hearAsGroups`). */
+      hearerGroups: {},
+      /** Which hearer group each unwatched full person was first heard in. */
+      groupHearers: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Each hearer group's stance by topic: the mean of its members' shifts. */
+      groupStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {

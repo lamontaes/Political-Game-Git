@@ -4305,6 +4305,7 @@ export function makeStatements(
         topic: statement.question,
         desiredChange: statement.position > 0 ? "enact" : "repeal",
         audienceIds,
+        groupUnwatched: true,
       }),
     );
   }
