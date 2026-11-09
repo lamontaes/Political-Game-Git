@@ -323,10 +323,14 @@ export function syncServiceCharges(api: CoreAPI): void {
             ? row.sewerPerFirmMinor
             : 0
       : 0;
-    const sewer = Math.min(
-      minor,
-      sewerOwed(row, payerId),
-      Math.max(0, monthlyOwed - (monthTaken.get(takenKey) ?? 0)),
+    // Whole minor units: a firm's share of a month's charge on one payment
+    // is rounded, and the month's cap holds the rounding to one unit.
+    const sewer = Math.round(
+      Math.min(
+        minor,
+        sewerOwed(row, payerId),
+        Math.max(0, monthlyOwed - (monthTaken.get(takenKey) ?? 0)),
+      ),
     );
     if (sewer > 0)
       monthTaken.set(takenKey, (monthTaken.get(takenKey) ?? 0) + sewer);

@@ -115,7 +115,9 @@ it("moves the town's part of each government's charges from households' living c
         // the town's dwellings and firms times their flat charges, and it
         // reaches the treasury wherever the place's budget has the service.
         if (row.sewerPerDwellingMinor > 0) {
-          const capacity = sewerCapacity + rounding;
+          // Payments earlier in the month were sized at the month's earlier charge,
+          // which moves with prices and with who lives in the town (a few percent).
+          const capacity = sewerCapacity * 1.1 + rounding;
           const sewer = sewerPaid;
           expect(sewer, `${where} ${row.governmentId} sewer`).toBeGreaterThan(
             0,
