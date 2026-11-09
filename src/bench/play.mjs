@@ -520,6 +520,8 @@ const controlsReady = api("/api/controls").then((value) => {
         .split(".")
         .reduce((node, key) => node?.[key], controls) ?? "";
   $("week").textContent = controls.time?.week ?? "";
+  $("day").textContent = controls.time?.day ?? "";
+  $("continue").textContent = controls.time?.continue ?? "";
   return value;
 });
 
