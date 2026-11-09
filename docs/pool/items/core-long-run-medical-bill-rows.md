@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: memory/medical-bill-rows
 pr: #8064
 blocked-on:
