@@ -17,6 +17,7 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
+import vacancyDuration from "../data/jobs/vacancy-duration.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import {
@@ -103,7 +104,7 @@ import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
-import { worldOffsetShare, worldRate } from "../world-draw";
+import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -2712,16 +2713,49 @@ function walkRanking(
   };
 }
 
+/**
+ * Days an opening waits before it can be filled: its industry's JOLTS
+ * openings-to-hires ratio in months (src/core2/data/jobs/vacancy-duration.json),
+ * placed inside the series' 45-month range by the firm's own offset in the
+ * world. Size is not read (SG-LABOR-vacancy-size-uniform).
+ */
+function vacancyDays(api: CoreAPI, position: PositionRow): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const kindId = c.finance.businesses.get(position.organizationId)?.kindId;
+  const series = (vacancyDuration.kinds as Record<string, string>)[
+    kindId ?? ""
+  ];
+  const row = (
+    vacancyDuration.series as Record<
+      string,
+      { months: { value: number; low: number; high: number } }
+    >
+  )[series ?? "total-private"]!.months;
+  const unit = worldOffsetUnit(c.seed, `vacancy:${position.organizationId}`);
+  const months =
+    unit >= p("zero")
+      ? row.value + unit * (row.high - row.value)
+      : row.value + unit * (row.value - row.low);
+  stopgap("SG-LABOR-vacancy-size-uniform");
+  return (months * p("jobsDaysPerYear")) / p("macroMonthsPerYear");
+}
+
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
 function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   // A position held for the player's answer is no one else's this week.
+  // An opening can be filled only once it has waited its industry's vacancy duration (posting, applications, interviews, a start date).
   const positions = (
     store(api)
       .table("positions")
       .query("byStatus", ["open"]) as unknown as PositionRow[]
-  ).filter((row) => !row.offeredTo);
+  ).filter(
+    (row) =>
+      !row.offeredTo &&
+      daysBetweenText(row.openedAt, c.date) >= vacancyDays(api, row),
+  );
   if (!positions.length) return;
   const byPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
