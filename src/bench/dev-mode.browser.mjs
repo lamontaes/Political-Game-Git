@@ -55,7 +55,13 @@ try {
   // Run until: a number of days, with the reason it stopped.
   await dock("Calendar").click();
   await page.locator('[data-testid="dev-run"]').waitFor();
-  await page.locator(".dev-run input").first().fill("3");
+  // Three days: the arrows step the number down from 30 to 3.
+  while (
+    !(await page.locator('[data-testid="dev-days"]').innerText()).includes(
+      "3 days",
+    )
+  )
+    await page.locator('[data-testid="dev-days"] button').first().click();
   await page.locator('[data-testid="dev-run"]').click();
   await page.waitForFunction(
     () => document.querySelector(".dev-run .option-status")?.textContent,

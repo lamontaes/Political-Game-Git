@@ -4805,7 +4805,23 @@ select.release-pick {
   margin-bottom: 14px;
 }
 .calendar-board {
-  flex: 1;
+  flex: 1 1 560px;
+}
+/* Dev mode's Run and Watch sit beside the month and drop below it when the sheet is narrow,
+   so the month's tiles are never squeezed under each other. */
+#sheet-body:has(.calendar-board) {
+  flex-wrap: wrap;
+  gap: 0 24px;
+}
+.dev-run {
+  flex: 0 1 420px;
+}
+.dev-run .look-value {
+  white-space: nowrap;
+}
+.dev-run .acts {
+  gap: 8px;
+  margin: 8px 0;
 }
 
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
