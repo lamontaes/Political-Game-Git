@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/candidacy-decisions
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T17:52:42.660Z
 ---
 
 **What.** The candidacy engine keeps one decisions row per person and contest, with every reason and score, and never removes one. At Montpelier, Vermont (5046000, world seed mont1, fast-forward), year 4, 28,733 of its 30,181 rows were decisions not to run in races already decided, 27 MB as JSON. Every reader asks about a race still being run or about those who ran: demotion keeps a runner full until their race, the candidate pool reads past runners from the weighed rows, and the dev path check reads the holder's own decision to run.
