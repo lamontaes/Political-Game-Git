@@ -36,7 +36,7 @@ import congressSessions from "../data/legislature/congress-sessions.json" with {
 import {
   budgetsOf,
   fiscalYearOf,
-  governments,
+  governmentOfJurisdiction,
   lineChangedInYear,
 } from "./budgets";
 import { townConcernShare } from "./meetings";
@@ -219,6 +219,32 @@ export function openWorldLegislating(core: CoreState): void {
   // session (or the one already sitting, today), each on its own dates.
   for (const jurisdiction of ["US", ...sessionPlaceKeys()])
     scheduleOpening(api, jurisdiction, core.date, true);
+}
+
+/**
+ * Every session already sitting when the world opens takes up its work at the opening, once the
+ * rest of the world is installed, so the bills filed in its first weeks are on the record on
+ * day one. Called last by the world's build; a world that does not call it opens them the next day.
+ */
+export function openSittingSessions(core: CoreState): void {
+  if (!core.modules.has(WORLD_LEGISLATING_MODULE_ID)) return;
+  const api = coreAPI(core);
+  for (const jurisdiction of ["US", ...sessionPlaceKeys()]) {
+    const w = nextWindow(jurisdiction, core.date, true);
+    if (!w || w.conveneAt > core.date) continue;
+    openSession(api, {
+      key: `session-open:${jurisdiction}:${w.conveneAt}`,
+      date: core.date,
+      kind: "session-open",
+      source: {
+        tag: w.tag,
+        citation: w.source,
+        asOf: core.date,
+        ...(w.tag === "ESTIMATED" ? { estimatedFrom: w.source } : {}),
+      },
+      sourceRecordIds: [jurisdiction, w.conveneAt, w.adjournAt],
+    } as unknown as Readonly<ModuleCalendarWork>);
+  }
 }
 
 function townBodies(api: CoreAPI): readonly string[] {
@@ -626,30 +652,34 @@ function fileChanges(
   return filed;
 }
 
-/**
- * The amendments members file to the lines of their own government's budget
- * in force: each member wants a line moved by their stance on it (at a full
- * stance, the budget-full-stance share of the line, the scale the budget vote
- * weighs) from where the year's budget started, and files for the gap between
- * that and what the laws have already changed; members wanting the same
- * direction join one bill, the most moved sponsoring it at their own size.
- * A gap under the amendment threshold is not worth the agenda time.
- * stopgapId: SG-LAWS-local-line-filing-threshold
- */
-function fileLines(
+/** What each member of a body wants done to one budget line, and who backs which way. */
+export interface LinePosition {
+  readonly name: string;
+  readonly base: number;
+  readonly changed: number;
+  /** The members' positions on the line, in the body's order, from -1 to 1. */
+  readonly stances: readonly number[];
+  /** For each direction (1 raise, -1 cut): each member's gap, kept where it clears the amendment threshold. */
+  readonly backing: {
+    readonly up: readonly { readonly at: number; readonly gap: number }[];
+    readonly down: readonly { readonly at: number; readonly gap: number }[];
+  };
+}
+
+/** Every line of the government's budget in force and the members' positions on it. */
+function linePositions(
   api: CoreAPI,
   governmentId: string,
   filers: readonly Filer[],
-  barred: (question: string, direction: number) => boolean,
-): Filed[] {
-  const gov = governments(api).find((g) => g.id === governmentId);
+): readonly LinePosition[] {
+  const gov = governmentOfJurisdiction(api, governmentId);
   if (!gov) return [];
   const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
   const budget = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy);
   if (!budget) return [];
   const scale = campaignParameter("budgetFullStanceShare");
   const minimum = campaignParameter("budgetAmendmentMinShare");
-  const all: { filed: Filed; weight: number }[] = [];
+  const rows: LinePosition[] = [];
   for (const [name, now] of Object.entries(budget.spendingMinor)) {
     const changed = lineChangedInYear(api, gov.id, fy, name);
     const base = now - changed;
@@ -667,52 +697,96 @@ function fileLines(
         ),
       ),
     );
-    for (const direction of [1, -1]) {
+    const up: { at: number; gap: number }[] = [];
+    const down: { at: number; gap: number }[] = [];
+    for (const [at] of filers.entries()) {
+      const raise = base * scale * stances[at]! - changed;
+      if (raise / base - minimum > 0) up.push({ at, gap: raise });
+      if (-raise / base - minimum > 0) down.push({ at, gap: -raise });
+    }
+    rows.push({ name, base, changed, stances, backing: { up, down } });
+  }
+  return rows;
+}
+
+/**
+ * Why a body's budget line was or was not moved: its members' positions and
+ * how many back a raise or a cut against the majority a bill needs. For a
+ * line that drew no bill, this is the recorded reason.
+ */
+export function lineBacking(
+  api: CoreAPI,
+  officeId: string,
+): {
+  readonly majority: number;
+  readonly lines: readonly LinePosition[];
+} {
+  const filers = members(api, officeId).map((t) => filerOf(api, t));
+  return {
+    majority: Math.floor(filers.length / 2) + 1,
+    lines: linePositions(api, bodyJurisdiction(api, officeId), filers),
+  };
+}
+
+/**
+ * The amendments members file to the lines of their own government's budget
+ * in force: each member wants a line moved by their stance on it (at a full
+ * stance, the budget-full-stance share of the line, the scale the budget vote
+ * weighs) from where the year's budget started, and files for the gap between
+ * that and what the laws have already changed; members wanting the same
+ * direction join one bill, the most moved sponsoring it at their own size.
+ * A gap under the amendment threshold is not worth the agenda time.
+ * stopgapId: SG-LAWS-local-line-filing-threshold
+ */
+function fileLines(
+  api: CoreAPI,
+  governmentId: string,
+  filers: readonly Filer[],
+  barred: (question: string, direction: number) => boolean,
+): Filed[] {
+  const all: { filed: Filed; weight: number }[] = [];
+  const majority = Math.floor(filers.length / 2) + 1;
+  for (const row of linePositions(api, governmentId, filers)) {
+    const question = `budget-line:${row.name}`;
+    for (const direction of [1, -1] as const) {
+      const backers = direction > 0 ? row.backing.up : row.backing.down;
+      // A body brings a budget amendment to the floor only where its
+      // sponsors can count a majority; a change without the votes is not
+      // taken up (members do not spend a meeting's agenda, or a recorded
+      // vote, on an amendment they know will fail).
+      if (backers.length < majority) continue;
+      // The most moved member sponsors; the bill asks for what the member who
+      // makes the majority wants, not the most moved member's larger ask, so
+      // the line settles where the body's median member stands and is not
+      // pushed past it and back.
+      let best = -Infinity;
       let sponsor: Filer | null = null;
-      let best = 0;
-      let wanted = 0;
-      let cosponsors = 0;
-      const gaps: number[] = [];
-      for (const [at, member] of filers.entries()) {
-        const gap = (base * scale * stances[at]! - changed) * direction;
-        const reason = gap / base - minimum;
-        if (reason <= 0) continue;
-        cosponsors += 1;
-        gaps.push(gap);
+      for (const { at, gap } of backers) {
+        const member = filers[at]!;
+        const reason = gap / row.base;
         if (
           reason > best ||
           (reason === best && sponsor && member.key < sponsor.key)
         ) {
           best = reason;
           sponsor = member;
-          wanted = Math.round(gap * direction);
         }
       }
-      // Where a majority backs a change, the bill asks for what the member
-      // who makes the majority wants, not the most moved member's larger
-      // ask, so the line settles where the body's median member stands and
-      // is not pushed past it and back.
-      const majority = Math.floor(filers.length / 2) + 1;
-      // A body brings a budget amendment to the floor only where its
-      // sponsors can count a majority; a change without the votes is not
-      // taken up (members do not spend a meeting's agenda, or a recorded
-      // vote, on an amendment they know will fail).
-      if (!sponsor || gaps.length < majority) continue;
-      gaps.sort((a, b) => b - a);
-      wanted = Math.round(gaps[majority - 1]! * direction);
-      if (wanted === 0) continue;
+      const gaps = backers.map((b) => b.gap).sort((a, b) => b - a);
+      const wanted = Math.round(gaps[majority - 1]! * direction);
+      if (!sponsor || wanted === 0) continue;
       // A change the body just turned down is not filed again at once (read
       // only for a change that would be filed: the check scans the sessions).
       if (barred(question, direction)) continue;
       all.push({
-        weight: cosponsors * (Math.abs(wanted) / base),
+        weight: backers.length * (Math.abs(wanted) / row.base),
         filed: {
           question,
           direction,
           sponsor,
-          cosponsors,
+          cosponsors: backers.length,
           leaderReason: 0,
-          line: { name, deltaMinor: wanted, of: base },
+          line: { name: row.name, deltaMinor: wanted, of: row.base },
         },
       });
     }
@@ -1111,6 +1185,9 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     string,
     string,
   ];
+  // A session opened already (a sitting one, at the world's opening) is not opened again by its
+  // calendar entry the next day.
+  if (sessionTable(api).get(`session:${jurisdiction}:${conveneAt}`)) return;
   // Another government's session is simulated from its people and keeps only
   // its results (owner, Nov 5: "generate on demand").
   if (jurisdiction !== "US" && !reachesTown(api, jurisdiction)) {
@@ -1171,7 +1248,12 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     : [];
   const today = api.state.date;
   const length = Math.max(1, daysBetween(today, adjournAt));
-  const period = campaignParameter("sessionFilingShare") * length;
+  // A session already sitting spreads its filings from the day it convened, so the bills filed
+  // in its first weeks are already on the record when the world opens, dated as they were filed.
+  const start = conveneAt < today ? conveneAt : today;
+  const period =
+    campaignParameter("sessionFilingShare") *
+    Math.max(1, daysBetween(start, adjournAt));
   const filings: Filing[] = filed.map((item, i) => ({
     question: item.question,
     direction: item.direction,
@@ -1179,7 +1261,7 @@ function openSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
     cosponsors: item.cosponsors,
     introduceOn: item.drafted
       ? today
-      : plusDays(today, (i * period) / Math.max(1, filed.length)),
+      : plusDays(start, (i * period) / Math.max(1, filed.length)),
     billId: item.drafted?.id ?? null,
   }));
   const weeks = Math.max(1, length / 7);
@@ -1518,6 +1600,15 @@ function introduce(api: CoreAPI, sessionId: string, index: number): void {
       },
     ],
   });
+  // A bill filed before the world opened is dated the day it was filed.
+  if (filing.introduceOn < api.state.date)
+    api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .put({
+        ...bill,
+        introduced: filing.introduceOn,
+      } as unknown as ModuleRow);
   sessionTable(api).put({
     ...row,
     filings: row.filings.map((f, i) =>

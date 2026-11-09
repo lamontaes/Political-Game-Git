@@ -44,7 +44,10 @@ import { openInterestGroups } from "../core2/modules/interest-groups";
 import { openPublicAction } from "../core2/modules/public-action";
 import { openFederalCourts } from "../core2/modules/federal-courts";
 import { openNationalEvents } from "../core2/modules/national-events";
-import { openWorldLegislating } from "../core2/modules/world-legislating";
+import {
+  openSittingSessions,
+  openWorldLegislating,
+} from "../core2/modules/world-legislating";
 import { openBallotMeasures } from "../core2/modules/ballot-measures";
 import { openRecalls } from "../core2/modules/recalls";
 import { openPress } from "../core2/modules/press";
@@ -68,8 +71,10 @@ import {
 } from "../core2/opening-outside-market";
 import { withPublicSchoolDistrict } from "../core2/opening-public-schools";
 import { withPrivateTuition } from "../core2/opening-private-tuition";
+import { withOrigins } from "../core2/opening-origin";
 import { representativeSample } from "../core2/representative-sample";
 import { withCountySample } from "../core2/opening-county-sample";
+import { withRoles } from "../core2/opening-roles";
 import { withYearsInPlace } from "../core2/opening-tenure";
 import { initialFocusPeople } from "../core2/focus";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -461,14 +466,15 @@ function* benchWorldStages(
       ...(countScale !== 1
         ? { [place.context.jurisdiction.id]: countScale }
         : {}),
-      ...(countySample ? { [countySample.placeId]: countySample.weight } : {}),
     };
     opening = scaleOutsideSales(
       settings.economy?.outsideDemand ?? 1,
       addTradeArea(
         withWorldEconomy(
           collapseToTwoLevels(
-            withYearsInPlace(countySample?.input ?? economy),
+            withOrigins(
+              withRoles(withYearsInPlace(countySample?.input ?? economy)),
+            ),
             {
               keep: kept,
               ...(Object.keys(weights).length ? { weights } : {}),
@@ -480,7 +486,7 @@ function* benchWorldStages(
   } else
     opening = withWorldEconomy(
       withPrivateTuition({
-        ...input,
+        ...withOrigins(input),
         finance: createOpeningFinance(input),
       }),
     );
@@ -583,6 +589,8 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
+  openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
   // (people who arrive later get theirs on the next 1st); the household pays its premium.
   openCoverage(core);

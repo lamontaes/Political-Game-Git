@@ -1,6 +1,6 @@
 // The one member card: a person who holds a seat, as a control that opens
-// their card. Face, name, the seat under it and the party's badge at the
-// right; never a mark for how they feel about you (owner, Oct 29: no scale of
+// their card. Face, name and the seat under it, the party in its color;
+// no letter in a circle (owner, Nov 8); never a mark for how they feel about you (owner, Oct 29: no scale of
 // what someone thinks of you). `large` is the executive's card (the mock's
 // Mayor).
 import { el } from "./dom.mjs";
@@ -9,9 +9,8 @@ import { headshot } from "./headshot.mjs";
 import { partyClass } from "./map.mjs";
 
 /**
- * `person`: { name, line, party, badge, face, onOpen }. `line` is the seat or
- * post in words (or a node: a post underlined as a Guide term), `badge` the
- * party's letter.
+ * `person`: { name, line, party, face, onOpen }. `line` is the seat or
+ * post in words (or a node: a post underlined as a Guide term),
  */
 export function memberCard(person, { large = false } = {}) {
   const face = person.face
@@ -23,6 +22,7 @@ export function memberCard(person, { large = false } = {}) {
       className: `member-card ${partyClass(person.party)}${large ? " large" : ""}`,
       title: [
         person.name,
+        person.party,
         typeof person.line === "string"
           ? person.line
           : person.line?.textContent,
@@ -48,15 +48,6 @@ export function memberCard(person, { large = false } = {}) {
           ]
         : []),
     ),
-    ...(person.badge
-      ? [
-          el("span", {
-            className: "member-badge",
-            textContent: person.badge,
-            title: person.party ?? "",
-          }),
-        ]
-      : []),
   );
   if (person.onOpen) card.addEventListener("click", person.onOpen);
   return card;

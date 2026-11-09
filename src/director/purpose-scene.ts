@@ -1360,7 +1360,12 @@ function walkThroughFacts(
     .moduleState(ELECTIONS_MODULE_ID)
     .table("filings")
     .query("byPerson", [petition.personId]);
-  if (filings.length !== P.one) return {};
+  // A filing after the first is not asked about running a campaign: the
+  // petition's plain statement is for it, the asking one for the first.
+  if (filings.length !== P.one)
+    return {
+      "repeat-filing": { text: "yes", sourceRecordIds: [petition.filingId] },
+    };
   // The town's own newspaper, whose ads and reporters the answer names.
   const town = core.modules.has(PRESS_MODULE_ID) ? townOutlet(api) : null;
   const outlet = town?.kind === "newspaper" ? town : null;

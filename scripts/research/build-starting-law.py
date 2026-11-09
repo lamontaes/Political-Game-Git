@@ -196,6 +196,21 @@ STATE_CONTRIBUTION_SERIES = {
 }
 
 
+def governor_term_limits(rows):
+    """Each state's governor term limit, in terms (0 for none), from the state office research."""
+    places = load(RESEARCH / "offices/state-offices.json")["places"]
+    for state, place in sorted(places.items()):
+        for executive in place.get("executives", []):
+            if executive["key"] != "governor":
+                continue
+            limit = executive.get("termLimit") or {}
+            kind = limit.get("kind")
+            terms = limit.get("terms") if kind in ("consecutive", "lifetime") else 0
+            rows.append(row(state, "state", "executive-term-limit", terms or 0, "2026-01-01", FOREVER,
+                            executive.get("citation") or "State constitution", False, unit="terms",
+                            terms={"kind": kind or "none"}, note=limit.get("notes"), retrieved="2026-11-08"))
+
+
 def child_care(rows):
     """Each state's CCDF initial income eligibility limit for a family of three (dollars a month)."""
     data = load(RESEARCH / "laws/ccdf-income-limits-2025.json")
@@ -204,6 +219,18 @@ def child_care(rows):
                         "2025-01-01", FOREVER, item["source"], bool(item["estimate"]),
                         unit="USD/month", terms={"pctSMI": item["pctSMI"], "familySize": 3},
                         note=item.get("note"), retrieved="2026-11-08"))
+
+
+def energy_assistance(rows):
+    """Each state's home energy assistance income limit, as a percent of the poverty line (the statute's ceiling until each state's own is read)."""
+    states = load(RESEARCH / "money/minimum-wage-dated-matrix-2026.json")["places"]
+    for state in sorted(states):
+        rows.append(row(state, "state", "energy-assistance-income-limit", 150, "2026-01-01", FOREVER,
+                        "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+                        True, unit="percent-of-poverty-line",
+                        terms={"floorPct": 110, "ceilingPct": 150},
+                        note="ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up.",
+                        retrieved="2026-11-08"))
 
 
 def business_taxes(rows):
@@ -581,6 +608,8 @@ def main():
     local_wage_authority(rows)
     payroll_taxes(rows)
     business_taxes(rows)
+    energy_assistance(rows)
+    governor_term_limits(rows)
     campaign_finance(rows)
     child_care(rows)
     death_taxes(rows)
