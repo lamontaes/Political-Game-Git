@@ -35,6 +35,7 @@ import {
   PEOPLE_MIND_VERSION,
 } from "../core2/people-trait-definitions";
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
+import { viewKey } from "../director/view-learned";
 import { preStartHistory, sharedHistory } from "../core2/past";
 
 // Engineering page size for the card's closest people, not a model value.
@@ -1157,6 +1158,20 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
             PEOPLE_TRAITS.length,
           ).map(({ label, line }) => ({ label, line }))
         : [],
+    // Where they place themselves politically, as the views engine's label, once the viewer has
+    // learned it: an official's or candidate's public stance is learned by everyone; anyone
+    // else's only through what the player was told (the knowledge key a conversation or news
+    // writes). Until then the card says the viewer does not know yet.
+    ...(() => {
+      const learned =
+        Boolean(publicKnowledge?.positions?.length) ||
+        Boolean(coreAPI(core).knows(viewerId, viewKey(otherId)));
+      const label =
+        learned && core.modules.has(VIEWS_MODULE_ID)
+          ? (viewOf(coreAPI(core), otherId as PersonId)?.label ?? null)
+          : null;
+      return { view: label, viewUnknown: !label };
+    })(),
     // Their pronouns as words, for the headings on their card (she, her, Her); null for they.
     pronouns: teller.words,
     work:

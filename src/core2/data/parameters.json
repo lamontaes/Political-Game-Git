@@ -5543,6 +5543,19 @@
       "citation": "Half a year to two years; checked against the memory guard (scripts/core2-guard/memory.mjs) and the 'why' view."
     }
   },
+  "campaignRecordRetentionMonths": {
+    "value": 12,
+    "tag": "ESTIMATED",
+    "citation": "How long a public campaign gift or endorsement stays as a row in the log: a year, past the news cycle that printed it and the scene that reads it within days. The gift's money and the endorsement's answer stay in the campaigns engine's own tables. CTO ruling, Nov 1: itemized cash receipts fold to totals; the same shape applies here.",
+    "estimatedFrom": "One election cycle's news life; the log row is read only on the day by the director and the press.",
+    "spread": {
+      "low": 3,
+      "high": 24,
+      "unit": "months",
+      "citation": "A quarter (the circle's act window) to one full cycle plus a year."
+    },
+    "stopgapId": "SG-P15-params-uncalibrated"
+  },
   "circleActRetentionMonths": {
     "value": 3,
     "tag": "TUNABLE",
@@ -7062,15 +7075,15 @@
     }
   },
   "pastWorkLayoffsPerQuarter": {
-    "value": 0.035,
+    "value": 0.029,
     "tag": "ESTIMATED",
-    "citation": "U.S. Bureau of Labor Statistics, Job Openings and Labor Turnover Survey (JOLTS), total nonfarm, annual averages 2001-2019, layoffs and discharges rate (series JTS000000000000000LDR): about 1.2% of employment a month.",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey gross flows, employment to unemployment (FRED series LNS17400000, monthly, Jan 2023 to Oct 2026: 1.42 to 1.56 million a month against about 162 million employed, about 0.96% of employment a month). The inflow into unemployment from losing a job, not the JOLTS layoffs-and-discharges rate (about 1.2%), which also counts separations that go straight to another job.",
     "estimatedFrom": "The monthly rate times three, as one quarter's pull toward being let go in a quarter when unemployment holds steady, before age and the employer's lean (jobs.value-worker).",
     "spread": {
-      "low": 0.03,
-      "high": 0.045,
+      "low": 0.025,
+      "high": 0.035,
       "unit": "layoffs per worker per quarter",
-      "citation": "JOLTS layoffs and discharges, annual averages 1.0% (2019) to 1.5% (2001), monthly."
+      "citation": "CPS employment-to-unemployment flows, 0.85% to 1.1% of employment a month across 2023-2026."
     }
   },
   "pastWorkLayoffRisePerPoint": {
