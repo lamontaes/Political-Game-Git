@@ -767,11 +767,9 @@ function inMeeting() {
     };
     const finish = () => {
       show("meeting", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     $("meeting-adjourn").textContent = words.adjourn ?? "";
-    $("game").classList.add("cinema");
     show("meeting", true);
     api("/api/meeting").then(draw);
   });
@@ -1072,7 +1070,6 @@ function electionMorning(scene) {
       );
     const finish = () => {
       show("election-day", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     const ask = (day) => {
@@ -1133,7 +1130,6 @@ function electionMorning(scene) {
           [labels.skipCanvass, () => ask(day)],
         );
       else ask(day);
-      $("game").classList.add("cinema");
       show("election-day", true);
     });
   });
@@ -1176,13 +1172,11 @@ function electionNight(night) {
               `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
             );
             show("returns", false);
-            $("game").classList.remove("cinema");
             resolve();
           },
         }),
       );
     };
-    $("game").classList.add("cinema");
     draw();
     show("returns", true);
   });
@@ -1237,10 +1231,8 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
-    $("game").classList.add("cinema");
     draw(scene);
     show("ballot", true);
   });
