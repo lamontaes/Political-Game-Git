@@ -34,6 +34,8 @@ description: >
 - **A driver for a played character.** A module that acts for the President skips a person the player controls: `core.playerId` is not enough, use `isExplicitlyControlledPersonV1(core, id)`.
 - **Past elections.** A reader of a monthly record gives past (replayed) elections no value from before the record opened; pass the election date.
 
+- **A country-wide result carried through the effect map.** A link whose cause or outcome is the whole country (warming, a hazard level) is a `links.json` row with `carriedBy` naming the module, read with `carriedLink(key)` (it throws without `carriedBy`); a link that is web-run (the carbon-price and power-plant rows) is read from `WEB_LINKS` instead. A `law:` cause is the law in force against the day the world opened, lagged by the row's `lagMonths`, never the law's own value. Every row needs a source quote and (for `ranges`) a bracketing `range` when it is a running link; a carried one may omit it. Twin worlds: `enactLaw` the same series in both worlds and compare signs, not sizes; a 26-month world is the least that clears a 24-month lag.
+
 ## Proving it
 
 - **Played world, drawn place.** `drawPlace(seed, label)` and `buildBenchWorld`, advance days, read the rows by id, and print one proof line (place, seed, record ids) with `process.stdout.write`; run with `--disableConsoleIntercept`. The wire drops old items, so check the wire the day the event happens.
