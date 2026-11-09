@@ -342,6 +342,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.law.alaska.gov/doclibrary/APRA.html",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Alaska Stat. 44.62.310; 2 AAC 96.325" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -867,6 +881,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 168,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.smarsh.com/?p=653224",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Ala. Code 36-25A-3; 36-12-44" },
+        "note": "7 days for regular meeting; 24 hours special; 1 hour emergency (secondary guide summary of 36-25A-3)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -1256,6 +1284,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://law.justia.com/codes/arkansas/2020/title-25/chapter-19/section-25-19-106",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Ark. Code Ann. 25-19-105(e); 25-19-106" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -2226,6 +2268,19 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://asbar.org/?p=13736",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -2429,6 +2484,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://azoca.gov/staging/7968/wp-content/uploads/OML-101.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Ariz. Rev. Stat. 38-431.02; 39-121.01" },
+        "note": "24 hours before meeting; Sundays and legal holidays do not count. Emergency exception for actual emergencies."
       },
       {
         "level": "state",
@@ -2869,6 +2938,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://california.public.law/codes/government_code_section_7922.535",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Cal. Gov. Code 54954.2; 7922.535" },
+        "note": "Agenda posted at least 72 hours before a regular meeting (Brown Act). Special meetings 24 hours."
       },
       {
         "level": "state",
@@ -3345,6 +3428,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://colorado.public.law/statutes/crs_24-72-203",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "C.R.S. 24-6-402(2)(c); 24-72-203(3)(b)" },
+        "note": "Posting in designated public place or on website at least 24 hours before is deemed full and timely notice; statute says 'full and timely' generally."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -3776,6 +3873,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://portal.ct.gov/foi/regulations/the-foi-act/section-1206-formerly-sec-121i--denial-of-access-to-public-records-or-meetings--appeals--notice--ord",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Conn. Gen. Stat. 1-225; 1-206" },
+        "note": "Agenda for each regular meeting available at least 24 hours before; annual schedule of regular meetings filed with town clerk by Jan 31. Special meeting notice 24 hours."
       },
       {
         "level": "state",
@@ -4274,6 +4385,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://dc.gov/foia",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "D.C. Code 2-576; 2-532(c)" },
+        "note": "At least 48 hours or 2 business days, whichever is greater (OOG training text, quoted for electronic meetings); emergency: notice when members are notified."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -4731,6 +4856,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 168,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://attorneygeneral.delaware.gov/executive/open-government/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "29 Del. C. 10004; 10003" },
+        "note": "Seven days for notice and agenda; agenda late additions at least 6 hours before with reasons stated."
       },
       {
         "level": "state",
@@ -5210,6 +5349,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://m.flsenate.gov/statutes/286.011",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Fla. Stat. 286.011" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -5633,6 +5786,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://law.georgia.gov/node/16571",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "O.C.G.A. 50-14-1; 50-18-71" },
+        "note": "Per secondary guides: 24 hours posted for regular meetings; special meetings 24 hours (shorter allowed for emergencies with legal organ notice). Not confirmed against statute text."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -6053,6 +6220,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://guamlegislature.com/FOIA/Open Government Law.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "5 GCA 8107; 5 GCA 10103" },
+        "note": "P.L. 24-109 amended 8107: five working days public notice plus second notice at least 48 hours before meeting. Emergency waiver. Current codified text not read."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -6406,6 +6587,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 144,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.law.cornell.edu/regulations/hawaii/Haw-Code-R-SS-2-71-13",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Haw. Rev. Stat. 92-7; Haw. Admin. R. 2-71-13" },
+        "note": "Notice filed and posted at least six calendar days before the meeting; emergency meetings excepted."
       },
       {
         "level": "state",
@@ -6911,6 +7106,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ipib.iowa.gov/public-records",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Iowa Code 21.4; 22.8" },
+        "note": "Notice posted at least 24 hours before the meeting with date, time, place, tentative agenda; waivable only if impossible or impractical (emergency)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -7290,6 +7499,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 120,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ag.idaho.gov/content/uploads/2022/01/Open-Meeting-Law-Jan-2022.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Idaho Code 74-204; 74-103" },
+        "note": "Regular meetings: 5 calendar days notice (120 h) plus agenda 48 h before; special meetings 24 h unless emergency. Read from search-result summaries of the AG/county open-meeting manuals."
       },
       {
         "level": "state",
@@ -7714,6 +7937,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ilga.gov/legislation/ilcs/documents/000501200K2.02.htm",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "5 ILCS 120/2.02; 5 ILCS 140/3" },
+        "note": "Agenda posted at least 48 hours before regular meeting; special/rescheduled meetings 48 hours; emergency as soon as practicable."
       },
       {
         "level": "state",
@@ -8160,6 +8397,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://law.justia.com/codes/indiana/title-5/article-14/chapter-1-5/section-5-14-1-5-5",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Ind. Code 5-14-1.5-5; 5-14-3-9" },
+        "note": "48 hours before meeting, excluding Saturdays, Sundays and legal holidays; may be disregarded in emergency."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -8534,6 +8785,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ag.ks.gov/home/showpublisheddocument/74/638454309133670000",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "K.S.A. 75-4318(b); K.S.A. 45-218(d)" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -8980,6 +9245,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ag.ky.gov/Documents/21.06.24%20-%20Open%20Records%20and%20Open%20Meeting%20Advisory%20%28final%29.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "KRS 61.820; KRS 61.880(1)" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -9430,6 +9709,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://law.justia.com/codes/louisiana/2018/code-revisedstatutes/title-44/rs-44-32/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "La. R.S. 42:19; La. R.S. 44:32" },
+        "note": "24 hours exclusive of Saturdays, Sundays and legal holidays for written notice/agenda posting; sources emphasize special or rescheduled meetings. Regular-meeting rule not separately confirmed."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -9856,6 +10149,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://malegislature.gov/laws/generallaws/parti/titleiii/chapter30a/section20",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "M.G.L. c. 30A, sec. 20; c. 66, sec. 10" },
+        "note": "48 hours before meeting excluding Saturdays, Sundays and legal holidays."
       },
       {
         "level": "state",
@@ -10305,6 +10612,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://mgaleg.maryland.gov/2026RS/Statute_Web/ggp/4-203.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Md. Code, Gen. Prov. 3-302; 4-203" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -10820,6 +11141,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://legislature.maine.gov/legis/statutes/1/title1sec408-A.html",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "1 M.R.S. 406; 1 M.R.S. 408-A" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -11284,6 +11619,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://renderpdf.legislature.mi.gov/documents/mcl/pdf/mcl-15-265.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "MCL 15.265; MCL 15.235" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -11722,6 +12071,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.revisor.mn.gov/statutes/cite/13D.04/pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Minn. Stat. 13D.04; 13.03 subd. 2" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -12167,6 +12530,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ago.mo.gov/get-help/programs-services-from-a-z/sunshine-law/sunshine-law-faqs/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "RSMo 610.020; 610.023" },
+        "note": "Notice with tentative agenda at least 24 hours before meeting (as much as reasonably possible if impractical)."
       },
       {
         "level": "state",
@@ -12619,6 +12996,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://marianas.edu/PolicyAndProcedure/Board Policy No. 1011 - Meetings.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "1 CMC 9901 et seq.; 9910" },
+        "note": "Only secondary: NMC board policy cites 1 CMC 9910 for 72 hours notice of regular meetings (24 hours for special agendas); statute text not read."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -12807,6 +13198,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://law.justia.com/codes/mississippi/2020/title-25/chapter-61/section-25-61-5/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Miss. Code 25-41-13; 25-61-5" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -13207,6 +13612,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://archive.legmt.gov/bills/MCA/title_0020/chapter_0030/part_0010/section_0030/0020-0030-0010-0030.html",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "MCA 2-3-103; MCA 2-6-1006" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -13652,6 +14071,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/ByArticle/Chapter_143/Article_33C.html",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "N.C.G.S. 143-318.12; 132-6" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -14078,6 +14511,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://attorneygeneral.nd.gov/wp-content/uploads/2024/04/Open-Meetings-Manual.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "N.D. Cent. Code 44-04-20; 44-04-18" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -14537,6 +14984,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ago.nebraska.gov/node/20",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Neb. Rev. Stat. 84-1411; 84-712" },
+        "note": "24 hours before meeting; emergency meetings allowed without reasonable public notice. Page fetch was blocked in this session; figures come from WebSearch result text only. "
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -14960,6 +15421,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.nhmunicipal.org/sites/default/files/uploads/workshop-materials/2024_recordsmeetings_rtk.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "N.H. RSA 91-A:2; 91-A:4" },
+        "note": "24 hours, not counting Sundays or holidays; emergency meetings need not meet it. Page fetch was blocked in this session; figures come from WebSearch result text only. "
       },
       {
         "level": "state",
@@ -15397,6 +15872,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.nj.gov/grc/public/complaints/time.html",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "N.J.S.A. 10:4-8, 10:4-9; 47:1A-5" },
+        "note": "48 hours written advance notice; not needed for genuine emergencies; annual notice may cover regular meetings. Page fetch was blocked in this session; figures come from WebSearch result text only. "
       },
       {
         "level": "state",
@@ -15910,6 +16399,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.spo.state.nm.us/resources/inspection-of-public-records-act-ipra/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "NMSA 1978 10-15-1; 14-2-8, 14-2-11" },
+        "note": "Agenda must be posted at least 72 hours before meeting (2013 amendment); regular-meeting notice also set by annual resolution; emergency exception. Page fetch was blocked in this session; figures come from WebSearch result text only. "
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -16368,6 +16871,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ag.nv.gov/uploadedFiles/agnvgov/Content/Issues/NPRA Public Records Training 1.28.26.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "NRS 241.020; NRS 239.0107" },
+        "note": "Written notice at least 3 working days before meeting (posted by 9 a.m. of third working day), so 72 hours is an approximation of working days; emergency exception. Page fetch was blocked in this session; figures come from WebSearch result text only. "
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -16805,6 +17322,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.nyc.gov/assets/bronxcb8/pdf/Open_Meetings_Law.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "N.Y. Pub. Off. Law 104; 89(3)" },
+        "note": "At least 72 hours for meetings scheduled a week or more ahead; reasonable time for shorter-notice meetings. Page fetch was blocked in this session; figures come from WebSearch result text only. "
       },
       {
         "level": "state",
@@ -17319,6 +17850,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://ohioattorneygeneral.gov/Legal/Sunshine-Laws/Public-Records-Act",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Ohio Rev. Code 121.22; 149.43" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -17725,6 +18270,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://oklahoma.gov/content/dam/ok/en/oag/documents/open-records/2024%20OMA-ORA%20Presentation%20-%20Website.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "25 O.S. 311; 51 O.S. 24A.5" },
+        "note": "Regular meeting agenda posted 24 hours ahead (search summary says '24 or 48 hours' depending on meeting type; special meeting notice 48 hours, agenda 24); annual schedule filed in advance. Verify. Page fetch was blocked in this session; figures come from WebSearch result text only. "
       },
       {
         "level": "state",
@@ -18298,6 +18857,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://oregon.public.law/statutes/ors_192.324",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "ORS 192.640; 192.324; 192.329" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -18712,6 +19285,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://panewsmedia.org/sunshine-act-regular-meeting-notice/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "65 Pa.C.S. 709; 65 P.S. 67.901" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -19132,6 +19719,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.poderjudicial.pr/ta/2023/KLCE202300030-20032023.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Ley 141-2019, art. 7" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -19474,6 +20075,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://nefac.org/rhode-island-open-meetings/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "R.I. Gen. Laws 42-46-6; 38-2-7" },
+        "note": "48 hours excluding weekends and state holidays; emergency meetings with stated reason. Page fetch was blocked in this session; figures come from WebSearch result text only. "
       },
       {
         "level": "state",
@@ -19915,6 +20530,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://www.sccounties.org/sites/default/files/uploads/meetings/newly-elected/freedom_of_information_act.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "S.C. Code 30-4-80; 30-4-30" },
+        "note": "Agenda/notice posted at least 24 hours before regular or special meeting. Page fetch was blocked in this session; figures come from WebSearch result text only. "
       },
       {
         "level": "state",
@@ -20369,6 +20998,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://atg.sd.gov/docs/OpenMeetingsLaw_2026_PRINTABLE.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "SDCL 1-25-1.1; 1-27-37" },
+        "note": "Political subdivisions post notice and agenda for a continuous 24 hours; state bodies 72 hours. Page fetch was blocked in this session; figures come from WebSearch result text only. "
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -20756,6 +21399,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://comptroller.tn.gov/office-functions/open-records-counsel/open-meetings/frequently-asked-questions/tennessee-open-meetings-act-faqs.html",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Tenn. Code Ann. 8-44-103; 10-7-503" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -21179,6 +21836,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://txregionalcouncil.org/wp-content/uploads/2020/02/Public-Information-Act-101-2020.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Tex. Gov't Code 551.043; 552.221(d)" },
+        "note": "HB 1522 (2025, eff. Sept 1 2025) amended Gov't Code 551.043(a) from 72 hours to three business days; 72 used as the minimum-hours equivalent. Verify exact text."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -21529,6 +22200,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 24,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://archives.utah.gov/transparency-services/government-records-access/faq/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Utah Code 52-4-202; 63G-2-204" },
+        "note": "At least 24 hours notice before a meeting; emergency meetings excepted when unforeseen circumstances arise."
       },
       {
         "level": "state",
@@ -21942,6 +22627,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 72,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://foiacouncil.dls.virginia.gov/ref/FOIA%20for%20Local%20Officials%20Powerpoint%20December-2025.htm",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Va. Code 2.2-3704; 2.2-3707" },
+        "note": "Statute (per a citizen's guide, not read in statute text) requires notice at least three working days before the meeting; 72 is an approximation of 3 days. Special and emergency meetings have flexibility."
       },
       {
         "level": "state",
@@ -22395,6 +23094,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://media.freedom.press/media/documents/_USVI_Sunshine_letter_2.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "1 V.I.C. 254; 3 V.I.C. 881" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -22750,6 +23463,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://legislature.vermont.gov/statutes/section/01/005/00318",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "1 V.S.A. 312; 1 V.S.A. 318" },
+        "note": "Agenda posted at least 48 hours before a regular meeting; 24 hours before a special meeting; emergency meetings need only notice as soon as practicable."
       },
       {
         "level": "state",
@@ -23230,6 +23957,20 @@
       },
       {
         "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://mrsc.org/Explore-Topics/public-meetings/OPMA/Open-Public-Meetings-Act-FAQs",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "RCW 42.30.070; 42.56.520" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
+      },
+      {
+        "level": "state",
         "series": "energy-assistance-income-limit",
         "tier": "general",
         "value": 150,
@@ -23645,6 +24386,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://legis.wisconsin.gov/lc/media/1461/2019-public-records-presentation-legislative-staff.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Wis. Stat. 19.84; 19.35(4)" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -24080,6 +24835,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://code.wvlegislature.gov/29B-1-3/",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "W. Va. Code 6-9A-3; 29B-1-3" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",
@@ -24544,6 +25313,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "meeting-notice-hours",
+        "tier": "general",
+        "value": 48.0,
+        "effectiveDate": "2000-01-01",
+        "endDate": null,
+        "source": "https://library.wyo.gov/downloads/ldo/pdf/boards/2015-Public-Meetings-Act-Summary.pdf",
+        "retrieved": "2026-11-09",
+        "estimate": true,
+        "unit": "hours",
+        "terms": { "cite": "Wyo. Stat. 16-4-403; 16-4-404; 16-4-202" },
+        "note": "ESTIMATED FROM AVERAGE: this place's law sets no number I could read, so the median of the 32 places that have one (48 hours; middle half 24 to 72)."
       },
       {
         "level": "state",

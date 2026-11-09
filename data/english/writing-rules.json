@@ -1,0 +1,367 @@
+{
+  "schema": "english-writing-rules/1",
+  "about": "What the owner's grades and voice notes taught, and what shipped games teach, as rules the words work reads before it writes or chooses a line (owner, Nov 9, 12:45 a.m.: \"so that these shitty lines don't happen again\"). A rule with features is also a lesson on the grade map (src/english/grade-map.ts): each feature takes the strength given on every line that holds it, in the rule context. A rule with no features is checked by the writer and the grounding reviewer, not by the map. Sources: the owner's quotes with their files, and docs/research/dialogue/ (how games write dialogue).",
+  "rules": [
+    {
+      "id": "names-something-specific",
+      "rule": "A line names something specific from its situation (a person, place, thing, amount or day), not a general sentiment.",
+      "sources": [
+        {
+          "quote": "I would like it if they said why.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 1"
+        }
+      ],
+      "features": {
+        "context:specific": 1,
+        "context:general": -0.5,
+        "names:what": 0.5
+      }
+    },
+    {
+      "id": "scene-opens-with-when-where-who",
+      "rule": "A scene opens with narration naming the day, the place and the person: \"First thing on June 7th. You head to the clerk's office and speak to Maria Patton.\"",
+      "sources": [
+        {
+          "quote": "If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton. And then it starts like that.",
+          "file": "owner ruling, Nov 8 (CTO brief for the Nov 9 Story run)"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 3"
+        }
+      ],
+      "features": {
+        "opens:when": 0.5,
+        "names:when": 0.5,
+        "names:where": 0.5
+      }
+    },
+    {
+      "id": "question-names-its-subject",
+      "rule": "A question names what it asks about; \"What do you think?\" alone fails.",
+      "sources": [
+        {
+          "quote": "What does that mean?",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 4"
+        }
+      ],
+      "features": {
+        "question:names-nothing": -1,
+        "question:names-subject": 0.5
+      }
+    },
+    {
+      "id": "no-pointing-at-the-unnamed",
+      "rule": "A line never points at \"this\", \"that\" or \"it\" when nothing in the line or the scene has named it.",
+      "sources": [
+        {
+          "quote": "Got a minute for Woem? Who is Woem?",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        },
+        {
+          "quote": "What does that mean?",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 1"
+        }
+      ],
+      "features": {
+        "context:points-at-unnamed": -1
+      }
+    },
+    {
+      "id": "no-filler",
+      "rule": "No filler: no \"Well,\" \"Look,\" \"So,\" opening and no \"you know\" or \"I mean\" padding a line that has nothing else to say.",
+      "sources": [
+        {
+          "quote": "filler",
+          "file": "owner ruling, Nov 8, 2:22 p.m. (CTO brief): this is why it feels like i've seen the same dialogue for 2 weeks"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 16"
+        }
+      ],
+      "features": {
+        "opens:filler-word": -0.5,
+        "filler:inside": -1
+      }
+    },
+    {
+      "id": "no-stock-phrases",
+      "rule": "No stock phrase a script reaches for when there is nothing to say (\"moving forward\", \"at the end of the day\", \"I hear you\").",
+      "sources": [
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 16"
+        }
+      ],
+      "features": {
+        "stock-phrase": -1
+      }
+    },
+    {
+      "id": "no-explaining",
+      "rule": "No line explains its own subtext or tells the player what to feel.",
+      "sources": [
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 12"
+        }
+      ],
+      "features": {
+        "explains": -1
+      }
+    },
+    {
+      "id": "no-quick-resolution",
+      "rule": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
+      "sources": [
+        {
+          "quote": "That sounds like AI. It's like, okay, quick resolution. That's not how normal people talk.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {
+        "concedes-at-once": -1
+      }
+    },
+    {
+      "id": "evasion-points-somewhere",
+      "rule": "An evasion points to a later time or the public record, not a bare refusal.",
+      "sources": [
+        {
+          "quote": "I'll have something to say after the vote is most natural.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {
+        "refuses-bare": -1
+      }
+    },
+    {
+      "id": "no-insider-words",
+      "rule": "No election-insider, developer or office-chart words; say canvassing, campaign signs, the finance secretary.",
+      "sources": [
+        {
+          "quote": "Don't say gaps, though. That is dev language.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {
+        "insider-words": -1
+      }
+    },
+    {
+      "id": "no-placing-narration",
+      "rule": "No narration of the form \"You're in <place>\" or \"<person> is with you\".",
+      "sources": [
+        {
+          "quote": "Remove every instance of that from the English engine.",
+          "file": "docs/coordination/playtest/2026-10-27-1-log.md"
+        }
+      ],
+      "features": {
+        "narration:places-only": -1
+      }
+    },
+    {
+      "id": "commitment-names-who-what-why",
+      "rule": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
+      "sources": [
+        {
+          "quote": "I would like it if they said why.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {
+        "names:who": 0.5,
+        "names:what": 0.5
+      }
+    },
+    {
+      "id": "stake-is-named",
+      "rule": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
+      "sources": [
+        {
+          "quote": "A plea gives its stake",
+          "file": "docs/coordination/OWNER-DECISIONS.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 15"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "reply-follows-the-line-before",
+      "rule": "A reply answers or follows the line right before it.",
+      "sources": [
+        {
+          "quote": "And then the reply, I will, first thing on the agenda, in my own words. What?",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "introduced-before-addressed",
+      "rule": "Every person, outlet, office or thing is named to the player before a line addresses it.",
+      "sources": [
+        {
+          "quote": "Got a minute for Woem? Who is Woem?",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 6"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "tense-of-the-record",
+      "rule": "A line speaks in the tense the record is in: no talking about a vote as done before it happens.",
+      "sources": [
+        {
+          "quote": "it's talking like it's in the present, but the vote hasn't happened yet.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "fits-speaker-and-tie",
+      "rule": "A line fits its speaker's role, age and relationship to the listener, and a speaker is recognizable without the name attached.",
+      "sources": [
+        {
+          "quote": "you might say something to your mom that you would never say to a coworker",
+          "file": "docs/coordination/OWNER-DECISIONS.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 7"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 8"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "pressure-sounds-like-politics",
+      "rule": "Threats and pressure sound like politics (memory, friends, how it works), never a generic warning.",
+      "sources": [
+        {
+          "quote": "I like that. I like that a lot.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "ending-lands",
+      "rule": "A scene ends on a beat that lands, not a pleasantry, and never while a grievance or a count is still open.",
+      "sources": [
+        {
+          "quote": "But the conversation shouldn't really end after that.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "why-me-is-answered",
+      "rule": "When a request is made of the player, a clarifying \"Why me?\" reply exists and the other person answers it.",
+      "sources": [
+        {
+          "quote": "it can be an auto reply to keep the conversation going",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-1.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "vary-the-shape",
+      "rule": "No one shape repeats across scenes: vary who speaks first, how long, and where the narrator breaks in; a line said once is not said again by the same person soon.",
+      "sources": [
+        {
+          "quote": "It needs to be varied.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 9"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 10"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "speech-is-not-a-list",
+      "rule": "A speech is not a list of figures: it takes a stance, reads as speech, and fits the speaker and the moment.",
+      "sources": [
+        {
+          "quote": "it shouldn't read as a list. That's not how normal people talk.",
+          "file": "docs/coordination/OWNER-DECISIONS.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "concrete-image-over-generic",
+      "rule": "Prefer wit or a concrete image over a generic statement when the voice allows it.",
+      "sources": [
+        {
+          "quote": "That scene was great",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 16"
+        }
+      ],
+      "features": {
+        "context:specific": 0.5
+      }
+    },
+    {
+      "id": "trade-not-bribe",
+      "rule": "A trade or offer reads as a bribe only when it is one; build the trade from the district's interests.",
+      "sources": [
+        {
+          "quote": "it sounds like it's going to be a bribe, but it's not.",
+          "file": "docs/coordination/voice-notes/2026-10-15-words-orders-part-2.md"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "variants-differ-in-what-they-say",
+      "rule": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
+      "sources": [
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 2"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 13"
+        },
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 14"
+        }
+      ],
+      "features": {}
+    },
+    {
+      "id": "most-specific-line-wins",
+      "rule": "The most specific matching line wins: a line tied to the speaker's trait and the situation outranks a generic one.",
+      "sources": [
+        {
+          "research": "docs/research/dialogue/ (how games write dialogue), rule 5"
+        }
+      ],
+      "features": {}
+    }
+  ]
+}

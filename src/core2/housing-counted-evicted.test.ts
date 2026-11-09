@@ -326,7 +326,7 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
   // evictions come at the real rate (about 1.3 filings per 100 renter
   // households a year), and the rent-again step below needs a year to find a
   // homeless household with pay (3.5 months gave only the fixture's).
-  const played = play("0973980", `${seed}:storrs`, 12, (world) => {
+  const watchRelatives = (world: World) => {
     while (relatives.length < 3) {
       const made = watchRelativeOfEvicted(
         world,
@@ -335,15 +335,19 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
       if (!made) break;
       relatives.push(made);
     }
-  });
+  };
+  const played = play("0973980", `${seed}:storrs`, 12, watchRelatives);
   const { core, api, where, events, director } = played;
   // The rent-again and filled-in steps below need the played world's own
   // homeless households beyond the three the fixture used (a draw with few
   // filings, like seed a1, left only the fixture's): keep playing, a month at
   // a time and for at most two more years, until it has one with pay and
   // money and another to meet. Each check below is unchanged.
-  const fixtureHouseholds = new Set(relatives.map((row) => row.householdId));
+  // The fixture's relatives are made as eviction cases open, so the same
+  // watch runs while the world plays on (seed b97da4bba12eb298's first filing
+  // came after the year, so none was made in it).
   const ownHomeless = (ids: string[]) => {
+    const fixtureHouseholds = new Set(relatives.map((row) => row.householdId));
     const rt0 = residentsRuntime(core)!;
     const own = ids.filter(
       (id) => !fixtureHouseholds.has(id) && rt0.store.liveHousehold(id),
@@ -355,11 +359,21 @@ it("Storrs, Connecticut: an evicted counted household stays counted, is placed a
         householdCash(rt0, h0) > 0
       );
     });
-    return paid.length > 0 && own.length > 1;
+    return relatives.length > 0 && paid.length > 0 && own.length > 1;
   };
+  const watchWorld = {
+    core,
+    director,
+    placeId: played.town,
+  } as unknown as World;
   let checked = checkRemovals(played);
   for (let month = 0; month < 24 && !ownHomeless(checked.homeless); month++) {
-    advanceCore(core, makeIsoDate(addDays(makeIsoDate(core.date), 30)));
+    const monthEnd = addDays(makeIsoDate(core.date), 30);
+    while (core.date < monthEnd) {
+      const next = addDays(makeIsoDate(core.date), 5);
+      advanceCore(core, makeIsoDate(next < monthEnd ? next : monthEnd));
+      watchRelatives(watchWorld);
+    }
     checked = checkRemovals(played);
   }
   const { removed, homeless, perceived } = checked;

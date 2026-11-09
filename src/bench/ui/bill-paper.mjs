@@ -148,6 +148,17 @@ export function billPaper(paper) {
   return el(
     "div",
     { className: "strip-screen strip-board strips ol-g bill-board" },
+    // The body's room under the bill's number and the body's name, when the body has a room picture.
+    ...(paper.band?.picture
+      ? [
+          el(
+            "header",
+            { className: "bill-band" },
+            el("img", { src: paper.band.picture, alt: "" }),
+            el("h2", { textContent: paper.band.title }),
+          ),
+        ]
+      : []),
     el(
       "div",
       { className: "board-cols" },

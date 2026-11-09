@@ -114,5 +114,17 @@
     "addedAt": "2026-11-08",
     "replacement": "(The base-period read is built against Money's folds, core.work.payByQuarter for named workers and core.work.countedPayByQuarter for counted groups; a claim with no list in either, as before #7801 merges, stays on the last pay, and this stopgap resolves once #7801 and the hours-cut path #7781 are in and a claim after a cut is proved.) fileClaim sums the person's recorded payday receipts by calendar quarter, takes the state's basis quarters from the law row (weeklyBenefitBasisQuarters), and applies the state's fraction, max and min; counted workers read their group's perDayMinorByJob history. Proved on a claim after an hours cut (Jobs #7781, api.rehourJob).",
     "status": "open"
+  },
+  {
+    "id": "SG-LAWS-records-response-unread",
+    "kind": "missing-engine",
+    "file": "data/research/laws/open-meetings-and-records-2026.json",
+    "line": 1,
+    "whatItFakes": "Each state's days to answer a public-records request (recordsDays, 43 of 56 places with a number, the rest ESTIMATED FROM AVERAGE by median) sit in the research file but are not loaded as law: nothing in the game files or answers a records request, so no engine could read the number.",
+    "why": "The game has no records request: a resident, reporter or the player cannot ask an office for a record, and no office answers one within days. The notice hours in the same file are loaded and read (scheduleVote).",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "A records request a resident or the player can file with an office, answered within the state's days from the office's own staff time, with the delay and the denial kept as records; then load recordsDaysUsed as a law series and read it where the office answers.",
+    "status": "open"
   }
 ]

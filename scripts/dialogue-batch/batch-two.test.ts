@@ -1,0 +1,47 @@
+import { readFileSync } from "node:fs";
+import { describe, expect, it } from "vitest";
+import { readMapPieces } from "./grade-map";
+
+const batch = JSON.parse(
+  readFileSync("docs/coordination/batches/2026-11-09-batch-2.json", "utf8"),
+) as {
+  coverage: { pieces: number; reachedByBatch: number; lines: number };
+  moments: {
+    description: string;
+    speaker: string;
+    lines: {
+      key: string;
+      line: string;
+      spans: { start: number; end: number; text: string; features: string[] }[];
+      reach: number;
+    }[];
+  }[];
+};
+const pieces = readMapPieces({});
+
+describe("batch 2 lets the owner grade part of a line and reaches the whole game", () => {
+  it("every line is a bank line, three to a moment, each moment described", () => {
+    for (const moment of batch.moments) {
+      expect(moment.lines).toHaveLength(3);
+      expect(moment.description.length).toBeGreaterThan(20);
+      expect(moment.speaker.length).toBeGreaterThan(2);
+      for (const line of moment.lines)
+        expect(pieces.get(line.key)?.text).toBe(line.line);
+    }
+    expect(batch.coverage.lines).toBeGreaterThanOrEqual(150);
+    expect(batch.coverage.lines).toBeLessThanOrEqual(250);
+  });
+
+  it("every span's offsets point at its own text", () => {
+    for (const moment of batch.moments)
+      for (const line of moment.lines)
+        for (const span of line.spans)
+          expect(line.line.slice(span.start, span.end)).toBe(span.text);
+  });
+
+  it("graded together, the batch reaches at least 95% of all lines", () => {
+    expect(batch.coverage.reachedByBatch / pieces.size).toBeGreaterThanOrEqual(
+      0.95,
+    );
+  });
+});
