@@ -209,8 +209,8 @@ async function foundingCore(
           },
         ]
       : []),
-    // $20,000 of savings: not enough to open without a loan.
-    { ...person("founder", bold), liquidMinor: 2_000_000 },
+    // $10,000 of savings: not enough to open without a loan (a restaurant here costs about $13,500 to start; $20,000 covers it).
+    { ...person("founder", bold), liquidMinor: 1_000_000 },
     ...(owner ? [person("owner", bold, "job:owner")] : []),
     ...(cook ? [person("cook", {}, "job:cook")] : []),
   ];
@@ -389,9 +389,12 @@ describe("founding a business where a market has room", () => {
       .filter((row) => row.ownerId === "founder")
       .reduce((n, row) => n + Number(row.drawnMinor), 0);
     const savings = depositsHeld(core, core.people.get("founder")!.householdId);
-    expect(savings).toBeGreaterThan(0);
+    // The founder keeps their living reserve (the business has put nothing back yet, so none is in savings).
+    expect(core.people.get("founder")!.liquidMinor + savings).toBeGreaterThan(
+      0,
+    );
     expect(core.people.get("founder")!.liquidMinor + savings).toBe(
-      2_000_000 - equity + drawn,
+      1_000_000 - equity + drawn,
     );
     expect(
       api(core)
