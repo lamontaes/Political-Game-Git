@@ -171,10 +171,23 @@ describe("M2-07 elections", () => {
       // election), and no one wins on no votes.
       if (result.winnerId === null) {
         const totals = Object.values(result.totals).sort((a, b) => b - a);
+        // An at-large race seats its top finishers; a tie straddling its last
+        // seat goes to the place's tie law like a single seat's, so that seat
+        // has a kept tie record (a second election, when it has no winner yet).
+        const seats = atLargeGroup(api, contest!).length;
+        const lastSeatTied = seats > 1 && totals[seats - 1] === totals[seats];
         expect(
-          totals[0] === 0 || totals[0] === totals[1],
+          totals[0] === 0 || totals[0] === totals[1] || lastSeatTied,
           `${place}: no winner with ${JSON.stringify(result.totals)}`,
         ).toBe(true);
+        if (lastSeatTied)
+          expect(
+            api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("ties")
+              .get(`tie:${contest!.id}`),
+            `${place}: the tie across the last seat of ${contest!.id}`,
+          ).toBeDefined();
         return;
       }
       const candidates = ballot(api, contest!.id).map((f) => f.personId);
