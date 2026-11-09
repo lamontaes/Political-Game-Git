@@ -11,6 +11,7 @@ import {
   SCANDAL_REPORTED,
   considerBribe,
 } from "../core2/modules/corruption";
+import { PARTIES_MODULE_ID } from "../core2/modules/parties";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
 import { coreAPI } from "../core2/state";
@@ -61,10 +62,32 @@ function clean(text: string, here: string) {
   expect(text, here).not.toMatch(DAY_PATTERN);
 }
 
-const PINNED_ADVICE_DRAW = "ac2e0ff3a3691133:1";
+const ADVICE_DRAWS = 6;
 const DAY_PATTERN =
   /\d{4}-\d{2}-\d{2}|\b[a-z]+[-.:][a-z-]+:|\{|\}|undefined|\d{5,}/;
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
+
+/** Whether any party in town has a seated officeholder who has held a seat a year or more (read from the records). */
+function partyHasVeteran(core: CoreState): boolean {
+  if (!core.modules.has(PARTIES_MODULE_ID)) return false;
+  return (
+    coreAPI(core)
+      .moduleState(PARTIES_MODULE_ID)
+      .table("parties")
+      .rows() as unknown as { id: string; leaderId: string | null }[]
+  ).some(
+    (party) =>
+      !!party.leaderId &&
+      partyOfficeholders(
+        core,
+        {
+          personIds: [party.leaderId as PersonId],
+          facts: { partyId: party.id },
+        },
+        core.date,
+      ).length > 0,
+  );
+}
 
 describe("the political asks: a bribe in the press and a party that asks you to run", () => {
   it(`the accusation: someone close asks whether the reported bribe is true (seed ${seed})`, () => {
@@ -249,11 +272,14 @@ describe("the political asks: a bribe in the press and a party that asks you to 
   it(`the advice: a seated officeholder of the party weighs in the day after a party asks the player to run (seed ${seed})`, () => {
     setBookkeeping(false);
     const tried: string[] = [];
-    // Two draws from the run's seed, then a drawn place that is known to hold
-    // a member a party asks to run and a seated veteran of that party in town
-    // (Reinholds, Pennsylvania): few towns do, and every attempt builds a world
-    // twice, so a run of bad draws would otherwise take half an hour.
-    const draws = [`${seed}:0`, `${seed}:1`, PINNED_ADVICE_DRAW];
+    // Places are drawn from the run's seed, never named. A town where no party has
+    // a seated veteran in town is read off the built world's records and skipped
+    // before the months are played, so a bad draw costs one build, not two worlds
+    // and a year. The test fails, naming every place it read, if none qualifies.
+    const draws = Array.from(
+      { length: ADVICE_DRAWS },
+      (_, at) => `${seed}:${at}`,
+    );
     for (const [attempt, drawSeed] of draws.entries()) {
       const place = drawPlace(drawSeed, "dead-kinds-advice");
       const where = `${place.name} (${place.key}), seed ${drawSeed} (attempt ${attempt})`;
@@ -265,6 +291,10 @@ describe("the political asks: a bribe in the press and a party that asks you to 
       // A member a party asks to run, whose party has a seated veteran in town: the
       // first of them, from an uncontrolled replay of the filing season.
       const first = open();
+      if (!partyHasVeteran(first.core)) {
+        tried.push(`${where}: no party has a seated veteran in town`);
+        continue;
+      }
       let asked:
         { id: string; date: string; meId: PersonId; row: unknown } | undefined;
       for (let month = 0; month < 12 && !asked; month += 1) {
