@@ -1,0 +1,23 @@
+{
+  "id": "poverty-guidelines-2026",
+  "about": "The 2026 HHS poverty guideline for a household of one and each additional person, by place. A place not listed reads `default` (the 48 contiguous states, D.C. and the territories the guidelines do not list separately).",
+  "source": {
+    "url": "https://aspe.hhs.gov/topics/poverty-economic-mobility/poverty-guidelines",
+    "quote": "2026 POVERTY GUIDELINES FOR THE 48 CONTIGUOUS STATES AND THE DISTRICT OF COLUMBIA ... 1 $15,960 ... add $5,680 for each additional person. ... FOR ALASKA ... 1 $19,950 ... add $7,100 ... FOR HAWAII ... 1 $18,360 ... add $6,530",
+    "retrieved": "2026-11-08"
+  },
+  "default": {
+    "oneDollars": 15960,
+    "stepDollars": 5680
+  },
+  "states": {
+    "US-AK": {
+      "oneDollars": 19950,
+      "stepDollars": 7100
+    },
+    "US-HI": {
+      "oneDollars": 18360,
+      "stepDollars": 6530
+    }
+  }
+}

@@ -10,6 +10,8 @@ import { addDays, makeIsoDate } from "./kernel/dates";
 import { lawChainForPlace } from "./laws-starting";
 import { advanceCore } from "./life";
 import { budgetsOf, governments } from "./modules/budgets";
+import { bodyRow, members } from "./modules/legislature";
+import { lineBacking } from "./modules/world-legislating";
 import { coreAPI } from "./state";
 
 const replay = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
@@ -43,9 +45,6 @@ interface Bill {
   provisions: { kind: string; line?: string; value: number }[];
 }
 
-// Mid-year amendments passed in each draw, in order.
-const amendments: number[] = [];
-
 for (const place of draws) {
   it(
     `a local body amends its budget lines through the year: ${place.name}, replay ${replay}`,
@@ -59,14 +58,11 @@ for (const place of draws) {
         });
         const api = coreAPI(world.core);
         advanceCore(world.core, addDays(makeIsoDate(api.state.date), 365));
-        const offices = new Map(
-          (
-            api
-              .moduleState("core2-offices-v1" as never)
-              .table("offices")
-              .rows() as unknown as { id: string; level: string }[]
-          ).map((o) => [o.id, o.level]),
-        );
+        const officeRows = api
+          .moduleState("core2-offices-v1" as never)
+          .table("offices")
+          .rows() as unknown as { id: string; level: string; kind: string }[];
+        const offices = new Map(officeRows.map((o) => [o.id, o.level]));
         const local = (
           api
             .moduleState("core2-legislature-v1" as never)
@@ -107,27 +103,56 @@ for (const place of draws) {
           local.length,
           "line bills before the local body",
         ).toBeGreaterThan(0);
-        // The annual budget is one bill; amendments are the rest. A small
-        // body files an amendment only where a majority of its members want
-        // the line moved, so a draw may take up none in a year.
+        // The annual budget is one bill; amendments are the rest.
         const mid = passed.filter((b) =>
           [...amended].some((a) => a.includes(`amended by ${b.number}`)),
         );
-        amendments.push(mid.length);
-        if (!mid.length)
-          process.stdout.write(
-            `LOCAL-LINES ${place.name} (${place.key}, seed ${place.seed}): the body took up no mid-year amendment (no majority wanted a line moved)\n`,
-          );
+        // Where no amendment passed in the year, every line of every local
+        // body has a reason it drew none: too few members back moving it, by
+        // their own positions, against the majority a bill needs (the agenda
+        // cap and a just-defeated change can't explain a year with no bill).
+        let reasons = 0;
+        for (const { id: officeId, level, kind } of mid.length
+          ? []
+          : officeRows) {
+          // A body that sits as a group and votes bills (a mayor or a sheriff
+          // alone does not amend a budget).
+          if (
+            !LOCAL_BODIES.includes(level) ||
+            !bodyRow(kind) ||
+            members(api, officeId).length === 0
+          )
+            continue;
+          const { majority, lines } = lineBacking(api, officeId);
+          for (const line of lines) {
+            // An amendment names the one line it moves; the annual budget
+            // bill names them all and is not an amendment.
+            const filed = local.some(
+              (b) =>
+                b.bodyOfficeId === officeId &&
+                b.provisions.length === 1 &&
+                b.provisions[0]!.line === line.name,
+            );
+            if (filed) continue;
+            reasons += 1;
+            expect(
+              line.backing.up.length < majority &&
+                line.backing.down.length < majority,
+              `${place.name}: ${officeId} ${line.name} drew no bill, yet ${line.backing.up.length} back a raise and ${line.backing.down.length} a cut against a majority of ${majority}`,
+            ).toBe(true);
+          }
+        }
+        // A year takes up amendments, or every line has its reason it took up none.
+        expect(
+          mid.length > 0 || reasons > 0,
+          "a passed amendment changed a budget line, or every line has its reason",
+        ).toBe(true);
+        process.stdout.write(
+          `LOCAL-LINES ${place.name} (${place.key}, seed ${place.seed}): ${reasons} lines drew no bill, each with a majority-short reason; ${mid.length} mid-year amendments passed\n`,
+        );
       } finally {
         setBookkeeping(bookkeeping);
       }
     },
   );
 }
-
-it(`across the draws a passed amendment changed a budget line, replay ${replay}`, () => {
-  expect(
-    amendments.some((n) => n > 0),
-    "a passed amendment changed a budget line in some draw",
-  ).toBe(true);
-});

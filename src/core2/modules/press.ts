@@ -89,12 +89,8 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
-import {
-  PLATFORM_QUESTIONS,
-  publicOffset,
-  questionAxis,
-  type Stance,
-} from "../campaign-views";
+import { publicOffset, questionAxis } from "../campaign-views";
+import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import {
   hireStaffMember,
   nationalOutletName,

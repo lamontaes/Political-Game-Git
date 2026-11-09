@@ -17,7 +17,7 @@
   "unlabeledRows": {
     "src/core2/data/budgets/treasury-spending.json": 13,
     "src/core2/data/business/parameters.json": 39,
-    "src/core2/data/campaigns/parameters.json": 269,
+    "src/core2/data/campaigns/parameters.json": 267,
     "src/core2/data/candidacy/benchmarks.json": 17,
     "src/core2/data/candidacy/parameters.json": 36,
     "src/core2/data/contracts/parameters.json": 4,
@@ -49,7 +49,7 @@
     "src/core2/data/officials/officials.json": 24,
     "src/core2/data/outcome-web/outcome-web.json": 1,
     "src/core2/data/outside-market.json": 18,
-    "src/core2/data/parameters.json": 892,
+    "src/core2/data/parameters.json": 891,
     "src/core2/data/past/parameters.json": 27,
     "src/core2/data/past/public-traits.json": 2,
     "src/core2/data/press/parameters.json": 98,

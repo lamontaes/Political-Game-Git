@@ -56,7 +56,7 @@ import {
 } from "./modules/press";
 import { stancesOf, VIEWS_MODULE_ID, viewsModule } from "./modules/views";
 import { candidateStance, stanceReader } from "./campaign-stances";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 
 const START = "2026-01-05";
 const runSeed =

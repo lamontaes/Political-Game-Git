@@ -51,4 +51,7 @@ it("a state's act outside the town's chain is a national event the press reads",
   expect(item?.level, `${where}: ${event.id} is on the press wire`).toBe(
     "nation",
   );
+  process.stdout.write(
+    `nation proof: outside act: ${where}; ${event.id} on the wire at ${item?.level}\n`,
+  );
 }, 900000);

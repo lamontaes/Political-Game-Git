@@ -41,7 +41,7 @@ import {
   resultOf,
   type BallotRow,
 } from "./modules/voting";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";
@@ -126,7 +126,7 @@ describe("M2-07 elections", () => {
           ? [process.env.GOLDEN_PATH_PLACE_KEY]
           : []),
         ...Array.from(
-          { length: 8 },
+          { length: 24 },
           (_, n) => randomPlace(n ? `:${n}` : "").key,
         ),
       ];

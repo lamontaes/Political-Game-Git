@@ -46,7 +46,7 @@
       "chiefPresidesOverBody": false,
       "form": "mayor-council",
       "confidence": "medium",
-      "citation": "The city council, called the Board of Alders, consists of thirty members, each elected from single-member wards. ... Beginning in 2027, all mayor and alder terms are four years. (termYears 2 now; 4 from 2027 (2023 charter revision, ctmirror.org/2023/11/13/new-haven-stamford-ct-charter-revisions-passed-failed/).)",
+      "citation": "The city council, called the Board of Alders, consists of thirty members, each elected from single-member districts. ... Beginning in 2027, all mayor and alder terms are four years. (termYears 2 now; 4 from 2027 (2023 charter revision, ctmirror.org/2023/11/13/new-haven-stamford-ct-charter-revisions-passed-failed/).)",
       "url": "https://en.wikipedia.org/wiki/New_Haven,_Connecticut"
     },
     "0911037070": {
@@ -94,7 +94,7 @@
       "chiefPresidesOverBody": true,
       "form": "mayor-council",
       "confidence": "high",
-      "citation": "The council consists of twenty-one members, two from each ward, and seven at large, all of whom shall serve a term of two years. (Wikipedia: \"The Mayor is the presiding officer of the City Council\". Charter revision proposing 4-year terms from 2027 is on the Nov 2026 ballot (portal.ct.gov Nov 2026 Danbury sample ballot).)",
+      "citation": "The council consists of twenty-one members, two from each district, and seven at large, all of whom shall serve a term of two years. (Wikipedia: \"The Mayor is the presiding officer of the City Council\". Charter revision proposing 4-year terms from 2027 is on the Nov 2026 ballot (portal.ct.gov Nov 2026 Danbury sample ballot).)",
       "url": "https://danburyct.qscend.com/filestorage/21015/21087/21093/DanburyCharter.pdf"
     },
     "0911050440": {
@@ -334,7 +334,7 @@
       "chiefPresidesOverBody": false,
       "form": "council-manager",
       "confidence": "high",
-      "citation": "the nine elected members are volunteers who serve two-year terms [cheshirect.gov Town Council page via WebSearch] (Chairperson selected by the Council; Town Manager appointed by Council and is CEO (cheshirect.gov/262).)",
+      "citation": "the nine elected officials are volunteers who serve two-year terms [cheshirect.gov Town Council page via WebSearch] (Chairperson selected by the Council; Town Manager appointed by Council and is CEO (cheshirect.gov/262).)",
       "url": "https://www.cheshirect.gov/174/Town-Council"
     },
     "0919052630": {

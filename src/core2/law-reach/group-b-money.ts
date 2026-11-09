@@ -366,7 +366,8 @@ const FUND = "fund-account:";
 export function reconcileObligations(
   api: CoreAPI,
   input: {
-    readonly rowKind: "benefit" | "voucher" | "preschool" | "child-care";
+    readonly rowKind:
+      "benefit" | "voucher" | "preschool" | "child-care" | "energy-assistance";
     readonly key: string;
     readonly want: ReadonlyMap<string, number>;
     readonly line?: string;
@@ -1187,6 +1188,109 @@ export function payChildCare(
     line: "welfareAndMedicaid",
     reasonKey: "law-reach:child-care",
     citation: `Child care assistance (${input.key}): the state pays the average subsidy for the share of eligible children who receive one`,
+  });
+  return { named, counted };
+}
+
+/**
+ * Home energy assistance as a payment: the state treasury pays each eligible
+ * household (income within the law's limit, as a percent of the poverty line
+ * for its size) the average yearly benefit, a twelfth a month, times the share
+ * of eligible households the program serves. The household is paid through
+ * its oldest resident; counted households through the town's residents
+ * account, times their weights. A change to the limit or a repeal re-reads who
+ * is eligible. (Stopgap SG-GOV-REACH-B-energy-assistance-enrollment: no
+ * application or utility bill; the payment is the expected spending.)
+ */
+export function payEnergyAssistance(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    readonly households: readonly {
+      readonly id: string;
+      readonly named: boolean;
+      readonly scale?: number;
+    }[];
+    readonly residents: readonly ResidentFacts[];
+  },
+): {
+  readonly named: ReadonlyMap<string, Record<string, number>>;
+  readonly counted: number;
+} {
+  const core = api.state as CoreState;
+  if (!core.modules.has(BUDGETS_MODULE_ID))
+    return { named: new Map(), counted: 0 };
+  const town = lawChain(api).townPlaceId;
+  const state = governmentAt(api, "state");
+  const want = new Map<string, number>();
+  const named = new Map<string, Record<string, number>>();
+  let counted = 0;
+  if (input.inForce && state) {
+    const monthly = Math.round(
+      (reachParameter("energyAssistanceAnnualBenefitDollars") *
+        reachParameter("energyAssistanceTakeUpShare") *
+        reachParameter("centsPerDollar")) /
+        reachParameter("monthsPerYear"),
+    );
+    const heads = new Map<string, ResidentFacts>();
+    for (const r of input.residents) {
+      if (!r.named || r.age < reachParameter("votingAge")) continue;
+      const prior = heads.get(r.householdId);
+      if (
+        !prior ||
+        r.age > prior.age ||
+        (r.age === prior.age && r.id < prior.id)
+      )
+        heads.set(r.householdId, r);
+    }
+    const residentsOrg = residentsRuntime(core)?.input.accounts.find(
+      (a) => a.placeId === town,
+    )?.accountId;
+    let countedHouseholds = 0;
+    for (const household of input.households) {
+      if (!household.named) {
+        countedHouseholds += household.scale ?? 1;
+        continue;
+      }
+      const head = heads.get(household.id);
+      if (!head) continue;
+      want.set(`${state.id}|${head.id}`, monthly);
+      named.set(head.id, { monthlyMinor: monthly });
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: household.id,
+        target: "household",
+        what: "energy-assistance-paid",
+        amountMinor: monthly,
+      });
+    }
+    if (residentsOrg && countedHouseholds > 0) {
+      counted = Math.round(countedHouseholds);
+      want.set(
+        `${state.id}|${residentsOrg}`,
+        Math.floor(monthly * countedHouseholds),
+      );
+      recordApplied(api, {
+        key: input.key,
+        lawId: input.lawId,
+        targetId: `${town}:energy-assistance-households`,
+        target: "group",
+        what: "energy-assistance-paid",
+        count: counted,
+        amountMinor: Math.floor(monthly * countedHouseholds),
+      });
+    }
+  }
+  reconcileObligations(api, {
+    rowKind: "energy-assistance",
+    key: input.key,
+    want,
+    line: "welfareAndMedicaid",
+    reasonKey: "law-reach:energy-assistance",
+    citation: `Home energy assistance (${input.key}): the state pays the average benefit for the share of eligible households the program serves`,
   });
   return { named, counted };
 }
