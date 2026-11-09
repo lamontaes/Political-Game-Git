@@ -1606,6 +1606,15 @@
           "supported": true,
           "policies": [
             {
+              "id": "law:executive-term-limit",
+              "name": "Governor term limit (terms; 0 for none)",
+              "kind": "law-amount",
+              "series": "executive-term-limit",
+              "unit": "terms",
+              "operations": ["raise", "lower"],
+              "levels": ["state"]
+            },
+            {
               "id": "question:us-policy-positions:government-operations.all-mail-voting",
               "name": "all mail voting",
               "kind": "policy-question",

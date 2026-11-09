@@ -1927,7 +1927,7 @@
     "file": "src/core2/modules/meetings.ts",
     "line": 651,
     "whatItFakes": "A town hall's room, a candidate's forum among them, fills only from the town's full adults (townHallDrives reads townAdults): a resident still in the counted wider population never comes, so a forum in a town of mostly counted residents meets only the people already filled in.",
-    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers) and fills in those who speak.",
+    "why": "The forum (campaign-day.ts) reuses the meetings engine's one audience rule rather than a second one, and that rule was written before the counted tier; public comment already reads counted residents by the same drive (commentSpeakers); those who speak stay in the counts until the player opens the bill.",
     "addedBy": "governing builder (campaign-like-real-races, forum)",
     "addedAt": "2026-10-29",
     "replacement": "townHallDrives reads the town's counted adults by the same drive as commentSpeakers does (countedResidents with countedRecordOnly), indexed by place so a weekly town hall does not scan the whole wider population, and holdTownHall fills in each counted resident who comes before the room's causes are written.",
@@ -2126,18 +2126,6 @@
     "status": "open"
   },
   {
-    "id": "SG-GOV-county-race-town-only",
-    "kind": "missing-record",
-    "file": "src/core2/modules/candidacy.ts",
-    "line": 753,
-    "whatItFakes": "A county seat is weighed for running only by the played town's adults (named and counted): the rest of the county votes in its county's races (race-places.ts basePlaces), but nobody from it runs. In Mallard Bay, Oklahoma nine county contests were each weighed by the same 251 adults and each drew one candidate, and 161 of 175 county contests in 24 drawn places were uncontested.",
-    "why": "The rest of the county is counted coarsely as an electorate place (electorate-places.ts), with no counted records candidacy reads and no filled-in person to file. Elections, Nov 8, Cedar Mills MN seed a1: county tail people are weighed (about 3,060 per seat) but, filled in, have no job (the county place's counted working adults are unplacedWorkers with no recorded job or employer), no school peers and no years-in-place or neighbor record, so their circle is empty (known 0, standing 0) and none files; candidacy standing reads only school peers, a workgroup and the circle. The fix is a county sample in the opening (recorded employers, years in place and neighbors), owned by Lives.",
-    "addedBy": "Lane 1 (elections-local-races-too-uncontested)",
-    "addedAt": "2026-11-04",
-    "replacement": "The rest of the county's counted records weigh running for its seats by the same chooser, a drawn challenger filled in as a full person living elsewhere in the county (pool item elections-county-race-sees-only-the-town, step B).",
-    "status": "open"
-  },
-  {
     "id": "SG-GOV-outside-session-result-only",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/world-legislating.ts",
@@ -2178,7 +2166,7 @@
     "kind": "missing-mechanic",
     "file": "src/core2/modules/legislature.ts",
     "line": 4041,
-    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and only the House has a row: no state's discharge rule is in the data.",
+    "whatItFakes": "A discharge petition is counted on the day the committee meets on the bill. The House rule makes members wait until the bill has been in committee thirty legislative days, and other chambers have waits and filing rules of their own; none is modeled. Twelve chambers have a row (the U.S. House and eleven state chambers whose rule was read from its source); the other chambers' rules are NOT FOUND or are floor votes rather than petitions (data/research/legislature/discharge-rules-2026-11.json).",
     "why": "The game's committee meets once on a bill, on a day, and has no calendar of legislative days to count a wait against; the states' rules have not been researched.",
     "addedBy": "claude/dev-mode-discharge",
     "addedAt": "2026-11-08",
@@ -2195,30 +2183,6 @@
     "addedBy": "Money",
     "addedAt": "2026-11-08",
     "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
-    "status": "open"
-  },
-  {
-    "id": "SG-NATION-outside-budget-lines",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/outside-budgets.ts",
-    "line": 1,
-    "whatItFakes": "Another state's budget is its Census base moved by one factor, the state's jobs times pay since the opening, applied to every line alike; no legislature's acts, tax laws in force, federal aid, reserves or treasury move any line, and no money is paid.",
-    "why": "Only the town's chain has treasuries and a budget process; the other states' legislatures pass acts as results (world-legislating) and no budget bill yet.",
-    "addedBy": "Nation",
-    "addedAt": "2026-11-08",
-    "replacement": "Each line moved by the state's laws in force (rates, exemptions), its enacted budget changes (enacted rows), federal aid and its revenue, built when the state is opened; ballot measures and the legislature's budget act as results.",
-    "status": "open"
-  },
-  {
-    "id": "SG-NATION-disaster-damage-from-causes",
-    "kind": "missing-mechanic",
-    "file": "src/core2/modules/national-events.ts",
-    "line": 1,
-    "whatItFakes": "A disaster elsewhere in the country is generated as a result row (state, kind, start day, number of counties at the state's recorded mean) with no damage, no aid, no declaration and no reaction: its severity is not drawn from the place's recorded spread and nothing reads it yet but the record log.",
-    "why": "Damage should come from the housing stock, building codes, levees and budgets in force, the declaration from the governor's and the President's decisions, and aid from real treasuries (CTO ruling, Nov 8, 12:21 on #7365); those engines exist only for the town.",
-    "addedBy": "Nation",
-    "addedAt": "2026-11-08",
-    "replacement": "Detail built on open from the housing, budget and executive engines (damage, aid, the governor's and President's declarations), severity from the state's recorded spread, and the national press and approval reading the result.",
     "status": "open"
   },
   {

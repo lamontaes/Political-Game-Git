@@ -16,7 +16,7 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-export function newsBoard({ outlets, labels, date, headlineOf, words }) {
+export function newsBoard({ outlets, labels, date, headlineOf }) {
   let chosen = outlets.keys().next().value;
   let opened = null;
   const holder = el("div", { className: "news-board" });
@@ -88,7 +88,10 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
       el(
         "header",
         { className: "news-masthead" },
-        el("h2", { textContent: outlet.name ?? labels.title }),
+        // A paper with no name of its own (or the sheet's own) would repeat the title.
+        ...(outlet.name && outlet.name !== labels.title
+          ? [el("h2", { textContent: outlet.name })]
+          : []),
         el("span", {
           textContent: dateWords(date, { weekday: true }),
         }),
@@ -115,7 +118,6 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
                     columns: 1,
                     rowHeight: 86,
                     gap: 6,
-                    words,
                     className: "news-briefs",
                   }),
                 ),

@@ -35,7 +35,7 @@ export function talkLine({ kind = "speech", text, who, lying, held, grade }) {
  * the player's last line). `lines` are `{ text, mine, lying, held, grade }`, oldest first;
  * `keep` is how many past lines stay above the line said now.
  */
-export function transcript(lines, { mineWho, theirWho, keep = 3 }) {
+export function transcript(lines, { mineWho, theirWho, keep = 1 }) {
   const lastMine = lines.findLastIndex((line) => line.mine);
   const past = lastMine < 0 ? [] : lines.slice(0, lastMine + 1).slice(-keep);
   const now = lines.slice(lastMine + 1);

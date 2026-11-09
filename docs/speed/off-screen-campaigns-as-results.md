@@ -49,3 +49,24 @@ For each stage: dev mode's records proof (same seed, differences named by table)
 - Voting reads impressions for every voter on election day. The group read must be as cheap as a row read, or the cost moves rather than goes.
 - Campaign tests build small worlds and read rows directly; they need the group read too.
 - The views engine moves a listener's stance by their standing with the speaker; the group result has to carry that without a per-person standing.
+
+## Stage 1, step 1: the plan after the Coordinator's yes (Nov 8, night)
+
+The Coordinator answered the two questions on #7365: a group result is right for a speech with no one from the player's circle, a focus person or an official in the audience (a full person in the audience hears it as a person), and the `viewOn` read-path change is made in the same pull request, naming `views.ts` (Tiers' opinion store) in its body, with `viewOn` reading the group result through the one store. Proof asked for: records identical for every full person who is watched, the counted groups' views equal to the person-by-person sum within rounding, and alternating-pair year times.
+
+What the code already has, so nothing is built twice:
+
+- `stanceAfterCase` (`views.ts`) applies one heard case to a person or to a counted group: `HeardCase.size`, `nearness`, `exposure` (the audience mass over the represented population) and `hearer`. `hearCountedNews` and `countedNewsGroups` already move a counted group's stance this way for a news story.
+- `deliverSpeech` (`speech.ts`) emits one `SPEECH_HEARD` event with the whole audience in `witnessIds`; each witness goes through the views engine's `onEvent` (its `standingWith` the speaker, `stanceAfterCase`, a row put) and the drives engine's `respond`. This is the cost: 19 s of `deliverSpeech`'s 24.8 s in Montpelier's election year.
+- A watched person is the player, their household and circle, `core.focusPersonIds` and an official (`allOfficials`).
+
+Steps, each its own pull request with a records and results proof:
+
+1. In `deliverSpeech`, for a speech by a world candidate (`faceToFace`, not the controlled person), split the audience into watched and unwatched. Watched people stay in `witnessIds`. The unwatched go to a new `hearAsGroups` in the views engine, which groups them by what `countedNewsGroups` groups by (lean, age band, party), takes the group's mean `nearness` and `engagement`, and writes one group row per question through the counted store with `exposure` equal to the group's share. No `SPEECH_HEARD` witness, no drives response, for the unwatched.
+2. `viewOn` (`views.ts`): for a full person who is unwatched, add the group's accumulated shift for their group to `stanceOn` (one store read, keyed by the group, not a scan). A person who becomes watched (met, clicked, circle) takes the group's shift into an own row at that moment, so the view does not jump.
+3. Opening a listener: build the detail (that they came, what they heard) from the stored group result and the record ids, the same on a second open.
+4. Then the same for news reads (`onAfterDay`, `NEWS_READ`), then `pressWeek` interviews, then the daily turn.
+
+Proof for step 1, in order: (a) the records proof on Dickey n8g7 shows only the views, drives and speech tables differ and every watched person's rows are identical; (b) for one race, the sum of the unwatched people's stance moves by person (the old path, kept in the test only) equals the group's shift within rounding; (c) election results (winners, margins, turnout) on three drawn places stay in real ranges and the winners match the old path's in all but a stated few; (d) year times in alternating pairs on Montpelier VT (mont1, 5046000) and Gunnison UT (n8f6, 4932660). Expected saving: most of the 19 s of fan-out in Montpelier's election year, and the emit share of Gunnison's town halls.
+
+Not started in code at the time of writing; the first session to pick this up begins at step 1 on a branch from main.

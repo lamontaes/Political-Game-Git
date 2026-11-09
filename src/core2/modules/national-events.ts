@@ -1,26 +1,33 @@
 /**
  * What happens in the rest of the country, as results (Nation, Nov 8, 2026).
- * Natural hazards are world generation, not dice (owner, Oct 9, 1:55 p.m.,
- * docs/design/list-pick-inventory.md: "Natural hazards (storms, floods,
- * wildfires) come from real recorded history keyed by place and season at
- * real rates"; CTO, Nov 8, 12:21 on #7365). On the first of each month the
- * world's hazard calendar for that month is generated for every state from
- * FEMA's declarations 2000-2024: for each kind of incident and month of the
- * year, the state's recorded yearly rate is the mean of a count drawn
- * once per (world seed, year, state, kind, month) from a seeded stream, the
- * way the world's people are seeded; nothing is drawn during play. Each
- * generated disaster is one result row on its start day and a public
- * `national.disaster` record for national:<state>. The town's own disaster
- * stays the disasters engine's (`hazard.disaster`). Damage, aid, a
- * declaration, the counties and the households are built on open from the
- * engines that hold the housing stock, building codes and budgets in force
- * (stopgap SG-NATION-disaster-damage-from-causes).
+ * Natural hazards come from real recorded history keyed by place and season,
+ * as world generation and not dice (owner, Oct 9, 1:55 p.m.,
+ * docs/design/list-pick-inventory.md; CTO, Nov 8, 12:21 on #7365). FEMA's
+ * declarations are the record, through October 9, 2026 (owner, Oct 16: both
+ * FEMA's records and the world's own conditions; after the records end the
+ * game keeps making its own weather). While the world's dates fall inside the
+ * record, a game month has the real disasters of that month on their real
+ * days, in the state each reached, with the counties it declared. After it, a
+ * month cycles the 2000-2024 record under the world's one seeded starting
+ * shift, a registered stopgap (SG-NATION-hazard-replay) until the generated
+ * calendar replaces it.
+ * Nothing is drawn after that and nothing in play can change it: the
+ * calendar is a pure function of the world seed, the month and the record. It
+ * is read a month at a time (on the 20th before the month) so a world that
+ * runs a hundred years does not generate them up front. Each disaster is one
+ * result row on its day and a public `national.disaster` record for
+ * national:<state>. The town's own disaster stays the disasters engine's
+ * (`hazard.disaster`). Damage, aid, a declaration, the counties and the
+ * households are built on open from the engines that hold the housing stock,
+ * building codes and budgets in force (stopgap
+ * SG-NATION-disaster-damage-from-causes).
  */
 import declarations from "../data/disasters/declarations.json" with { type: "json" };
+import assistance from "../data/disasters/assistance.json" with { type: "json" };
+import households from "../data/disasters/households.json" with { type: "json" };
 import { addDays, makeIsoDate } from "../kernel/dates";
-import { openUniform } from "../kernel/deterministic-math";
-import { SeededRng } from "../kernel/rng";
 import { placeStateKey } from "../place-map";
+import { seededUnit } from "../seeded";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
@@ -31,14 +38,20 @@ const DUE_KIND = "national-event-due";
 /** The years of FEMA's record the rates are read from: 2000 through 2024. */
 const FIRST_YEAR = 2000;
 const LAST_YEAR = 2024;
+/** The last day FEMA's record covers (owner, Oct 16: after it the game keeps making its own weather). */
+const RECORD_END = "2026-10-09";
 
 type Row = [string, string, number, number, number];
 
-interface Rate {
-  /** Distinct disasters of this kind in this state by month of the year, over the record's years. */
-  readonly byMonth: number[];
-  /** The mean counties a disaster of this kind declared in this state. */
-  readonly meanCounties: number;
+interface Recorded {
+  readonly number: number;
+  /** The county codes (FIPS) FEMA declared for it in the state. */
+  readonly countyCodes: string[];
+  readonly stateKey: string;
+  readonly incidentType: string;
+  readonly counties: number;
+  /** The day of the month the incident began. */
+  readonly day: number;
 }
 
 export interface NationalEventRow {
@@ -49,15 +62,26 @@ export interface NationalEventRow {
   readonly stateKey: string;
   readonly counties: number;
   readonly incidentType: string;
+  /** FEMA's disaster number, the key to its detail (read on open). */
+  readonly disasterNumber: number;
 }
 
-let rates: Map<string, Map<string, Rate>> | undefined;
-/** Each state's recorded rate of each kind of incident, by month of the year. */
-function recordedRates(): Map<string, Map<string, Rate>> {
-  if (rates) return rates;
+const YEARS = LAST_YEAR - FIRST_YEAR + 1;
+
+let record: Map<string, Recorded[]> | undefined;
+/** FEMA's disasters 2000-2024 by recorded year and month ("2011-04"), one entry per state a disaster reached. */
+function recordedHistory(): Map<string, Recorded[]> {
+  if (record) return record;
   const found = new Map<
     string,
-    { begins: string; type: number; counties: number }
+    {
+      begins: string;
+      type: number;
+      state: string;
+      counties: number;
+      number: number;
+      codes: string[];
+    }
   >();
   const list = declarations.byCounty as unknown as Record<string, Row[]>;
   for (const [county, rows] of Object.entries(list)) {
@@ -65,60 +89,126 @@ function recordedRates(): Map<string, Map<string, Rate>> {
     if (!state) continue;
     for (const row of rows) {
       const year = Number(row[0].slice(0, 4));
-      if (year < FIRST_YEAR || year > LAST_YEAR) continue;
+      if (year < FIRST_YEAR || row[0] > RECORD_END) continue;
       const key = `${state}|${row[4]}`;
       const one = found.get(key);
-      if (one) one.counties += 1;
-      else found.set(key, { begins: row[0], type: row[2], counties: 1 });
+      if (one) {
+        one.counties += 1;
+        one.codes.push(county);
+      } else
+        found.set(key, {
+          begins: row[0],
+          type: row[2],
+          state,
+          counties: 1,
+          number: row[4],
+          codes: [county],
+        });
     }
   }
-  rates = new Map();
-  const sums = new Map<string, { counties: number; events: number }>();
-  for (const [key, one] of found) {
-    const state = key.slice(0, key.indexOf("|"));
-    const type = declarations.types[one.type] ?? "Other";
-    const byType = rates.get(state) ?? new Map<string, Rate>();
-    rates.set(state, byType);
-    const rate = byType.get(type) ?? {
-      byMonth: Array<number>(12).fill(0),
-      meanCounties: 1,
-    };
-    byType.set(type, rate);
-    rate.byMonth[Number(one.begins.slice(5, 7)) - 1]! += 1;
-    const sum = sums.get(`${state}|${type}`) ?? { counties: 0, events: 0 };
-    sum.counties += one.counties;
-    sum.events += 1;
-    sums.set(`${state}|${type}`, sum);
+  record = new Map();
+  for (const key of [...found.keys()].sort()) {
+    const one = found.get(key)!;
+    const month = one.begins.slice(0, "YYYY-MM".length);
+    const list = record.get(month) ?? [];
+    list.push({
+      number: one.number,
+      countyCodes: one.codes,
+      stateKey: one.state,
+      incidentType: declarations.types[one.type] ?? "Other",
+      counties: one.counties,
+      day: Number(one.begins.slice(8, 10)),
+    });
+    record.set(month, list);
   }
-  for (const [state, byType] of rates)
-    for (const [type, rate] of byType) {
-      const sum = sums.get(`${state}|${type}`)!;
-      (rate as { meanCounties: number }).meanCounties = Math.max(
-        1,
-        Math.round(sum.counties / sum.events),
-      );
-    }
-  return rates;
-}
-
-/** The count a Poisson process of mean `mean` has at quantile `u` (inverse CDF). */
-function poissonQuantile(mean: number, u: number): number {
-  if (mean <= 0) return 0;
-  let term = Math.exp(-mean);
-  let total = term;
-  let count = 0;
-  while (u > total && count < 1000) {
-    count += 1;
-    term *= mean / count;
-    total += term;
-  }
-  return count;
+  return record;
 }
 
 const monthOf = (date: string) => date.slice(0, "YYYY-MM".length);
 /** The month after the one a date falls in. */
 const monthAfter = (date: string) =>
   addDays(makeIsoDate(`${monthOf(date)}-01`), 32).slice(0, "YYYY-MM".length);
+/** What a national disaster did, read from FEMA's record when someone opens it (never kept). */
+export interface NationalDisasterDetail {
+  readonly disasterNumber: number;
+  readonly title: string;
+  readonly incidentType: string;
+  /** The FEMA county codes declared in the state. */
+  readonly counties: readonly string[];
+  /** Federal Public Assistance obligated to the counties' governments and towns, cents. */
+  readonly publicAssistanceMinor: number;
+  /** Individuals and Households Program assistance approved for the households, cents. */
+  readonly householdAssistanceMinor: number;
+  /** Homes FEMA inspected as damaged. */
+  readonly homesDamaged: number;
+}
+
+let byNumberState: Map<string, Recorded> | undefined;
+function recordedFor(stateKey: string, number: number): Recorded | undefined {
+  if (!byNumberState) {
+    byNumberState = new Map();
+    for (const list of recordedHistory().values())
+      for (const one of list)
+        byNumberState.set(`${one.stateKey}|${one.number}`, one);
+  }
+  return byNumberState.get(`${stateKey}|${number}`);
+}
+
+/**
+ * The detail of a national disaster, built on open from FEMA's record: the
+ * counties it declared and, summed over them, the federal aid obligated and
+ * the household aid and damaged homes FEMA recorded. Nothing here is kept,
+ * and nothing is paid (stopgap SG-NATION-disaster-damage-from-causes: for a
+ * disaster past the record the damage should come from the housing stock,
+ * building codes and budgets in force).
+ */
+export function nationalDisasterDetail(
+  api: CoreAPI,
+  eventId: string,
+): NationalDisasterDetail | undefined {
+  if (!(api.state as CoreState).modules.has(NATIONAL_EVENTS_MODULE_ID))
+    return undefined;
+  const row = api
+    .moduleState(NATIONAL_EVENTS_MODULE_ID)
+    .table("events")
+    .get(eventId) as unknown as NationalEventRow | undefined;
+  if (!row) return undefined;
+  const recorded = recordedFor(row.stateKey, row.disasterNumber);
+  const counties = recorded?.countyCodes ?? [];
+  const aid = assistance.byCountyDisaster as unknown as Record<
+    string,
+    { county: number; towns: Record<string, number> }
+  >;
+  const homes = households.byCountyDisaster as unknown as Record<
+    string,
+    Record<string, [number, number, number]>
+  >;
+  let publicAssistanceMinor = 0;
+  let householdAssistanceMinor = 0;
+  let homesDamaged = 0;
+  for (const code of counties) {
+    const key = `${code}|${row.disasterNumber}`;
+    const a = aid[key];
+    if (a)
+      publicAssistanceMinor +=
+        a.county + Object.values(a.towns).reduce((n, v) => n + v, 0);
+    for (const t of Object.values(homes[key] ?? {})) {
+      householdAssistanceMinor += t[0];
+      homesDamaged += t[2];
+    }
+  }
+  return {
+    disasterNumber: row.disasterNumber,
+    title:
+      (declarations.titles as Record<string, string>)[row.disasterNumber] ?? "",
+    incidentType: row.incidentType,
+    counties,
+    publicAssistanceMinor,
+    householdAssistanceMinor,
+    homesDamaged,
+  };
+}
+
 const table = (api: CoreAPI, name: string) =>
   api.moduleState(NATIONAL_EVENTS_MODULE_ID).table(name);
 
@@ -132,66 +222,61 @@ export function nationalEvents(api: CoreAPI): readonly NationalEventRow[] {
 }
 
 /**
- * Generate the month's hazard calendar: for each state, kind and month, the
- * count comes from the state's recorded rate and a stream seeded by (world
- * seed, month, state, kind), and each disaster's day from the same stream.
+ * The recorded year a game month takes its disasters from: the world's one
+ * seeded starting shift into the record, then a year on for each game year.
  */
+function recordedYearFor(api: CoreAPI, year: number): number {
+  const shift = Math.trunc(
+    seededUnit(api.state.seed, "hazard-history-shift") * YEARS,
+  );
+  const opened = Number(api.state.startedAt.slice(0, 4));
+  return FIRST_YEAR + ((year - opened + shift + YEARS * 1000) % YEARS);
+}
+
+/** The month's calendar: the recorded disasters of the matching recorded year, month and state. */
 function generateMonth(api: CoreAPI, month: string): void {
   const today = api.state.date;
-  const monthIndex = Number(month.slice(5, 7)) - 1;
-  const first = makeIsoDate(`${month}-01`);
-  const days = Number(
-    addDays(addDays(first, 32), -Number(addDays(first, 32).slice(8, 10))).slice(
-      8,
-      10,
-    ),
-  );
-  const years = LAST_YEAR - FIRST_YEAR + 1;
   const events = table(api, "events");
-  for (const [stateKey, byType] of [...recordedRates()].sort((a, b) =>
-    a[0].localeCompare(b[0]),
-  ))
-    for (const [type, rate] of [...byType].sort((a, b) =>
-      a[0].localeCompare(b[0]),
-    )) {
-      // The part of the month still ahead (all of it, but the month the world opens in).
-      const ahead =
-        today >= `${month}-01`
-          ? Math.max(0, days - Number(today.slice(8, 10))) / days
-          : 1;
-      const mean = (rate.byMonth[monthIndex]! / years) * ahead;
-      if (mean <= 0) continue;
-      const rng = new SeededRng(
-        `${api.state.seed}|hazard|${month}|${stateKey}|${type}`,
-      );
-      const count = poissonQuantile(mean, openUniform(rng));
-      for (let n = 0; n < count; n += 1) {
-        const date = `${month}-${String(1 + Math.floor(openUniform(rng) * days)).padStart(2, "0")}`;
-        const id = `national-event:disaster:${month}:${stateKey}:${type}:${n}`;
-        // Only a day still ahead is scheduled (a day gone is the world's past).
-        if (date <= today) continue;
-        events.put({
-          id,
-          kind: "disaster",
-          date,
-          stateKey,
-          counties: rate.meanCounties,
-          incidentType: type,
-        } as unknown as { id: string });
-        // The day it begins, it happens.
-        api.moduleCalendar(NATIONAL_EVENTS_MODULE_ID).schedule({
-          key: `${DUE_KIND}:${id}`,
-          date,
-          kind: DUE_KIND,
-          source: {
-            tag: "SOURCED",
-            asOf: api.state.date,
-            citation: `Generated from FEMA's declarations ${FIRST_YEAR}-${LAST_YEAR} (owner, Oct 9, 2026).`,
-          },
-          sourceRecordIds: [id],
-        });
-      }
-    }
+  const year = Number(month.slice(0, 4));
+  // While the world's dates fall inside the record, FEMA's real disasters on
+  // their real dates; after it, the cycling stopgap (SG-NATION-hazard-replay).
+  const real = `${month}-01` <= RECORD_END;
+  const from = real ? month : `${recordedYearFor(api, year)}${month.slice(4)}`;
+  const last = Number(
+    addDays(
+      addDays(makeIsoDate(`${month}-01`), 32),
+      -Number(addDays(makeIsoDate(`${month}-01`), 32).slice(8, 10)),
+    ).slice(8, 10),
+  );
+  (recordedHistory().get(from) ?? []).forEach((one, n) => {
+    // A recorded day the game month lacks (February 29, the 31st) is its last.
+    const date = `${month}-${String(Math.min(one.day, last)).padStart(2, "0")}`;
+    if (real && date > RECORD_END) return;
+    // Only a day still ahead is scheduled (a day gone is the world's past).
+    if (date <= today) return;
+    const id = `national-event:disaster:${month}:${one.stateKey}:${one.incidentType}:${n}`;
+    events.put({
+      id,
+      kind: "disaster",
+      date,
+      stateKey: one.stateKey,
+      counties: one.counties,
+      incidentType: one.incidentType,
+      disasterNumber: one.number,
+    } as unknown as { id: string });
+    // The day it begins, it happens.
+    api.moduleCalendar(NATIONAL_EVENTS_MODULE_ID).schedule({
+      key: `${DUE_KIND}:${id}`,
+      date,
+      kind: DUE_KIND,
+      source: {
+        tag: "SOURCED",
+        asOf: today,
+        citation: `FEMA's declarations, ${real ? "the real disaster on its real date" : `the recorded year ${from} replayed`} (owner, Oct 16, 2026).`,
+      },
+      sourceRecordIds: [id],
+    });
+  });
 }
 
 function emitDue(api: CoreAPI, id: string): void {
@@ -206,15 +291,18 @@ function emitDue(api: CoreAPI, id: string): void {
     personIds: [],
     placeId: `national:${row.stateKey}`,
     publicRecord: true,
+    // The national press reports it (the wire reads it at the nation level).
+    news: true,
     source: {
       tag: "SOURCED",
       asOf: today,
-      citation: `Generated from FEMA's declarations ${FIRST_YEAR}-${LAST_YEAR}: ${row.stateKey}'s recorded rate of ${row.incidentType} disasters in this month (owner, Oct 9, 2026).`,
+      citation: `FEMA's declarations: a recorded ${row.incidentType} disaster in ${row.stateKey} (owner, Oct 16, 2026).`,
     },
     facts: {
       stateKey: row.stateKey,
       incidentType: row.incidentType,
       counties: String(row.counties),
+      disasterNumber: String(row.disasterNumber),
     },
   });
 }
