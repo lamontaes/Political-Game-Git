@@ -3452,9 +3452,11 @@ const sheets = {
     const figure = (row, value) =>
       row.unit === "dollars"
         ? roundedMoney(Math.round(value * 100))
-        : row.unit === "count"
-          ? Math.round(value).toLocaleString("en-US")
-          : `${value.toFixed(1)} ${words.percent}`;
+        : row.unit === "money"
+          ? roundedMoney(Math.round(value))
+          : row.unit === "count"
+            ? Math.round(value).toLocaleString("en-US")
+            : `${value.toFixed(1)} ${words.percent}`;
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
@@ -3474,12 +3476,15 @@ const sheets = {
             figure(row, row.now),
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
     );
-    return [stripBoard({ columns: [sections] })];
+    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
+    const columns = [[], [], []];
+    sections.forEach((section, at) => columns[at % 3].push(section));
+    return [stripBoard({ columns: columns.filter((c) => c.length) })];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);

@@ -1,7 +1,13 @@
 import { macroMonths } from "../director/opening-story";
 import { coreAPI } from "../core2/state";
 import { regionOfPlace } from "../core2/modules/regional";
-import { townJobsPanel } from "../core2/modules/world-panels";
+import {
+  benefitsPanel,
+  buildingPanel,
+  evictionPanel,
+  townJobsPanel,
+} from "../core2/modules/world-panels";
+import { budgetView } from "./budget";
 import {
   openingRegionMonths,
   stateFigures,
@@ -81,9 +87,121 @@ function stateRows(core: CoreState, placeId: string) {
   }));
 }
 
-export function metricsView(core: CoreState, placeId: string) {
+type Row = {
+  key: string;
+  unit: "percent" | "dollars" | "money" | "count";
+  now: number;
+  before: number | null;
+};
+
+/** The town's homes: its rental stock and vacancies, and the typical rent and home value the opening priced it from. */
+function housingRows(core: CoreState, placeId: string): Row[] {
+  const stock = buildingPanel(coreAPI(core)).stock.find(
+    (row) => row.placeId === placeId,
+  ) as
+    | {
+        rentalUnits: number;
+        vacantRental: number;
+        openingRentMinor: number;
+        openingHomeValueMinor: number;
+      }
+    | undefined;
+  if (!stock) return [];
+  // SG-SCREENS-metrics-no-prior-year: the stock keeps no year-ago reading, so these show now only.
+  return [
+    { key: "rentals", unit: "count", now: stock.rentalUnits, before: null },
+    { key: "vacant", unit: "count", now: stock.vacantRental, before: null },
+    { key: "rent", unit: "money", now: stock.openingRentMinor, before: null },
+    {
+      key: "homeValue",
+      unit: "money",
+      now: stock.openingHomeValueMinor,
+      before: null,
+    },
+  ];
+}
+
+/** Evictions served on the town's households in the last twelve months and the twelve before, and the unemployment claims open for its people now. */
+function helpRows(core: CoreState, placeId: string) {
+  const api = coreAPI(core);
+  const homeOf = new Map<string, string>();
+  for (const person of core.people.values())
+    if (person.householdId) homeOf.set(person.householdId, person.placeId);
+  const day = 24 * 3600 * 1000;
+  const today = Date.parse(`${core.date}T00:00:00Z`);
+  const iso = (days: number) =>
+    new Date(today - days * day).toISOString().slice(0, 10);
+  const year = iso(365),
+    twoYears = iso(730);
+  const cases = (
+    evictionPanel(api) as unknown as {
+      householdId: string;
+      noticeAt: string;
+    }[]
+  ).filter((row) => homeOf.get(row.householdId) === placeId);
+  const claims = (
+    benefitsPanel(api) as unknown as {
+      personId: string;
+      open: boolean;
+    }[]
+  ).filter(
+    (row) =>
+      row.open && core.people.get(row.personId as never)?.placeId === placeId,
+  );
+  return {
+    evictions: [
+      {
+        key: "evictions",
+        unit: "count" as const,
+        now: cases.filter((row) => row.noticeAt > year).length,
+        before: cases.filter(
+          (row) => row.noticeAt > twoYears && row.noticeAt <= year,
+        ).length,
+      },
+    ],
+    benefits: [
+      {
+        key: "claims",
+        unit: "count" as const,
+        now: claims.length,
+        before: null,
+      },
+    ],
+  };
+}
+
+/** The town's own government's books: what came in and what went out, this year's budget beside the year before. */
+function budgetRows(core: CoreState, personId: string): Row[] {
+  const view = budgetView(core, personId);
+  const town = ["city", "county"]
+    .map((level) => view.governments.find((g) => g.level === level && g.latest))
+    .find(Boolean);
+  if (!town?.latest) return [];
+  const prior = town.prior;
+  return [
+    {
+      key: "revenue",
+      unit: "money",
+      now: town.latest.revenueMinor,
+      before: prior ? prior.revenueMinor : null,
+    },
+    {
+      key: "spending",
+      unit: "money",
+      now: town.latest.spendingMinor,
+      before: prior ? prior.spendingMinor : null,
+    },
+  ];
+}
+
+export function metricsView(
+  core: CoreState,
+  placeId: string,
+  personId: string,
+) {
   const months = macroMonths(core);
   const state = stateRows(core, placeId);
+  const help = helpRows(core, placeId);
   // The town's own figures: what its people and firms hold now. The world keeps no year-ago
   // reading of them (SG-SCREENS-metrics-no-prior-year), so each shows the current value only.
   const jobs = core.modules.has("jobs")
@@ -121,6 +239,12 @@ export function metricsView(core: CoreState, placeId: string) {
                 },
               ]
             : []),
+          ...[
+            { key: "housing", rows: housingRows(core, placeId) },
+            { key: "evictions", rows: help.evictions },
+            { key: "benefits", rows: help.benefits },
+            { key: "budget", rows: budgetRows(core, personId) },
+          ].filter((section) => section.rows.length),
         ]
       : [],
   };
