@@ -1,5 +1,5 @@
 {
-  "about": "How a span of days is said aloud: months as people name them, never a day count. Read by src/english/span-words.ts; the director passes the number of days.",
+  "about": "How a span of days is said aloud: months as people name them while it is a year or less, then years (a year, a year and a half, two years, about thirty years), never a day count. Read by src/english/span-words.ts; the director passes the number of days.",
   "daysPerMonth": {
     "value": 30,
     "tag": "SOURCED",
@@ -20,5 +20,47 @@
     "eleven months",
     "twelve months"
   ],
-  "longer": "more than a year"
+  "longer": "more than eighty years",
+  "daysPerYear": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "A year as people say a span of time: 365 days; it rounds a count of days to the years a speaker names, never decides anything."
+  },
+  "aYear": "a year",
+  "aYearAndAHalf": "a year and a half",
+  "years": {
+    "2": "two years",
+    "3": "three years",
+    "4": "four years",
+    "5": "five years",
+    "6": "six years",
+    "7": "seven years",
+    "8": "eight years",
+    "9": "nine years",
+    "10": "ten years",
+    "11": "eleven years",
+    "12": "twelve years",
+    "13": "thirteen years",
+    "14": "fourteen years",
+    "15": "fifteen years",
+    "16": "sixteen years",
+    "17": "seventeen years",
+    "18": "eighteen years",
+    "19": "nineteen years",
+    "20": "twenty years"
+  },
+  "aboutYears": {
+    "25": "about twenty-five years",
+    "30": "about thirty years",
+    "35": "about thirty-five years",
+    "40": "about forty years",
+    "45": "about forty-five years",
+    "50": "about fifty years",
+    "55": "about fifty-five years",
+    "60": "about sixty years",
+    "65": "about sixty-five years",
+    "70": "about seventy years",
+    "75": "about seventy-five years",
+    "80": "about eighty years"
+  }
 }

@@ -106,8 +106,56 @@
     "economy": "Opening the economy",
     "core": "Starting the world",
     "government": "Seating the government",
+    "elections": "Opening the elections",
+    "budgets": "Opening the budgets",
+    "legislature": "Seating the legislature",
+    "cabinet": "Appointing the cabinet",
+    "workings": "Opening the press, courts and meetings",
+    "history": "Writing the country's history",
     "opening": "Preparing the opening",
     "done": "Ready"
+  },
+  "worldSettings": {
+    "rows": [
+      {
+        "id": "population",
+        "label": "Town size",
+        "values": [null, 1000, 2500, 5000, 10000, 25000]
+      },
+      {
+        "id": "wages",
+        "label": "Wages",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      },
+      {
+        "id": "cash",
+        "label": "Household savings",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      },
+      {
+        "id": "demand",
+        "label": "Outside demand",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      },
+      {
+        "id": "lean",
+        "label": "Politics",
+        "values": [-1, -0.5, -0.25, 0, 0.25, 0.5, 1]
+      },
+      {
+        "id": "turnout",
+        "label": "Turnout",
+        "values": [0.5, 0.75, 0.9, 1, 1.1, 1.25, 1.5, 2]
+      }
+    ],
+    "usual": "Usual",
+    "real": "Real",
+    "even": "Even",
+    "people": "{n} people",
+    "more": "{n}% more",
+    "less": "{n}% less",
+    "left": "{n} points left",
+    "right": "{n} points right"
   },
   "opening": {
     "news": "News",
@@ -119,6 +167,8 @@
     "whoAre": "Who they are",
     "howISee": "How I see {object}",
     "betweenUs": "Between us",
+    "lifeStory": "{possessive} story",
+    "lifeStoryThey": "Their story",
     "herPeople": "{possessive} people",
     "theirPeople": "Their people",
     "age": "Age",
@@ -152,8 +202,6 @@
     "since": "Since",
     "record": "Record",
     "publicRecordTitle": "Public record",
-    "earlier": "Earlier years",
-    "later": "Later years",
     "seat": "Seat held",
     "closenessWords": [
       "You barely know each other",
@@ -519,9 +567,6 @@
     "upcoming": "Coming up",
     "advance": "Go to this day",
     "nothing": "Nothing is on this day.",
-    "page": "{page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "weekdays": ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
     "key": "What the calendar shows",
     "hide": "Hide these",
@@ -538,8 +583,7 @@
     "join": "Join",
     "member": "Your party",
     "registered": "Registered {party} since {date}",
-    "me": "Me",
-    "mine": "Mine"
+    "me": "Me"
   },
   "leanWords": {
     "veryLiberal": "Very liberal",
@@ -578,9 +622,6 @@
   "news": {
     "title": "News",
     "nation": "Nation",
-    "page": "Page {page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "briefs": "Briefs"
   },
   "jobs": {
@@ -711,9 +752,6 @@
     "nonpartisan": "Nonpartisan",
     "vacantCount": "{n} vacant",
     "officers": "Officers",
-    "page": "{page} of {pages}",
-    "previousPage": "Previous page",
-    "nextPage": "Next page",
     "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
@@ -808,9 +846,13 @@
     "unopposed": "Unopposed",
     "noFilers": "No one has filed",
     "running": "{n} running",
+    "filingOpens": "Filing opens",
     "filingCloses": "Filing closes",
     "fileForIt": "File for it",
     "youFiled": "You are running",
+    "cantFileResidency": "You can't file for this race. It serves {required}, and your address is in {actual}.",
+    "cantFileAge": "You can't file for this race yet. The age to file is {required}, and you are {actual}.",
+    "cantFile": "You can't file for this race.",
     "noBallot": "No local election is on the calendar",
     "dates": "Dates",
     "electionDay": "Election day",
@@ -886,9 +928,7 @@
   },
   "journal": {
     "title": "My story",
-    "empty": "Nothing is written here yet.",
-    "previous": "Earlier chapters",
-    "next": "Later chapters"
+    "empty": "Nothing is written here yet."
   },
   "titles": {
     "people": "People",
