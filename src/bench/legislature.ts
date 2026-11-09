@@ -443,6 +443,7 @@ export function billPaper(core: CoreState, billId: string) {
     title: composed?.title ?? titled?.title ?? bill.number,
     purpose: titled?.purpose ?? null,
     sponsor: personName(core, bill.sponsorId),
+    bodyOfficeId: bill.bodyOfficeId,
     sections,
     authorityWarning: bill.authority.some((row) => row.warning === "disputed")
       ? disputedWarning(api, bill)

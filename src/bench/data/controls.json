@@ -1090,5 +1090,24 @@
       "looking-for-work": "Looking for work",
       "paid-under-minimum-wage": "Paid under the minimum wage"
     }
+  },
+  "devBill": {
+    "title": "Dev mode",
+    "introduceAt": "Introduce at",
+    "members": "How each member votes",
+    "yes": "Yes",
+    "no": "No",
+    "passOrFail": "Pass or fail",
+    "passesBy": "Passes by {n}",
+    "failsBy": "Fails by {n}",
+    "margins": [-10, -5, -3, -1, 1, 3, 5, 10],
+    "firstMargin": 5,
+    "fewer": "Fewer",
+    "more": "More",
+    "introduce": "Introduce",
+    "hold": "Hold the vote",
+    "sign": "Sign",
+    "veto": "Veto",
+    "override": "Override"
   }
 }

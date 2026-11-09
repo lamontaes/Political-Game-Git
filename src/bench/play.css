@@ -5279,3 +5279,19 @@ body.color-blind .meeting-member.vote-no {
 body.color-blind .meeting-member.vote-abstain {
   outline: 3px dotted var(--signal-none);
 }
+
+/* Dev mode on a bill (fr-dev-bill): each member a name with Yes and No beside it. */
+.dev-bill-member {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  align-items: center;
+  gap: 6px;
+  padding: 2px 0;
+}
+.dev-bill-member .name {
+  font: 600 14px var(--ui);
+  color: #f2e6c9;
+}
+.dev-bill-card .acts {
+  margin: 8px 0;
+}

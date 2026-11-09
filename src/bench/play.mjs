@@ -27,6 +27,7 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devBillCard } from "./ui/dev-bill-card.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
@@ -2773,6 +2774,16 @@ async function openBillPaper(billId, show, back, backLabel) {
         },
       },
     ),
+    // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
+    ...(devModeOn()
+      ? [
+          await devBillCard({
+            paper,
+            labels: controls.devBill,
+            onDone: () => openBillPaper(billId, show, back, backLabel),
+          }),
+        ].filter(Boolean)
+      : []),
   );
 }
 
