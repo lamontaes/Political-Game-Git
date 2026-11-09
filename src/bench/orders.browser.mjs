@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, fetch */
 // The governor's order panel (done-when item 5, Nov 8): the player steps in as a governor, the clock
 // runs, and the state's own calendar stops it at the State of the State: the panel opens with the address
 // worded from the controls, the player gives it, and the clock runs on. Adapted from bill-desk.browser.mjs.
