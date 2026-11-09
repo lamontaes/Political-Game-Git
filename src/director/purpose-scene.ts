@@ -78,7 +78,6 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
-import { chooseVariant, type VariantChoice } from "./arc-variant";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
 import { reunionFacts } from "./reunion-facts";
@@ -87,6 +86,7 @@ import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
+import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -1193,20 +1193,23 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
-  // The kind's own arc, or the variant of it the records give this cause.
-  const variant = type.purpose
-    ? chooseVariant(core, {
-        family: type.purpose,
-        askerId,
-        askedId,
-        cause: {
-          id: moment.causeId,
-          date: record?.date ?? moment.date,
-          facts: said,
-        },
-        setting: binding.setting.kind,
-      })
-    : null;
+  // The kind's own arc, or the variant of it the records give this cause. A
+  // scene where the player asks plays the kind's own arc: its variants are
+  // the colleague's ask of the player.
+  const variant =
+    type.purpose && !type.playerAsks
+      ? chooseVariant(core, {
+          family: type.purpose,
+          askerId,
+          askedId,
+          cause: {
+            id: moment.causeId,
+            date: record?.date ?? moment.date,
+            facts: said,
+          },
+          setting: binding.setting.kind,
+        })
+      : null;
   // What the records gave the variant, for the lines that say it: every read
   // that came to more than nothing is a fact of the scene, cited to the records
   // it came from (`read-town-against`, `read-scandal`), so a line about the
@@ -1218,6 +1221,26 @@ function composeBinding(
           text: "yes",
           sourceRecordIds: [...variant.recordIds],
         };
+  // A trade names the bill the asker already voted for, the asked person's own:
+  // the most recent, from the asker's vote record.
+  if (variant && (variant.reads["favor-given"] ?? P.zero) > P.zero) {
+    const earlier = favorsGiven(
+      core,
+      askerId,
+      askedId,
+      record?.date ?? moment.date,
+      said.billId,
+    )[P.zero];
+    const bill =
+      earlier && core.modules.has(LEGISLATURE_MODULE_ID)
+        ? billOf(coreAPI(core as CoreState), earlier.billId)
+        : undefined;
+    if (earlier && bill?.number)
+      facts.earlier = {
+        text: spokenDesignation(bill.number, bill.form.kind),
+        sourceRecordIds: [earlier.voteId, bill.id],
+      };
+  }
   const played =
     variant && variant.purpose !== type.purpose
       ? { ...type, purpose: variant.purpose, family: type.purpose }
