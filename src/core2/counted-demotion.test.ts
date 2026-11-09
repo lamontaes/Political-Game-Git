@@ -93,6 +93,31 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       expect(isDemoted(person)).toBe(true);
       expect(residentPerson(core, id)?.id).toBe(id);
     }
+    // They hold no knowledge back in the counts (but the event a drive they
+    // hold stands on) and learn nothing while there, as no counted person does.
+    const api = coreAPI(core);
+    const heard = {
+      key: "test:heard-while-counted",
+      value: "yes",
+      learnedAt: core.date,
+      sourceId: "test",
+      access: "public" as const,
+    };
+    for (const id of ids) {
+      const sources = new Set(
+        [...core.people.get(id)!.drives.values()].map(
+          (drive) => `event:${drive.sourceEventId}:experienced`,
+        ),
+      );
+      expect(
+        [...(core.knowledgeByPerson.get(id)?.keys() ?? [])].filter(
+          (key) => !sources.has(key),
+        ),
+        `${place.name}: ${id}`,
+      ).toEqual([]);
+      api.observe(id, heard);
+      expect(api.knows(id, heard.key)).toBeUndefined();
+    }
     // Their money went to their group's account, and a last paycheck reaching
     // them after it goes on at the next review; no dollar was lost.
     advanceCore(core, after(300));
@@ -119,6 +144,9 @@ describe(`a filled-in household returns to the counts in ${place.name} (seed ${s
       expect(isDemoted(back)).toBe(false);
       expect(back.placeId).toBe(record.household.placeId);
       expect(residentPerson(core, ids[0]!)).toBeUndefined();
+      // Filled in again, they learn as anyone full does.
+      api.observe(back.id, { ...heard, learnedAt: core.date });
+      expect(api.knows(back.id, heard.key)?.value).toBe("yes");
     }
     advanceCore(core, after(330));
     expect(total(core)).toBe(start);

@@ -1014,6 +1014,14 @@ export function coreAPI(core: CoreState): CoreAPI {
     observe(personId, fact) {
       const known = core.knowledgeByPerson.get(personId);
       if (!known) throw new Error(`Knowledge recipient is absent: ${personId}`);
+      // Someone back in the counts learns nothing, as no counted person does
+      // (two-level rule, Oct 11): their record keeps their results, and
+      // meeting them again fills them in to learn anew. Writers that reach
+      // them by place or county (a county story's readers) otherwise grew
+      // their facts for the rest of the run (Montpelier, Vermont, Nov 9:
+      // 921,660 facts held by people back in the counts at year 4).
+      const person = core.people.get(personId);
+      if (person && isDemoted(person)) return;
       makeIsoDate(fact.learnedAt);
       if (fact.learnedAt > core.date)
         throw new Error("Cannot learn a future fact.");
