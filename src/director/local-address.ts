@@ -22,6 +22,7 @@ import {
   type AreaRead,
 } from "../core2/modules/laws";
 import { daysBetweenText } from "../core2/kernel/dates";
+import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId, PersonState } from "../core2/types";
 import {
@@ -43,6 +44,7 @@ import {
   type OpeningSentence,
 } from "./opening-story";
 import { recordAddressResponse } from "./address-response";
+import { spoken, stateInSentence } from "./words";
 import { openingMove } from "../english/english-opening-speech";
 import type { OpeningSpeechKind } from "../english/english-opening-speech";
 import kindData from "./data/address-kinds.json" with { type: "json" };
@@ -181,6 +183,24 @@ function realmRead(
   });
 }
 
+/**
+ * Where the address is given, by name: the town for a mayor, the state for a
+ * governor (owner, Nov 9: "Lexington", "Hawaii", never "this town"), from the
+ * place record of the speaker's town.
+ */
+function placeOf(core: CoreState, level: LocalLevel): Facts[string] | null {
+  const placeId = core.people.get(core.playerId ?? "")?.placeId;
+  const row = placeId ? corePlaceByJurisdictionId(placeId as never) : null;
+  if (!placeId || !row) return null;
+  const name =
+    level === "town"
+      ? spoken(row)
+      : row.withinName
+        ? stateInSentence(row.withinName)
+        : spoken(row);
+  return fact(name, placeId);
+}
+
 /** The blocks of a local address, and the kind it took. */
 function planLocal(
   core: CoreState,
@@ -235,6 +255,9 @@ function planLocal(
       speaker.id,
     ]),
   );
+  // Every block may name the place.
+  const place = placeOf(core, level);
+  const here: Facts = place ? { place } : {};
   const move = (
     role: string,
     options: { topic?: string; required?: boolean } = {},
@@ -266,20 +289,20 @@ function planLocal(
     {
       key: "salutation",
       level: "salutation",
-      facts: {},
+      facts: here,
       moves: [move("salutation", { required: true })],
       required: true,
     },
     {
       key: "occasion",
       level: "occasion",
-      facts: {},
+      facts: here,
       moves: [move("occasion")],
     },
     {
       key: "story",
       level: "country",
-      facts,
+      facts: { ...here, ...facts },
       moves: [
         move("story-open"),
         ...told.map((topic) => move("story-says", { topic })),
@@ -290,19 +313,22 @@ function planLocal(
     ...asks.map((stand, at): Omit<Block, "part"> => ({
       key: `ask-${at}-${stand.question}`,
       level: "congress",
-      facts: standFacts(stand, official!, at ? "rank-line" : "rank-first"),
+      facts: {
+        ...here,
+        ...standFacts(stand, official!, at ? "rank-line" : "rank-first"),
+      },
       moves: [move("ask")],
     })),
     {
       key: "hope",
       level: "close",
-      facts,
+      facts: { ...here, ...facts },
       moves: [move("hope")],
     },
     {
       key: "close",
       level: "close",
-      facts: {},
+      facts: here,
       moves: [move("close", { required: true })],
       required: true,
     },

@@ -681,6 +681,13 @@ function composeBinding(
   // A town hall (meetings.ts holdTownHall): the question this resident stood up with,
   // and whether the host's answer to it agreed with the resident's own stand,
   // opposed it, or was not given.
+  // The lines that speak of the hall, the microphone and the next question
+  // play only in a scene the hall's own record staged.
+  if (said.townHallId)
+    facts.townhall = {
+      text: said.townHallId,
+      sourceRecordIds: [moment.causeId],
+    };
   if (said.townHallId && core.modules.has(MEETINGS_MODULE_ID)) {
     const api = coreAPI(core as CoreState);
     const hall = api
@@ -943,7 +950,7 @@ function composeBinding(
   }
   if (said.office)
     facts.office = {
-      text: said.office,
+      text: titleInSentence(said.office),
       sourceRecordIds: [
         moment.causeId,
         ...(said.contestId ? [said.contestId] : []),
@@ -1182,6 +1189,12 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // Where the scene is set, so a line written for one place (the desk, the
+  // house, the street) is not said in another: `setting-office`, `setting-home`.
+  facts[`setting-${binding.setting.kind}`] = {
+    text: binding.setting.kind,
+    sourceRecordIds: [binding.setting.recordId],
+  };
   // The kind's own arc, or the variant of it the records give this cause.
   const variant = type.purpose
     ? chooseVariant(core, {
