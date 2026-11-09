@@ -1007,6 +1007,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-outside-revenue-base-national",
+    "kind": "estimated-behavior",
+    "file": "src/core2/budgets-treasury.ts",
+    "line": 1062,
+    "whatItFakes": "A named-payer tax line's installment is the plan's installment moved by the nation's wage bill (payroll jobs times hourly earnings) since the budget year began, for every government alike: a state's receipts follow the nation's wage bill, not its own.",
+    "why": "The states' own jobs and pay are in the regional rows, which the treasuries do not read yet; the nation's wage bill is the nearest base the budgets can read now.",
+    "addedBy": "Money",
+    "addedAt": "2026-11-08",
+    "replacement": "Each government's installment moved by its own base: the state's jobs and pay from the regional rows for income and sales taxes, output for corporate taxes, house prices for property taxes (gov-outside-revenue-real-payers, with Nation's other-states rows).",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-service-charges-by-living-cost",
     "kind": "faked-mechanic",
     "file": "src/core2/budgets-service-charges.ts",
@@ -2171,6 +2183,18 @@
     "addedBy": "Money",
     "addedAt": "2026-11-08",
     "replacement": "Trust funds and bond holders as real accounts with their own deposits, benefits and earnings (insurance-trust revenue and expenditure lines).",
+    "status": "open"
+  },
+  {
+    "id": "SG-EXECUTIVE-administrator-appoints",
+    "kind": "partial-model",
+    "file": "src/core2/modules/executive.ts",
+    "line": 240,
+    "whatItFakes": "In a county whose board hires an administrator who appoints the department heads (research: council-administrator form), the board's seat holder stands in as the appointer of the heads the administrator would pick, so their reasons (loyalty against merit, lean, acquaintance) are the board member's, not the administrator's.",
+    "why": "The administrator is an appointee, not a seat; the appointment engine's appointer is a seated official (TermRow).",
+    "addedBy": "Legislation (town heads for county-run places)",
+    "addedAt": "2026-11-08",
+    "replacement": "The appointer of an administrator-filled post is the person holding the county-administrator appointment, weighed by their own traits.",
     "status": "open"
   },
   {

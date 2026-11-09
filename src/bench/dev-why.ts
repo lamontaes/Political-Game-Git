@@ -218,7 +218,7 @@ function budgetPanels(core: CoreState, facts: Record<string, string>) {
   if (budget)
     rows.push({
       label: "the budget",
-      value: `adopted by ${budget.adoptedBy}`,
+      value: `adopted by ${(budget.adoptedBy as { kind: string; bill?: { number: string } }).kind}${(budget.adoptedBy as { bill?: { number: string } }).bill ? ` ${(budget.adoptedBy as { bill: { number: string } }).bill.number}` : ""}`,
       id: String(budget.id),
     });
   panels.push({

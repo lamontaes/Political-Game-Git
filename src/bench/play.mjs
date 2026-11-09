@@ -66,6 +66,9 @@ import {
 } from "../english/plain-words.mjs";
 /** A government's sum in a readable unit ("$5.2 trillion", "$48,300"). */
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+// A views label (the views engine's key, "veryLiberal") in the player's words (controls.leanWords).
+const leanWord = (label) =>
+  controls.leanWords?.[label === "not-sure" ? "notSure" : label] ?? "";
 import { newsBoard } from "./ui/news-board.mjs";
 import { peopleScreen } from "./ui/people-screen.mjs";
 import { ballotPaper } from "./ui/ballot-paper.mjs";
@@ -74,6 +77,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billFigures } from "./ui/bill-figures.mjs";
 import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
@@ -490,11 +494,14 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-// Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+// Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
-    return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+    // A rate per hour or day keeps its cents; a plain amount reads rounded, as Budgets does.
+    return unit.includes("/")
+      ? `${moneyWords(Number(value))}/${unit.split("/")[1]}`
+      : roundedMoney(Number(value));
   // A rate as a person would say it: at most two decimals (a combined sales
   // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
@@ -2321,6 +2328,17 @@ async function personCardNode(
           ),
         ]
       : []),
+    // Where they place themselves politically, once the player has learned it; until then the
+    // card says so (the world still holds the real view).
+    ...(c.view || c.viewUnknown
+      ? [
+          stripSection(
+            2,
+            controls.who.views,
+            introText(c.view ? leanWord(c.view) : controls.who.viewUnknown),
+          ),
+        ]
+      : []),
     ...(sharedLines.length
       ? [stripSection(5, labels.betweenUs, ...sharedLines)]
       : []),
@@ -2667,6 +2685,7 @@ async function openBillPaper(billId, show, back, backLabel) {
   const stage = await api(
     `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
   );
+  const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
   const floor = controls.floor ?? {};
   const backButton = makeButton({
@@ -2681,7 +2700,27 @@ async function openBillPaper(billId, show, back, backLabel) {
       title: paper.title,
       sponsor: `${words.sponsor ?? ""} ${paper.sponsor}`,
       sectionsLabel: words.sections ?? "",
+      whereLabel: words.where ?? "",
+      billLabel: words.bill ?? "",
+      voteLabel: words.vote ?? "",
       estimateLabel: words.estimate ?? "",
+      // The budget lines the bill sets, this year beside last year's.
+      extra: billFigures({
+        view,
+        textOf: (index) => paper.sections[index]?.text ?? paper.title,
+        money: roundedMoney,
+        percent: (value) =>
+          new Intl.NumberFormat("en-US", {
+            style: "percent",
+            maximumFractionDigits: 1,
+          }).format(value / 100),
+        words,
+      }),
+      // Each chamber's result as the English engine words it, from the stage view.
+      votes: [...stage.floor, ...stage.override].map((entry) => ({
+        big: entry.result,
+        text: entry.chamberTitle,
+      })),
       blank: billEstimate(paper, { estimate: {} }),
       sections: paper.sections.map((section) => ({
         text: section.text ?? paper.title,
@@ -3143,13 +3182,7 @@ const sheets = {
               : []),
             // Where the player places themselves politically: the views engine's own label.
             ...(c.view
-              ? [
-                  stripSection(
-                    2,
-                    labels.views,
-                    introText(c.view.charAt(0).toUpperCase() + c.view.slice(1)),
-                  ),
-                ]
+              ? [stripSection(2, labels.views, introText(leanWord(c.view)))]
               : []),
             ...(c.traitLines?.length
               ? [
@@ -3401,6 +3434,43 @@ const sheets = {
       ],
     });
   },
+  // How the place is doing (owner, Nov 5, ruling 23: "Keep it, call it Metrics"): plain numbers,
+  // this year beside last, no charts. Every figure is the record's; the words are control names.
+  async metrics() {
+    const view = await api("/api/metrics");
+    const words = controls.metrics;
+    const figure = (row, value) =>
+      row.unit === "dollars"
+        ? roundedMoney(Math.round(value * 100))
+        : row.unit === "count"
+          ? Math.round(value).toLocaleString("en-US")
+          : `${value.toFixed(1)} ${words.percent}`;
+    const sections = view.sections.map((section, at) =>
+      stripSection(
+        at + 1,
+        words[section.key],
+        ...section.rows.map((row) => {
+          const moved = row.before === null ? null : row.now - row.before;
+          const direction =
+            moved === null
+              ? ""
+              : Math.abs(moved) < 0.05
+                ? words.same
+                : moved > 0
+                  ? words.up
+                  : words.down;
+          return typedRow(
+            words[row.key],
+            figure(row, row.now),
+            row.before === null
+              ? ""
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+          );
+        }),
+      ),
+    );
+    return [stripBoard({ columns: [sections] })];
+  },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     const labels = controls.politics;
@@ -3607,13 +3677,10 @@ const sheets = {
                   stripSection(
                     5,
                     words.whoWrote,
+                    // `latest.adoptedBy` is the adoption record (body, tallies, bill, amendments);
+                    // Screens words it from the record with the Budgets labels.
                     introText(
-                      [
-                        `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
-                        latest.adoptedBy,
-                      ]
-                        .filter(Boolean)
-                        .join(", "),
+                      `${labels.adopted} ${dateWords(latest.adoptedOn)}`,
                     ),
                   ),
                 ]
@@ -5028,6 +5095,7 @@ const groups = {
     "issues",
     "bills",
     "budgets",
+    "metrics",
   ],
   who: ["who", "jobs", "history"],
 };
@@ -5092,6 +5160,7 @@ async function openSheet(tab) {
     "strip-sheet",
     tab === "who" ||
       tab === "budgets" ||
+      tab === "metrics" ||
       tab === "journal" ||
       tab === "money" ||
       tab === "campaign" ||

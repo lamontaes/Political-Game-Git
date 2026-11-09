@@ -322,7 +322,6 @@
   },
   "devScene": {
     "title": "Scenes",
-    "type": "Situation",
     "make": "Make it happen",
     "begun": "Begun for",
     "reasons": {
@@ -332,7 +331,8 @@
     }
   },
   "devPerson": {
-    "title": "Health",
+    "title": "Dev mode",
+    "decide": "Make them decide",
     "fallIll": "Falls seriously ill",
     "layOff": "Laid off by their employer",
     "laidOff": "Laid off",
@@ -353,11 +353,7 @@
     }
   },
   "devRun": {
-    "title": "Run until",
-    "days": "Days",
-    "cap": "Cap",
-    "event": "Event",
-    "noEvent": "No event",
+    "title": "Run",
     "holdLaw": "Hold the law just passed",
     "hour": "Hour",
     "jump": "Jump to hour",
@@ -377,7 +373,36 @@
       "days": "Days passed",
       "event": "Event happened",
       "cap": "Cap reached"
-    }
+    },
+    "for": "For",
+    "orUntil": "Or until",
+    "day": "{n} day",
+    "daysValue": "{n} days",
+    "daysName": "days",
+    "fewer": "Fewer days",
+    "more": "More days",
+    "steps": [1, 3, 7, 14, 30, 60, 90, 180, 366, 800],
+    "firstStep": 30,
+    "cap": 1100,
+    "hours": [
+      {
+        "label": "Morning",
+        "hour": 6
+      },
+      {
+        "label": "Midday",
+        "hour": 12,
+        "chosen": true
+      },
+      {
+        "label": "Evening",
+        "hour": 18
+      },
+      {
+        "label": "Night",
+        "hour": 22
+      }
+    ]
   },
   "options": {
     "on": "On",
@@ -512,6 +537,9 @@
     "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
+    "where": "Where it is",
+    "bill": "The bill",
+    "vote": "The vote",
     "estimate": "What it would do",
     "amends": "Amends",
     "from": "from",
@@ -525,7 +553,15 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
-    "none": "Not set"
+    "none": "Not set",
+    "figures": "Budget lines",
+    "thisYear": "This year",
+    "lastYear": "Last year",
+    "sinceLastYear": "Since last year",
+    "totalChange": "Total change",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "advanced": {
     "none": "No one holds an office that matches",
@@ -590,7 +626,8 @@
     "liberal": "Liberal",
     "moderate": "Moderate",
     "conservative": "Conservative",
-    "veryConservative": "Very conservative"
+    "veryConservative": "Very conservative",
+    "notSure": "Not sure yet"
   },
   "who": {
     "age": "Age",
@@ -607,6 +644,7 @@
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
+    "viewUnknown": "You don't know where they stand yet.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -934,6 +972,24 @@
     "title": "My story",
     "empty": "Nothing is written here yet."
   },
+  "metrics": {
+    "city": "Your town",
+    "employed": "People at work",
+    "seekers": "People looking for work",
+    "openPositions": "Jobs open",
+    "nation": "The country",
+    "unemployment": "Unemployment",
+    "inflation": "Price growth",
+    "pay": "Average hourly pay",
+    "mortgage": "30-year mortgage rate",
+    "policyRate": "The central bank's rate",
+    "percent": "%",
+    "lastYear": "Last year",
+    "up": "up",
+    "down": "down",
+    "same": "no change",
+    "since": "since last year"
+  },
   "titles": {
     "people": "People",
     "who": "You",
@@ -948,6 +1004,7 @@
     "issues": "Issues",
     "calendar": "Calendar",
     "budgets": "Budgets",
+    "metrics": "Metrics",
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",
