@@ -67,6 +67,72 @@
       "tag": "TUNABLE",
       "spread": [2, 10],
       "checkedAgainst": "Net grades in a group at which the reach has covered about three quarters of the way to its floor or ceiling (tanh of 1); checked in docs/reports/grade-reach.md against the 128 shipped grades so no group saturates."
+    },
+    "mapFloor": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "spread": [0.4, 0.8],
+      "checkedAgainst": "The lowest share of its weight a line keeps when the grade map scores it badly (grade-map.ts): chosen less, never banned."
+    },
+    "mapCeiling": {
+      "value": 1.4,
+      "tag": "TUNABLE",
+      "spread": [1.2, 1.8],
+      "checkedAgainst": "The highest multiple of its weight a line reaches when the grade map scores it well."
+    },
+    "mapSaturation": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 1],
+      "checkedAgainst": "The map score at which a line has moved about three quarters of the way to the floor or ceiling."
+    },
+    "mapRewriteBelow": {
+      "value": -0.35,
+      "tag": "TUNABLE",
+      "spread": [-0.6, -0.2],
+      "checkedAgainst": "A line scoring below this on the grade map is listed for the words work to rewrite."
+    },
+    "mapPrior": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "spread": [1, 5],
+      "checkedAgainst": "Graded spans a heat-map cell needs before its mean counts in full; fewer are shrunk toward no lesson."
+    },
+    "mapWeightAll": {
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "spread": [0, 0.25],
+      "checkedAgainst": "How much a feature's grades across the whole game count when a line is scored."
+    },
+    "mapWeightRegister": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "How much a feature's grades in the line's register class count."
+    },
+    "mapWeightVoice": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "spread": [0.1, 0.5],
+      "checkedAgainst": "How much a feature's grades in the speaker's bearing (personality) count."
+    },
+    "mapWeightScene": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "spread": [0.2, 0.6],
+      "checkedAgainst": "How much a feature's grades in the line's kind of scene (situation) count."
+    },
+    "mapWeightRegisterVoice": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 0.75],
+      "checkedAgainst": "How much a feature's grades in the same register and bearing together count; the nearest context."
+    },
+    "mapWeightRule": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "spread": [0.25, 1],
+      "checkedAgainst": "How much a writing rule (data/english/writing-rules.json) counts on every line that holds the feature it names, against a grade in the line's own register and voice (0.5)."
     }
   },
   "folded": ["batch-13"],

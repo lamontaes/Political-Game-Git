@@ -188,6 +188,12 @@ function levelFor(key: string): string {
   // Where the state bars its places from the rule, only the state can make it.
   if (POLICY_QUESTIONS[key]?.answers[lawChain(api).stateKey]?.preempts)
     return "state";
+  // A policy whose effect is data-limited to certain levels (a state license
+  // regime) is heard only when one of those levels changes: a city's yes
+  // there is not a law that issues the license (Arkansas, place 0573940, where
+  // the state does not bar its places and cannabis sales are a state license).
+  const effect = POLICIES[key]?.effectLevels;
+  if (effect?.length && !effect.includes("city")) return effect[0]!;
   return "city";
 }
 
