@@ -183150,7 +183150,7 @@
       "key": "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. You were the one who called for help, so I won't argue.",
+      "text": "Alright. I won't argue with you on this one.",
       "uses": [
         {
           "subject": "scene",
@@ -183170,7 +183170,7 @@
       "key": "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes. I owe you more than I can say, so I'll do what you're asking.",
+      "text": "Yes. I owe you more than I can say.",
       "uses": [
         {
           "subject": "scene",
@@ -183250,7 +183250,7 @@
       "key": "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll do exactly that, and I promise to keep my word.",
+      "text": "I'll do it. I promise.",
       "uses": [
         {
           "subject": "scene",
@@ -183521,7 +183521,7 @@
       "key": "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Will you really follow through, {first}? I'm asking because I was the one who called for help.",
+      "text": "Will you really follow through, {first}? I need to hear you say it.",
       "uses": [
         {
           "subject": "scene",
@@ -183650,7 +183650,7 @@
       "key": "scene-talk.close-press.i-ll-ask-you-again-in-a-few-days-if-that-is-alright",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask you again in a few days, if that is alright.",
+      "text": "I'll ask you again in a few days, if that's alright.",
       "uses": [
         {
           "subject": "scene",
