@@ -10,6 +10,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { purposeScene } from "./purpose-scene";
+import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
 
 // Lines that read wrong once the game filled them (pool item
 // words-batch-4-reads-wrong). Each test plays a scene in a generated world
@@ -57,3 +58,75 @@ it(`office hours is a one-on-one: no town-hall beat plays in it (seed ${seed})`,
   }
   throw new Error(`no office visit in ${tried.join("; ")} (seed ${seed})`);
 }, 600_000);
+
+// A line written for one place is not said in another: the narration after
+// the arrival line, and the lines the people say, follow the room the scene
+// is set in. [purpose, what the line says, the one setting it was written for]
+const WRITTEN_FOR: readonly (readonly [string, RegExp, string])[] = [
+  ["ask-vote", /at your desk when .* knocks on the open door/, "office"],
+  ["ask-vote", /catches you outside the chamber/, "chamber"],
+  [
+    "owed-apology",
+    /After the meeting, .* waits until the room is nearly empty/,
+    "public",
+  ],
+  ["owed-apology", /rather do it out here/, "public"],
+  ["donor-ask", /Thanks for taking my call/, "phone"],
+  ["ask-support", /opens the door|comes to the door before/, "other-home"],
+  ["recall-confront", /folding table|card table/, "public"],
+  ["law-reaches", /on the street|crosses the street/, "public"],
+  [
+    "appointment-offer",
+    /calls (?:while|from)|Do you have ten minutes/,
+    "phone",
+  ],
+  ["veto-call", /Your phone lights up/, "phone"],
+  ["scandal-comment", /Your phone rings|isn't a call I like/, "phone"],
+  ["cut-argument", /Sorry to come in like this/, "office"],
+  ["staff-news", /comes into your office/, "office"],
+  ["section-bargain", /break in the meeting/, "chamber"],
+  ["victory-night", /The room is loud|in the ballroom/, "venue"],
+];
+
+it(`a scene's lines name the room the scene is set in (seed ${seed})`, () => {
+  const seen: string[] = [];
+  let scenes = 0;
+  let withFact = 0;
+  const report = stageWorldHeld({
+    id: "reads-wrong-room",
+    seed,
+    days: 365,
+    onStaged: (staged, _scene, core, director) => {
+      const entry = director.ledger.people
+        .get(staged.watchedId as PersonId)
+        ?.schedule.find((row) => row.momentId === staged.momentId);
+      if (!entry) return;
+      const result = purposeScene(
+        core,
+        director,
+        staged.watchedId as PersonId,
+        entry,
+      );
+      if (result?.kind !== "composed") return;
+      scenes += 1;
+      const kind = staged.setting.kind;
+      const fact = result.scene.facts.find(
+        (row) => row.key === `setting-${kind}`,
+      );
+      if (fact) withFact += 1;
+      expect(
+        fact?.recordIds,
+        `${staged.momentId}: the room is on the scene`,
+      ).toContain(staged.setting.recordId);
+      const said = JSON.stringify(result.scene.talk);
+      for (const [purpose, line, written] of WRITTEN_FOR) {
+        if (result.scene.purpose === purpose && kind !== written)
+          expect(said, `${staged.typeKey} in ${kind}`).not.toMatch(line);
+      }
+      seen.push(`${staged.typeKey}:${kind}`);
+    },
+  });
+  const where = `${report.report.place.name} (${report.report.place.key}), seed ${seed}`;
+  expect(scenes, where).toBeGreaterThan(0);
+  expect(withFact, where).toBe(scenes);
+}, 1_200_000);

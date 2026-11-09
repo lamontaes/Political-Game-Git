@@ -985,6 +985,12 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // Where the scene is set, so a line written for one place (the desk, the
+  // house, the street) is not said in another: `setting-office`, `setting-home`.
+  facts[`setting-${binding.setting.kind}`] = {
+    text: binding.setting.kind,
+    sourceRecordIds: [binding.setting.recordId],
+  };
   // The kind's own arc, or the variant of it the records give this cause.
   const variant = type.purpose
     ? chooseVariant(core, {

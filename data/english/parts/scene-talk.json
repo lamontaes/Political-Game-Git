@@ -1266,6 +1266,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-chamber", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -1290,6 +1291,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-office", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -1314,6 +1316,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-chamber", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -2044,6 +2047,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "staff-news",
+          "excludesFacts": ["setting-phone"],
           "key": "news-received"
         }
       ],
@@ -2093,6 +2097,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "section-bargain",
+          "excludesFacts": ["setting-office"],
           "key": "vote-wanted"
         }
       ],
@@ -2893,6 +2898,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "donor-ask",
+          "excludesFacts": ["setting-office", "setting-public"],
           "key": "favor-asked"
         }
       ],
@@ -12143,6 +12149,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment",
+          "excludesFacts": ["setting-phone"],
           "key": "routine"
         }
       ],
@@ -28285,6 +28292,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "scandal-comment",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -28355,6 +28363,7 @@
           "key": "threat",
           "move": "greet",
           "purpose": "scandal-comment",
+          "excludesFacts": ["setting-home"],
           "role": "asker",
           "step": "open",
           "subject": "scene"
@@ -29378,6 +29387,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "recall-confront",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -31094,6 +31104,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology",
+          "excludesFacts": ["setting-home", "setting-other-home"],
           "key": "routine"
         }
       ],
@@ -31410,6 +31421,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -31905,6 +31917,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "protest-warning",
+          "excludesFacts": ["setting-letter", "setting-phone"],
           "key": "threat"
         }
       ],
@@ -42375,6 +42388,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "victory-night",
+          "excludesFacts": ["setting-home"],
           "key": "honor"
         }
       ],
@@ -42845,6 +42859,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "veto-call",
+          "excludesFacts": ["setting-venue"],
           "key": "loss"
         }
       ],
@@ -43486,6 +43501,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -46372,6 +46388,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["setting-home", "setting-other-home"],
           "key": "routine"
         }
       ],
@@ -50030,6 +50047,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "victory-night",
+          "excludesFacts": ["setting-home"],
           "key": "honor"
         }
       ],
@@ -53562,6 +53580,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -53586,6 +53606,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -54239,6 +54260,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "recall-confront",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -103107,6 +103129,7 @@
         {
           "subject": "scene",
           "purpose": "law-reaches",
+          "excludesFacts": ["setting-home", "setting-workplace"],
           "key": "news-received",
           "step": "narrate",
           "move": "narrate",
@@ -103131,6 +103154,7 @@
         {
           "subject": "scene",
           "purpose": "law-reaches",
+          "excludesFacts": ["setting-home", "setting-workplace"],
           "key": "news-received",
           "step": "narrate",
           "move": "narrate",
@@ -108150,6 +108174,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "cut-argument",
+          "excludesFacts": ["setting-phone"],
           "key": "cut-heard"
         }
       ],
@@ -118191,6 +118216,7 @@
           "move": "beat",
           "role": "narrator",
           "purpose": "desk-visit",
+          "excludesFacts": ["setting-phone"],
           "key": "desk-visit"
         }
       ],
@@ -125816,6 +125842,7 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -125839,6 +125866,7 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -147729,6 +147757,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "proposal-ask",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "favor-asked"
         }
       ],
