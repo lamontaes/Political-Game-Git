@@ -476,6 +476,12 @@ interface PlaceBases {
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
   /** One base row per government the place opens, by row name (the exporter's `add_government_rows`). */
   governments: Partial<Record<BaseRowName, BaseRow>>;
+  /**
+   * Puerto Rico: each municipio's approved budget over its residents against the
+   * island's, by county code; its government's row is multiplied by it. A municipio
+   * not listed keeps the island's per resident.
+   */
+  municipioBudgetScale?: Record<string, number>;
 }
 type BaseRowName = "federal" | "state" | "county" | "county-whole" | "city";
 interface BaseRow {
@@ -744,12 +750,21 @@ export function publishedBudgetFor(
   adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const row = baseRowsOf(stateKey)[gov.base];
+  // A municipio's government (id `county:<code>`) is scaled to its own approved
+  // budget over its own residents, where the file has it.
+  const own =
+    gov.id.startsWith("county:") &&
+    (gov.base === "county" || gov.base === "county-whole")
+      ? (bases.places[stateKey]?.municipioBudgetScale?.[
+          gov.id.slice("county:".length)
+        ] ?? 1)
+      : 1;
   // A row is dollars a resident in fiscal 2022 (the calibration carries it to
   // the opening year), or the nation's statement in whole dollars.
   const amount = (v: number) =>
     row?.totalDollars
       ? Math.round(v * 100)
-      : minor(v, gov.residents, bases.calibration.factor);
+      : minor(v * own, gov.residents, bases.calibration.factor);
   const lines = (side: Readonly<Record<string, number>> = {}) =>
     Object.fromEntries(Object.entries(side).map(([k, v]) => [k, amount(v)]));
   const revenue = lines(row?.revenue);

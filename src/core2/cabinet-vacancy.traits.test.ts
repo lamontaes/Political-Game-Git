@@ -1,3 +1,4 @@
+import { placeStateKey } from "./place-map";
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -76,7 +77,10 @@ it(`a vacant cabinet post is refilled by the governor's weighing, seed ${seed}`,
   for (const row of before.slice(1)) {
     const holder = core.people.get(row.holderId);
     const now = appointmentsIn(api, state).find((a) => a.post === row.post)!;
-    if (holder?.alive && holder.placeId === state)
+    if (
+      holder?.alive &&
+      (holder.placeId === state || placeStateKey(holder.placeId) === state)
+    )
       expect(now.holderId, `${where}: ${row.post}`).toBe(row.holderId);
     else
       expect(

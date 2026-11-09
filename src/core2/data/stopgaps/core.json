@@ -596,15 +596,15 @@
     "status": "resolved"
   },
   {
-    "id": "SG-CORE-outside-share-price-only",
+    "id": "SG-CORE-outside-share-service-level",
     "kind": "estimated-behavior",
     "file": "src/core2/residents-economy.ts",
     "line": 470,
-    "whatItFakes": "Buyers outside the town divide their spending among the sellers of one kind by each seller's price now against its own opening price, relative to its rivals', at the elasticity of substitution between rival sellers; a seller's quality, reputation, capacity and location do not move its share, and a lone seller of its kind keeps all of it.",
-    "why": "The business books record a price and an opening price for every seller but no quality or reputation, and capacity is already capped where a seller takes payment (residents.ts). Price is the one cause the records carry for sellers of one kind to diverge.",
+    "whatItFakes": "Buyers outside the town divide their spending among the sellers of one kind by how much of it each can serve: a seller's service level (its staff against what its demand needs, read up to a month old from the jobs engine's last review) is the share of its customers it keeps and the rest go to its rivals, with no preference for a seller's price, quality, reputation or location, and a lone seller of its kind keeps all of it.",
+    "why": "Service level is the one customer-facing record the business engine keeps per seller (staffing against need, jobs.ts firmStaffing). Rivals reprice from the same general factor and stay within half a percent of one another's price (Utah 4906590, seed n8b), so price alone moved no seller's share (#7939).",
     "addedBy": "Money",
     "addedAt": "2026-11-09",
-    "replacement": "Shares from each seller's price, quality or reputation (customers' own experience with it), and capacity, once the business engine keeps those records.",
+    "replacement": "Shares from each seller's price, quality or reputation (customers' own experience with it) as well as its service level, once the business engine keeps those records.",
     "status": "open"
   }
 ]

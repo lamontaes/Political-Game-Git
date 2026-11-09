@@ -8,10 +8,12 @@ import {
   FEDERAL_HOUSE,
   holdVote,
   LEGISLATURE_MODULE_ID,
+  bodyOf,
   memberKey,
   members,
   type BillRow,
 } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { billPageView } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
@@ -271,6 +273,17 @@ describe(`the bill page's view (seed ${seed})`, () => {
       const house = dev.lawmakingBodies().find((b) => b.id === FEDERAL_HOUSE);
       if (!house) {
         tried.push(`${draw.name}: no House`);
+        continue;
+      }
+      // A territory's or D.C.'s seat in the House is a delegate's, who casts no floor vote: the
+      // place's own seat records say whether the town has a voting member.
+      const houseKind = bodyOf(coreAPI(world.core), house.id)?.kind;
+      if (
+        !townSeats(coreAPI(world.core)).some(
+          ({ office, holder }) => office.kind === houseKind && holder,
+        )
+      ) {
+        tried.push(`${draw.name}: a delegate, no voting House member`);
         continue;
       }
       const filed = dev.introduce({
