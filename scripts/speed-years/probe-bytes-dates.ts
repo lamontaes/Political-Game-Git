@@ -7,7 +7,7 @@
 import { buildBenchWorld } from "../../src/bench/world";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { gameStartDate } from "../../src/core2/game-start";
-import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
+import { makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { worldRecords } from "../../src/core2/snapshot";
 import { drawPlace } from "../core2-year/place";
