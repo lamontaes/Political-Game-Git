@@ -75,12 +75,9 @@ import { countedEngagement, viewOf } from "./views";
 import { DEFAULT_DRIVES_DATA } from "./drives";
 import { countedChildrenOf, residentFacts } from "./residents";
 import { countedResidents, type CountedVoter } from "../electorate";
-import {
-  nationalEconomyChange,
-  presidentSide,
-  tideAgainstPresident,
-} from "../electorate-inputs";
+import { presidentSide, tideAgainstPresident } from "../electorate-inputs";
 import { partySide } from "../appointments";
+import { approvalGapPoints } from "./national-opinion";
 import { revolvingDoorFor } from "../law-reach/group-a-voting";
 import { fillInPerson } from "../state";
 import { campaignParameter } from "../campaign-data";
@@ -334,7 +331,7 @@ function waveAgainstPresident(api: CoreAPI, race: ContestRow): number {
         ? "midterm"
         : "presidential";
   const tide = tideAgainstPresident(
-    nationalEconomyChange(api),
+    approvalGapPoints(api, race.electionDate),
     race.level === "federal",
     cycle,
   );

@@ -108,3 +108,18 @@ describe(`the climate through the effect map (seed ${seed})`, () => {
     expect(b.warmingC).toBeGreaterThan(0);
   }, 1_800_000);
 });
+
+describe("a world that has not opened the climate", () => {
+  it("reads no climate month, so disasters read the recorded history's own levels", () => {
+    const place = drawPlace(seed);
+    const core = createLifeCore(
+      buildPopulation({
+        seed: place.seed,
+        placeKey: place.key,
+        startedAt: gameStartDate(),
+        minimumPeople: SMALL_TOWN,
+      }),
+    );
+    expect(climateNow(coreAPI(core))).toBeNull();
+  });
+});

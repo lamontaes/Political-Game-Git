@@ -62,7 +62,11 @@ export interface KindScore {
   readonly score: number;
 }
 
-/** The mean of a speaker's recorded values on a kind's facets, between -1 and 1. */
+/**
+ * The mean of a speaker's recorded values on a kind's facets, between -1 and 1.
+ * Stopgap SG-WORDS-address-kind-policy-pull: the facets run past 1, so the
+ * clamp makes a strong work-centered turn pull as hard as a moderate one.
+ */
 function pullOf(speaker: PersonState, kind: AddressKind): number {
   const facets = DATA.kinds[kind].pull;
   const sum = facets.reduce(

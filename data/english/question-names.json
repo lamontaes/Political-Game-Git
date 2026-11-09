@@ -129,6 +129,10 @@
       "about": "banning new gas hookups",
       "to": "ban new gas hookups"
     },
+    "us-policy-positions:environment-energy.allow-retail-electric-choice": {
+      "about": "letting customers pick their electricity supplier",
+      "to": "let customers pick their electricity supplier"
+    },
     "us-policy-positions:environment-energy.clean-electricity-standard": {
       "about": "a clean electricity standard",
       "to": "require utilities to supply clean electricity"

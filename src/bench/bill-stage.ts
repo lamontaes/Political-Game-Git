@@ -3,6 +3,7 @@
 // (ui/bill-stage.mjs) read this; every fact is a record read from the one legislature
 // module (committeeRecords, learnedStakesOf, votesOn), never a count made here, and no
 // player text is written here (the screens word the codes).
+import { legislativeSessionsOf } from "../core2/modules/world-panels";
 import { coreAPI } from "../core2/state";
 import { composeBill } from "../english/bill-sections";
 import {
@@ -35,7 +36,7 @@ import {
 import { snapshotExplicitControlV1 } from "../core2/life";
 import reachA from "../core2/data/laws/reach-group-a.json" with { type: "json" };
 import reachB from "../core2/data/laws/reach-group-b.json" with { type: "json" };
-import type { CoreState } from "../core2/types";
+import type { CoreAPI, CoreState } from "../core2/types";
 import { screenLine } from "../english/screen-words";
 import { billPaper, personName } from "./legislature";
 import { townSeats } from "../core2/modules/offices";
@@ -367,10 +368,20 @@ export function billStage(core: CoreState, billId: string, asId?: string) {
     stage,
     desk,
     amendments,
-    /** The sections whose amount an amendment may lower or raise. */
-    sectionsAmendable: bill.provisions
-      .map((p, i) => (p.kind === "policy-question" ? -1 : i))
-      .filter((i) => i >= 0),
+    /**
+     * The sections whose amount an amendment may lower or raise: those with a law in force to move
+     * from, the test `moveOwnAmendment` applies (a section with none had a button and an error).
+     */
+    sectionsAmendable: (() => {
+      const sections = billForm(api, bill).sections;
+      return bill.provisions
+        .map((p, i) =>
+          p.kind === "policy-question" || sections[i]?.before.value == null
+            ? -1
+            : i,
+        )
+        .filter((i) => i >= 0);
+    })(),
     /** The yes-or-no sections an amendment may reverse (the answer struck, its opposite inserted). */
     sectionsReversible: bill.provisions
       .map((p, i) => (p.kind === "policy-question" ? i : -1))
@@ -681,6 +692,34 @@ export function callOverrideVote(
 }
 
 /**
+ * The session window of the body holding a bill: the sitting it is in (or, between sittings, the
+ * next one), from the body's calendar records; null for a body that sits by regular meeting.
+ * What the floor does not reach dies at adjournment (world-legislating), so a drafted bill's
+ * deadline is the sitting's end.
+ */
+function sessionWindowOf(
+  api: CoreAPI,
+  bill: BillRow,
+): { startsOn: string; endsOn: string; id: string } | null {
+  const body = bodyOf(api, bill.bodyOfficeId);
+  if (!body) return null;
+  const jurisdiction =
+    body.kind.startsWith("us-house") || body.kind === "us-senate"
+      ? "US"
+      : body.jurisdiction;
+  const today = api.state.date;
+  const rows = legislativeSessionsOf(api)
+    .filter((row) => row.jurisdiction === jurisdiction)
+    .sort((a, b) => a.conveneAt.localeCompare(b.conveneAt));
+  const row =
+    rows.find((r) => r.conveneAt <= today && r.adjournAt > today) ??
+    rows.find((r) => r.conveneAt > today);
+  return row
+    ? { startsOn: row.conveneAt, endsOn: row.adjournAt, id: row.id }
+    : null;
+}
+
+/**
  * What the bill's page is built from, one object and nothing for the screen to compute: its name,
  * the stage and the day of it, its sponsor, each section with its label key, its amount, the law
  * in force before it and (for a budget line) last year's amount, and the government level, the
@@ -769,6 +808,9 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
         changePct:
           changeMinor !== null && base ? (changeMinor / base) * 100 : null,
         level: reach.level,
+        // The estimate engine's note for this section alone (workers it reaches, dollars a year),
+        // as the clerk's or budget office's note reads it for the section; the bill's own is above.
+        estimate: estimateOfProvisions(api, [provision]),
         // Whom the law applies to (the law-reach data's own scope for this policy), and the change
         // itself from what is in force to what is proposed; no counts before it is law.
         scope: reachScopeOf(
@@ -859,8 +901,14 @@ export function billPageView(core: CoreState, billId: string, asId?: string) {
       filedOn: bill.introduced,
       // The day its newest committee took it up in this chamber, else null (not yet referred).
       reachedChamberOn: stage.committees.at(-1)?.date ?? null,
-      // The day the chamber has until is not in the records yet (each body's session end, by level).
-      until: null as string | null,
+      // The sitting the body holds the bill in (its start and end, from the body's calendar records).
+      session: sessionWindowOf(api, bill),
+      // The day the bill has until: what the floor does not reach dies at the sitting's adjournment,
+      // so a bill still before the body has until then; null once it is decided, and for a body that
+      // meets by regular meeting (no sitting).
+      until: (bill.status === "drafted"
+        ? (sessionWindowOf(api, bill)?.endsOn ?? null)
+        : null) as string | null,
     },
     /**
      * The player's own representatives in each chamber that has the bill: the holders of the seats

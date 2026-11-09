@@ -1069,6 +1069,9 @@ function open(api: CoreAPI): void {
   }
   openCountedSeekers(api);
   openSeekers(api);
+  // The adults who would be looking at the opening are found now, partway through their spells, not all at the first monthly review with their progress at zero.
+  reviewCountedEntry(api, true);
+  reviewJobless(api, true);
   store(api).table("state").put({ id: "jobs:state", openedAt: c.date });
   scheduleReview(api);
   scheduleWeek(api);
@@ -2787,7 +2790,7 @@ function raisePay(api: CoreAPI): void {
 }
 
 /** Jobless working-age adults choose whether to look for work, pushed by how few days their household's money covers. */
-export function reviewJobless(api: CoreAPI): void {
+export function reviewJobless(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     [young, old] = jobsData.workingAge as [number, number];
@@ -2862,6 +2865,7 @@ export function reviewJobless(api: CoreAPI): void {
           false,
           jobsData.reasons.startedLooking,
           lastPay(api, person.id),
+          opening ? openingProgress(c, person.id) : undefined,
         ),
     );
   }
@@ -4029,7 +4033,7 @@ function reviewCountedWorkers(
  * household's money covers, the place's unemployment and their traits. The
  * same comparison starts the search and, for someone already looking, ends it.
  */
-export function reviewCountedEntry(api: CoreAPI): void {
+export function reviewCountedEntry(api: CoreAPI, opening = false): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
     rt = residentsRuntime(c);
@@ -4041,6 +4045,12 @@ export function reviewCountedEntry(api: CoreAPI): void {
     if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
   }
   const seekers = store(api).table("countedSeekers");
+  // Counted people who found work in the wider region hold it as a regional job, not a wage flow of the town's: they are at work, not jobless.
+  const abroad = new Set(
+    (
+      store(api).table("regional").rows() as unknown as { personId: string }[]
+    ).map((row) => row.personId),
+  );
   const monthDays = p("jobsDaysPerYear") / p("macroMonthsPerYear");
   const counted = rt.store;
   for (const h of counted.liveHouseholds()) {
@@ -4049,7 +4059,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
     let days: number | undefined;
     for (const m of counted.countedMembers(h)) {
       const personId = counted.ids[m]!;
-      if (working.has(personId)) continue;
+      if (working.has(personId) || abroad.has(personId)) continue;
       const age =
         daysBetweenText(counted.born[m]!, c.date) / p("jobsDaysPerYear");
       if (age < young || age >= old) continue;
@@ -4104,6 +4114,7 @@ export function reviewCountedEntry(api: CoreAPI): void {
             reasonKey: jobsData.reasons.startedLooking,
             referenceHourlyMinor: 0,
             reasons: reasonsOf(result),
+            ...(opening ? { regionalPull: openingProgress(c, personId) } : {}),
           } as never),
       );
     }
