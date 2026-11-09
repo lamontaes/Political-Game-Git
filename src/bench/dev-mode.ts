@@ -1034,12 +1034,66 @@ export class DevMode {
   }
 
   /**
+   * The pickers for one situation type's force-scene form, from the director's own records: `for` is
+   * each person the director tells a story for; `mourned` (death scenes only) is each living person
+   * they know whom the health module's illness could take; `where` is the kinds of place the type may
+   * be set at, in the type's own order. A picker that does not apply to the type is null.
+   */
+  sceneCast(typeKey: string) {
+    const scene = this.scenes().find((row) => row.key === typeKey);
+    const type = SITUATION_LIBRARY.types.find((row) => row.key === typeKey);
+    if (!scene || !type) throw new Error("No such situation type.");
+    const person = (id: string) => {
+      const row = this.core.people.get(id as never);
+      return row ? { id, name: `${row.givenName} ${row.familyName}` } : null;
+    };
+    const told = [...(this.director?.ledger.people.keys() ?? [])]
+      .filter((id) => this.core.people.get(id)?.alive)
+      .flatMap((id) => person(id) ?? []);
+    const circleOf = (id: string) => {
+      const row = this.core.people.get(id as never);
+      return row
+        ? [...row.familyIds, ...row.knownIds].filter(
+            (other) => other !== id && this.core.people.get(other)?.alive,
+          )
+        : [];
+    };
+    return {
+      typeKey,
+      recipe: scene.recipe,
+      for: told,
+      mourned:
+        scene.recipe === "death"
+          ? Object.fromEntries(
+              told.map((row) => [
+                row.id,
+                [...new Set(circleOf(row.id))].flatMap(
+                  (id) => person(id) ?? [],
+                ),
+              ]),
+            )
+          : null,
+      where: [...type.setting],
+    };
+  }
+
+  /**
    * Brings about the cause of a situation type through the game's own code, so the director stages
    * it as it would any moment: today, a death a person in the player's circle will hear of (the
    * health module's illness, then Run until they die and Run until a scene fires). Where the type
    * has no recipe there is no game code to attach to, and this says so.
    */
-  forceScene(input: { typeKey: string; personId?: string; cap?: number }) {
+  forceScene(input: {
+    typeKey: string;
+    personId?: string;
+    /** Who the scene is for: a layoff or illness happens to them; a death is heard by them. */
+    forId?: string;
+    /** Who is mourned (a death scene): the person the health module's illness takes. */
+    mournedId?: string;
+    /** The kind of place, one of the type's own settings (see `sceneCast`). */
+    where?: string;
+    cap?: number;
+  }) {
     const scene = this.scenes().find((row) => row.key === input.typeKey);
     if (!scene) throw new Error("No such situation type.");
     if (!scene.recipe)
@@ -1049,6 +1103,15 @@ export class DevMode {
     const player = this.core.playerId
       ? this.core.people.get(this.core.playerId)
       : undefined;
+    if (input.where !== undefined) {
+      const kinds = SITUATION_LIBRARY.types.find(
+        (row) => row.key === input.typeKey,
+      )?.setting;
+      if (!kinds?.includes(input.where))
+        throw new Error("The scene cannot be set there.");
+      if (!this.director) throw new Error("There is no director to stage it.");
+      this.director.preferSetting(input.typeKey, input.where);
+    }
     if (scene.recipe === "moment") {
       if (!player) throw new Error("There is no player to run the world for.");
       const ran = this.runUntil({ scene: scene.key, cap: input.cap ?? 366 });
@@ -1082,6 +1145,7 @@ export class DevMode {
       : [];
     // A layoff is the player's own where they have a job, else a worker in their circle's.
     const personId =
+      (scene.recipe === "death" ? input.mournedId : input.forId) ??
       input.personId ??
       (scene.recipe === "layoff"
         ? [player?.id, ...circle].find(
@@ -1092,6 +1156,17 @@ export class DevMode {
           : circle[0]);
     if (!personId)
       throw new Error("No one in the player's circle to bring it about for.");
+    // A death is heard by the one it is for, who has to know the person who dies.
+    if (scene.recipe === "death" && input.forId) {
+      const hears = this.core.people.get(input.forId);
+      if (!hears || !this.director?.ledger.people.has(input.forId as never))
+        throw new Error("The director is not telling that person's story.");
+      if (
+        !hears.familyIds.has(personId as never) &&
+        !hears.knownIds.has(personId as never)
+      )
+        throw new Error("They would not hear of it: they do not know them.");
+    }
     const out =
       scene.recipe === "layoff"
         ? this.forceLayoff(personId)

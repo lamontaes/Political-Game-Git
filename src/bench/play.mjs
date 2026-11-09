@@ -767,11 +767,9 @@ function inMeeting() {
     };
     const finish = () => {
       show("meeting", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     $("meeting-adjourn").textContent = words.adjourn ?? "";
-    $("game").classList.add("cinema");
     show("meeting", true);
     api("/api/meeting").then(draw);
   });
@@ -1072,7 +1070,6 @@ function electionMorning(scene) {
       );
     const finish = () => {
       show("election-day", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     const ask = (day) => {
@@ -1133,7 +1130,6 @@ function electionMorning(scene) {
           [labels.skipCanvass, () => ask(day)],
         );
       else ask(day);
-      $("game").classList.add("cinema");
       show("election-day", true);
     });
   });
@@ -1176,13 +1172,11 @@ function electionNight(night) {
               `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
             );
             show("returns", false);
-            $("game").classList.remove("cinema");
             resolve();
           },
         }),
       );
     };
-    $("game").classList.add("cinema");
     draw();
     show("returns", true);
   });
@@ -1237,10 +1231,8 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
-    $("game").classList.add("cinema");
     draw(scene);
     show("ballot", true);
   });
@@ -2756,6 +2748,13 @@ async function openBillPaper(billId, show, back, backLabel) {
             ...(tally?.notVoting
               ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
               : []),
+            // The player's own member in this chamber and the vote they cast (the page view's yourMembers).
+            ...(view.yourMembers ?? [])
+              .filter((m) => m.chamber === entry.chamber && m.vote)
+              .map((m) => ({
+                label: pageWords.yours,
+                value: `${m.name}, ${controls.billStage?.[m.vote] ?? ""}`,
+              })),
           ],
         };
       }),
@@ -3745,6 +3744,7 @@ const sheets = {
         ? [
             await devScenePanel({
               labels: controls.devScene,
+              wordOf: keyWords,
               onDone: () => refresh(),
             }),
           ]

@@ -93,9 +93,9 @@
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyOpenSeatWeight": {
-    "value": 0.5,
+    "value": 0.7,
     "tag": "TUNABLE",
-    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Set at the low end so one open seat in a town of about a thousand adults still draws only a handful. Spread 0.5 to 1.5.",
+    "citation": "The pull of a seat no incumbent holds. Open seats draw more and stronger candidates than seats an incumbent defends (Gaddie and Bullock 2000, Elections to Open Seats in the U.S. House; Jacobson and Kernell 1983). Checked by open local seats drawing at least one named resident in drawn towns without crowding them. Raised from 0.5 to 0.7 (inside its spread; 1 put 51 of 1,038 Oneonta adults in one open seat, past the 2% crowding limit of M2-04) on Nov 9, 2026 after an ask-why by record: at Peapack and Gladstone NJ (seed o2, 2 years) the county seats whose holder stood down drew 1.0 filer each against 2.17 for held seats, the reverse of the research; their strongest stayers pulled 1.8 to 2.6 with standing 0.1, reach -0.5 and field -0.5 to -1.0, and only 0.5 of openSeat. Checked as a direction (an open seat draws no fewer than the same office held), not a count. Spread 0.5 to 1.5.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyRecordGapWeight": {

@@ -33,6 +33,7 @@ function claimant(
 import type { LawRowInput } from "./laws-starting";
 import { residentFacts, residentsRuntime } from "./modules/residents";
 import { countedPersonOf } from "./counted-actor";
+import { countedGroupIdOf } from "./modules/residents";
 import { appraiseEvent } from "./emotion";
 import { parameter, parameterValues } from "./parameters";
 import { initialPersonState } from "./person-state";
@@ -55,6 +56,9 @@ export interface UnemploymentTerms {
   readonly hasProgram: boolean;
   /** The weekly benefit's share of the lost job's weekly pay. */
   readonly weeklyShare: number;
+  /** The state's fraction of the basis wages, and how many quarters of them (0: the weekly wage), where its row gives both. */
+  readonly weeklyFraction?: number;
+  readonly basisQuarters?: number;
   readonly weeklyMaximumMinor: number;
   readonly maxWeeks: number;
   readonly waitingWeek: boolean;
@@ -165,6 +169,12 @@ export function unemploymentTerms(api: CoreAPI): UnemploymentTerms {
   return {
     hasProgram: true,
     weeklyShare,
+    ...(typeof t.weeklyBenefitFraction === "number" && quarters !== undefined
+      ? {
+          weeklyFraction: t.weeklyBenefitFraction,
+          basisQuarters: quarters,
+        }
+      : {}),
     weeklyMaximumMinor: maximum * minor,
     maxWeeks: t.maxWeeks,
     waitingWeek: t.waitingWeek === true,
@@ -252,6 +262,63 @@ export function filingDecision(
  * returns it, or nothing when they don't qualify. `lost` is the layoff event
  * just emitted (see `claimantFeeling`).
  */
+/** A person's pay folded by calendar quarter, oldest first (the payroll's own record). */
+interface QuarterPay {
+  readonly quarter: string;
+  readonly grossMinor: number;
+}
+
+const quarterOf = (date: string): string =>
+  `${date.slice(0, 4)}Q${Math.floor((Number(date.slice(5, 7)) - 1) / 3) + 1}`;
+
+/**
+ * The wages a state's formula starts from, out of the person's recorded pay
+ * by quarter: the base period is the first four of the last five completed
+ * quarters; the basis is the highest quarter, the two highest, or the whole
+ * base year, as the state's row says. Null where no pay is recorded, the row
+ * gives no basis, or the state pays on the weekly wage.
+ */
+function basePeriodWages(
+  c: CoreState,
+  job: Readonly<JobInput>,
+  terms: UnemploymentTerms,
+): { wages: number; total: number } | null {
+  const work = c.work as unknown as {
+    payByQuarter?: ReadonlyMap<string, readonly QuarterPay[]>;
+    countedPayByQuarter?: ReadonlyMap<
+      string,
+      readonly { quarter: string; perWorkerGrossMinor: number }[]
+    >;
+  };
+  // A named worker's own list; a counted worker's is one worker of their
+  // group at the employer (the payroll keeps it per group and employer).
+  let fold: readonly QuarterPay[] | undefined = work.payByQuarter?.get(
+    job.personId,
+  );
+  if (!fold) {
+    const group = countedGroupIdOf(c, job.personId);
+    fold = group
+      ? work.countedPayByQuarter
+          ?.get(`${group}|${job.organizationId}`)
+          ?.map((row) => ({
+            quarter: row.quarter,
+            grossMinor: row.perWorkerGrossMinor,
+          }))
+      : undefined;
+  }
+  const q = terms.basisQuarters;
+  if (!fold?.length || terms.weeklyFraction === undefined || !q) return null;
+  const now = quarterOf(c.date);
+  const completed = fold.filter((row) => row.quarter < now).slice(-5);
+  const base = completed.length === 5 ? completed.slice(0, 4) : completed;
+  if (!base.length) return null;
+  const gross = base.map((row) => row.grossMinor).sort((a, b) => b - a);
+  return {
+    wages: gross.slice(0, q).reduce((n, v) => n + v, 0),
+    total: gross.reduce((n, v) => n + v, 0),
+  };
+}
+
 export function fileClaim(
   api: CoreAPI,
   table: ModuleTable,
@@ -278,6 +345,8 @@ export function fileClaim(
   if (!payee) return undefined;
   const terms = unemploymentTerms(api);
   if (!terms.hasProgram) return undefined;
+  // stopgapId: SG-LAWS-ui-base-period-last-pay (the benefit reads the lost job's pay on the last day, not base-period wages by quarter)
+  api.stopgap("SG-LAWS-ui-base-period-last-pay");
   const weeklyPay = job.wageDailyMinor * DAYS_PER_WEEK;
   // Base-period earnings: the lost job's pay over the weeks of the last year it ran.
   const basePeriodWeeks = Math.min(
@@ -286,9 +355,16 @@ export function fileClaim(
   );
   if (weeklyPay * basePeriodWeeks < terms.minimumBasePeriodMinor)
     return undefined;
-  const weekly = Math.round(
-    Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * weeklyPay),
-  );
+  // The base period: the first four of the last five completed quarters of
+  // the person's recorded pay (the one payroll's fold, core.work.payByQuarter),
+  // and the state's basis quarters of them, so a recent hours cut barely moves
+  // the benefit. With no pay history the lost job's last pay stands (the
+  // stopgap above).
+  const basis = basePeriodWages(c, job, terms);
+  if (basis && basis.total < terms.minimumBasePeriodMinor) return undefined;
+  const share = basis ? basis.wages * terms.weeklyFraction! : undefined;
+  const lawWeekly = share ?? terms.weeklyShare * weeklyPay;
+  const weekly = Math.round(Math.min(terms.weeklyMaximumMinor, lawWeekly));
   if (!(weekly > 0)) return undefined;
   let reasons: Record<string, number> | undefined;
   if (filer) {
@@ -315,8 +391,7 @@ export function fileClaim(
       };
   }
   const capped =
-    terms.maximumLawId &&
-    terms.weeklyShare * weeklyPay > terms.weeklyMaximumMinor
+    terms.maximumLawId && lawWeekly > terms.weeklyMaximumMinor
       ? terms.maximumLawId
       : undefined;
   const row: ClaimRow = {

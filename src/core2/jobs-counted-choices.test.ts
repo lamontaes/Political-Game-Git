@@ -220,8 +220,8 @@ describe(`counted workers decide by the shared chooser (seed ${seed})`, () => {
         );
       }
       if (!full || !counted || !fullLost || !countedLost) continue;
-      // Looking is now far below waiting for everyone: the same circumstances for both tiers.
-      const baseline = world.core.data.parameters.jobsEnterBaseline!;
+      // Continuing to look is now far below waiting for everyone: the same circumstances for both tiers.
+      const baseline = world.core.data.parameters.jobsContinueBaseline!;
       const kept = baseline.value;
       baseline.value = -1000;
       const claimsBefore = [
