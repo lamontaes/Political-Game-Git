@@ -111,6 +111,7 @@ export interface GroupCase {
  * how many hearers each group took it for (by group id), for the caller's
  * record.
  */
+// stopgapId: SG-SPEED-hearer-groups (joiners take the group mean; no retelling at home for grouped hearers)
 export function hearAsGroups(
   api: CoreAPI,
   heard: GroupCase,
