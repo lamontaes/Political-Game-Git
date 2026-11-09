@@ -2244,5 +2244,17 @@
     "addedAt": "2026-11-09",
     "replacement": "The legislature votes each line from the revenue it collected, with its priorities and the law's rainy-day cap (gov-budget-spending-voted-from-revenue).",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-territory-municipal-mix",
+    "kind": "assumed-data",
+    "file": "scripts/research/export-public-budget-bases.py",
+    "line": 0,
+    "whatItFakes": "A Puerto Rico municipio's budget has the island's 78 municipios' real approved General Fund revenue for fiscal 2024-25 by line, per resident of the island, for every municipio alike (Toa Alta's own approved budget is $14.9 million, about $226 a resident, against the island's $739), and its spending takes the states' city spending mix without schools and higher education, equal to revenue; the other territories (Guam, the Virgin Islands, American Samoa, the Northern Marianas) have no local government row.",
+    "why": "The Office of Management and Budget (OGP) publishes each municipio's budget and revenue lines but its spending by function was not read, and the budgets engine reads one row per state or territory, not one per municipio.",
+    "addedBy": "Nation",
+    "addedAt": "2026-11-09",
+    "replacement": "A row for each municipio from the OGP files (total and lines), spending by function from OGP's municipal expenditure files, and a municipio's federal grants; rows for the other territories' local governments.",
+    "status": "open"
   }
 ]

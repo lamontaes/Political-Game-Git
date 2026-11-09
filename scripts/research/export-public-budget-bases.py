@@ -53,6 +53,7 @@ COUNTY_FUNCTIONS = {
     "highways",
     "naturalResources",
 }
+PR_MUNICIPAL_BUDGET = ROOT / "data/research/money/puerto-rico-municipal-budget-fy2025.json"
 PR_MUNICIPIOS = (
     ROOT
     / "docs/research/chatgpt-answers/2026-09-23-cto-handoff-2230"
@@ -243,6 +244,49 @@ def add_government_rows(places: dict, calibration: float) -> None:
                 "stopgapId": "SG-GOV-territory-budget-mix",
             }
         }
+
+    # The municipio row reads the states' city rows, so it comes after them all.
+    if "US-PR" in places:
+        municipio = puerto_rico_municipio_row(places, places["US-PR"], calibration)
+        # Census treats a municipio as a county equivalent, so the town's own
+        # government reads the whole-local row (a municipio has no city beside it).
+        places["US-PR"]["governments"]["county-whole"] = municipio
+        places["US-PR"]["governments"]["county"] = municipio
+
+
+# Education is Puerto Rico's Commonwealth's, not the municipios': the lines a
+# municipio does not spend on.
+NOT_MUNICIPAL = ("schools", "higherEducation")
+
+
+def puerto_rico_municipio_row(places: dict, row: dict, calibration: float) -> dict:
+    """The municipio base row (written under county-whole and county): the 78 municipios' approved General Fund
+    revenue for fiscal 2024-25 (OGP) over the island's residents, by the
+    budget categories, with spending equal to it (a balanced general fund)
+    spread over the states' city spending mix without education (an estimate;
+    stopgap SG-GOV-territory-municipal-mix). Fiscal 2022 dollars a resident
+    before the calibration, as every row is."""
+    data = json.loads(PR_MUNICIPAL_BUDGET.read_text())
+    residents = row["puertoRicoPopulation2025"]
+    states = [p for p in places.values() if "state" in p and p.get("population2024")]
+    weight = sum(p["population2024"] for p in states)
+    revenue: dict = {k: 0.0 for k in states[0]["governments"]["city"]["revenue"]}
+    for line in data["revenueLines"]:
+        revenue[line["category"]] += line["dollars"] / residents / calibration
+    sums: dict = {}
+    for p in states:
+        for k, v in p["governments"]["city"]["spending"].items():
+            if k in NOT_MUNICIPAL:
+                continue
+            sums[k] = sums.get(k, 0) + v * p["population2024"] / weight
+    total = sum(sums.values())
+    spend = sum(revenue.values())
+    return {
+        "revenue": {k: round(v, 6) for k, v in revenue.items()},
+        "spending": {k: round(v / total * spend, 6) for k, v in sums.items()},
+        "stopgapId": "SG-GOV-territory-municipal-mix",
+        "source": "Puerto Rico's 78 municipios, approved General Fund budget for fiscal 2024-25 (Oficina de Gerencia y Presupuesto): $2,353,243,623 over 3,184,835 residents; revenue by line, spending by the states' city mix without education (estimate)",
+    }
 
 
 def millions(row: dict, key: str):

@@ -1,0 +1,127 @@
+{
+  "id": "puerto-rico-municipal-budget-fy2025",
+  "about": "The approved General Fund budget of Puerto Rico's 78 municipios together for fiscal 2024-25 (July 1, 2024 to June 30, 2025), by revenue line, each line assigned to the budget category the game's budgets use. Read by scripts/research/export-public-budget-bases.py, which writes the municipio base row (government bases 'county-whole' and 'county', as Census treats a municipio as a county equivalent) for Puerto Rico.",
+  "fiscalYear": "2024-25",
+  "totalGeneralFundDollars": {
+    "value": 2353243623,
+    "tag": "SOURCED",
+    "role": "level",
+    "source": "Oficina de Gerencia y Presupuesto (OGP), Directoría de Gerencia Municipal, Presupuestos Municipales Aprobados, Año Fiscal 2024-2025, Fondo General, docs.pr.gov/files/OGP/Website_OGP/Estadisticas-Municipales/2024-2025/ (Ingresos_Recurrentes_24-25.pdf and Ingresos_No_Recurrentes_24-25.pdf, TOTAL rows). Quoted: \"TOTAL $2,353,243,623\" (Presupuestos_Aprobados_24-25.pdf). The lines below sum to $2,353,243,626, three dollars over, from the OGP's own rounding of its rows. Arroyo's budget is unbalanced and Mayagüez and Utuado carry the prior year's figures (OGP footnotes). It is the General Fund only: federal grants and other funds are not in it."
+  },
+  "revenueLines": [
+    {
+      "line": "Contribución sobre la propiedad no exonerada (property tax)",
+      "dollars": 598431321,
+      "category": "propertyTax"
+    },
+    {
+      "line": "Impuesto municipal sobre las ventas y el uso (IVU municipal)",
+      "dollars": 319121616,
+      "category": "generalSalesTax"
+    },
+    {
+      "line": "Arbitrios de construcción (construction excise)",
+      "dollars": 216581943,
+      "category": "selectiveSalesTaxes"
+    },
+    {
+      "line": "Patentes municipales (business license tax on volume of business)",
+      "dollars": 629847097,
+      "category": "vehicleAndOtherTaxes"
+    },
+    {
+      "line": "Licencias y permisos",
+      "dollars": 12975338,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Desperdicios sólidos (solid waste)",
+      "dollars": 6598803,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Servicios de transportación",
+      "dollars": 4575959,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Multas (fines)",
+      "dollars": 11758430,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Renta de locales y propiedad municipal",
+      "dollars": 25623133,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Fiestas patronales",
+      "dollars": 231000,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Confiscaciones",
+      "dollars": 1200,
+      "category": "chargesAndFees"
+    },
+    {
+      "line": "Intereses y recargos de patentes",
+      "dollars": 20323607,
+      "category": "miscellaneous"
+    },
+    {
+      "line": "Intereses e inversiones",
+      "dollars": 27465180,
+      "category": "miscellaneous"
+    },
+    {
+      "line": "Ingresos eventuales",
+      "dollars": 104000402,
+      "category": "miscellaneous"
+    },
+    {
+      "line": "Otros ingresos",
+      "dollars": 78528083,
+      "category": "miscellaneous"
+    },
+    {
+      "line": "Otros ingresos no recurrentes",
+      "dollars": 144010600,
+      "category": "miscellaneous"
+    },
+    {
+      "line": "Otros ingresos intergubernamentales",
+      "dollars": 58568678,
+      "category": "intergovernmental"
+    },
+    {
+      "line": "Compensaciones estatales",
+      "dollars": 94500,
+      "category": "intergovernmental"
+    },
+    {
+      "line": "Compensación de la Autoridad de Energía Eléctrica",
+      "dollars": 94506736,
+      "category": "intergovernmental"
+    }
+  ],
+  "toaAlta": {
+    "budgetDollars": 14868916,
+    "source": "OGP, same series: \"TOA ALTA 14,868,916\"; recurrent 8,149,288 plus non-recurrent 6,719,628; Total Salarios 4,516,344. Kept for checking only: the game's municipio row is the island's per resident."
+  },
+  "salaryShare": {
+    "value": 0.3505,
+    "tag": "SOURCED",
+    "role": "level",
+    "source": "OGP, Gastos_Salarios_24-25.pdf: \"Total Salarios 824,807,169\" over the budget total (35.0 percent). Not used by the row; kept as a check on the spending mix."
+  },
+  "spendingMix": {
+    "tag": "ESTIMATED",
+    "source": "OGP publishes the municipios' spending by function in files that were not read; the row takes the states' residents-weighted city spending mix without schools and higher education (Puerto Rico's Department of Education and University of Puerto Rico run those, not the municipios), renormalized, with spending equal to revenue as a balanced general fund has (stopgap SG-GOV-territory-municipal-mix)."
+  },
+  "population": {
+    "puertoRico2025": 3184835,
+    "toaAlta2020": 66883,
+    "source": "Census Bureau counts via citypopulation.de/en/puertorico/admin: Puerto Rico Commonwealth 3,184,835 (estimate July 1, 2025); Toa Alta Municipio 66,883 (Census 2020)."
+  }
+}

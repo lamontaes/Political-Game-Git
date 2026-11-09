@@ -7946,6 +7946,68 @@
             "localAid": 2021.154024
           },
           "stopgapId": "SG-GOV-territory-budget-mix"
+        },
+        "county-whole": {
+          "revenue": {
+            "individualIncomeTax": 0.0,
+            "corporateIncomeTax": 0.0,
+            "generalSalesTax": 87.085313,
+            "selectiveSalesTaxes": 59.103192,
+            "propertyTax": 163.306326,
+            "vehicleAndOtherTaxes": 171.879398,
+            "chargesAndFees": 16.854782,
+            "miscellaneous": 102.150585,
+            "federalAid": 0.0,
+            "intergovernmental": 41.798641
+          },
+          "spending": {
+            "welfareAndMedicaid": 18.88374,
+            "healthAndHospitals": 45.108494,
+            "highways": 48.393688,
+            "police": 74.645533,
+            "fire": 48.62325,
+            "corrections": 4.04798,
+            "parks": 31.055887,
+            "housing": 41.680368,
+            "naturalResources": 5.077398,
+            "administration": 52.768138,
+            "interest": 43.322035,
+            "otherPrograms": 211.387168,
+            "localAid": 17.18456
+          },
+          "stopgapId": "SG-GOV-territory-municipal-mix",
+          "source": "Puerto Rico's 78 municipios, approved General Fund budget for fiscal 2024-25 (Oficina de Gerencia y Presupuesto): $2,353,243,623 over 3,184,835 residents; revenue by line, spending by the states' city mix without education (estimate)"
+        },
+        "county": {
+          "revenue": {
+            "individualIncomeTax": 0.0,
+            "corporateIncomeTax": 0.0,
+            "generalSalesTax": 87.085313,
+            "selectiveSalesTaxes": 59.103192,
+            "propertyTax": 163.306326,
+            "vehicleAndOtherTaxes": 171.879398,
+            "chargesAndFees": 16.854782,
+            "miscellaneous": 102.150585,
+            "federalAid": 0.0,
+            "intergovernmental": 41.798641
+          },
+          "spending": {
+            "welfareAndMedicaid": 18.88374,
+            "healthAndHospitals": 45.108494,
+            "highways": 48.393688,
+            "police": 74.645533,
+            "fire": 48.62325,
+            "corrections": 4.04798,
+            "parks": 31.055887,
+            "housing": 41.680368,
+            "naturalResources": 5.077398,
+            "administration": 52.768138,
+            "interest": 43.322035,
+            "otherPrograms": 211.387168,
+            "localAid": 17.18456
+          },
+          "stopgapId": "SG-GOV-territory-municipal-mix",
+          "source": "Puerto Rico's 78 municipios, approved General Fund budget for fiscal 2024-25 (Oficina de Gerencia y Presupuesto): $2,353,243,623 over 3,184,835 residents; revenue by line, spending by the states' city mix without education (estimate)"
         }
       }
     },
