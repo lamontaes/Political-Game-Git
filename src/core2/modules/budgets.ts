@@ -1982,9 +1982,10 @@ function landWithholdingChange(api: CoreAPI, record: WithholdingRecord): void {
 }
 
 /**
- * The government a jurisdiction names: by its id (a city, a state), or by the
- * government key its treasury carries (a township under its township's law
- * jurisdiction).
+ * The government a jurisdiction names: by its id (a city, a state), by its
+ * canonical jurisdiction id (`jurisdictionId`: the town's own, a state's, the
+ * nation's), or by the government key its treasury carries (a township under
+ * its township's law jurisdiction).
  */
 export function governmentOfJurisdiction(
   api: CoreAPI,
@@ -1994,6 +1995,7 @@ export function governmentOfJurisdiction(
   const all = api.state.modules.has(BUDGETS_MODULE_ID) ? governments(api) : [];
   return (
     all.find((row) => row.id === jurisdiction) ??
+    all.find((row) => row.jurisdictionId === jurisdiction) ??
     all.find(
       (row) =>
         api.state.organizations.get(row.organizationId)?.governmentFacts
@@ -2159,27 +2161,6 @@ export function taxPaymentsOf(
   return table(api, "taxPayments").query("byGovernment", [
     governmentId,
   ]) as unknown as TaxPayment[];
-}
-
-/**
- * The government a key names, by its id ("county:15001", "US-HI"), its canonical jurisdiction id
- * (the town's own, a state's, the nation's), or the government key its treasury carries: the one
- * lookup for a government from whatever a record was filed under.
- */
-export function governmentOfJurisdiction(
-  api: CoreAPI,
-  key: string,
-): GovernmentRow | undefined {
-  const all = governments(api);
-  return (
-    all.find((g) => g.id === key) ??
-    all.find((g) => g.jurisdictionId === key) ??
-    all.find(
-      (g) =>
-        api.state.organizations.get(g.organizationId)?.governmentFacts
-          ?.governmentKey === key,
-    )
-  );
 }
 
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
