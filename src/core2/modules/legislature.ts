@@ -125,7 +125,7 @@ import { decisionFromScores, scoreOffers } from "../choice";
 import { decisionKinds } from "../trait-decision-table";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
-import { addDays, makeIsoDate } from "../kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../kernel/dates";
 import {
   bodyNumbering,
   designation,
@@ -336,6 +336,8 @@ export const LEGISLATURE_MODULE: CoreModule = {
       obligations: {},
       choices: {},
       itemVetoes: {},
+      /** Study committees and task forces a body formed on a bill it could not settle: charge, members, sunset and report. */
+      studies: { indexes: { byBill: { fields: ["billId"] } } },
       projectRequests: {},
       budgetHearings: {},
       carryAsks: {},
@@ -4875,11 +4877,215 @@ function recordFailure(
   });
 }
 
+/**
+ * A study committee or task force a body formed on a bill it could not settle: a charge (the
+ * bill's own question), members drawn from the body by their positions on it, a sunset date and,
+ * on that date, a report the body's members then read.
+ */
+export interface StudyRow {
+  readonly id: string;
+  readonly billId: string;
+  readonly bodyOfficeId: string;
+  /** The policy question or law series the bill was about: the charge. */
+  readonly topic: string | null;
+  readonly chairId: string;
+  readonly memberIds: readonly string[];
+  readonly formedOn: string;
+  readonly sunsetOn: string;
+  /** The members' positions at formation, by member. */
+  readonly startedAt: Readonly<Record<string, number>>;
+  readonly report?: {
+    readonly on: string;
+    /** The members' mean position on the bill when they reported: above zero for, below zero against. */
+    readonly finding: number;
+    readonly speechId: string | null;
+  };
+}
+
+export function studiesOf(api: CoreAPI, billId: string): readonly StudyRow[] {
+  return table(api, "studies").query("byBill", [
+    billId,
+  ]) as unknown as StudyRow[];
+}
+
+/**
+ * A bill that fails its floor vote narrowly, with its closest opponents less sure than its backers
+ * are, goes to a study committee rather than dying outright: the sponsor chairs it, and the
+ * members are the opponents nearest to changing their vote. Nothing is rolled: the same positions
+ * give the same committee.
+ */
+function referToStudy(api: CoreAPI, billId: string): void {
+  // stopgapId: SG-LEGISLATURE-study-committee-terms
+  if (studiesOf(api, billId).length) return;
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (bill.status !== "failed" || bill.failedOn !== api.state.date) return;
+  const rolls = (
+    table(api, "votes").query("byBill", [billId]) as unknown as {
+      memberId: string;
+      vote: string;
+      chamber: string;
+      override?: boolean;
+      position?: { total?: number };
+    }[]
+  ).filter((row) => !row.override);
+  const yes = rolls.filter((row) => row.vote === "yes");
+  const no = rolls.filter((row) => row.vote === "no");
+  if (!yes.length || !no.length) return;
+  const margin = no.length - yes.length;
+  if (margin <= 0) return;
+  // The opponents nearest to changing their vote, as many as it would take to carry the bill.
+  const strength = (row: { position?: { total?: number } }) =>
+    Math.abs(row.position?.total ?? 0);
+  const closest = [...no]
+    .sort(
+      (a, b) =>
+        strength(a) - strength(b) || a.memberId.localeCompare(b.memberId),
+    )
+    .slice(0, Math.ceil(margin / 2) + 1);
+  const meanOf = (rows: readonly { position?: { total?: number } }[]) =>
+    rows.reduce((n, row) => n + strength(row), 0) / rows.length;
+  if (meanOf(closest) >= meanOf(yes)) return;
+  const size = campaignParameter("studyMembers");
+  const members_ = [
+    bill.sponsorId,
+    ...no
+      .filter((row) => row.memberId !== bill.sponsorId)
+      .sort(
+        (a, b) =>
+          strength(a) - strength(b) || a.memberId.localeCompare(b.memberId),
+      )
+      .map((row) => row.memberId),
+  ].slice(0, size);
+  const first = bill.provisions[0] as
+    { question?: string; series?: string } | undefined;
+  const topic = first?.question ?? first?.series ?? null;
+  const row: StudyRow = {
+    id: `study:${bill.id}`,
+    billId: bill.id,
+    bodyOfficeId: bill.bodyOfficeId,
+    topic,
+    chairId: bill.sponsorId,
+    memberIds: members_,
+    formedOn: api.state.date,
+    sunsetOn: addDays(
+      makeIsoDate(api.state.date),
+      campaignParameter("studyTermDays"),
+    ),
+    startedAt: Object.fromEntries(
+      members_.map((id) => [id, memberPosition(api, bill.id, id).total]),
+    ),
+  };
+  table(api, "studies").put(row as unknown as ModuleRow);
+  api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
+    key: `study:${bill.id}`,
+    date: row.sunsetOn,
+    kind: "study-report",
+    source: {
+      tag: "ESTIMATED",
+      citation: `Study committee on ${bill.number}: sunset after studyTermDays`,
+      asOf: api.state.date,
+      estimatedFrom:
+        "The committee's term (campaign parameter studyTermDays, TUNABLE) from the day it was formed.",
+    },
+    sourceRecordIds: [row.id],
+  });
+  api.emit({
+    id: `study-formed:${row.id}`,
+    date: api.state.date,
+    kind: "study-formed",
+    personIds: [bill.sponsorId, ...members_].filter((id) =>
+      api.state.people.has(id),
+    ),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Study committee on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      studyId: row.id,
+      billId: bill.id,
+      number: bill.number,
+      level: billReach(api, bill).level,
+      sunsetOn: row.sunsetOn,
+      members: String(members_.length),
+    },
+  });
+}
+
+/**
+ * The sunset: the committee reports what its members now think of the bill, and the chair gives
+ * that to the rest of the body as a speech, so the members' views (the next vote's positions)
+ * read it.
+ */
+function reportStudy(api: CoreAPI, studyId: string): void {
+  const study = table(api, "studies").get(studyId) as unknown as
+    StudyRow | undefined;
+  if (!study || study.report) return;
+  const bill = table(api, "bills").get(study.billId) as unknown as BillRow;
+  const totals = study.memberIds.map(
+    (id) => memberPosition(api, study.billId, id).total,
+  );
+  const finding = totals.reduce((n, t) => n + t, 0) / (totals.length || 1);
+  // The chair gives the finding to the rest of the body (a speech from a person who sits on it).
+  const chair = [study.chairId, ...study.memberIds].find(
+    (id) => api.state.people.get(id)?.alive,
+  );
+  let speechId: string | null = null;
+  if (chair && study.topic && api.state.modules.has(SPEECH_MODULE_ID)) {
+    const audience = chambersOf(api, bill)
+      .flatMap((body) => members(api, body))
+      .map((term) => memberKey(term))
+      .filter((id) => id !== chair && api.state.people.get(id)?.alive);
+    if (audience.length) {
+      speechId = `speech:${studyId}`;
+      deliverSpeech(api, {
+        id: speechId,
+        speakerId: chair,
+        placeId: lawChain(api).townPlaceId,
+        topic: study.topic,
+        desiredChange: finding > 0 ? "enact" : "repeal",
+        audienceIds: audience,
+      });
+    }
+  }
+  table(api, "studies").put({
+    ...study,
+    report: { on: api.state.date, finding, speechId },
+  } as unknown as ModuleRow);
+  api.emit({
+    id: `study-reported:${studyId}`,
+    date: api.state.date,
+    kind: "study-reported",
+    personIds: [chair ?? study.chairId].filter((id) =>
+      api.state.people.has(id),
+    ),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Study committee report on ${bill.number}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: {
+      studyId,
+      billId: bill.id,
+      number: bill.number,
+      level: billReach(api, bill).level,
+      direction: finding > 0 ? "for" : "against",
+    },
+  });
+}
+
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const result = countVote(api, billId);
   // Votes are on the record once a bill is anything but unvoted or blocked.
   if (result.status !== "drafted" && result.status !== "blocked")
     for (const hook of afterVoteHooks) hook(api, billId);
+  if (result.status === "failed") referToStudy(api, billId);
   return result;
 }
 
@@ -6057,6 +6263,7 @@ function legislatureCalendar(
   }
   if (work.kind === "signing-deadline")
     deadlinePassed(api, work.sourceRecordIds[0]!);
+  if (work.kind === "study-report") reportStudy(api, work.sourceRecordIds[0]!);
 }
 
 const vetoWindows = new Map(
@@ -6164,10 +6371,15 @@ export interface Sitting {
   readonly source: Source;
 }
 let sittingReader:
-  ((api: CoreAPI, bodyOfficeId: string) => Sitting | null) | null = null;
-/** The engine that keeps the bodies' calendars says when each sits next. */
+  | ((api: CoreAPI, bodyOfficeId: string, after?: string) => Sitting | null)
+  | null = null;
+/** The engine that keeps the bodies' calendars says when each sits next, or, given a day, the first a town or county body sits after it. */
 export function registerSittingReader(
-  reader: (api: CoreAPI, bodyOfficeId: string) => Sitting | null,
+  reader: (
+    api: CoreAPI,
+    bodyOfficeId: string,
+    after?: string,
+  ) => Sitting | null,
 ): void {
   sittingReader = reader;
 }
@@ -6203,17 +6415,47 @@ export function hasSitting(api: CoreAPI, bodyOfficeId: string): boolean {
   return (sittingReader?.(api, bodyOfficeId) ?? null) !== null;
 }
 
+/** The law series holding the hours of public notice a regular meeting needs. */
+const NOTICE_SERIES = "meeting-notice-hours";
+
 export function scheduleVote(api: CoreAPI, billId: string): string {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
-  const sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
+  let sitting = sittingReader?.(api, bill.bodyOfficeId) ?? null;
   if (!sitting)
     throw new Error(`No sitting of ${bill.bodyOfficeId} is on the calendar.`);
+  // The place's public-notice law: a town or county body must post the
+  // meeting's business so many hours ahead, so a bill put on the agenda later
+  // than that waits for the meeting after. A rule in force, read from the law.
+  const notice = lawInForce(api, NOTICE_SERIES);
+  const noticeHours = notice.value ?? 0;
+  const posted = api.state.date;
+  const leadHours = 24 * daysBetweenText(posted, sitting.date);
+  let waited = false;
+  if (noticeHours > 0 && leadHours < noticeHours) {
+    const later = sittingReader?.(api, bill.bodyOfficeId, sitting.date) ?? null;
+    if (later) {
+      sitting = later;
+      waited = true;
+    }
+  }
   api.moduleCalendar(LEGISLATURE_MODULE_ID).schedule({
     key: `meeting:${billId}`,
     date: sitting.date,
     kind: "council-meeting",
     source: sitting.source,
-    sourceRecordIds: [billId],
+    // The posting day, the notice hours and the law that set them, so a screen
+    // and a proof read why a bill sits where it does.
+    sourceRecordIds: [
+      billId,
+      ...(noticeHours > 0
+        ? [
+            `posted:${posted}`,
+            `notice-hours:${noticeHours}`,
+            `notice-law:${notice.governing?.id ?? NOTICE_SERIES}`,
+            ...(waited ? ["waited-for-notice"] : []),
+          ]
+        : []),
+    ],
   });
   // A body with committees takes the bill to its committee a week ahead of
   // the floor, when the sitting is far enough off to leave a day before it.

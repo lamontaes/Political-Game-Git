@@ -24,7 +24,10 @@ import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  PARTIES_MODULE_ID,
+} from "../core2/modules/elections";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -75,6 +78,13 @@ export interface CircumstanceRow {
    * hold it back.
    */
   lived?: boolean;
+  /**
+   * The cast may be someone the director cast in another scene from
+   * circumstance lately: the record is the player's own and the household has
+   * few to tell it (a home a disaster damaged is talked over by the one other
+   * person who lives there, however lately the news came to them).
+   */
+  recast?: boolean;
   /**
    * The scene comes ahead of the day's other scenes from circumstance (the
    * floor before the roll comes before the word in the hallway after the
@@ -375,6 +385,60 @@ function playerHolds(
   }
 }
 
+/**
+ * The seated officeholders of the party that asked a member to run, who live
+ * in the member's town and have held a seat for a year or more: the veterans
+ * a member asked to run would hear from. Read from the offices engine's
+ * serving terms; a term whose holder is not a full person is left out.
+ */
+export function partyOfficeholders(
+  core: Readonly<CoreState>,
+  record: Pick<QueuedRecord, "personIds" | "facts">,
+  on: IsoDate,
+): PersonId[] {
+  // stopgapId: SG-WORDS-mentor-is-officeholder
+  const asked = core.people.get(record.personIds[zero] ?? ("" as PersonId));
+  const partyId = record.facts.partyId;
+  if (
+    !asked ||
+    !partyId ||
+    !core.modules.has(OFFICES_MODULE_ID) ||
+    !core.modules.has(PARTIES_MODULE_ID)
+  )
+    return [];
+  const api = coreAPI(core as CoreState);
+  const members = new Set(
+    (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .query("byParty", [partyId]) as unknown as {
+        personId: string;
+        tie: string;
+      }[]
+    )
+      .filter((tie) => tie.tie === "party")
+      .map((tie) => tie.personId),
+  );
+  const heldSince = addDays(makeIsoDate(on), -Math.round(P.daysPerMeanYear));
+  const serving = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("byStatus", ["serving"]) as unknown as TermRow[];
+  return serving
+    .filter(
+      (term) =>
+        !!term.personId &&
+        members.has(term.personId) &&
+        term.personId !== asked.id &&
+        core.people.get(term.personId as PersonId)?.alive === true &&
+        core.people.get(term.personId as PersonId)?.placeId === asked.placeId &&
+        (term.serviceStart ?? term.startDate) <= heldSince,
+    )
+    .map((term) => term.personId as PersonId)
+    .sort();
+}
+
 /** Who has a reason from the record to be there, before where is checked. */
 function poolOf(
   source: string,
@@ -438,6 +502,10 @@ function poolOf(
       named: record.personIds.includes(id),
     }));
   }
+  if (source === "party-officeholders")
+    return partyOfficeholders(core, record, record.dueOn ?? core.date).map(
+      (id) => ({ id, named: false }),
+    );
   if (source === "classmates")
     // The others at the player's school that year.
     return classmatesOf(core, playerId).map((id) => ({ id, named: false }));
@@ -546,7 +614,7 @@ export function circumstancePicks(
     staged: ReadonlySet<string>;
     due: (row: CircumstanceRow) => boolean;
     /** Whether a person may be cast today (not cast again inside the repeat window). */
-    castDue?: (id: PersonId) => boolean;
+    castDue?: (id: PersonId, row: CircumstanceRow) => boolean;
     byKind?: Map<string, CircumstanceRow[]>;
   },
 ): CircumstancePick[] {
@@ -582,7 +650,7 @@ export function circumstancePicks(
       for (const source of row.pool)
         for (const { id, named } of poolOf(source, core, playerId, record)) {
           if (id === playerId || core.people.get(id)?.alive !== true) continue;
-          if (options.castDue && !options.castDue(id)) continue;
+          if (options.castDue && !options.castDue(id, row)) continue;
           if (!placedWith(row.where, core, playerId, id)) continue;
           const importance = options.importance(id);
           const closeness = importance / (one + importance);

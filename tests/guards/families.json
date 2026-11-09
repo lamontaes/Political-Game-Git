@@ -138,7 +138,11 @@
     {
       "id": "budgets",
       "name": "Budgets, taxes and public money",
-      "entry": ["src/core2/modules/budgets.ts", "src/core2/modules/finance.ts"],
+      "entry": [
+        "src/core2/modules/budgets.ts",
+        "src/core2/modules/finance.ts",
+        "src/core2/budgets-treasury.ts"
+      ],
       "paths": [
         "src/core2/modules/budgets.ts",
         "src/core2/modules/finance.ts",
@@ -209,7 +213,9 @@
         "src/core2/modules/macro.ts",
         "src/core2/business-module-id.ts",
         "src/core2/regional-model.ts",
-        "src/core2/pay-by-quarter.ts"
+        "src/core2/pay-by-quarter.ts",
+        "src/core2/modules/regional.ts",
+        "src/core2/macro-model.ts"
       ],
       "paths": [
         "src/core2/modules/jobs.ts",
@@ -382,7 +388,8 @@
         "src/core2/opening-county-sample.ts",
         "src/core2/opening-tenure.ts",
         "src/core2/opening-origin.ts",
-        "src/core2/opening-roles.ts"
+        "src/core2/opening-roles.ts",
+        "src/core2/game-start.ts"
       ],
       "paths": [
         "src/core2/modules/world.ts",
@@ -399,7 +406,8 @@
         "src/core2/player-*.ts",
         "src/core2/opening-*.ts",
         "src/core2/fast-forward.ts",
-        "src/core2/modules/national-events.ts"
+        "src/core2/modules/national-events.ts",
+        "src/core2/modules/climate.ts"
       ]
     },
     {

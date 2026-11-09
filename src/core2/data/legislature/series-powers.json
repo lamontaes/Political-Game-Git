@@ -110,9 +110,17 @@
       "levels": ["state"],
       "source": "Child Care and Development Block Grant Act, 42 U.S.C. 9858c(c)(2)(B): a state sets the family income limit for its subsidies, up to 85 percent of the state median income"
     },
+    "ssi-federal-benefit-rate": {
+      "levels": ["federal"],
+      "source": "Social Security Act title XVI, 42 U.S.C. 1382(b): Congress sets the federal benefit rate (adjusted each January by the cost-of-living increase)"
+    },
     "energy-assistance-income-limit": {
       "levels": ["state"],
       "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state sets the household income limit for its home energy assistance, within the statute's floor and ceiling"
+    },
+    "meeting-notice-hours": {
+      "levels": ["state"],
+      "source": "State open-meetings acts: the notice a local public body must give before a regular meeting (research draft data/research/laws/open-meetings-and-records-2026.json; a place with no statutory number uses the median of those that have one)"
     }
   },
   "questions": {

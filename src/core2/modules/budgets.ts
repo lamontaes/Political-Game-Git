@@ -71,6 +71,8 @@ import { recordIncomeTaxApplied } from "../tax-applied";
 import {
   applySocialSecurityLevel,
   closeTreasuries,
+  treasuryMonthsOf,
+  treasuryMonthsPerYear,
   notePublicPay,
   outsideAccountOf,
   sameGovernment,
@@ -384,6 +386,8 @@ export const BUDGETS_MODULE: PreStartModule = {
       },
       /** Pay each treasury paid on paydays since its last close, by line. */
       sinceClose: {},
+      /** The cash journal's credits to each treasury at its last close, so the next close reads the month's receipts. */
+      creditMarks: {},
       /** What the town's own payers paid a treasury on a line with named outside payers since the last installment. */
       townRevenue: {},
       /** What each treasury's lines fell short at its last close, owed at the next. */
@@ -472,6 +476,12 @@ interface PlaceBases {
   state?: { revenue: Record<string, number>; spending: Record<string, number> };
   /** One base row per government the place opens, by row name (the exporter's `add_government_rows`). */
   governments: Partial<Record<BaseRowName, BaseRow>>;
+  /**
+   * Puerto Rico: each municipio's approved budget over its residents against the
+   * island's, by county code; its government's row is multiplied by it. A municipio
+   * not listed keeps the island's per resident.
+   */
+  municipioBudgetScale?: Record<string, number>;
 }
 type BaseRowName = "federal" | "state" | "county" | "county-whole" | "city";
 interface BaseRow {
@@ -740,12 +750,21 @@ export function publishedBudgetFor(
   adoptedBy: BudgetAdoption,
 ): BudgetRow {
   const row = baseRowsOf(stateKey)[gov.base];
+  // A municipio's government (id `county:<code>`) is scaled to its own approved
+  // budget over its own residents, where the file has it.
+  const own =
+    gov.id.startsWith("county:") &&
+    (gov.base === "county" || gov.base === "county-whole")
+      ? (bases.places[stateKey]?.municipioBudgetScale?.[
+          gov.id.slice("county:".length)
+        ] ?? 1)
+      : 1;
   // A row is dollars a resident in fiscal 2022 (the calibration carries it to
   // the opening year), or the nation's statement in whole dollars.
   const amount = (v: number) =>
     row?.totalDollars
       ? Math.round(v * 100)
-      : minor(v, gov.residents, bases.calibration.factor);
+      : minor(v * own, gov.residents, bases.calibration.factor);
   const lines = (side: Readonly<Record<string, number>> = {}) =>
     Object.fromEntries(Object.entries(side).map(([k, v]) => [k, amount(v)]));
   const revenue = lines(row?.revenue);
@@ -1319,6 +1338,35 @@ export function baseBudget(
   });
 }
 
+/**
+ * What a government collected over the fiscal year before `fy`, over what that
+ * year's budget expected: 1 until a whole year of its treasury's months is
+ * recorded, and for governments whose receipts are not voted from
+ * (SG-GOV-spending-vote-state-county).
+ */
+function receiptsFactor(api: CoreAPI, gov: GovernmentRow, fy: number): number {
+  if (gov.level !== "state" && gov.level !== "county") return 1;
+  api.stopgap("SG-GOV-spending-vote-state-county");
+  const from = `${fy - 1}-${gov.fiscalYearStart}`;
+  const to = `${fy}-${gov.fiscalYearStart}`;
+  const planned = budgetsOf(api, gov.id).find((b) => b.fiscalYear === fy - 1);
+  if (!planned) return 1;
+  const expected = Object.values(planned.revenueMinor).reduce(
+    (a, v) => a + v,
+    0,
+  );
+  let collected = 0;
+  let months = 0;
+  for (const m of treasuryMonthsOf(api, gov.id))
+    if (m.date >= from && m.date < to) {
+      collected += m.collectedMinor;
+      months += 1;
+    }
+  return months === treasuryMonthsPerYear() && expected > 0
+    ? collected / expected
+    : 1;
+}
+
 function legislatedBudget(
   api: CoreAPI,
   gov: GovernmentRow,
@@ -1334,7 +1382,15 @@ function legislatedBudget(
     api.state.date,
     adoptedBy,
   );
-  const spending = { ...base.spendingMinor };
+  // A state or county spends in proportion to what it collected last fiscal
+  // year over what its plan expected (a sliding scale, no threshold).
+  const receipts = receiptsFactor(api, gov, fy);
+  const spending = Object.fromEntries(
+    Object.entries(base.spendingMinor).map(([line, v]) => [
+      line,
+      Math.round(v * receipts),
+    ]),
+  );
   for (const set of [enactedBudgetChanges(api, gov.id), changes])
     for (const [line, delta] of Object.entries(set))
       spending[line] = Math.max(0, (spending[line] ?? 0) + delta);
@@ -2243,3 +2299,5 @@ export function withholdingOf(
 }
 // Re-exported so the opening county sample reads it through this entry (families guard).
 export { medianTransactionBalance } from "../starting-cash";
+// Re-exported so the climate engine reads the states' bases through this entry (families guard).
+export { residentsOf, STATES } from "./outside-budgets";

@@ -101,7 +101,7 @@ const SCHOOL_MEASURED = new Set([
   "school.graduation-pct",
 ]);
 
-export { OUTCOME_WEB_MODULE_ID };
+export { OUTCOME_WEB_MODULE_ID, WEB_LINKS };
 /** The factor an engine in another family multiplies its own rate by (medical-bills.ts). */
 export { webReach, type WebReach } from "../outcome-web-reach";
 const STATE_ID = "outcome-web:state";
@@ -692,8 +692,6 @@ function schedule(api: CoreAPI): void {
 /** Record a law-took-effect event (the laws module's own rows win where it is open). */
 function recordLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const facts = event.facts ?? {};
-  // Another state's act is a national event; the web reads the town's laws.
-  if (String(event.placeId).startsWith("national:")) return;
   if (!facts.series) return;
   store(api)
     .table("laws")
@@ -719,6 +717,10 @@ export const OUTCOME_WEB_MODULE: CoreModule = {
   },
   eventKinds: [SETTINGS.lawsModule.eventKind],
   onEvent(api, event) {
+    // Another state's act is a national event, not the town's law: the web reads
+    // the town's laws, so it neither records it nor rewrites the month for it
+    // (the rewrite would overwrite what the month's other readers laid on it).
+    if (String(event.placeId).startsWith("national:")) return;
     recordLaw(api, event);
     // A law moves the record the day it takes effect, not at month's end.
     run(api);

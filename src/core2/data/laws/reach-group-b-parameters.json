@@ -363,6 +363,25 @@
       "source": "A family's income limit scales from the three-person figure by (size over three) to this power, the square-root equivalence scale used for household incomes; CCDF limits rise with family size by a percentage of the state median income for that size.",
       "spread": [0.3, 0.7]
     },
+    "ssiAgedFrom": {
+      "role": "level",
+      "value": 65,
+      "tag": "SOURCED",
+      "source": "42 U.S.C. 1382c(a)(1)(A) (Cornell): \"is 65 years of age or older, is blind ..., or is disabled\". Only the aged part is read; blindness and disability are not."
+    },
+    "ssiGeneralIncomeExclusionDollars": {
+      "role": "level",
+      "value": 20,
+      "tag": "SOURCED",
+      "source": "CRS RS20294 (https://www.everycrsreport.com/reports/RS20294.html): \"a general income exclusion of $20 per month\"; the earned-income exclusions ($65 and half the rest) are not applied."
+    },
+    "ssiTakeUpShare": {
+      "role": "level",
+      "value": 1,
+      "tag": "ESTIMATED",
+      "source": "Every aged resident whose income leaves a benefit is paid; the share of eligible who apply is not read. Spread: SSA participation among eligible aged is below 100 percent.",
+      "spread": [0.6, 1]
+    },
     "energyAssistanceAnnualBenefitDollars": {
       "value": 301,
       "role": "coefficient",

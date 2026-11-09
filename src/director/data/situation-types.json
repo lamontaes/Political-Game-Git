@@ -1895,6 +1895,19 @@
             "adviser": "counterpart"
           },
           "opener": "adviser"
+        },
+        {
+          "match": {
+            "label": "circumstance:mentor-weighs-in"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "party-asked",
+          "bind": {
+            "deciding": "subject",
+            "adviser": "counterpart"
+          },
+          "opener": "adviser",
+          "setting": ["other-home"]
         }
       ],
       "tag": {
@@ -1952,6 +1965,20 @@
             "witnesses": "present"
           },
           "opener": "accuser"
+        },
+        {
+          "match": {
+            "label": "circumstance:bribe-accused"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "scandal.reported",
+          "sceneKey": "bribe-reported",
+          "bind": {
+            "accuser": "counterpart",
+            "accused": "subject"
+          },
+          "opener": "accuser",
+          "setting": ["public"]
         }
       ],
       "tag": {
@@ -6296,6 +6323,63 @@
       "asker": "family",
       "asked": "you",
       "stakes": ["home", "rent"]
+    },
+    {
+      "key": "home-damaged",
+      "note": "The day a disaster's aid is paid to the player's household and the repair bill comes due on the home the disaster damaged (the disasters engine's home-damaged record, filled from the damaged-home row, circumstance row home-damaged), someone they live with brings it to them at home: what the home lost, the aid it was paid and the repairs still owed, as people round a sum. The reply is a scene reply; a promise to see the repairs through is kept on its record and told in the journal.",
+      "roles": [
+        {
+          "key": "family",
+          "fill": "household",
+          "count": "one",
+          "moves": [
+            "deliver-news",
+            "answer",
+            "thank",
+            "press",
+            "accept",
+            "refuse",
+            "warn",
+            "promise"
+          ],
+          "wants": ["help-others", "keep-same"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["promise", "ask", "offer", "deflect"],
+          "wants": ["keep-same"],
+          "bearing": "braced"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:home-damaged"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "disaster.home-damaged",
+          "bind": {
+            "you": "subject",
+            "family": "counterpart"
+          },
+          "opener": "family",
+          "setting": ["home"]
+        }
+      ],
+      "tag": {
+        "key": "damage",
+        "endpoint": "money",
+        "registers": ["scene-talk", "scene-words", "journal"]
+      },
+      "purpose": "home-damaged",
+      "asker": "family",
+      "asked": "you",
+      "stakes": ["home", "repairs"]
     },
     {
       "key": "swearing-in",

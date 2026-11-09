@@ -854,7 +854,10 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/metrics",
     run: async ({ send }) => {
-      send(200, metricsView(requireCore(), state.placeId));
+      send(
+        200,
+        metricsView(requireCore(), state.placeId, state.player?.personId ?? ""),
+      );
       return;
     },
   },
@@ -2297,8 +2300,7 @@ const ROUTES: readonly Route[] = [
         throw new Error("Opening generation is already running.");
       const seed = url.searchParams.get("seed") ?? "";
       const date = gameStartDate();
-      // Stopgap SG-PLAY-bench-town-size: a smaller town plays at a usable
-      // speed until the core's two-level population and speed work land.
+      // The developer page's size field builds a smaller town on request.
       const size = Number(url.searchParams.get("size") ?? "") || undefined;
       state.building = true;
       try {

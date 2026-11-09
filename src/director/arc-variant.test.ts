@@ -79,6 +79,18 @@ const generic: Record<string, Fact> = {
   place: fact("the town"),
 };
 
+// What a donor's gift hands the scene (purpose-scene.ts, campaign-gift): the
+// amount, and the bill the donor holds the strongest view on.
+const donorFacts: Record<string, Fact> = {
+  ...generic,
+  money: fact("$2,500"),
+  gift: fact("$2,500"),
+  bill: fact("Bill 14"),
+  "donor-bill": fact("Bill 14"),
+};
+const factsOf = (family: string) =>
+  family === "donor-ask" ? donorFacts : generic;
+
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
   for (const line of node.lines) into.push(line.text);
@@ -94,7 +106,7 @@ const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
 const compose = (
   family: string,
   variant: string,
-  facts: Record<string, Fact> = generic,
+  facts: Record<string, Fact> = factsOf(family),
   causeId = "cause-a",
 ): SceneTalk => {
   const result = composeSceneTalk(
@@ -113,7 +125,7 @@ const compose = (
 
 describe("a kind with several arcs", () => {
   it("gives each corruption kind at least three variants besides its plain arc", () => {
-    for (const family of ["bribe-offer", "bribe-pressed"]) {
+    for (const family of ["bribe-offer", "bribe-pressed", "donor-ask"]) {
       const names = Object.keys(FAMILIES[family]!.variants);
       expect(names.length, family).toBeGreaterThanOrEqual(4);
       expect(names).toContain("plain");
@@ -141,6 +153,12 @@ describe("a kind with several arcs", () => {
         // The engines read these ending ids: every variant keeps them whole.
         if (family === "bribe-offer")
           for (const id of ["took-it", "put-off"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "donor-ask")
+          for (const id of ["looking-again", "hearing-only", "put-off"])
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,

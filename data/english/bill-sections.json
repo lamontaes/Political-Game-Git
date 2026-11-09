@@ -614,6 +614,44 @@
       "lower": "the most a person may give a local candidate for each election shall be lowered from {before} to {value}",
       "raiseTo": "the most a person may give a local candidate for each election shall be raised to {value}",
       "lowerTo": "the most a person may give a local candidate for each election shall be lowered to {value}"
+    },
+    "executive-term-limit": {
+      "subject": "the limit on a governor's terms",
+      "purpose": "set how many terms a governor may serve",
+      "raise": "the limit on a governor's terms shall be raised from {before} to {value}",
+      "lower": "the limit on a governor's terms shall be lowered from {before} to {value}",
+      "raiseTo": "the limit on a governor's terms shall be raised to {value}",
+      "lowerTo": "the limit on a governor's terms shall be lowered to {value}"
+    },
+    "ssi-federal-benefit-rate": {
+      "subject": "the federal benefit rate for supplemental security income",
+      "purpose": "set the monthly federal benefit rate for supplemental security income",
+      "raise": "the monthly federal benefit rate for supplemental security income shall be raised from {before} to {value}",
+      "lower": "the monthly federal benefit rate for supplemental security income shall be lowered from {before} to {value}",
+      "raiseTo": "the monthly federal benefit rate for supplemental security income shall be raised to {value}",
+      "lowerTo": "the monthly federal benefit rate for supplemental security income shall be lowered to {value}"
+    },
+    "energy-assistance-income-limit": {
+      "subject": "the income limit for home energy assistance",
+      "purpose": "set the household income limit for home energy assistance, as a percent of the poverty line",
+      "raise": "the household income limit for home energy assistance shall be raised from {before} to {value}",
+      "lower": "the household income limit for home energy assistance shall be lowered from {before} to {value}",
+      "raiseTo": "the household income limit for home energy assistance shall be raised to {value}",
+      "lowerTo": "the household income limit for home energy assistance shall be lowered to {value}"
+    },
+    "unemployment-insurance": {
+      "subject": "the unemployment insurance program",
+      "purpose": "decide whether the state pays weekly benefits to workers who lose their jobs through no fault of their own",
+      "grant": "the state shall pay weekly unemployment insurance benefits to eligible workers who lose their jobs",
+      "withdraw": "the state shall pay no unemployment insurance benefits, and any such program in force shall end"
+    },
+    "meeting-notice-hours": {
+      "subject": "the notice required before a public meeting",
+      "purpose": "set how many hours of public notice a regular meeting of a local body must be given",
+      "raise": "the public notice a regular meeting of a local body requires shall be raised from {before} to {value}",
+      "lower": "the public notice a regular meeting of a local body requires shall be lowered from {before} to {value}",
+      "raiseTo": "the public notice a regular meeting of a local body requires shall be raised to {value}",
+      "lowerTo": "the public notice a regular meeting of a local body requires shall be lowered to {value}"
     }
   },
   "units": {
@@ -623,7 +661,8 @@
     "USD/month": "{dollars} a month",
     "USD/week": "{dollars} a week",
     "years": "{value} years",
-    "USD/election": "{dollars} for each election"
+    "USD/election": "{dollars} for each election",
+    "hours": "{value} hours"
   },
   "cited": "{clause}, amending {statute}"
 }

@@ -73,7 +73,7 @@
   "campaignUnavailable": {
     "noHouseholds": "No households in town",
     "noPlatform": "Choose your platform first",
-    "eventMoney": "Hall {price} · campaign {cash}",
+    "eventMoney": "Hall {price} \u00b7 campaign {cash}",
     "forumHeld": "You hosted a forum today",
     "noMeetings": "No public meetings here",
     "noOutlet": "No paper or station here",
@@ -323,6 +323,10 @@
   "devScene": {
     "title": "Scenes",
     "make": "Make it happen",
+    "forPicker": "For",
+    "mourning": "Mourning",
+    "where": "Where",
+    "any": "Any",
     "begun": "Begun for",
     "reasons": {
       "days": "Days passed",
@@ -537,6 +541,9 @@
     "back": "Back to your seat",
     "sponsor": "Sponsor",
     "sections": "Sections",
+    "where": "Where it is",
+    "bill": "The bill",
+    "vote": "The vote",
     "estimate": "What it would do",
     "amends": "Amends",
     "from": "from",
@@ -550,7 +557,15 @@
     "today": "In force today",
     "proposed": "The bill makes it",
     "newAmount": "The new amount",
-    "none": "Not set"
+    "none": "Not set",
+    "figures": "Budget lines",
+    "thisYear": "This year",
+    "lastYear": "Last year",
+    "sinceLastYear": "Since last year",
+    "totalChange": "Total change",
+    "increased": "Up {amount} ({pct})",
+    "decreased": "Down {amount} ({pct})",
+    "unchanged": "No change"
   },
   "advanced": {
     "none": "No one holds an office that matches",
@@ -782,7 +797,7 @@
     "delegation": "{state}'s members",
     "district": "District {n}",
     "atLarge": "At large",
-    "partySince": "{party} · since {date}",
+    "partySince": "{party} \u00b7 since {date}",
     "sinceOnly": "Since {date}",
     "seatChart": "{n} seats by party",
     "partySingular": {
@@ -833,7 +848,7 @@
   "money": {
     "cash": "Cash available",
     "home": "Home",
-    "householdHome": "Your household’s home",
+    "householdHome": "Your household\u2019s home",
     "tenure": "Tenure",
     "owned": "Owned",
     "rented": "Rented",
@@ -845,7 +860,7 @@
     "loanPaid": "paid",
     "unpaid": "left unpaid",
     "pastDue": "past due",
-    "cashByMonth": "Cash at each month’s review",
+    "cashByMonth": "Cash at each month\u2019s review",
     "assets": "What you own",
     "assetKinds": {
       "savings": "Savings",
@@ -864,8 +879,8 @@
       "household.everyday-living": "Everyday living",
       "household-purchase": "Purchases"
     },
-    "householdCashByMonth": "Your household’s cash at each month’s review",
-    "householdLastMonth": "Your household’s last month",
+    "householdCashByMonth": "Your household\u2019s cash at each month\u2019s review",
+    "householdLastMonth": "Your household\u2019s last month",
     "worth": "Worth"
   },
   "localRaces": {
@@ -962,7 +977,20 @@
     "empty": "Nothing is written here yet."
   },
   "metrics": {
+    "state": "Your state",
+    "jobs": "Jobs",
     "city": "Your town",
+    "housing": "Homes",
+    "rentals": "Rental homes",
+    "vacant": "Rentals standing empty",
+    "rent": "Typical monthly rent",
+    "homeValue": "Typical home value",
+    "evictions": "Evictions",
+    "benefits": "Help for the unemployed",
+    "claims": "People claiming now",
+    "budget": "The town's books",
+    "revenue": "Coming in",
+    "spending": "Going out",
     "employed": "People at work",
     "seekers": "People looking for work",
     "openPositions": "Jobs open",
@@ -1052,6 +1080,19 @@
     "signed": "Signed",
     "vetoed": "Vetoed",
     "by": "By",
+    "strength": [
+      {
+        "upTo": 0.25,
+        "word": "slightly"
+      },
+      {
+        "upTo": 0.75,
+        "word": "firmly"
+      },
+      {
+        "word": "strongly"
+      }
+    ],
     "reasons": {
       "views": "Their own views",
       "constituents": "The people they serve",
@@ -1143,5 +1184,41 @@
       "looking-for-work": "Looking for work",
       "paid-under-minimum-wage": "Paid under the minimum wage"
     }
+  },
+  "billPage": {
+    "filedBy": "Filed by",
+    "filedOn": "Filed on",
+    "reached": "Taken up",
+    "clean": "Clean copy",
+    "compare": "Compare",
+    "to": "to",
+    "notVoting": "Didn't vote",
+    "noParty": "No party",
+    "yours": "Your member"
+  },
+  "devBill": {
+    "title": "Dev mode",
+    "introduceAt": "Introduce at",
+    "members": "How each member votes",
+    "yes": "Yes",
+    "no": "No",
+    "passOrFail": "Pass or fail",
+    "passesBy": "Passes by {n}",
+    "failsBy": "Fails by {n}",
+    "margins": [-10, -5, -3, -1, 1, 3, 5, 10],
+    "firstMargin": 5,
+    "fewer": "Fewer",
+    "more": "More",
+    "introduce": "Introduce",
+    "hold": "Hold the vote",
+    "sign": "Sign",
+    "veto": "Veto",
+    "override": "Override"
+  },
+  "devTrace": {
+    "title": "Dev mode",
+    "trace": "Trace",
+    "why": "Why",
+    "came": "What came of it"
   }
 }

@@ -27,6 +27,8 @@ import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
 import { devBillsPanel } from "./ui/dev-bills.mjs";
+import { devBillCard } from "./ui/dev-bill-card.mjs";
+import { devTraceVote } from "./ui/dev-trace-vote.mjs";
 import { devRecordsSection } from "./ui/dev-records.mjs";
 import { devPersonSection } from "./ui/dev-person.mjs";
 import { devMemorySection } from "./ui/dev-memory.mjs";
@@ -75,6 +77,7 @@ import { rosterScreen } from "./ui/roster-screen.mjs";
 import { guideScreen } from "./ui/guide-screen.mjs";
 import { travelScreen } from "./ui/travel-screen.mjs";
 import { billPaper } from "./ui/bill-paper.mjs";
+import { billFigures } from "./ui/bill-figures.mjs";
 import { trendLine } from "./ui/trend-line.mjs";
 import { billStageSections } from "./ui/bill-stage.mjs";
 import { meetingItem } from "./ui/meeting-item.mjs";
@@ -491,11 +494,16 @@ const words = (key) => {
     .toLowerCase();
   return `${text.charAt(0).toUpperCase()}${text.slice(1)}`;
 };
-// Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+// A key as a person would say it (a name inside a screen that has its own `words`).
+const keyWords = words;
+// Money amounts are kept in cents; "minor/hour" reads as dollars an hour; a plain amount is rounded.
 // A percent reads with its sign, any other unit in words.
 const amount = (value, unit) => {
   if (unit?.startsWith("minor"))
-    return `${moneyWords(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`;
+    // A rate per hour or day keeps its cents; a plain amount reads rounded, as Budgets does.
+    return unit.includes("/")
+      ? `${moneyWords(Number(value))}/${unit.split("/")[1]}`
+      : roundedMoney(Number(value));
   // A rate as a person would say it: at most two decimals (a combined sales
   // tax of 8.773% reads 8.77%; Medicare's 1.45% stays itself).
   if (unit?.startsWith("percent"))
@@ -761,11 +769,9 @@ function inMeeting() {
     };
     const finish = () => {
       show("meeting", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     $("meeting-adjourn").textContent = words.adjourn ?? "";
-    $("game").classList.add("cinema");
     show("meeting", true);
     api("/api/meeting").then(draw);
   });
@@ -960,7 +966,7 @@ function atOrders() {
             item.kind === "budget"
               ? item.lines.map((row) =>
                   labeled(
-                    `${row.name} ${moneyWords(row.amountMinor)}`,
+                    `${row.name} ${roundedMoney(row.amountMinor)}`,
                     select({
                       options: [-20, -10, 0, 10, 20].map((pct) => {
                         const minor = Math.round((row.amountMinor * pct) / 100);
@@ -1018,19 +1024,25 @@ function atOrders() {
                   className: "action",
                   textContent: kindWords(how),
                 });
-                b.addEventListener("click", async () =>
-                  draw(
-                    await post(
-                      `/api/orders?${new URLSearchParams({
-                        entryId: item.entryId,
-                        how,
-                        ...(item.kind === "post" && nominee
-                          ? { nomineeId: nominee }
-                          : {}),
-                      })}`,
-                    ),
-                  ),
-                );
+                b.addEventListener("click", async () => {
+                  try {
+                    draw(
+                      await post(
+                        `/api/orders?${new URLSearchParams({
+                          entryId: item.entryId,
+                          how,
+                          ...(item.kind === "post" && nominee
+                            ? { nomineeId: nominee }
+                            : {}),
+                        })}`,
+                      ),
+                    );
+                  } catch {
+                    // The entry is no longer waiting (the day moved, or another stop cleared it): the
+                    // desk redraws from what is waiting now, never a stale plate with a dead button.
+                    draw(await api("/api/orders"));
+                  }
+                });
                 return b;
               }),
             ),
@@ -1066,7 +1078,6 @@ function electionMorning(scene) {
       );
     const finish = () => {
       show("election-day", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
     const ask = (day) => {
@@ -1127,7 +1138,6 @@ function electionMorning(scene) {
           [labels.skipCanvass, () => ask(day)],
         );
       else ask(day);
-      $("game").classList.add("cinema");
       show("election-day", true);
     });
   });
@@ -1170,13 +1180,11 @@ function electionNight(night) {
               `/api/election-night/watched?${new URLSearchParams({ id: me.id, contestId: night.contestId })}`,
             );
             show("returns", false);
-            $("game").classList.remove("cinema");
             resolve();
           },
         }),
       );
     };
-    $("game").classList.add("cinema");
     draw();
     show("returns", true);
   });
@@ -1231,10 +1239,8 @@ function atThePolls(scene) {
     };
     const finish = () => {
       show("ballot", false);
-      $("game").classList.remove("cinema");
       resolve();
     };
-    $("game").classList.add("cinema");
     draw(scene);
     show("ballot", true);
   });
@@ -2546,7 +2552,7 @@ async function officeParts() {
           paged(
             v.budget.lines.map((row) =>
               labeled(
-                `${row.name} ${moneyWords(row.amountMinor)}`,
+                `${row.name} ${roundedMoney(row.amountMinor)}`,
                 select({
                   options: [-20, -10, 0, 10, 20].map((pct) => {
                     const minor = Math.round((row.amountMinor * pct) / 100);
@@ -2679,7 +2685,30 @@ async function openBillPaper(billId, show, back, backLabel) {
   const stage = await api(
     `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
   );
+  const view = await api(`/api/bill/page?billId=${encodeURIComponent(billId)}`);
   const words = controls.bill ?? {};
+  const pageWords = controls.billPage ?? {};
+  // The bill's number and its body's name over the room that body works in (the government
+  // screen's own room picture for that body); none when the body has no picture.
+  const band = await api(
+    `/api/government/bodies?${new URLSearchParams({
+      id: me.id,
+      level:
+        view.level === "state" || view.level === "federal"
+          ? view.level
+          : "local",
+      state: /^office:(US-[A-Z]{2}):/.exec(paper.bodyOfficeId ?? "")?.[1] ?? "",
+    })}`,
+  )
+    .then((bodies) => {
+      const body = [...bodies.legislative, ...bodies.executive].find(
+        (row) => row.officeId === paper.bodyOfficeId,
+      );
+      return body?.picture
+        ? { picture: body.picture, title: `${paper.spoken} · ${body.name}` }
+        : null;
+    })
+    .catch(() => null);
   const floor = controls.floor ?? {};
   const backButton = makeButton({
     className: "action",
@@ -2693,11 +2722,79 @@ async function openBillPaper(billId, show, back, backLabel) {
       title: paper.title,
       sponsor: `${words.sponsor ?? ""} ${paper.sponsor}`,
       sectionsLabel: words.sections ?? "",
+      whereLabel: words.where ?? "",
+      billLabel: words.bill ?? "",
+      voteLabel: words.vote ?? "",
+      band,
       estimateLabel: words.estimate ?? "",
+      // The budget lines the bill sets, this year beside last year's.
+      extra: billFigures({
+        view,
+        textOf: (index) => paper.sections[index]?.text ?? paper.title,
+        money: roundedMoney,
+        percent: (value) =>
+          new Intl.NumberFormat("en-US", {
+            style: "percent",
+            maximumFractionDigits: 1,
+          }).format(value / 100),
+        words,
+      }),
+      // Where it is: the committee or body that has it, who filed it and the days, from the page view.
+      where: {
+        heading: view.where.committee
+          ? keyWords(view.where.committee)
+          : view.where.bodyTitle,
+        rows: [
+          view.where.filedBy?.name && {
+            label: pageWords.filedBy,
+            value: view.where.filedBy.name,
+          },
+          view.where.filedOn && {
+            label: pageWords.filedOn,
+            value: dateWords(view.where.filedOn),
+          },
+          view.where.reachedChamberOn && {
+            label: pageWords.reached,
+            value: dateWords(view.where.reachedChamberOn),
+          },
+        ].filter(Boolean),
+      },
+      views: { clean: pageWords.clean, compare: pageWords.compare },
+      amendsLabel: words.amends ?? "",
+      // Each chamber's result as the English engine words it, from the stage view, then the floor's
+      // vote by party and those who cast none, from the page view.
+      votes: [...stage.floor, ...stage.override].map((entry) => {
+        const tally = view.tallies.find(
+          (t) => t.stage === "floor" && t.chamber === entry.chamber,
+        );
+        return {
+          big: entry.result,
+          text: entry.chamberTitle,
+          rows: [
+            ...(tally?.byParty ?? []).map((row) => ({
+              label: row.party ? keyWords(row.party) : pageWords.noParty,
+              value: `${row.yes} ${pageWords.to} ${row.no}`,
+            })),
+            ...(tally?.notVoting
+              ? [{ label: pageWords.notVoting, value: String(tally.notVoting) }]
+              : []),
+            // The player's own member in this chamber and the vote they cast (the page view's yourMembers).
+            ...(view.yourMembers ?? [])
+              .filter((m) => m.chamber === entry.chamber && m.vote)
+              .map((m) => ({
+                label: pageWords.yours,
+                value: `${m.name}, ${controls.billStage?.[m.vote] ?? ""}`,
+              })),
+          ],
+        };
+      }),
       blank: billEstimate(paper, { estimate: {} }),
       sections: paper.sections.map((section) => ({
         text: section.text ?? paper.title,
         estimate: billEstimate(paper, section),
+        inserted: view.sections[section.index]?.inserted ?? null,
+        struck: view.sections[section.index]?.struck ?? null,
+        amends: view.sections[section.index]?.amends?.citation ?? null,
       })),
       lines: [
         paper.authorityWarning,
@@ -2798,6 +2895,37 @@ async function openBillPaper(billId, show, back, backLabel) {
         },
       },
     ),
+    // Dev mode: where to introduce it, how each member votes, the margin, then act (fr-dev-bill).
+    ...(devModeOn()
+      ? [
+          await devBillCard({
+            paper,
+            labels: controls.devBill,
+            traceLabel: controls.devTrace.trace,
+            onTrace: async () => {
+              const drawTrace = async (chosen) => {
+                const traced = await api(
+                  `/api/bill/stage?billId=${encodeURIComponent(billId)}`,
+                );
+                show(
+                  backButton,
+                  devTraceVote({
+                    stage: traced,
+                    paper,
+                    labels: controls.devTrace,
+                    words: controls.billStage,
+                    floor: controls.floor,
+                    chosen,
+                    onPick: drawTrace,
+                  }),
+                );
+              };
+              await drawTrace(null);
+            },
+            onDone: () => openBillPaper(billId, show, back, backLabel),
+          }),
+        ].filter(Boolean)
+      : []),
   );
 }
 
@@ -3384,9 +3512,11 @@ const sheets = {
     const figure = (row, value) =>
       row.unit === "dollars"
         ? roundedMoney(Math.round(value * 100))
-        : row.unit === "count"
-          ? Math.round(value).toLocaleString("en-US")
-          : `${value.toFixed(1)} ${words.percent}`;
+        : row.unit === "money"
+          ? roundedMoney(Math.round(value))
+          : row.unit === "count"
+            ? Math.round(value).toLocaleString("en-US")
+            : `${value.toFixed(1)} ${words.percent}`;
     const sections = view.sections.map((section, at) =>
       stripSection(
         at + 1,
@@ -3406,12 +3536,15 @@ const sheets = {
             figure(row, row.now),
             row.before === null
               ? ""
-              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
+              : `${words.lastYear} ${figure(row, row.before)} · ${[direction, moved !== null && Math.abs(moved) >= 0.05 ? (row.unit === "dollars" ? roundedMoney(Math.round(Math.abs(moved) * 100)) : row.unit === "money" ? roundedMoney(Math.round(Math.abs(moved))) : row.unit === "count" ? Math.round(Math.abs(moved)).toLocaleString("en-US") : Math.abs(moved).toFixed(1)) : "", words.since].filter(Boolean).join(" ")}`,
           );
         }),
       ),
     );
-    return [stripBoard({ columns: [sections] })];
+    // Three columns, like the approved mock's Metrics grid: the sections dealt out in turn.
+    const columns = [[], [], []];
+    sections.forEach((section, at) => columns[at % 3].push(section));
+    return [stripBoard({ columns: columns.filter((c) => c.length) })];
   },
   async budgets() {
     const view = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -3467,7 +3600,8 @@ const sheets = {
     // budget lines by category rather than departments, so each spending line is a
     // department; Last year comes from the government's previous budget; "Asked" is the line
     // before this year's budget bill (lineBeforeBill); the executive's bust is the offices
-    // record's chief executive; a head waits on pool item gov-budget-departments-with-named-heads.
+    // record's chief executive; a department's head is the executive's appointee for its line
+    // (budget.ts headsOf).
     const words = controls.budgetStrips;
     const books = gov.books;
     const prior = gov.prior;
@@ -3512,7 +3646,8 @@ const sheets = {
       minor === undefined
         ? []
         : [typedRow(words.lastYear, roundedMoney(minor))];
-    const stepButtons = steps(opened).map((step) => {
+    // A government whose books list no spending line has no department to open (opened is undefined).
+    const stepButtons = (opened ? steps(opened) : []).map((step) => {
       const button = makeButton({
         className: "action small",
         textContent: step.glyph,
@@ -3544,7 +3679,8 @@ const sheets = {
                   departmentRow({
                     name: r.name ?? r.line,
                     amount: roundedMoney(r.minor),
-                    selected: r.line === opened.line,
+                    head: r.head,
+                    selected: r.line === opened?.line,
                     onSelect: () => {
                       budgetLine = r.line;
                       void openSheet("budgets");
@@ -3560,20 +3696,27 @@ const sheets = {
               }),
             ),
           ],
-          [
-            stripSection(
-              2,
-              opened.name ?? opened.line,
-              typedRow(opened.name ?? opened.line, roundedMoney(opened.minor)),
-              ...lastYear(lastOf(prior?.spending, opened.line)),
-              ...sinceLast(opened),
-              ...history(opened),
-              ...(opened.askedMinor !== undefined
-                ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
-                : []),
-              ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
-            ),
-          ],
+          ...(opened
+            ? [
+                [
+                  stripSection(
+                    2,
+                    opened.name ?? opened.line,
+                    typedRow(
+                      opened.name ?? opened.line,
+                      roundedMoney(opened.minor),
+                    ),
+                    ...lastYear(lastOf(prior?.spending, opened.line)),
+                    ...sinceLast(opened),
+                    ...history(opened),
+                    ...(opened.askedMinor !== undefined
+                      ? [typedRow(words.asked, roundedMoney(opened.askedMinor))]
+                      : []),
+                    ...(stepButtons.length ? [buttonTray(...stepButtons)] : []),
+                  ),
+                ],
+              ]
+            : []),
           [
             stripSection(
               3,
@@ -3663,6 +3806,7 @@ const sheets = {
         ? [
             await devScenePanel({
               labels: controls.devScene,
+              wordOf: keyWords,
               onDone: () => refresh(),
             }),
           ]
@@ -3705,6 +3849,7 @@ const sheets = {
         labels,
         date: today(),
         headlineOf: storyHeadline,
+        photoOf: storyPhoto,
       }),
     ];
   },
@@ -5942,6 +6087,12 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
   for (const id of placeControls) $(id).disabled = true;
   // The loading card: the panel holds only the progress over the scene.
   frontPanel(null);
+  // The creator already names the town: the card carries that name from the first step.
+  const chosenName = placeKey
+    ? $("cr-place-summary-name").textContent.trim()
+    : "";
+  if (chosenName)
+    document.querySelector("#front > .title").textContent = chosenName;
   show("front-status", true);
   const bar = document.querySelector("#front .progress");
   bar.hidden = false;

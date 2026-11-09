@@ -10,6 +10,7 @@ import {
   acceptJobOffer,
   acceptScore,
   declineJobOffer,
+  firmStaffing,
   jobOffersFor,
   moveLabel,
   quitScore,
@@ -276,6 +277,7 @@ describe("jobs", () => {
           employed: false,
           since: start,
           referenceHourlyMinor: 0,
+          regionalPull: 1,
         });
     }
     withBooks(core, 2);
@@ -299,7 +301,7 @@ describe("jobs", () => {
       personId: "s1",
       status: "released",
     });
-    advanceCore(core, "2021-07-31");
+    advanceCore(core, "2022-01-31");
     expect(
       jobs
         .table("changes")
@@ -394,7 +396,7 @@ describe("jobs", () => {
       api = coreAPI(core),
       total = money(core);
     withBooks(core, 2);
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-05-31");
     const store = api.moduleState("jobs");
     const hires = store.table("changes").query("byKind", ["hire"]);
     expect(hires.length).toBeGreaterThan(0);
@@ -405,18 +407,30 @@ describe("jobs", () => {
     expect(money(core)).toBe(total);
     expect(p("jobsStaffGapActedPerMonth")).toBeGreaterThan(0);
   });
+  it("reads a firm's service level: staff against what its demand needs, below one while it is short", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    withBooks(core, 2);
+    expect(firmStaffing(api, employer)).toBeUndefined();
+    advanceCore(core, "2021-02-10");
+    const read = firmStaffing(api, employer)!;
+    expect(read.target).toBeGreaterThan(read.staff);
+    expect(read.serviceLevel).toBeGreaterThan(0);
+    expect(read.serviceLevel).toBeLessThan(1);
+    expect(read.serviceLevel).toBeCloseTo(read.staff / read.target, 9);
+  });
   it("fills a declined player opening with the next willing applicant", () => {
     const fixture = input();
     fixture.playerId = "s2";
     const core = createLifeCore(fixture, { data, modules: [JOBS_MODULE] });
     const api = coreAPI(core);
     withBooks(core, 2);
-    advanceCore(core, "2021-03-02");
+    advanceCore(core, "2021-04-14");
     const pending = jobOffersFor(api, "s2");
     expect(pending).toHaveLength(1);
     const offered = pending[0]!;
     expect(declineJobOffer(api, offered.id)).toBe(true);
-    advanceCore(core, "2021-03-10");
+    advanceCore(core, "2021-06-30");
     expect(core.people.get("s2")!.jobId).toBeUndefined();
     expect(core.people.get("s1")!.jobId).toBe(`job:${offered.positionId}:s1`);
     expect(
@@ -454,7 +468,7 @@ describe("jobs", () => {
       reasonKey: "started-looking",
       referenceHourlyMinor: 1400,
     });
-    advanceCore(core, "2021-03-02");
+    advanceCore(core, "2021-05-31");
     const hires = api
       .moduleState("jobs")
       .table("changes")
@@ -462,6 +476,35 @@ describe("jobs", () => {
     expect(hires[0]).toMatchObject({ personId: "s1" });
     expect(core.people.has("s1")).toBe(false);
     expect(core.people.get("s2")!.jobId).toBeUndefined();
+  });
+  it("cuts hours before letting anyone go when demand falls a little below the staff, and the pay follows", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    // Demand for 3.4 of its 4 jobs: a shortfall of a fraction of a head.
+    withBooks(core, 0.85);
+    advanceCore(core, "2021-03-31");
+    const layoffs = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["layoff"]);
+    expect(layoffs).toEqual([]);
+    const cut = [...core.jobs.values()].filter(
+      (job) => job.organizationId === employer && job.endsAt === undefined,
+    );
+    expect(cut.length).toBeGreaterThan(0);
+    const floor = api.parameter("jobsHoursFloorShare");
+    for (const job of cut) {
+      expect(job.hoursDaily).toBeLessThan(8);
+      expect(job.hoursDaily).toBeGreaterThanOrEqual(8 * floor - 0.25);
+      // The pay follows the hours: the daily wage is the hourly rate times the hours.
+      expect(job.wageDailyMinor).toBeCloseTo(
+        (job.hourlyMinor ?? 0) * job.hoursDaily,
+        -1,
+      );
+      expect(core.work.hourChanges.get(job.id)?.at(-1)?.hoursDaily).toBe(
+        job.hoursDaily,
+      );
+    }
   });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
@@ -530,7 +573,8 @@ describe("jobs", () => {
       api = coreAPI(core);
     openLaws(core);
     withBooks(core, 0.25);
-    advanceCore(core, "2021-06-30");
+    // Hours give way first (down to the floor of a full week), so the layoff that follows the shortfall comes later.
+    advanceCore(core, "2021-12-31");
     const claims = api.moduleState("jobs").table("claims").rows();
     const w1 = claims.find((row) => row.personId === "w1");
     // The drawn state's own law sets the claim: the terms read from its row.
@@ -542,9 +586,59 @@ describe("jobs", () => {
       expect(claims).toEqual([]);
       return;
     }
+    // The claim reads the worker's pay by quarter, the state's own formula:
+    // the base period is the first four of the last five completed quarters
+    // before the claim is filed, the basis is the state's highest quarters of
+    // them, the benefit is the state's fraction of that basis, and the
+    // state's weekly maximum caps it. Worked out here from the payroll's
+    // record for the worker, not typed.
+    const fold = (
+      core.work as unknown as {
+        payByQuarter: ReadonlyMap<
+          string,
+          readonly { quarter: string; grossMinor: number }[]
+        >;
+      }
+    ).payByQuarter.get("w1");
+    expect(
+      fold?.length,
+      "the payroll recorded the worker's quarters",
+    ).toBeTruthy();
+    const filed = String(w1!.filedAt);
+    const quarterOfDay = (day: string) =>
+      `${day.slice(0, 4)}Q${Math.floor((Number(day.slice(5, 7)) - 1) / 3) + 1}`;
+    const completed = fold!
+      .filter((q) => q.quarter < quarterOfDay(filed))
+      .slice(-5);
+    const base = completed.length === 5 ? completed.slice(0, 4) : completed;
+    const basis = base
+      .map((q) => q.grossMinor)
+      .sort((a, b) => b - a)
+      .slice(0, terms.basisQuarters ?? 0)
+      .reduce((n, v) => n + v, 0);
+    // A state that pays on the weekly wage, or whose row gives no basis, or a
+    // worker with under four completed quarters on record, is paid on the lost job's pay.
+    const readsQuarters =
+      completed.length >= 4 &&
+      terms.weeklyFraction !== undefined &&
+      !!terms.basisQuarters;
+    // With under four completed quarters of pay on record before the claim (the world
+    // is under a year old), the lost job's pay as it stood when it ended,
+    // hours cuts included, stands (stopgap SG-LAWS-ui-base-period-last-pay).
+    const lastHours =
+      (core.work.hourChanges.get("job:w1") ?? [])
+        .filter((change) => change.date <= filed)
+        .at(-1)?.hoursDaily ?? 8;
+    const lostWeekly = (84_000 * lastHours) / 8;
+    expect(lostWeekly).toBeLessThanOrEqual(84_000);
     expect(w1).toMatchObject({
       weeklyMinor: Math.round(
-        Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * 84_000),
+        Math.min(
+          terms.weeklyMaximumMinor,
+          readsQuarters
+            ? terms.weeklyFraction! * basis
+            : terms.weeklyShare * lostWeekly,
+        ),
       ),
       reasonKey: "demand-below-staff",
       lawId: row.id,
@@ -670,11 +764,46 @@ describe("jobs", () => {
         .regionalPull,
     ).toBeGreaterThan(0.5);
   });
+  it("lets go of a worker who attends none of their scheduled days, by a pull that builds with the missed share", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    withBooks(core, 1);
+    const totals = (id: string) => core.work.totalsByJob.get(id);
+    const miss = (jobId: string, planned: number, attended: number) => {
+      const row = totals(jobId) ?? {
+        plannedMinutes: 0,
+        attendedMinutes: 0,
+        requestedMinor: 0,
+        paidMinor: 0,
+        workedDays: 0,
+        missedDays: 0,
+      };
+      core.work.totalsByJob.set(jobId, {
+        ...row,
+        plannedMinutes: row.plannedMinutes + planned,
+        attendedMinutes: row.attendedMinutes + attended,
+      });
+    };
+    // w1 attends none of a month's schedule, w2 attends all of it, month after month.
+    for (let month = 1; month <= 4; month++) {
+      miss("job:w1", 200_000, 0);
+      miss("job:w2", 200_000, 200_000);
+      advanceCore(core, `2021-0${month}-28`);
+    }
+    const dismissed = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["layoff"])
+      .filter((row) => row.reasonKey === "absent-from-work");
+    expect(dismissed.map((row) => row.personId)).toEqual(["w1"]);
+    expect(dismissed[0]!.values?.absentPull).toBeGreaterThanOrEqual(1);
+    expect(core.jobs.get("job:w2")?.endsAt).toBeUndefined();
+  });
   it("introduces a new hire to the full coworkers already working there", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core);
     withBooks(core, 2);
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-05-31");
     const hire = api
       .moduleState("jobs")
       .table("changes")
@@ -784,7 +913,7 @@ describe("jobs", () => {
       capacityMinor: 12_000 * 260 * 4,
       anchorAnnualDemandMinor: 12_000 * 260 * 4,
     });
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-09-30");
     const hires = coreAPI(core)
       .moduleState("jobs")
       .table("changes")
@@ -1049,7 +1178,7 @@ describe("staffing recovery", () => {
         (job) => job.organizationId === employer && !job.endsAt,
       ),
     ).toHaveLength(0);
-    advanceCore(core, "2021-03-02");
+    advanceCore(core, "2021-05-31");
     const positions = api
       .moduleState("jobs")
       .table("positions")

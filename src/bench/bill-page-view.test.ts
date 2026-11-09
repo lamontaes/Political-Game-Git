@@ -5,15 +5,19 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { gameStartDate } from "../core2/game-start";
 import {
   castMemberVote,
+  FEDERAL_HOUSE,
   holdVote,
   LEGISLATURE_MODULE_ID,
+  bodyOf,
   memberKey,
   members,
   type BillRow,
 } from "../core2/modules/legislature";
+import { townSeats } from "../core2/modules/offices";
 import { coreAPI } from "../core2/state";
 import { billPageView } from "./bill-stage";
 import { seatAct, seatView } from "./legislature";
+import { DevMode } from "./dev-mode";
 import { BenchPlayer } from "./player";
 
 // The bill page's one object: the name, the stage and its day, the sponsor, each section's label
@@ -100,6 +104,27 @@ describe(`the bill page's view (seed ${seed})`, () => {
       ).toBe(true);
       const floor = page.tallies.find((t) => t.stage === "floor")!;
       expect(floor.yes, draw.name).toBe(seated.length);
+      // The party split adds up to the floor result, and those who cast no vote are counted.
+      expect(
+        floor.byParty.reduce((n, row) => n + row.yes + row.no, 0),
+        `${draw.name}: the parties add up to the floor`,
+      ).toBe(floor.yes + floor.no);
+      expect(floor.notVoting, draw.name).toBeGreaterThanOrEqual(0);
+      // The section's clause as the bill words it, and with the law in force in its place.
+      expect(first.inserted, `${draw.name}: the bill's clause`).toBeTruthy();
+      expect(
+        first.struck,
+        `${draw.name}: the clause with the law in force`,
+      ).toBeTruthy();
+      expect(first.struck, draw.name).not.toBe(first.inserted);
+      expect(
+        first.amends?.lawId ?? first.amends?.citation,
+        `${draw.name}: the law the section changes`,
+      ).toBeTruthy();
+      // Where it is: the body, who filed it and the day.
+      expect(page.where.bodyTitle, draw.name).toBeTruthy();
+      expect(page.where.filedBy.name, draw.name).toBe(page.sponsor.name);
+      expect(page.where.filedOn, draw.name).toMatch(/^\d{4}-\d{2}-\d{2}$/);
       expect(page.reach.reachesYou, draw.name).toBe(true);
       console.log(
         `bill-page: ${draw.name} (${draw.key}, seed ${draw.seed}) ${page.number} "${page.name}" ${page.stage} ${page.stageDate}, ${page.sections.length} section(s), floor ${floor.yes} to ${floor.no}, level ${page.level}`,
@@ -230,4 +255,116 @@ describe(`the bill page's view (seed ${seed})`, () => {
       `no drawn place had a budget bill in its first days (seed ${seed}): ${tried.join("; ")}`,
     );
   }, 1_800_000);
+
+  it("names the player's own representative in each chamber that has the bill, and the vote they cast", () => {
+    const tried: string[] = [];
+    for (let i = 0; i < 6; i += 1) {
+      const draw = drawPlace(`${seed}:rep:${i}`, "bill-page-rep");
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const dev = new DevMode(
+        world.core,
+        world.director,
+        new BenchPlayer(world.core, world.director),
+        world.placeId,
+      );
+      const house = dev.lawmakingBodies().find((b) => b.id === FEDERAL_HOUSE);
+      if (!house) {
+        tried.push(`${draw.name}: no House`);
+        continue;
+      }
+      // A territory's or D.C.'s seat in the House is a delegate's, who casts no floor vote: the
+      // place's own seat records say whether the town has a voting member.
+      const houseKind = bodyOf(coreAPI(world.core), house.id)?.kind;
+      if (
+        !townSeats(coreAPI(world.core)).some(
+          ({ office, holder }) => office.kind === houseKind && holder,
+        )
+      ) {
+        tried.push(`${draw.name}: a delegate, no voting House member`);
+        continue;
+      }
+      const filed = dev.introduce({
+        bodyOfficeId: house.id,
+        sponsorId: house.members[0]!.key,
+        series: "minimum-wage",
+        value: 1500,
+      }).bill;
+      if (filed.status === "blocked") {
+        tried.push(`${draw.name}: blocked`);
+        continue;
+      }
+      dev.decideAt(filed.id, 40, { chairHears: true });
+      const page = billPageView(world.core, filed.id);
+      const mine = page.yourMembers.filter((m) => m.chamber === house.id);
+      expect(mine.length, `${draw.name}: the town's House member`).toBe(1);
+      expect(mine[0]!.name.length, draw.name).toBeGreaterThan(0);
+      expect(["yes", "no", "abstain"], `${draw.name}: their vote`).toContain(
+        mine[0]!.vote,
+      );
+      console.log(
+        `your member: ${draw.name} (${draw.key}, seed ${draw.seed}) ${mine[0]!.title} ${mine[0]!.name} voted ${mine[0]!.vote}`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place showed the town's House member (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
+
+  it("gives a drafted bill the sitting it is in, the day it has until, and each section's own estimate", () => {
+    const tried: string[] = [];
+    for (let i = 0; i < 6; i += 1) {
+      const draw = drawPlace(`${seed}:window:${i}`, "bill-page-window");
+      const world = buildBenchWorld(draw.seed, gameStartDate(), {
+        twoLevel: true,
+        placeKey: draw.key,
+      });
+      const dev = new DevMode(
+        world.core,
+        world.director,
+        new BenchPlayer(world.core, world.director),
+        world.placeId,
+      );
+      const chamber = dev
+        .lawmakingBodies()
+        .find((b) => b.level === "state" && b.members.length > 0);
+      if (!chamber) {
+        tried.push(`${draw.name}: no state chamber`);
+        continue;
+      }
+      const filed = dev.introduce({
+        bodyOfficeId: chamber.id,
+        sponsorId: chamber.members[0]!.key,
+        series: "minimum-wage",
+        value: 2500,
+      }).bill;
+      if (filed.status === "blocked") {
+        tried.push(`${draw.name}: blocked`);
+        continue;
+      }
+      const page = billPageView(world.core, filed.id);
+      const session = page.where.session;
+      if (!session) {
+        tried.push(`${draw.name}: the body has no sitting on its calendar`);
+        continue;
+      }
+      expect(session.startsOn, draw.name).toMatch(/^\d{4}-\d{2}-\d{2}$/);
+      expect(session.endsOn > session.startsOn, draw.name).toBe(true);
+      // A bill still before the body has until the sitting ends: the floor never reaching it kills it.
+      expect(page.where.until, draw.name).toBe(session.endsOn);
+      const section = page.sections[0]!;
+      expect(typeof section.estimate.annualPayMinor, draw.name).toBe("number");
+      expect(section.estimate.note.length, draw.name).toBeGreaterThan(0);
+      console.log(
+        `stage window: ${draw.name} (${draw.key}, seed ${draw.seed}) ${page.number} sits ${session.startsOn} to ${session.endsOn}, until ${page.where.until}, section ${section.estimate.annualPayMinor} minor a year (${section.estimate.workersRaised} workers)`,
+      );
+      return;
+    }
+    throw new Error(
+      `no drawn place showed a sitting for a drafted state bill (seed ${seed}): ${tried.join("; ")}`,
+    );
+  }, 900_000);
 });

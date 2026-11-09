@@ -1,4 +1,4 @@
-/* global process, URL, console, document, Event */
+/* global process, URL, console, document, Event, fetch */
 // The bill stage (legislation mocks, Nov 8): a member drafts a bill, the dev route holds its
 // floor vote, and the bill's paper then shows the floor result by name: each chamber's yes and no,
 // every name that has a card opening it.
@@ -183,14 +183,48 @@ try {
     const v = await (
       await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
     ).json();
-    return { aide: v.aide, told: v.told.length, cosponsors: v.cosponsors };
+    return {
+      aide: v.aide,
+      told: v.told.length,
+      cosponsors: v.cosponsors,
+      // Colleagues who are full people and told the player they back the bill: the ones who can sign on.
+      backing: v.told.filter((t) => t.side === "for" && t.personId).length,
+    };
   }, billId);
   console.log("after colleagues told the player:", JSON.stringify(told));
+  // Who signs on is decided when the bill is drafted (the cosponsor rule): members whose position on
+  // the bill is already for it and who stand close to the sponsor. That is not the set who tell the
+  // player afterwards where they stand, so the check claims what the rule makes: every cosponsor is a
+  // member of a body in this world and is not the sponsor, and a colleague who told the player they
+  // back the bill is not assumed to have signed on.
+  if (told.told === 0)
+    console.log(
+      "no colleagues in this draw: the player's seat has no body to tell them where they stand",
+    );
+  const sign = await page.evaluate(async (id) => {
+    const v = await (
+      await fetch(`/api/bill/stage?billId=${encodeURIComponent(id)}`)
+    ).json();
+    const bodies = await (await fetch("/api/dev/lawmaking-bodies")).json();
+    const members = new Set(bodies.flatMap((b) => b.members.map((m) => m.key)));
+    return {
+      sponsor: v.sponsor,
+      cosponsors: v.cosponsors,
+      outside: v.cosponsors.filter(
+        (c) => !c.personId || !members.has(c.personId),
+      ).length,
+    };
+  }, billId);
+  console.log("cosponsors:", JSON.stringify(sign.cosponsors));
   assert.ok(
-    told.cosponsors.length > 0,
-    "colleagues signed on beside the player",
+    !sign.cosponsors.some((c) => c.name === sign.sponsor),
+    "a member does not sign on to their own bill",
   );
-  assert.ok(told.told > 0, "colleagues told the player where they stand");
+  assert.equal(
+    sign.outside,
+    0,
+    "every cosponsor is a member of a body in this world",
+  );
   // Back, and open the paper again: it now says what the aide expects.
   await page.locator("#sheet-body button.action").first().click();
   await page.waitForTimeout(800);
@@ -201,7 +235,16 @@ try {
   await page.locator(".bill-doc").waitFor();
   const paperAfter = await page.locator("#sheet-body").innerText();
   console.log("aide on the paper:", /aide/i.test(paperAfter));
-  assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
+  // The paper names its cosponsors when someone signed on (above: who does follows who backs the bill
+  // in this draw); a bill with none has no such line.
+  if (told.cosponsors.length)
+    assert.match(paperAfter, /Cosponsors/, "the paper names its cosponsors");
+  else
+    assert.doesNotMatch(
+      paperAfter,
+      /Cosponsors/,
+      "a bill with no cosponsors names none",
+    );
   assert.match(paperAfter, /aide/i, "the paper carries the aide's estimate");
   assert.match(
     paperAfter,

@@ -18,10 +18,14 @@ export function pager({
   rowHeight = 64,
   gap = 8,
   className = "",
+  /** A row grows past `rowHeight` when its text wraps (the box scrolls), never clips or overlaps. */
+  growRows = false,
 }) {
   const grid = el("div", { className: "pager-grid" });
   grid.style.gridTemplateColumns = `repeat(${columns}, minmax(0, 1fr))`;
-  grid.style.gridAutoRows = `${rowHeight}px`;
+  grid.style.gridAutoRows = growRows
+    ? `minmax(${rowHeight}px, auto)`
+    : `${rowHeight}px`;
   grid.style.gap = `${gap}px`;
   const box = el("div", { className: `pager ${className}` }, grid);
   grid.replaceChildren(...items.map(render));

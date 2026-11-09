@@ -131,10 +131,10 @@
     "file": "src/core2/modules/jobs.ts",
     "line": 1,
     "whatItFakes": "Town workers are let go at a fixed pace (the JOLTS layoff rate, moved by the state's unemployment, age and traits) instead of by their employers' own books and demand. A firm's demand does not shake month to month the way real firms' does (a big customer lost, a contract ended, a bad season), so without this pull the town's firms almost never separate anyone.",
-    "why": "Measured Nov 8 with the pull switched off (24 months, scripts/world-proofs/jobs-24-months.ts, main 48561f2a): Algiers VT 5001035 r7 unemployment 0.2% mean with 0 layoffs and 0 hires in months 12 and 24; Utah place 4906590 n8b 0.0%, 23 zero months; North Carolina place 3755940 rnd-a 0.0%, 24 zero months; Clinton CT 0915420 r7 0.8% mean. With it: 2.3%, 1.1%, 0.5% and 4.9% and 6 to 15 layoffs a year in a 100-worker town. Deleting the pull removes the labor market's churn, not a target.",
+    "why": "Measured Nov 8 with the pull switched off (24 months, scripts/world-proofs/jobs-24-months.ts, main 48561f2a): Algiers VT 5001035 r7 unemployment 0.2% mean with 0 layoffs and 0 hires in months 12 and 24; Utah place 4906590 n8b 0.0%, 23 zero months; North Carolina place 3755940 rnd-a 0.0%, 24 zero months; Clinton CT 0915420 r7 0.8% mean. With it: 2.3%, 1.1%, 0.5% and 4.9% and 6 to 15 layoffs a year in a 100-worker town. Deleting the pull removes the labor market's churn, not a target. Measured Nov 9 with the national cycle on main (1366972d4e) and the pull switched off (24 months, scripts/world-proofs/jobs-24-months.ts, seed r7, branch jobs/regional-no-employer): Algiers VT 5001035 has 0 layoffs in months 6, 12, 18 and 24 and holds 4-7% out of work on the opening cohort and entrants alone (with the pull 8-11%); place 1576584 has 0 to 2 layoffs a month and 0.9-3.9% (with the pull 4.6-7%). The cycle moves every firm by one place factor, so it supplies recessions and no idiosyncratic separations. The pull is sized at the CPS employment-to-unemployment flow (pastWorkLayoffsPerQuarter 0.029, FRED LNS17400000). Spread over seven draws (Nov 9, 24 months, Algiers VT 5001035, branch jobs/regional-no-employer), out of work at month 24: r7 10.6% (8-11% in year 2), r8 8.1%, r9 4.8%, r10 5.6%, r11 5.3%, r12 4.3%, r13 4.5% (mean 6.2%, median 5.3%); a 130-worker town moves 0.7% a person, so read it as a spread. Clinton CT 0915420 2.7-4.4% and place 4103650 2.5-3.8% (seed r7) are in range.",
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
-    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected). Plan (Coordinator, Nov 8): a fractional drop in demand cuts hours first, as a sliding scale, with pay and the household's money following; whole-head separations come from discrete causes in the firm's own records (cash running out and the firm closing, the owner's age or health and a retirement or sale, a worker quitting for a better regional job, a worker's own life events). One PR each: hours, then each discrete cause. Then delete reviewTurnover and its pull table. Evidence Nov 8 that jobs-only changes do not lift the small-town flat line (24 months, scripts/world-proofs/jobs-24-months.ts, mean out-of-work share and zero months): Utah place 4906590 n8b is 0.6% with 17 zero months on main and with the age-aware find (#7720); raising jobsQuitBaseline to -2.5 left it at 0.5% and 17 zero months and took Clinton CT 0915420 r7 from 2.5% to 7.6% (peak 15.7%), and at -2.3 to 14.0%; sending a counted quitter through the entry review as a full person who left work left Utah at 17 zero months, NC 3755940 rnd-a at 15, and made Clinton erratic (13 zero months, 12% peak). The cause is upstream of the jobs engine: about 80% of a small town's firm sales are outside buyers who follow one smooth place factor (macro.ts publishConditions), so no firm's demand diverges; firm-level shocks wait on Money's national cycle and on hours cuts through api.rehourJob (#7719), then the discrete causes (closure when cash runs out, owner retirement or sale).",
+    "replacement": "Firm-level demand shocks that come from the world's own records (a customer household or firm that moves, closes, loses income or changes suppliers; a contract that ends; the season), read by the employer's staffing review (reviewEmployers: observedStaff against projected). Plan (Coordinator, Nov 8): a fractional drop in demand cuts hours first, as a sliding scale, with pay and the household's money following; whole-head separations come from discrete causes in the firm's own records (cash running out and the firm closing, the owner's age or health and a retirement or sale, a worker quitting for a better regional job, a worker's own life events). One PR each: hours, then each discrete cause. Then delete reviewTurnover and its pull table. Evidence Nov 8 that jobs-only changes do not lift the small-town flat line (24 months, scripts/world-proofs/jobs-24-months.ts, mean out-of-work share and zero months): Utah place 4906590 n8b is 0.6% with 17 zero months on main and with the age-aware find (#7720); raising jobsQuitBaseline to -2.5 left it at 0.5% and 17 zero months and took Clinton CT 0915420 r7 from 2.5% to 7.6% (peak 15.7%), and at -2.3 to 14.0%; sending a counted quitter through the entry review as a full person who left work left Utah at 17 zero months, NC 3755940 rnd-a at 15, and made Clinton erratic (13 zero months, 12% peak). The cause is upstream of the jobs engine: about 80% of a small town's firm sales are outside buyers who follow one smooth place factor (macro.ts publishConditions), so no firm's demand diverges; firm-level shocks wait on Money's national cycle and on hours cuts through api.rehourJob (#7719), then the discrete causes (closure when cash runs out, owner retirement or sale). Needs firm-level demand that differs between sellers in a town: the outside buyers' sales (about 80% of a small town's firm sales) divided among its sellers by price, capacity and quality (src/core2/residents-economy.ts scaleOutsideSales and the business engine), so a firm that raises prices on a wage rise or a new competitor loses sales for its own recorded reasons.",
     "status": "open"
   },
   {
@@ -159,6 +159,42 @@
     "addedBy": "jobs-and-economy",
     "addedAt": "2026-11-08",
     "replacement": "Scale the band ratios so their job-weighted mean is one over the county's age mix of workers (ACS), then apply them to the town's mix; a town older than its county then opens below the county only by how much older it is.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-vacancy-size-uniform",
+    "kind": "estimated-behavior",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1,
+    "whatItFakes": "A vacancy's wait before it can be filled depends on the firm's industry only (JOLTS openings over hires). Davis, Faberman and Haltiwanger show vacancy duration also varies with the establishment's size and growth; the firm's size is not read.",
+    "why": "The industry series is the published figure; a size gradient needs establishment-size microdata not fetched tonight.",
+    "addedBy": "jobs-and-economy",
+    "addedAt": "2026-11-09",
+    "replacement": "Scale each firm's duration by the size gradient of DHI's hires-per-vacancy rate once the establishment-size table is sourced.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-ban-the-box-proof-fixture-convictions",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-record-bias.test.ts",
+    "line": 1,
+    "whatItFakes": "The ban-the-box twin-world proof (src/core2/jobs-record-bias.test.ts) gives half of the town's laid-off seekers a conviction by writing a case and a sentence into the justice tables as the justice engine writes them. The laid-off seekers, the funded police opening and the ranking are played; the convictions are not, because the played justice engine convicts only after a bribery investigation and a drawn town rarely produces one in the months a proof runs.",
+    "why": "The justice engine convicts through investigations of bribery and the cases they bring; ordinary crime in the world does not yet end in a conviction record for a named resident, so a resident with a record who looks for work does not arise in a played year.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "Ordinary crime, arrest and trial in the justice engine ending in convictions for named residents, so the proof draws a place where a resident with a record applies and uses that person.",
+    "status": "open"
+  },
+  {
+    "id": "SG-LABOR-record-bias-public-only",
+    "kind": "faked-mechanic",
+    "file": "src/core2/jobs-record-bias.ts",
+    "line": 29,
+    "whatItFakes": "The penalty an employer puts on an applicant with a conviction, and the ban-the-box law that lifts it, are read only for public employers in the town and only for full (named) applicants. Private employers are not read even where the state's law covers them (California, Connecticut, Colorado and others), and a counted seeker has no personal record to weigh, though the justice engine keeps counted cases. The penalty is one ESTIMATED number for every public employer.",
+    "why": "The justice engine keeps a conviction per named person (convictionsOf) but a counted seeker's record is a count by case, not an applicant's; whether a private employer is covered is in the state row's note, not a field the jobs engine reads.",
+    "addedBy": "night:laws-and-effects",
+    "addedAt": "2026-11-09",
+    "replacement": "Read the state row's private-employer coverage for private employers, and a counted seeker's share with a record from the justice engine's counted cases, by the same rule as a full person; size the penalty from the callback gap by employer type.",
     "status": "open"
   }
 ]
