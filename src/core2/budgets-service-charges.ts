@@ -24,6 +24,7 @@ import {
   governments,
   type GovernmentRow,
 } from "./modules/budgets";
+import { registerWorldMapPart } from "./snapshot";
 import { lawChain } from "./modules/laws";
 import { monthlyLivingCostMinor, residentsRuntime } from "./modules/residents";
 import type { ModuleRow } from "./module-data";
@@ -134,12 +135,15 @@ export function townPayers(api: CoreAPI, townPlaceId: string): TownPayers {
     }
     for (const flow of rt.flows.values()) {
       if (flow.endedAt || flow.placeId !== townPlaceId) continue;
+      // A firm with several outside-costs flows pays on all of them: its
+      // month's charge is spread over every payment it makes.
       if (flow.kind === "outside-costs")
         firms.set(
           flow.payerId,
-          flow.cadence.kind === "days"
-            ? 365 / 12 / flow.cadence.every
-            : 1 / flow.cadence.every,
+          (firms.get(flow.payerId) ?? 0) +
+            (flow.cadence.kind === "days"
+              ? 365 / 12 / flow.cadence.every
+              : 1 / flow.cadence.every),
         );
       if (
         flow.kind === "purchase" &&
@@ -202,6 +206,19 @@ function servicesOf(
  * it to the residents engine. Run when the treasuries open, at each close,
  * and when a budget changes.
  */
+/** What each payer has paid toward its sewer and trash charge this month, by government and payer; it starts over each month. */
+const sewerTakenByMonth = new WeakMap<
+  CoreState,
+  { month: string; taken: Map<string, number> }
+>();
+registerWorldMapPart("core2-sewer-taken", sewerTakenByMonth);
+function sewerTaken(core: CoreState, month: string): Map<string, number> {
+  let entry = sewerTakenByMonth.get(core);
+  if (!entry || entry.month !== month)
+    sewerTakenByMonth.set(core, (entry = { month, taken: new Map() }));
+  return entry.taken;
+}
+
 export function syncServiceCharges(api: CoreAPI): void {
   const core = api.state as CoreState;
   const chain = lawChain(api);
@@ -292,7 +309,27 @@ export function syncServiceCharges(api: CoreAPI): void {
     const byService: Record<string, number> = { ...(prior?.byService ?? {}) };
     // The sewer part is what the payer owes for its dwellings or firm; the
     // rest is spread over the other services by their shares.
-    const sewer = Math.min(minor, sewerOwed(row, payerId));
+    // However many payments a payer makes in a month, it pays its month's
+    // sewer and trash charge once: what it owes this month, less what it
+    // has already paid toward it.
+    const monthTaken = sewerTaken(core, month);
+    const takenKey = `${row.governmentId}|${payerId ?? ""}`;
+    const monthlyOwed = payerId
+      ? payers.people.has(payerId)
+        ? row.sewerPerDwellingMinor
+        : payers.counted.has(payerId)
+          ? payers.counted.get(payerId)! * row.sewerPerDwellingMinor
+          : payers.firms.has(payerId)
+            ? row.sewerPerFirmMinor
+            : 0
+      : 0;
+    const sewer = Math.min(
+      minor,
+      sewerOwed(row, payerId),
+      Math.max(0, monthlyOwed - (monthTaken.get(takenKey) ?? 0)),
+    );
+    if (sewer > 0)
+      monthTaken.set(takenKey, (monthTaken.get(takenKey) ?? 0) + sewer);
     if (sewer > 0) byService[SEWER] = (byService[SEWER] ?? 0) + sewer;
     const others = row.services.filter((s) => s.service !== SEWER);
     const whole = others.reduce((n, s) => n + s.share, 0);
