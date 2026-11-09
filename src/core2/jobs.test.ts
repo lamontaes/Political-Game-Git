@@ -464,6 +464,35 @@ describe("jobs", () => {
     expect(core.people.has("s1")).toBe(false);
     expect(core.people.get("s2")!.jobId).toBeUndefined();
   });
+  it("cuts hours before letting anyone go when demand falls a little below the staff, and the pay follows", () => {
+    const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
+      api = coreAPI(core);
+    // Demand for 3.4 of its 4 jobs: a shortfall of a fraction of a head.
+    withBooks(core, 0.85);
+    advanceCore(core, "2021-03-31");
+    const layoffs = api
+      .moduleState("jobs")
+      .table("changes")
+      .query("byKind", ["layoff"]);
+    expect(layoffs).toEqual([]);
+    const cut = [...core.jobs.values()].filter(
+      (job) => job.organizationId === employer && job.endsAt === undefined,
+    );
+    expect(cut.length).toBeGreaterThan(0);
+    const floor = api.parameter("jobsHoursFloorShare");
+    for (const job of cut) {
+      expect(job.hoursDaily).toBeLessThan(8);
+      expect(job.hoursDaily).toBeGreaterThanOrEqual(8 * floor - 0.25);
+      // The pay follows the hours: the daily wage is the hourly rate times the hours.
+      expect(job.wageDailyMinor).toBeCloseTo(
+        (job.hourlyMinor ?? 0) * job.hoursDaily,
+        -1,
+      );
+      expect(core.work.hourChanges.get(job.id)?.at(-1)?.hoursDaily).toBe(
+        job.hoursDaily,
+      );
+    }
+  });
   it("lays off when demand falls below the staff, naming who decided and keeping the most tenured and reliable", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core),
@@ -531,7 +560,8 @@ describe("jobs", () => {
       api = coreAPI(core);
     openLaws(core);
     withBooks(core, 0.25);
-    advanceCore(core, "2021-06-30");
+    // Hours give way first (down to the floor of a full week), so the layoff that follows the shortfall comes later.
+    advanceCore(core, "2021-12-31");
     const claims = api.moduleState("jobs").table("claims").rows();
     const w1 = claims.find((row) => row.personId === "w1");
     // The drawn state's own law sets the claim: the terms read from its row.
@@ -543,9 +573,16 @@ describe("jobs", () => {
       expect(claims).toEqual([]);
       return;
     }
+    // The claim reads the lost job's pay as it stood when it ended, hours cuts included (the job is 8 hours a day at 84,000 a week).
+    const lastHours =
+      (core.work.hourChanges.get("job:w1") ?? [])
+        .filter((change) => change.date <= String(w1!.filedAt))
+        .at(-1)?.hoursDaily ?? 8;
+    const lostWeekly = (84_000 * lastHours) / 8;
+    expect(lostWeekly).toBeLessThanOrEqual(84_000);
     expect(w1).toMatchObject({
       weeklyMinor: Math.round(
-        Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * 84_000),
+        Math.min(terms.weeklyMaximumMinor, terms.weeklyShare * lostWeekly),
       ),
       reasonKey: "demand-below-staff",
       lawId: row.id,
