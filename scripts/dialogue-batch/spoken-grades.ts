@@ -36,24 +36,39 @@ export interface SpokenSpan {
 }
 
 const WORDS: readonly [RegExp, number][] = [
+  // His words, from the voice notes (docs/coordination/voice-notes/): the
+  // negatives first, since "doesn't make sense" holds "make sense" and
+  // "don't really like" holds "like". "Not bad" and "second best" come first
+  // of all, since each holds a word of another group.
+  [/\b(second best|almost right|not bad)\b/, 0.5],
   [
-    /\b(nobody (says|talks)|terrible|hate|awful|horrible|garbage|trash|shitty)\b/,
+    /\b(nobody (says|talks)|terrible|hate|awful|horrible|garbage|trash|shitty|makes no sense|(doesn'?t|does not|don'?t) (even )?make (any )?sense|shouldn'?t (even )?be (in )?there|take (it|that) out)\b/,
     -1,
   ],
   [
-    /\b(don'?t like|didn'?t like|not good|bad|awkward|weird|cheesy|stiff|filler|no context|robotic|sounds like ai|ai|generic|vague|wrong|off|creepy|jargon|dev language)\b/,
+    /\b(don'?t (really )?like|didn'?t like|not (a )?(huge |big )?fan|can'?t say i'?m a (huge |big )?fan|not good|no good|bad|awkward|weird|cheesy|stiff|clunky|unnatural|fragment|filler|no context|missing (a little )?context|robotic|sounds like ai|generic|vague|wrong|creepy|jargon|dev language|dev talky|doesn'?t (really |necessarily )?(fit|make sense|work)|out of place|too much|how would (they|he|she|you|anyone) know|(don'?t|do not) have any context)\b|\bthat doesn'?t\s*\.{2,}/,
     -0.75,
   ],
-  [/\b(perfect|love|loved|great|excellent|ooh|exactly)\b/, 1],
-  [/\b(good|like|liked|solid|natural|that'?s how people talk|nice)\b/, 0.75],
-  [/\b(fine|sure|decent|okay|ok|acceptable|all right)\b/, 0.25],
+  [
+    /\b(perfect|love|loved|great|excellent|ooh|exactly|(i )?like (that|it|this) a lot|that'?s how people talk|really good|the best|is best)\b/,
+    1,
+  ],
+  [
+    /\b(good|i (really )?like|we like|liked|solid|natural|nice|makes sense|that works|fits|funny|smart)\b/,
+    0.75,
+  ],
+  [/\b(fine|sure|decent|okay|ok|acceptable|al{1,2} ?right|fair)\b/, 0.25],
 ];
 
 const SOFTENERS = /\b(kind of|kinda|a little|a bit|almost|sort of|slightly)\b/;
 
 /** The strength a stretch of the owner's words gives, or undefined when it grades nothing. */
 export function strengthOf(words: string): number | undefined {
-  const t = words.toLowerCase();
+  // "Okay, so", "Well," and the like open his sentences without grading anything.
+  const opener =
+    /^(okay|ok|so|well|alright|all right|yeah|um|uh|now)\b[,.]?\s*/;
+  let t = words.toLowerCase().trim();
+  while (opener.test(t)) t = t.replace(opener, "");
   const percent = /(-?\d{1,3})\s*(%|percent)/.exec(t);
   let strength: number | undefined;
   for (const [pattern, value] of WORDS)

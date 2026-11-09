@@ -82,7 +82,7 @@ import type {
   PersonState,
   Source,
 } from "../core2/types";
-import { bringItUp, changesKnownTo } from "./bring-it-up";
+import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
@@ -1356,8 +1356,17 @@ export function subjectsBetween(
   // its headline and the outlet that printed it.
   const printed = printedHeard(core, speakerId, director);
   if (printed) out.push(printed);
-  // The newest change the speaker learned of, as news to pass on.
-  const news = changesKnownTo(core, speakerId)[zero];
+  // The newest change the speaker learned of, as news to pass on: a place
+  // that closed, said by its name. A story the speaker read is the printed
+  // subject above, said by its headline; its outlet is not what happened.
+  const stories = new Set(
+    BRING_IT_UP_ROWS.changes
+      .filter((row) => row.story)
+      .map((row) => row.eventKind),
+  );
+  const news = changesKnownTo(core, speakerId).find(
+    (change) => !stories.has(change.kind),
+  );
   const institution = news
     ? core.organizations.get(news.institutionId)
     : undefined;
