@@ -210,6 +210,18 @@
       "citation": "CPS labor force flows, 1990-2019."
     }
   },
+  "jobsContinueBaseline": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "How far continuing to look sits below staying out for someone already looking, before money pressure: below zero because some of the unemployed give up each month, far less than the cost of starting (jobsEnterBaseline -2.5). Checked against CPS gross flows (FRED, monthly, Jan 2023 to Oct 2026): of the unemployed, 49 percent are unemployed again the next month (LNS17500000 mean 3,273 thousand of UNEMPLOY mean 6,657 thousand), 26 percent are employed (LNS17100000, about 1.7 million) and so about 25 percent leave the labor force. In a generated world (Riverside County CA 0610088, seed p2, 116 opening seekers at the 6.5 percent regional rate) the entry baseline applied to them left 2 still looking after 30 days, and at -1 82 remain and 33 stop looking (28 percent).",
+    "spread": {
+      "low": -1.5,
+      "high": 0,
+      "unit": "score",
+      "citation": "At 0 none give up; at -1.5, 67 of 116 stop looking in 30 days (58 percent), more than twice the CPS share."
+    }
+  },
   "jobsEarliestRetirementAge": {
     "value": 62,
     "tag": "SOURCED",
