@@ -106,6 +106,10 @@
       "kind": "address-view",
       "stage": "default"
     },
+    "own-view": {
+      "kind": "own-view",
+      "stage": "default"
+    },
     "victimization": {
       "kind": "victimization-reply",
       "stage": "default"
@@ -199,6 +203,12 @@
       "disagree": "disagree",
       "wait": "stall",
       "local": "ask"
+    },
+    "own-view": {
+      "agree": "agree",
+      "disagree": "disagree",
+      "hear": "answer",
+      "private": "answer"
     },
     "news": {
       "react": "react",
