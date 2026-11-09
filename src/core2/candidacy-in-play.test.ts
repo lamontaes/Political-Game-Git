@@ -59,10 +59,27 @@ const weighedRows = () =>
     .moduleState(CANDIDACY_MODULE_ID)
     .table("weighed")
     .rows() as unknown as WeighedContest[];
+// The played span ends when the checks have something to read: the general
+// election has been counted and at least three local contests have been
+// weighed and filed for, or at the year's end (a whole year at a large place
+// such as West Wendover NV took 588 s of import here, past the 600 s line
+// heavy tests are held to). Every check reads only contests weighed by then.
+const localWeighedAndFiled = () => {
+  const localIds = new Set(
+    contests()
+      .filter(local)
+      .map((c) => c.id),
+  );
+  return weighedRows().filter((w) => localIds.has(w.contestId) && w.filedOn)
+    .length;
+};
 while (date < yearEnd) {
   date = addDay(date);
   advanceCore(world.core, date);
+  if (date > `${opening.slice(0, 4)}-11-10` && localWeighedAndFiled() >= 3)
+    break;
 }
+const spanEnd = date;
 const rows = <T>(module: string, name: string) =>
   api.moduleState(module).table(name).rows() as unknown as T[];
 
@@ -85,7 +102,7 @@ describe(`who runs in the played world: ${world.place.key} ${world.place.context
         termsBySeat.set(t.seatId, []).get(t.seatId)!
       ).push(t);
     for (const c of contests()) {
-      if (c.filingDeadline <= opening || weighingDate(api, c) >= yearEnd)
+      if (c.filingDeadline <= opening || weighingDate(api, c) >= spanEnd)
         continue;
       const w = held.get(c.id);
       expect(w, c.id).toBeDefined();
