@@ -74,8 +74,8 @@ it("moves the town's part of each government's charges from households' living c
         // The sewer and trash part is by use and may fall short of its share
         // of the target (a household or firm that cannot pay: the system's
         // own deficit). The rest is the uniform share of living costs: it
-        // reaches the treasury, and households never pay more of it than it
-        // asks of them. (How close it comes to what it asks depends on which
+        // reaches the treasury, and households pay no more of it than it asks of
+        // them at the month's prices. (How close it comes to what it asks depends on which
         // households held cash on the 1st, so no tolerance is asserted.)
         const use = townPayers(api, lawChain(api).townPlaceId);
         const sewerPaid = full.byService["sewerage-and-solid-waste"] ?? 0;
@@ -92,7 +92,11 @@ it("moves the town's part of each government's charges from households' living c
         expect(
           full.paidMinor - sewerPaid,
           `${where} ${row.governmentId}: the uniform share asked`,
-        ).toBeLessThanOrEqual(uniformAsked + rounding);
+        ).toBeLessThanOrEqual(
+          // The share is cut at the month's sync and living costs move with
+          // prices through the month (a percent or two in the draws).
+          uniformAsked + row.targetMonthlyMinor * 0.05 + rounding,
+        );
         expect(
           full.paidMinor,
           `${where} ${row.governmentId}`,
