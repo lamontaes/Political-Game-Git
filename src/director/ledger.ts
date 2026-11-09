@@ -146,6 +146,12 @@ export interface Director {
     allowedKinds: readonly string[] | null,
     date: IsoDate,
   ): SceneFilter | null;
+  /**
+   * Dev mode's force-scene: the kind of place (one of the type's own settings)
+   * tried first for a situation type from now on, or null to take it back.
+   * Not part of a save.
+   */
+  preferSetting(typeKey: string, kind: string | null): void;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -192,6 +198,8 @@ export function createDirector(
   } = { watch: [] },
 ): Director {
   const data = options.data ?? DEFAULT_DIRECTOR_DATA;
+  /** Dev mode's preferred kind of place per situation type (not saved). */
+  const preferredSettings = new Map<string, string>();
   const ledger: Ledger = {
     people: new Map(),
     broadEvents: new Map(),
@@ -1350,6 +1358,7 @@ export function createDirector(
       mode,
       interruptImpact: param("directorInterruptImpact"),
       ...(filter ? { allowedKinds: new Set(filter.allowedKinds) } : {}),
+      ...(preferredSettings.size ? { preferredSettings } : {}),
     });
     book.schedule.push(entry);
     if (entry.interrupt) interrupts.push({ moment, entry });
@@ -1915,6 +1924,10 @@ export function createDirector(
       };
       ledger.sceneFilters.set(personId, filter);
       return filter;
+    },
+    preferSetting(typeKey, kind) {
+      if (kind === null) preferredSettings.delete(typeKey);
+      else preferredSettings.set(typeKey, kind);
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);
