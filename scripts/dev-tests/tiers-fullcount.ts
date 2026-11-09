@@ -35,6 +35,41 @@ const count = () => {
 };
 console.log(`FULL ${label} year 0`, JSON.stringify(count()));
 for (let y = 1; y <= Number(years); y++) {
-  advanceCore(w.core, addDays(makeIsoDate(w.core.date), 365));
+  try {
+    advanceCore(w.core, addDays(makeIsoDate(w.core.date), 365));
+  } catch (error) {
+    console.log("FAIL", (error as Error).message);
+    for (const c of w.core.finance.contracts.values()) {
+      const term = c.recipientIncome;
+      if (!term || c.endedAt) continue;
+      const person = w.core.people.get(term.personId);
+      const has = (person?.pastFacts ?? []).some(
+        (f: any) => f.id === term.sourceFactId,
+      );
+      const home = w.core.households.get(term.householdId);
+      if (
+        !has ||
+        person?.householdId !== term.householdId ||
+        !home?.memberIds.includes(term.personId)
+      )
+        console.log(
+          "BAD",
+          JSON.stringify({
+            contract: c.id,
+            personId: term.personId,
+            found: !!person,
+            has,
+            tier: person?.tier,
+            place: person?.placeId,
+            personHome: person?.householdId,
+            termHome: term.householdId,
+            homeFound: !!home,
+            member: home?.memberIds.includes(term.personId),
+            alive: person?.alive,
+          }),
+        );
+    }
+    break;
+  }
   console.log(`FULL ${label} year ${y}`, JSON.stringify(count()));
 }
