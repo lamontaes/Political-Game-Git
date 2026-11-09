@@ -590,7 +590,8 @@
     "liberal": "Liberal",
     "moderate": "Moderate",
     "conservative": "Conservative",
-    "veryConservative": "Very conservative"
+    "veryConservative": "Very conservative",
+    "notSure": "Not sure yet"
   },
   "who": {
     "age": "Age",
@@ -607,6 +608,7 @@
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
+    "viewUnknown": "You don't know where they stand yet.",
     "townPeople": "Population {n}",
     "townMoves": "{in} moved in, {out} moved out this year"
   },
@@ -934,6 +936,24 @@
     "title": "My story",
     "empty": "Nothing is written here yet."
   },
+  "metrics": {
+    "city": "Your town",
+    "employed": "People at work",
+    "seekers": "People looking for work",
+    "openPositions": "Jobs open",
+    "nation": "The country",
+    "unemployment": "Unemployment",
+    "inflation": "Price growth",
+    "pay": "Average hourly pay",
+    "mortgage": "30-year mortgage rate",
+    "policyRate": "The central bank's rate",
+    "percent": "%",
+    "lastYear": "Last year",
+    "up": "up",
+    "down": "down",
+    "same": "no change",
+    "since": "since last year"
+  },
   "titles": {
     "people": "People",
     "who": "You",
@@ -948,6 +968,7 @@
     "issues": "Issues",
     "calendar": "Calendar",
     "budgets": "Budgets",
+    "metrics": "Metrics",
     "travel": "Travel",
     "options": "Options",
     "patchNotes": "Patch notes",

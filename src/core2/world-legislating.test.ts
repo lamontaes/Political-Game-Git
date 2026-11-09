@@ -499,7 +499,7 @@ describe("M3-10 other governments legislate", () => {
     );
     expect(federal, `${state} ${key}`).toBeDefined();
     // Voted by Congress: adopted, or carried forward as a continuing resolution.
-    expect(federal!.adoptedBy).toMatch(/Congress/);
+    expect(federal!.adoptedBy.body).toMatch(/Congress/);
     govReport(
       "world-legislating-budget",
       JSON.stringify({
