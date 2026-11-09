@@ -1967,7 +1967,14 @@ function reviewRegionalFinds(api: CoreAPI): void {
       .query("all", [true]) as unknown as SeekerRow[]) {
       if (seeker.employed) continue;
       const person = c.people.get(seeker.personId);
-      if (person && isDemoted(person)) continue;
+      // A seeker returned to the counts goes on as a counted seeker, keeping their progress (matching may find no opening for a long while to move them).
+      if (person && isDemoted(person) && table === "seekers") {
+        store(api).table("seekers").remove(seeker.personId);
+        store(api)
+          .table("countedSeekers")
+          .put({ ...seeker, id: seeker.personId, isSeeker: true } as never);
+        continue;
+      }
       const lean =
         person && !isCounted(api, person.id)
           ? workLeans(c, person).applyLean
@@ -2197,13 +2204,17 @@ function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
     seeker.placeId,
     seeker.referenceHourlyMinor,
   );
-  if (!outside || !template) return;
+  if (!outside) return;
   // The pay a new hire in their kind of work gets in the region: BLS OEWS
   // (the metro or state area the place is in) at the starting percentile, as
   // the opening prices its jobs, moved with the place's pay level since.
-  const oews = template.occupationClassification
+  // A place with no private employer of its own has no role to copy: the person's own last occupation sets the wage, else their last pay.
+  const occupation =
+    template?.occupationClassification ??
+    seeker.lastJob?.occupationClassification;
+  const oews = occupation
     ? townJobRate(
-        template.occupationClassification,
+        occupation,
         seeker.placeId as EntityId,
         townPayPercentile(p("zero"), c.seed),
         undefined,
@@ -2217,7 +2228,9 @@ function hireRegional(api: CoreAPI, seeker: SeekerRow): void {
     wageFloor(api),
     oews
       ? Math.round(oews.hourlyMinor * payLevel(api, seeker.placeId))
-      : payFor(api, template.organizationId, template),
+      : template
+        ? payFor(api, template.organizationId, template)
+        : seeker.referenceHourlyMinor,
   );
   const counted = isCounted(api, seeker.personId);
   const person = c.people.get(seeker.personId);
