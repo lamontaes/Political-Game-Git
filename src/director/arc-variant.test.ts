@@ -115,6 +115,23 @@ const voteFacts: Record<string, Fact> = {
   "read-town-for-bill": fact("yes"),
   "read-close": fact("yes"),
 };
+// What an office-hours visit hands the scene (constituent-help-facts.ts): the
+// employer lost and how long ago, the rent owed and its day, the pay and the
+// floor, the relative who is ill, and the reads that came to something.
+const helpFacts: Record<string, Fact> = {
+  ...generic,
+  employer: fact("Hartley Foods"),
+  since: fact("two months"),
+  owed: fact("$1,850"),
+  deadline: fact("March 14th"),
+  pay: fact("$6.50"),
+  floor: fact("$7.25"),
+  relative: fact("Dana"),
+  "read-laid-off": fact("yes"),
+  "read-notice-served": fact("yes"),
+  "read-paid-under-floor": fact("yes"),
+  "read-household-illness": fact("yes"),
+};
 const factsOf = (family: string) =>
   family === "donor-ask"
     ? donorFacts
@@ -122,7 +139,9 @@ const factsOf = (family: string) =>
       ? pressFacts
       : family === "ask-vote"
         ? voteFacts
-        : generic;
+        : family === "constituent-help"
+          ? helpFacts
+          : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -214,6 +233,14 @@ describe("a kind with several arcs", () => {
           // The keeps the engines read (favor-owed, promise, trust-lost,
           // relationship-strained) come from these endings.
           for (const id of ["vote-given", "traded"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        } else if (family === "constituent-help") {
+          // The keeps the engines read (promise, meeting-set,
+          // relationship-strained) come from these endings.
+          for (const id of ["will-call", "caseworker"])
             expect(
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,

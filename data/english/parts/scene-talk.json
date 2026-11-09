@@ -83,7 +83,9 @@
     "disaster": "What hit the home, as people say it (\"the tornado\", \"the storm\"), from the damaged-home record's incident type.",
     "loss": "What the repairs on the damaged home cost, as people round a sum, from the damaged-home record.",
     "aid": "What the disaster aid paid the household, as people round a sum, from the damaged-home record.",
-    "left": "What the household still owes on the repairs, as people round a sum, from the damaged-home record."
+    "left": "What the household still owes on the repairs, as people round a sum, from the damaged-home record.",
+    "since": "How long ago a thing happened, as people say a span ('two months', 'a year'), from the record's day.",
+    "floor": "The minimum wage in force by the hour (\"$7.25\"), from the law record."
   },
   "maxWords": 70,
   "parts": [
@@ -171885,6 +171887,3472 @@
       "author": "Claude Sonnet (Story overnight, ask-vote variants)",
       "date": "2026-11-09",
       "tag": { "move": "confront", "key": "vote-wanted" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-with-a-manila-folder-and-keeps-both-hands-flat-on-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits down with a manila folder and keeps both hands flat on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-still-has-the-work-jacket-on-and-hasn-t-unzipped-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} still has the work jacket on and hasn't unzipped it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-puts-a-pay-stub-from-employer-on-the-table-before-sitting-down",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} puts a pay stub from {employer} on the table before sitting down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-there-s-a-line-i-ll-be-quick",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know there's a line. I'll be quick.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-used-to-work-for-employer-that-s-why-i-m-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I used to work for {employer}. That's why I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.employer-let-me-go-since-ago-i-ve-put-in-applications-every-week-since-and-nobod",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{employer} let me go {since} ago. I've put in applications every week since, and nobody has called back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer", "since"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-don-t-want-a-handout-i-want-a-job-and-employer-was-the-last-one-i-had",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't want a handout. I want a job, and {employer} was the last one I had.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-haven-t-worked-in-since-i-m-not-asking-for-money-i-m-asking-who-in-this-town-i",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I haven't worked in {since}. I'm not asking for money. I'm asking who in this town is hiring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "requiresFacts": ["since"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-got-laid-off-and-i-ve-run-out-of-places-to-send-my-r-sum",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I got laid off, and I've run out of places to send my résumé.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-lost-my-job-and-the-savings-are-going-faster-than-i-figured-they-would",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I lost my job, and the savings are going faster than I figured they would.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.they-cut-my-position-at-employer-somebody-in-this-town-has-to-be-hiring-and-i-ne",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They cut my position at {employer}. Somebody in this town has to be hiring, and I need to know who.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-call-the-workforce-office-this-afternoon-and-ask-what-they-have-for-someone",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call the workforce office this afternoon and ask what they have for someone with your experience.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-put-your-name-in-front-of-the-biggest-employers-in-town-this-week-and-i-ll",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll put your name in front of the biggest employers in town this week, and I'll tell you which ones I reach.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-ask-the-workforce-office-to-see-you-before-friday-and-i-ll-find-out-who-sig",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask the workforce office to see you before Friday, and I'll find out who signed you in.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.tell-me-what-happened-on-your-last-day-there-from-the-morning-on",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Tell me what happened on your last day there, from the morning on.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.walk-me-through-the-weeks-since-who-have-you-applied-to-and-what-did-they-say",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Walk me through the weeks since: who have you applied to, and what did they say?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-they-tell-you-when-they-let-you-go-and-who-told-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did they tell you when they let you go, and who told you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.my-caseworker-can-sit-with-you-for-an-hour-and-go-through-the-openings-bring-you",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My caseworker can sit with you for an hour and go through the openings. Bring your résumé.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.leave-me-your-number-my-staff-will-send-you-every-posting-the-workforce-office-g",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave me your number. My staff will send you every posting the workforce office gets this month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.stay-and-see-my-caseworker-before-you-go-she-ll-set-you-up-at-the-job-center-and",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Stay and see my caseworker before you go. She'll set you up at the job center and make the first call with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-already-talked-to-the-workforce-office-about-your-situation",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I already talked to the workforce office about your situation.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "lie", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-lie.two-of-the-big-employers-told-me-last-week-they-re-hiring",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Two of the big employers told me last week they're hiring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "lie", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-leave.there-are-a-dozen-people-behind-you-leave-your-number-at-the-desk-and-my-staff-w",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "There are a dozen people behind you. Leave your number at the desk and my staff will call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-answered-before-i-heard-what-you-ve-already-tried-start-there",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I answered before I heard what you've already tried. Start there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-called-us-into-a-room-on-a-friday-by-monday-my-badge-didn-t-work-i-ve-appli",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They called us into a room on a Friday. By Monday my badge didn't work. I've applied to fourteen places since.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.tell-me-what-happened-on-your-last-day-there-from-the-morning-on"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.nobody-explained-i-got-a-form-and-a-box-for-my-locker-since-then-it-s-the-same-t",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Nobody explained. I got a form and a box for my locker. Since then it's the same two answers: we're not hiring, or we'll keep your résumé.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.what-did-they-tell-you-when-they-let-you-go-and-who-told-you"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-ve-been-to-the-job-center-twice-the-first-time-the-computers-were-down-the-sec",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I've been to the job center twice. The first time the computers were down. The second time the line was out the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.walk-me-through-the-weeks-since-who-have-you-applied-to-and-what-did-they-say"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.i-m-not-asking-for-a-favor-i-m-asking-whether-anyone-in-this-building-knows-who",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "I'm not asking for a favor. I'm asking whether anyone in this building knows who's hiring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-who-should-i-ask-every-office-says-it-s-another-office",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then who should I ask? Every office says it's another office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-call-your-office-tomorrow-morning-to-make-sure-it-went-through",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll call your office tomorrow morning to make sure it went through.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-keep-my-phone-on-i-ve-been-missing-calls-from-numbers-i-don-t-know",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll keep my phone on. I've been missing calls from numbers I don't know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.write-the-name-down-for-me-i-want-to-ask-for-her-by-name",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Write the name down for me. I want to ask for her by name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.the-last-time-somebody-promised-me-a-call-it-took-three-weeks",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The last time somebody promised me a call, it took three weeks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.i-can-t-wait-another-month-what-day-do-i-hear-back",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I can't wait another month. What day do I hear back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-keep-walking-in-and-asking-at-loading-docks",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll keep walking in and asking at loading docks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-take-whatever-you-ve-got-and-go-door-to-door-myself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll take whatever you've got and go door to door myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-warn.people-on-my-street-are-in-the-same-spot-they-re-watching-who-calls-back",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "People on my street are in the same spot. They're watching who calls back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-back-next-office-hours-and-i-want-a-name-by-then",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be back next office hours, and I want a name by then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-not-looking-at-the-clock",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for not looking at the clock.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-keep-the-folder-with-me-and-keep-trying",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll keep the folder with me and keep trying.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.lost-job",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sets-a-notice-on-the-table-flattened-with-a-coffee-ring-on-one-corner",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sets a notice on the table, flattened, with a coffee ring on one corner.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-holding-a-single-sheet-of-paper-in-both-hands-since-the-back-of-th",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been holding a single sheet of paper in both hands since the back of the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-notice-name-slides-across-has-a-date-circled-in-pen-deadline",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The notice {name} slides across has a date circled in pen: {deadline}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-came-straight-from-work-i-only-have-my-lunch-hour",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I came straight from work. I only have my lunch hour.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.the-number-on-the-notice-is-owed-i-said-it-in-the-car-so-i-could-say-it-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "The number on the notice is {owed}. I said it in the car so I could say it here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.the-landlord-says-we-owe-owed-and-the-notice-gives-us-until-deadline-after-that",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The landlord says we owe {owed}, and the notice gives us until {deadline}. After that they file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "requiresFacts": ["owed", "deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.we-re-owed-behind-i-can-get-part-of-it-not-all-of-it-and-i-need-somebody-to-tell",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "We're {owed} behind. I can get part of it, not all of it, and I need somebody to tell me if part counts.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "requiresFacts": ["owed"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.the-notice-says-i-have-until-deadline-to-pay-or-be-out-after-that-i-don-t-know-w",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The notice says I have until {deadline} to pay or be out. After that I don't know where we sleep.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "requiresFacts": ["deadline"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-got-a-notice-on-the-door-it-says-pay-or-leave-and-i-can-t-do-either-one-this-m",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I got a notice on the door. It says pay or leave, and I can't do either one this month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They taped it to the door on a Thursday. I've read it nine times, and I still don't know who I'm supposed to call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-behind-on-rent-and-the-landlord-won-t-pick-up-i-need-to-know-what-the-town-c",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm behind on rent, and the landlord won't pick up. I need to know what the town can do before this reaches a judge.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-call-the-housing-office-myself-and-ask-them-to-hold-the-filing-until-you-ve",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call the housing office myself and ask them to hold the filing until you've been seen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-find-out-today-whether-the-town-has-any-rent-help-left-and-i-ll-tell-you-th",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll find out today whether the town has any rent help left, and I'll tell you the name of the person I spoke to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-ask-the-legal-aid-office-to-take-your-notice-before-the-date-on-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask the legal aid office to take your notice before the date on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.when-did-the-notice-come-and-have-you-paid-anything-since",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "When did the notice come, and have you paid anything since?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who signed it, and has the landlord said anything to you in person?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-did-you-tell-the-landlord-and-what-did-they-say-back",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What did you tell the landlord, and what did they say back?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.my-caseworker-can-call-the-landlord-with-you-in-the-room-stay-for-that",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My caseworker can call the landlord with you in the room. Stay for that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.leave-the-notice-with-my-staff-they-ll-copy-it-and-call-the-landlord-s-office-to",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave the notice with my staff. They'll copy it and call the landlord's office tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.sit-down-with-the-caseworker-and-bring-your-lease-together-you-can-read-what-tha",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Sit down with the caseworker and bring your lease. Together you can read what that notice has to follow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-stop-a-landlord-from-filing-i-can-tell-you-where-tenants-get-free-help",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't stop a landlord from filing. I can tell you where tenants get free help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-decline.the-town-doesn-t-pay-rent-i-wish-it-did-legal-aid-takes-cases-like-yours",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "The town doesn't pay rent. I wish it did. Legal aid takes cases like yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-people-waiting-but-you-re-not-leaving-empty-go-to-the-desk-and-my-staff-w",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have people waiting, but you're not leaving empty. Go to the desk and my staff will start a file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-started-with-what-i-can-t-do-read-me-the-notice-line-by-line",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I started with what I can't do. Read me the notice, line by line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.it-came-last-week-i-paid-what-i-had-on-the-third-and-they-gave-me-a-receipt-that",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "It came last week. I paid what I had on the third, and they gave me a receipt that says partial.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.when-did-the-notice-come-and-have-you-paid-anything-since"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-landlord-s-agent-signed-it-he-told-me-in-the-hallway-there-s-nothing-to-talk",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The landlord's agent signed it. He told me in the hallway there's nothing to talk about.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-signed-it-and-has-the-landlord-said-anything-to-you-in-person"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-told-him-i-get-paid-on-the-fifteenth-he-said-the-notice-doesn-t-care-when-i-ge",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I told him I get paid on the fifteenth. He said the notice doesn't care when I get paid.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.what-did-you-tell-the-landlord-and-what-did-they-say-back"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-where-do-people-go-i-m-not-the-only-one-on-my-floor-with-one-of-these",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then where do people go? I'm not the only one on my floor with one of these.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-tell-me-who-to-ask-so-i-m-not-back-in-here-next-week-with-the-same-paper",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then tell me who to ask, so I'm not back in here next week with the same paper.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.write-it-down-for-me-the-name-and-the-number-so-i-have-it-when-i-call",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Write it down for me, the name and the number, so I have it when I call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-carry-the-notice-in-my-coat-until-then-i-m-not-leaving-it-on-the-door",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll carry the notice in my coat until then. I'm not leaving it on the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-be-at-the-desk-at-nine-tell-them-i-m-coming",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll be at the desk at nine. Tell them I'm coming.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.the-date-on-this-paper-doesn-t-move-for-a-phone-call",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The date on this paper doesn't move for a phone call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.last-time-somebody-promised-me-a-call-the-filing-came-first",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Last time somebody promised me a call, the filing came first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-go-to-legal-aid-in-the-morning-and-stand-in-the-line",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll go to legal aid in the morning and stand in the line.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-tell-them-upstairs-the-town-wasn-t-able-to-help",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll tell them upstairs the town wasn't able to help.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-warn.my-whole-floor-got-the-same-notice-they-re-going-to-ask-what-you-did",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "My whole floor got the same notice. They're going to ask what you did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-press.i-need-to-hear-from-someone-before-that-date-not-after",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I need to hear from someone before that date, not after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-reading-the-whole-thing",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for reading the whole thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-keep-paying-what-i-can-i-m-not-going-to-hand-them-a-reason",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll keep paying what I can. I'm not going to hand them a reason.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.eviction",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-a-pay-stub-in-one-hand-and-a-printout-of-the-minimum-wage-law-in-the-ot",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has a pay stub in one hand and a printout of the minimum wage law in the other, folded to the same page.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-waits-until-the-person-ahead-leaves-then-lays-a-pay-stub-on-the-table-and-t",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} waits until the person ahead leaves, then lays a pay stub on the table and turns it to face you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-hourly-rate-on-the-pay-stub-name-slides-over-reads-pay-circled-twice-in-ink",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The hourly rate on the pay stub {name} slides over reads {pay}, circled twice in ink.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "requiresFacts": ["pay"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-looked-up-the-wage-law-before-i-came-i-m-not-guessing",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I looked up the wage law before I came. I'm not guessing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-rather-my-manager-not-know-i-m-here",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather my manager not know I'm here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-make-pay-an-hour-the-law-says-floor-i-ve-done-the-math-every-way-and-it-s-stil",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I make {pay} an hour. The law says {floor}. I've done the math every way, and it's still short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "requiresFacts": ["pay", "floor"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.my-check-says-pay-an-hour-i-was-hired-at-that-rate-and-told-it-was-normal",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My check says {pay} an hour. I was hired at that rate and told it was normal.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "requiresFacts": ["pay"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.the-minimum-is-floor-an-hour-i-haven-t-seen-that-number-on-a-check-since-i-start",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The minimum is {floor} an hour. I haven't seen that number on a check since I started.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "requiresFacts": ["floor"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-paid-under-the-minimum-wage-i-checked-the-poster-in-the-break-room-against-m",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm paid under the minimum wage. I checked the poster in the break room against my check.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-worked-there-long-enough-to-know-what-the-poster-says-and-what-my-check-say",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've worked there long enough to know what the poster says and what my check says. They don't match.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-not-here-to-get-anyone-fired-i-want-what-the-law-says-i-m-owed-and-i-don-t-k",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm not here to get anyone fired. I want what the law says I'm owed, and I don't know who to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll send your pay stub to the labor standards office today, and I'll give you the name of whoever takes it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-ask-the-labor-office-to-open-a-file-before-the-month-is-out-and-i-won-t-use",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask the labor office to open a file before the month is out, and I won't use your name with your employer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-call-the-labor-office-myself-and-have-them-tell-you-what-they-need-from-you",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call the labor office myself and have them tell you what they need from you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-long-have-you-worked-there-and-has-the-rate-ever-changed",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How long have you worked there, and has the rate ever changed?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.do-you-have-the-other-pay-stubs-or-only-this-one",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Do you have the other pay stubs, or only this one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.does-anyone-else-on-your-shift-get-the-same-rate",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Does anyone else on your shift get the same rate?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.leave-the-stubs-with-my-staff-they-ll-copy-them-and-start-the-complaint-with-you",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave the stubs with my staff. They'll copy them and start the complaint with you here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.my-caseworker-will-walk-you-through-the-labor-standards-form-bring-every-stub-yo",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My caseworker will walk you through the labor standards form. Bring every stub you have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.sit-with-my-caseworker-she-ll-tell-you-what-to-write-down-and-what-to-leave-out",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Sit with my caseworker. She'll tell you what to write down and what to leave out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-decline.wage-claims-go-through-the-state-labor-office-not-the-town-i-ll-give-you-the-add",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Wage claims go through the state labor office, not the town. I'll give you the address.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-make-your-employer-pay-you-i-can-tell-you-where-to-file-and-what-to-brin",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't make your employer pay you. I can tell you where to file and what to bring.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-ve-already-talked-to-the-labor-office-about-places-paying-under-the-floor",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I've already talked to the labor office about places paying under the floor.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "lie", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-lie.the-state-already-has-a-complaint-on-that-employer",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "The state already has a complaint on that employer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "lie", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-take-the-next-person-put-the-stubs-in-an-envelope-with-your-name-on-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to take the next person. Put the stubs in an envelope with your name on it and leave it at the desk.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-should-have-asked-to-see-the-stub-first-show-me",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I should have asked to see the stub first. Show me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.since-march-same-rate-on-every-check-and-i-kept-all-of-them-in-a-drawer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Since March. Same rate on every check, and I kept all of them in a drawer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.how-long-have-you-worked-there-and-has-the-rate-ever-changed"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-kept-the-first-four-and-threw-out-the-rest-i-didn-t-think-it-would-matter",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I kept the first four and threw out the rest. I didn't think it would matter.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.do-you-have-the-other-pay-stubs-or-only-this-one"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.everyone-on-my-shift-nobody-says-anything-because-nobody-wants-to-be-the-one",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Everyone on my shift. Nobody says anything, because nobody wants to be the one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.does-anyone-else-on-your-shift-get-the-same-rate"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-who-do-i-go-to-i-can-t-afford-to-quit-and-i-can-t-afford-to-stay",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then who do I go to? I can't afford to quit and I can't afford to stay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-tell-me-where-i-go-that-doesn-t-send-me-back-to-the-same-boss",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then tell me where I go that doesn't send me back to the same boss.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-bring-the-whole-drawer-in-tomorrow",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll bring the whole drawer in tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.don-t-use-my-name-with-him-he-knows-my-shift-and-my-car",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Don't use my name with him. He knows my shift and my car.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.write-down-who-i-m-supposed-to-ask-for-so-they-can-t-tell-me-nobody-s-heard-of-i",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Write down who I'm supposed to ask for, so they can't tell me nobody's heard of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.how-long-before-they-call-him-i-can-t-go-three-more-pay-periods-like-this",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "How long before they call him? I can't go three more pay periods like this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ve-been-told-they-ll-look-into-it-before-who-actually-opens-the-file",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I've been told they'll look into it before. Who actually opens the file?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-take-the-stubs-to-the-state-office-myself",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll take the stubs to the state office myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-go-on-my-break-and-fill-the-form-out-in-the-car",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll go on my break and fill the form out in the car.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-warn.if-my-hours-get-cut-after-this-a-lot-of-us-will-know-why",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If my hours get cut after this, a lot of us will know why.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-be-back-with-every-stub-have-somebody-ready-to-look-at-them",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll be back with every stub. Have somebody ready to look at them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-not-telling-me-to-take-it-up-with-my-boss",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for not telling me to take it up with my boss.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-accept.i-know-my-rate-and-the-law-s-rate-now-and-i-m-going-to-keep-saying-both",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I know my rate and the law's rate now, and I'm going to keep saying both.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.short-pay",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-checks-a-phone-all-through-the-wait-and-puts-it-face-down-on-the-table",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} checks a phone all through the wait and puts it face down on the table.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-sits-down-with-a-pharmacy-bag-and-doesn-t-set-it-aside",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} sits down with a pharmacy bag and doesn't set it aside.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-says-relative-s-name-twice-in-the-first-minute-before-saying-why-they-came",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} says {relative}'s name twice in the first minute, before saying why they came.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-only-have-twenty-minutes-someone-has-to-be-home-by-four",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I only have twenty minutes. Someone has to be home by four.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-left-relative-with-a-neighbor-i-can-t-be-gone-long",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I left {relative} with a neighbor. I can't be gone long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-haven-t-slept-much-bear-with-me",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I haven't slept much. Bear with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "excludesFacts": ["relative"]
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.relative-has-been-sick-for-a-long-time-and-i-m-the-one-home-with-them-i-can-t-wo",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{relative} has been sick for a long time, and I'm the one home with them. I can't work the hours I used to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-take-relative-to-every-appointment-and-the-bills-come-faster-than-i-can-open-t",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I take {relative} to every appointment, and the bills come faster than I can open them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.relative-needs-somebody-there-all-day-i-ve-used-up-the-days-i-had",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{relative} needs somebody there all day. I've used up the days I had.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "requiresFacts": ["relative"]
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.i-ve-been-sick-and-the-bills-don-t-know-it-what-does-the-town-have-for-people-in",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I've been sick, and the bills don't know it. What does the town have for people in my spot?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "excludesFacts": ["relative"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.my-doctor-says-i-can-t-go-back-full-time-yet-nothing-comes-in-on-the-days-i-m-ou",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "My doctor says I can't go back full time yet. Nothing comes in on the days I'm out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "excludesFacts": ["relative"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.state-request.somebody-in-my-house-is-very-sick-and-i-can-t-keep-up-with-it-i-need-to-know-wha",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Somebody in my house is very sick, and I can't keep up with it. I need to know what help there is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-ask-the-county-health-department-who-can-come-to-your-house-and-i-ll-call-y",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll ask the county health department who can come to your house, and I'll call you with a name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-find-out-what-the-town-and-the-state-pay-for-in-home-help-and-i-ll-have-it",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll find out what the town and the state pay for in-home help, and I'll have it in writing for you this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-call-the-clinic-s-social-worker-myself-and-ask-her-to-see-you-this-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll call the clinic's social worker myself and ask her to see you this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-does-the-doctor-say-the-treatment-will-take-and-for-how-long",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What does the doctor say the treatment will take, and for how long?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.who-is-helping-you-right-now-and-who-isn-t",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Who is helping you right now, and who isn't?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-ask.which-bills-are-you-most-afraid-of",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Which bills are you most afraid of?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.my-caseworker-can-sit-down-with-you-and-the-bills-bring-all-of-them-even-the-one",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "My caseworker can sit down with you and the bills. Bring all of them, even the ones you've stopped opening.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.leave-me-a-number-where-you-can-answer-at-odd-hours-my-staff-will-call-when-ther",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Leave me a number where you can answer at odd hours. My staff will call when there's something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
+      "move": "reply-offer",
+      "kind": "spoken",
+      "text": "Stay with my caseworker. She'll go through what you may qualify for and fill out the first forms with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "offer",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "offer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-decline.the-town-doesn-t-pay-medical-bills-i-can-tell-you-who-does",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "The town doesn't pay medical bills. I can tell you who does.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-decline.health-coverage-is-the-state-s-not-mine-i-can-send-you-to-the-people-who-can-loo",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Health coverage is the state's, not mine. I can send you to the people who can look at yours.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "decline", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-take-the-next-person-leave-your-number-and-the-best-hour-to-call",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to take the next person. Leave your number and the best hour to call.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.i-jumped-to-the-forms-tell-me-how-things-are-at-home-today",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I jumped to the forms. Tell me how things are at home today.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "contrite",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.they-don-t-know-how-long-at-every-appointment-they-say-wait-for-the-next-test",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "They don't know how long. At every appointment they say wait for the next test.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.what-does-the-doctor-say-the-treatment-will-take-and-for-how-long"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.my-sister-drives-out-on-sundays-the-rest-is-me",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "My sister drives out on Sundays. The rest is me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-is-helping-you-right-now-and-who-isn-t"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-answer.the-pharmacy-first-then-the-electric-the-letters-from-everybody-else-are-stackin",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "The pharmacy first, then the electric. The letters from everybody else are stacking up by the door.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.which-bills-are-you-most-afraid-of"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-where-do-i-take-it-i-can-t-get-to-three-different-offices-with-someone-who",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then where do I take it? I can't get to three different offices with someone who can't be left alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-plea.then-who-helps-people-like-us-i-m-trying-not-to-lose-everything-else-on-top-of-t",
+      "move": "follow-plea",
+      "kind": "spoken",
+      "text": "Then who helps people like us? I'm trying not to lose everything else on top of this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "plea",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked",
+          "after": "decline"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "plea", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.call-before-nine-if-you-can-after-that-i-m-at-the-clinic",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Call before nine if you can. After that I'm at the clinic.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-leave-my-phone-on-at-the-pharmacy-counter-reception-is-bad-there",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll leave my phone on at the pharmacy counter. Reception is bad there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "nervous",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-thank.write-the-name-down-for-me-i-forget-things-this-month",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Write the name down for me. I forget things this month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.how-soon-we-have-an-appointment-thursday-that-i-can-t-pay-for",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "How soon? We have an appointment Thursday that I can't pay for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-press.the-last-office-said-a-week-it-was-a-month",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The last office said a week. It was a month.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-ask-the-clinic-s-social-worker-myself-she-at-least-knows-our-name",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll ask the clinic's social worker myself. She at least knows our name.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-stand-in-the-other-line-then",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll stand in the other line, then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-warn.there-are-families-on-my-street-doing-this-alone-they-notice-who-helps",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "There are families on my street doing this alone. They notice who helps.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-before-that-appointment-i-d-like-to-know-i-m-not-going-alone",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me before that appointment. I'd like to know I'm not going alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-hearing-all-of-it-even-the-part-about-the-bills",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for hearing all of it, even the part about the bills.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "favor-asked" }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-keep-the-bills-in-order-and-bring-them-next-time",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll keep the bills in order and bring them next time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "constituent-help.sick",
+          "key": "favor-asked"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, constituent-help variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "favor-asked" }
     }
   ]
 }

@@ -68,6 +68,7 @@ import {
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
+import { constituentFacts } from "./constituent-help-facts";
 
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
@@ -1006,6 +1007,22 @@ function composeBinding(
           text: "yes",
           sourceRecordIds: [...variant.recordIds],
         };
+  // A constituent's own records, worded: the job they lost, the notice on
+  // their rent, the pay under the floor, the relative who is ill.
+  if (variant && type.purpose === "constituent-help")
+    Object.assign(
+      facts,
+      constituentFacts(
+        core,
+        askerId,
+        {
+          id: moment.causeId,
+          date: record?.date ?? moment.date,
+          facts: said,
+        },
+        variant,
+      ),
+    );
   // A trade names the bill the asker already voted for, the asked person's own:
   // the most recent, from the asker's vote record.
   if (variant && (variant.reads["favor-given"] ?? P.zero) > P.zero) {
