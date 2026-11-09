@@ -95,7 +95,9 @@ describe("a voice note becomes grades the way the owner grades", () => {
     // "I'll be at the doors with you this weekend. That doesn't make sense."
     expect(net("4.2")).toBeLessThan(0);
     // "Who's your source doesn't fit here, though that isn't necessarily a bad question to ask."
-    expect(net("1.3")).toBeLessThan(0);
+    // His verdict on it comes first; he says "Who's your source" again later
+    // while explaining, before a line this small batch does not hold.
+    expect(byId.get("1.3")?.spans[0]?.strength).toBeLessThan(0);
     // "The party has a long memory. That's a solid threat."
     expect(net("7.3")).toBeGreaterThan(0);
   });
@@ -210,5 +212,88 @@ describe("a voice note on the real batch 2 reaches the grade map", () => {
     expect(read.map((row) => row.key).sort()).toEqual(
       grades.map((grade) => grade.key).sort(),
     );
+  });
+});
+
+describe("his batch 2 note of Nov 9, read as the CTO read it", () => {
+  const file = readFileSync(
+    "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md",
+    "utf8",
+  );
+  const words = file.slice(
+    file.indexOf("## His words (verbatim)"),
+    file.indexOf("## The CTO's reading"),
+  );
+  const batch = JSON.parse(
+    readFileSync("docs/coordination/batches/2026-11-09-batch-2.json", "utf8"),
+  ) as { moments: BatchMoment[] };
+  const { grades, rules } = readVoiceNote(words, batch.moments);
+  const net = new Map(
+    grades.map((grade) => [
+      grade.id,
+      grade.spans.reduce((sum, span) => sum + span.strength, 0),
+    ]),
+  );
+  // The CTO's table: good lines and bad lines (fix, unclear and ungraded left out).
+  const good = [
+    "2.2",
+    "3.1",
+    "7.2",
+    "7.3",
+    "8.2",
+    "8.3",
+    "9.1",
+    "9.2",
+    "10.1",
+    "10.3",
+    "11.1",
+    "11.2",
+    "11.3",
+    "12.1",
+    "12.2",
+    "12.3",
+    "13.1",
+    "13.3",
+  ];
+  const bad = [
+    "1.2",
+    "1.3",
+    "2.1",
+    "2.3",
+    "3.2",
+    "4.1",
+    "4.2",
+    "4.3",
+    "5.1",
+    "5.2",
+    "6.2",
+    "6.3",
+    "7.1",
+    "9.3",
+    "10.2",
+    "13.2",
+  ];
+
+  it("never grades a line the other way from his reading", () => {
+    for (const id of good)
+      expect(net.get(id) ?? 0, id).toBeGreaterThanOrEqual(0);
+    for (const id of bad) expect(net.get(id) ?? 0, id).toBeLessThanOrEqual(0);
+  });
+
+  it("grades at least five in six of the lines he judged", () => {
+    const reached = [...good, ...bad].filter((id) => (net.get(id) ?? 0) !== 0);
+    expect(reached.length / (good.length + bad.length)).toBeGreaterThanOrEqual(
+      5 / 6,
+    );
+  });
+
+  it("keeps his own versions and the rules he stated", () => {
+    expect(
+      grades.find((grade) => grade.id === "4.2")?.rewrites?.join(" "),
+    ).toMatch(/can we even afford this/i);
+    const said = rules.map((rule) => rule.rule).join(" ");
+    expect(said).toMatch(/I prefer ALRIGHT/);
+    expect(said).toMatch(/shouldn't let you do it if you can't vote/);
+    expect(said).toMatch(/real-life examples/);
   });
 });

@@ -58,6 +58,8 @@ export interface VoiceGrade {
   readonly note: string;
   /** A number rating he gave (1 to 5), when he gave one. */
   readonly rating?: number;
+  /** How he would say it instead, in his words ("It'd be like, can we even afford this?"). */
+  readonly rewrites?: readonly string[];
 }
 
 export interface VoiceRule {
@@ -167,7 +169,7 @@ export function ratingStrength(rating: number): number {
 
 /** A sentence that tells the writer what to say: a rule stated in passing. */
 export function ruleSaid(sentence: string): boolean {
-  return /\b(don'?t say|never say|just say|instead of|should (?:just )?say|shouldn'?t (?:say|be)|always|never|you can say|say (?:something like|like)|that is dev language|that'?s dev language)\b/i.test(
+  return /\b(don'?t say|never say|just say|instead of|should (?:just )?say|shouldn'?t (?:say|be|let)|always|never|you can say|say (?:something like|like)|that is dev language|that'?s dev language|i prefer|look at real|real[- ]life examples|i don'?t like the kind of|take the lessons|mix(ing)? them up|i'?d like to get more)\b/i.test(
     sentence,
   );
 }
@@ -188,8 +190,23 @@ function wordsOf(text: string): string[] {
  * line's words, in order, that the stretch holds. Slots ({name}) are left out,
  * since he reads the name the page shows or skips it.
  */
+/** Words a line opens or closes on that he skips when he reads it back ("All right.", "Yes."). */
+const INTERJECTIONS = new Set([
+  "all",
+  "right",
+  "alright",
+  "okay",
+  "ok",
+  "well",
+  "yes",
+  "fine",
+  "sure",
+  "oh",
+  "so",
+]);
+
 export function readBack(line: string, said: string): number {
-  const lineWords = wordsOf(line);
+  const lineWords = wordsOf(line).filter((word) => !INTERJECTIONS.has(word));
   if (lineWords.length === 0) return 0;
   const saidWords = wordsOf(said);
   let at = 0;
@@ -230,6 +247,36 @@ function sentencesOf(note: string): string[] {
     .filter(Boolean);
 }
 
+/** A sentence where he says the line his own way: "It'd be like, ...", "something like, ...". */
+export function rewriteSaid(sentence: string): boolean {
+  return /\b(it'?d be like|it would be like|would be like|you'?d be like|you could say|say something like|saying something like|like saying|something like,|it'?d be more like|more like,|that would be more realistic)\b/i.test(
+    sentence,
+  );
+}
+
+/** Every line id he names in a sentence: "6.2 and 6.3", "5.2", "five point two". */
+function idsIn(sentence: string): { moment: number; line: number }[] {
+  const t = sentence.toLowerCase();
+  const out: { moment: number; line: number }[] = [];
+  const pattern = new RegExp(
+    String.raw`(?<![\d.])${NUMBER}\s*(?:\.|point)\s*${NUMBER}\b`,
+    "g",
+  );
+  for (const match of t.matchAll(pattern)) {
+    const moment = spokenNumber(match[1]!);
+    const line = spokenNumber(match[2]!);
+    if (moment !== undefined && line !== undefined) out.push({ moment, line });
+  }
+  return out;
+}
+
+/** A bare ".2" said for a line of the moment he is on (or is about to name). */
+function bareLinesIn(sentence: string): number[] {
+  return [...sentence.matchAll(/(?:^|[\s(])\.(\d)\b/g)].map((m) =>
+    Number(m[1]),
+  );
+}
+
 /** The share of a line a sentence must read back to count as reading the line. */
 const READ_WHOLE = 0.8;
 /** The share for a sentence that reads part of the line on. */
@@ -254,7 +301,13 @@ export function readVoiceNote(
   const sentences = sentencesOf(note);
   const notes = new Map<
     string,
-    { line: BatchLine; spans: SpokenSpan[]; words: string[]; rating?: number }
+    {
+      line: BatchLine;
+      spans: SpokenSpan[];
+      words: string[];
+      rewrites: string[];
+      rating?: number;
+    }
   >();
   const rules: VoiceRule[] = [];
   let moment: BatchMoment | undefined;
@@ -265,7 +318,7 @@ export function readVoiceNote(
   const entry = (line: BatchLine) => {
     let row = notes.get(line.id);
     if (!row) {
-      row = { line, spans: [], words: [] };
+      row = { line, spans: [], words: [], rewrites: [] };
       notes.set(line.id, row);
     }
     return row;
@@ -273,8 +326,85 @@ export function readVoiceNote(
 
   /** Judgments counted since the current line was read or named. */
   let judgments = 0;
+  /** Sentences since he last read or named a line: he may explain before he judges. */
+  let since = 0;
+  /** His last judgment, for "Good. So it was 8.2." */
+  let lastJudged: { strength: number; sentence: string } | undefined;
   for (let index = 0; index < sentences.length; index += 1) {
     const sentence = sentences[index]!;
+    since += 1;
+    // Lines he names by number in this sentence: "6.2 and 6.3", ".2 and 7.3",
+    // "All 3 of those" (the moment he is on), "I like all of 12".
+    const refs: BatchLine[] = [];
+    const ids = idsIn(sentence);
+    for (const id of ids) {
+      const line = byMoment.get(id.moment)?.lines[id.line - 1];
+      if (line) refs.push(line);
+    }
+    const bare = bareLinesIn(sentence);
+    if (bare.length > 0) {
+      // A bare ".1" belongs to the moment of the next number he says, if he
+      // says one within two sentences ("I like all of 12. .1 is good. 13.2, no."),
+      // else to the moment he is on.
+      const ahead = sentences
+        .slice(index, index + 3)
+        .flatMap((next) => idsIn(next))
+        .find(() => true);
+      const target = byMoment.get(ahead?.moment ?? moment?.moment ?? -1);
+      for (const n of bare) {
+        const line = target?.lines[n - 1];
+        if (line) refs.push(line);
+      }
+    }
+    const allOf = /\ball (?:of )?(\d+|[a-z]+)\b(?! of those)/i.exec(sentence);
+    const allThose =
+      /\ball (?:\d|three|3|of) (?:of )?(?:those|them|these)\b/i.test(sentence);
+    if (allThose && moment) refs.push(...moment.lines);
+    else if (allOf && /\b(like|good|love|bad|weird)\b/i.test(sentence)) {
+      const m = spokenNumber(allOf[1]!);
+      const target = m !== undefined ? byMoment.get(m) : undefined;
+      if (target) refs.push(...target.lines);
+    }
+    if (refs.length > 0) {
+      const last = refs[refs.length - 1]!;
+      moment = moments.find((row) => row.lines.includes(last)) ?? moment;
+      current = last;
+      judgments = 0;
+      since = 0;
+      part = undefined;
+      const rest = sentence
+        .replace(/\b\d+\s*\.\s*\d+\b/g, " ")
+        .replace(/(?:^|\s)\.\d\b/g, " ");
+      let strength = /^[\s,]*no[.!]?\s*$/i.test(rest) ? -1 : strengthOf(rest);
+      if (
+        strength === undefined &&
+        /^\s*(so )?it was\b/i.test(sentence) &&
+        lastJudged
+      )
+        strength = lastJudged.strength;
+      if (rewriteSaid(sentence)) {
+        // "But it'd be like 4.2, can we even afford this?": his version of the line.
+        entry(last).rewrites.push(sentence);
+      } else if (strength !== undefined) {
+        for (const line of refs) {
+          const row = entry(line);
+          row.spans.push({ start: 0, end: line.line.length, strength });
+          row.words.push(sentence);
+        }
+        // A line named by number and judged in one breath is done: what he
+        // says next is about something else.
+        judgments = JUDGMENTS_PER_READING;
+        lastJudged = { strength, sentence };
+      }
+      if (ruleSaid(sentence)) rules.push({ rule: sentence, line: last.id });
+      continue;
+    }
+    // His own version of the line: kept beside the grade, never graded.
+    if (rewriteSaid(sentence) && current) {
+      entry(current).rewrites.push(sentence);
+      if (ruleSaid(sentence)) rules.push({ rule: sentence, line: current.id });
+      continue;
+    }
     const place = placeSaid(sentence);
     if (place) {
       moment = byMoment.get(place.moment) ?? moment;
@@ -296,15 +426,37 @@ export function readVoiceNote(
     const pool = moment ? [...moment.lines, ...lines] : lines;
     let best: BatchLine | undefined;
     let bestShare = 0;
+    const near = (line: BatchLine): number => {
+      if (!moment) return 0;
+      const at = moments.findIndex((row) => row.lines.includes(line));
+      const here = moments.indexOf(moment);
+      return at === here ? 0.15 : Math.abs(at - here) === 1 ? 0.1 : 0;
+    };
+    // A long sentence of his holds the words of a short line by chance ("I'll
+    // come back to this later" holds "Back to you."): a reading is about as
+    // long as the line.
+    const fits = (line: BatchLine, said: string) =>
+      wordsOf(said).length <= wordsOf(line.line).length * 2 + 4;
+    let bestScore = 0;
     for (const line of pool) {
+      if (!fits(line, sentence)) continue;
       const share = readBack(line.line, sentence);
-      if (share > bestShare) {
+      const score = share + (share >= READ_PART ? near(line) : 0);
+      if (score > bestScore) {
         best = line;
         bestShare = share;
+        bestScore = score;
       }
     }
     // A line of two or three sentences is read as two or three of his.
-    if (bestShare < READ_WHOLE)
+    // Prefer the reading that covers more of a line: "Will you help with the
+    // campaign?" alone matches a short line, but with the next sentence it
+    // reads all of a longer one.
+    const covered = (line: BatchLine | undefined, share: number) =>
+      line ? share * wordsOf(line.line).length : 0;
+    {
+      const single = covered(best, bestShare);
+      let take = 1;
       for (
         let span = 2;
         span <= 3 && index + span <= sentences.length;
@@ -313,20 +465,27 @@ export function readVoiceNote(
         const joined = sentences.slice(index, index + span).join(" ");
         for (const line of pool) {
           if ((line.line.match(/[.!?](\s|$)/g) ?? []).length < span) continue;
+          if (!fits(line, joined)) continue;
           const share = readBack(line.line, joined);
-          if (share >= READ_WHOLE && share > bestShare) {
+          if (
+            share >= READ_WHOLE &&
+            covered(line, share) > Math.max(single, covered(best, bestShare))
+          ) {
             best = line;
             bestShare = share;
-            index += span - 1;
+            take = span;
           }
         }
-        if (bestShare >= READ_WHOLE) break;
       }
+      index += take - 1;
+    }
     const judged = strengthOf(sentence);
+    if (judged !== undefined) lastJudged = { strength: judged, sentence };
     const rating = ratingSaid(sentence);
     if (best && bestShare >= READ_WHOLE && wordsOf(best.line).length >= 2) {
       current = best;
       judgments = 0;
+      since = 0;
       moment = moments.find((row) => row.lines.includes(best!)) ?? moment;
       part = undefined;
       // A judgment in the same sentence as the line read ("Who's your source
@@ -344,6 +503,7 @@ export function readVoiceNote(
           strength: tailStrength,
         });
         row.words.push(sentence);
+        judgments = 1;
       }
       continue;
     }
@@ -376,13 +536,26 @@ export function readVoiceNote(
       // A sentence that is neither a judgment, a rating, a place nor filler
       // is him reading something else: the line he was on is done.
       const named = place !== undefined || ordinalSaid(sentence) !== undefined;
-      if (!named && !FILLER.test(sentence) && wordsOf(sentence).length >= 4) {
+      if (
+        !named &&
+        since > 2 &&
+        !FILLER.test(sentence) &&
+        wordsOf(sentence).length >= 4
+      ) {
         current = undefined;
         part = undefined;
       }
       continue;
     }
     if (judgments >= JUDGMENTS_PER_READING) continue;
+    // "Like the other ones kind of are awkward": about the other lines, not this one.
+    if (
+      /\b(the other ones?|the others|the rest( of them)?|all these responses)\b/i.test(
+        sentence,
+      ) ||
+      /^(they|those|these)\b/i.test(sentence)
+    )
+      continue;
     judgments += 1;
     const row = entry(current);
     const named = /\b(the )?(first part|beginning|opening|start)\b/i.test(
@@ -402,19 +575,25 @@ export function readVoiceNote(
         span =
           named === "first" ? [0, cut + 1] : [cut + 1, current.line.length];
     }
-    row.spans.push({ start: span[0], end: span[1], strength: judged });
+    // His verdict comes first; what he adds after it counts half.
+    row.spans.push({
+      start: span[0],
+      end: span[1],
+      strength: judgments === 1 ? judged : judged / 2,
+    });
     row.words.push(sentence);
     part = undefined;
   }
 
   const grades = [...notes.values()]
-    .filter((row) => row.spans.length > 0)
+    .filter((row) => row.spans.length > 0 || row.rewrites.length > 0)
     .map((row) => ({
       key: row.line.key,
       id: row.line.id,
       spans: row.spans,
       note: row.words.join(" "),
       ...(row.rating !== undefined ? { rating: row.rating } : {}),
+      ...(row.rewrites.length > 0 ? { rewrites: row.rewrites } : {}),
     }));
   return { grades, rules };
 }
