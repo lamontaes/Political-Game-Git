@@ -3,18 +3,19 @@
  * and GOLDEN_PATH_PLACE_KEY from the runner. The drawn place is built as the
  * player gets it (`buildBenchWorld`, every module installed) and plays one
  * game year. Passes when:
- * (1) the town's median rent and median home value, at the start and at the
- *     end of the year, are inside the range of the county medians in its
- *     state (ACS 2020-2024 B25064 median gross rent and B25077 median owner
- *     value, src/core2/data/housing/housing.json countyRentValue; a county
- *     the ACS gives no median for is skipped), the value moved to the day by
- *     the house price index;
- * (2) the town's median home value moved over the year by a ratio inside the
- *     range of four-quarter ratios its state's FHFA all-transactions index
- *     recorded from 1985 on (housing.json housePriceIndex); where FHFA has no
- *     state rows (Puerto Rico, the island areas) the range is the annual
- *     CPI-U ratios in src/core2/data/macro/history.json, which the engine
- *     moves those prices by;
+ * (1) and (2) UNCHECKED (owner, Nov 8: real ranges are not targets): the
+ *     town's median rent and median home value at the start and end of the
+ *     year, beside the range of the county medians in its state (ACS
+ *     2020-2024 B25064 and B25077, src/core2/data/housing/housing.json
+ *     countyRentValue), and the year's move in the value beside the range of
+ *     four-quarter ratios its state's FHFA all-transactions index recorded
+ *     from 1985 on (housePriceIndex; the annual CPI-U ratios in
+ *     src/core2/data/macro/history.json where FHFA has no state rows), are
+ *     printed and never tested. Housing prices have no recorded cause of
+ *     their own to test a value against yet: the engine moves the value by
+ *     the replayed index (housing-prices.ts, a place in the code audit's
+ *     list), so the clauses wait for Money's cycle and keep no range
+ *     meanwhile;
  * (3) every eviction case on record opened from rent owed (owed at notice
  *     above zero, on a lease that exists) and carries the steps of the
  *     place's law as recorded (the same row of housing.json eviction,
@@ -82,27 +83,8 @@ if (!rentRange || !valueRange)
   console.error(
     `rents and home values: unchecked, ${usps} has no county medians to make a regional range`,
   );
-else {
-  for (const [label, figures] of [
-    ["start", opening],
-    ["end", closing],
-  ] as const) {
-    if (!(
-      figures.rentMinor >= rentRange[0] && figures.rentMinor <= rentRange[1]
-    ))
-      failures.push(
-        `rent: the town's median rent at the ${label} of the year, ${figures.rentMinor / 100} dollars, is outside its state's county medians [${rentRange[0] / 100}, ${rentRange[1] / 100}] (ACS 2020-2024 B25064)`,
-      );
-    if (!(
-      figures.homeValueMinor >= valueRange[0] &&
-      figures.homeValueMinor <= valueRange[1]
-    ))
-      failures.push(
-        `home value: the town's median home value at the ${label} of the year, ${figures.homeValueMinor / 100} dollars, is outside its state's county medians [${valueRange[0] / 100}, ${valueRange[1] / 100}] (ACS 2020-2024 B25077)`,
-      );
-  }
-}
-
+// Printed beside the town's figures in the report below, never tested
+// against (owner, Nov 8: real ranges are not targets).
 // (2) The year's move in home values against the recorded annual moves.
 const hpi = (
   housingData.housePriceIndex.states as unknown as Record<
@@ -128,10 +110,8 @@ const valueRatio =
     ? closing.homeValueMinor / opening.homeValueMinor
     : NaN;
 const ratioRange = range(ratios)!;
-if (!(valueRatio >= ratioRange[0] && valueRatio <= ratioRange[1]))
-  failures.push(
-    `home value move: the town's median home value moved by ${valueRatio} over the year, outside the recorded annual range [${ratioRange[0].toFixed(4)}, ${ratioRange[1].toFixed(4)}] (${ratioSource})`,
-  );
+// The year's move is printed beside the recorded annual range below, never
+// tested against it.
 
 // (3) to (5) Every eviction case.
 type Case = {

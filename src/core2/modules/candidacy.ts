@@ -933,10 +933,41 @@ export function weighContest(
       rules.minimumAge,
     );
     countedWeighed = screen.weighed;
-    for (const id of screen.drawn) {
-      if (committed.has(id)) continue;
-      fillInPerson(api.state as CoreState, id);
-      filledInIds.push(id);
+    // The field limits itself: each runner lowers the next one's pull
+    // (`candidacyFieldWeight`), so the counted adults it draws are weighed
+    // from their counted records one at a time, strongest pull first, and
+    // run only while the pull with the field as it stands still clears the
+    // bar. A counted adult who wants to run is a decision on their counted
+    // record; they are made a full person on the day they file.
+    const bar = stayOutPull(api, field);
+    const decisions = table(api);
+    for (const voter of screen.drawn) {
+      if (committed.has(voter.id)) continue;
+      const id = `${field.contestId}:${voter.id}`;
+      const held = decisions.get(id) as unknown as
+        CandidacyDecision | undefined;
+      if (held) {
+        asked.push(voter.id);
+        if (held.run) running.push(voter.id);
+        continue;
+      }
+      const seat = { ...field, runners: running.length + raceRunners };
+      const reasons = countedCandidacyReasons(api, voter, seat);
+      let pull = api.parameter("zero");
+      for (const value of Object.values(reasons)) pull += value;
+      if (pull <= bar) continue;
+      decisions.put({
+        id,
+        personId: voter.id,
+        contestId: field.contestId,
+        date,
+        run: true,
+        reasons,
+        scores: [],
+        sourceIds: [...field.sourceIds, voter.id, voter.householdId],
+      } as unknown as { id: string });
+      asked.push(voter.id);
+      running.push(voter.id);
     }
   }
   const people = [...api.state.people.values()]
@@ -1036,7 +1067,7 @@ function countedScreen(
   open: OpenContest,
   placeIds: readonly (string | null)[],
   minimumAge: number,
-): { weighed: number; drawn: PersonId[] } {
+): { weighed: number; drawn: CountedVoter[] } {
   const year = api.state.date.slice(0, 4);
   let held = countedBases.get(api.state);
   if (
@@ -1098,7 +1129,7 @@ function countedScreen(
   const wanted = (voter: CountedVoter) => placeIds.includes(voter.placeId);
   for (const { voter } of held.rows)
     if (wanted(voter) && here(voter)) weighed += voter.weight;
-  const drawn: PersonId[] = [];
+  const drawn: CountedVoter[] = [];
   for (const { voter, base } of held.rows) {
     // Sorted by pull: past here no one clears the bar.
     if (!open.wideScope && base + record <= bar) break;
@@ -1106,7 +1137,7 @@ function countedScreen(
     const reasons = countedCandidacyReasons(api, voter, open);
     let pull = api.parameter("zero");
     for (const value of Object.values(reasons)) pull += value;
-    if (pull > bar) drawn.push(voter.id);
+    if (pull > bar) drawn.push(voter);
   }
   return { weighed, drawn };
 }
@@ -1131,6 +1162,8 @@ export function fileRunners(
       : first;
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
+    if (decision && !api.state.people.has(personId))
+      fillInPerson(api.state as CoreState, personId);
     const person = api.state.people.get(personId);
     if (!decision || !person) continue;
     const filing: NonNullable<CandidacyDecision["filing"]> = person.alive
@@ -1580,6 +1613,10 @@ function weighClosedContest(
   for (const personId of row.runIds) {
     const decision = decisionOf(api, contest.id, personId);
     if (!decision) continue;
+    // A counted adult who decided to run on their counted record is made a
+    // full person the day they file.
+    if (!api.state.people.has(personId))
+      fillInPerson(api.state as CoreState, personId);
     let party: string | null = seatParty(api, contest)
       ? partyOf(api, personId)
       : null;
