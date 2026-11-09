@@ -85,6 +85,23 @@ try {
     { timeout: 600000 },
   );
   assert.equal(adult.status(), 200);
+  // The place's filing opens on its own date: advance dev mode a month at a time until the government's
+  // contests name an office that takes filings (up to fourteen months), as filing.browser.mjs does.
+  const me = (await (await page.request.get(`${base}/api/title`)).json()).life
+    .personId;
+  for (let month = 0; month < 14; month += 1) {
+    const government = await (
+      await page.request.get(
+        `${base}/api/government?id=${encodeURIComponent(me)}`,
+      )
+    ).json();
+    if (government.contests?.length) break;
+    const moved = await page.request.post(`${base}/api/dev/advance`, {
+      data: { step: "month" },
+      timeout: 600000,
+    });
+    assert.equal(moved.status(), 200, "dev mode did not advance");
+  }
   await page.reload();
   await page.locator("#front-continue").click();
   await page.waitForFunction(() =>
@@ -99,8 +116,15 @@ try {
   let atCounter = false;
   for (let i = 0; i < (await go.count()) && !atCounter; i++) {
     await go.nth(i).click();
+    // The place's card opens a moment after the tile is clicked: wait for its Go, never test for it at once.
     const placeGo = page.locator('[data-testid="place-go"]');
-    if (await placeGo.isVisible().catch(() => false)) await placeGo.click();
+    if (
+      await placeGo
+        .waitFor({ state: "visible", timeout: 5000 })
+        .then(() => true)
+        .catch(() => false)
+    )
+      await placeGo.click();
     atCounter = await page
       .locator("#talk:not([hidden])")
       .waitFor({ timeout: 5000 })
