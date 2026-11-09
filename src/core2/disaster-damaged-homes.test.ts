@@ -12,6 +12,7 @@ import {
   townDisastersWithDamage,
 } from "./modules/disasters";
 import households from "./data/disasters/households.json" with { type: "json" };
+import { residentsAccountFor } from "./modules/residents";
 import { coreAPI } from "./state";
 import { townsWithDamage } from "./tooling/disaster-damage-screen";
 
@@ -21,7 +22,7 @@ describe(`a disaster's damaged homes (seed ${seed})`, () => {
   it("marks the weakest owners' homes and pays their aid to their own accounts", () => {
     run(false);
   }, 900_000);
-  it("sends counted households that cannot pay for repairs away when FEMA's damage is more than its aid", () => {
+  it("sends counted households that cannot pay for repairs away when FEMA's damage is more than its aid and the pool is spent", () => {
     run(true);
   }, 900_000);
 });
@@ -62,6 +63,24 @@ function run(short: boolean): void {
       if (!disaster) {
         tried.push(`${where}: no damaged-home disaster in the year`);
         continue;
+      }
+      if (short) {
+        // The town's counted households have spent their cash by the eve of the declaration, so only the aid pays repairs.
+        advanceCore(core, addDays(makeIsoDate(disaster.declared), -1));
+        const town = core.people.get(core.playerId ?? "")?.placeId as string;
+        const pool = residentsAccountFor(core, town)!;
+        const sink = [...core.organizations.values()].find(
+          (org) => org.placeId === town,
+        )!;
+        api.accounts().transfer({
+          id: `test-drain:${disaster.number}`,
+          from: pool,
+          to: api.accounts().main(sink.id),
+          amountMinor: 10 ** 15,
+          partial: true,
+          reasonKey: "test.drain",
+          source: { tag: "SOURCED", asOf: core.date, citation: "test" },
+        });
       }
       advanceCore(core, yearEnd);
       const homes = damagedHomesOf(api, disaster.number);
