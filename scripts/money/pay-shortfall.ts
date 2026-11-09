@@ -19,7 +19,10 @@ const world = buildBenchWorld(drawn.seed, gameStartDate(), {
 console.log(`${drawn.name} ${key} seed ${seed}`);
 advanceCore(world.core, addDays(makeIsoDate(world.core.date), 365 * years));
 const core: any = world.core;
-const byKind = new Map<string, { jobs: number; short: number; earned: number; none: number }>();
+const byKind = new Map<
+  string,
+  { jobs: number; short: number; earned: number; none: number }
+>();
 for (const [jobId, t] of core.work.totalsByJob) {
   const job = core.jobs.get(jobId);
   const org = job && core.organizations.get(job.organizationId);
