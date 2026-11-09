@@ -557,6 +557,7 @@
     "whatICanDo": "What I can do there"
   },
   "time": {
+    "hour": "Hour",
     "day": "Day",
     "week": "Week",
     "continue": "Continue"
