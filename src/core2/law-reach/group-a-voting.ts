@@ -16,7 +16,8 @@
  * - `termLimitReached` and `lobbyingBarredUntil`: an officeholder's limits.
  */
 import { placeStateKey } from "../place-map";
-import { yesLevels } from "../modules/laws";
+import { lawInForce, yesLevels } from "../modules/laws";
+const EXECUTIVE_TERM_LIMIT = "executive-term-limit";
 import {
   PHOTO_ID,
   AUTO_REGISTRATION,
@@ -40,9 +41,14 @@ export {
 import type { CoreAPI, CoreState, PersonState, Source } from "../types";
 import felonyData from "../data/elections/felony-disenfranchisement.json" with { type: "json" };
 import { electionsParameter } from "../elections-calendar";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { incarceratedMayVote } from "../justice-law";
-import { OFFICES_MODULE_ID, type TermRow } from "../modules/offices";
+import {
+  OFFICES_MODULE_ID,
+  executiveTermLimit,
+  termLimitReachedBy,
+  type TermRow,
+} from "../modules/offices";
 import { ELECTIONS_MODULE_ID } from "../modules/elections";
 import {
   convictionsOf,
@@ -557,11 +563,21 @@ export function termLimitReached(
   personId: string,
   officeId: string,
 ): boolean {
-  if (!inForce(api, TERM_LIMITS)) return false;
   const office = api
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
-    .get(officeId) as { kind?: string } | undefined;
+    .get(officeId) as
+    { kind?: string; level?: string; jurisdiction?: string } | undefined;
+  if (office?.level === "state" && office.kind === "governor")
+    return governorLimitReached(api, personId, officeId);
+  // Another statewide executive (lieutenant governor, attorney general...)
+  // keeps the limit its state's constitution gives, from the office research.
+  if (office?.level === "state" && office.jurisdiction && office.kind) {
+    const limit = executiveTermLimit(office.jurisdiction, office.kind);
+    if (limit.kind !== "none")
+      return termLimitReachedBy(limit, governorTerms(api, personId, officeId));
+  }
+  if (!inForce(api, TERM_LIMITS)) return false;
   const legislative = selectorGroup("legislators").some((k) =>
     (office?.kind ?? "").startsWith(k),
   );
@@ -577,6 +593,49 @@ export function termLimitReached(
 }
 
 /**
+ * The governor's limit on terms: the state's `executive-term-limit` law in
+ * force (0 for none), against the terms the person has held or holds in the
+ * office. A law that raises, lowers or repeals the limit changes who may file
+ * the day it takes effect.
+ */
+function governorLimit(
+  api: CoreAPI,
+  officeId: string,
+): { terms: number; lawId: string | null } {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { jurisdiction?: string } | undefined;
+  const level = lawInForce(api, EXECUTIVE_TERM_LIMIT).levels.find(
+    (l) => l.level === "state" && l.jurisdiction === office?.jurisdiction,
+  );
+  return {
+    terms: level?.row?.value ?? 0,
+    lawId: level?.row?.id ?? null,
+  };
+}
+
+function governorTerms(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): number {
+  const date = api.state.date;
+  return termsOf(api, personId).filter(
+    (t) => t.officeId === officeId && t.startDate <= date,
+  ).length;
+}
+
+function governorLimitReached(
+  api: CoreAPI,
+  personId: string,
+  officeId: string,
+): boolean {
+  const { terms } = governorLimit(api, officeId);
+  return terms > 0 && governorTerms(api, personId, officeId) >= terms;
+}
+
+/**
  * A person files for a legislative office under a term limit in force: the
  * elections engine counted their years against it, and the limit kept them
  * off the ballot or let them on. Called where the filing is decided, never
@@ -587,6 +646,25 @@ export function recordTermLimitFiling(
   personId: string,
   officeId: string,
 ): void {
+  const governor = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as { kind?: string; level?: string } | undefined;
+  if (governor?.level === "state" && governor.kind === "governor") {
+    const { terms, lawId: governorLaw } = governorLimit(api, officeId);
+    if (!governorLaw || terms <= 0) return;
+    lawApplied(api, {
+      key: EXECUTIVE_TERM_LIMIT,
+      lawId: governorLaw,
+      targetId: personId,
+      target: "person",
+      engine: "core2-elections-v1",
+      what: governorLimitReached(api, personId, officeId)
+        ? "kept-off-ballot"
+        : "term-count-checked",
+    });
+    return;
+  }
   if (!inForce(api, TERM_LIMITS)) return;
   const lawId = yesLevels(api, TERM_LIMITS)[0]?.lawId;
   const office = api

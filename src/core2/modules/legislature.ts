@@ -54,7 +54,8 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
-import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { personLean, personStance } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import {
   enactLaw,
   calibrationRows,
@@ -121,7 +122,7 @@ import proposalData from "../data/legislature/executive-proposal.json" with { ty
 import vetoWindowData from "../../../data/research/laws/veto-windows-2023.json" with { type: "json" };
 import type { Source } from "../types";
 import { decisionFromScores, scoreOffers } from "../choice";
-import { decisionKinds } from "../trait-decisions";
+import { decisionKinds } from "../trait-decision-table";
 import { discretionaryHours } from "./work";
 import { COMMITTEES, committeeForSection } from "../legislature-committees";
 import { addDays, makeIsoDate } from "../kernel/dates";
@@ -211,6 +212,8 @@ export interface BillRow {
   readonly introduced: string;
   /** The day it passed its last chamber; a state act's session is the one sitting then, whenever it is signed. */
   readonly passedOn?: string;
+  /** The day a vote or a committee ended the bill (status "failed"). */
+  readonly failedOn?: string;
   /** The committee record that reported the bill to the floor of its first chamber, where its body has committees. */
   readonly committeeId?: string;
   /** The pre-vote hooks that already ran on the bill's committee day; the floor day does not run them again. */
@@ -2997,8 +3000,32 @@ function billSettledness(api: CoreAPI, bill: BillRow): number {
   );
 }
 
+/**
+ * Positions already worked out inside one run of the floor's amendments. The run reads the same
+ * member against the same terms again and again (a recount after each amendment, then each member
+ * against each candidate section); nothing it reads is written between its own emits, so a position
+ * is kept for the bill's id, sponsor, provisions and deals and dropped at every emit. Null outside
+ * that run, so every other caller works the position out as before.
+ */
+let positionMemo: Map<string, MemberPosition> | null = null;
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
+  api: CoreAPI,
+  bill: BillRow,
+  memberId: string,
+): MemberPosition {
+  const memo = positionMemo;
+  if (!memo) return positionOfMember(api, bill, memberId);
+  const key = `${memberId}|${bill.id}|${bill.sponsorId}|${JSON.stringify(bill.provisions)}|${JSON.stringify(bill.deals)}`;
+  const kept = memo.get(key);
+  if (kept) return kept;
+  const out = positionOfMember(api, bill, memberId);
+  memo.set(key, out);
+  return out;
+}
+
+function positionOfMember(
   api: CoreAPI,
   bill: BillRow,
   memberId: string,
@@ -4499,6 +4526,22 @@ function floorAmendments(
   stage: "committee" | "floor" = "floor",
   seats: readonly string[] = members(api, chamber).map(memberKey),
 ): BillRow {
+  const outer = positionMemo;
+  positionMemo = new Map();
+  try {
+    return floorAmendmentsRun(api, bill, chamber, stage, seats);
+  } finally {
+    positionMemo = outer;
+  }
+}
+
+function floorAmendmentsRun(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+  stage: "committee" | "floor",
+  seats: readonly string[],
+): BillRow {
   const playerId =
     snapshotExplicitControlV1(api.state).personId ??
     (api.state as CoreState).playerId;
@@ -4563,6 +4606,8 @@ function floorAmendments(
           : d,
       ),
     };
+    // The emit may change what a position reads: the kept positions go with it.
+    positionMemo?.clear();
     api.emit({
       id: `bill-amendment:${current.id}:${chamber}:${stage}:${current.provisions.length - 1}`,
       date: api.state.date,
@@ -4847,7 +4892,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
     // The bill as its markup left it.
     bill = table(api, "bills").get(bill.id) as unknown as BillRow;
     if (committee && !committee.reported) {
-      const held: BillRow = { ...bill, status: "failed" };
+      const held: BillRow = {
+        ...bill,
+        status: "failed",
+        failedOn: api.state.date,
+      };
       table(api, "bills").put(held as unknown as ModuleRow);
       if (committee.heard)
         recordFailure(api, held, chamber, "committee", committee);
@@ -4895,7 +4944,11 @@ function countVote(api: CoreAPI, billId: string): BillRow {
             campaignParameter("senateClotureShare"),
         );
     if (tally.yes <= tally.no || cloture) {
-      const failed: BillRow = { ...bill, status: "failed" };
+      const failed: BillRow = {
+        ...bill,
+        status: "failed",
+        failedOn: api.state.date,
+      };
       table(api, "bills").put(failed as unknown as ModuleRow);
       recordFailure(api, failed, chamber, "floor", tally);
       return failed;
@@ -5969,6 +6022,7 @@ export function holdCommittee(
     table(api, "bills").put({
       ...held,
       status: "failed",
+      failedOn: api.state.date,
     } as unknown as ModuleRow);
     // The bill's fate is on the record as it is when a vote ends it.
     for (const hook of afterVoteHooks) hook(api, billId);

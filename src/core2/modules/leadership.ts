@@ -37,7 +37,7 @@ import {
 } from "../legislature-committees";
 import { officialOf } from "./officials";
 import { concerns } from "./meetings";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 
 export const LEADERSHIP_MODULE_ID = "core2-leadership-v1";
 

@@ -572,6 +572,32 @@
       "author": "Story (Claude Code), civic-prose",
       "date": "2026-11-08",
       "kind": "spoken"
+    },
+    {
+      "key": "speech-stages.stage-opener.thank-you-all-for-being-here",
+      "move": "stage-opener",
+      "kind": "spoken",
+      "text": "Thank you all for being here.",
+      "uses": [
+        {
+          "move": "stage-opener",
+          "subject": "stage",
+          "role": "opener",
+          "choice": "opener"
+        }
+      ],
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      },
+      "tag": {
+        "move": "greet"
+      },
+      "restoredFrom": "address.hearing-open.thank-you-all-for-being-here",
+      "restoredOn": "2026-11-08"
     }
   ]
 }

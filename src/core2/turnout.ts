@@ -18,7 +18,7 @@
  * the order their own record carries (`namedTurnout`), so the same person in
  * the same circumstances does the same thing and nothing is rolled.
  */
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 
 /** The parts of one voter's turnout, as numbers the English engine words. */
 export interface TurnoutParts {

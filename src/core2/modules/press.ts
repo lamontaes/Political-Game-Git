@@ -89,12 +89,8 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { JOBS_MODULE_ID, registerEmployer } from "./jobs";
 import { BUSINESS_MODULE_ID, enrollBusinessOwner, ownerOf } from "./business";
-import {
-  PLATFORM_QUESTIONS,
-  publicOffset,
-  questionAxis,
-  type Stance,
-} from "../campaign-views";
+import { publicOffset, questionAxis } from "../campaign-views";
+import { PLATFORM_QUESTIONS, type Stance } from "../campaign-data";
 import {
   hireStaffMember,
   nationalOutletName,
@@ -145,12 +141,8 @@ import {
 } from "../press-desk";
 // The press desk's own story record, read by the director through this entry.
 export { PRESS_STORY_EVENT } from "../press-desk";
-import {
-  newsKey,
-  storiesHeard,
-  registerCountedNewsSource,
-  type Story,
-} from "./news";
+import { newsKey, storiesHeard, type Story } from "./news";
+import { registerCountedNewsSource } from "./news-listeners";
 import { worldLevel } from "../world-draw";
 
 export const PRESS_MODULE_ID = "core2-press-v1";

@@ -4,7 +4,7 @@ import { buildBenchWorld } from "../bench/world";
 import { storyScene } from "../bench/story";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { setBookkeeping } from "../core2/bookkeeping";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { advanceCore } from "../core2/life";

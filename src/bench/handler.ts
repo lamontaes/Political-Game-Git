@@ -45,6 +45,7 @@ import {
 import { wordOwnResult } from "./archive-words";
 import { billPaper, seatAct, seatView } from "./legislature";
 import {
+  billPageView,
   billStage,
   callAmendmentVote,
   callOverrideVote,
@@ -615,8 +616,45 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "POST" && url.pathname === "/api/talk/leave",
     run: async ({ send }) => {
+      // A talk spends its own length on the player's clock when it ends: the
+      // lines said and heard, each a few minutes.
+      const lines = state.conversation
+        ? (talkView(state.conversation)?.lines.length ?? 0)
+        : 0;
       state.conversation = undefined;
-      send(200, {});
+      const parameters = requireCore().data.parameters;
+      const spent =
+        lines > 0 && state.player?.personId
+          ? state.player.spend(
+              (lines * parameter("talkMinutesPerLine", parameters)) /
+                parameter("minutesPerHour", parameters),
+            )
+          : undefined;
+      send(
+        200,
+        spent ? { packet: spent.packet, names: namesFor(spent.packet) } : {},
+      );
+      return;
+    },
+  },
+  {
+    match: ({ request, url }) =>
+      request.method === "POST" && url.pathname === "/api/wait",
+    run: async ({ url, send }) => {
+      // Stay or wait where the player is: the hours asked for, at most a day,
+      // spent on the existing clock.
+      if (!state.player?.personId) throw new Error("Choose a resident first.");
+      const parameters = requireCore().data.parameters;
+      const asked = Number(url.searchParams.get("hours") ?? "");
+      if (!Number.isFinite(asked) || asked <= 0)
+        throw new Error("Wait for a number of hours.");
+      const spent = state.player.spend(
+        Math.min(asked, parameter("hoursPerDay", parameters)),
+      );
+      send(
+        200,
+        spent ? { packet: spent.packet, names: namesFor(spent.packet) } : {},
+      );
       return;
     },
   },
@@ -895,15 +933,32 @@ const ROUTES: readonly Route[] = [
       request.method === "POST" && url.pathname === "/api/goto/visit",
     run: async ({ url, send }) => {
       if (!state.player?.personId) throw new Error("Choose a resident first.");
-      send(
-        200,
-        visitPlace(
-          requireCore(),
-          state.player.personId,
-          url.searchParams.get("org") ?? "",
-          state.player.packet?.at.minuteOfDay ?? 12 * 60,
-        ),
+      // stopgapId: SG-PLAY-trip-time-average
+      // The trip comes first: the average trip time, then the room is seen as
+      // it stands at the arrival minute, then the errand's hour is spent; the
+      // people at the next place are those there at that later hour.
+      const parameters = requireCore().data.parameters;
+      const trip = state.player.spend(
+        parameter("tripMinutes", parameters) /
+          parameter("minutesPerHour", parameters),
       );
+      const visit = visitPlace(
+        requireCore(),
+        state.player.personId,
+        url.searchParams.get("org") ?? "",
+        state.player.packet?.at.minuteOfDay ?? 12 * 60,
+      );
+      const spent =
+        state.player.spend(parameter("visitHours", parameters)) ?? trip;
+      send(200, {
+        ...visit,
+        ...(spent
+          ? {
+              packet: spent.packet,
+              names: { ...visit.names, ...namesFor(spent.packet) },
+            }
+          : {}),
+      });
       return;
     },
   },
@@ -1042,6 +1097,22 @@ const ROUTES: readonly Route[] = [
       send(
         200,
         billStage(
+          requireCore(),
+          url.searchParams.get("billId") ?? "",
+          state.player?.personId,
+        ),
+      );
+      return;
+    },
+  },
+  // What the bill's page is built from: name, stage and day, sponsor, sections, tallies and reach.
+  {
+    match: ({ request, url }) =>
+      request.method === "GET" && url.pathname === "/api/bill/page",
+    run: async ({ url, send }) => {
+      send(
+        200,
+        billPageView(
           requireCore(),
           url.searchParams.get("billId") ?? "",
           state.player?.personId,

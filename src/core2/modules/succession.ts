@@ -23,7 +23,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
 import { nominateAndConfirm, partySide } from "../appointments";
 import { boardAppointer } from "../board-appointer";
 import { registerBoardAppointer } from "../central-bank-appointments";
-import { campaignParameter } from "../campaign-views";
+import { campaignParameter } from "../campaign-data";
 import { NATIVITY_FACT } from "../nativity";
 import {
   OFFICES_MODULE_ID,

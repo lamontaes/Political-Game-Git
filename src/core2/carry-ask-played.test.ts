@@ -11,7 +11,7 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { PLATFORM_QUESTIONS } from "./campaign-views";
+import { PLATFORM_QUESTIONS } from "./campaign-data";
 import { gameStartDate } from "./game-start";
 import {
   answerCarryAsk,

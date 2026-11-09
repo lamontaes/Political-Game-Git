@@ -50,6 +50,10 @@
       "levels": ["federal"],
       "source": "26 U.S.C. §§ 3301-3302"
     },
+    "executive-term-limit": {
+      "levels": ["state"],
+      "source": "State constitutions (a governor's limit on terms) and the amendments that change it"
+    },
     "state-unemployment-tax": {
       "levels": ["state"],
       "source": "State unemployment insurance law under 26 U.S.C. § 3304"
@@ -101,6 +105,14 @@
     "state-contribution-limit-local": {
       "levels": ["state"],
       "source": "each state's campaign finance statute (NCSL, State Limits on Contributions to Candidates, 2025-2026)"
+    },
+    "child-care-income-limit": {
+      "levels": ["state"],
+      "source": "Child Care and Development Block Grant Act, 42 U.S.C. 9858c(c)(2)(B): a state sets the family income limit for its subsidies, up to 85 percent of the state median income"
+    },
+    "energy-assistance-income-limit": {
+      "levels": ["state"],
+      "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state sets the household income limit for its home energy assistance, within the statute's floor and ceiling"
     }
   },
   "questions": {

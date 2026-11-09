@@ -29,11 +29,8 @@ import {
   knockDoors,
   openCampaigns,
 } from "./modules/campaigns";
-import {
-  campaignParameter,
-  personStance,
-  PLATFORM_QUESTIONS,
-} from "./campaign-views";
+import { personStance } from "./campaign-views";
+import { campaignParameter, PLATFORM_QUESTIONS } from "./campaign-data";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
 const START = "2026-01-05";

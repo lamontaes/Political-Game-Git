@@ -598,7 +598,10 @@ export function openingUnplaced(
     eligible.set(
       key,
       (eligible.get(key) ?? 0) +
-        n * (input.weights?.[record.household.placeId] ?? 1),
+        n *
+          (record.household.weight ??
+            input.weights?.[record.household.placeId] ??
+            1),
     );
   }
   const workers = new Map<string, number>();
@@ -664,7 +667,7 @@ function packOpening(
             ? "mortgage"
             : "other",
         unplacedWorkers: 0,
-        ...weightOf(input.weights, placeId),
+        ...weightOf(input.weights, placeId, record.household.weight),
       }),
     );
     const h = households[households.length - 1]!;
@@ -691,8 +694,9 @@ function packOpening(
 function weightOf(
   weights: ResidentsInput["weights"],
   placeId: PlaceId,
+  own?: number,
 ): { weight?: number } {
-  const weight = weights?.[placeId];
+  const weight = own ?? weights?.[placeId];
   return weight !== undefined && weight !== 1 ? { weight } : {};
 }
 
@@ -2071,6 +2075,8 @@ export function takeResidentHousehold(
       memberIds: people.map((row) => row.id),
       source: h.source,
       ...(h.quarters ? { quarters: h.quarters } : {}),
+      ...(h.since ? { since: h.since } : {}),
+      ...(h.employment ? { employment: h.employment } : {}),
     },
     people,
     jobs: [...h.jobs],

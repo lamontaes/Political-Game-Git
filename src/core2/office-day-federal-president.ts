@@ -27,7 +27,7 @@ import {
   partySide,
   senateSides,
 } from "./appointments";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
 import { fillInIdentity, personOrFillIn } from "./state";
 import { drawnAdult } from "./modules/counted-moves";

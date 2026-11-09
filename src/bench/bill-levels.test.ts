@@ -1,7 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { afterAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { gameStartDate } from "../core2/game-start";
 import { lawInForce } from "../core2/modules/laws";
 import {

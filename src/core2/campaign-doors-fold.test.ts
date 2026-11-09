@@ -22,7 +22,7 @@ import { describe, expect, it } from "vitest";
 import { fileForOffice } from "../bench/government";
 import { buildBenchWorld } from "../bench/world";
 import { setBookkeeping } from "./bookkeeping";
-import { campaignParameter } from "./campaign-views";
+import { campaignParameter } from "./campaign-data";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";

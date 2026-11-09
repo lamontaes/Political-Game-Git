@@ -17,7 +17,7 @@ import {
   type Provision,
 } from "../core2/modules/legislature";
 import { lawInForce } from "../core2/modules/laws";
-import { PLATFORM_QUESTIONS } from "../core2/campaign-views";
+import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { heldFederal, releaseFederal } from "../core2/office-day-federal";
 import { floorDecide, floorView } from "./office";
 import { stateFloorHolds } from "../core2/office-day-state";
