@@ -129,4 +129,29 @@ describe("the owner's grades build a heat map that scores every line", () => {
       "rv:broadcast:none",
     ]);
   });
+
+  it("a writing rule lowers every line holding the feature it names, in every bank", () => {
+    const pieces = new Map<string, MapPiece>([
+      ["filler", { bank: "news", text: "Well, the council met.", scenes: [] }],
+      ["plain", { bank: "news", text: "The council met.", scenes: [] }],
+    ]);
+    const map = buildGradeMap(
+      pieces,
+      [],
+      [{ id: "no-filler", features: { "opens:filler-word": -1 } }],
+      classes,
+      parameters,
+    );
+    expect(map.factors["filler"]).toBeLessThan(1);
+    expect(map.factors["plain"]).toBeUndefined();
+  });
+
+  it("every rule in the rules file names its sources", () => {
+    const rules = JSON.parse(
+      readFileSync("data/english/writing-rules.json", "utf8"),
+    ) as { rules: { id: string; rule: string; sources: unknown[] }[] };
+    expect(rules.rules.length).toBeGreaterThanOrEqual(20);
+    for (const rule of rules.rules)
+      expect(rule.sources.length).toBeGreaterThan(0);
+  });
 });
