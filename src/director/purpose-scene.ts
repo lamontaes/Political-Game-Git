@@ -79,6 +79,7 @@ import {
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
 import { chooseVariant, type VariantChoice } from "./arc-variant";
+import { custodyFacts } from "./custody-facts";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
 const STATE_KEY_PREFIX = "US-";
@@ -555,6 +556,15 @@ function composeBinding(
     if (why)
       facts[why.fact] = { text: asker.givenName, sourceRecordIds: cited };
   }
+  // A prison term (justice.ts): a person home from prison, a sentence handed
+  // down or a person held before trial, with how long, the day they get out,
+  // the bail, whether the term ended their job and the child at home, each
+  // cited to the records it came from. stopgapId:
+  // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
+  for (const [key, fact] of Object.entries(
+    custodyFacts(core, record, askerId, askedId),
+  ))
+    facts[key] = fact;
   // A damaged home (disasters.ts, the day its aid is paid): the kind of home,
   // what the repairs cost and what the aid came to, each as people round a
   // sum, and what is still owed. The flags say which of the three ways the

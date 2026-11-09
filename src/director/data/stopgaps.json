@@ -740,5 +740,53 @@
     "addedAt": "2026-11-09",
     "replacement": "The housing engine names the home's lender or landlord on the damaged-home row; the row's pool then casts that party (or the aid office's worker) beside the household.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-homecoming-stay-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "The homecoming scene's ending (you settled what comes next, by agreeing to a stay or promising to help find work) is written on the reply record as a promise; no engine reads it. The person home from prison is not moved into the household, no job lead is made for them, and the forgiveness asked is not a stance on the tie.",
+    "why": "The household writer (changeHouseholdV1) and the jobs engine exist, but neither has a hook that reads a scene.reply of typeKey return; the justice engine keeps no re-entry record for a named person (housing sought, work with a record). The scene still names the term and what it cost, and a talk put off strains the tie through the closeness writer.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A households-engine hook that reads a scene.reply of typeKey return with the ending settled-what-comes-next and the player's agree move, and moves the person in with changeHouseholdV1; a jobs-engine read of the promise as a referral.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-prison-visit-limits-fixed",
+    "kind": "missing-data",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "The visit's limits as the narration says them: a guard stands by, the talk is through glass, the visit ends when the guard says. No facility, visiting rule or time limit is on a named prisoner's record, so the lines say these things for every visit, and none of them names a number of minutes.",
+    "why": "The justice engine keeps custody (from, until, sentence) for a named person but not the facility, its kind or its visiting rules; only counted custody names a facility (jail, prison, juvenile). No pet is kept on any household record, so no visit asks after one.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "The justice engine records the facility and kind on a named prisoner's custody row (as it does for counted custody); the narration reads the kind and says the glass and the time only where that kind has them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-prison-visit-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "What the visitor agrees to or promises in the prison visit (money on the prisoner's account, a child looked after, a lawyer called, a word taken to the family) is written on the reply record as a promise; no engine moves the money, makes the call or tells the family.",
+    "why": "The justice engine has no commissary account or contact record for a named prisoner, and no hook reads a scene.reply of typeKey prison-visit. The visit still names the sentence or the bail from the record and a refusal pressed strains the tie.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A justice-engine account for a named prisoner that a promise of money pays into on the next day, and a people-engine owed-talk record for the word taken to the family.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-visit-ill-no-purpose",
+    "kind": "missing-hook",
+    "file": "src/director/data/situation-types.json",
+    "line": 1,
+    "whatItFakes": "The visit type still has no purpose for the causes it keeps: a visit to someone seriously ill, and the visit when the player is the one held (a relative comes to the player). Only the visit to someone the justice engine holds has one (prison-visit).",
+    "why": "A visit to the ill needs the health engine's diagnosis and care records worded as the ask, and a visit to the player inside leaves the player no choices to reply with while they serve a term.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A hospital-visit purpose that reads the health engine's care need, and, for the player held, a letter or a call scene the player answers after release.",
+    "status": "open"
   }
 ]

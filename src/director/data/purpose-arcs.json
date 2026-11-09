@@ -4575,6 +4575,84 @@
         }
       ]
     },
+    "homecoming": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "deflect"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "deflect": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "deflect"]
+      },
+      "endings": [
+        {
+          "id": "settled-what-comes-next",
+          "label": "You settled what comes next",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "put-the-talk-off",
+          "label": "You put the talk off",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["deflect", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "left-it-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "prison-visit": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["accept", "press"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-you-would",
+          "label": "You said you would do it",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "visit-ended-sore",
+          "label": "The visit ended on a sour note",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "said-you-could-not",
+          "label": "You said you could not",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "swearing-in": {
       "state": "request",
       "replies": ["agree", "promise", "thank", "ask"],
