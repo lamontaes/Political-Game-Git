@@ -13,6 +13,10 @@ import { OFFICES_MODULE_ID } from "../../src/core2/modules/offices";
 import { isSchoolDistrict } from "../../src/core2/residents";
 import { OUTSIDE_MARKET_KIND } from "../../src/core2/opening-outside-market";
 import { residentsRuntime } from "../../src/core2/modules/residents";
+import { residentCounts } from "../../src/core2/modules/residents";
+import { VOTING_MODULE_ID } from "../../src/core2/modules/voting";
+import { ELECTIONS_MODULE_ID } from "../../src/core2/modules/elections";
+import { stableHash } from "../../src/core2/kernel/ids";
 import { setFastForward } from "../../src/core2/fast-forward";
 setBookkeeping(false);
 if (process.env.CORE2_FAST_FORWARD === "1") setFastForward(true);
@@ -123,6 +127,48 @@ const why = () => {
     tally,
   };
 };
+// The twin check's numbers: who is alive and dead, the counts, money, and who won.
+let lastDate = "";
+const outcomes = () => {
+  const api = coreAPI(core);
+  let fullAlive = 0,
+    fullDead = 0;
+  for (const p of core.people.values()) p.alive ? fullAlive++ : fullDead++;
+  let counted = 0;
+  for (const row of residentCounts(core)) counted += row.people;
+  let money = 0;
+  const accounts = api.accounts();
+  for (const ids of core.cashJournal.accountsByOwner.values())
+    for (const id of ids) money += accounts.balance(id);
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const won: string[] = [];
+  const local: string[] = [];
+  for (const r of api
+    .moduleState(VOTING_MODULE_ID)
+    .table("results")
+    .rows() as any[]) {
+    if (r.date <= lastDate || r.date > core.date) continue;
+    won.push(`${r.contestId}=${r.winnerId}`);
+    const c = contests.get(r.contestId) as any;
+    if (
+      c &&
+      ["local", "city", "county", "municipality", "district"].includes(c.level)
+    )
+      local.push(`${c.title}: ${r.winnerId}`);
+  }
+  won.sort();
+  lastDate = core.date;
+  return {
+    fullAlive,
+    fullDead,
+    counted,
+    moneyMinor: money,
+    races: won.length,
+    winnersDigest: stableHash(won.join("|")).slice(0, 12),
+    local: local.sort(),
+  };
+};
+outcomes();
 let peak = 0;
 const timer = setInterval(() => {
   peak = Math.max(peak, process.memoryUsage().rss);
@@ -144,6 +190,7 @@ for (let y = 1; y <= Number(years); y++) {
       heapAfterGcMB: heapMB,
       peakRssMB: Math.round(peak / 1048576),
       ...why(),
+      ...outcomes(),
     }),
   );
 }
