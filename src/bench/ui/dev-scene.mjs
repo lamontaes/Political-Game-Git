@@ -5,7 +5,7 @@
 // game code to attach to. Control names and record data only.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { statusLine } from "./fields.mjs";
+import { select, statusLine } from "./fields.mjs";
 
 async function send(path, input) {
   const response = await fetch(`/api/dev/${path}`, {
@@ -22,8 +22,11 @@ let lastResult = "";
 /** The kind picked, kept across redraws too. */
 let lastType = "";
 
-/** The panel. `labels` is controls.devScene; `onDone()` refreshes the game's screens. */
-export async function devScenePanel({ labels, onDone }) {
+/**
+ * The panel. `labels` is controls.devScene; `wordOf(kind)` says a setting kind in words;
+ * `onDone()` refreshes the game's screens.
+ */
+export async function devScenePanel({ labels, wordOf, onDone }) {
   const scenes = await send("scenes");
   // The ones brought about directly first, then those that run the world until they happen, then the rest.
   const rank = (row) => ({ death: 0, layoff: 1, wait: 2 })[row.recipe] ?? 3;
@@ -49,6 +52,78 @@ export async function devScenePanel({ labels, onDone }) {
     });
     return b;
   });
+  // Who the scene is for, who is mourned (a death scene) and where it is set, from the director's own
+  // records (GET /api/dev/scene-cast); each starts on "any", which leaves the choice to the director.
+  const pick = { forId: "", mournedId: "", where: "" };
+  const pickers = el("div", { className: "dev-scene-cast" });
+  const drawPickers = async () => {
+    pick.forId = pick.mournedId = pick.where = "";
+    let cast = null;
+    try {
+      cast = await send(`scene-cast?typeKey=${encodeURIComponent(chosen)}`);
+    } catch {
+      cast = null;
+    }
+    const field = (label, options, key, redraw) =>
+      select({
+        label,
+        name: key,
+        value: "",
+        options: [{ value: "", label: `${label}: ${labels.any}` }, ...options],
+        onChange: (value) => {
+          pick[key] = value;
+          if (redraw) {
+            // Who is mourned depends on who the scene is for: that pick starts over.
+            pick.mournedId = "";
+            draw();
+          }
+        },
+      });
+    const draw = () => {
+      const kept = pick.forId;
+      pickers.replaceChildren(
+        ...(cast
+          ? [
+              field(
+                labels.forPicker,
+                cast.for.map((p) => ({ value: p.id, label: p.name })),
+                "forId",
+                true,
+              ),
+              ...(cast.mourned
+                ? [
+                    field(
+                      labels.mourning,
+                      (
+                        cast.mourned[kept] ?? Object.values(cast.mourned).flat()
+                      ).map((p) => ({ value: p.id, label: p.name })),
+                      "mournedId",
+                    ),
+                  ]
+                : []),
+              ...(cast.where.length
+                ? [
+                    field(
+                      labels.where,
+                      cast.where.map((kind) => ({
+                        value: kind,
+                        label: wordOf(kind),
+                      })),
+                      "where",
+                    ),
+                  ]
+                : []),
+            ]
+          : []),
+      );
+      const forBox = pickers.querySelector('[name="forId"]');
+      if (forBox) forBox.value = kept;
+    };
+    draw();
+  };
+  for (const b of buttons)
+    b.addEventListener("click", () => void drawPickers());
+  await drawPickers();
   const result = statusLine();
   result.textContent = lastResult;
   const make = makeButton({ className: "action" }, labels.make);
@@ -58,7 +133,12 @@ export async function devScenePanel({ labels, onDone }) {
     result.textContent = "";
     try {
       lastType = chosen;
-      const out = await send("scene", { typeKey: chosen });
+      const out = await send("scene", {
+        typeKey: chosen,
+        ...(pick.forId ? { forId: pick.forId } : {}),
+        ...(pick.mournedId ? { mournedId: pick.mournedId } : {}),
+        ...(pick.where ? { where: pick.where } : {}),
+      });
       lastResult = [labels.begun, out.personId, ...out.causeRecords].join(
         " · ",
       );
@@ -76,6 +156,7 @@ export async function devScenePanel({ labels, onDone }) {
     { className: "dev-only dev-scene" },
     el("h3", { textContent: labels.title }),
     el("div", { className: "acts" }, ...buttons),
+    pickers,
     el("div", { className: "acts" }, make),
     result,
   );
