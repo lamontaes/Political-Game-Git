@@ -217,6 +217,8 @@ it(`a donor's ask plays the variant its records give (seed ${seed})`, () => {
           p.alive &&
           p.id !== asked &&
           ageOnDate(p.birthDate, core.date) >= 18 &&
+          // A donor whose living costs are on record, so a gift reads against a year.
+          p.livingCostDailyMinor > 0 &&
           !core.relationships.has(
             p.id < asked ? `${p.id}:${asked}` : `${asked}:${p.id}`,
           ),

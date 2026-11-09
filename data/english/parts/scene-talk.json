@@ -163696,6 +163696,4249 @@
         "move": "warn",
         "key": "favor-asked"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-covered-you-before-and-walks-up-like-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has covered you before, and walks up like it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-of-outlet-falls-into-step-beside-you-notebook-still-in-a-pocket",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} of {outlet} falls into step beside you, notebook still in a pocket.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-bill-open-on-a-phone-and-a-question-that-has-been-waiting",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has {bill} open on a phone and a question that has been waiting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.two-minutes-i-ll-keep-it-short",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Two minutes? I'll keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-you-are-i-was-about-to-call-your-office",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There you are. I was about to call your office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.you-said-to-catch-you-after-it-s-after",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You said to catch you after. It's after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-runs-in-the-paper-this-week-and-i-want-it-right-what-should-peop",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} runs in the paper this week, and I want it right. What should people here know?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-d-rather-get-bill-from-you-than-from-a-handout-where-are-you-on-it",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'd rather get {bill} from you than from a handout. Where are you on it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-for-bill-give-me-the-reason-in-your-own-words-and-i-ll-use",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted for {bill}. Give me the reason in your own words and I'll use them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-yes"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-against-bill-give-me-the-reason-in-your-own-words-and-i-ll",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted against {bill}. Give me the reason in your own words and I'll use them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-no"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-writing-up-the-vote-and-i-want-your-part-right-where-did-you-land",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm writing up the vote and I want your part right. Where did you land, and why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["vote-held"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.i-m-writing-up-where-you-stand-and-i-want-it-right-what-s-your-positi",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "I'm writing up where you stand, and I want it right. What's your position, and why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.print-this-i-read-every-page-of-bill-and-i-ll-stand-behind-my-vote",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Print this: I read every page of {bill}, and I'll stand behind my vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-for-it-and-i-d-vote-for-it-again-tomorrow",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for it, and I'd vote for it again tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["voted-yes"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-against-it-my-reasons-are-in-my-notes-and-you-can-have-them",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted against it. My reasons are in my notes, and you can have them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "requiresFacts": ["voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.you-can-quote-me-i-took-my-time-with-it-and-i-ll-explain-it-to-anyone",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "You can quote me. I took my time with it, and I'll explain it to anyone who asks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-i-use-that-exactly-as-you-said-it",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can I use that exactly as you said it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.every-word-send-me-the-paragraph-before-it-runs",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Every word. Send me the paragraph before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.can-i-use-that-exactly-as-you-said-it"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.use-it-if-i-change-my-mind-you-ll-hear-it-from-me-first",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Use it. If I change my mind, you'll hear it from me first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.can-i-use-that-exactly-as-you-said-it"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-do-you-tell-back-home-who-didn-t-want-bill",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who do you tell back home who didn't want {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.that-i-counted-them-any-of-them-can-sit-down-with-me-this-week",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "That I counted them. Any of them can sit down with me this week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.who-do-you-tell-back-home-who-didn-t-want-bill"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.that-they-were-heard-and-that-i-ll-say-so-to-their-faces",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "That they were heard, and that I'll say so to their faces.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.who-do-you-tell-back-home-who-didn-t-want-bill"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-did-it-cost-you-to-get-there",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What did it cost you to get there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.more-evenings-than-i-d-like-and-a-few-friends-who-stopped-calling",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "More evenings than I'd like, and a few friends who stopped calling.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.what-did-it-cost-you-to-get-there"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.give-me-until-after-the-next-meeting-and-i-ll-have-more-than-this",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Give me until after the next meeting and I'll have more than this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.i-want-to-check-one-number-first-can-i-call-you-back-before-you-file",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "I want to check one number first. Can I call you back before you file?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.the-roll-call-is-public-start-there-then-ask-me-what-it-leaves-out",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "The roll call is public. Start there, then ask me what it leaves out.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.my-office-has-the-amendments-read-those-and-come-back-to-me",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "My office has the amendments. Read those and come back to me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-ve-said-the-same-thing-from-the-start",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I've said the same thing from the start.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.nobody-on-my-side-ever-asked-me-to-change-a-word-of-it",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Nobody on my side ever asked me to change a word of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.write-that-we-got-more-out-of-it-than-anyone-expected",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Write that we got more out of it than anyone expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-be-somewhere-call-my-office-and-they-ll-find-you-a-time",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to be somewhere. Call my office and they'll find you a time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-owe-you-the-rest-call-me-tomorrow-and-i-ll-have-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I owe you the rest. Call me tomorrow and I'll have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.friendly",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-needed-i-ll-send-you-the-paragraph-before-it-runs",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I needed. I'll send you the paragraph before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thanks-for-being-straight-with-me-again",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thanks for being straight with me. Again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-can-hold-it-a-day-call-me-when-you-have-the-number",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I can hold it a day. Call me when you have the number.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-pull-the-minutes-call-me-when-you-ve-read-them-too",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll pull the minutes. Call me when you've read them too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-day-not-a-week-i-need-something-i-can-print",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A day, not a week. I need something I can print.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "stall"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.the-minutes-say-what-happened-on-bill-not-why-why",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "The minutes say what happened on {bill}, not why. Why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "deflect",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-you-won-t-say-i-ll-write-that-you-wouldn-t-is-that-what-you-want",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If you won't say, I'll write that you wouldn't. Is that what you want?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.good-to-hear-it-straight-thanks",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Good to hear it straight. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-send-you-the-paragraph-before-it-runs",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll send you the paragraph before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-ll-write-that-you-d-rather-wait-and-i-ll-leave-the-door-o",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "All right. I'll write that you'd rather wait, and I'll leave the door open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.it-runs-with-or-without-you-i-d-rather-it-ran-with-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "It runs with or without you. I'd rather it ran with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.call-me-when-you-have-it",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Call me when you have it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.friendly",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-of-outlet-is-waiting-with-the-notebook-already-open",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} of {outlet} is waiting with the notebook already open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-doesn-t-offer-a-hand-this-time",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} doesn't offer a hand this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.bill-is-the-story-today-and-name-wants-your-side-before-the-other-one",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{bill} is the story today, and {name} wants your side before the other one runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.a-minute-it-s-about-the-vote",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "A minute. It's about the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ve-been-trying-your-office-since-yesterday",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I've been trying your office since yesterday.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.don-t-walk-off-yet-two-questions",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Don't walk off yet. Two questions.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.most-people-in-place-wanted-something-else-on-bill-why-did-you-go-the",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Most people in {place} wanted something else on {bill}. Why did you go the other way?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill", "read-town-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.people-keep-asking-me-why-you-voted-the-way-you-did-on-bill-what-do-i",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "People keep asking me why you voted the way you did on {bill}. What do I tell them?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-for-bill-against-what-most-people-here-wanted-why",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted for {bill} against what most people here wanted. Why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-yes", "read-town-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-against-bill-when-most-people-here-wanted-it-why",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted against {bill} when most people here wanted it. Why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "voted-no", "read-town-against"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.who-did-you-talk-to-before-you-voted-on-bill",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Who did you talk to before you voted on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill", "vote-held"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-do-you-say-to-the-people-who-asked-you-to-vote-the-other-way",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What do you say to the people who asked you to vote the other way?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-for-it-and-i-ll-say-why-to-anyone-who-stops-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for it, and I'll say why to anyone who stops me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["voted-yes"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-against-it-here-s-why-and-you-can-print-every-word",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted against it. Here's why, and you can print every word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["voted-no"]
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-read-all-of-bill-ask-me-about-any-page-and-i-ll-tell-you-what-i-thi",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I read all of {bill}. Ask me about any page and I'll tell you what I think of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.some-people-wanted-a-different-outcome-i-ll-explain-my-vote-to-your-r",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Some people wanted a different outcome. I'll explain my vote to your readers.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.will-you-say-that-to-the-people-who-showed-up-at-the-meeting",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Will you say that to the people who showed up at the meeting?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-will-at-the-next-one-in-front-of-all-of-them",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I will, at the next one, in front of all of them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.will-you-say-that-to-the-people-who-showed-up-at-the-meeting"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-say-it-to-anyone-who-asks-me-directly-here-or-there",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll say it to anyone who asks me directly, here or there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.will-you-say-that-to-the-people-who-showed-up-at-the-meeting"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.is-that-the-answer-you-want-printed-next-to-theirs",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Is that the answer you want printed next to theirs?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.print-both-mine-is-the-one-with-my-name-on-it",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Print both. Mine is the one with my name on it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.is-that-the-answer-you-want-printed-next-to-theirs"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.put-mine-first-or-last-i-don-t-care-just-get-it-word-for-word",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Put mine first or last, I don't care. Just get it word for word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.is-that-the-answer-you-want-printed-next-to-theirs"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.that-s-your-framing-not-the-record-who-told-you-most-people-here-want",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "That's your framing, not the record. Who told you most people here wanted it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-picked-a-side-of-this-story-before-you-asked-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You picked a side of this story before you asked me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.name-the-people-you-talked-to-and-i-ll-answer-them-directly",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Name the people you talked to and I'll answer them directly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-in-a-hallway-send-the-question-to-my-office-in-writing",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not in a hallway. Send the question to my office in writing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-ll-answer-for-the-vote-at-the-next-meeting-in-public",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I'll answer for the vote at the next meeting, in public.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.nobody-told-me-what-to-do-i-haven-t-heard-a-complaint",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "Nobody told me what to do. I haven't heard a complaint.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-didn-t-hear-from-a-single-person-before-the-vote",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I didn't hear from a single person before the vote.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ve-said-what-i-m-going-to-say-my-office-has-the-rest",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I've said what I'm going to say. My office has the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-late-send-me-what-you-plan-to-print",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm late. Send me what you plan to print.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.hostile",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-an-answer-i-ll-print-it-as-you-gave-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's an answer. I'll print it as you gave it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.i-m-asking-about-your-vote-you-re-asking-about-me-which-is-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'm asking about your vote. You're asking about me. Which is it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-the-story-says-you-answered-a-question-with-a-question",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then the story says you answered a question with a question.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.written-questions-get-written-answers-and-the-story-won-t-wait-for-th",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Written questions get written answers, and the story won't wait for them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.if-you-won-t-answer-in-a-hallway-where-will-you-give-me-a-day",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "If you won't answer in a hallway, where will you? Give me a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-the-story-says-you-wouldn-t-answer-it-will-say-it-plainly",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then the story says you wouldn't answer. It will say it plainly.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-i-ll-print-that-and-i-ll-check-it-against-the-roll",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Fine. I'll print that and I'll check it against the roll.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "lie"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-useful-i-ll-print-it-with-the-date",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's useful. I'll print it, with the date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "after": "lie"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.your-words-exactly-as-you-said-them",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Your words, exactly as you said them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.the-story-runs-without-your-side-it-will-say-so",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "The story runs without your side. It will say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.call-me-if-you-change-your-mind-before-the-next-meeting",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Call me if you change your mind before the next meeting.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-file-in-a-few-hours-call-before-then",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I file in a few hours. Call before then.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.hostile",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-of-outlet-has-papers-under-one-arm-and-hasn-t-said-hello",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} of {outlet} has papers under one arm and hasn't said hello.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.there-are-questions-about-you-on-the-record-name-has-come-to-ask-them",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "There are questions about you on the record. {name} has come to ask them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["read-scandal"]
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-asking-about-you-and-has-brought-the-paperwork",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been asking about you, and has brought the paperwork.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-like-your-answer-before-it-runs",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd like your answer before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.do-you-have-a-minute-i-have-some-questions-about-the-allegations",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute? I have some questions about the allegations.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["read-scandal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-need-to-go-through-a-few-things-with-you-before-i-file",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I need to go through a few things with you before I file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.did-the-allegations-against-you-have-anything-to-do-with-how-you-vote",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Did the allegations against you have anything to do with how you voted on {bill}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["bill", "read-scandal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.who-knew-about-the-allegations-against-you-when-you-cast-your-vote",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Who knew about the allegations against you when you cast your vote?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["vote-held", "read-scandal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-m-going-to-ask-directly-is-any-of-what-s-been-reported-about-you-un",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'm going to ask directly. Is any of what's been reported about you untrue?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["read-scandal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.bill-came-up-for-a-vote-with-the-allegations-hanging-over-you-did-tha",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "{bill} came up for a vote with the allegations hanging over you. Did that change anything?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["bill", "read-scandal"]
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-confront.i-have-a-question-i-d-rather-ask-you-than-print-without-you-may-i",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I have a question I'd rather ask you than print without you. May I?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.ask-me-anything-i-ll-answer-what-i-can-and-give-you-the-records-for-t",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Ask me anything. I'll answer what I can and give you the records for the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-answer-on-the-record-and-i-ll-give-you-the-dates",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll answer on the record, and I'll give you the dates.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.my-vote-on-bill-was-my-own-ask-anyone-who-sat-in-the-room",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "My vote on {bill} was my own. Ask anyone who sat in the room.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Can you document that? I'll take the records, not only your word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-ll-send-you-what-i-have-today-it-s-all-dated",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I'll send you what I have today. It's all dated.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.yes-come-to-my-office-and-i-ll-show-you-the-file",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Yes. Come to my office and I'll show you the file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.can-you-document-that-i-ll-take-the-records-not-only-your-word"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "When did you first learn this was going to come out?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.when-you-called-my-office-not-a-day-before",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "When you called my office. Not a day before.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.the-same-week-you-did-and-i-can-show-you-who-told-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "The same week you did, and I can show you who told me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.when-did-you-first-learn-this-was-going-to-come-out"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.the-file-is-public-read-it-then-ask-me-what-s-not-in-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "The file is public. Read it, then ask me what's not in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-deflect.i-ll-answer-in-writing-once-i-ve-talked-to-the-people-named",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'll answer in writing once I've talked to the people named.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.i-can-t-discuss-it-while-it-s-still-being-looked-at-ask-me-after",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "I can't discuss it while it's still being looked at. Ask me after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-until-i-ve-seen-what-you-plan-to-print-send-it-to-my-office",
+      "move": "reply-refuse",
+      "kind": "spoken",
+      "text": "Not until I've seen what you plan to print. Send it to my office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "refuse",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "refuse",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.you-printed-one-side-already-print-mine-this-time-whole",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You printed one side already. Print mine this time, whole.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-confront.show-me-what-you-have-and-then-i-ll-answer",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Show me what you have, and then I'll answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.none-of-it-is-true-i-ve-never-seen-that-money",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "None of it is true. I've never seen that money.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-knew-nothing-about-it-until-you-called",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I knew nothing about it until you called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-done-for-today-my-office-will-send-a-statement",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done for today. My office will send a statement.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.not-here-call-my-office-and-they-ll-set-a-time-to-go-through-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Not here. Call my office and they'll set a time to go through it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.scandal",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-ll-print-your-answer-in-full",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll print your answer in full.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-statement-from-your-office-isn-t-an-answer-do-you-deny-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A statement from your office isn't an answer. Do you deny it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.written-answers-get-written-headlines-do-you-deny-it-or-not",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Written answers get written headlines. Do you deny it or not?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "deflect"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.a-refusal-reads-one-way-in-print-give-me-anything-i-can-use",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A refusal reads one way in print. Give me anything I can use.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-the-story-says-you-declined-and-nothing-more",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then the story says you declined, and nothing more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "refuse"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I have the filing and the dates. I'll show you, and then you answer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-your-statement-i-ll-print-it-next-to-the-records",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's your statement. I'll print it next to the records.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "lie"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.on-the-record-then-i-ll-check-every-date",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "On the record, then. I'll check every date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "after": "lie"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.your-answer-runs-in-full",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Your answer runs in full.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-send-you-what-i-plan-to-print-so-nothing-in-it-surprises-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll send you what I plan to print, so nothing in it surprises you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.it-runs-with-your-refusal-in-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "It runs with your refusal in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.there-will-be-a-follow-up-and-i-d-like-your-voice-in-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "There will be a follow-up, and I'd like your voice in it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.my-number-hasn-t-changed-call-before-i-file",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "My number hasn't changed. Call before I file.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.scandal",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-of-outlet-is-not-from-here-and-says-so-in-the-first-sentence",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} of {outlet} is not from here and says so in the first sentence.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-of-outlet-wants-bill-explained-to-readers-who-have-never-been-he",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} of {outlet} wants {bill} explained to readers who have never been here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-writes-for-outlet-and-the-recorder-is-already-running",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} writes for {outlet}, and the recorder is already running.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.name-outlet-do-you-have-a-minute",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "{name}, {outlet}. Do you have a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-with-outlet-we-re-writing-on-how-bill-lands-in-places-like-place",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm with {outlet}. We're writing on how {bill} lands in places like {place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill", "outlet"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thanks-for-making-time-i-have-a-deadline-so-i-ll-be-direct",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thanks for making time. I have a deadline, so I'll be direct.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.readers-across-the-country-want-to-know-what-bill-means-for-a-place-l",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "Readers across the country want to know what {bill} means for a place like {place}. What's your answer?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.bill-is-getting-attention-outside-place-where-do-you-stand-on-it-and",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "{bill} is getting attention outside {place}. Where do you stand on it, and why?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-for-bill-how-do-you-explain-that-to-someone-who-has-never-b",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted for {bill}. How do you explain that to someone who has never been to {place}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill", "vote-held", "voted-yes"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.you-voted-against-bill-how-do-you-explain-that-to-a-reader-in-another",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "You voted against {bill}. How do you explain that to a reader in another state?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill", "vote-held", "voted-no"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.state-ask.what-should-someone-outside-place-know-about-where-you-stand",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What should someone outside {place} know about where you stand?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.the-people-i-answer-to-live-in-place-i-explain-it-to-them-first-then",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "The people I answer to live in {place}. I explain it to them first, then to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-for-what-i-could-explain-to-my-own-neighbors-that-s-the-short",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted for what I could explain to my own neighbors. That's the short version.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["voted-yes"]
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-voted-against-it-the-reasons-are-on-the-record-at-home-and-you-can",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I voted against it. The reasons are on the record at home, and you can read them there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["voted-no"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.i-can-give-you-three-sentences-on-bill-after-that-call-the-clerk-for",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "I can give you three sentences on {bill}. After that, call the clerk for the text.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.what-does-place-get-that-another-town-wouldn-t",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "What does {place} get that another town wouldn't?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "answer",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.a-say-in-it-most-places-only-hear-about-these-things-afterward",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "A say in it. Most places only hear about these things afterward.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.what-does-place-get-that-another-town-wouldn-t"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.people-who-know-the-streets-wrote-part-of-it-that-s-rare",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "People who know the streets wrote part of it. That's rare.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.what-does-place-get-that-another-town-wouldn-t"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.will-people-back-home-who-disagree-see-it-the-way-you-do",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Will people back home who disagree see it the way you do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.some-won-t-and-they-know-where-my-office-is",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Some won't, and they know where my office is.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.will-people-back-home-who-disagree-see-it-the-way-you-do"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-answer.some-will-and-some-won-t-i-d-rather-you-quote-one-of-them-than-me",
+      "move": "reply-answer",
+      "kind": "spoken",
+      "text": "Some will and some won't. I'd rather you quote one of them than me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "answer",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "scene-talk.follow-ask.will-people-back-home-who-disagree-see-it-the-way-you-do"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.tell-your-readers-place-did-the-hard-part-while-others-argued",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Tell your readers {place} did the hard part while others argued.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-boast.say-it-was-done-here-first-by-people-from-here",
+      "move": "reply-boast",
+      "kind": "spoken",
+      "text": "Say it was done here first, by people from here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "boast",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "proud",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "boast",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.send-me-the-questions-and-i-ll-answer-in-writing-by-your-deadline",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "Send me the questions and I'll answer in writing by your deadline.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-stall.my-own-voters-should-hear-it-first-i-ll-call-you-once-they-have",
+      "move": "reply-stall",
+      "kind": "spoken",
+      "text": "My own voters should hear it first. I'll call you once they have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "stall",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "stall",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.i-haven-t-talked-to-anyone-outside-my-office-about-this",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "I haven't talked to anyone outside my office about this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-lie.it-never-got-this-much-attention-here-until-you-called",
+      "move": "reply-lie",
+      "kind": "spoken",
+      "text": "It never got this much attention here until you called.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "lie",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "lie",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-have-to-get-back-to-a-meeting-email-the-rest-to-my-office",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I have to get back to a meeting. Email the rest to my office.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.that-s-all-i-have-time-for-my-office-will-send-you-the-text",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "That's all I have time for. My office will send you the text.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "press-comment.national",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.that-s-what-i-needed-for-the-piece",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "That's what I needed for the piece.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "answer"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's a big claim. I'll check it with your neighbors.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "boast"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-ask.who-in-place-would-back-that-up",
+      "move": "follow-ask",
+      "kind": "spoken",
+      "text": "Who in {place} would back that up?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "boast",
+          "requiresFacts": ["bill"]
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.my-editors-need-it-by-the-end-of-the-week",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "My editors need it by the end of the week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "stall"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-ll-hold-the-paragraph-the-deadline-won-t-wait-long",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I'll hold the paragraph. The deadline won't wait long.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "stall"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-it-says-you-were-asked-and-didn-t-say",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then it says you were asked and didn't say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "lie"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.noted-i-ll-check-it-against-what-the-clerk-has",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Noted. I'll check it against what the clerk has.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "after": "lie"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.that-gets-the-piece-to-the-right-place-thanks",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "That gets the piece to the right place. Thanks.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-send-you-the-paragraph-so-it-sounds-like-you",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll send you the paragraph so it sounds like you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "outcome": "resolved"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.i-ll-say-you-didn-t-comment-and-the-day-i-asked",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "I'll say you didn't comment, and the day I asked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.other-papers-will-say-it-for-you",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "Other papers will say it for you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "outcome": "refused"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.send-me-what-you-have-before-it-runs",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Send me what you have before it runs.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "press-comment.national",
+          "key": "routine",
+          "outcome": "open"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story overnight, press-comment variants)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     }
   ]
 }
