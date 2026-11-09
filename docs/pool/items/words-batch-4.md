@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: in-pr
 claimed-by: story/batch-4
-pr: pending
+pr: 8071
 blocked-on:
 lead: words
 milestone: play-first
