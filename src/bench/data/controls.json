@@ -591,7 +591,8 @@
     "liberal": "Liberal",
     "moderate": "Moderate",
     "conservative": "Conservative",
-    "veryConservative": "Very conservative"
+    "veryConservative": "Very conservative",
+    "notSure": "Not sure yet"
   },
   "who": {
     "age": "Age",
