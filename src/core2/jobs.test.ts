@@ -276,6 +276,7 @@ describe("jobs", () => {
           employed: false,
           since: start,
           referenceHourlyMinor: 0,
+          regionalPull: 1,
         });
     }
     withBooks(core, 2);
@@ -299,7 +300,7 @@ describe("jobs", () => {
       personId: "s1",
       status: "released",
     });
-    advanceCore(core, "2021-07-31");
+    advanceCore(core, "2022-01-31");
     expect(
       jobs
         .table("changes")
@@ -394,7 +395,7 @@ describe("jobs", () => {
       api = coreAPI(core),
       total = money(core);
     withBooks(core, 2);
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-05-31");
     const store = api.moduleState("jobs");
     const hires = store.table("changes").query("byKind", ["hire"]);
     expect(hires.length).toBeGreaterThan(0);
@@ -411,12 +412,12 @@ describe("jobs", () => {
     const core = createLifeCore(fixture, { data, modules: [JOBS_MODULE] });
     const api = coreAPI(core);
     withBooks(core, 2);
-    advanceCore(core, "2021-03-02");
+    advanceCore(core, "2021-04-14");
     const pending = jobOffersFor(api, "s2");
     expect(pending).toHaveLength(1);
     const offered = pending[0]!;
     expect(declineJobOffer(api, offered.id)).toBe(true);
-    advanceCore(core, "2021-03-10");
+    advanceCore(core, "2021-06-30");
     expect(core.people.get("s2")!.jobId).toBeUndefined();
     expect(core.people.get("s1")!.jobId).toBe(`job:${offered.positionId}:s1`);
     expect(
@@ -454,7 +455,7 @@ describe("jobs", () => {
       reasonKey: "started-looking",
       referenceHourlyMinor: 1400,
     });
-    advanceCore(core, "2021-03-02");
+    advanceCore(core, "2021-05-31");
     const hires = api
       .moduleState("jobs")
       .table("changes")
@@ -647,11 +648,71 @@ describe("jobs", () => {
       coreAPI(core).moduleState("jobs").table("seekers").get("y1"),
     ).toMatchObject({ reasonKey: "started-looking", employed: false });
   });
+  it("keeps one out-of-work record for a filled-in counted seeker who starts looking, carrying their search over", () => {
+    const opening = input();
+    // A parent with no money and an 18-year-old whose own living cost the
+    // household carries; neither has worked in this world.
+    const home = "household:young";
+    const parent = {
+      ...person("p1", 0, 0),
+      householdId: home,
+      birthDate: "1975-01-01",
+    };
+    const young = {
+      ...person("y1", 0, 0),
+      householdId: home,
+      birthDate: "2002-06-01",
+      livingCostDailyMinor: 0,
+    };
+    const core = createLifeCore(
+      {
+        ...opening,
+        people: [...opening.people, parent, young],
+        households: [
+          ...opening.households,
+          { id: home, placeId: place, memberIds: ["p1", "y1"], source: src() },
+        ],
+        residents: {
+          version: "core2-residents-v1",
+          source: src(),
+          accounts: [],
+          households: [],
+          flows: [],
+        },
+      },
+      { data, modules: [JOBS_MODULE] },
+    );
+    withBooks(core, 1);
+    const jobs = coreAPI(core).moduleState("jobs");
+    jobs.table("countedSeekers").put({
+      id: "y1",
+      isSeeker: true,
+      personId: "y1",
+      placeId: place,
+      employed: false,
+      since: "2020-12-01",
+      reasonKey: "demand-below-staff",
+      referenceHourlyMinor: 1500,
+      regionalPull: 0.5,
+    } as never);
+    advanceCore(core, "2021-02-02");
+    expect(jobs.table("countedSeekers").get("y1")).toBeUndefined();
+    expect(jobs.table("seekers").get("y1")).toMatchObject({
+      employed: false,
+      since: "2020-12-01",
+      reasonKey: "demand-below-staff",
+    });
+    // The pull built so far is kept and grows on from it, never starting over.
+    expect(
+      (jobs.table("seekers").get("y1") as { regionalPull: number })
+        .regionalPull,
+    ).toBeGreaterThan(0.5);
+  });
   it("introduces a new hire to the full coworkers already working there", () => {
     const core = createLifeCore(input(), { data, modules: [JOBS_MODULE] }),
       api = coreAPI(core);
     withBooks(core, 2);
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-05-31");
     const hire = api
       .moduleState("jobs")
       .table("changes")
@@ -761,7 +822,7 @@ describe("jobs", () => {
       capacityMinor: 12_000 * 260 * 4,
       anchorAnnualDemandMinor: 12_000 * 260 * 4,
     });
-    advanceCore(core, "2021-03-31");
+    advanceCore(core, "2021-09-30");
     const hires = coreAPI(core)
       .moduleState("jobs")
       .table("changes")
@@ -1026,7 +1087,7 @@ describe("staffing recovery", () => {
         (job) => job.organizationId === employer && !job.endsAt,
       ),
     ).toHaveLength(0);
-    advanceCore(core, "2021-03-02");
+    advanceCore(core, "2021-05-31");
     const positions = api
       .moduleState("jobs")
       .table("positions")

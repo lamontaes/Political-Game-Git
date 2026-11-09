@@ -29,11 +29,8 @@ export async function devRunUntilMayFile(page) {
   await calendar(page);
   const done = page.waitForResponse(route("run-until"), { timeout: 600000 });
   await page.evaluate(() => {
-    const event = document.querySelector(".dev-run select");
-    event.value = "may-file";
-    // Three years at most: a player not yet old enough to file waits for the birthday and then a window.
-    const cap = document.querySelector('.dev-run input[aria-label="Cap"]');
-    cap.value = "1100";
+    // The panel's own cap (three years) holds for a player not yet old enough to file.
+    document.querySelector('[data-testid="dev-until-may-file"]').click();
     document.querySelector('[data-testid="dev-run"]').click();
   });
   const out = await (await done).json();

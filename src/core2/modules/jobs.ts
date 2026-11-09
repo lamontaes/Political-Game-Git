@@ -17,6 +17,7 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import ageUnemployment from "../data/jobs/age-unemployment.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
+import vacancyDuration from "../data/jobs/vacancy-duration.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import {
@@ -103,7 +104,7 @@ import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 import { DEFAULT_HEALTH_DATA, severityImpulse } from "./health";
 import { fillInPerson } from "../state";
 import { bookkeeping } from "../bookkeeping";
-import { worldOffsetShare, worldRate } from "../world-draw";
+import { worldOffsetShare, worldOffsetUnit, worldRate } from "../world-draw";
 
 export const JOBS_MODULE_ID = "jobs";
 export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
@@ -173,6 +174,8 @@ interface SeekerRow {
   reasons?: Record<string, number>;
   /** The pull toward finding work in the wider labor market, built a month at a time; a job is found at one whole. */
   regionalPull?: number;
+  /** Their finding progress reached one while an opening stood near them: the month of weekly matching that followed was theirs. */
+  localTried?: boolean;
 }
 interface EmployerRow {
   id: string;
@@ -555,17 +558,30 @@ function startSeeking(
 ): void {
   if (outOfCivilianWork(api, personId)) return;
   const person = core(api).people.get(personId)!;
-  store(api).table("seekers").put({
-    id: personId,
-    isSeeker: true,
-    personId,
-    placeId: person.placeId,
-    employed,
-    since: api.state.date,
-    reasonKey,
-    referenceHourlyMinor,
-  });
-  if (!employed) {
+  // A counted seeker met and filled in is one person already out of work: their
+  // search goes on under the named row with its start, reason and pull, never a
+  // second out-of-work record beside the counted one.
+  const prior = employed
+    ? undefined
+    : (store(api).table("countedSeekers").get(personId) as
+        SeekerRow | undefined);
+  if (prior) store(api).table("countedSeekers").remove(personId);
+  store(api)
+    .table("seekers")
+    .put({
+      id: personId,
+      isSeeker: true,
+      personId,
+      placeId: person.placeId,
+      employed,
+      since: prior?.since ?? api.state.date,
+      reasonKey: prior?.reasonKey ?? reasonKey,
+      referenceHourlyMinor: prior?.referenceHourlyMinor ?? referenceHourlyMinor,
+      ...(prior?.regionalPull !== undefined
+        ? { regionalPull: prior.regionalPull }
+        : {}),
+    });
+  if (!employed && !prior) {
     store(api)
       .table("spells")
       .put({
@@ -668,16 +684,32 @@ function openingOwed(c: CoreState): Map<string, number> {
  * the bands by largest remainder, so a small place keeps its seekers.
  * `held` is keyed `place|band`; the result is keyed the same way.
  */
+// stopgapId: SG-LABOR-opening-band-ratios-town-mix (the bands' ratios are scaled to the town's own worker age mix, not the county's)
 function bandQuotas(
   api: CoreAPI,
   held: Map<string, number>,
 ): Map<string, number> {
+  stopgap("SG-LABOR-opening-band-ratios-town-mix");
   const hundred = api.parameter("macroHundred"),
     byPlace = new Map<string, { key: string; exact: number }[]>();
+  // The region's rate already holds the region's own age mix, so the bands'
+  // ratios are scaled to average one over the jobs held (SG-LABOR-opening-band-ratios-town-mix:
+  // the town's own mix stands for the county's, which the opening does not read).
+  const weighted = new Map<string, { jobs: number; ratio: number }>();
+  for (const [key, jobs] of held) {
+    const [placeId, index] = key.split("|") as [string, string];
+    const row = weighted.get(placeId) ?? { jobs: 0, ratio: 0 };
+    row.jobs += jobs;
+    row.ratio += jobs * bandRatio(Number(index), core(api).seed);
+    weighted.set(placeId, row);
+  }
   for (const [key, jobs] of [...held].sort(([a], [b]) => a.localeCompare(b))) {
     const [placeId, index] = key.split("|") as [string, string];
+    const mix = weighted.get(placeId)!;
+    const mean = mix.jobs > 0 ? mix.ratio / mix.jobs : 1;
     const rate =
-      bandRatio(Number(index), core(api).seed) * openingRate(api, placeId);
+      (bandRatio(Number(index), core(api).seed) / mean) *
+      openingRate(api, placeId);
     byPlace.set(placeId, [
       ...(byPlace.get(placeId) ?? []),
       { key, exact: (jobs * rate) / (hundred - rate) },
@@ -827,6 +859,8 @@ function openCountedSeekers(api: CoreAPI): void {
   const ageAt = (m: number) =>
     daysBetweenText(counted.born[m]!, c.date) /
     api.parameter("jobsDaysPerYear");
+  let unplaced = 0,
+    placed = 0;
   for (const h of counted.liveHouseholds()) {
     // People in custody or in the armed forces seek no civilian work.
     if (outsideLaborForce(h.quarters)) continue;
@@ -835,17 +869,31 @@ function openCountedSeekers(api: CoreAPI): void {
       return age >= young && age < old;
     });
     if (!adults.length) continue;
+    // The opening's employment target also puts working-age members of the
+    // household to work outside a recorded job (they take a commuter job
+    // when the household is filled in): they hold jobs, so they are in the
+    // band's jobs and not among the jobless. Whole workers by a running
+    // carry through the households in order, never a roll.
+    const idle = adults.filter((m) => !working.has(counted.ids[m]!));
+    unplaced += Math.min(h.unplacedWorkers / counted.weightOf(h), idle.length);
+    const away = new Set(
+      idle
+        .sort((a, b) => counted.ids[a]!.localeCompare(counted.ids[b]!))
+        .slice(0, Math.floor(unplaced) - placed),
+    );
+    placed += away.size;
     const share =
-      adults.filter((m) => working.has(counted.ids[m]!)).length / adults.length;
+      adults.filter((m) => working.has(counted.ids[m]!) || away.has(m)).length /
+      adults.length;
     for (const m of adults) {
       const personId = counted.ids[m]!;
       const placeId = counted.strings[counted.placeIx[m]!]!,
         band = ageBand(ageAt(m));
-      if (working.has(personId)) {
+      if (working.has(personId) || away.has(m)) {
         const key = `${placeId}|${band}`;
         workingBy.set(key, (workingBy.get(key) ?? 0) + 1);
       }
-      if (!working.has(personId) && !inCustody(api, personId))
+      if (!working.has(personId) && !away.has(m) && !inCustody(api, personId))
         candidates.push({ personId, placeId, share, band });
     }
   }
@@ -1488,6 +1536,8 @@ function reviewEmployers(api: CoreAPI): void {
           jobsLost: String(jobChangeIds.length),
           projectedStaff: String(projected),
           targetStaff: String(target),
+          // The staff the business has after the cut, from its own jobs: what a story says still work there.
+          staffAfter: String(staffHeads(c, currentJobs(api, row.id))),
           ...(trading
             ? {
                 tradingId: trading.id,
@@ -1987,6 +2037,7 @@ function reviewRegionalFinds(api: CoreAPI): void {
   const month =
     p("daysPerMeanYear") / p("monthsPerYear") / p("pastWorkDaysPerQuarter");
   const found: SeekerRow[] = [];
+  const open = new Set(fillableOpenings(api).map((row) => row.placeId));
   for (const table of ["seekers", "countedSeekers"] as const) {
     for (const seeker of store(api)
       .table(table)
@@ -2007,8 +2058,15 @@ function reviewRegionalFinds(api: CoreAPI): void {
       const pull =
         (seeker.regionalPull ?? p("zero")) +
         findPerQuarter(api, at.meanOverNow, lean, age) * month;
-      if (pull >= p("one")) found.push(seeker);
-      else
+      if (pull >= p("one")) {
+        // Progress at one: an opening near them is theirs to win in the weekly matching; with none, the job is a regional one.
+        // A month of weekly matching is theirs; if it did not hire them, the job is a regional one.
+        if (open.has(seeker.placeId) && !seeker.localTried)
+          store(api)
+            .table(table)
+            .put({ ...seeker, regionalPull: pull, localTried: true } as never);
+        else found.push(seeker);
+      } else
         store(api)
           .table(table)
           .put({ ...seeker, regionalPull: pull } as never);
@@ -2742,16 +2800,65 @@ function walkRanking(
   };
 }
 
+/** The openings that can be filled today: each has waited its industry's vacancy duration (posting, applications, interviews, a start date) and none is held for the player's answer. */
+function fillableOpenings(api: CoreAPI): PositionRow[] {
+  const c = core(api);
+  return (
+    store(api)
+      .table("positions")
+      .query("byStatus", ["open"]) as unknown as PositionRow[]
+  ).filter(
+    (row) =>
+      !row.offeredTo &&
+      daysBetweenText(row.openedAt, c.date) >= vacancyDays(api, row),
+  );
+}
+
+/**
+ * One pace for finding any work: a seeker's finding progress (`regionalPull`,
+ * built a month at a time from the CPS spell rate moved by their state's
+ * unemployment, their age and their traits) reaches one when they find a job.
+ * Until then they apply nowhere; at one they take a fillable opening near them
+ * (the weekly matching picks the best fit) or, where none is open, a
+ * regional job.
+ */
+const findingReady = (seeker: SeekerRow): boolean =>
+  (seeker.regionalPull ?? 0) >= 1;
+
+/**
+ * Days an opening waits before it can be filled: its industry's JOLTS
+ * openings-to-hires ratio in months (src/core2/data/jobs/vacancy-duration.json),
+ * placed inside the series' 45-month range by the firm's own offset in the
+ * world. Size is not read (SG-LABOR-vacancy-size-uniform).
+ */
+function vacancyDays(api: CoreAPI, position: PositionRow): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const kindId = c.finance.businesses.get(position.organizationId)?.kindId;
+  const series = (vacancyDuration.kinds as Record<string, string>)[
+    kindId ?? ""
+  ];
+  const row = (
+    vacancyDuration.series as Record<
+      string,
+      { months: { value: number; low: number; high: number } }
+    >
+  )[series ?? "total-private"]!.months;
+  const unit = worldOffsetUnit(c.seed, `vacancy:${position.organizationId}`);
+  const months =
+    unit >= p("zero")
+      ? row.value + unit * (row.high - row.value)
+      : row.value + unit * (row.value - row.low);
+  stopgap("SG-LABOR-vacancy-size-uniform");
+  return (months * p("jobsDaysPerYear")) / p("macroMonthsPerYear");
+}
+
 /** Seekers apply; employers offer their best-placed applicant; applicants accept or decline. */
 function runWeek(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
   // A position held for the player's answer is no one else's this week.
-  const positions = (
-    store(api)
-      .table("positions")
-      .query("byStatus", ["open"]) as unknown as PositionRow[]
-  ).filter((row) => !row.offeredTo);
+  const positions = fillableOpenings(api);
   if (!positions.length) return;
   const byPlace = new Map<string, PositionRow[]>();
   for (const row of positions)
@@ -2816,7 +2923,7 @@ function runWeek(api: CoreAPI): void {
       controlled(c, person.id)
     )
       continue;
-    consider(seeker, nearby);
+    if (findingReady(seeker)) consider(seeker, nearby);
   }
   // The person the player controls, out of work and of working age, is
   // considered for every opening near them; an employer that picks them makes
@@ -2837,7 +2944,7 @@ function runWeek(api: CoreAPI): void {
       continue;
     }
     const nearby = byPlace.get(seeker.placeId);
-    if (nearby) consider(seeker, nearby);
+    if (nearby && findingReady(seeker)) consider(seeker, nearby);
   }
   // Counted applicants retain their work history. Read it once for this
   // matching round, including jobs hired and ended during play.
@@ -4672,3 +4779,7 @@ export function registerEmployer(
           }),
     });
 }
+// Re-exported so the opening county sample reads them through this entry (families guard).
+export { residentEmploymentRate } from "../opening-employment";
+export { countySectorEmployment } from "../town-employment-mix";
+export { nationalMedianAnnualWage } from "../town-pay";

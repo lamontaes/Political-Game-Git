@@ -73,4 +73,7 @@ it("the federal stock follows admissions, sentences and the stay share, and the 
   expect(drug1.stock, `${where}: the drug stock falls`).toBeLessThan(
     drug0!.stock,
   );
+  process.stdout.write(
+    `nation proof: federal courts: ${where}; drug stock ${Math.round(drug0!.stock)} to ${Math.round(drug1.stock)}, factor ${drug1.sentenceFactor.toFixed(3)}, law ${drug1.lawIds[0]}, row ${drug1.id}\n`,
+  );
 }, 1800000);

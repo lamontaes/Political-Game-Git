@@ -30,7 +30,7 @@ export async function devPersonSection({ personId, labels, onDone }) {
   const offered = await get(`offers?personId=${encodeURIComponent(personId)}`);
   const result = statusLine();
   const button = (label, testid, work) => {
-    const node = makeButton({ className: "action" }, label);
+    const node = makeButton({ className: "action small" }, label);
     node.dataset.testid = testid;
     node.addEventListener("click", async () => {
       node.disabled = true;
@@ -63,7 +63,7 @@ export async function devPersonSection({ personId, labels, onDone }) {
     }),
     el(
       "div",
-      { className: "dev-bills-row" },
+      { className: "acts" },
       button(labels.fallIll, "dev-ill", async () => {
         await post("illness", { personId });
         return labels.ill;
@@ -86,31 +86,39 @@ export async function devPersonSection({ personId, labels, onDone }) {
     result,
     // What the game offers them today, and only that: a pick is the choice they make at their next
     // decision, through the same chooser, and shows here as picked until it is made.
-    ...offered.offers.map((offer) => {
-      const node = makeButton(
-        { className: "action" },
-        [offer.actionId, offer.targetName].filter(Boolean).join(" · "),
-      );
-      node.dataset.testid = "dev-offer";
-      if (offer.key === offered.pending) node.classList.add("on");
-      node.addEventListener("click", async () => {
-        node.disabled = true;
-        try {
-          await post("choose", { personId, key: offer.key });
-          for (const other of node.parentNode.querySelectorAll(
-            '[data-testid="dev-offer"].on',
-          ))
-            other.classList.remove("on");
-          node.classList.add("on");
-          // A pick changes nothing on any screen until the person decides, so nothing is redrawn.
-          result.textContent = labels.picked;
-        } catch (error) {
-          result.textContent = error.message;
-        } finally {
-          node.disabled = false;
-        }
-      });
-      return node;
-    }),
+    el("h4", { className: "label", textContent: labels.decide }),
+    el(
+      "div",
+      { className: "acts" },
+      ...offered.offers.map((offer) => {
+        const node = makeButton(
+          { className: "action small" },
+          [offer.actionId, offer.targetName].filter(Boolean).join(" · "),
+        );
+        node.dataset.testid = "dev-offer";
+        node.setAttribute(
+          "aria-pressed",
+          String(offer.key === offered.pending),
+        );
+        node.addEventListener("click", async () => {
+          node.disabled = true;
+          try {
+            await post("choose", { personId, key: offer.key });
+            for (const other of node.parentNode.querySelectorAll(
+              '[data-testid="dev-offer"].on',
+            ))
+              other.classList.remove("on");
+            node.classList.add("on");
+            // A pick changes nothing on any screen until the person decides, so nothing is redrawn.
+            result.textContent = labels.picked;
+          } catch (error) {
+            result.textContent = error.message;
+          } finally {
+            node.disabled = false;
+          }
+        });
+        return node;
+      }),
+    ),
   );
 }

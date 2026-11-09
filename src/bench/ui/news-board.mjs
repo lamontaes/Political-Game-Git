@@ -16,7 +16,7 @@ const told = (story) =>
     ? [story.lede]
     : []);
 
-export function newsBoard({ outlets, labels, date, headlineOf, words }) {
+export function newsBoard({ outlets, labels, date, headlineOf }) {
   let chosen = outlets.keys().next().value;
   let opened = null;
   const holder = el("div", { className: "news-board" });
@@ -118,7 +118,6 @@ export function newsBoard({ outlets, labels, date, headlineOf, words }) {
                     columns: 1,
                     rowHeight: 86,
                     gap: 6,
-                    words,
                     className: "news-briefs",
                   }),
                 ),

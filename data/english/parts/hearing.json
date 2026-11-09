@@ -1,0 +1,61 @@
+{
+  "schema": "english-parts/1",
+  "register": "hearing",
+  "description": "Hearing-room lines the owner graded good that no scene reads yet: a witness's yes, and thanks to a chair by title. Restored Nov 8, 2026 from the hearing bank deleted in 881e7c4f. Registered stopgap SG-WORDS-hearing-no-reader.",
+  "slots": {},
+  "maxWords": 12,
+  "parts": [
+    {
+      "key": "hearing.answer.yes-thank-you",
+      "move": "answer",
+      "kind": "spoken",
+      "text": "Yes, thank you.",
+      "hearingsUsing": 4,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      },
+      "tag": { "move": "answer" },
+      "restoredOn": "2026-11-08",
+      "restoredFrom": "bank:hearing.answer.yes-thank-you"
+    },
+    {
+      "key": "hearing.thanks.thank-you-chairman",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Chairman.",
+      "hearingsUsing": 13,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      },
+      "tag": {
+        "move": "thank"
+      },
+      "restoredOn": "2026-11-08",
+      "restoredFrom": "bank:hearing.thanks.thank-you-chairman"
+    },
+    {
+      "key": "hearing.thanks.thank-you-mr-chairman",
+      "move": "thanks",
+      "kind": "spoken",
+      "text": "Thank you, Mr. Chairman.",
+      "hearingsUsing": 28,
+      "source": {
+        "document": "Congressional hearing transcript",
+        "date": "2025-02-26",
+        "granule": "CHRG-119hhrg58904",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg58904"
+      },
+      "tag": {
+        "move": "thank"
+      },
+      "restoredOn": "2026-11-08",
+      "restoredFrom": "bank:hearing.thanks.thank-you-mr-chairman"
+    }
+  ]
+}

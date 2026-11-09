@@ -103,7 +103,11 @@ export function openLawReach(core: CoreState): void {
 }
 
 /** Law series whose amount, not a yes or no, sets a benefit that is paid from the opening. */
-const STANDING_BENEFITS: readonly string[] = ["snap-maximum"];
+const STANDING_BENEFITS: readonly string[] = [
+  "snap-maximum",
+  "child-care-income-limit",
+  "energy-assistance-income-limit",
+];
 
 /**
  * What a policy does once it's law: one handler per policy key, registered

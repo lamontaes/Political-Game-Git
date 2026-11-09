@@ -66,11 +66,10 @@ function entry({ year, text, kind, recordId }) {
 }
 
 /**
- * `entries`: [{ year, text, kind, recordId }], oldest first. `rows` show on a
- * page; each page is a chapter named by its years ("1994 – 2008"), and the
- * arrows turn to the next. `words` = { previous, next } for the arrows.
+ * `entries`: [{ year, text, kind, recordId }], oldest first. `rows` show at once;
+ * the rest scroll inside the box.
  */
-export function timeline({ entries, rows = 5, words }) {
+export function timeline({ entries, rows = 5 }) {
   return pager({
     items: entries,
     render: entry,
@@ -78,12 +77,6 @@ export function timeline({ entries, rows = 5, words }) {
     columns: 1,
     rowHeight: 58,
     gap: 6,
-    words: { ...words, page: "" },
     className: "timeline",
-    where: (shown) => {
-      const first = shown[0]?.year;
-      const last = shown.at(-1)?.year;
-      return first === last ? String(first ?? "") : `${first} – ${last}`;
-    },
   });
 }

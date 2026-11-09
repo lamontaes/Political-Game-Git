@@ -33,7 +33,8 @@ import { incomeBandOf } from "./residents";
 import { registerPricesWebGaps } from "./prices-web-gaps";
 import { sha256Hex } from "../kernel/sha256";
 import { transferCash } from "../world-transfer";
-import { newsKey, onStoryHeard, storiesHeard, type Story } from "./news";
+import { newsKey, storiesHeard, type Story } from "./news";
+import { onStoryHeard } from "./news-listeners";
 import { lawApplied, type AppliedTarget } from "../law-reach/applied";
 import type {
   CoreAPI,
