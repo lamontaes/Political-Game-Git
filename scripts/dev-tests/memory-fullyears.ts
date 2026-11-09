@@ -106,9 +106,15 @@ const why = () => {
     if (p.tier === "husk") return "husk";
     return p.alive ? "full" : "dead";
   };
+  const demotedHeads: Record<string, number> = {};
   for (const [id, known] of core.knowledgeByPerson) {
     const t = tierOf(id);
     facts[t] = (facts[t] ?? 0) + known.size;
+    if (t === "demoted")
+      for (const key of known.keys()) {
+        const head = key.split(":")[0]!;
+        demotedHeads[head] = (demotedHeads[head] ?? 0) + 1;
+      }
   }
   const ties: Record<string, number> = {};
   for (const rel of core.relationships.values()) {
@@ -123,6 +129,7 @@ const why = () => {
     husks,
     people: core.people.size,
     facts,
+    demotedHeads,
     ties,
     tally,
   };
