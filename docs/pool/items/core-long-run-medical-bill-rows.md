@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: memory/medical-bill-rows
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-09T17:01:12.873Z
 ---
 
 **What.** The coverage engine's monthly billing pass (src/core2/medical-bills.ts) writes one medicalBills row per household billed and never removes one. A household that dies out, merges or moves beyond the billed places keeps its last row for the rest of the run, though the pass reads a row only for what is owed, the debt record and its seller. At Montpelier, Vermont (5046000, world seed mont1, fast-forward) the table held 32,219 rows at year 2 and 46,917 at year 6, 104 MB of live heap measured by removing it.
