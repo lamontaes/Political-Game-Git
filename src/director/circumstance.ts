@@ -24,7 +24,10 @@ import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import { NEWS_MODULE_ID, storyOfReadEvent } from "../core2/modules/news";
 import { PRESS_MODULE_ID, outletsHere } from "../core2/modules/press";
 import { OFFICES_MODULE_ID, type TermRow } from "../core2/modules/offices";
-import { ELECTIONS_MODULE_ID } from "../core2/modules/elections";
+import {
+  ELECTIONS_MODULE_ID,
+  PARTIES_MODULE_ID,
+} from "../core2/modules/elections";
 import { addDays, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import { coreAPI } from "../core2/state";
@@ -375,6 +378,60 @@ function playerHolds(
   }
 }
 
+/**
+ * The seated officeholders of the party that asked a member to run, who live
+ * in the member's town and have held a seat for a year or more: the veterans
+ * a member asked to run would hear from. Read from the offices engine's
+ * serving terms; a term whose holder is not a full person is left out.
+ */
+export function partyOfficeholders(
+  core: Readonly<CoreState>,
+  record: Pick<QueuedRecord, "personIds" | "facts">,
+  on: IsoDate,
+): PersonId[] {
+  // stopgapId: SG-WORDS-mentor-is-officeholder
+  const asked = core.people.get(record.personIds[zero] ?? ("" as PersonId));
+  const partyId = record.facts.partyId;
+  if (
+    !asked ||
+    !partyId ||
+    !core.modules.has(OFFICES_MODULE_ID) ||
+    !core.modules.has(PARTIES_MODULE_ID)
+  )
+    return [];
+  const api = coreAPI(core as CoreState);
+  const members = new Set(
+    (
+      api
+        .moduleState(PARTIES_MODULE_ID)
+        .table("ties")
+        .query("byParty", [partyId]) as unknown as {
+        personId: string;
+        tie: string;
+      }[]
+    )
+      .filter((tie) => tie.tie === "party")
+      .map((tie) => tie.personId),
+  );
+  const heldSince = addDays(makeIsoDate(on), -Math.round(P.daysPerMeanYear));
+  const serving = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .query("byStatus", ["serving"]) as unknown as TermRow[];
+  return serving
+    .filter(
+      (term) =>
+        !!term.personId &&
+        members.has(term.personId) &&
+        term.personId !== asked.id &&
+        core.people.get(term.personId as PersonId)?.alive === true &&
+        core.people.get(term.personId as PersonId)?.placeId === asked.placeId &&
+        (term.serviceStart ?? term.startDate) <= heldSince,
+    )
+    .map((term) => term.personId as PersonId)
+    .sort();
+}
+
 /** Who has a reason from the record to be there, before where is checked. */
 function poolOf(
   source: string,
@@ -438,6 +495,10 @@ function poolOf(
       named: record.personIds.includes(id),
     }));
   }
+  if (source === "party-officeholders")
+    return partyOfficeholders(core, record, record.dueOn ?? core.date).map(
+      (id) => ({ id, named: false }),
+    );
   if (source === "classmates")
     // The others at the player's school that year.
     return classmatesOf(core, playerId).map((id) => ({ id, named: false }));

@@ -315,6 +315,22 @@
       "enforcer": "state human services department",
       "source": "Child Care and Development Block Grant Act (42 U.S.C. 9858 et seq.): a state sets the income limit for its child care subsidies, up to 85 percent of the state median income",
       "stopgapId": "SG-GOV-REACH-B-child-care-enrollment"
+    },
+    "ssi-federal-benefit-rate": {
+      "mechanic": "ssi-payment",
+      "effect": "ssi-paid",
+      "kind": "eligibility",
+      "enforcer": "Social Security Administration",
+      "source": "Social Security Act title XVI (42 U.S.C. 1381 et seq.): an aged, blind or disabled individual with low income is paid the federal benefit rate less countable income.",
+      "stopgapId": "SG-GOV-REACH-B-ssi-eligibility"
+    },
+    "energy-assistance-income-limit": {
+      "mechanic": "energy-assistance-payment",
+      "effect": "energy-assistance-eligible",
+      "kind": "eligibility",
+      "enforcer": "state energy assistance office",
+      "source": "Low-Income Home Energy Assistance Act, 42 U.S.C. 8624(b)(2): a state may serve households with income up to the greater of 150 percent of the poverty level or 60 percent of the state median income, and may not exclude a household below 110 percent of the poverty level on income alone.",
+      "stopgapId": "SG-GOV-REACH-B-energy-assistance-enrollment"
     }
   },
   "budgetLines": {

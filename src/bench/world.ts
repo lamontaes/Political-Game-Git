@@ -11,6 +11,7 @@ import { defaultPreStart } from "../core2/saves";
 import { createDirector, type Director } from "../director/ledger";
 import { wordPrintedStory } from "./archive-words";
 import {
+  openClimate,
   WORLD_MODULES,
   withWorldEconomy,
   worldCoreData,
@@ -570,6 +571,7 @@ function* benchWorldStages(
   openNationalOpinion(core);
   // What happens in the rest of the country, as results (disasters from FEMA's record).
   openNationalEvents(core);
+  openClimate(core);
   // The officeholder's day (OFFICE-LOCAL): each local body's own meeting
   // calendar, the meeting as a scene, the player's chosen stops and the
   // character's own votes and desk decisions when the player does not stop.

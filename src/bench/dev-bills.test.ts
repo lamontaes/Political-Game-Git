@@ -104,4 +104,42 @@ describe(`dev bills: ${where}`, () => {
       }
     }
   });
+
+  it("members vote as named, the rest by their own position, and a shown bill is brought to another body with its own sections", () => {
+    const body = bodies.find((b) => b.members.length > 4 && bill(b) !== null);
+    expect(body, `a body that takes a bill ${where}`).toBeDefined();
+    const row = bill(body!)!;
+    const [first, second] = body!.members;
+    // Two named votes; nobody else is given a margin, so each of the rest votes their own position.
+    const result = dev.decideAt(row.id, undefined, {
+      votes: { [first!.key]: "no", [second!.key]: "yes" },
+    });
+    const total = result.tallies.reduce((n, t) => n + t.yes + t.no, 0);
+    expect(total, `${body!.kind} ${where}: every member voted`).toBeGreaterThan(
+      2,
+    );
+    expect(result.mark.id, where).toBeTruthy();
+    // A margin of defeat with one member named yes: the named yes is the only yes, and the bill fails.
+    const second_bill = bill(body!)!;
+    const defeated = dev.decideAt(second_bill.id, -BIG, {
+      votes: { [first!.key]: "yes" },
+    });
+    expect(defeated.bill.status, where).toBe("failed");
+    expect(
+      defeated.tallies.reduce((n, t) => n + t.yes, 0),
+      `${body!.kind} ${where}: the named yes stands`,
+    ).toBe(1);
+    // The shown bill, introduced at another body, keeps its own sections.
+    const other = bodies.find(
+      (b) => b.id !== body!.id && b.kind !== body!.kind,
+    );
+    if (!other) return;
+    const brought = dev.introduce({ billId: row.id, bodyOfficeId: other.id });
+    if (brought.bill.status === "blocked") return;
+    expect(brought.bill.bodyOfficeId, where).toBe(other.id);
+    expect(
+      brought.bill.provisions.map((p) => JSON.stringify(p)),
+      where,
+    ).toEqual(row.provisions.map((p) => JSON.stringify(p)));
+  });
 });

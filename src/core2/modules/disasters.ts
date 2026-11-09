@@ -21,7 +21,11 @@ import { lawApplied } from "../law-reach/applied";
 import { lawInForce, LAWS_MODULE_ID } from "./laws";
 import type { CoreAPI, CoreModule, CoreState, PlaceId, Source } from "../types";
 import { placePopulation } from "../gov-rules/place-population";
+import type { ModuleRow } from "../module-data";
+import { dwellingKind, ownedHomes } from "./housing";
 import {
+  countedMovesRunning,
+  moveCountedHouseholdAway,
   outsideMarketFor,
   residentCounts,
   residentsAccountFor,
@@ -30,6 +34,7 @@ import {
 
 export const DISASTERS_MODULE_ID = "core2-disasters-v1";
 const STOPGAP = "SG-CORE-disasters-from-records";
+const VULNERABILITY_STOPGAP = "SG-NATION-vulnerability-proxy";
 const STATES_SHARE_DISASTER_COSTS =
   "us-federal-positions:emergencies.states-share-disaster-costs";
 const BUILDER_CLASSIFICATION = "enterprise:construction";
@@ -74,7 +79,7 @@ interface Runtime {
 const runtimes = new WeakMap<CoreState, Runtime>();
 
 /** The town's county code, from its recorded county name and state. */
-function countyCode(core: CoreState): string | undefined {
+export function countyCode(core: CoreState): string | undefined {
   const state = placeStateKey(core.placeMetadata.placeKey ?? "");
   const named = core.placeMetadata.countyNames?.split(", ")[0]?.toLowerCase();
   if (!state || !named) return undefined;
@@ -209,6 +214,93 @@ function severityFact(
   return { severity: String(severityOf(row[2] / residents)) };
 }
 
+/** A home a disaster damaged, and what its household was paid and paid out. */
+export interface DamagedHome {
+  readonly id: string;
+  readonly disasterNumber: number;
+  readonly householdId: string;
+  readonly placeId: string;
+  /** The person whose account takes the aid and pays the repairs; none for a counted household. */
+  readonly headId: string | null;
+  readonly kind: string;
+  readonly valueMinor: number;
+  readonly aidMinor: number;
+  readonly repairsPaidMinor: number;
+  readonly repairsOwedMinor: number;
+  readonly moved: boolean;
+}
+
+const damagedTable = (api: CoreAPI) =>
+  api.moduleState(DISASTERS_MODULE_ID).table("damaged");
+
+/** Weakest first: the kinds of home that fail soonest, then the cheaper home. */
+const KIND_ORDER = [
+  "mobile-home",
+  "farmhouse",
+  "house",
+  "rowhouse",
+  "apartment",
+];
+
+/**
+ * Which owners' homes were the damaged ones. FEMA counts damaged homes for
+ * the town but not whose; the homes that fail first are the weakest kinds
+ * and then the lowest valued. stopgapId: SG-NATION-vulnerability-proxy
+ */
+function markDamaged(
+  api: CoreAPI,
+  disaster: Disaster,
+  town: PlaceId,
+  homes: number,
+): void {
+  if (homes <= 0) return;
+  const core = api.state;
+  const weak = (id: string) => {
+    const at = KIND_ORDER.indexOf(dwellingKind(api, id) ?? "house");
+    return at < 0 ? KIND_ORDER.length : at;
+  };
+  const ranked = ownedHomes(api, town)
+    .map((home) => ({ ...home, weak: weak(home.householdId) }))
+    .sort(
+      (a, b) =>
+        a.weak - b.weak ||
+        a.valueMinor - b.valueMinor ||
+        a.householdId.localeCompare(b.householdId),
+    )
+    .slice(0, homes);
+  if (!ranked.length) return;
+  api.stopgap(VULNERABILITY_STOPGAP);
+  for (const home of ranked) {
+    const head = core.households
+      .get(home.householdId)
+      ?.memberIds.find((id) => core.people.get(id)?.alive);
+    const row: DamagedHome = {
+      id: `damaged:${disaster.number}:${home.householdId}`,
+      disasterNumber: disaster.number,
+      householdId: home.householdId,
+      placeId: town,
+      headId: head ?? null,
+      kind: dwellingKind(api, home.householdId) ?? "house",
+      valueMinor: home.valueMinor,
+      aidMinor: 0,
+      repairsPaidMinor: 0,
+      repairsOwedMinor: 0,
+      moved: false,
+    };
+    damagedTable(api).put(row as unknown as ModuleRow);
+  }
+}
+
+/** The homes a disaster damaged in this world's town, most vulnerable first. */
+export function damagedHomesOf(
+  api: CoreAPI,
+  disasterNumber: number,
+): readonly DamagedHome[] {
+  return (damagedTable(api).rows() as unknown as DamagedHome[]).filter(
+    (row) => row.disasterNumber === disasterNumber,
+  );
+}
+
 function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const core = api.state;
   const town = core.people.get(core.playerId ?? "")?.placeId;
@@ -236,6 +328,12 @@ function begin(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
       `FEMA disaster ${disaster.number} (${disaster.type}), incident beginning ${disaster.begins}, declared ${disaster.declared}${disaster.statewide ? " statewide" : " for this county"}.`,
     ),
   });
+  markDamaged(
+    api,
+    disaster,
+    town,
+    Number(damagedHomes(core, rt, disaster, town).damagedHomes ?? 0),
+  );
 }
 
 function declare(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
@@ -337,32 +435,80 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
   const town = core.people.get(core.playerId ?? "")?.placeId as
     PlaceId | undefined;
   const row = townRow(rt, disaster);
-  const residents = town ? residentsAccountFor(core, town) : undefined;
-  if (!row || !town || !residents) return;
+  const pool = town ? residentsAccountFor(core, town) : undefined;
+  if (!row || !town || !pool) return;
   const share = townShare(core, town);
   const accounts = api.accounts();
   const aid = Math.round(row[0] * share);
+  const damage = Math.round(row[1] * share);
   const source = (detail: string): Source => ({
     tag: "SOURCED",
     asOf: core.date,
     citation: households.source,
     estimatedFrom: `${detail} Scaled to the world's share of the town (${share.toFixed(4)} of its Census estimate).`,
   });
-  if (aid > 0) {
+  // The damaged homes the disaster marked: each household takes an equal part
+  // of the aid and of the repair bill, named ones in their own accounts and
+  // counted ones through the town's pool (the same rule, times their count).
+  const homes = damagedHomesOf(api, disaster.number);
+  const parts = homes.length ? homes.length : 1;
+  const split = (total: number, i: number) =>
+    Math.floor(total / parts) +
+    (i === 0 ? total - Math.floor(total / parts) * parts : 0);
+  const accountOf = (home: DamagedHome | undefined) =>
+    home?.headId ? accounts.main(home.headId) : pool;
+  const aidTo = new Map<string, number>();
+  const billOf = new Map<string, number>();
+  (homes.length ? homes : [undefined]).forEach((home, i) => {
+    const to = accountOf(home);
+    aidTo.set(to, (aidTo.get(to) ?? 0) + split(aid, i));
+    billOf.set(to, (billOf.get(to) ?? 0) + split(damage, i));
+  });
+  if (homes.length) {
+    // Aid for the households each in their own account.
+    homes.forEach((home, i) => {
+      const cents = split(aid, i);
+      if (cents <= 0 || !home.headId) return;
+      api.stopgap(STOPGAP);
+      rt.paid.push({
+        disaster: disaster.number,
+        orgId: accounts.main(home.headId),
+        cents,
+      });
+      accounts.transfer({
+        id: `disaster-households:${disaster.number}:${home.householdId}`,
+        from: accounts.main(rt.treasuryId!),
+        to: accounts.main(home.headId),
+        amountMinor: cents,
+        reasonKey: "federal.disaster-household-assistance",
+        source: source(
+          `FEMA housing assistance approved for this town's households in disaster ${disaster.number} (${disaster.title}), this household's part, paid on the declaration date.`,
+        ),
+      });
+    });
+    const countedAid = homes.reduce(
+      (n, home, i) => n + (home.headId ? 0 : split(aid, i)),
+      0,
+    );
+    payPool(countedAid);
+  } else payPool(aid);
+
+  function payPool(cents: number): void {
+    if (cents <= 0) return;
     api.stopgap(STOPGAP);
-    rt.paid.push({ disaster: disaster.number, orgId: residents, cents: aid });
+    rt.paid.push({ disaster: disaster.number, orgId: pool!, cents });
     accounts.transfer({
-      id: `disaster-households:${disaster.number}:${residents}`,
+      id: `disaster-households:${disaster.number}:${pool}`,
       from: accounts.main(rt.treasuryId!),
-      to: residents,
-      amountMinor: aid,
+      to: pool!,
+      amountMinor: cents,
       reasonKey: "federal.disaster-household-assistance",
       source: source(
         `FEMA housing assistance approved for this town's households in disaster ${disaster.number} (${disaster.title}), paid on the declaration date.`,
       ),
     });
   }
-  const damage = Math.round(row[1] * share);
+
   if (damage <= 0) return;
   api.stopgap(STOPGAP);
   const staff = new Map<string, number>();
@@ -389,37 +535,79 @@ function payHouseholds(api: CoreAPI, rt: Runtime, disaster: Disaster): void {
     } catch {
       return;
     }
-  const parts: [string, number][] = builders.length
-    ? builders.map((org) => [
-        accounts.main(org.id),
-        Math.floor((damage * size(org.id)) / total),
-      ])
-    : [[accounts.main(outside!), damage]];
-  parts[0]![1] += damage - parts.reduce((n, [, v]) => n + v, 0);
-  for (const [to, cents] of parts) {
-    if (cents <= 0) continue;
-    // Households repair what they can pay for now.
-    const receipt = accounts.transfer({
-      id: `disaster-repairs:${disaster.number}:${to}`,
-      from: residents,
-      to,
-      amountMinor: cents,
-      partial: true,
-      reasonKey: "household.disaster-repairs",
-      source: source(
-        `Repairs to the damage FEMA inspected in owners' homes in this town in disaster ${disaster.number} (${disaster.title}), paid to ${builders.length ? "the town's builders by their staff" : "builders outside the town (none open here)"}.`,
-      ),
-    });
-    rt.repairs.push({
-      disaster: disaster.number,
-      to,
-      cents: receipt.paidMinor,
-    });
-  }
+  /** One payer's repair bill, paid to the builders by their staff; returns what was paid. */
+  const payBill = (from: string, bill: number): number => {
+    const toBuilders: [string, number][] = builders.length
+      ? builders.map((org) => [
+          accounts.main(org.id),
+          Math.floor((bill * size(org.id)) / total),
+        ])
+      : [[accounts.main(outside!), bill]];
+    toBuilders[0]![1] += bill - toBuilders.reduce((n, [, v]) => n + v, 0);
+    let paid = 0;
+    for (const [to, cents] of toBuilders) {
+      if (cents <= 0) continue;
+      // Households repair what they can pay for now.
+      const receipt = accounts.transfer({
+        id: `disaster-repairs:${disaster.number}:${from}:${to}`,
+        from,
+        to,
+        amountMinor: cents,
+        partial: true,
+        reasonKey: "household.disaster-repairs",
+        source: source(
+          `Repairs to the damage FEMA inspected in owners' homes in this town in disaster ${disaster.number} (${disaster.title}), paid to ${builders.length ? "the town's builders by their staff" : "builders outside the town (none open here)"}.`,
+        ),
+      });
+      rt.repairs.push({
+        disaster: disaster.number,
+        to,
+        cents: receipt.paidMinor,
+      });
+      paid += receipt.paidMinor;
+    }
+    return paid;
+  };
+  const paidBy = new Map<string, number>();
+  for (const [from, bill] of billOf) paidBy.set(from, payBill(from, bill));
+  if (!homes.length) return;
+  // What each home's household paid of its part, and the counted ones that
+  // could not pay for the repairs (the pool's shortfall, least valued home
+  // first) leaving the town. A named household's shortfall is recorded.
+  const poolBill = billOf.get(pool) ?? 0;
+  const poolShort = poolBill ? 1 - (paidBy.get(pool) ?? 0) / poolBill : 0;
+  const counted = homes.filter((home) => !home.headId);
+  const leaving = new Set(
+    counted.slice(0, Math.round(counted.length * poolShort)).map((h) => h.id),
+  );
+  homes.forEach((home, i) => {
+    const owed = split(damage, i);
+    const paid = home.headId
+      ? Math.min(owed, paidBy.get(accounts.main(home.headId)) ?? 0)
+      : Math.round(owed * (1 - poolShort));
+    let moved = false;
+    if (leaving.has(home.id) && countedMovesRunning(api))
+      moved = moveCountedHouseholdAway(api, home.householdId, town, {
+        disasterRepairShortfall: poolShort,
+      });
+    damagedTable(api).put({
+      ...home,
+      aidMinor: split(aid, i),
+      repairsPaidMinor: paid,
+      repairsOwedMinor: owed,
+      moved,
+    } as unknown as ModuleRow);
+  });
 }
 
 export const DISASTERS_MODULE: CoreModule = {
   id: DISASTERS_MODULE_ID,
+  state: {
+    schemaVersion: 1,
+    tables: {
+      damaged: { indexes: { byHousehold: { fields: ["householdId"] } } },
+    },
+  },
   onDay(api) {
     const rt = runtime(api);
     const date = api.state.date;

@@ -74,6 +74,19 @@
       },
       {
         "level": "federal",
+        "series": "ssi-federal-benefit-rate",
+        "tier": "general",
+        "value": 994,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "https://fhb.hhs.texas.gov/sites/default/files/documents/ccse-bulletin-26-01.pdf",
+        "retrieved": "2026-11-08",
+        "estimate": false,
+        "unit": "USD/month",
+        "terms": { "coupleDollars": 1491, "colaPercent": 2.8 }
+      },
+      {
+        "level": "federal",
         "series": "federal-campaign-contribution-limit",
         "tier": "general",
         "value": 3500,
@@ -326,6 +339,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -840,6 +867,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -1215,6 +1256,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -2171,6 +2226,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -2360,6 +2429,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -2786,6 +2869,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -3248,6 +3345,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -3665,6 +3776,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -4149,6 +4274,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "state-contribution-limit-governor",
         "tier": "general",
         "value": 2000,
@@ -4592,6 +4731,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -5057,6 +5210,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -5466,6 +5633,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -5872,6 +6053,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -6211,6 +6406,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -6702,6 +6911,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 0,
@@ -7067,6 +7290,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -7477,6 +7714,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -7909,6 +8160,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -8269,6 +8534,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -8701,6 +8980,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -9137,6 +9430,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -9549,6 +9856,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -9984,6 +10305,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -10485,6 +10820,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -10935,6 +11284,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -11359,6 +11722,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -11790,6 +12167,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -12228,6 +12619,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -12402,6 +12807,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -12788,6 +13207,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -13219,6 +13652,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -13631,6 +14078,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -14076,6 +14537,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -14485,6 +14960,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -14908,6 +15397,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -15407,6 +15910,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -15851,6 +16368,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -16274,6 +16805,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -16774,6 +17319,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -17166,6 +17725,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -17725,6 +18298,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -18125,6 +18712,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -18531,6 +19132,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 0,
@@ -18859,6 +19474,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -19286,6 +19915,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -19726,6 +20369,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -20099,6 +20756,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -20508,6 +21179,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 0,
@@ -20844,6 +21529,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -21243,6 +21942,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -21682,6 +22395,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 2,
@@ -22023,6 +22750,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -22489,6 +23230,20 @@
       },
       {
         "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
+      },
+      {
+        "level": "state",
         "series": "executive-term-limit",
         "tier": "general",
         "value": 0,
@@ -22890,6 +23645,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -23311,6 +24080,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",
@@ -23761,6 +24544,20 @@
         "estimate": true,
         "unit": "percent-of-wages",
         "terms": { "wageBase": 7000 }
+      },
+      {
+        "level": "state",
+        "series": "energy-assistance-income-limit",
+        "tier": "general",
+        "value": 150,
+        "effectiveDate": "2026-01-01",
+        "endDate": null,
+        "source": "42 U.S.C. 8624(b)(2)(B): the greater of 150 percent of the poverty level or 60 percent of state median income is the most a state may serve; no household below 110 percent may be excluded on income alone",
+        "retrieved": "2026-11-08",
+        "estimate": true,
+        "unit": "percent-of-poverty-line",
+        "terms": { "floorPct": 110, "ceilingPct": 150 },
+        "note": "ESTIMATED: the statute's 150 percent ceiling stands for each state until its own plan is read (Pennsylvania and Nebraska publish 150 percent); states may set it anywhere from 110 up."
       },
       {
         "level": "state",

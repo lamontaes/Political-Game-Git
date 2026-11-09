@@ -67,6 +67,7 @@
 /src/core2/civic-inputs.ts @lamontaes
 /src/core2/membership-dues.ts @lamontaes
 /src/core2/gov-test-clock.ts @lamontaes
+/src/core2/campaign-data.ts @lamontaes
 
 # Legislative bodies (bodies)
 /src/core2/modules/legislature.ts @lamontaes
@@ -273,6 +274,7 @@
 /src/core2/modules/public-action.ts @lamontaes
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
+/src/core2/household-cost.ts @lamontaes
 
 # The past before the start (past)
 /src/core2/past.ts @lamontaes
@@ -297,6 +299,7 @@
 /src/core2/opening-*.ts @lamontaes
 /src/core2/fast-forward.ts @lamontaes
 /src/core2/modules/national-events.ts @lamontaes
+/src/core2/modules/climate.ts @lamontaes
 
 # News and the press (news)
 /src/core2/modules/news.ts @lamontaes
