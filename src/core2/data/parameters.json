@@ -5582,14 +5582,14 @@
     }
   },
   "experiencedKeyRetentionDays": {
-    "value": 90,
+    "value": 14,
     "tag": "TUNABLE",
-    "citation": "Owner ruling, Oct 12 (running memory stays small): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal and a drive's update; the event's own facts stay.",
+    "citation": "Owner ruling, Oct 12 (running memory stays small); window shortened from 90 to 14 days on Nov 8, 2026 (Memory and long runs): how long a person keeps the bare 'I lived through this event' key after the day, once it is no longer the source of a drive they hold. Its only readers are the same-day appraisal (module-notifications.ts requires the event's own date) and a drive's source check, which a held drive keeps. The event's own facts stay. In Futiga, American Samoa (seed dpA), these keys were 550,000 of 2.3 million facts and 280 MB in the 2030 election year at 90 days.",
     "spread": {
-      "low": 30,
+      "low": 7,
       "high": 365,
       "unit": "days",
-      "citation": "A month to a year; checked against the 450-day play digest (unchanged) and the yearly heap in scripts/core2-year/years-profile.ts."
+      "citation": "A week (the weekly forgetting pass) to a year; checked against the 450-day play digest and the yearly heap in scripts/core2-year/years-profile.ts."
     }
   },
   "openingTeacherAnnualWageUsd": {

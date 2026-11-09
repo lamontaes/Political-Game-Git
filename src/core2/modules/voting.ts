@@ -2854,22 +2854,29 @@ export function winningPersonId(api: CoreAPI, candidateId: string): string {
  * holder among them keeps their own seat, and the rest take the other seats
  * in seat order, by their place in the count. A seat no one is ranked for
  * stays with its holder or vacant until the next contest; a tie at the last
- * place leaves that seat undecided (the place's tie law is a later step).
+ * place goes to the place's tie law (`breakElectionTie`), as a single seat's.
  */
 function atLargeWinner(
   api: CoreAPI,
   group: readonly ContestRow[],
   contest: ContestRow,
   ranked: readonly (readonly [string, number])[],
+  electorate?: number,
 ): string | null {
   const live = ranked.filter(([, votes]) => votes > 0);
   const seats = group.length;
   const top: string[] = [];
+  // The names tied across the last seat, when a tie straddles it.
+  let straddled: string[] = [];
   for (const [n, [id, votes]] of live.entries()) {
     if (top.length >= seats) break;
-    // A tie straddling the last seat decides none of the tied.
+    // A tie straddling the last seat decides none of the tied by the count:
+    // the place's tie law decides it below, as for a single seat.
     const next = live[n + 1];
-    if (top.length === seats - 1 && next && next[1] === votes) break;
+    if (top.length === seats - 1 && next && next[1] === votes) {
+      straddled = live.filter(([, v]) => v === votes).map(([tied]) => tied);
+      break;
+    }
     top.push(id);
   }
   const assigned = new Map<string, string>();
@@ -2888,7 +2895,14 @@ function atLargeWinner(
       const next = rest.shift();
       if (next) assigned.set(row.id, next);
     }
-  return assigned.get(contest.id) ?? null;
+  const seated = assigned.get(contest.id);
+  if (seated) return seated;
+  // The last seat is the one nobody was assigned: the same tie law as a
+  // single seat's decides it (a second election, a lot or the body).
+  const lastSeat = group.filter((row) => !assigned.has(row.id))[0];
+  return straddled.length && lastSeat?.id === contest.id
+    ? breakElectionTie(api, contest, straddled, secondElection, electorate)
+    : null;
 }
 
 /** Count a contest: named ballots, then the wider electorate's groups. */
@@ -3241,7 +3255,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     // vacant, until the next contest).
     decide: (ranked, electorate) =>
       seats > 1
-        ? atLargeWinner(api, group, contest, ranked)
+        ? atLargeWinner(api, group, contest, ranked, electorate)
         : tiedFirst(ranked)
           ? breakElectionTie(
               api,
@@ -3621,6 +3635,7 @@ function publicReasons(
     cycle: electionCycle(contest.electionDate),
     raceVotes: votes * cycleTurnout(contest.electionDate).share,
     townPlaceId: town(api).townPlaceId,
+    electionDate: contest.electionDate,
   });
   const reasons = filings.map((f) =>
     candidateReasons(
@@ -4536,6 +4551,7 @@ export function electoralCollege(
     cycle: "presidential",
     raceVotes: 0,
     townPlaceId: null,
+    electionDate: date,
   });
   const holder = presidentSide(api);
   const sample = sampleFor(api, date);
@@ -5208,6 +5224,7 @@ function decide(
     cycle,
     raceVotes: votesAt2024 * cycleTurnout(date).share,
     townPlaceId: null,
+    electionDate: date,
   });
   const stateKey = `US-${race.usps}`;
   const parties =

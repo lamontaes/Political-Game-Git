@@ -2,6 +2,9 @@ import { describe, expect, it } from "vitest";
 import { piecesInput, piecesSource } from "./core-pieces-fixture";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
+import { heldTransferIds } from "./accounts";
+import { setBookkeeping } from "./bookkeeping";
+import { addDays, makeIsoDate } from "./kernel/dates";
 import type { CoreInput, CoreState } from "./types";
 
 function world(): CoreState {
@@ -105,6 +108,38 @@ describe("accounts and postings", () => {
     expect(() => accounts.transfer({ ...input, id: "partial" })).toThrow(
       /reused/,
     );
+  });
+
+  it("in play holds this month's and last month's transfer ids and refuses a repeat in either; with bookkeeping on it holds every one", () => {
+    const run = (on: boolean) => {
+      const previous = setBookkeeping(on);
+      try {
+        const core = world(),
+          accounts = coreAPI(core).accounts();
+        const pay = (id: string) =>
+          accounts.transfer({
+            id,
+            from: accounts.main("city"),
+            to: accounts.main("contractor"),
+            amountMinor: 1,
+            reasonKey: "test",
+            source: piecesSource,
+          });
+        const nextMonth = () =>
+          advanceCore(core, addDays(makeIsoDate(core.date), 35));
+        pay("a");
+        nextMonth();
+        expect(() => pay("a")).toThrow(/reused/);
+        pay("b");
+        nextMonth();
+        pay("c");
+        return heldTransferIds(core);
+      } finally {
+        setBookkeeping(previous);
+      }
+    };
+    expect(run(true)).toBe(3);
+    expect(run(false)).toBe(2);
   });
 
   it("brings outside money in as a reported outside flow", () => {

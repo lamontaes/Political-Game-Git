@@ -73,6 +73,7 @@ const head = {
   source: declarations.source,
   hazards: HAZARDS,
   hazardOfIncidentType: HAZARD_OF,
+  recordEnd: LAST,
   years: Math.round(years * 1000) / 1000,
 };
 // One line a county, so the file stays small and a diff reads by county.

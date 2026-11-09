@@ -58,6 +58,13 @@ export const GUARDS: readonly Guard[] = [
     command: vitest("tests/guards/no-second-source.test.ts"),
   },
   {
+    id: "register-duplicate-keys",
+    rule: "A register entry is never glued to another: no repeated key inside any object of a stopgap register file (JSON.parse hides it, the later key wins and an entry vanishes).",
+    readMore:
+      "docs/design/guards.md; tests/guards/register-duplicate-keys.test.ts",
+    command: vitest("tests/guards/register-duplicate-keys.test.ts"),
+  },
+  {
     id: "families",
     rule: "One engine per mechanic: every file is in one engine family, and reaches another family only through its entry files; the deep imports only shrink.",
     readMore:

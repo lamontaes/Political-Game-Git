@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: in-pr
+status: done
 claimed-by: story/scene-opens-day-place-person
-pr: "#8006"
+pr: #8006
 lead: words
 blocked-on:
 milestone: play-first

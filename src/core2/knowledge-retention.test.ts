@@ -22,7 +22,7 @@ function world(): { core: CoreState; personId: string } {
   const api = coreAPI(core);
   api.observe(personId, fact("event:old:experienced", "old", "2025-01-02"));
   api.observe(personId, fact("event:cause:experienced", "cause", "2025-01-02"));
-  api.observe(personId, fact("event:new:experienced", "new", "2025-12-20"));
+  api.observe(personId, fact("event:new:experienced", "new", "2026-01-01"));
   api.observe(personId, fact("crime:old", "old", "2025-01-02"));
   core.people.get(personId)!.drives.set("drive", {
     id: "drive",
@@ -63,12 +63,12 @@ describe("forgetting old experiences", () => {
     ]);
   });
 
-  it("forgets a drive's source the first month after the drive is gone", () => {
+  it("forgets a drive's source the next pass after the drive is gone", () => {
     setBookkeeping(true);
     const { core, personId } = world();
     forgetOldExperiences(core);
     core.people.get(personId)!.drives.delete("drive");
-    core.date = "2026-02-01";
+    core.date = "2026-01-15";
     forgetOldExperiences(core);
     expect(keys(core, personId)).toEqual([
       "crime:old",
@@ -81,11 +81,11 @@ describe("forgetting old experiences", () => {
     const { core, personId } = world();
     coreAPI(core).observe(
       personId,
-      fact("event:old:experienced", "old", "2025-12-20"),
+      fact("event:old:experienced", "old", "2026-01-01"),
     );
     forgetOldExperiences(core);
     expect(keys(core, personId)).toContain("event:old:experienced");
-    core.date = "2026-04-01";
+    core.date = "2026-01-22";
     forgetOldExperiences(core);
     expect(keys(core, personId)).toEqual([
       "crime:old",
@@ -100,7 +100,7 @@ describe("forgetting old experiences", () => {
     forgetOldExperiences(core);
     expect(keys(core, personId)).toContain("event:old:experienced");
     core.playerId = undefined;
-    core.date = "2026-02-01";
+    core.date = "2026-01-15";
     forgetOldExperiences(core);
     expect(keys(core, personId)).toEqual([
       "crime:old",
@@ -140,18 +140,18 @@ describe("forgetting old experiences", () => {
       strength: 1,
     });
     // As a person filled in from the counts is: the drive's source on the day it formed.
-    core.date = "2026-01-15";
+    core.date = "2026-01-08";
     api.observe(personId, fact("event:late:experienced", "late", "2025-02-03"));
-    core.date = "2026-02-01";
+    core.date = "2026-01-15";
     forgetOldExperiences(core);
     expect(keys(core, personId)).toContain("event:late:experienced");
     drives.delete("late");
-    core.date = "2026-03-01";
+    core.date = "2026-02-01";
     forgetOldExperiences(core);
+    // The window (14 days) is long past for the key learned on January 1.
     expect(keys(core, personId)).toEqual([
       "crime:old",
       "event:cause:experienced",
-      "event:new:experienced",
     ]);
   });
 
@@ -164,7 +164,7 @@ describe("forgetting old experiences", () => {
     const saved = JSON.stringify(snapshotWorld(core));
     const loaded = createLifeCore(piecesInput());
     restoreWorld(loaded, JSON.parse(saved) as WorldSnapshot);
-    loaded.date = "2026-02-01";
+    loaded.date = "2026-01-15";
     forgetOldExperiences(loaded);
     expect(keys(loaded, personId)).toEqual([
       "crime:old",
@@ -181,7 +181,7 @@ describe("forgetting old experiences", () => {
     const known = core.knowledgeByPerson.get(personId)!;
     for (const [key, value, learnedAt] of [
       ["event:old:experienced", "old", "2025-01-02"],
-      ["event:new:experienced", "new", "2025-12-20"],
+      ["event:new:experienced", "new", "2026-01-01"],
     ] as const)
       known.set(key, fact(key, value, learnedAt));
     core.date = "2026-01-01";

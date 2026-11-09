@@ -2903,7 +2903,7 @@
       "from": "economy.real-income-growth",
       "evidence": "to-confirm",
       "notes": "Unsupported until confirmed: the row is marked to confirm with no size, and the game keeps no incumbent approval as a place outcome.",
-      "carriedBy": "the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading nationalEconomyChange), which takes the national unemployment and inflation against the opening into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot. The game keeps no approval number, so the economy's effect lands on the vote; this row has no size, so the engine's own shares (unemploymentShare and inflationShare in src/core2/data/electorate/parameters.json) stand"
+      "carriedBy": "the national-opinion engine (src/core2/modules/national-opinion.ts), which moves the monthly approval of the president by the year's change in national unemployment and inflation (pointsPerUnemploymentPoint and pointsPerInflationPoint in src/core2/data/electorate/national-opinion.json), and the electorate's economy term (candidateReasons in src/core2/electorate-inputs.ts, reading approvalGapPoints), which takes approval's gap from its long-run mean into the standing of the president's party's candidates, wholly for federal offices and in part down the ballot; this row has no size, so the engine's own shares stand"
     },
     {
       "key": "medicaid-expansion-to-coverage",
@@ -6061,10 +6061,12 @@
       "group": "state governments",
       "owner": "F",
       "evidence": "researched",
-      "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper's summary gives no band, so the spread is the default for researched links, 25% either way.",
+      "anchor": "A one point rise in the projected federal deficit over GDP raises long-term interest rates about 25 basis points, and the rates states pay to borrow move with them. A law that cuts spending lowers what every state pays; a law that spends more raises it. Markets price the projected deficit when the law is made, so there is no lag. The paper reports a band of 20 to 40 basis points around the typical 25, so that is the spread.",
       "floor": -19,
       "source": "Laubach 2009, New Evidence on the Interest Rate Effects of Budget Deficits and Debt, Journal of the European Economic Association 7(4): 858-885; the deficit change from data/research/federal/federal-outlay-terms-fy2025.json (Treasury Monthly Treasury Statement, BEA, CBO)",
-      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing)."
+      "notes": "No government in the core borrows at a rate a state bond sets (stopgap SG-EFFECT-WEB-prices-gov-borrowing).",
+      "range": [20, 40],
+      "rangeSource": "Laubach, 'New Evidence on the Interest Rate Effects of Budget Deficits and Debt' (Federal Reserve Board FEDS 2003-12, https://www.federalreserve.gov/pubs/feds/2003/200312/200312pap.pdf, introduction, read in full on Nov 9, 2026): 'a percentage point increase in the projected deficit-to-GDP ratio raises the 10-year bond rate expected to prevail five years into the future by 20 to 40 basis points; a typical estimate is about 25 basis points.' The journal version (JEEA 7(4), 2009) states the 25 basis point estimate. The band is the author's range across specifications, not a confidence interval."
     },
     {
       "key": "mileage-fee-to-vehicle-miles",

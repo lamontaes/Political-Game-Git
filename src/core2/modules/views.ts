@@ -20,6 +20,7 @@
  *
  * Views form when first read, so a person filled in later gets theirs too.
  */
+import { isDemoted } from "../counted-groups";
 import { stableHash, pairKey } from "../kernel/ids";
 import { livedQuestion } from "../outcome-news";
 import { addDays, ageOnDate, makeIsoDate } from "../kernel/dates";
@@ -222,7 +223,7 @@ function normal(key: string): number {
   );
 }
 
-function ageBand(age: number): string {
+export function ageBand(age: number): string {
   for (const band of VIEWS_KEYS.ageBands) {
     const [low, high] = band.split("-");
     if (age >= Number(low) && (high === "plus" || age <= Number(high)))
@@ -501,6 +502,8 @@ export function standingWith(
   countedHearer?: Pick<PersonState, "traits">,
   /** The speaker's lean where they are still in the wider population (no view row of their own). */
   countedSpeakerLean?: number,
+  /** A group of hearers' mean closeness to the speaker, in place of one listener's tie (`hearAsGroups`). */
+  groupCloseness?: number,
 ): number {
   const speaker = viewOf(api, speakerId);
   const half = v("one") / v("two");
@@ -536,8 +539,12 @@ export function standingWith(
       withTerm ? trust : nearTrust,
     );
   }
-  const tie = api.state.relationships.get(pairKey(listener.id, speakerId));
-  const closeness = tie ? currentCloseness(api.state, tie) : v("zero");
+  const tie =
+    groupCloseness === undefined
+      ? api.state.relationships.get(pairKey(listener.id, speakerId))
+      : undefined;
+  const closeness =
+    groupCloseness ?? (tie ? currentCloseness(api.state, tie) : v("zero"));
   const partyOf = (id: string) =>
     api.state.modules.has(PARTIES_STORE)
       ? ((
@@ -590,6 +597,30 @@ export function stanceOn(
   if (!api.state.modules.has(VIEWS_MODULE_ID)) return v("zero");
   const stance = stancesTable(api).get(`${personId}:${question}`) as unknown as
     Stance | undefined;
+  return (
+    (stance ? direction(stance.desiredChange) * stance.strength : v("zero")) +
+    groupShift(api, personId, question)
+  );
+}
+
+/**
+ * The shift a person took as one of a group of like hearers nobody watches
+ * (`hearAsGroups`, owner's level of detail, Nov 9): the group's stance on the
+ * question, read by the group the person was first heard in. Zero for anyone
+ * never heard as a group. One row read for the membership, one for the stance.
+ */
+export function groupShift(
+  api: CoreAPI,
+  personId: PersonId,
+  question: string,
+): number {
+  const state = api.moduleState(VIEWS_MODULE_ID);
+  const member = state.table("groupHearers").get(personId) as unknown as
+    { groupId: string } | undefined;
+  if (!member) return v("zero");
+  const stance = state
+    .table("groupStances")
+    .get(`${member.groupId}:${question}`) as unknown as Stance | undefined;
   return stance ? direction(stance.desiredChange) * stance.strength : v("zero");
 }
 
@@ -910,6 +941,12 @@ export const viewsModule: CoreModule = {
     tables: {
       people: {},
       countedStances: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Groups of like full hearers nobody watches, and their member counts (`hearAsGroups`). */
+      hearerGroups: {},
+      /** Which hearer group each unwatched full person was first heard in. */
+      groupHearers: { indexes: { byGroup: { fields: ["groupId"] } } },
+      /** Each hearer group's stance by topic: the mean of its members' shifts. */
+      groupStances: { indexes: { byGroup: { fields: ["groupId"] } } },
       openings: { indexes: { byPerson: { fields: ["personId"] } } },
       stances: {
         indexes: {
@@ -937,6 +974,13 @@ export const viewsModule: CoreModule = {
       Math.max(v("zero"), event.stressImpulse ?? v("zero"));
     const size = impulse > v("zero") ? impulse : v("one");
     for (const personId of learnedBy) {
+      // Someone back in the counts holds no stance of their own while
+      // counted (two-level rule, Oct 11): their group's record speaks for
+      // them, and meeting them again fills them in from it. Writing theirs
+      // left more stance rows for them than for full people by year 3
+      // (Montpelier, Vermont, Nov 9: 21,093 against 12,880).
+      const hearer = api.state.people.get(personId);
+      if (hearer && isDemoted(hearer)) continue;
       const view = viewOf(api, personId);
       if (!view) continue;
       let desiredChange = event.desiredChange;
