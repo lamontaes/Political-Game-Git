@@ -60,6 +60,7 @@ import {
 } from "./law-reach/group-a-voting";
 // After the engines: the outcome web reads this module while it loads.
 import { govMeasure } from "./gov-measures";
+import { openClimate } from "./modules/climate";
 import { governmentUnitsForPlace } from "./reference/government-units";
 import { searchCorePlaces, corePlaceStateIdentities } from "./place-lookup";
 
@@ -122,6 +123,10 @@ function openTown(): void {
     openRecord(c);
     openLegislature(c);
     openBudgets(c);
+    // The disasters engine every life core carries reads the climate engine's
+    // hazards each day, so a world that runs days opens it, after the laws and
+    // the budgets (the way the played world does).
+    openClimate(c);
     openLawReach(c);
     repealStartingAnswers(c);
     const a = coreAPI(c);
