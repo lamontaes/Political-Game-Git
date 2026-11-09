@@ -1,6 +1,6 @@
 {
   "batch": "2026-11-09-batch-2",
-  "from": "docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md",
+  "from": "cto/voice-batch-2-part-1:docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md",
   "note": "His voice note on moments 1 to 13, read by scripts/dialogue-batch/voice-note-reader.ts; four lines it missed are taken from the CTO's reading, marked 'from'. His own rewrites are new pieces (origin owner-voice) graded good. The rules he stated are in data/english/writing-rules.json.",
   "grades": [
     {

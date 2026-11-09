@@ -690,6 +690,8 @@ export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
 export function withVoiceGrades(
   fold: PartGradeLedger,
   gradeDir = GRADE_DIR,
+  /** Only the voice batches with these ids (`<batch>:voice`), when given. */
+  only?: readonly string[],
 ): PartGradeLedger {
   if (!existsSync(gradeDir)) return fold;
   const parts: Record<string, PartGradeCounts> = { ...fold.parts };
@@ -704,6 +706,7 @@ export function withVoiceGrades(
       grades: { key: string; spans: { strength: number }[] }[];
     };
     const id = `${file.batch ?? basename(name, ".json")}:voice`;
+    if (only && !only.includes(id)) continue;
     if (!batches.includes(id)) batches.push(id);
     for (const row of file.grades) {
       const net = row.spans.reduce((sum, span) => sum + span.strength, 0);
@@ -732,11 +735,16 @@ function main() {
     existsSync(LEDGER_FILE)
       ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
       : undefined,
+    // A voice batch's share comes out with the rest, or each run counts it again.
     (ids) =>
-      foldGrades(
-        graded.filter((row) =>
-          ids.includes(row.batch?.id ?? row.grades.batch ?? ""),
+      withVoiceGrades(
+        foldGrades(
+          graded.filter((row) =>
+            ids.includes(row.batch?.id ?? row.grades.batch ?? ""),
+          ),
         ),
+        GRADE_DIR,
+        ids,
       ),
   );
   // The coverage file keeps what batches asked (byKind, cells) beside what the

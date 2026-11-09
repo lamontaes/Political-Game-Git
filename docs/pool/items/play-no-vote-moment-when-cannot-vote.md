@@ -11,7 +11,7 @@ pr:
 blocked-on:
 lead: play-first
 milestone: play-first
-source: 'owner, Nov 9, batch 2 voice note (docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md): "3.2 shouldn''t even be in there. It just shouldn''t let you do it if you can''t vote."'
+source: 'owner, Nov 9, batch 2 voice note (cto/voice-batch-2-part-1:docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md): "3.2 shouldn''t even be in there. It just shouldn''t let you do it if you can''t vote."'
 ---
 
 **What.** When the player lives outside the town whose race is counted (an eviction, a move), `src/bench/election-night.ts` still stages the voting moment and narrates "There's no ballot for you here today. You no longer live where this race is voted." The owner graded that line out and asked that the game not offer the vote at all when the player cannot vote. The election-day scene should skip the vote ask for a player with no polling visit, and the narration should move on to the count.

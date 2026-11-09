@@ -57,7 +57,7 @@ const WORDS: readonly [RegExp, number][] = [
     /\b(good|i (really )?like|we like|liked|solid|natural|nice|makes sense|that works|fits|funny|smart)\b/,
     0.75,
   ],
-  [/\b(fine|sure|decent|okay|ok|acceptable|all ?right|fair)\b/, 0.25],
+  [/\b(fine|sure|decent|okay|ok|acceptable|al{1,2} ?right|fair)\b/, 0.25],
 ];
 
 const SOFTENERS = /\b(kind of|kinda|a little|a bit|almost|sort of|slightly)\b/;
