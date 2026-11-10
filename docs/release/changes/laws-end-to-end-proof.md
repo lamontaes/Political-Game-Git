@@ -3,4 +3,4 @@ id: laws-end-to-end-proof
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+A test only: it plays a player's bill from the seat through the vote to a named household and back, and changes nothing in the game.
