@@ -17,6 +17,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** On exact main 212b57e4367ed3751945e3785ca9163b9225e31a, src/core2/births-counted-web.test.ts:68 fails with WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36. It draws Elyria, Nebraska, and records fifteen identical 1.030 birth factors, so its distinct-factor count is one where it expects more than one. A second draw is red in the same test: WEB_BIRTHS_SEED=6e1164126090860a draws Los Cerrillos, New Mexico, and fails "home prices moved the owners' link: expected undefined to be truthy" in the by-tenure case. Nobody has said whether the web's factor really is constant there or the test's assumption is wrong.

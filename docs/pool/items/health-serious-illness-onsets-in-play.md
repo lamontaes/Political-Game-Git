@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** No one in a played year falls seriously ill or goes to prison, so the news of it never reaches a family. Lane 3 counted a year of Cabo Rojo, Puerto Rico (replay f857db7436bf7449, every full person watched): the durable log held 5 life.death, 0 health.serious-illness and 0 justice.imprisoned, and the ledger labels held 3 person.moved-away and none for illness or prison. Six drawn small towns showed none either. The director's illness-news and prison-news talk, and the questions after them, never play.

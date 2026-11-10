@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+checked: fable 2026-11-10
 ---
 
 **What.** Under the yes-or-no wage question in Congress most of what businesses lose goes somewhere other than workers. Measured in the Nov 9 law sweep in Marion, Mississippi (seed 7df73e53cd67), 180 days after passing, against a twin world with no bill: businesses $308,500 lower, households $30,500 higher, governments $194,000 higher and $82,000 gone to the outside. The question rode as a rider on 33 of the 40 bills Congress passed in the sweep, and 18 of the 40 show this one change, the same to within two dollars. For context the audit measured a clean raise of the minimum wage from $7.25 to $10.88: passed by the Mississippi House, households ended $18,200 higher and businesses $14,100 lower; passed by Congress, households ended $4,200 lower, businesses $28,000 lower and governments $15,200 higher. The audit did not trace the question's result to a payer or to code.

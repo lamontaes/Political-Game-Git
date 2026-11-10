@@ -17,6 +17,7 @@ root: none
 lead: play-first
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** On the bench's play screen in Anson, Texas with the playtest's seed, a council candidate who knocks 36 doors every week found 36 households their campaign had never knocked every single week from February 2025 to June 2026: 2,520 distinct household ids against about 1,150 households. The same town run by the engine alone opens with 1,147 households and gains about one a week. The Oct 27 attempt built Anson through the bench's own routes for 20 weeks and the doors table ran out at 1,149 households, the same as the engine alone, so the churn did not reproduce. Only the playtest's exact newlife query (a creator-chosen player) is missing.

@@ -9,7 +9,7 @@ standard: 2
 claimed-by:
 pr: #5249
 after:
-blocked-on: sourced county due dates for all 56 places (research data)
+blocked-on:
 lead: money
 model: sonnet
 effort: medium
@@ -17,6 +17,8 @@ root: rc9-place-facts-one-default
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner, so an owner without escrow never faces the bill dates their place's law sets. The due-date data it waited for has landed: `propertyTaxDueDates` in src/core2/housing-property-tax.ts returns each state's installments and dates. Bill non-escrow owners on those dates and keep the monthly twelfth only for escrow, with the tax reaching the town's treasury. The row stays open until the real mechanic replaces the fake.

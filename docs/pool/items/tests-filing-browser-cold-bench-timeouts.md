@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** On the first runs after a cold bench start, src/bench/filing.browser.mjs timed out in Checker 2's runs: "locator.click: Timeout 60000ms ... [data-testid=place-go]" (Lennon, Michigan, seed 58b1a1ec-f8ba-4702-bad0-622b321a6fc6) and "waiting for #talk-choices button" (Loma, Montana, seed dd9136c6-a0fe-4dce-a35e-aff97406a381); the next two runs passed. Merger 0's three warm runs all passed (Danvers MA, South Fork NV, Bison KS). The check should not depend on bench warmth, and nobody knows what was slow on the first request.
