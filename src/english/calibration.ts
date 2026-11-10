@@ -8,21 +8,21 @@
  *
  *   per trait      a pull toward each bearing and toward longer or shorter lines;
  *   per register   the target length in words and sentences;
- *   per piece      a running grade (mean over the axes graded, with a count);
  *   per move pair  whether that arrangement read naturally.
  *
- * `scripts/dialogue-batch/apply-grades.ts` folds each grade in; the engine
- * reads the table when it chooses a piece (`english-composition.ts`) and ranks
- * a reply (`src/director/conversation.ts`). Every function is pure and
- * deterministic (no randomness), and an empty table returns 1 or 0 everywhere,
- * so output is unchanged until a grade moves a weight.
+ * No weight here depends on how the owner graded a line. A line plays or it
+ * does not: his grades hold lines back (`english-grades.ts`) and his rules
+ * pull them (`line-rules.ts`, `bank-parts.ts`). Among the lines that play,
+ * the pick is the stable seeded choice, moved only by the speaker's traits,
+ * the register's length and the move before.
+ *
+ * `scripts/dialogue-batch/apply-grades.ts` folds the bench's grades of trait
+ * fit, length and naturalness in; the engine reads the table when it chooses
+ * a piece (`english-composition.ts`) and ranks a reply
+ * (`src/director/conversation.ts`). Every function is pure and deterministic
+ * (no randomness), and an empty table returns 1 or 0 everywhere.
  */
 import tableFile from "../../data/english/calibration.json" with { type: "json" };
-import reachFile from "../../data/english/grade-reach.json" with { type: "json" };
-import mapFile from "../../data/english/grade-map.json" with { type: "json" };
-import { PART_GRADES, type PartGradeLedger } from "./english-grades";
-import { gradeMapFactor, type GradeMap } from "./grade-map";
-import { reachFactor, type ReachTable } from "./grade-reach";
 
 export interface RunningGrade {
   readonly mean: number;
@@ -50,37 +50,12 @@ export interface CalibrationTable {
       { readonly targetWords?: number; readonly targetSentences?: number }
     >
   >;
-  readonly pieces: Readonly<Record<string, RunningGrade>>;
   readonly movePairs: Readonly<Record<string, RunningGrade>>;
-  /** The class of each bank's register, for how far a grade reaches (`grade-reach.ts`). */
-  readonly registerClasses?: Readonly<Record<string, string>>;
-  /**
-   * The kind of scene each scene-talk purpose is (floor, hallway, press,
-   * town-hall, election, private). It tells the reports and the wording what a
-   * line is for; a grade does not stop at it (owner, Nov 8: a grade reaches
-   * every line that shares its pattern, voice and register across the game).
-   */
-  readonly sceneClasses?: Readonly<Record<string, string>>;
-  /** How far the owner's grades reach: the pieces sharing a graded piece's pattern, voice and register. Absent: no reach. */
-  readonly reach?: ReachTable;
-  /** The heat map of the owner's span grades and the writing rules, scored onto every piece (`grade-map.ts`). Absent: no map. */
-  readonly map?: Pick<GradeMap, "factors">;
-  /**
-   * The owner's grades by part (`english-grades.ts`): a part he liked counts
-   * as the top of the scale in its own running grade, one he rejected as the
-   * bottom. Absent: only the numeric grades in `pieces` count.
-   */
-  readonly ledger?: PartGradeLedger;
 }
 
-export const CALIBRATION = {
-  ...(tableFile as unknown as CalibrationTable),
-  reach: reachFile as unknown as ReachTable,
-  map: { factors: (mapFile as unknown as GradeMap).factors },
-  ledger: PART_GRADES,
-} as CalibrationTable;
+export const CALIBRATION = tableFile as unknown as CalibrationTable;
 
-/** The middle of the 1 to 5 grade scale; a piece graded 3 is neither favored nor held down. */
+/** The middle of the 1 to 5 grade scale; a move pair graded 3 is neither favored nor held down. */
 export const MIDDLE_GRADE = 3;
 
 const parameter = (table: CalibrationTable, key: string): number => {
@@ -90,72 +65,12 @@ const parameter = (table: CalibrationTable, key: string): number => {
 };
 
 /**
- * How much a piece is chosen relative to its authored weight: its own running
- * grade, the reach of the grades given to other pieces of its pattern, voice
- * and register (`grade-reach.ts`), and its score on the heat map of every
- * graded span and writing rule (`grade-map.ts`). 1 when none applies.
+ * How much a running grade of a move pair moves a weight: 1 at the middle of
+ * the 1 to 5 scale, up to the ceiling for a pair always graded natural and
+ * down to the floor for one always graded unnatural, in full once the pair
+ * has `pieceFullAt` grades and in proportion before.
  */
-export function pieceFactor(
-  ids: readonly string[],
-  table: CalibrationTable = CALIBRATION,
-): number {
-  return (
-    ownGradeFactor(ids, table) *
-    gradeReach(ids, table) *
-    gradeMapFactor(ids, table.map)
-  );
-}
-
-/** The reach of other pieces' grades on this one; 1 on a table with no reach. */
-export function gradeReach(
-  ids: readonly string[],
-  table: CalibrationTable = CALIBRATION,
-): number {
-  if (!table.reach) return 1;
-  return reachFactor(ids, table.reach, {
-    floor: parameter(table, "reachFloor"),
-    ceiling: parameter(table, "reachCeiling"),
-    saturation: parameter(table, "reachSaturation"),
-  });
-}
-
-/**
- * A piece's own running grade: the numeric grades of the grading bench
- * (`pieces`), and the owner's grades from his voice notes and the in-play
- * grade control (`ledger`), where a line he liked counts as the top of the
- * 1 to 5 scale and one he rejected as the bottom (owner, Oct 29: "I've given
- * feedback on some good ones ... it's calibrate the entire engine"). Before,
- * a liked line lifted the rest of its group but not itself.
- */
-function ownGrade(
-  ids: readonly string[],
-  table: CalibrationTable,
-): RunningGrade | undefined {
-  const numeric = ids
-    .map((id) => table.pieces[id])
-    .find((row): row is RunningGrade => row !== undefined);
-  const said = ids
-    .map((id) => table.ledger?.parts[id])
-    .find((row) => row !== undefined);
-  const liked = said?.good ?? 0;
-  const rejected = (said?.bad ?? 0) + (said?.fix ?? 0);
-  if (!liked && !rejected) return numeric;
-  const top = MIDDLE_GRADE + (MIDDLE_GRADE - 1);
-  const bottom = MIDDLE_GRADE - (MIDDLE_GRADE - 1);
-  const count = (numeric?.count ?? 0) + liked + rejected;
-  const sum =
-    (numeric ? numeric.mean * numeric.count : 0) +
-    liked * top +
-    rejected * bottom;
-  return { mean: sum / count, count };
-}
-
-function ownGradeFactor(
-  ids: readonly string[],
-  table: CalibrationTable,
-): number {
-  const found = ownGrade(ids, table);
-  if (!found) return 1;
+function runningFactor(found: RunningGrade, table: CalibrationTable): number {
   const floor = parameter(table, "pieceFloor");
   const ceiling = parameter(table, "pieceCeiling");
   const full = Math.min(1, found.count / parameter(table, "pieceFullAt"));
@@ -240,12 +155,7 @@ export function movePairFactor(
 ): number {
   if (!previous || !next) return 1;
   const row = table.movePairs[`${previous}>${next}`];
-  return row
-    ? pieceFactor([`${previous}>${next}`], {
-        ...table,
-        pieces: table.movePairs,
-      })
-    : 1;
+  return row ? runningFactor(row, table) : 1;
 }
 
 /** Words in a line, as the bench counts them. */
@@ -264,26 +174,23 @@ export function sentenceCount(text: string): number {
 const WEIGHT_SHARES = 1000;
 
 /**
- * Re-weights a bank's variants by the table: the piece's running grade, the
- * length and bearing the speaker's traits favor, and the move before it. The
- * one place a variant's weight factor is computed: a composed line's parts
- * and a rendered line's voice both come here (`grounded-english.ts`).
- * Returns the same array untouched when every factor is 1 (so an empty table
- * changes no pick). Weights are integers, which the stable pick needs.
+ * Re-weights a bank's variants by the table: the length and bearing the
+ * speaker's traits favor, and the move before it. The one place a variant's
+ * weight factor is computed: a composed line's parts and a rendered line's
+ * voice both come here (`grounded-english.ts`). Returns the same array
+ * untouched when every factor is 1 (so an empty table changes no pick).
+ * Weights are integers, which the stable pick needs. No factor depends on a
+ * grade of the line itself.
  */
 export function calibratedVariants<
   V extends {
     readonly key: string;
     readonly weight?: number;
     readonly bearing?: string;
-    readonly pieceKey?: string;
   },
 >(
   variants: readonly V[],
   context: {
-    readonly bankKey: string;
-    /** The bank part the variants fill; without one, only the variant's own piece key is looked up. */
-    readonly part?: string;
     readonly register?: string;
     readonly traits?: Readonly<Record<string, number>>;
     readonly previousMove?: string;
@@ -293,15 +200,8 @@ export function calibratedVariants<
   table: CalibrationTable = CALIBRATION,
 ): readonly V[] {
   const factors = variants.map((variant) => {
-    const ids = [
-      ...(context.part === undefined
-        ? []
-        : [`${context.bankKey}:${context.part}:${variant.key}`]),
-      variant.pieceKey ?? variant.key,
-    ];
     const text = context.textOf?.(variant);
     return (
-      pieceFactor(ids, table) *
       (text === undefined
         ? 1
         : lengthFactor(

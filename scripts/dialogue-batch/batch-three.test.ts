@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { readMapPieces } from "./grade-map";
+import { readBankPieces } from "../words/run-rules";
 
 const batch = JSON.parse(
   readFileSync(
@@ -19,7 +19,7 @@ const batch = JSON.parse(
     }[];
   }[];
 };
-const pieces = readMapPieces({});
+const pieces = new Map(readBankPieces().map((piece) => [piece.key, piece]));
 /** Lines graded in a batch that a later pass rewrote with his lessons: key to the text he graded. */
 const rewritten = (
   JSON.parse(

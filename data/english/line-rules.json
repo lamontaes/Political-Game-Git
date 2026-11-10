@@ -8,7 +8,8 @@
       "from": [
         {
           "date": "2026-10-28",
-          "words": "\"You filed for Trustee, and the race has nine months left to run. Megan Peck is home.\" is useless narration. Remove every \"X is home\" and \"X is at place\" line. Do not replace them."
+          "words": "\"You filed for Trustee, and the race has nine months left to run. Megan Peck is home.\" is useless narration. Remove every \"X is home\" and \"X is at place\" line. Do not replace them.",
+          "via": "CTO log paraphrase"
         }
       ],
       "status": "enforced",
@@ -193,7 +194,8 @@
       "from": [
         {
           "date": "2026-10-26",
-          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
+          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right.",
+          "via": "quoted in a skill with 'owner, Oct 26'"
         }
       ],
       "status": "enforced",
@@ -219,7 +221,8 @@
       "from": [
         {
           "date": "2026-10-26",
-          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
+          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right.",
+          "via": "quoted in a skill with 'owner, Oct 26'"
         }
       ],
       "status": "enforced",
@@ -246,7 +249,8 @@
         },
         {
           "date": "2026-10-15",
-          "words": "A lie about where you are from names another place (\"I'm from Bloomington\"), never \"Not here.\" Nobody says a date in speech (\"I talked to Diana on November 13\")."
+          "words": "A lie about where you are from names another place (\"I'm from Bloomington\"), never \"Not here.\" Nobody says a date in speech (\"I talked to Diana on November 13\").",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         },
         {
           "date": "2026-09-23",
@@ -280,7 +284,8 @@
       "from": [
         {
           "date": "2026-10-26",
-          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
+          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right.",
+          "via": "quoted in a skill with 'owner, Oct 26'"
         }
       ],
       "status": "enforced",
@@ -305,7 +310,8 @@
         },
         {
           "date": "2026-10-15",
-          "words": "\"All right\" and \"Okay\" as answers to \"How's Keanu?\" are not how conversations work, even when grammatical. The four replies each move the talk somewhere."
+          "words": "\"All right\" and \"Okay\" as answers to \"How's Keanu?\" are not how conversations work, even when grammatical. The four replies each move the talk somewhere.",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         }
       ],
       "status": "enforced",
@@ -338,7 +344,8 @@
         },
         {
           "date": "2026-10-28",
-          "words": "\"Someone at home studies here\" on a place card: remove. This goes for most of the game: things do not pop up because someone the player knows does them. It matters only when a scene makes it matter or it comes up in dialogue."
+          "words": "\"Someone at home studies here\" on a place card: remove. This goes for most of the game: things do not pop up because someone the player knows does them. It matters only when a scene makes it matter or it comes up in dialogue.",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-26",
@@ -346,7 +353,8 @@
         },
         {
           "date": "2026-10-15",
-          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene."
+          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene.",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         }
       ],
       "status": "enforced",
@@ -556,15 +564,18 @@
         },
         {
           "date": "2026-11-01",
-          "words": "a bunch of nonsensical stuff there"
+          "words": "a bunch of nonsensical stuff there",
+          "via": "quote fragment in the CTO's ruling"
         },
         {
           "date": "2026-10-15",
-          "words": "Journal lines carry their subject. \"My father was elected mayor\" (the office), \"My daughter Jane was born\" (the name), and \"Little did I know\" needs what. \"That was a turning point\" only when the record shows it was one."
+          "words": "Journal lines carry their subject. \"My father was elected mayor\" (the office), \"My daughter Jane was born\" (the name), and \"Little did I know\" needs what. \"That was a turning point\" only when the record shows it was one.",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         },
         {
           "date": "2026-10-15",
-          "words": "A bill has a real name, not a description. \"Allow multifamily in single family zones\" is a description."
+          "words": "A bill has a real name, not a description. \"Allow multifamily in single family zones\" is a description.",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         },
         {
           "date": "2026-10-29",
@@ -572,7 +583,8 @@
         },
         {
           "date": "2026-10-29",
-          "words": "short filler \"side stories\" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two,"
+          "words": "short filler \"side stories\" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two,",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         }
       ],
       "research": [
@@ -650,7 +662,8 @@
         },
         {
           "date": "2026-10-28",
-          "words": "The clerk's lines: \"The deadline is August 6, 2025\" then \"File for this office\" then \"You are on the ballot\" is not a conversation. She should say: you're running for Trustee; you'll need this many signatures; the primary is this date and"
+          "words": "The clerk's lines: \"The deadline is August 6, 2025\" then \"File for this office\" then \"You are on the ballot\" is not a conversation. She should say: you're running for Trustee; you'll need this many signatures; the primary is this date and",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-26",
@@ -674,11 +687,13 @@
         },
         {
           "date": "2026-10-24",
-          "words": "that come out of what is actually happening in the world, narrated into a moment, played out with real dialogue and choices, the outcome back into the game; the current opening is the right shape, the words are wrong."
+          "words": "that come out of what is actually happening in the world, narrated into a moment, played out with real dialogue and choices, the outcome back into the game; the current opening is the right shape, the words are wrong.",
+          "via": "OWNER-DECISIONS ruling text, relayed by the acting CTO; not verbatim"
         },
         {
           "date": "2026-10-08",
-          "words": "I guess this is fine, but this is missing context"
+          "words": "I guess this is fine, but this is missing context",
+          "via": "his words as quoted inside a grade-row note"
         }
       ],
       "research": [
@@ -775,7 +790,8 @@
         },
         {
           "date": "2026-10-15",
-          "words": "\"Where do you work\" between relatives is not a scene. Family talks are personal scenes only, since the family has little involvement in play for now, and lines like \"Have you talked to Diana?\" do not belong in one."
+          "words": "\"Where do you work\" between relatives is not a scene. Family talks are personal scenes only, since the family has little involvement in play for now, and lines like \"Have you talked to Diana?\" do not belong in one.",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         }
       ],
       "research": [
@@ -1026,7 +1042,8 @@
         },
         {
           "date": "2026-10-28",
-          "words": "\"unemployment is 3.4 percent\" should be \"is at 3.4 percent\", and then: so what is he going to do about it? Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do"
+          "words": "\"unemployment is 3.4 percent\" should be \"is at 3.4 percent\", and then: so what is he going to do about it? Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-15",
@@ -1046,11 +1063,13 @@
         },
         {
           "date": "2026-10-15",
-          "words": "a plea gives its stake"
+          "words": "a plea gives its stake",
+          "via": "grade-row note (CTO summary); his related spoken words are in the batch 13 voice note: \"I'"
         },
         {
           "date": "2026-10-15",
-          "words": "a bargain names the trade"
+          "words": "a bargain names the trade",
+          "via": "grade-row note (CTO summary); his related spoken words are in the batch 13 voice note: \"th"
         }
       ],
       "research": [
@@ -1308,7 +1327,8 @@
         },
         {
           "date": "2026-10-28",
-          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from"
+          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-15",
@@ -1392,11 +1412,13 @@
         },
         {
           "date": "2026-11-01",
-          "words": "I never said that"
+          "words": "I never said that",
+          "via": "quote fragment in the CTO's ruling"
         },
         {
           "date": "2026-10-14",
-          "words": "lines must sound like people talk (\"Where are you from?\", \"I'm from Washington. What about you?\", \"And you?\"); a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")"
+          "words": "lines must sound like people talk (\"Where are you from?\", \"I'm from Washington. What about you?\", \"And you?\"); a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         }
       ],
       "note": "The notes disagree on: okay. for you, i'll do it.",
@@ -1540,7 +1562,8 @@
         },
         {
           "date": "2026-10-28",
-          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office."
+          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office.",
+          "via": "CTO log paraphrase"
         }
       ],
       "status": "awaiting-test",
@@ -1672,15 +1695,18 @@
         },
         {
           "date": "2026-10-28",
-          "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president."
+          "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president.",
+          "via": "CTO log (quoted fragment)"
         },
         {
           "date": "2026-10-28",
-          "words": "\"Today the work starts, and I mean to do it right\" is unnatural."
+          "words": "\"Today the work starts, and I mean to do it right\" is unnatural.",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-28",
-          "words": "The speeches must not be one block. They are assembled through the English engine, the director and the person (traits, party, wants, the world's events), played in steps. \"We're not building scenarios. We're building tools.\""
+          "words": "The speeches must not be one block. They are assembled through the English engine, the director and the person (traits, party, wants, the world's events), played in steps. \"We're not building scenarios. We're building tools.\"",
+          "via": "CTO log paraphrase with one quoted sentence"
         },
         {
           "date": "2026-10-15",
@@ -1838,7 +1864,8 @@
         },
         {
           "date": "2026-10-15",
-          "words": "Threats sound like politics"
+          "words": "Threats sound like politics",
+          "via": "grade-row note (CTO summary of the Oct 15 night ruling)"
         }
       ],
       "status": "awaiting-test",
@@ -2100,7 +2127,8 @@
         },
         {
           "date": "2026-11-01",
-          "words": "that's not how I approve this"
+          "words": "that's not how I approve this",
+          "via": "quote fragment in the CTO's ruling"
         },
         {
           "date": "2026-11-01",
@@ -2472,7 +2500,8 @@
       "from": [
         {
           "date": "2026-10-28",
-          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from"
+          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-11-09",
@@ -2705,7 +2734,8 @@
       "from": [
         {
           "date": "2026-10-15",
-          "words": "\"Thank you very much\" over \"Thank you so much\" in a speech"
+          "words": "\"Thank you very much\" over \"Thank you so much\" in a speech",
+          "via": "grade-row note quoting the batch 11 ruling; his spoken words not in the voice-note files"
         }
       ],
       "status": "enforced",
@@ -2930,23 +2960,28 @@
         },
         {
           "date": "2026-10-28",
-          "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president."
+          "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president.",
+          "via": "CTO log (quoted fragment)"
         },
         {
           "date": "2026-10-28",
-          "words": "\"Today the work starts, and I mean to do it right\" is unnatural."
+          "words": "\"Today the work starts, and I mean to do it right\" is unnatural.",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-28",
-          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office."
+          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office.",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-28",
-          "words": "\"unemployment is 3.4 percent\" should be \"is at 3.4 percent\", and then: so what is he going to do about it? Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do"
+          "words": "\"unemployment is 3.4 percent\" should be \"is at 3.4 percent\", and then: so what is he going to do about it? Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-28",
-          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from"
+          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from",
+          "via": "CTO log paraphrase"
         },
         {
           "date": "2026-10-26",
@@ -3054,7 +3089,8 @@
         },
         {
           "date": "2026-10-15",
-          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene."
+          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene.",
+          "via": "OWNER-DECISIONS ruling text, not verbatim"
         },
         {
           "date": "2026-09-29",

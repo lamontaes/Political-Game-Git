@@ -28,7 +28,7 @@
  *
  *   He states rules in passing: "Don't say gaps, though. That is dev
  *   language." Sentences that tell the writer what to say or never say are
- *   kept as rules for data/english/writing-rules.json.
+ *   kept as rules for data/english/line-rules.json.
  *
  * The strength of a judgment comes from `strengthOf` (spoken-grades.ts). The
  * output is a grade file for data/english/grades/: rows of `{ key, spans,

@@ -43,8 +43,16 @@ export interface RuleApplies {
 export interface LineRule {
   readonly id: string;
   readonly says: string;
-  /** What the owner said, short and exact. Research-only rules have none. */
-  readonly from: readonly { readonly date: string; readonly words: string }[];
+  /**
+   * What the owner said, short and exact. Research-only rules have none. A
+   * `via` says the words are not his recorded voice but how a log, a ruling or
+   * a grade row put them.
+   */
+  readonly from: readonly {
+    readonly date: string;
+    readonly words: string;
+    readonly via?: string;
+  }[];
   /** Where a rule with no words of his comes from. */
   readonly research?: readonly string[];
   /** Why a rule is a sample, or what his notes disagree on. */
@@ -162,8 +170,7 @@ export function textAsPiece(text: string): RulePiece {
  * are plain lines and need no bank or move.
  */
 export function textBreaksRule(rule: LineRule, text: string): boolean {
-  const { applies: _applies, ...bare } = rule;
-  return ruleFlags(bare, textAsPiece(text));
+  return ruleFlags({ ...rule, applies: undefined }, textAsPiece(text));
 }
 
 /** The spot identity fields of a use: what the pickers treat as alternatives. */

@@ -157,7 +157,7 @@ export function renderGroundedEnglish(
   const hash = stableHash(
     `${packet.worldSeed}:${packet.momentKey}:${bank.key}:${bank.version}`,
   );
-  const weightOf = voicedWeights(packet, bank.key, usable);
+  const weightOf = voicedWeights(packet, usable);
   const totalWeight = usable.reduce(
     (total, row) => total + weightOf(row.variant),
     0,
@@ -210,15 +210,13 @@ export function renderGroundedEnglish(
 /**
  * Each eligible variant's weight in the stable pick. Without a voice it is the
  * authored weight. With one, the calibration table moves it: the speaker's
- * trait pulls toward a length and a bearing, and the piece's running grade,
- * all computed by `calibratedVariants` (`src/english/calibration.ts`), the one
+ * trait pulls toward a length and a bearing, all computed by `calibratedVariants` (`src/english/calibration.ts`), the one
  * place a variant's weight factor is worked out. Weights only: the table
  * names no scene, person or place, and the draw is still the stable hash,
  * never a roll.
  */
 function voicedWeights(
   packet: GroundedEnglishPacket,
-  bankKey: string,
   usable: readonly { variant: AuthoredEnglishVariant }[],
 ): (variant: AuthoredEnglishVariant) => number {
   const voice = packet.voice;
@@ -227,7 +225,6 @@ function voicedWeights(
     calibratedVariants(
       usable.map((row) => row.variant),
       {
-        bankKey,
         ...(voice.register ? { register: voice.register } : {}),
         traits: voice.traits,
         textOf: (variant) =>
