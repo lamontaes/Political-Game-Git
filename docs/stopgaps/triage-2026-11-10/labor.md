@@ -43,3 +43,7 @@ Register: `src/core2/data/stopgaps/labor.json`. 13 open rows were checked (3 oth
 ## Questions for the owner
 
 None.
+
+## Reuse check (owner, Nov 10: one money system)
+
+Every new item names the existing function it changes and adds no second payment, tax or ledger path: the new items change hireRegional and recordBiasAt in src/core2/modules/jobs.ts and research data; no pay or ledger path is added.

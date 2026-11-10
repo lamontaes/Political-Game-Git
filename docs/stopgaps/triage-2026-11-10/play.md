@@ -47,3 +47,7 @@ Row line numbers in the register are a few lines off the markers in creator.ts, 
 ## Questions for the owner
 
 None.
+
+## Reuse check (owner, Nov 10: one money system)
+
+Every new item names the existing function it changes and adds no second payment, tax or ledger path: the new items change the day driver (dayStartMinute in src/bench/player.ts) and a data table (placeReferencePopulation).
