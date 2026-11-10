@@ -5,13 +5,14 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8106
 after:
 blocked-on:
 lead: fable
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, What the code does and Every law in dev mode's list; Reported done items 3 and 13; Duplicate systems item 6)
+merged-at: 2026-11-10T05:30:05.410Z
 ---
 
 **What.** Dev mode has a control that answers "who did this law reach". It reads one family of records and misses most of what laws do, so the proof a tester needs after passing a law comes back empty or names the wrong tier of people. Every measured case from the audit:
