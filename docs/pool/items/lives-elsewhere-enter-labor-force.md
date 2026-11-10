@@ -20,7 +20,7 @@ milestone: M7
 source: stand-in triage Nov 10; stopgap SG-LIVES-work-out-of-labor-force
 ---
 
-**What.** A student, a parent at home or someone not looking who lives elsewhere stays out of the labor force until they reach retiring age, so a twenty-year-old relative never starts work. Let them enter the labor force from their age, household and partner's work, using the same enter choice the jobs engine gives the town's full and counted people.
+**What.** A student, a parent at home or someone not looking who lives elsewhere stays out of the labor force until they reach retiring age, so a twenty-year-old relative never starts work. Let them enter the labor force from their age, household and partner's work, using the same enter choice the jobs engine gives the town's full and counted people. The check runs in the monthly review that already visits each relative, so it adds no new scan.
 
 **Cause.** Found in code: src/core2/jobs-elsewhere.ts, the monthly review's `row.status === "out"` branch (line 330) does nothing but record stopgap SG-LIVES-work-out-of-labor-force.
 
