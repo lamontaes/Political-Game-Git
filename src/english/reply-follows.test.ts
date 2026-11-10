@@ -14,7 +14,7 @@ import {
   buildTalks,
   facts as factsOfFixture,
   observedPairs,
-} from "../director/scene-talk-fixture";
+} from "../../tests/support/scene-talk-fixture";
 
 const parts = (sceneBank as unknown as { parts: BankPart[] }).parts.filter(
   playable,

@@ -30,7 +30,7 @@ import { readVerdicts } from "./reply-verdicts";
 import {
   buildTalks,
   observedPairs,
-} from "../../src/director/scene-talk-fixture";
+} from "../../tests/support/scene-talk-fixture";
 
 export const SCENE_TALK_FILE = "data/english/parts/scene-talk.json";
 

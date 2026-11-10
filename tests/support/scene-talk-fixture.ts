@@ -2,12 +2,12 @@
  * A drawn world with a director, and the facts a scene with a purpose is
  * staged from: the fixture the scene-talk tests share.
  */
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
-import { enrichCivicInputs } from "../core2/civic-inputs";
-import { initialFocusPeople } from "../core2/focus";
-import { advanceCore, createLifeCore } from "../core2/life";
-import { buildPopulation } from "../core2/population";
-import { createDirector } from "./ledger";
+import { ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
+import { enrichCivicInputs } from "../../src/core2/civic-inputs";
+import { initialFocusPeople } from "../../src/core2/focus";
+import { advanceCore, createLifeCore } from "../../src/core2/life";
+import { buildPopulation } from "../../src/core2/population";
+import { createDirector } from "../../src/director/ledger";
 import {
   composeSceneTalk,
   type PurposeType,
@@ -15,11 +15,11 @@ import {
   type SceneTalkLine,
   type SceneTalkOptions,
   type TreeNode,
-} from "./scene-talk";
-import { variantFamilies } from "./arc-variant";
+} from "../../src/director/scene-talk";
+import { variantFamilies } from "../../src/director/arc-variant";
 
-import type { Fact } from "../english/scene-talk-words";
-import situationFile from "./data/situation-types.json" with { type: "json" };
+import type { Fact } from "../../src/english/scene-talk-words";
+import situationFile from "../../src/director/data/situation-types.json" with { type: "json" };
 
 // Scenes with a purpose: a setup, a person with a
 // purpose, stakes, and an exchange that plays to resolved or refused, worded

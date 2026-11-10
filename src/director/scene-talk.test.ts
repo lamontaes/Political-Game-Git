@@ -16,7 +16,7 @@ import {
   HELD,
   seed,
   types,
-} from "./scene-talk-fixture";
+} from "../../tests/support/scene-talk-fixture";
 
 describe(`scenes with a purpose (seed ${seed})`, () => {
   it("has the sixteen purpose types the arcs file words", () => {
