@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/bench/m1-11-check.ts, src/core2/drives-economy.ts
 
 **Notes.** Not caused by PR 7909 (it only adds facts to the eviction notice and a read-only departure lookup). Because the year-long path draws a random place, it fails only sometimes.
+
+**Notes (Fable, Nov 10).** Seen again in Bright, Indiana (key 1807624, seed 7d140649c63c2fbb0f190c2dafe16cb3dcf15d290b598358334952cede99dc21) on the words branch of pull request 8114 at b4ff31d9b2: `employer-closed:2025-12-01:organization:founded:manufacturing:person_00d20a7f97064ff5:2025-04-01` named `person_4eed2a1012765745` and nothing answered it. The same place and seed pass on main at 43fe969a66, where the year holds a different closing (one, answered with a grudge). So the closing that goes unanswered here is of a business founded in play eight months earlier; both seen cases close on December 1. Replay: check out that branch and run the M1-11 command with GOLDEN_PATH_SEED and GOLDEN_PATH_PLACE_KEY set to the seed and key above.
