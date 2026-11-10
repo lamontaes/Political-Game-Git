@@ -144,6 +144,19 @@ const NOT_YET_SWEPT = ["open", "claimed", "blocked", "in-pr"];
 export const SWEEP_PENDING_CHECKED = "fable 2026-11-10";
 
 /**
+ * Five items filed on Nov 10 before this rule, with no `checked:` field yet,
+ * that are on the depth sweep's lists: the sweep writes their sentence.
+ * Deleted with SWEEP_PENDING_CHECKED when the sweep is merged.
+ */
+export const SWEEP_PENDING_IDS: readonly string[] = [
+  "core2-three-test-files-cannot-load",
+  "laws-price-questions-without-an-axis",
+  "play-plain-text-check-stops-at-filing-counter",
+  "play-talk-no-say-nothing-when-nothing-left",
+  "pool-release-cause-differs-reoffered",
+];
+
+/**
  * The sentence of a What section that says where the player sees the result
  * (owner, Nov 10, 2026): it begins Seen:, Feeds: or Guards:, as the last
  * sentence of the section or on a line of its own. Returns the kind and the
@@ -208,7 +221,8 @@ export function standardProblems(
   }
   const heldToSeen =
     NOT_YET_SWEPT.includes(fm.status ?? "") &&
-    fm.checked !== SWEEP_PENDING_CHECKED;
+    fm.checked !== SWEEP_PENDING_CHECKED &&
+    !SWEEP_PENDING_IDS.includes(id);
   const what = section(text, "What");
   if (heldToSeen && what) {
     const seen = seenLine(what);
