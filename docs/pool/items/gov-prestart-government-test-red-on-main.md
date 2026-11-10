@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-gov-prestart-government-test-red-on-main
-pr:
+pr: #8257
 blocked-on:
 lead: cto
 standard: 2
