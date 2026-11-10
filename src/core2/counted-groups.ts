@@ -643,6 +643,36 @@ export class CountedStore {
     return 0;
   }
 
+  /**
+   * A household record stands for more or fewer households: a move changes
+   * a count, not the number of records. Up, each recorded job keeps the
+   * heads it stood for (the new households hold no recorded job); down, each
+   * job's pinned heads shrink in proportion. The weight never goes below
+   * zero. Returns the weight after the change.
+   */
+  changeWeight(h: CountedHousehold, households: number): number {
+    const before = this.weightOf(h);
+    const after = Math.max(0, before + households);
+    if (after === before) return before;
+    this.version++;
+    this.membersVersion++;
+    if (after > before) {
+      for (const job of h.jobs)
+        if (!this.jobHeads.has(job.id)) this.jobHeads.set(job.id, before);
+    } else if (before > 0) {
+      for (const job of h.jobs) {
+        const heads = this.jobHeads.get(job.id);
+        if (heads !== undefined)
+          this.jobHeads.set(job.id, (heads * after) / before);
+      }
+    }
+    if (after === 1) delete h.weight;
+    else h.weight = after;
+    this.changedGroup(h.group);
+    h.wagesMinorYear = after > 0 ? this.wagesOf(h) : 0;
+    return after;
+  }
+
   /** A household still counted, by id. */
   liveHousehold(id: string): CountedHousehold | undefined {
     const ix = this.householdOf.get(id);
