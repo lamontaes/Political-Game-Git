@@ -46,3 +46,7 @@ Register: `src/core2/data/stopgaps/nation.json`, 15 open rows, all read against 
 ## Questions for the owner
 
 None.
+
+## Reuse check (owner, Nov 10: one money system)
+
+Every new item names the existing function it changes and adds no second payment, tax or ledger path: the new items change data, the press topic builder (press-topics.ts) and the climate hazard rate (recordedHazardRate).
