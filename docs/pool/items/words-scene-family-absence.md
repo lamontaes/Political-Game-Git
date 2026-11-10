@@ -5,15 +5,15 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-words-scene-family-absence
+status: open
+claimed-by:
 pr:
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
-claimed-at: 2026-11-10T23:52:14.674Z
+claimed-at:
 standard: 2
 model: sonnet
 effort: medium
@@ -47,3 +47,5 @@ branch: claude/pool-words-scene-family-absence
 Oct 29 (CTO, second account): PR #6130 closed as stale under the owner's standing approval; back to open. Branch `play-first/words-scene-family-absence` is kept; claiming this item takes it over.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:52 UTC) on branch claude/pool-words-scene-family-absence.
+
+Released (2026-11-10): Needs four new situation types and their bank lines under data/english/parts (Story session only); a builder cannot play it without them. Continue on branch claude/pool-words-scene-family-absence.
