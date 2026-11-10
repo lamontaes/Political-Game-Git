@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr: 0
+pr: 8225
 blocked-on:
 lead: words
 source: third rerun of scripts/words/one-line-spots.ts after words-one-line-spots-2 (Brewster, Massachusetts; Weekapaug, Rhode Island; Castle Hill, California)
