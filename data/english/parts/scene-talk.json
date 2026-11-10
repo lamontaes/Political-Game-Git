@@ -195953,7 +195953,7 @@
       "key": "scene-talk.narrate-narrate.you-visit-ill-who-is-seriously-ill-and-lives-alone-and-who-has-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You visit {ill}, who is seriously ill and lives alone, and who has something to ask you.",
+      "text": "{ill} lives alone and has been seriously ill. When you visit, there's a favor waiting for you.",
       "uses": [
         {
           "subject": "scene",
@@ -195974,7 +195974,7 @@
       "key": "scene-talk.narrate-narrate.you-visit-ill-who-is-seriously-ill-with-partner-close-by-and-who-has-something-to-ask-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You visit {ill}, who is seriously ill, with {partner} close by, and who has something to ask you.",
+      "text": "You visit {ill}, who is seriously ill. {partner} is close by, and {ill} has something to ask you.",
       "uses": [
         {
           "subject": "scene",
@@ -196037,7 +196037,7 @@
       "key": "scene-talk.open-greet.sit-down-a-minute-first-i-ll-try-not-to-tire-you-out-with-my-talking",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Sit down a minute, {first}. I'll try not to tire you out with my talking.",
+      "text": "Sit down a minute. I'll try not to wear you out with my talking.",
       "uses": [
         {
           "subject": "scene",
@@ -196079,7 +196079,7 @@
       "key": "scene-talk.state-request.would-you-go-by-my-house-and-make-sure-everything-is-fine-first-there-s-no-one-there-but-me-to-see-to-it",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you go by my house and make sure everything is fine, {first}? There's no one there but me to see to it.",
+      "text": "Could you go by the house and make sure everything's all right? There's nobody there but me to see to it.",
       "uses": [
         {
           "subject": "scene",
@@ -196123,7 +196123,7 @@
       "key": "scene-talk.state-request.would-you-bring-child-to-see-me-first-i-miss-them",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you bring {child} to see me, {first}? I miss them.",
+      "text": "Could you bring {child} by? It's been days, and I'd like to see them.",
       "uses": [
         {
           "subject": "scene",
@@ -196145,7 +196145,7 @@
       "key": "scene-talk.state-request.would-you-check-on-partner-first-they-won-t-tell-me-how-they-re-really-doing",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you check on {partner}, {first}? They won't tell me how they're really doing.",
+      "text": "Check on {partner} for me, would you? They won't tell me how they're really doing.",
       "uses": [
         {
           "subject": "scene",
@@ -196188,7 +196188,7 @@
       "key": "scene-talk.state-request.would-you-come-back-first-not-for-long-i-d-just-like-to-know-you-will",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would you come back, {first}? Not for long. I'd just like to know you will.",
+      "text": "Will you come back? Not for long. I'd just like to know you will.",
       "uses": [
         {
           "subject": "scene",
@@ -196251,7 +196251,7 @@
       "key": "scene-talk.reply-agree.alright-i-ll-do-it-i-m-glad-you-asked-me",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright, I'll do it. I'm glad you asked me.",
+      "text": "I'll do it. I'm glad you asked me.",
       "uses": [
         {
           "subject": "scene",
@@ -196498,7 +196498,7 @@
       "key": "scene-talk.follow-accept.alright-it-s-a-relief-that-you-said-yes",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. It's a relief that you said yes.",
+      "text": "That's a relief. I didn't like asking.",
       "uses": [
         {
           "subject": "scene",
@@ -196520,7 +196520,7 @@
       "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-you-again-today",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I understand, and I won't ask you again today.",
+      "text": "I understand. I won't ask you again today.",
       "uses": [
         {
           "subject": "scene",
@@ -196541,7 +196541,7 @@
       "key": "scene-talk.follow-accept.alright-i-won-t-push-and-i-m-still-glad-you-came",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Alright. I won't push, and I'm still glad you came.",
+      "text": "I won't push. I'm still glad you came.",
       "uses": [
         {
           "subject": "scene",
@@ -196584,7 +196584,7 @@
       "key": "scene-talk.follow-press.i-believe-you-first-will-it-be-soon",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "I believe you, {first}. Will it be soon?",
+      "text": "I believe you. Will it be soon?",
       "uses": [
         {
           "subject": "scene",
@@ -196628,7 +196628,7 @@
       "key": "scene-talk.follow-press.could-you-do-one-small-part-of-it-first-even-that-would-help-me",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "Could you do one small part of it, {first}? Even that would help me.",
+      "text": "Could you do one small part of it? Even that would help.",
       "uses": [
         {
           "subject": "scene",
@@ -196650,7 +196650,7 @@
       "key": "scene-talk.follow-answer.whatever-you-can-manage-first-not-nothing-that-s-all",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever you can manage, {first}. Not nothing, that's all.",
+      "text": "Whatever you can manage. Even a little is a lot from here.",
       "uses": [
         {
           "subject": "scene",
@@ -196736,7 +196736,7 @@
       "key": "scene-talk.close-accept.alright-i-ll-let-you-go-and-rest",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Alright. I'll let you go, and rest.",
+      "text": "Go on, then. I'll get some rest.",
       "uses": [
         {
           "subject": "scene",
