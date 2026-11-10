@@ -22,7 +22,7 @@ source: stand-in triage Nov 10; stopgap SG-CORE-voluntary-closure-final-pay (its
 
 **Cause.** Found in code: `closeBusinessByChoice` in src/core2/finance-state.ts (marker `api.stopgap("SG-CORE-voluntary-closure-final-pay")` at line 1937); it settles wages, bills and credit lines from cash held only, and the business engine keeps no premises or equipment record yet (item world-business-premises-record).
 
-**Fix.** After the premises record exists, read each closing business's premises and equipment, sell them to the outside market through the housing-sale path used for estates, apply the distress discount as an ESTIMATED parameter with a spread, and add the proceeds to the cash that pays claims in the state's wage-claim priority order. One balanced journal set. Runs only on the day of a closure, so it costs nothing in a normal year.
+**Fix.** Reuse what exists; add no sale or ledger path of its own. After the premises record exists, read each closing business's premises and equipment and sell them with `sellHome` in src/core2/housing-sale.ts (extend it to take a business's premises, as it already takes a counted household's home) at the distress discount, an ESTIMATED parameter with a spread. Pay the proceeds out through `transfer` in src/core2/accounts.ts into the closure's existing claims, in the state's wage-claim priority order. One balanced journal set. It runs only on the day of a closure, so it costs nothing in a normal year.
 
 **Time box.** 5 hours for one opus session.
 
