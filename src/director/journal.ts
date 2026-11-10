@@ -86,7 +86,6 @@ const LIFE_PAIRS = journalLife.pairs as readonly {
   record?: string;
   kind: string;
 }[];
-const LIFE_KINDS = new Set(LIFE_PAIRS.map((pair) => pair.kind));
 
 export interface JournalLine {
   id: string;
@@ -462,7 +461,15 @@ function lifeMoments(
   person: PersonState,
   book: PersonLedger,
   life: readonly LifeEvent[],
-): JournalMoment[] {
+): {
+  moments: JournalMoment[];
+  /** The director's moments the list now tells, as `<kind>|<event id>`. */
+  told: Set<string>;
+  /** The days of a move the list tells; the director's own `moved` moment of the day is not told as well. */
+  movedDays: Set<string>;
+} {
+  const told = new Set<string>();
+  const movedDays = new Set<string>();
   const base = (id: string, date: string) => ({
     id,
     date: date as IsoDate,
@@ -582,6 +589,8 @@ function lifeMoments(
       pair.kind === "moved"
         ? movedOn.get(event.date)
         : weighed.get(`${pair.kind}|${event.id}`);
+    told.add(`${pair.kind}|${event.id}`);
+    if (pair.kind === "moved") movedDays.add(event.date);
     // A built fact is cited through the person who holds it, as the director cites it.
     const own = event.from === "built";
     moments.push({
@@ -604,7 +613,7 @@ function lifeMoments(
       echoes: kept?.echoes ?? [],
     });
   }
-  return moments;
+  return { moments, told, movedDays };
 }
 
 /**
@@ -1426,16 +1435,7 @@ export function composeJournal(
   // What the list holds is told from the list (lifeMoments); the director's moment
   // for the same record only lends its weight. A moment of the director's that the
   // list does not hold (a relative's move, a stranger's death) is told as before.
-  const listed = new Set(life.map((event) => event.id));
-  const movedDays = new Set(
-    life
-      .filter(
-        (event) =>
-          event.life === "move" &&
-          (event.what === "moved-away" || event.what === "moved-home"),
-      )
-      .map((event) => event.date),
-  );
+  const fromList = lifeMoments(core, person, book, life);
   const moments: JournalMoment[] = [
     // A race is the person's own when its record names them as a candidate,
     // whoever else the moment is with (Storrs, Connecticut, replay
@@ -1444,12 +1444,14 @@ export function composeJournal(
       ...book.moments.filter(
         (moment) =>
           !(
-            (LIFE_KINDS.has(moment.causeKind) &&
-              listed.has(moment.causeFactId ?? moment.causeId)) ||
-            (moment.causeKind === "moved" && movedDays.has(moment.date))
+            fromList.told.has(
+              `${moment.causeKind}|${moment.causeFactId ?? moment.causeId}`,
+            ) ||
+            (moment.causeKind === "moved" &&
+              fromList.movedDays.has(moment.date))
           ),
       ),
-      ...lifeMoments(core, person, book, life),
+      ...fromList.moments,
     ].map((moment) =>
       !moment.selfNamed &&
       rows.some(
