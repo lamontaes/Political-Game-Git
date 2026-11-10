@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-07-every-day-starts-at-midnight
 pr:
 after:
 blocked-on:
@@ -17,8 +17,9 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T22:55:41.723Z
 checked: fable 2026-11-10
+branch: claude/pool-play-stop-07-every-day-starts-at-midnight
 ---
 
 **What.** On the v0.22.10 release, pressing Day on Monday January 20 at 8:30 PM went to Wednesday January 22 at 12:00 AM, every later Day and Week press landed at 12:00 AM alone in the bedroom, and a 3-hour action left the clock at midnight while the scene showed an afternoon. The item is a twin of integration-day-lands-on-morning-and-places-keep-hours, which is done, and both children are dropped. Days now start in the morning (commit c573027b70). What is left is a second session's replay of the finish line.
@@ -42,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** The clock before and after Day and after a 3-hour action, from a drawn place, with the place and seed under them.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:00, 16:01, 16:02, 16:05; screenshots 36, 37, 43, 49. Lead: m0-m2 (core clock and screen half) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Split Oct 24 into play-stop-07-every-day-starts-at-midnight-a and play-stop-07-every-day-starts-at-midnight-b, each four hours or less; the CTO sets this item done when the last part is done.
+
+Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-play-stop-07-every-day-starts-at-midnight.
