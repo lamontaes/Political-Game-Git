@@ -5,9 +5,9 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-laws-adopted-income-tax-learning
 pr:
 after:
 blocked-on:
@@ -16,7 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-10T23:17:41.157Z
 checked: fable 2026-11-10
 ---
 
