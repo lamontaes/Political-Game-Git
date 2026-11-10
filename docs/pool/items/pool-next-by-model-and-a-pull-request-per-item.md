@@ -5,10 +5,10 @@ area: docs
 kind: feature
 priority: 1
 size: M
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8220
 after:
 blocked-on:
 lead: cto
@@ -17,6 +17,7 @@ effort: medium
 root: rc2-done-from-records
 source: owner, Nov 10, 2026, through the CTO's 19:58Z and 20:01Z lines on issue 7365
 checked: fable 2026-11-10
+merged-at: 2026-11-10T21:07:48.964Z
 ---
 
 **What.** The owner wants one command he can paste into any agent, on any tool or account, so it takes the next right item, builds it and opens a pull request, then takes the next (owner, Nov 10: "it needs to be model agnostic ... picked up by codex, muse, etc. ... does it have weights on what should be done first? and i want it to be session proof"). The page the agent reads is docs/pool/START-A-BUILDER.md and the order is docs/pool/order.json; both are written. This item builds the tool they name: `npm run pool -- next`, `release`, the stale-claim release, the draft pull request made at the claim, and the index's Ready by model lists.
