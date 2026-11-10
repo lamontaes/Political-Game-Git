@@ -5,13 +5,14 @@ area: words
 kind: wiring
 priority: 1
 size: M
-status: claimed
-claimed-by: lane3/everyday-answers
+status: open
+claimed-by:
 pr:
 blocked-on:
 lead: words
 source: added with npm run pool -- add
-claimed-at: 2026-11-04T02:22:50.627Z
+claimed-at:
+branch: lane3/everyday-answers
 ---
 
 **What.** Talking to people in town (src/director/conversation.ts, about 2,900 lines) is worded by its own word maker (src/english/conversation-words.ts, wordConversationMove) from its own bank (data/english/parts/conversation.json, 638 parts), beside the one scene word maker (wordSceneMove) and its bank that scenes, narration, news and the journal now share. A reply is picked from every reply the subject's bank has, not from the answers that fit the line it answers, so the owner saw a yes-or-no question ('Did you see the President's address?') answered with an acknowledgment and a turned-back question ('Oh, okay. What about you?'). The words-director plan of Oct 28 listed the copies to fold and missed this one.
@@ -30,3 +31,5 @@ Lane 3 (Nov 4, night): the calibration line is split out and merged (`words-talk
 - **Step C, the test:** one move-pair grade changes the pick in a talk and in a scene alike. In a scene, the pick is among the moves a player is offered, never among a person's decisions (no dice).
 - **Found before step A (Nov 4, night):** `tests/english-parts-banks.test.ts` checks every piece against its file's `maxWords`, which is 10 for `conversation.json` and 70 for `scene-talk.json`. Moving the talk pieces as they are would loosen their length check from 10 to 70. Step A therefore also carries the limit with the pieces: a per-register limit (`maxWordsByRegister: { conversation: 10 }` in `scene-talk.json`, read by that test for pieces whose uses are `purpose: "talk"`), plus the eight slot names both files describe (name, employer, place, years, when, first, outlet, position), merged where the descriptions differ, and the mining record kept as `mining.conversation`.
 - **Question for the CTO before step A (Lane 3, Nov 4, night).** Read first: `OWNER-DECISIONS.md` (no entry says one bank file for talk and scenes; the "not ten" quote is only on this item), the words-engine skill ("One bank per register: `conversation.json`, `journal.json`, ..."), and `tests/english-parts-banks.test.ts` (a bank file is its register: the file is named `<register>.json`, every key starts `<register>.`, and texts are unique within it). Merging `conversation.json` into `scene-talk.json` would rename all 789 piece keys (7 of them carry the owner's grades in `part-grades.json`, which would move with them), and drop or merge the texts both files share ("Okay."). Should the fold (a) keep `conversation.json` as the talk register's bank and make only the word maker one (step B: `conversation.ts` words through `wordSceneMove`, which reads both registers' banks), or (b) merge the files, rename the keys and move the grades? Lane 3 builds (a) unless told otherwise, since it follows the skill's rule and loses no grade.
+
+Released by next (2026-11-10): no push to lane3/everyday-answers since 2026-11-04 06:57 UTC, more than twice its 4-hour time box. Continue on branch lane3/everyday-answers.
