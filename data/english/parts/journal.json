@@ -4284,10 +4284,10 @@
       }
     },
     {
-      "key": "journal.memoir-meant-friend.that-made-me-glad",
+      "key": "journal.memoir-meant-friend.they-were-a-friend-of-mine",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "That made me glad.",
+      "text": "They were a friend of mine.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -4303,17 +4303,17 @@
         }
       ],
       "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
+      "author": "Fable helper",
+      "date": "2026-11-10",
       "tag": {
         "move": "tell"
       }
     },
     {
-      "key": "journal.memoir-meant-friend.i-was-happy-about-that",
+      "key": "journal.memoir-meant-friend.i-counted-them-a-friend",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "I was happy about that.",
+      "text": "I counted them a friend.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -4329,8 +4329,8 @@
         }
       ],
       "origin": "authored",
-      "author": "Lane 3, words and scenes (director-journal-one-story)",
-      "date": "2026-11-04",
+      "author": "Fable helper",
+      "date": "2026-11-10",
       "tag": {
         "move": "tell"
       }
