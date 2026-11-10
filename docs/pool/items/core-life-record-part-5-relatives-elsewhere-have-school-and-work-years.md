@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** A relative who grew up in the player's household and moved away opens with a birth year and little else, unless something has happened to them in play. The household's own records already say where they went to school and when they left. This part builds their school years in town and their work since from those records, when they are opened.

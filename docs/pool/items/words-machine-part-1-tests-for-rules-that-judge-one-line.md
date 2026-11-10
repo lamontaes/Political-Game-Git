@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** The owner's notes are rules now, and most of the newer ones are written down without a test, so they pull nothing. This part writes the test for each rule that can be judged from one line alone. A rule with a test pulls the lines that break it and refuses new ones by name.

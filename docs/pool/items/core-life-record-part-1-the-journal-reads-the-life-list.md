@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-journal-reads-life
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** A person's card and the You screen tell a life from one list. The Journal still builds its own lines from the records by its own rules, so the same event can read differently in two places or show in one and not the other. This part makes the Journal a reader of the same list and deletes its own assembly.

@@ -16,13 +16,14 @@ model: opus
 effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** Many of the owner's notes are about a line in its place: fine from a friend, wrong from a stranger; fine at a kitchen table, wrong at a podium. Twenty-eight such rules are written down with no test. This part hands a rule the line together with its spot, and writes those tests.
 
-**Cause.** Found in code: `runRules` (src/english/line-rules.ts line 300) runs every rule in data/english/line-rules.json, which holds 25 rules with `status: awaiting-test` on main at 756370e86b, and 61 once pull request 8154 merges (17 judge one line, 28 a piece in its spot, 9 a set and 7 an exchange); a rule with that status pulls nothing. The run judges a piece by its text and its part's key; it does not yet hand a rule the spot's tags (speaker's tie, occasion, register).
+**Cause.** Found in code: `runRules` (src/english/line-rules.ts line 300) runs every rule in data/english/line-rules.json, which holds 25 rules with `status: awaiting-test` on main at 756370e86b, and 61 once pull request 8154 merges (17 judge one line, 28 a piece in its spot, 9 a set and 7 an exchange); a rule with that status pulls nothing. The run already hands a rule the piece's bank, kind, move and uses (`RulePiece`, src/english/line-rules.ts) and a rule can be limited to banks, kinds and moves (`ruleApplies`, same file). It is not handed who is speaking to whom or the occasion (the speaker's tie, the occasion, the register), which the composer's tags hold.
 
-**Fix.** Give a rule's detector the piece together with its spot: the bank, the spot's key and the tags the composer chooses by (data/english/scene-talk-tags.json and the parts' own tags). Then write each `piece-in-context` rule's detector as a condition on the text and those tags, with one example it must catch and one it must leave alone. Same steps as part 1: `sample`, run, read every flagged line, then `enforced`.
+**Fix.** Extend `RulePiece` and the rule's `applies` condition, never a second way in: add to each of a piece's `uses` the tags the composer chooses by (data/english/scene-talk-tags.json and the parts' own tags). Then write each `piece-in-context` rule's detector as a condition on the text and those tags, with one example it must catch and one it must leave alone. Same steps as part 1: `sample`, run, read every flagged line, then `enforced`.
 
 **Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 

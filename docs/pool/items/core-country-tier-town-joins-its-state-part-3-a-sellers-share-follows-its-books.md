@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** Outside buyers are divided among a town's sellers of one kind by how well staffed each is, and a seller with no rival in town keeps everything. So in a small town a seller almost never loses a customer. After this part a seller's share of its sector's outside demand moves with its own price and capacity against the rest of its sector in the state.

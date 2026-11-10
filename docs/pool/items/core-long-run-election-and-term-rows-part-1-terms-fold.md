@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** Every election adds a term row per seat, and none is dropped, so a century-long save keeps decades of every legislature's terms. In Kirkman, Iowa offices.terms rises from 782 to 34,145 in four years. The agreed fold keeps the serving row and each seat's newest ended row and folds older ended terms at their seat's next seating into two new offices tables: seatPasts (one row per seat) and careers (one row per filled-in official), read through one resolver, termById, and one helper, careerOf.

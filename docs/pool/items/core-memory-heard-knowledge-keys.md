@@ -16,6 +16,7 @@ effort: high
 root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** In the world `npm run speed:year` plays for Arcadia, California (0602462, seed app-heap-1), core.knowledgeByPerson grows from about 1.05 million keys in January 2028 to 1.55 million by March 21, about 1,900 full people, while the heap after collection goes from 2,569 to 3,074 MB. At the desktop app's 4,096 MiB limit the fourth year dies there. The keys are heard promises (one per listener per statement, campaigns.ts), speeches and campaign messages heard, news read, and people met and named, and only bare event:...:experienced keys are ever forgotten (knowledge-retention.ts). This item also takes the Nov 4 finding of core-memory-experienced-key-window: shortening experiencedKeyRetentionDays (parameters.json line 5596, read in knowledge-retention.ts line 112) to 45 days did not help (year 3 heap 2,444 MB against 2,436 MB), so that window is not the lever.

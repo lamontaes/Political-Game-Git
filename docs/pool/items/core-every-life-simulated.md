@@ -14,9 +14,10 @@ blocked-on: core-every-life-partners, core-every-life-partner-from-counts, core-
 source: owner, Nov 1 ("EVERY. LIFE. IS. SIMULATED. WHAT DO YOU NOT UNDERSTAND. THIS IS LOW INTENSITY STUFF")
 claimed-at:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc1-world-outside-town
+checked: fable 2026-11-10
 ---
 
 **What.** The people the player knows who live elsewhere (most of the relatives at the start, the "husks") are kept minimal until met, and nothing happens to them, so a talk with one has nothing on record and opens empty: 12 of the 14 people the player knew in Lordship, Connecticut (`words-talk-husk-acquaintances-empty`). The owner rules that every life is simulated, at low intensity for people outside the played town. This item gives each of them a life at a coarse cadence: work and job changes, moves, marriage and partners, births, illness, aging and death. Each comes from the engines that already run those things for the town's people, never a second life engine, and each event writes the dated record those engines write, so the director, the journal and the conversation bank read it as news.
@@ -25,13 +26,13 @@ root: rc1-world-outside-town
 
 **Fix.** Finish the parts: partnerships for people elsewhere, the partner taken from the counts, births for husk couples, jobs.elsewhere holding only the living, and the five-year acceptance run.
 
-**Time box.** 2 hours for an Opus session, the closing check only; the build is in the parts, each with its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check once the parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** One engine per mechanic: a husk's job change, move, birth or death goes through the jobs, housing, people and health engines that already exist, read at a coarse cadence (monthly or by the event's own cause), never a new life simulator. No dice: events follow causes (their place's labor market, their age, health and household), with real rates checking totals only. Speed: low intensity holds the bar, so a country's year with husks simulated runs within 20% of the same year without, measured by the speed lead's method, and nothing scans every husk every day. Two-level population: a husk keeps the fields its life needs, and a full fill-in still happens only when the player meets or clicks them.
 
 **Done when.** A second session, in a drawn place (place and seed named), runs five years of buildBenchWorld and sees every husk adult reviewed by moves, work, partnerships, births and health on their cadence, with the yearly share of husks with a life record printed beside those engines' real rates as figures to report (no quota: real rates check totals, they never set one). In three drawn places a talk with a relative opens on that news in the household-talk test (src/director/household-talk.test.ts), and `npm run speed:year` stays within 20% of its base on the same machine.
 
-**Waits on.** Its parts: core-every-life-partners (in review), core-every-life-partner-from-counts, core-every-life-work-dead-rows, core-every-life-simulated-part-1-births-for-couples-elsewhere and core-every-life-simulated-part-2-five-year-acceptance.
+**Waits on.** Its open parts: core-every-life-partner-from-counts, core-every-life-work-dead-rows, core-every-life-simulated-part-1-births-for-couples-elsewhere and core-every-life-simulated-part-2-five-year-acceptance. (core-every-life-partners is done.)
 
 **Files.** src/core2/modules/people.ts, src/core2/modules/life.ts, src/core2/modules/health.ts, src/core2/modules/jobs.ts, src/core2/modules/housing.ts, src/core2/opening-kin.ts, src/director/household-talk.test.ts
 

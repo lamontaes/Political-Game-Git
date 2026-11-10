@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** In skipped time every race is still campaigned event by event; the only shortcut is a switch that plays one rival campaign day in four. This part decides a race the player is not in from its voters on election day, through the one election engine, and deletes the switch. A race the player or the people around them are in is not touched.

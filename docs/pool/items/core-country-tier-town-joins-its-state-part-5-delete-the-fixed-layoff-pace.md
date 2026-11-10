@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-country-tier
 source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** Town workers are let go at a fixed national pace because, until parts 2 and 3, no firm's sales ever fell on their own. This part proves the pace is no longer needed and deletes it, or says exactly why it cannot be deleted yet. It builds nothing new: it is a proof in three drawn places, then a deletion.

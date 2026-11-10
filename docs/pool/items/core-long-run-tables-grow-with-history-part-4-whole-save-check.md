@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** After the folds land, one run of a whole save must show the rule the owner set on Oct 29: year 100 runs as fast as year 1. Run twenty years of the played world in two drawn places and compare years 17 to 20 against years 1 to 4 in seconds, heap after a collection and records kept. File an item for any table still growing.

@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-words-machine
+checked: fable 2026-11-10
 ---
 
 **What.** The audit's root cause 4: the words are a pile of hand-written lines picked by weights, and a grade removes one line or shifts odds. Measured over all 10,612 lines on main, November 9: a bad grade holds back 39 lines; lines from the scene the owner rejected on November 8 carry 1.31 to 1.52 times a neutral line's chance; the owner's reasons are stored in a note field no code reads; 13 of the 26 hand-written rules have a detector and a detector only moves odds between 0.6 and 1.4; 3,186 of 5,661 spots have a single line, where odds mean nothing. The open batch 2 and 3 grade pull requests record every batch 2 grade three times, and four times in the later ones, because each run of the grading script adds the batch again. This item turns each of the owner's notes into a rule a program can test, runs every rule over every line after each grading (a line that breaks a rule is pulled and queued for rewrite), gates new lines on the same rules, keeps the check that protects lines he graded good, removes the borrowed small talk, and fixes or replaces the miscounting grade pull requests.

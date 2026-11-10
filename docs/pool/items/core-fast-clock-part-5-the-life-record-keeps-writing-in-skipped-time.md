@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** A skip must not leave a hole in anyone's life. What happened to the player's household and circle in skipped years (a death, a birth, a job taken or lost, a move, an election) has to be on their cards and in the Journal when play resumes. This part is a test first, and code only where the test finds a hole.
