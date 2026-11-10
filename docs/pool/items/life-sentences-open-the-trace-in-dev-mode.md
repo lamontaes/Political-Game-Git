@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-life-sentences-open-the-trace-in-dev-mode
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: low
 root: design-life-record
 source: the life record's second session, Nov 10 (not seen; its note is on core-life-record); cause found by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:34:14.755Z
+branch: claude/pool-life-sentences-open-the-trace-in-dev-mode
 ---
 
 **What.** Every sentence of My life and of a person's card comes from a record, and dev mode is how a second session checks that. The record ids are there and the Trace opens them when asked by id, but the sentence itself takes no click. So a checker cannot go from the words to the record on the screen. That is the check the acceptance rule asks for.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/bench/play.mjs, src/bench/card.ts, src/bench/ui/dev-trace-box.mjs
+
+**Notes.** Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:34 UTC) on branch claude/pool-life-sentences-open-the-trace-in-dev-mode.
