@@ -1,6 +1,43 @@
 {
   "entries": [
     {
+      "version": "0.100.0",
+      "releasedOn": "2026-11-10",
+      "revision": "f73a838affbac92cab0697f7196c08c0c8fa0edc",
+      "changeIds": [
+        "acceptance-rule-dev-mode-check",
+        "back-to-the-counts",
+        "bring-up-knew",
+        "country-outlook-twenty-years",
+        "country-tier-runs",
+        "dev-trace-answers-every-id",
+        "home-sale-two-outside",
+        "journal-as-stories",
+        "journal-death-school",
+        "journal-stories-life",
+        "law-carried-back-everywhere",
+        "life-record-design",
+        "moves-fit-once",
+        "pool-honor-headline-school",
+        "pool-town-hall-offer",
+        "primary-challenge-seed",
+        "race-told-after-ran",
+        "reads-wrong-nov10",
+        "reads-wrong-nov10-b",
+        "red-journal-tests",
+        "red-scene-talk-bank",
+        "rival-filed-late",
+        "scene-talk-filing-fact",
+        "skills-heavy-runs-load-check",
+        "skills-seen-fresh-session",
+        "tier-opening-law",
+        "tier-seekers-never-zero",
+        "win-side-proof",
+        "words-machine-design",
+        "year-tool-controls-player"
+      ]
+    },
+    {
       "version": "0.99.0",
       "releasedOn": "2026-11-09",
       "revision": "c32c767b89adb6e0f98cda51ebb1be07b6f652bc",

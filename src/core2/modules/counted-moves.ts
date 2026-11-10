@@ -17,11 +17,12 @@ import { placeStateKey } from "../place-map";
 import { worldRateFactor } from "../world-base-rates";
 import { createStableId, stableHash } from "../kernel/ids";
 import moverRates from "../../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
-import stateTax from "../../../data/research/money/state-income-tax-2026.json" with { type: "json" };
 import moveRows from "../data/moves/parameters.json" with { type: "json" };
 import regions from "../data/regional/regions.json" with { type: "json" };
 import rppHousing from "../data/regional/rpp-housing.json" with { type: "json" };
-import { scheduleTax } from "../tax-withholding";
+import { withholdingFor } from "../budgets-treasury";
+import { startingLawReader } from "../country-law";
+import type { LawInForceAnswer } from "../laws-in-force";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
@@ -126,18 +127,6 @@ const STATES = (
 const NATION_INCOME = (
   regions as unknown as { nation: { perCapitaIncome: number } }
 ).nation.perCapitaIncome;
-const TAX = (
-  stateTax as unknown as {
-    places: Record<
-      string,
-      {
-        wageIncomeTax: string;
-        brackets: { ratePercent: number; overSingle: number }[];
-        standardDeductionSingle: number | null;
-      }
-    >;
-  }
-).places;
 const MOVES = moveRows as unknown as Record<string, { value: number }>;
 
 /** One state's or territory's people at the coarse grain. */
@@ -171,6 +160,8 @@ export interface Runtime {
   arrive: Map<string, number>;
   /** Each state's people at the end of each month (the regional engine reads the change). */
   totals: Map<string, Map<string, number>>;
+  /** Each state's attractiveness as a destination, fitted once in the first month the engine runs (the opening) and kept; a world saved before it was kept fits it on its next month. */
+  attract: Map<string, number>;
   /** Normalizes the holds so a place's average leaving rate is the ACS rate. */
   holdNorm: Map<PlaceId, number>;
   /** The people each institution's rooms hold (place and type), seen the first month: its beds. */
@@ -266,57 +257,46 @@ function renterPriceLevel(fips: string): number {
   return all * Math.pow(row.housing / row.allItems, tilt);
 }
 
-/** Yearly state income tax on wages in dollars: each state's law in force (the same rule for every state), the 2026 table only where the research gives that state no income tax row. */
+/**
+ * Yearly state income tax on wages in dollars: every state's law in force
+ * (the laws module's answer for the town's state and for any other), taken as
+ * the paycheck takes it (`withholdingFor`, as the country tier does in
+ * country-law.ts): one rule for every place. A world without the laws module
+ * reads the research's starting law through the same rule.
+ */
 function stateIncomeTax(
   api: CoreAPI,
   rt: Runtime,
   usps: string,
   wages: number,
 ): number {
-  if (api.state.modules.has(LAWS_MODULE_ID)) {
-    const answer =
+  const core = api.state as CoreState;
+  let answer: LawInForceAnswer;
+  if (core.modules.has(LAWS_MODULE_ID))
+    answer =
       usps === rt.townState
         ? lawInForce(api, "income-tax")
         : stateLawInForce(api, `US-${usps}`, "income-tax");
-    const rows = answer.levels.filter(
-      (level) => level.level === "state" && !level.setAside && level.row,
+  // A world without the laws module reads the research's starting law by the
+  // same rule, on today's date (never a table of its own).
+  else
+    answer = startingLawReader(core.date, core.startedAt)(
+      `US-${usps}`,
+      "income-tax",
     );
-    if (rows.length) {
-      let tax = 0;
-      for (const level of rows) {
-        const row = level.row!;
-        const single = (
-          row.terms?.schedules as
-            | Record<
-                string,
-                {
-                  standardDeduction?: number | null;
-                  brackets: { over: number; rate: number }[];
-                }
-              >
-            | undefined
-        )?.single;
-        tax += single
-          ? scheduleTax(single, wages)
-          : row.unit === "percent-flat" || row.unit === "percent"
-            ? (wages * (row.value ?? 0)) / 100
-            : 0;
-      }
-      return tax;
-    }
-  }
-  const row = TAX[`US-${usps}`];
-  if (!row || row.wageIncomeTax === "none") return 0;
-  return scheduleTax(
-    {
-      standardDeduction: row.standardDeductionSingle ?? 0,
-      brackets: row.brackets.map((b) => ({
-        over: b.overSingle,
-        rate: b.ratePercent,
-      })),
-    },
-    wages,
-  );
+  const lines = withholdingFor({
+    paidMinor: Math.round(wages * 100),
+    periodDays: 365,
+    yearToDateMinor: 0,
+    incomeTax: answer,
+    // Only the income tax is weighed here: no payroll lines.
+    socialSecurity: { ...answer, governing: null },
+    medicare: { ...answer, governing: null },
+  });
+  let minor = 0;
+  for (const line of lines)
+    if (line.level === "state" && line.tax === "income") minor += line.minor;
+  return minor / 100;
 }
 
 /** Each state's unemployment rate this month by USPS code, from the regional engine where it runs (also read by the working lives elsewhere, src/core2/jobs-elsewhere.ts). */
@@ -426,6 +406,7 @@ export function runtimeOf(api: CoreAPI): Runtime | undefined {
     leave: new Map(),
     arrive: new Map(),
     totals: new Map(),
+    attract: new Map(),
     holdNorm: new Map(),
     roomCapacity: new Map(),
     roomQueue: new Map(),
@@ -594,7 +575,7 @@ function month(api: CoreAPI): void {
     tag: "ESTIMATED",
     asOf: date,
     citation:
-      "Moves from causes: ACS 2024 county departure rates by age and state; CPS ASEC 2023 in-state share; state income tax in force (the town's) and the 2026 state income tax table (others); BEA regional price parities; the regional engine's unemployment.",
+      "Moves from causes: ACS 2024 county departure rates by age and state; CPS ASEC 2023 in-state share; the state income tax in force (every state's, through the laws engine); BEA regional price parities; the regional engine's unemployment.",
     estimatedFrom:
       "Each counted group's expected movers toward each place accrue monthly from its pull; a whole household moves when one is due.",
   };
@@ -783,16 +764,21 @@ function month(api: CoreAPI): void {
   // remainder to move to, and a leaver within the state lands in one of the
   // counted places again, so it is no departure. Where the remainder is the
   // whole state, the share is one and nothing changes.
-  // Where people go. Each state's attractiveness as a destination is fitted so
-  // that the people the other states send it, by their size, ACS leaving rates
-  // and the pulls below, match the arrivals the ACS counts in it (a doubly
-  // constrained gravity model; the margins are the survey's own, in
-  // data/research/migration/mover-rates-acs-2024.json). A small jurisdiction
-  // with many newcomers (Washington, D.C.) is then drawn as the survey finds,
-  // not by its share of the nation's people. Places the survey does not cover
-  // take the nation's arrivals rate. The pull is the one model above.
-  const attract = new Map<string, number>();
-  {
+  // Where people go. Each state's attractiveness as a destination is a place
+  // constant, fitted ONCE, in the first month the engine runs in a world (the
+  // opening), and kept on the runtime: the people the other states send it, by
+  // their size, ACS leaving rates and the pulls below, match the arrivals the
+  // ACS counts in it (a doubly constrained gravity model; the margins are the
+  // survey's own, in data/research/migration/mover-rates-acs-2024.json). A
+  // small jurisdiction with many newcomers (Washington, D.C.) is then drawn as
+  // the survey finds, not by its share of the nation's people. Places the
+  // survey does not cover take the nation's arrivals rate. It is never fitted
+  // again: after the opening the survey is only a check on the result, and a
+  // law, price or job change in any state moves its pull and so its arrivals
+  // (country-tier design, "What is deleted"). The pull is the one model above.
+  rt.attract ??= new Map();
+  const attract = rt.attract;
+  if (attract.size === 0) {
     const n = stateList.length;
     const peopleOf = stateList.map((st) => statePeople.get(st.usps)!);
     const leavingOf = stateList.map((st, i) => {
@@ -846,6 +832,11 @@ function month(api: CoreAPI): void {
     }
     stateList.forEach((st, i) => attract.set(st.usps, a[i]!));
   }
+  // A state the kept fit does not hold (none today) takes the nation's mean.
+  let attractMean = 0;
+  for (const value of attract.values()) attractMean += value;
+  attractMean = attract.size ? attractMean / attract.size : 1;
+  const attractOf = (usps: string) => attract.get(usps) ?? attractMean;
   const remainderShare = (home: string) => {
     if (home !== rt.townState) return 1;
     const remainder = statePeople.get(home)! - countedAll;
@@ -872,17 +863,16 @@ function month(api: CoreAPI): void {
           pullFor(home, dest.usps, wages, renter),
         ]),
       );
-      // The fitted attractiveness times the pull, over every other state's.
+      // The kept attractiveness times the pull, over every other state's.
       let norm = 0;
       for (const dest of stateList)
         if (dest.usps !== home)
-          norm +=
-            attract.get(dest.usps)! * Math.exp(sum(parts.get(dest.usps)!));
+          norm += attractOf(dest.usps) * Math.exp(sum(parts.get(dest.usps)!));
       rows = stateList.map((dest) => {
         if (dest.usps === home) return null;
         const row = parts.get(dest.usps)!;
         return {
-          share: norm > 0 ? attract.get(dest.usps)! / norm : 0,
+          share: norm > 0 ? attractOf(dest.usps) / norm : 0,
           exp: Math.exp(sum(row)),
           causes: Object.entries(row),
         };
@@ -1095,11 +1085,11 @@ function month(api: CoreAPI): void {
   for (const from of stateList) {
     const wages = (STATES[from.fips]?.perCapitaIncome ??
       NATION_INCOME) as number;
-    // Where its people go: the fitted attractiveness times the pull, over every other place's (the same for every age).
+    // Where its people go: the kept attractiveness times the pull, over every other place's (the same for every age).
     const raw = stateList.map((to) =>
       to === from
         ? 0
-        : attract.get(to.usps)! *
+        : attractOf(to.usps) *
           Math.exp(sum(pullFor(from.usps, to.usps, wages))),
     );
     const rawTotal = raw.reduce((x, y) => x + y, 0);
@@ -1750,23 +1740,6 @@ export function countedStatePeople(
   monthKey: string,
 ): number | undefined {
   return runtimes.get(core)?.totals.get(monthKey)?.get(usps);
-}
-
-/**
- * How a state's people changed over the last month the counts were moved
- * (latest over the month before), for the regional engine; undefined until
- * two months are counted.
- */
-export function countedStateGrowth(
-  core: CoreState,
-  usps: string,
-): number | undefined {
-  const totals = runtimes.get(core)?.totals;
-  if (!totals || totals.size < 2) return undefined;
-  const [before, latest] = [...totals.keys()].sort().slice(-2);
-  const a = totals.get(before!)?.get(usps),
-    b = totals.get(latest!)?.get(usps);
-  return a && b ? b / a : undefined;
 }
 
 /** The pull toward each place for one counted group, as last weighed. */

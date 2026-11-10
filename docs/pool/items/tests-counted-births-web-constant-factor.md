@@ -6,18 +6,32 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: laws-effects
+model: opus
+effort: medium
+root: design-one-model-two-tiers
 ---
 
-**What.** On exact main 212b57e4367ed3751945e3785ca9163b9225e31a, src/core2/births-counted-web.test.ts:68 fails with WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36. It draws Elyria, Nebraska, and records fifteen identical 1.030 birth factors, so its distinct-factor count is one where it expects more than one. PR #6072 at f8b7d1ff41951522df88bae7cc2adccdac5daa66 fails identically on the same root and place, making this a baseline failure independent of that renewal speed change.
+**What.** On exact main 212b57e4367ed3751945e3785ca9163b9225e31a, src/core2/births-counted-web.test.ts:68 fails with WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36. It draws Elyria, Nebraska, and records fifteen identical 1.030 birth factors, so its distinct-factor count is one where it expects more than one. A second draw is red in the same test: WEB_BIRTHS_SEED=6e1164126090860a draws Los Cerrillos, New Mexico, and fails "home prices moved the owners' link: expected undefined to be truthy" in the by-tenure case. Nobody has said whether the web's factor really is constant there or the test's assumption is wrong.
 
-**Rules.** One rule, all 56 places: preserve the independent original root and check meaningful web effects in eligible drawn towns. No vacuous tests: retain positive record evidence and a real producer or reader break that fails, without substituting a convenient seed or forcing observed values.
+**Cause.** Needs cause. Looked at src/core2/births-counted-web.test.ts (line 68) and src/core2/modules/outcome-web.ts: the item offers fix-the-cause or fix-the-assumption without choosing, and no record shows why every factor reads 1.030 in Elyria, Nebraska. Measured: WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 and WEB_BIRTHS_SEED=6e1164126090860a.
 
-**Done when.** Diagnose the constant web factor on the original WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 played world, fix the underlying cause or the invalid test assumption, and pass the original case plus a fresh drawn-place test with nonempty record ids and an unchanged-checker negative control that detects a real producer or reader break. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours.
+
+**Rules.** One rule, all 56 places: preserve the independent original root and check meaningful web effects in eligible drawn towns. One model, two tiers: the counted births read the web with the same rule as a full person, times their count. No vacuous tests: keep positive record evidence and a real producer or reader break that fails, without substituting a convenient seed or forcing observed values.
+
+**Done when.** A second session runs src/core2/births-counted-web.test.ts with WEB_BIRTHS_SEED=6fbaabb605afd9ca38e42f3dc05f8d36 and WEB_BIRTHS_SEED=6e1164126090860a and sees both pass, then on a fresh drawn place with nonempty record ids. An unchanged-checker negative control detects a real producer or reader break, and the PR names why the factor was constant in Elyria, Nebraska.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/births-counted-web.test.ts, src/core2/births-counted.ts, src/core2/modules/outcome-web.ts
 

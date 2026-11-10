@@ -296,6 +296,125 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.100.0
+
+_Released November 10, 2026._
+
+### Added
+
+- **Filing after others, you hear who you are running against** If you file for
+  a race after others have, someone at home now tells you the next day who is
+  already on the ballot, naming each one and saying whether they are the
+  incumbent or which party they run under.
+
+### Fixed
+
+- **A bill whose votes are already in hand no longer picks up an unrelated extra
+  section.** When every member's vote on a bill was already cast, the body could
+  still trade a second, unrelated section onto it. A vote already cast is now
+  that member's vote, and nobody trades for it. In dev mode, a bill's page now
+  says how the bill ended and why, who its law reached in people and dollars,
+  and where the money went compared with the same world left alone.
+
+- **People the game stops following go back to the wider population without an
+  error.** When you have not dealt with a household for a long while, the game
+  now sends it back to the wider population and keeps every one of its people
+  exactly as they were. A household that cannot go back on a given day, because
+  someone worked that day, simply waits for the next review.
+
+- **Dev mode's Trace now answers for every record the Journal and the News
+  name.** Dev mode's Trace now finds any record the game shows, wherever it is
+  kept, and says in one word why it is there: decided, caused, outside the
+  player's circle, from the opening, or no cause kept. The records behind it
+  open with a click.
+
+- **A long game no longer stops when an estate sells a home whose lender is out
+  of town.** When someone died and their home was sold, the game could stop with
+  an error if the home's lender and its buyer were both outside the town's
+  books. The loan is now settled without moving money the game does not track.
+
+- **Your journal now tells the end of your last school year, and a death in the
+  family says how old they were.** The end of a school year never reached the
+  journal before. It now says "I finished high school," how long you had been at
+  the school and how old you were. A death in the family says how old the person
+  was and whether they had been seriously ill.
+
+- **Every state has its own laws from the first day, not from the second year.**
+  Outside the state you play in, most states ran the game's first year with no
+  unemployment insurance, no corporate income tax and, for many, no minimum wage
+  of their own, then got them all on January 1, 2026. Every state now opens
+  under its own law, so the country no longer lurches at the start of the second
+  year.
+
+- **After a race you ran in, someone tells you who won** Two days after the
+  count, someone you know now comes to tell you who won the race you ran in.
+  Before, the morning-after scene took that day and the telling never played.
+
+- **Scenes stop calling you by name on every line** In letters, gatherings,
+  rescues and the other asks, the person talking to you now says your name once
+  and then talks plainly. A rescue no longer names a child nobody introduced,
+  and the morning after a lost race names your town instead of saying "this
+  town".
+
+- **New-baby, apology and story lines answer what was said** A visitor no longer
+  says "Go, the baby and I will be fine" when you only asked for help with the
+  dishes, an apology talk no longer answers "I believe you're sorry" to someone
+  who has not said sorry, and a story you read no longer credits "what they
+  decided" to nobody.
+
+- **A town with no offices engine installed no longer stops the day when a local
+  address falls due.** The local address's speaker is looked up only when the
+  town's offices are in the world; without them there is no mayor to hear from,
+  and the day goes on.
+
+- **A reporter's lines no longer call the story "the piece", and evening lines
+  no longer play in the daytime.** The reporter's interview lines now say "the
+  story" and "the reporter is writing about". A donor's or reporter's "today"
+  line plays only on the day it is true, and a "tonight" line plays only after
+  the day is over.
+
+- **A law changed on the first day now moves the country's economy.** A law set
+  on the game's first day, before the economy had opened, was taken as the
+  starting point, so it changed almost nothing. The economy now opens under the
+  law the world began with, and a law changed that first day acts from the
+  second month.
+
+- **A state's unemployment no longer falls to exactly zero in a boom.** When a
+  state had more job openings than people looking, everyone looking was hired
+  within the month and its unemployment read 0.0%. The share who find work now
+  rises with the openings there are and never reaches everyone.
+
+### Changed
+
+- **The national and state economies are now made by each state's households and
+  employers.** Every state is kept as households, employers and a state ledger,
+  and steps once a month under its own law and the central bank's rate. The
+  nation is the sum of the states. A tax change, a rate change or a disaster now
+  moves jobs, pay, prices and budgets across the country. The old national
+  formula, with its built-in cycle, and the pull of each state toward the nation
+  are gone.
+
+- **Your journal tells a job found, lost or left as a small story, not a
+  one-line statement.** Where the journal used to say "After four months out of
+  work, I found work in Crewe," it now says when you went back to work, who had
+  paid you last, and what the new job paid against the old. A job lost says how
+  long you had been there and what it paid; a job left says what the next one
+  paid.
+
+- **Your journal tells a move, a child's birth, a partnership, a death in the
+  family and a school's end as small stories.** Where the journal said "I moved
+  to Springfield," it now says where you came from and which of your children
+  came with you. A child's birth says how old you were and when it was your
+  first. A partnership says how long you have been together. A death says how
+  old the person was and whether they had been ill. A school's end says how long
+  you had been there.
+
+- **Where people move now follows taxes, prices and jobs after the game
+  begins.** Once the game begins, people moving between states follow each
+  state's taxes, prices and jobs. They are no longer pulled back to a survey
+  figure each month. A state that changes its income tax now changes who moves
+  there, where before the change was canceled the next month.
+
 ## PRE-ALPHA 0.99.0
 
 _Released November 9, 2026._

@@ -5071,3 +5071,4 @@ export function registerEmployer(
 export { residentEmploymentRate } from "../opening-employment";
 export { countySectorEmployment } from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
+export { workedToday } from "../job-lifecycle";

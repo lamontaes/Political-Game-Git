@@ -350,6 +350,16 @@ export async function handleDev(
       );
       return true;
     }
+    case "POST outlook": {
+      const input = await body(request);
+      send(
+        200,
+        mode.outlook({
+          years: input.years === undefined ? undefined : Number(input.years),
+        }),
+      );
+      return true;
+    }
     case "POST run-until": {
       const input = await body(request);
       send(

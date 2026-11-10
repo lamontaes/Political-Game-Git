@@ -6505,6 +6505,19 @@
           },
           "opener": "teller",
           "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "circumstance:rival-known-late"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "candidate-filed",
+          "bind": {
+            "teller": "counterpart",
+            "you": "subject"
+          },
+          "opener": "teller",
+          "opening": "tell"
         }
       ],
       "tag": {

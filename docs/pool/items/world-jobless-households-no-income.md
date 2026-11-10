@@ -6,20 +6,34 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #4942
+after:
 blocked-on:
+lead: jobs
+model: sonnet
+effort: high
+root: none
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** In three towns drawn (Murphy, Idaho; Timberwood Park, Texas; Bay Pines, Florida; the played world from January 20, 2025 for 90 days, seeds n1 to n3) 61, 62 and 63 of about 1,700 full households, 3.6 to 3.8 percent, held no cash at the start and received no money at all in 90 days: no pay, no benefit and no transfer. About a quarter of them (12 to 19 a town) have only people 65 or older, and the rest have an adult under 65 and no job. Both groups are real in life, so the number is not obviously wrong: the American Community Survey puts the share of households with no income at roughly 3 to 4 percent (not yet checked against its table for each of these states). What is left to settle is whether those households live on nothing in the game. Each is paid no retirement award, unemployment, SNAP or other benefit, and holds no savings to spend.
+**What.** In three towns drawn (Murphy, Idaho; Timberwood Park, Texas; Bay Pines, Florida; the played world from January 20, 2025 for 90 days, seeds n1 to n3) 61, 62 and 63 of about 1,700 full households, 3.6 to 3.8 percent, held no cash at the start and received no money at all in 90 days: no pay, no benefit and no transfer. About a quarter of them (12 to 19 a town) have only people 65 or older, and the rest have an adult under 65 and no job. Both groups are real in life, so the number is not obviously wrong: the American Community Survey puts the share of households with no income at roughly 3 to 4 percent (not yet checked against its table for each of these states). What is left to settle is why a household of people 65 or older is paid no retirement award, unemployment, SNAP or other benefit and holds no savings to spend.
 
-**Rules.** Estimate, never UNKNOWN: the share of households with no income starts from the ACS figure for the place with its source and spread, and is checked against it. No dice: a household's benefits follow the law in force and its members' records. One rule, all 56 places.
+**Cause.** Needs cause. Looked at the item's three-town measurement (Murphy, Idaho; Timberwood Park, Texas; Bay Pines, Florida; seeds n1 to n3) and src/core2/modules/residents.ts: the share with no income is near the ACS share, so the number itself is not shown wrong, but why households of people 65 or older receive no retirement award is not explained.
 
-**Done when.** In the played world (`buildBenchWorld`, the drawn places Murphy, Timberwood Park and Bay Pines with seeds n1 to n3, and one random place) the share of full households with no income in 90 days is printed against the ACS share for that place, and a test in `src/core2/` states the comparison and names the place and seed; any household of people 65 or older with no award is listed by id with the reason. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
+**Fix.** None until the cause is found.
 
-**Files.** src/core2/modules/residents.ts, src/core2/modules/law-reach, src/core2/data/
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Estimate, never UNKNOWN: the share of households with no income starts from the ACS figure for the place with its source and spread, and is reported beside it, never pulled toward it. No dice: a household's benefits follow the law in force and its members' records. One rule, all 56 places.
+
+**Done when.** A second session, on main in Murphy, Idaho, Timberwood Park, Texas and Bay Pines, Florida (seeds n1 to n3) and one drawn place, plays 90 days and reads the households with no income: every household of people 65 or older with no award is listed by record id with the reason the law in force and its members' records give. The share with no income is printed beside the ACS share for that place as a report, and a test in src/core2 names the place and seed.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/residents.ts, src/core2/law-reach, src/core2/data/
 
 **Notes.** Measured Oct 17 (claude) with a wrapper on `api.postJournal` summing positive postings by member account, for full households whose members held $0 at the start. The Utah town in the item's title was not reproduced in that later measurement; its earlier seed and observations are recorded below. The living-cost arrears this causes are `world-households-unpaid-living-costs-payday` and `world-living-costs-pay-from-household-members`.
 

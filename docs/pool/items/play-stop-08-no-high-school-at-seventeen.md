@@ -8,26 +8,38 @@ size: S
 status: open
 claimed-by:
 pr: #6038
-blocked-on: owner-installed-build-acceptance
+after:
+blocked-on:
+standard: 2
+model: sonnet
+effort: low
+root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** I started a life as Bo Snider, age 17, in Anson, Texas on the v0.22.10 release. Who you are lists SCHOOL as "Anson Middle" and "Anson El", and Jobs and study says "No current job" with Study "2018 Anson Middle, 2012 Anson El". No high school appears, and I am not enrolled anywhere in my senior year. "Anson El" is a cut-off name. I expected Anson High School, current, and a school day to happen.
+**What.** A life started as a 17-year-old in Anson, Texas on the v0.22.10 release listed "Anson Middle" and "Anson El" under school, no high school, and no enrollment in the senior year. It is implemented by play-teen-has-current-high-school (done; merged as 48d74a8b39). The Nov 4 check in the Notes (Anson, Texas, age 17) shows Who you are with School "Anson Public Schools" and Jobs and study reading "You went on to high school." What is left is a closing check by a second session in a drawn place, including whether a current high school should be named by its own name and not its district.
 
-**Rules.** Serves LAW.md §5, Journal and the past; LAW.md §11, The world on screen makes sense. Estimate, never UNKNOWN: a 17-year-old's school starts from the town's real schools and enrollment, marked as an estimate if needed. One rule, all 56 places: school age and grade come from age, not from the place.
+**Cause.** Design: the owner's Nov 3 ruling (AGENTS.md, "How every session works", step 5): nothing is done until a second session replays its finish line on main. The fix is merged under play-teen-has-current-high-school; the school history is written in src/core2/past-school.ts and shown by src/bench/card.ts and src/bench/words.ts. Not replayed in a game since the Nov 4 check, which found the school named by its district, not as "Anson High School".
 
-**Done when.** The owner does the same steps on the next build and is not stopped: a new life at age 17 in a drawn town shows a current high school by its full name on Who you are and Jobs and study. Shown by a screenshot from the installed build in a drawn place, with the place and seed named.
+**Fix.** Nothing is built here. A second session replays the finish line below on main in the running game, records the result with `npm run pool -- seen`, and, if a step still fails, reopens the item with what was seen and files the failing part as its own item.
 
-**Time box.** 3 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**You will see.** At 17, Who you are and Jobs and study show the town's high school by its full name, as the school you go to now.
+**Rules.** Estimate, never UNKNOWN: a 17-year-old's school starts from the town's real schools and enrollment, marked as an estimate if needed. One rule, all 56 places: school age and grade come from age, not from the place. Look before you ask: the owner's installed-build acceptance this item used to wait on is replaced by the second-session rule (AGENTS.md step 5), so nothing is asked of him. Ask why: the replay records the screen, the place and seed and the record id behind what it shows.
 
-**Screenshot.** Before and after, from a drawn place, in the PR body.
+**Done when.** A second session (not the builder) starts a new life at age 17 in a drawn place (place and seed named) and opens Who you are and Jobs and study with screenshots at 1440x900: a current high school or school is shown by a full name with no cut-off, and the history reads that the player went on to high school. The session reports whether the name shown is the school's or its district's. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
 
-**Files.** src/core2/deep-past.ts, src/core2/data/deep-past.json, src/bench/jobs.ts, src/bench/card.ts
+**Waits on.** Nothing. What it was blocked on is done; what is left is a second session's check in the running game (skill seen-in-game).
+
+**Files.** src/core2/past-school.ts, src/bench/card.ts, src/bench/words.ts
+
+**You will see.** At 17, Who you are and Jobs and study show the school you go to now.
+
+**Screenshot.** Both screens, from a drawn place, with the place and seed under them.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:56; screenshots 20, 22. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2.
 

@@ -8,26 +8,38 @@ size: S
 status: open
 claimed-by:
 pr: #6111
-blocked-on: politics-issues-taxes-named-by-level
+after:
+blocked-on:
+standard: 2
+model: sonnet
+effort: low
+root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** Politics → Issues in Anson, Texas on the v0.22.10 release reads "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate, shown under a local label. The other rows (minimum wage $7.25 an hour, local sales tax 8.201 percent, property tax 1.591 percent of home value) look plausible. A player choosing what to run on would believe the town taxes income at 37 percent.
+**What.** Politics, then Issues in Anson, Texas on the v0.22.10 release read "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate shown under a local label, so a player choosing what to run on would believe the town taxes income at 37 percent. The fix is merged (commit 6029ce3efe and PR 6111, which name a rate's government from the budgets where no seat names it, in src/bench/government.ts). The item stayed open only for the owner's installed-build check, which the second-session rule replaces; the Texas no-income-tax row was never confirmed in a game.
 
-**Rules.** Serves LAW.md §1, Screens and menus; LAW.md §11, The world on screen makes sense. One rule, all 56 places: the tax rows come from the place's law records at each level and are labeled by the level that sets them. Ask why: each number should be traceable to the law in force it shows.
+**Cause.** Design: the owner's Nov 3 ruling (AGENTS.md, "How every session works", step 5): nothing is done until a second session replays its finish line on main. The fix is on main in src/bench/government.ts (the rate's government is named from the budgets where no seat names it). Not replayed in a game.
 
-**Done when.** The owner does the same steps on the next build and is not stopped: in a Texas town, Politics → Issues shows no state or local income tax, and in any drawn place each rate is labeled by the government that sets it. Shown by a screenshot from the installed build in a drawn place, with the place and seed named.
+**Fix.** Nothing is built here. A second session replays the finish line below on main in the running game, records the result with `npm run pool -- seen`, and, if a step still fails, reopens the item with what was seen and files the failing part as its own item.
 
-**Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**You will see.** In a Texas town, Politics → Issues shows no income tax line, and in any town each rate names the government that sets it.
+**Rules.** One rule, all 56 places: the tax rows come from the place's law records at each level and are labeled by the level that sets them. Ask why: each number is traceable to the law in force it shows. Look before you ask: the owner's installed-build acceptance this item used to wait on is replaced by the second-session rule (AGENTS.md step 5), so nothing is asked of him. Ask why: the replay records the screen, the place and seed and the record id behind what it shows.
 
-**Screenshot.** Before and after, from a drawn place, in the PR body.
+**Done when.** A second session (not the builder) starts the bench in a drawn place in a state with no income tax (place and seed named) and in one with an income tax, opens Politics, then Issues, and takes a screenshot of each at 1440x900: the first shows no state or local income tax row, and in both every rate is labeled by the government that sets it, each traceable to its law record id. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
+
+**Waits on.** Nothing. What it was blocked on is done; what is left is a second session's check in the running game (skill seen-in-game).
 
 **Files.** src/core2/modules/laws.ts, src/core2/data/legislature/bill-catalog.json, src/core2/data/laws/starting-law.json, src/bench/government.ts, src/bench/play.mjs
+
+**You will see.** In a town with no income tax, Politics, then Issues shows no income tax line, and in any town each rate names the government that sets it.
+
+**Screenshot.** Issues in two drawn places, with the place and seed under each.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:57; screenshot 27. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was effects.
 

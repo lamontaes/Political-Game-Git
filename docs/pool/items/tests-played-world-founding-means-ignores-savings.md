@@ -6,17 +6,31 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: m0-m2
+model: sonnet
+effort: medium
+root: rc8-law-judged-by-paperwork
 ---
 
-**What.** M0-13's 'a new business's loan fits its founder' fails on both foundings in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4); the other two drawn places founded no business. organization:founded:manufacturing:person_675c0fd04c6ccee2:2025-06-01 borrowed 21,515,295 minor units (215,153 dollars) against 154,863 of the founder's cash the day before, but the founder put in 2,419,714 of equity, which is 8.9 times under the nine-times line (the SBA 10 percent equity rule, src/core2/modules/credit.ts:1360 byEquity); organization:founded:manufacturing:person_70dd768bb33f26e1:2025-11-01 borrowed 13,599,729 against 1,478,786 of cash and 1,511,081 of equity (9.0 times the equity; 9.2 times the cash). The engine does what its source says: business.ts withdraws the founder's savings into cash before funding (src/core2/modules/business.ts:1795, equityMinor at :1791 and the founding row's equityMinor at :2023), so equity is cash plus savings, while the check at tests/golden-path/played-world.node-test.ts:353 takes cash on the day before only, so any founder who funds from savings reads as over-borrowed.
+**What.** M0-13's "a new business's loan fits its founder" fails on both foundings in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4); the other two drawn places founded no business. organization:founded:manufacturing:person_675c0fd04c6ccee2:2025-06-01 borrowed 21,515,295 minor units (215,153 dollars) against 154,863 of the founder's cash the day before, but the founder put in 2,419,714 of equity, which is 8.9 times under the nine-times line (the SBA 10 percent equity rule). The engine does what its source says: business.ts withdraws the founder's savings into cash before funding, so equity is cash plus savings, while the check takes cash on the day before only, so any founder who funds from savings reads as over-borrowed.
 
-**Rules.** Never weaken a test: the spec stays as strict, it must measure the founder's means as the engine underwrites them. An effect is a read: the credit application row (credit.applications, application:2025-06-01:organization:founded:manufacturing:person_675c0fd04c6ccee2) already records equityMinor and the founding row records equityMinor, so the check can read them instead of cash. Ask why: the engine's loan is traced to the founder's equity by record id.
+**Cause.** Found in code: tests/golden-path/played-world.node-test.ts line 383 sets meansMinor to the founder's cash of the day before; src/core2/modules/credit.ts line 2016 (byEquity) sizes the loan on the application's equityMinor, which the founding row records (src/core2/modules/business.ts, equityMinor around lines 1791 and 2023).
 
-**Done when.** M0-13 a new business's loan fits its founder is alive in the played world of St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) because the check measures the founder's means as cash plus the savings moved in on the founding day (the founding row's equityMinor), still fails when a loan exceeds nine times that means (shown by a one-line break in credit.ts foundingLoanLimit), and the PR names the founding and application ids; the spec change is approved by the M0-13 owner first. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** Measure the founder's means in the check as cash plus the savings moved in on the founding day (the founding row's equityMinor), keep the nine-times test, and show that a one-line break in credit.ts foundingLoanLimit still fails it. The spec change needs the M0-13 owner's approval first.
+
+**Time box.** 3 hours.
+
+**Rules.** Never weaken a test: the spec stays as strict, it must measure the founder's means as the engine underwrites them. An effect is a read, not a record: the credit application row and the founding row already record equityMinor, so the check reads them instead of cash. Ask why: the engine's loan is traced to the founder's equity by record id.
+
+**Done when.** A second session runs tests/golden-path/played-world.node-test.ts in the played world of St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) and sees "a new business's loan fits its founder" alive and passing because it measures the founder's means as cash plus the savings moved in on the founding day. A one-line break in credit.ts foundingLoanLimit makes it fail, and the PR names the founding and application ids.
+
+**Waits on.** Approval of the M0-13 spec change by its owner.
 
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/credit.ts, src/core2/modules/business.ts
 

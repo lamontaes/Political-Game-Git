@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -34,3 +34,7 @@ Oct 22 (claude): the opening archive built in PR 5513 is tracked as gov-past-clo
 Sent back 2026-10-23 from PR #5072 (branch claude/past-business-closures): current main conflicts in src/core2/past-business.ts and src/core2/past.test.ts; reconcile both changes and supply the Done-when evidence table; finish on that branch, merge main into it first.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: do not generate more proxy past; fold into the simulated-history session (OD:14).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. SG-CORE-past-no-deaths-closures is resolved in src/core2/data/stopgaps/core.json; src/core2/past-business.ts generates the closures and src/core2/past-news.ts reads them. The life-record design (docs/design/life-record.md) writes the past coarsely on open, and the Oct 27 audit said not to generate more proxy past.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

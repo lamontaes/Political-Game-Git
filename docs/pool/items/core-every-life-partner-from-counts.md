@@ -8,15 +8,29 @@ size: S
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
 source: added with npm run pool -- add
+lead: lives
+standard: 2
+model: sonnet
+effort: medium
+root: design-one-model-two-tiers
 ---
 
 **What.** When a single adult living elsewhere marries, the partnerships module (src/core2/modules/partnerships.ts, PR #7082) generates the partner as a new full person on top of the population. So the place or state they live in counts one more resident than its data: the counted-moves engine reads them as a resident of a counted place, and a state's coarse counts are not reduced. The speed lead found this through the unit 4 ablation, and under one model, two tiers a filled-in person must match the records already kept.
 
+**Cause.** Found in code: src/core2/modules/partnerships.ts `meetPartner` (line 171) generates a partner living elsewhere as a new full person on top of the population, so counted-moves reads one extra resident and the state's coarse counts are not reduced.
+
+**Fix.** Take the partner from the place's counted single adults of fitting age and sex (a state's coarse age band gives up one person), seeded by the pair, so total population is unchanged by partnerships.
+
+**Time box.** 3 hours for a Sonnet session.
+
 **Rules.** Two-level population: the partner is one of the people the counts already hold where they live, taken out of the counts as they become full. One model, two tiers: a counted place gives a counted single adult of fitting age and sex, and a state's coarse age bands give up one person in the partner's band. No dice: who is taken follows the partner's age and sex from the CPS age gap, seeded by the pair.
 
-**Done when.** In a generated world of a place drawn from all 56, after a year the counted people of each place or state that a partner came from are lower by exactly the partners taken from it, and the total population including full people is unchanged by partnerships (src/core2/partnerships.test.ts, three draws).
+**Done when.** A second session, in a generated world of a drawn place (place and seed named), runs a year and sees the counted people of each place or state that a partner came from lower by exactly the partners taken from it, and the total population including full people unchanged by partnerships. src/core2/partnerships.test.ts shows it in three draws.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/partnerships.ts, src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, src/core2/partnerships.test.ts
 
