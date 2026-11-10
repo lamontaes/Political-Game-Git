@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: pool/play-campaign-interview-recheck
 pr: #8250
