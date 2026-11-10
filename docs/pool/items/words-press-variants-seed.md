@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/press-variants-seed
-pr: pending
+pr: 8102
 blocked-on:
 lead: words
 milestone: play-first
