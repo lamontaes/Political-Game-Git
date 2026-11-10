@@ -5,10 +5,10 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-dev-person-record-list-prints-object-object
-pr:
+pr: #8279
 after:
 blocked-on:
 lead: play-first

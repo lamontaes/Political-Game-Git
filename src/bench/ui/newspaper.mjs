@@ -65,26 +65,29 @@ export function engraveMasthead(name, outlet) {
   name.replaceChildren(plate);
 }
 
-/** The reader's body: the lead story's photo, its printed or spoken text, the address. */
-export function readerBody({ lead, address, photo }) {
+/** The reader's body: the lead story's photo, then whatever text it holds (printed, spoken, its lede, the address), else the worded reason it has none. */
+export function readerBody({ lead, address, photo, none }) {
+  const prose = (text, className = "prose") =>
+    el("p", { className, textContent: text });
+  const printed = lead.paragraphs ?? [];
+  const spoken = (lead.broadcast ?? []).map((line) => line.text);
+  const lede =
+    lead.lede && lead.lede !== lead.headline && !printed.length
+      ? [lead.lede]
+      : [];
+  const text = [
+    ...printed.map((t) => prose(t)),
+    ...(printed.length ? [] : spoken.map((t) => prose(t))),
+    ...lede.map((t) => prose(t)),
+    ...(printed.length
+      ? []
+      : (address ?? []).map((t) => prose(t, "speech quote"))),
+  ];
   return [
     ...(photo
       ? [el("img", { className: "story-image", src: photo, alt: "" })]
       : []),
-    // A story the paper prints (lede, figures, one quote) reads as printed;
-    // otherwise the broadcast, then the address as the record quotes it.
-    ...(lead.paragraphs
-      ? lead.paragraphs.map((text) =>
-          el("p", { className: "prose", textContent: text }),
-        )
-      : [
-          ...lead.broadcast.map((line) =>
-            el("p", { className: "prose", textContent: line.text }),
-          ),
-          ...address.map((text) =>
-            el("p", { className: "speech quote", textContent: text }),
-          ),
-        ]),
+    ...(text.length ? text : none ? [prose(none)] : []),
   ];
 }
 

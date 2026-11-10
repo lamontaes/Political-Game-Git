@@ -5,10 +5,10 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-play-issues-law-page-and-what-shows-part-2-law-page-summary
-pr:
+pr: #8276
 after:
 blocked-on:
 lead: play-first
