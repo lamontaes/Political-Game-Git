@@ -10156,6 +10156,8 @@
     "scene-talk.narrate-narrate.the-count-is-in-office-lost-by-margin-name-worked-this-campaign-beside-you": 1.17,
     "scene-talk.narrate-narrate.the-debate-is-over-and-the-candidates-are-leaving-the-stage-name-stops": 1.237,
     "scene-talk.narrate-narrate.the-diploma-didnt-come-through-and-name-wants-to-talk": 1.172,
+    "scene-talk.narrate-narrate.the-executive-has-signed-bill-and-name-keeps-you-back-after-the-photographs": 1.355,
+    "scene-talk.narrate-narrate.the-executive-has-vetoed-bill-and-name-asks-you-in-to-hear-it-face-to-face": 1.363,
     "scene-talk.narrate-narrate.the-filing-for-office-is-on-the-record-somebody-still-has-to-get-child-to-bed-ev": 1.238,
     "scene-talk.narrate-narrate.the-governors-speech-is-over-and-name-has-had-the-last-word": 1.259,
     "scene-talk.narrate-narrate.the-hall-has-emptied-name-has-been-waiting-for-the-people-around": 1.271,
@@ -14800,10 +14802,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11533,
-    "reached": 11533,
-    "near": 10486,
-    "weighted": 11530,
+    "pieces": 11535,
+    "reached": 11535,
+    "near": 10488,
+    "weighted": 11532,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14896,9 +14898,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 7628,
-        "reached": 7628,
-        "near": 7628
+        "pieces": 7630,
+        "reached": 7630,
+        "near": 7630
       },
       "scene-words": {
         "pieces": 291,
