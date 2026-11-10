@@ -2,6 +2,8 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
+  caseBreaksRule,
+  caseText,
   ruleFlags,
   textBreaksRule,
   type LineRule,
@@ -34,11 +36,11 @@ describe("line rules: each rule does what it says", () => {
       .filter(tested)
       .flatMap((rule) => [
         ...(rule.catches ?? [])
-          .filter((line) => !textBreaksRule(rule, line))
-          .map((line) => `${rule.id} must catch: ${line}`),
+          .filter((line) => !caseBreaksRule(rule, line))
+          .map((line) => `${rule.id} must catch: ${JSON.stringify(line)}`),
         ...(rule.spares ?? [])
-          .filter((line) => textBreaksRule(rule, line))
-          .map((line) => `${rule.id} must spare: ${line}`),
+          .filter((line) => caseBreaksRule(rule, line))
+          .map((line) => `${rule.id} must spare: ${JSON.stringify(line)}`),
       ]);
     expect(wrong).toEqual([]);
   });
@@ -49,7 +51,9 @@ describe("line rules: each rule does what it says", () => {
     const enforced = run.rules.filter(
       (rule) => rule.status === "enforced" && !rule.applies,
     );
-    const liked = run.rules.flatMap((rule) => rule.spares ?? []);
+    const liked = run.rules.flatMap((rule) =>
+      (rule.spares ?? []).map(caseText),
+    );
     const wrong = enforced.flatMap((rule) =>
       liked
         .filter((line) => textBreaksRule(rule, line))

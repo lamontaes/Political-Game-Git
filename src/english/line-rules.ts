@@ -58,12 +58,43 @@ export const RULE_JUDGES: readonly RuleJudges[] = [
   "piece-in-context",
 ];
 
+/**
+ * A condition on where a piece is said, read from one of its uses: the tags
+ * the composer chooses by (subject, role, purpose, step, the facts a use
+ * requires or excludes, and the part's own bearing, voice, address kind,
+ * topic and device, which `usesWithTags` copies onto every use). Each value
+ * is a regular expression source tested on the tag (on each entry of a list).
+ */
+export interface UseCondition {
+  /** Every named tag holds a value that matches. */
+  readonly has?: Readonly<Record<string, string>>;
+  /** No named tag holds a value that matches; a tag the use does not have matches nothing. */
+  readonly lacks?: Readonly<Record<string, string>>;
+}
+
 export interface RuleApplies {
   readonly banks?: readonly string[];
   readonly kinds?: readonly ("spoken" | "written")[];
   /** A regular expression source tested on the piece's move. */
   readonly moves?: string;
+  /** The piece is covered where one of its uses meets this condition. */
+  readonly uses?: UseCondition;
 }
+
+/**
+ * A line a rule must catch or spare. A bare string is the line wherever it is
+ * said (the rule's `applies` is ignored); a line with its spot is tested
+ * where it is said, for a rule that tells two lines apart by their place.
+ */
+export type RuleCase =
+  | string
+  | {
+      readonly text: string;
+      readonly bank?: string;
+      readonly kind?: string;
+      readonly move?: string;
+      readonly use?: PieceUse;
+    };
 
 export interface LineRule {
   readonly id: string;
@@ -94,9 +125,10 @@ export interface LineRule {
   /** A rule that failed the build before the machine existed keeps doing so. */
   readonly failsBuild?: boolean;
   readonly test: RuleTest;
-  readonly applies?: RuleApplies;
-  readonly catches?: readonly string[];
-  readonly spares?: readonly string[];
+  /** Where the rule applies; a list applies where any one of its entries does. */
+  readonly applies?: RuleApplies | readonly RuleApplies[];
+  readonly catches?: readonly RuleCase[];
+  readonly spares?: readonly RuleCase[];
   /**
    * Lines he faulted for where they were said, not for their words: what came
    * before, when they played, or a record they contradict. They stay in play;
@@ -121,7 +153,11 @@ export interface LineRulesFile {
 /** One use of a piece: where it is said. Bank files hold more fields; these identify the spot. */
 export type PieceUse = Readonly<Record<string, unknown>>;
 
-/** A bank piece as the bank files hold it. */
+/**
+ * A bank piece as the bank files hold it. Each use carries the part's own
+ * tags too (`usesWithTags`), so a rule's `applies.uses` reads one record of
+ * where and how the piece is said.
+ */
 export interface RulePiece {
   readonly bank: string;
   readonly key: string;
@@ -167,10 +203,53 @@ export function wholeLine(text: string): string {
   return squash(text).replace(/^[^\p{L}\p{N}{]+|[^\p{L}\p{N}}]+$/gu, "");
 }
 
-/** Whether a rule's `applies` covers this piece. */
-export function ruleApplies(rule: LineRule, piece: RulePiece): boolean {
-  const { applies } = rule;
-  if (!applies) return true;
+/**
+ * The part's own tags the composer chooses by, copied onto each use: how the
+ * line is said (`bearing`, `voice`), the address it belongs to
+ * (`addressKind`), what it is about (`topic`) and its turn of speech
+ * (`device`). None of them is a spot field, so `spotsOf` is unchanged.
+ */
+export const PART_TAGS = [
+  "bearing",
+  "voice",
+  "addressKind",
+  "topic",
+  "device",
+] as const;
+
+/** A part's uses with its own tags on each; a use's own value wins. */
+export function usesWithTags(
+  part: Readonly<Record<string, unknown>>,
+  uses: readonly PieceUse[],
+): PieceUse[] {
+  const tags: Record<string, unknown> = {};
+  for (const tag of PART_TAGS)
+    if (part[tag] !== undefined && part[tag] !== null) tags[tag] = part[tag];
+  return uses.map((use) => ({ ...tags, ...use }));
+}
+
+function tagMatches(use: PieceUse, tag: string, source: string): boolean {
+  const value = use[tag];
+  if (value === undefined || value === null) return false;
+  const expression = patternExpression(source);
+  return (Array.isArray(value) ? value : [value]).some((entry) =>
+    expression.test(typeof entry === "string" ? entry : JSON.stringify(entry)),
+  );
+}
+
+/** Whether one use meets a use condition. */
+export function useMeets(condition: UseCondition, use: PieceUse): boolean {
+  return (
+    Object.entries(condition.has ?? {}).every(([tag, source]) =>
+      tagMatches(use, tag, source),
+    ) &&
+    !Object.entries(condition.lacks ?? {}).some(([tag, source]) =>
+      tagMatches(use, tag, source),
+    )
+  );
+}
+
+function appliesTo(applies: RuleApplies, piece: RulePiece): boolean {
   if (applies.banks && !applies.banks.includes(piece.bank)) return false;
   if (
     applies.kinds &&
@@ -179,7 +258,19 @@ export function ruleApplies(rule: LineRule, piece: RulePiece): boolean {
     return false;
   if (applies.moves && !patternExpression(applies.moves).test(piece.move))
     return false;
+  if (applies.uses && !piece.uses.some((use) => useMeets(applies.uses!, use)))
+    return false;
   return true;
+}
+
+/** Whether a rule's `applies` covers this piece. */
+export function ruleApplies(rule: LineRule, piece: RulePiece): boolean {
+  const { applies } = rule;
+  if (!applies) return true;
+  const entries: readonly RuleApplies[] = Array.isArray(applies)
+    ? applies
+    : [applies as RuleApplies];
+  return entries.some((entry) => appliesTo(entry, piece));
 }
 
 /** Whether the piece breaks this rule. `place` and `judged` rules flag nothing yet. */
@@ -217,6 +308,26 @@ export function textAsPiece(text: string): RulePiece {
  */
 export function textBreaksRule(rule: LineRule, text: string): boolean {
   return ruleFlags({ ...rule, applies: undefined }, textAsPiece(text));
+}
+
+/** The words of a case, for checks that read only the line. */
+export const caseText = (line: RuleCase): string =>
+  typeof line === "string" ? line : line.text;
+
+/**
+ * Whether the rule breaks on a case: a bare line wherever it is said
+ * (`textBreaksRule`), a line with its spot where it is said.
+ */
+export function caseBreaksRule(rule: LineRule, line: RuleCase): boolean {
+  if (typeof line === "string") return textBreaksRule(rule, line);
+  return ruleFlags(rule, {
+    bank: line.bank ?? "",
+    key: "",
+    text: line.text,
+    kind: line.kind ?? "",
+    move: line.move ?? "",
+    uses: line.use ? [line.use] : [],
+  });
 }
 
 /** The spot identity fields of a use: what the pickers treat as alternatives. */

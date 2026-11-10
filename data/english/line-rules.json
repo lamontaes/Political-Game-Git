@@ -631,6 +631,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 1"
       ],
+      "note": "Stays judged: the same words are specific in one scene and vague in another, and no tag on a use says what the scene has already named.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -881,6 +882,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 1"
       ],
+      "note": "Awaits the place reader: it needs the lines said before it in the scene, and no tag on a use says what the scene has named.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -1959,6 +1961,7 @@
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 6"
       ],
+      "note": "Awaits the place reader: it needs who the scene has introduced before the line, and no tag on a use holds that.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -2014,10 +2017,17 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: whether the vote or act has happened is on only three press-comment openers (`vote-held`), so a line that speaks of a vote as done cannot be told from one said after it.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
       },
+      "catches": [
+        "Then put this in the story: I'm proud of my vote.",
+        "I'll sign it again tomorrow.",
+        "Your son has been waiting for you to get home.",
+        "Things are better than they were a year ago, and I intend to keep it going."
+      ],
       "examples": [
         {
           "line": "Then put this in the story: I'm proud of my vote.",
@@ -2056,12 +2066,6 @@
           "words": "Then you know what it does? I'll sign it again tomorrow. What do you mean again?",
           "date": "undated"
         }
-      ],
-      "catches": [
-        "Then put this in the story: I'm proud of my vote.",
-        "I'll sign it again tomorrow.",
-        "Your son has been waiting for you to get home.",
-        "Things are better than they were a year ago, and I intend to keep it going."
       ]
     },
     {
@@ -2290,6 +2294,7 @@
         "docs/research/dialogue/ (how games write dialogue), rule 7",
         "docs/research/dialogue/ (how games write dialogue), rule 8"
       ],
+      "note": "Stays judged: its catches turn on the speaker's age, job and tie to the listener and on the occasion; a use carries the tie only in sittings (`stranger`, `acquainted`), and no tag holds the speaker's age or job.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -3018,10 +3023,50 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on his own phrase: \"can't afford a yes\" (or a no) is pulled wherever the talk is not a bribe offer (purpose `bribe-offer`). Whether some other trade reads as a bribe is a reading no tag holds.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["\\bafford an? (?:yes|no)\\b"]
+      },
+      "applies": {
+        "uses": {
+          "lacks": {
+            "purpose": "^bribe-offer"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "Because those three can't afford a yes, and you can.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "floor-switch"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "Because those three can't afford a yes, and you can.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "bribe-offer"
+          }
+        },
+        {
+          "text": "I can't afford to wait a year.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asked",
+            "purpose": "mentor-advice"
+          }
+        }
+      ]
     },
     {
       "id": "variants-differ-in-what-they-say",
@@ -3230,6 +3275,7 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
+      "note": "Awaits the place reader: whether the listener knows why a line matters depends on what the scene set up before it, which no tag holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -3329,6 +3375,7 @@
           "words": "There's no ballot for you here today. Number 2 shouldn't even, or 3.2 shouldn't even be in there. It just shouldn't let you do it if you can't vote."
         }
       ],
+      "note": "Awaits its own reader: it judges which choices a screen offers, read from the player's registration and filing records, not a bank line's words or tags.",
       "status": "awaiting-test",
       "test": {
         "kind": "place"
@@ -4004,6 +4051,7 @@
           "via": "people.md"
         }
       ],
+      "note": "Stays judged: a test would need a list of feeling words his notes do not name, and whether a line narrates a feeling or shows it is a reading.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4052,10 +4100,54 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested where the place's body is not on record: a use that excludes the `body` fact is said when no body record names it, so a line there that calls it \"the board\" or \"the council\" names something the place may not have. These lines are the only ones such a world has for the spot, so the rule is `rewrite`: they keep playing until a rewrite names no body. A line said where the body is known reads its name from the `body` slot.",
+      "status": "rewrite",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "\\bthe (?:board|council|selectboard|trustees|commission)\\b"
+        ]
+      },
+      "applies": {
+        "uses": {
+          "has": {
+            "excludesFacts": "^body$"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "You'd run the town day to day: the departments, the budget, and whatever the board sends you to sign.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "filing-clerk",
+            "excludesFacts": ["body"]
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "The board shows every name. Yours will be on it.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "ask-vote.watched"
+          }
+        },
+        {
+          "text": "The {body} sets the budget and passes the local laws, and you'd get a vote on all of it.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asker",
+            "purpose": "filing-clerk",
+            "requiresFacts": ["body"]
+          }
+        }
+      ]
     },
     {
       "id": "news-reads-as-a-story",
@@ -4088,6 +4180,7 @@
           "via": "words-news-inauguration-story-reads-as-news.md"
         }
       ],
+      "note": "Stays judged: it judges a whole news item (headline, lede and body together), which no single piece or tag holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4104,6 +4197,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: it judges a whole history as told under a name, assembled from several pieces, which one piece and its tags cannot show.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4120,6 +4214,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: it needs what the player was told before the narration (why they came, what they carry), which no tag on a use holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4199,6 +4294,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: the card's words about a person the player has not met are built on the screen, and no bank line says \"you have never met\".",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4220,6 +4316,7 @@
           "via": "2026-10-27-1.md"
         }
       ],
+      "note": "Stays judged: it judges the journal as a whole memoir, the entries around a line, which no single piece holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4246,6 +4343,7 @@
           "via": "LAW.md"
         }
       ],
+      "note": "Awaits a tag: whether a line needs its subject named depends on whether the entry around it already names it, and no tag on a use says so; no tag marks a record as a turning point.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4272,6 +4370,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Stays judged: it judges the whole bill as the body's real form reads (numbering, sections, enacting words), not one piece.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4314,6 +4413,7 @@
           "via": "people.md"
         }
       ],
+      "note": "Stays judged: it judges the names the world generates for businesses, which are not bank pieces.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4372,10 +4472,51 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on the use: an opener that asks after the school is said only where the use requires `long-ago`, the fact the conversation sets when the record shows the years since school pass the threshold. No tag records something that happened to a school, so that half of his ruling is not read.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": ["^(?:do |did )?(?:you )?remember \\{school\\}"]
+      },
+      "applies": {
+        "uses": {
+          "has": {
+            "role": "^(?:ask|raise|open)$"
+          },
+          "lacks": {
+            "requiresFacts": "^long-ago$"
+          }
+        }
+      },
+      "catches": [
+        {
+          "text": "Do you remember {school}?",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "raise"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "Do you remember {school}?",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "raise",
+            "requiresFacts": ["long-ago"]
+          }
+        },
+        {
+          "text": "I remember.",
+          "bank": "conversation",
+          "use": {
+            "subject": "shared-school",
+            "role": "answer"
+          }
+        }
+      ]
     },
     {
       "id": "request-needs-its-ground",
@@ -4468,6 +4609,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: whether the speaker can keep a promise depends on who they are (a lobbyist can call a stranger's office, a shopper cannot), and no tag holds the speaker's means.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4484,6 +4626,7 @@
           "via": "OWNER-DECISIONS.md"
         }
       ],
+      "note": "Awaits a tag: no use carries the pronoun the person goes by, and the banks have no pronoun slot, so \"they\" for one named person cannot be told right from wrong.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4505,11 +4648,11 @@
           "via": "words.md"
         }
       ],
+      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited. Awaits a tag: the later ruling (Oct 19) limits threes and literary turns by the speaker's skill, which no tag holds; the `device` tag is only on opening-speech pieces, all public address.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
-      },
-      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited."
+      }
     },
     {
       "id": "regional-speech-is-word-choice-only",
@@ -4538,6 +4681,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs the speaker's crudeness and whether the room is private, and no use carries either; no bank line swears today.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4554,6 +4698,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs whether the speaker read the matter or took part in it, which the bring-it-up bank's roles name only for some uses and no other bank holds.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4570,10 +4715,66 @@
           "via": "words.md"
         }
       ],
-      "status": "awaiting-test",
+      "note": "Tested on the scene narration he ruled on: a narrator's line (scene-talk role `narrator`, and the scene-words bank) that speaks as \"I\" outside a quotation. The journal's first person is in the rule's sentence but not in his words here, so it is not tested.",
+      "status": "enforced",
       "test": {
-        "kind": "judged"
-      }
+        "kind": "patterns",
+        "patterns": [
+          "^(?:[^\"“”]|[\"“][^\"”]*[\"”])*?\\b(?:I|I['’](?:m|ve|ll|d)|me|my|myself)\\b"
+        ]
+      },
+      "applies": [
+        {
+          "banks": ["scene-words"]
+        },
+        {
+          "banks": ["scene-talk"],
+          "uses": {
+            "has": {
+              "role": "^narrator$"
+            }
+          }
+        }
+      ],
+      "catches": [
+        {
+          "text": "I walk into the clerk's office with my forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator",
+            "purpose": "filing-clerk"
+          }
+        }
+      ],
+      "spares": [
+        {
+          "text": "You walk into the clerk's office with your forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator",
+            "purpose": "filing-clerk"
+          }
+        },
+        {
+          "text": "I'll take the forms.",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "asked",
+            "purpose": "filing-clerk"
+          }
+        },
+        {
+          "text": "{name} says, \"I'll be there.\"",
+          "bank": "scene-talk",
+          "use": {
+            "subject": "scene",
+            "role": "narrator"
+          }
+        }
+      ]
     },
     {
       "id": "childhood-lines-claim-no-outcomes",
@@ -4586,6 +4787,7 @@
           "via": "words.md"
         }
       ],
+      "note": "Awaits a tag: it needs what the record holds about the person's growing up, and no bank line reads \"Remembered as\" today.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4624,6 +4826,7 @@
           "via": "press.md"
         }
       ],
+      "note": "Stays judged: it judges whether the paper's story came from a record, which the news producer decides, not a bank line's words or tags.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
@@ -4671,6 +4874,7 @@
           "via": "2026-10-27-1-log.md"
         }
       ],
+      "note": "Awaits a tag: {home-state} is now the President's own home state from the President's record, so a line naming it is grounded; it is wrong only when that state is the player's, and no tag says so.",
       "status": "awaiting-test",
       "test": {
         "kind": "judged"
