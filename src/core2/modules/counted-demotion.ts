@@ -19,6 +19,7 @@ import {
   isDemoted,
   type Tenure,
 } from "../counted-groups";
+import { workedToday } from "../job-lifecycle";
 import { addCountedJob } from "../residents-economy";
 import { MORTGAGE_PREFIX, countedMortgageFlowId } from "../housing-mortgages";
 import { stableHash, pairKey } from "../kernel/ids";
@@ -74,7 +75,7 @@ export interface DemotionRecord {
 }
 
 /** People who are never demoted: the player's household and circle, officials, public workers, owners. */
-function protectedPeople(api: CoreAPI): Set<PersonId> {
+export function protectedPeople(api: CoreAPI): Set<PersonId> {
   const core = api.state as CoreState;
   const out = new Set<PersonId>();
   const player = core.playerId ? core.people.get(core.playerId) : undefined;
@@ -166,7 +167,40 @@ function asCounted(
   };
 }
 
-/** Demote one filled-in household now. Returns the record. */
+/**
+ * Whether a filled-in household can go back to the counts today, decided
+ * before any record changes. Two reasons keep one out:
+ * - it lives where the counts are not kept (no residents account at its
+ *   place: a relative met in a state or a town beyond the played one), so it
+ *   is not this engine's to send back;
+ * - a member worked their job today: a job ends before its day's work (calendar
+ *   work runs first on the world's clock, after the day on the player's), so
+ *   it cannot end until tomorrow and the monthly review tries again.
+ */
+export function canReturnToCounts(
+  api: CoreAPI,
+  householdId: string,
+): { ok: true } | { ok: false; reason: string } {
+  const core = api.state as CoreState;
+  const rt = residentsRuntime(core);
+  if (!rt) return { ok: false, reason: "no residents runtime" };
+  const home = core.households.get(householdId);
+  if (!home) return { ok: false, reason: "no such household" };
+  if (home.placeId.startsWith(COUNTED_PLACE_PREFIX))
+    return { ok: false, reason: "already in the counts" };
+  if (!countsKeptAt(rt, home.placeId))
+    return { ok: false, reason: "no counts kept at its place" };
+  for (const id of home.memberIds) {
+    const person = core.people.get(id);
+    if (!person?.alive || isDemoted(person)) continue;
+    const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
+    if (job && job.endsAt === undefined && workedToday(core, person))
+      return { ok: false, reason: "a member worked today" };
+  }
+  return { ok: true };
+}
+
+/** Demote one filled-in household now. Returns the record, or nothing when it cannot go back today (`canReturnToCounts`). */
 export function demoteHousehold(
   api: CoreAPI,
   householdId: string,
@@ -176,6 +210,7 @@ export function demoteHousehold(
   const rt = residentsRuntime(core);
   const home = core.households.get(householdId);
   if (!rt || !home) return undefined;
+  if (!canReturnToCounts(api, householdId).ok) return undefined;
   const people = home.memberIds
     .map((id) => core.people.get(id))
     .filter((row): row is PersonState => !!row?.alive && !isDemoted(row));
@@ -463,10 +498,6 @@ function review(api: CoreAPI): void {
     if (daysBetween(filledAt, api.state.date) < days) continue;
     const home = core.households.get(householdId);
     if (!home || home.placeId.startsWith(COUNTED_PLACE_PREFIX)) continue;
-    // Only a household living where the counts are kept can return to them:
-    // a relative met in a place beyond the town's counted places has no
-    // counted group or residents account there, and stays as filled in.
-    if (!countsKeptAt(rt, home.placeId)) continue;
     let last = filledAt;
     let eligible = true;
     for (const id of home.memberIds) {
