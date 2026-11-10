@@ -5,7 +5,7 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-pool-next-release-note-id-already-used
 pr: #8264
