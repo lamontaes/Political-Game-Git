@@ -5,15 +5,15 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-words-scene-family-absence
+status: open
+claimed-by:
 pr:
 blocked-on:
 after:
 source: added by the acting CTO, Oct 25 (owner ruling)
 lead: words
 milestone: play-first
-claimed-at: 2026-11-10T23:54:29.615Z
+claimed-at:
 standard: 2
 model: sonnet
 effort: medium
@@ -63,3 +63,5 @@ Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-family-absence.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:54 UTC) on branch claude/pool-words-scene-family-absence.
+
+Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-family-absence.
