@@ -204,20 +204,21 @@ function statusAt(
   person: Readonly<PersonState>,
   age: number,
 ): Status {
-  const line = new SeededRng(api.state.seed)
-    .fork(`lives-work:${person.id}`)
-    .next();
+  const rng = new SeededRng(api.state.seed).fork(`lives-work:${person.id}`);
+  const line = rng.next();
   const band = bandOf(age);
   const hundred = api.parameter("percent");
   const employed = band ? CPS.employedPctByAge[band]! / hundred : 0;
   const inForce = band ? CPS.laborForcePctByAge[band]! / hundred : 0;
-  return line < employed
-    ? "employed"
-    : line < inForce
-      ? "looking"
-      : age >= jobsParameter(api, "jobsEarliestRetirementAge")
-        ? "retired"
-        : "out";
+  const status: Status =
+    line < employed
+      ? "employed"
+      : line < inForce
+        ? "looking"
+        : age >= jobsParameter(api, "jobsEarliestRetirementAge")
+          ? "retired"
+          : "out";
+  return status;
 }
 
 /**

@@ -439,6 +439,7 @@ function planOf(
   // the opening day (the lives-elsewhere rule) is where their run ends, read
   // on that day so the past is the same whenever their card is opened.
   const elsewhere = person.tier === ELSEWHERE_TIER;
+  if (elsewhere) stopgap("SG-LIVES-past-read-where-opened");
   const start = makeIsoDate(elsewhere ? c.startedAt : c.date);
   const entry = entryOf(api, person, start);
   if (entry > window.through) return undefined;
