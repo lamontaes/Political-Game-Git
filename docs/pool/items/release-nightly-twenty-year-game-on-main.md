@@ -5,13 +5,14 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/fable-nightly-twenty-years
+pr: #8152
 after:
 blocked-on:
 lead: speed
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 7, "Size of the fix: small, now")
+claimed-at: 2026-11-10T14:29:29.574Z
 ---
 
 **What.** Nobody finds out that a long game is broken until someone happens to run one. Measured by the audit: a 20-year run of South Hero, Vermont (seed 9bf1ede27ce5a00e) crashed in year 12 after 16 minutes, three times the same way, on a defect that had been an open pool item since October 20 and had also stopped the crew's own run in Montpelier, Vermont in year 19. A second world, Wickliffe, Oklahoma (seed 8832429ff1e53841), did not crash and stopped making sense: the crew's own tool read 125% of adults at work after eleven years and 200% after eighteen. The nightly run on main today plays every place for two years, so neither would have shown there. Build the small piece the audit asks for now: every night, on main, one 20-year game on a place and seed drawn that night, run to the end, which fails loudly, naming the place, the seed, the year and the record, on a crash or on a world that cannot be real (more jobs than adults, for one), so it is caught the day it lands.

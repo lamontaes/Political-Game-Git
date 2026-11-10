@@ -46,7 +46,7 @@ const WORDS: readonly [RegExp, number][] = [
     -1,
   ],
   [
-    /\b(don'?t (really )?like|didn'?t like|not (a )?(huge |big )?fan|can'?t say i'?m a (huge |big )?fan|not good|no good|bad|awkward|weird|cheesy|stiff|clunky|unnatural|fragment|filler|no context|missing (a little )?context|robotic|sounds like ai|generic|vague|wrong|creepy|jargon|dev language|dev talky|doesn'?t (really |necessarily )?(fit|make sense|work)|out of place|too much|how would (they|he|she|you|anyone) know|(don'?t|do not) have any context)\b|\bthat doesn'?t\s*\.{2,}/,
+    /\b(don'?t (really )?like|didn'?t like|not (a )?(huge |big )?fan|can'?t say i'?m a (huge |big )?fan|not good|no good|bad|awkward|weird|cheesy|stiff|clunky|unnatural|fragment|filler|no context|missing (a little )?context|robotic|sounds like ai|generic|vague|wrong|creepy|jargon|dev language|dev talky|doesn'?t (really |necessarily )?(fit|make sense|work)|out of place|too much|how would (they|he|she|you|anyone) know|(don'?t|do not) have any context|not (quite |really )?sure what (that|this|it) means|(don'?t|do not) (really |quite |even )?(know|understand) what (that|this|it) means|(don'?t|do not) (really |quite )?understand (that|this|it)\b)\b|\bthat doesn'?t\s*\.{2,}/,
     -0.75,
   ],
   [

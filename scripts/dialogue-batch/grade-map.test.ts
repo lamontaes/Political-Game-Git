@@ -123,6 +123,7 @@ describe("the owner's grades build a heat map that scores every line", () => {
     ).toEqual([
       "all",
       "rule",
+      "rule:broadcast",
       "reg:broadcast",
       "voice:none",
       "scene:bank-news",
