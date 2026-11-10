@@ -8,8 +8,10 @@
     "why": "No record keeps a government's bonds by issue date or maturity, so the treasury cannot tell new issues from old; the research measures spreads on state general-obligation bonds only.",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "A bond record per government (issue date, amount, coupon, maturity) from the Census debt outstanding, with new issues priced at the spread the web keeps, so a law's change reaches only the bonds issued after it, and local governments' spreads read the same measure.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A bond record per government (issue date, amount, coupon, maturity) from the Census debt outstanding, with new issues priced at the spread the web keeps, so a law's change reaches only the bonds issued after it, and local governments' spreads read the same measure.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EFFECT-WEB-prices-high-cost-loans",
@@ -32,8 +34,10 @@
     "why": "The web's kept share reaches households through poor-roads-to-prices on business prices (finance-state.ts), so the repair cost is charged once; the road record the highways line sets is separate from the web's share, and no road condition is kept over time by an engine.",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "A roads engine (or a budget line that calls setRoadCondition) that owns the poor share and multiplies it by webFactorFor.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A roads engine (or a budget line that calls setRoadCondition) that owns the poor share and multiplies it by webFactorFor.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EFFECT-WEB-prices-transit-service",
@@ -44,8 +48,10 @@
     "why": "No transit agency or service record exists; the service change reaches riders through transit-service-to-ridership into the trips each household takes (place-prices.ts).",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "A transit agency record of service miles that the service link's factor multiplies.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A transit agency record of service miles that the service link's factor multiplies.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EFFECT-WEB-prices-rail-ridership",
@@ -68,8 +74,10 @@
     "why": "The abortion link's cause is a person event the game does not record; the student-debt link has no size or unit until a bill sets the terms. Credit keeps past-due loans but no household record these causes write to.",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "A recorded denial event and a student-loan balance on the household that credit.ts past-due loans can read.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A recorded denial event and a student-loan balance on the household that credit.ts past-due loans can read.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EFFECT-WEB-prices-nondisaster-transfers",
@@ -80,7 +88,9 @@
     "why": "Disasters are recorded (disasters.ts) but transfers are not kept by kind, so no engine reads or pays a non-disaster transfer series to scale.",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "Budget transfers split by disaster and non-disaster that the disaster link's factor multiplies.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Budget transfers split by disaster and non-disaster that the disaster link's factor multiplies.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   }
 ]
