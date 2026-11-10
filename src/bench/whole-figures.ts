@@ -285,18 +285,23 @@ export function colorsFor(
   band: AgeBand,
 ): Record<string, string> {
   const seed = who.seed ?? who.id;
+  // A look chosen in the creator is drawn as the creator drew it: a part it
+  // leaves uncolored stays as painted (play-one-person-shows-two-faces).
+  const chosenLook = who.look?.person === person.id;
   return Object.fromEntries(
-    colorParts(person).map((part) => {
+    colorParts(person).flatMap((part) => {
       const names = Object.keys(person.palettes[part]!);
       const chosen = who.look?.colors?.[part];
-      if (chosen && names.includes(chosen)) return [part, chosen];
+      if (chosen && names.includes(chosen)) return [[part, chosen]];
+      if (chosenLook && part !== "hair") return [];
       if (
         part === "hair" &&
         band === "older" &&
         names.includes(rules.olderHair)
       )
-        return [part, rules.olderHair];
-      return [part, names[mixed(`${seed}:${part}`) % names.length]!];
+        return [[part, rules.olderHair]];
+      if (chosenLook) return [];
+      return [[part, names[mixed(`${seed}:${part}`) % names.length]!]];
     }),
   );
 }

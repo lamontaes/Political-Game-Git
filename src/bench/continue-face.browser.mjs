@@ -55,8 +55,14 @@ try {
   const made = await page.evaluate(() =>
     document.getElementById("cr-portrait").src.replace(location.origin, ""),
   );
+  console.log("creator portrait:", decodeURIComponent(made));
   await page.locator("#cr-begin").click();
-  await page.locator("#card:not([hidden])").waitFor({ timeout: 300000 });
+  // The card fills in once the life is made (the opening talk may still be up).
+  await page.waitForFunction(
+    () => document.getElementById("card-name")?.textContent.trim(),
+    null,
+    { timeout: 300000 },
+  );
   await page.goto(`${base}/play`);
   await page.waitForFunction(
     () => !document.getElementById("front-continue").disabled,
@@ -83,7 +89,11 @@ try {
     .locator("#sheet-body .mxbust img")
     .first()
     .getAttribute("src");
-  assert.equal(you, url, "You shows a different face from Continue");
+  assert.equal(
+    new URL(you, base).href,
+    new URL(url, base).href,
+    "You shows a different face from Continue",
+  );
   console.log("PASS Continue shows the face the creator saved");
 } finally {
   await browser.close();
