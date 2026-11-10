@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 pr:
 after: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: rc2-done-from-records
 source: split from play-golden-path-m0-13-red-st-johnsbury in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T22:56:04.776Z
+branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 ---
 
 **What.** In a played year of St. Johnsbury, Vermont the heap after a collection grows about 17 MiB a month, against the check's 5 MiB ceiling. A long game slows down and runs out of memory on that. The growth is rows: a dozen engine tables add a row for every event and keep it. This item folds the largest group, the three jobs tables, and lists the rest.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/jobs.ts, src/bench/dev-proof.ts, tests/golden-path/played-world.node-test.ts
 
 **Notes (Fable, Nov 10).** Re-run by Fable on Nov 10 on main cb25bfa5c8 with the command in the Cause (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4; the year ran in 105 seconds): 21 checks pass and 1 fails. This part's check is still broken: heap growth a month after the first is 16.7 MiB over 11 months, against the 5 MiB ceiling, and the check says the durable log grows most. The first part's re-run is therefore done; a finder starts from counting the durable log's rows by kind at month 2 and month 12.
+
+**Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 22:49 UTC) on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth.
