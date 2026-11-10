@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The crime engine victimizes full households and counted groups by one rule, but only a full household's victimization is a record its members hold (crime.victimized); a counted group's are a tally row per place, month and group. The views engine moves the stance of each full victim the record names and reads no tally, so the wider population's view on the police never moves from the crimes it lives. Registered as SG-PEOPLE-counted-victims-lived-crime.

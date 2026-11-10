@@ -4,7 +4,7 @@ title: "Every law wired on all nine links, with a checker and matrix"
 area: laws
 kind: wiring
 priority: 1
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** This is the umbrella for the law-wiring work: every law wired on all nine links, with a checker (scripts/law-wiring/check.ts) and a published matrix (docs/reports/law-wiring-matrix.json). Laws take effect and most reached nobody, moved no money and moved no outcome measure; the family items fixed that family by family. It is closed only by its five family items (laws-nine-links-health-schools, laws-nine-links-housing-credit, laws-nine-links-justice, laws-nine-links-rights-env, laws-nine-links-taxes), never by a PR that names it on line 1, and laws-remaining-families is proposed to merge into it. The matrix is paperwork (root cause rc8), so each family must also be seen in the running game.

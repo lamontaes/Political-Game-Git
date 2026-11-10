@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** An employers' group uses a member business's owner (done Oct 19) or else the best-paid resident working for it as its lobbyist; the group never hires one. Make the lobbyist a hired job paid from the group's dues, filled by a person chosen for their record (government or law work, relationships with members), who keeps a memory of each member's votes and reads it when pressing. Closes the stopgap `SG-GOV-group-lobbyist-stand-in`.

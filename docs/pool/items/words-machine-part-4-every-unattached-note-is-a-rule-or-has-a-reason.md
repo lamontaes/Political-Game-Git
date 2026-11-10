@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/fable-b3-notes-to-rules
+pr: #8203
 after:
 blocked-on:
 lead: words
@@ -17,6 +17,8 @@ effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T19:03:10.260Z
+merged-at: 2026-11-10T20:23:47.857Z
 ---
 
 **What.** When every place the owner's rulings live was read, 63 of his notes about words attached to no rule. Each is either a rule nobody has written or something that is not a rule about lines. This part settles each one, so no note of his is left unread by the machine.

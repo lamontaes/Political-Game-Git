@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The vital-statistics reader (scripts/dev-tests/vitals.ts) counts residents holding a recorded employer plan: each full person's coverage record plus each counted household's covered people times the households it stands for. In Futiga, American Samoa (seed from draw dpA) it reads 5.2, 3.3 and 4.2 percent at the start and after one and two years; in Willow Creek, California (draw dpC) 3.6 and 2.8 percent. The coverage module's own source note (sourceFor in src/core2/modules/coverage.ts) cites Census P60-284: employment-based coverage is 53.7 percent of the population. Either the counted rows (countedCoverage) cover far fewer people than the employers' plans reach, or the reader misreads what covered means; check both before changing the engine. The module records only employer and Medicare plans, so no figure here is an uninsured rate.

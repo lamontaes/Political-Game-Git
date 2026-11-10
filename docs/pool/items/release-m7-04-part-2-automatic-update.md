@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone: M7
 source: split from release-m7-04-updates-and-bug-reports in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The desktop package updates itself: a newer build is found, downloaded and installed without the player reinstalling. Updates come through Steam for the launch build (docs/packages/M7-early-access.md); this part makes the package's own updater work and proves it with a test update. desktop/updater.mjs already exists, so start by checking how much of it works.

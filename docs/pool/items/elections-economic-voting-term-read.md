@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-electorate-one-model
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Voters' incumbent record (`recordAppeal` in voting.ts) weighs votes and promises kept or broken, but nothing in an incumbent's record reads how the town's jobs, pay and prices went during the term, although the national economy now cycles (Money PR #7599) and `src/core2/term-read.ts` already reads each area from the outcome web. A voter who knows the officeholder, and a counted group by the same rule times its count, should weigh the term read's jobs, pay and prices slides for their own place, scaled by how much they follow it, so a recession under an incumbent costs votes and a boom helps. The electorate already reads town jobs and the national economy through `townConditions`, so this must not become a second economic reading.

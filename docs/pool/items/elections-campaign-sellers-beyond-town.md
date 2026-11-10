@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** A campaign that buys a poll, a mailing or an evening's hall pays a stand-in seller created in town whenever the town records no business of a fitting kind (SG-GOV-campaign-pollster-seller, SG-GOV-campaign-mail-seller, SG-GOV-campaign-venue-seller). Census County Business Patterns 2023 publishes polling firms in only 260 of 3,246 county equivalents and mail houses in 166, so the stand-in is paid in most towns. The seller lookup should read the town's own business first, then a recorded firm for the county or the state built from the place's counts, pay a mailer's postage to a Postal Service organization rather than to the printer, and rent the town's own halls (a school gym, a community center) for venues before any stand-in.

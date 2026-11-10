@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the content engine's life utility and civic progress. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The look-up hours (lookupHours) were delivered earlier as ESTIMATED at 0.91 hours (spread 0.72 to 1.06, BLS American Time Use Survey 2025). What is left: careNeedHalfExcessHazard stays TUNABLE because no published figure measures care per unit of condition hazard, and SG-P8-civic-progress needs a mechanic first, since the look-up, join, organize and approach acts are prototype procedures (builder item core-stopgap-content-uncalibrated-tunable). SG-P8-life-utility waits on core-stopgap-content-estimated-behavior, because the engine still scores one act per activation instead of a day's time plan.

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Two links wait on causes no engine records as a measure: lead-to-reading (children's blood lead, outcome school.far-below-proficient) and abortion-denied-to-financial-distress (a person whose abortion was denied, outcome finance.past-due-debt). Record each cause in the engine that owns it and keep each outcome with its base and source. Each cause is a count or level over the place's people, read from rows the engines already write.

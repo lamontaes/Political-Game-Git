@@ -4,7 +4,7 @@ title: "A scene's ending writes the record it names, not only a label"
 area: words
 kind: feature
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -13,9 +13,10 @@ lead: words
 source: added with npm run pool -- add
 after:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** Every purpose arc's endings carry keeps (for example favor-owed, trust-lost, bribe-taken), but src/director/scene-talk.ts only reads keeps into the ending's label; the only record a scene writes in play is scene.reply (purpose-scene.ts replyInScene). So a scene's outcome is not yet a read for any other engine. Found Oct 27 by Helper E building bribe-offer.
@@ -24,7 +25,7 @@ root: design-story-director
 
 **Fix.** Make each ending kind call the existing engine writer (the legislature's keepReply and obligationsOf for a favor owed, the campaigns engine's promises, the relationship record, the trust change, the crime row) so a different engine reads it on a later day, list the kinds that have no writer as items, and add a test that fails when an ending writes nothing and is not listed. Four parts, each its own item.
 
-**Time box.** 12 hours for one Opus session across the parts; each part has its own box. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the four parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** No consequence, no scene (scene-standard rule 1). An effect is a read, not a record: the writer calls an existing engine writer (relationship, promise, crime row) and never invents a parallel table. No dice. Replace, never layer: the stopgap is deleted when its parts land.
 

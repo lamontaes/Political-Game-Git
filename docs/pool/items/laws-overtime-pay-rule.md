@@ -17,6 +17,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Pay in the work engine is the job's hourly rate times attended minutes (`work-state.ts`), with no overtime and no salaried jobs, because the pay terms are a projected proxy (stopgap SG-P8-work-pay-terms). Add overtime as law data: a series in src/core2/data/laws/starting-law.json for the federal Fair Labor Standards Act (time and a half after 40 hours in a work week) with state rows where a state's law is stricter (a daily threshold, a double-time tier), the exempt salary threshold below which a salaried worker is still owed overtime, and the territories' own rows. Make the work module's pay accrual for a pay period read the law in force at the job's place: hours past the threshold in the week are paid at the multiple, and a job recorded as salaried and above the exempt threshold is paid its period amount whatever the hours. Employer cost follows, so business books and the budget line for a public employer see the higher wage.

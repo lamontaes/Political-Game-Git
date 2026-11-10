@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** SG-CORE-district-placement in src/core2/modules/residents.ts: a town split between state legislative districts places its counted households into the districts by income order, filling each in proportion to its Census population, so each district holds a slice of the town's income ladder. Replace it with each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix. An earlier attempt on branch claude/district-placement was closed as stale on Oct 29 and the branch is kept; claiming this item takes it over.

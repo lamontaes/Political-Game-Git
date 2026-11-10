@@ -16,6 +16,7 @@ effort: low
 root: none
 lead: traits
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The jobs.apply decision keeps the general trait weight of 1 because only the abstract of Kanfer, Wanberg and Kantrowitz 2001 (Journal of Applied Psychology 86(5), a meta-analysis of job search and employment) was read, and it gives the range of correlations across all antecedents, not each trait's. The paper's tables give each Big Five trait's population correlation with job search behavior, and the Notes below already hold the Table 2 cells. Record the rows in data/research/trait-effect-sizes.json with quotes, and fit the weight to them on played years.

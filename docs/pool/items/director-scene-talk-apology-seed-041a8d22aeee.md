@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/scene-talk.test.ts, 'composes every purpose', fails on GOLDEN_PATH_SEED=041a8d22aeee on clean main: the apology scene's lines are leave, confront and a narrator reaction, with no line that apologizes (expected false to be true). Found by Merger 2 on Oct 27 while gating PR 6312; it fails the same on origin/main. A helper reran it on current main on Oct 29: 7 of the file's 8 tests pass and this one still fails at src/director/scene-talk.test.ts line 167, because the scene's last spoken line is the asked side's confront and the talk records no gap saying a question was left unasked. In src/director/data/situation-types.json the apology type's asker is the wronged side and its asked side is the apologizing role, whose moves include apologize, so the cause is either a bank with no apologizing line for this cast or a cast that never reaches that move, and which one is not yet known.

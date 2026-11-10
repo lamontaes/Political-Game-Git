@@ -17,6 +17,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The item found that full and counted workers facing the same job loss answer it at different rates, and that a full person's trait map held about 16 keys against about 98 for a counted person. Analysis on Oct 27 showed the 16-key figure is the husk tier; the sparse group is the weekly-tier opening cohort, about 7 percent of full people, which is too few to explain the swing (18 of 32 full against 20 of 71 counted choosing prove-oneself in North Canton, Ohio). The full-versus-counted gap is not yet explained, and the first step is to list who the displaced full workers are (opening cohort or filled in) before anyone changes the generator. One model, two tiers says both tiers carry the same keys.

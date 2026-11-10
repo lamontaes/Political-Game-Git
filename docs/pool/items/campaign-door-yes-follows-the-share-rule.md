@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** On the ballot a counted record's people divide by each candidate's share of their appeal (countedDivision, CTO Nov 1), but at the door the reached household answers yes only where the candidate is the record's first choice (doorChoiceOf in src/core2/modules/voting.ts, countedChoice). Against a known holder almost no record ranks a challenger first, so a challenger who wins about a third of the vote gets almost no door yeses: Hardyville, Kentucky (replay storrs-1, main 80dd12c83a) lost a two-way county race 35.4 to 64.6 percent with 14 door yeses from 1,848 people reached over 41 weeks, while Ely, Nevada's open-seat winner had 738 from 2,986. The door and the ballot read one choice by two rules, and the yes is what lifts turnout and votes (unit 4), so a hard-working challenger can't build support against a holder.

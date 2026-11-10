@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** State unemployment law rows carry workSearchContactsPerWeek in src/core2/data/laws/starting-law.json (1 to 4, or null where none is asked), and nothing reads it. By the owner's Oct 20 ruling the rule is recorded law that claimants follow in the background, with no form or log for the player. Add the requirement to UnemploymentTerms in src/core2/jobs-benefits.ts and copy it onto the ClaimRow with the law id. Each week, size a claimant's contacts from their own search effort (their drive and traits through decisionLean) and the regional labor market that src/core2/modules/regional.ts already reads, not from posted openings, and in payClaims pay the week at the share contacts over required capped at one, so the benefit slides with search and never flips at a threshold. Record the contacts on the claim row so the claim and week can be cited.

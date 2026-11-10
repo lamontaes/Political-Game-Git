@@ -4,7 +4,7 @@ title: "A federal official's recorded act becomes public through the press, so t
 area: gov
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -13,9 +13,10 @@ blocked-on: nation-federal-scandal-producer-part-1-federal-acts, nation-federal-
 source: added with npm run pool -- add
 after:
 lead: nation
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** Nothing produces a federal-level scandal: the corruption engine records bribes by the town's own people only, so the national opinion engine's pushes table has no scandal to read. Add a producer through the existing engines in three parts: an official of the President's cabinet or of Congress commits a recorded act (part 1), the press reports it (part 2), and approval is pushed by the sized effect the research gives (part 3; Iran-Contra 63 to 47 in two months, Watergate 62 to 24 over 21 months, Gallup, news.gallup.com/poll/4258).
@@ -24,7 +25,7 @@ root: design-story-director
 
 **Fix.** Build the three parts in order; this item adds no code of its own.
 
-**Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** No dice: the act follows the official's traits, money and chances, never a monthly chance. Knowing is a read: approval moves only for an act the public learned of through the press. One engine: the corruption engine's records, not a second scandal system. A push is sourced, with its half-life from the dated readings.
 

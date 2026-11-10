@@ -16,6 +16,7 @@ effort: medium
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/offices-state.ts elects every legislative seat in Guam, American Samoa, the Northern Marianas and the Virgin Islands at large, because the Census Gazetteer has no districts for them. Read each territory's election commission for its districts (Guam at large, the Virgin Islands by island, the Northern Marianas by island and village, American Samoa by county and district) and sitting members, put them in data with citations, and elect seats by district. Closes SG-GOV-territory-legislature-districts.

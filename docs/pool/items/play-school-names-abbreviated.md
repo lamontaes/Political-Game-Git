@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Who you are lists the player's schools with the school data's abbreviations as stored: in Dalmatia, Pennsylvania (place key 4218080, seed d5a7f4797e3756f8bdd69464f234cc3c2e3a0e91d0ef4b01ef56cfde097588e6) "Shamokin Area Intermediate Sch" and "Shamokin Area El Sch", and in Albion (playtest Oct 26) "Northwestern MS" and "Northwestern El Sch". A player reads these as cut-off names. The abbreviations should be expanded from a data table where a school's name is shown, not by typing names into a screen.

@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** After a campaign speech heard in the room, the candidate comes over and asks for your vote (`speech-afterward`, #6136). The player's reply ("You've got my vote.", "I still don't see it your way.") is recorded as a `scene.reply` event, and the core's relationship writer reads it as time together with the candidate. Nothing reads the stance itself. A promise of a vote changes no vote intent, no impression of the candidate, and no later choice, so the reply is a record nobody else reads (AGENTS.md, "An effect is a read, not a record").

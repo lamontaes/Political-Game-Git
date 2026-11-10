@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from core-stopgap-parameters-uncalibrated-tunable in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Source or calibrate the values behind these open stopgap rows: SG-P8-param-appraisalRelationshipWeight, SG-P8-param-appraisalDistressTraitWeight, SG-P8-param-appraisalBroodingTraitWeight, SG-P8-param-openingRetirementClaimTraitPullYears and SG-P8-param-openingRetirementCoveredTraitPull. For each, find the real figure or the check it must reproduce in total, tag the value SOURCED, ESTIMATED or TUNABLE with its spread in src/core2/data/parameters.json, and resolve the row naming the engine that reads it. This is part 4 of core-stopgap-parameters-uncalibrated-tunable.

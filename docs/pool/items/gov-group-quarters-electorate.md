@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Group-quarters residents are counted room records (core-group-quarters-population), and the voting, candidacy and campaign engines read them as households. Counted residents of adult correctional rooms vote at the town's counted scale and can be drawn to run for a local seat, though the state's barred share only covers prisoners on average, not concentrated in a prison town (stopgap `SG-GQ-counted-prisoners-vote`). A canvasser's doors include prison cells and nursing-home rooms (stopgap `SG-GQ-campaign-doors`). The prerequisite item core-group-quarters-population is done.

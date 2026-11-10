@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone: M7
 source: split from release-m7-05-legal-check in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** List each real school, bank, business and institution that appears by name in the shipped data, and give each a decision (keep, rename or remove) for the owner. Real places themselves are the game's setting and stay; this part covers named organizations.

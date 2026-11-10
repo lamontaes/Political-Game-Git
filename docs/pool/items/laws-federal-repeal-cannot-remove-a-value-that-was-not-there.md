@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+checked: fable 2026-11-10
 ---
 
 **What.** A repeal cannot put a body back to having no law of its own. Measured in the Nov 9 law sweep in Marion, Mississippi (seed 7df73e53cd67): every one of the 223 repeals passed, and at the town, county and state the old value was on the books two weeks later. In Congress 31 of 40 went straight back to the old value, but the other 9 repeals left a value where there had been none, because a bill can set a value and cannot remove one. The audit does not list which nine laws. An amount section of a bill always carries a number, the enacting step always writes that number as a new law row, and dev mode's Repeal introduces a bill with the value 0, so a federal 0 now stands where the level used to be silent and anything that reads "the federal value" finds one. Fix it for every body and every amount law: a repeal of a value the body itself set, where it had none before, ends that body's row, so the level is silent again and the next level's law governs as before.

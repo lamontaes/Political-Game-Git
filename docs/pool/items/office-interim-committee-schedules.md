@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 lead: governing
+checked: fable 2026-11-10
 ---
 
 **What.** Between sessions a state legislator's calendar has one committee day, the same day of every month in every state. interimCommitteeDayOfMonth is 15, ESTIMATED with a spread of 1 to 28, and src/core2/office-day-state.ts reads it for the interim-committee entry. Real interim committees meet by their own schedule: some monthly, some quarterly, some only when leadership calls them. Collect each state legislature's interim committee schedule (meetings a year, months, day or weekday), cite the source for each, and read it in place of the single day so a member's interim calendar differs by state.

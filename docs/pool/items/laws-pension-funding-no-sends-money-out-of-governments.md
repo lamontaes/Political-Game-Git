@@ -16,13 +16,14 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** A government that votes not to fund its pensions on schedule should pay less into them, and in the game it ends far poorer. Measured in the law sweep in Marion, Mississippi (seed 7df73e53cd67): answering no on funding pensions on schedule sent $20.6 million out of governments in 180 days, against a twin world with no bill. The figure has the public broadband rider's amounts taken out, because the bill left the body with that rider. The audit lists this among results that point the wrong way and did not trace it to a payer or to code. The audit does not name the body; it found the broadband rider on the Mississippi House's bills, which ran 180 days. Find which payment carries the $20.6 million, by its own label, and fix it at the cause for every government the law binds: a yes raises the retirement contribution by the law's amount and that money goes to the pension fund, and a no lowers it, so the treasury keeps what it no longer pays.
 
-**Cause.** Measured: Marion, Mississippi, seed 7df73e53cd67: answering no on fund-pensions-to-schedule sent $20.6 million out of governments in 180 days against a twin. Candidate code: src/core2/law-reach/group-b.ts case "pension-funding" (line 421), budgets-treasury.ts sweepReserves.
+**Cause.** Needs cause. Looked at: Marion, Mississippi, seed 7df73e53cd67: answering no on fund-pensions-to-schedule sent $20.6 million out of governments in 180 days against a twin. Candidate code: src/core2/law-reach/group-b.ts case "pension-funding" (line 421), budgets-treasury.ts sweepReserves.
 
-**Fix.** Find the payment label carrying the $20.6 million (likely the retirementContributions line moved by a no, then swept to the outside account) and fix at the cause so a no lowers the contribution and the treasury keeps it.
+**Fix.** None until the cause is found.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -35,3 +36,5 @@ root: rc8-law-judged-by-paperwork
 **Files.** src/core2/law-reach/group-b.ts (the `pension-funding` case, line 421; `reviewFiscalRules`, line 1040), src/core2/data/laws/reach-group-b.json (the policy row, line 202), src/core2/budgets-treasury.ts (`sweepReserves`, line 1631), scripts/dev-tests/law-run.ts
 
 **Notes.** From the Fable audit, Pillar 2, "Some results point the wrong way (measured; the first traced to its payer)". Measured: the one total, in one town, with the rider's amounts subtracted by the audit. Not traced: the payer, the label, the code. The audit: "I did not trace the pension, transit or wage-question results", and "Treat the other results as true of Marion, Mississippi until repeated." It was not among the five laws repeated in LaGrange, Wyoming. Read on main, Nov 10, not shown to be the cause: the `pension-funding` case calls `moveBudget` with a plan that adds the shortfall per resident times residents to the `retirementContributions` line, with `inForce: input.enacting`; what a no does to a budget the starting yes never raised, and whether the reserve sweep then moves the difference to the outside account, are the first two things to check. Because this bill carried a rider, the repro must first be rerun clean; `gov-riders-added-when-every-vote-is-forced` covers the rider itself. Related: `laws-nine-links-taxes` (blocked; the family this law sits in), `money-town-tax-raise-leaves-its-own-treasury-no-richer` (the reserve sweep).
+
+**Notes (Fable's check, Nov 10).** How to find the cause: rerun the Marion, Mississippi twin clean (one section, no rider) and compare the governments' journals by payment kind over the 180 days. The first suspect is the retirementContributions line moved by a no and then swept to the outside account (`sweepReserves`, src/core2/budgets-treasury.ts line 1631). The fix is then made at that payment, so a no lowers the contribution and the treasury keeps it.

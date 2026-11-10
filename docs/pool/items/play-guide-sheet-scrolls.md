@@ -14,9 +14,10 @@ source: added with npm run pool -- add
 claimed-at:
 after:
 lead: play-first
-model: haiku
+model: sonnet
 effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The title says the Guide sheet is 611 pixels taller than its window, so it scrolls, which no menu sheet is meant to do. The item body was never filled in (released from an idle draft), and no measurement was kept: not the window size, the place or the screen state the 611 pixels were read in. The Guide screen is built in src/bench/ui/guide-screen.mjs with its labels in src/bench/data/controls.json.
@@ -25,7 +26,7 @@ root: none
 
 **Fix.** None until the cause is found.
 
-**Time box.** 1 hour for one Haiku session, to measure the Guide sheet at 1440 by 900 in a drawn place and either rewrite this item with `Found in code:` and a real Fix or propose it for dropping.
+**Time box.** 1 hour for one Sonnet session, to measure the Guide sheet at 1440 by 900 in a drawn place and either rewrite this item with `Found in code:` and a real Fix or propose it for dropping.
 
 **Rules.** Screen to mock: the Guide fits its window like every menu sheet, from the shared controls. Replace, never layer: a fix changes the one Guide sheet, with no second layout beside it.
 

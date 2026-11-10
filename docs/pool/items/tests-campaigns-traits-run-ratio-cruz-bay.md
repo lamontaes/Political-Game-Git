@@ -16,6 +16,7 @@ after:
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/modules/campaigns.traits.test.ts, the case "running for office follows honesty-humility at about the researched rate, among newcomers", fails in Cruz Bay, U.S. Virgin Islands with GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52 (the first draw, suffix :0): the candidacy.run odds ratio between the top and bottom thirds of lean is 3.26, and the test allows under 2.67, which is the study's 1.21 times the test's 2.2 slack. It fails the same way on main's own code. The slope is read with every reason total moved so one in twenty would run, so the ratio depends on how many newcomers weigh running there and how many of their reason totals sit in one pile near the line.

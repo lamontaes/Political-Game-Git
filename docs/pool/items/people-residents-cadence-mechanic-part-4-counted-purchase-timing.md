@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-residents-cadence-mechanic in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The wider population's purchases merge per seller, kind and week of the month and are paid monthly, instead of following each group's own pay dates. Build counted purchases timed from each group's own pay dates, and resolve SG-CORE-residents-cadence.

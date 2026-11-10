@@ -16,6 +16,7 @@ after:
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** Puerto Rico's municipio budgets now come from the Oficina de Gerencia y Presupuesto's (OGP) approved General Fund for fiscal 2024-25 (data/research/money/puerto-rico-municipal-budget-fy2025.json, written into the bases by scripts/research/export-public-budget-bases.py): each municipio's own total over its own residents, on the island's revenue mix, with spending on the states' city mix without schools (stopgap SG-GOV-territory-municipal-mix). The other four island areas (Guam, the Virgin Islands, American Samoa, the Northern Marianas) still have only a `state` row, so a town there has a $0 budget as Toa Alta did. Add their local-government rows from each territory's own published budget or, where none is found, the real per-resident average of the island areas with a spread, tagged ESTIMATED. For Puerto Rico, read each municipio's own revenue lines (OGP Ingresos Recurrentes and No Recurrentes by municipio), its spending by function (OGP's municipal expenditure files: salaries, fringe benefits, social assistance, the rest) and its federal grants.

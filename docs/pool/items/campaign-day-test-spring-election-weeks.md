@@ -13,9 +13,10 @@ blocked-on:
 source: governing lead, Oct 30 (found in phase A runs)
 lead: governing
 standard: 2
-model: haiku
+model: sonnet
 effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The test that every week a candidate knocks reaches someone expects more than 20 weeks of knocking, but a town with a spring election closes its campaign first. It fails on main in about 2 of 200 draws: Highgate Center VT (5033175, run seed wk-104) gives 9 weeks and Hobart WI (5535150, run seed wk-142) gives 14. The rule is right and the test's fixed week count is wrong.
@@ -24,7 +25,7 @@ root: none
 
 **Fix.** Make the test read each drawn place's own election date from its contest record and expect weeks of knocking up to that date. Print the place and the seed in any failure message.
 
-**Time box.** 1.5 hours for a Haiku session.
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One rule, all 56 places: the test reads each drawn place's own election date from its contest record instead of a fixed twenty weeks, so every place's calendar passes by the same rule.
 

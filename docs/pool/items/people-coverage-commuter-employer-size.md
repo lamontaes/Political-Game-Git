@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** holdersToday in src/core2/modules/coverage.ts ranks every working adult by the staff of their employer, then pay. A commuter's employer is the town's outside-market organization, whose staff count is the town's commuters, not the size of the firm they work for. So a spouse's new commuter job at a small count can take the household's policy from a worker at a larger employer. The ranking should use an estimate of the outside employer's size.

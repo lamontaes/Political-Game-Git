@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Three laws of the justice family are still short of the nine wiring links: the police budget line (its low-level-arrests link), the corrections budget line (its money is untraced) and restore-voting-after-sentence (its turnout link, carried by stopgap SG-GOV-REACH-A-convictions). The other nine landed in PR #6012 as laws-nine-links-justice-nine. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.

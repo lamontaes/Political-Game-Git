@@ -102,13 +102,6 @@
     },
     {
       "file": "2026-11-09-batch-2-voice.json",
-      "key": "scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race",
-      "date": "2026-11-09",
-      "note": "An apology implies the listener was running; if you were running you wouldn't hear the result secondhand.",
-      "reason": "A fault of this one line's casting: an apology implies the listener was running, and this listener heard the result secondhand; the general case is every-line-gives-its-context, and the casting belongs to the producer, so no new rule."
-    },
-    {
-      "file": "2026-11-09-batch-2-voice.json",
       "key": "scene-talk.reply-relent.all-right-you-ve-made-your-case",
       "date": "2026-11-09",
       "note": "It sounds like the end of a hearing, not giving in to hold one; it reads as a fragment.",
@@ -330,13 +323,6 @@
       "date": "2026-10-16",
       "note": "Oct 16, early morning: batch 14 review: decent",
       "reason": "Calls \"People say a lot of things.\" decent; a mild praise for one line, held by the ledger."
-    },
-    {
-      "file": "voice-notes-batches-11-19.json",
-      "key": "scene-talk.reply-deflect.you-ll-have-to-ask-the-chair",
-      "date": "2026-10-16",
-      "note": "Oct 16, morning: batch 15 review: makes no sense for your own vote",
-      "reason": "Says it makes no sense for your own vote; a fault in where this deflection is cast (the speaker's own vote is not the chair's to decide), so a casting fix for one line, not a new rule."
     },
     {
       "file": "voice-notes-batches-11-19.json",

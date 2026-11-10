@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from gov-failure-to-elect-by-place in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Research and record, for Montana through Wyoming, the District of Columbia and the territories, what happens when an election fails to fill an office, per office family: holdover, appointment or repeat election and its timing, each cited by statute or constitution section with its retrieval date, in `src/core2/data/offices/holdover.json`. The voting module's empty-race function already reads the file's family defaults.

@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc9-place-facts-one-default
 source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The player and the press need to see a redistricting plan, and a challenge to a plan needs a decision. The plan shows on one screen read from the plan record, and a map challenge is decided by the law in force. It comes from the stubs gov-redistricting-plan-screen and gov-redistricting-map-challenge.

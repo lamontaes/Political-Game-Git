@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the opening's customers and public buyers. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The public cleaning share (0.124), the buyer coverage (0.8), sampling intervals for the 60 household service means and four research files for buyer classes, county identity and public building spending were delivered. Still open: openingCustomerPeriodMonths and openingCustomerAgreementLeadDays stay TUNABLE because no published table gives them; the 8 national service components, the size top code and the 104 Census and BEA rows have no spread to give. All five rows stay open as estimates or mechanics, and the cleaning share and coverage were not yet seen in a played year because the drawn town had no building.

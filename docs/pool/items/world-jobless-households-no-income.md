@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** In three towns drawn (Murphy, Idaho; Timberwood Park, Texas; Bay Pines, Florida; the played world from January 20, 2025 for 90 days, seeds n1 to n3) 61, 62 and 63 of about 1,700 full households, 3.6 to 3.8 percent, held no cash at the start and received no money at all in 90 days: no pay, no benefit and no transfer. About a quarter of them (12 to 19 a town) have only people 65 or older, and the rest have an adult under 65 and no job. Both groups are real in life, so the number is not obviously wrong: the American Community Survey puts the share of households with no income at roughly 3 to 4 percent (not yet checked against its table for each of these states). What is left to settle is why a household of people 65 or older is paid no retirement award, unemployment, SNAP or other benefit and holds no savings to spend.

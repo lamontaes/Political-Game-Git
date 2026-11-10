@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The private share of students by state is sourced, but the homeschool share by state is not read anywhere. A researcher already built the 51-state table from the Census Household Pulse public-use files, scaled to the national NHES figure (1.8 to 4.4 percent, median 2.6), with the definition, limits and script written up in docs/reports/homeschool-share-2026-10-20.md. The table never shipped because the school engine reads one national private share. Move the table into data/research/people with a reader in the tuition opening.

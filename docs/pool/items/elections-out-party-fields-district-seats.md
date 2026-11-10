@@ -14,6 +14,7 @@ standard: 2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The out-party does not field a candidate for the town's House and legislative district seats. At Castanea, Pennsylvania (seed t5) 7 people filed for the U.S. House seat and all 7 were Democrats; 6 lost the primary and the general ballot had one name. The same shape appeared at Royal Hawaiian Estates HI (y1) and North Haverhill NH (x9). Across 15 drawn places 5 of 15 House generals had one major party (Ballotpedia: 0.087 of House seats with no major-party competition, in `benchmarks.json`, a figure to report beside the result and not a target). Statewide races get a stand-in nominee for each major party, but a district seat does not.
@@ -28,7 +29,7 @@ root: none
 
 **Done when.** A second session plays years at five places drawn from all 56 (names and seeds printed) and sees a House seat's general ballot with both major parties wherever the state's pool holds a member of the out-party who clears the chooser, each filing's recorded reasons and party ask named by record id. The House no-competition share is reported next to 0.087 with the cause of any gap, as a report and not a pass or fail.
 
-**Waits on.** Nothing.
+**Waits on.** Nothing to start. core-race-candidates-who-runs replaces the stand-in pair for the same out-of-town seats with a decision to run: read it first, and if it has merged, draw the out-party's candidate through its chooser, not a second one.
 
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, scripts/dev-tests/zero-general.ts
 

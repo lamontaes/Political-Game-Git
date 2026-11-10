@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/board-appointer.ts places a central bank candidate on the left-right scale by how much inflation they lived through, and scores qualification from a small table by career label. Give each seeded candidate a recorded stance and a short career history (filled in like any named person), read the stance for the president's alignment and the history for qualification, with the table's values calibrated to past governors' careers. This closes the stopgaps SG-WORLD-board-hawk-side and SG-WORLD-board-career-qualification.

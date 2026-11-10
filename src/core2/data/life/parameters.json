@@ -1,0 +1,15 @@
+{
+  "lifeRememberedMost": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "citation": "The most events a person keeps one by one before the least important and oldest fold into a count by kind and decade (owner, Oct 11, 2026: memories keep what matters and summarize the rest). Set so a played life of several decades still shows every loss, child, partner and conviction it held.",
+    "spread": {
+      "low": 30,
+      "high": 120,
+      "unit": "events kept on one person",
+      "citation": "Checked range, not a measure: the long-save speed check (npm run speed:year) reads records kept per person at year 100 against year 4."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-PEOPLE-life-record-cap"
+  }
+}

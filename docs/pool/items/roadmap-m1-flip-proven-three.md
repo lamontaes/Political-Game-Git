@@ -17,6 +17,7 @@ lead: m0-m2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** M1-01 (laws in force) already reads passes true in docs/roadmap/features.json, so only M1-02 (the national economy and central bank) is left of the two flags this item was filed for. The Notes record that M1-02's registered command gave zero bank lines and zero repricings in an independent draw at Swanton, Nebraska, byte-identical on clean main, and that the newly accepted flag lacks its positive loan-cost witness. Nobody has traced why the draw shows no repricing. The item stays open until a rate decision is seen changing what loans cost in a drawn place, and M1-02 then flips with its run named.

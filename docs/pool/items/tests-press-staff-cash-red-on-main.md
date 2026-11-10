@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/press-staff-cash.test.ts fails on clean main (Oct 28, 20:40 UTC, merged with the vacant-seat fix). In Roslyn Heights, New York (3663814), at the test's pinned seed cbde9425c9b39c9028eb1b3abe5ce48509818e965fd5d5e38b0673d16bb83741, person:press:outlet:cable:0:national:head:0 opens with 711942 where the test expects 948308. The two numbers differ by about a quarter, which suggests the opening balance now draws its per-world spread while the test still expects the survey value. The cause is not traced yet, and the test takes its household from officialHousehold in src/core2/official-living.ts.

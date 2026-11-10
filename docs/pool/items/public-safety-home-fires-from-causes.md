@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** No engine records a fire. The town paper's police and fire log prints the police half from the crime engine's month record; the fire half has nothing to read, so it never prints. Real fire departments answer structure fires, most of them in homes, and those fires come from causes a home's record can carry: cooking, heating equipment, electrical faults, smoking and the age of the home. Build them as a background simulation from those causes on the housing records, calibrated against the national rate of home structure fires, and record each one with its cause, its home and the household it displaced.

@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Where a place's city and state government are one body, its council is built as the state-level unicameral legislature, and no chamber was attached to the city government, so the mayor's proposed budget changes never reached a vote and the city budget was "carried forward by the budget rule until the council or legislature votes it". Found Oct 25 by the fixer on PR 5588: the merger's drawn place 1150000, world seed f73674b020840528c35ee69e493ace9ce2b5ece15f39c2162b48622e3256ae64, kept its administration line at 190276913260 because the city budget (budget:place:1150000:2025) was carried forward unvoted; the council's own budget bill (HB 34) passed with every line 0. `budgetChambers` now routes a whole-state city to the state chambers, which may already be this fix; whether the mayor's proposal reaches that vote and the adopted line changes has not been re-measured.

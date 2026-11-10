@@ -17,6 +17,8 @@ root: rc9-place-facts-one-default
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind missing-data"
 claimed-at:
 after:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Replace or clear the one open missing-data stopgap row in src/core2/justice-law.ts: SG-GOV-justice-prosecutor-stand-in. The fake is replaced by the mechanic, or the feature that needs it is deleted. The row is never closed by deleting it alone.

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of words-director-one-path. The opening address should differ by who the player is and what is happening in the world, as the owner approved on Oct 28; today it is assembled from a small fixed set. Build it from parts the English banks hold, chosen by records, and test two worlds against each other.

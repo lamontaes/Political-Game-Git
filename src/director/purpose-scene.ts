@@ -119,6 +119,7 @@ import {
   PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
 import { properName, spoken, spokenDate, stateInSentence } from "./words";
@@ -1524,6 +1525,16 @@ function cutFacts(
         sourceRecordIds: [causeId, budget.id],
       };
   }
+  // What the line pays for, as the budget screen names it ("police
+  // protection"), from the line the record names.
+  const lineName = (
+    lineNames.lines as Record<string, { readonly name: string } | undefined>
+  )[said.line ?? ""]?.name;
+  if (lineName)
+    facts.line = {
+      text: lineName.charAt(P.zero).toLowerCase() + lineName.slice(P.one),
+      sourceRecordIds: [causeId, ...(budget ? [budget.id] : [])],
+    };
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
     (row) => row.holderId === headId,
   );
