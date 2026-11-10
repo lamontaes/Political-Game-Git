@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
 pr: #6111
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:15:27.283Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-06-texas-shows-local-income-tax
 ---
@@ -55,3 +55,5 @@ Released (2026-11-10): Replay passed in Abbott TX and Acalanes Ridge CA (details
 Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:12 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
 
 Released (2026-11-10): Replayed on main 269789a282, could not record: pool seen refuses a claimed item. issues-levels.browser.mjs passes at 1440x900 in Anson, Texas (no state income tax) and Fresno, California (income tax): every rate on Politics Issues names who sets it and none is shown for a level that levies none. Places by key 4803372 and 0627000, seed issues-levels. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:15 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
