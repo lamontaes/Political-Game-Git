@@ -39,7 +39,7 @@ const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(20).toString("hex");
 
 it(`office hours is a one-on-one: no town-hall beat plays in it (seed ${seed})`, () => {
   const tried: string[] = [];
-  for (let attempt = 0; attempt < 4; attempt += 1) {
+  for (let attempt = 0; attempt < 8; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "reads-wrong-office-hours");
     const where = `${place.name} (${place.key}), seed ${seed}:${attempt}`;
     setBookkeeping(false);
