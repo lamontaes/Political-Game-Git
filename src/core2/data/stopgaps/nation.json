@@ -106,5 +106,77 @@
     "addedAt": "2026-11-09",
     "replacement": "A measured or polled left-right axis for each federal question (Pew and Gallup by party), more orders and rules in federal-orders.json (the refugee admissions determination), and the played President's screen over federalOrderable.",
     "status": "open"
+  },
+  {
+    "id": "SG-NATION-country-tier-working-values",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/country/parameters.json",
+    "line": 1,
+    "whatItFakes": "Every number in the country tier's rules (how much of income each fifth spends, each sector's pay share, how fast firms adjust staff and prices, how strongly movers answer pay and work) is a value set by hand near a figure the builder knew, not one fitted to a published series.",
+    "why": "The tier was built on Nov 10, 2026 to replace the national formula; the values were chosen so a 40-year run with the central bank's own view stays calm and the tax, disaster and rate twins answer. BLS and Census hosts were blocked from the building session.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "A research pass (pool item core-country-tier-numbers-sourced) that fetches each figure's table, sets the value with its citation and spread, and re-runs the model's own test.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-regions-read-their-state",
+    "kind": "faked-mechanic",
+    "file": "src/core2/regional-model.ts",
+    "line": 1,
+    "whatItFakes": "A metro area or the rest of a state has no households, employers or ledger of its own: it keeps the difference from its state that it opened with, and its jobs, pay, people and prices move exactly as its state's do.",
+    "why": "The country tier's first slice holds 56 states. Splitting each into its regions multiplies the cells by about 2.4 and needs each region's own sector mix and budget lines read in.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "Cells and a ledger for each region inside its state (the regional data already holds each region's people and sector mix), stepped by the same month, with the state as their sum.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-country-tier-federal-spending",
+    "kind": "faked-mechanic",
+    "file": "src/core2/country-model.ts",
+    "line": 1,
+    "whatItFakes": "The nation's spending beyond the benefits the cells receive (its own purchases, aid to the states, interest) is one figure fitted so the federal books balance on day one, which then follows prices and sales. No budget is adopted and no deficit is run at the opening.",
+    "why": "The federal budget engine in the played world is the town's own chain's; the tier has no federal budget lines by state yet (data/research/federal/federal-spending-by-state-fy2024.json is not read).",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The federal ledger's lines read from the federal budget the game's Congress adopts, with federal spending by state from the research file, so a federal budget change reaches each state's cells.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-country-tier-state-budgets",
+    "kind": "faked-mechanic",
+    "file": "src/core2/country-model.ts",
+    "line": 1,
+    "whatItFakes": "Each state adopts next year's budget equal to the revenue it took in over the last twelve months, every twelfth month of the run. No legislature decides it, no reserve is drawn or built, and its unmodeled lines only keep up with prices.",
+    "why": "Other states' legislatures keep one tally a session and no budget process (pool items nation-other-states-change-laws-in-year-one-then-almost-never and nation-other-states-never-change-an-amount).",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "Each state's budget from its own legislature's act on its fiscal calendar, reading its balanced-budget law and its reserve, written to this ledger.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-country-tier-outside-world",
+    "kind": "assumed-data",
+    "file": "src/core2/country-model.ts",
+    "line": 1,
+    "whatItFakes": "The world outside the country buys a little more each year at prices that rise a little each year, both at fixed rates. Nothing abroad ever changes.",
+    "why": "No engine keeps the rest of the world. The national events engine records disasters, not price shocks from abroad.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "Recorded events abroad (a price shock, a slump, a tariff) from the national events engine, read by the tier's outside demand and prices.",
+    "status": "open"
+  },
+  {
+    "id": "SG-NATION-country-tier-moves-twice",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/counted-moves.ts",
+    "line": 1,
+    "whatItFakes": "People moving between states are kept twice: the country tier moves its cells by pay after tax, prices and work, and the counted-moves engine still keeps its own count of each state's people and still re-fits arrivals to the survey every month.",
+    "why": "Replacing the counted-moves engine's state counts with the tier's cells touches 1,800 lines that also move the town's own households; it ships as the next pull request so this one stays reviewable.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "Pool item core-country-tier-moves-one-holder: the counted-moves engine reads each state's people and place constants from the tier, and its monthly re-fit and pinned departures are deleted.",
+    "status": "open"
   }
 ]

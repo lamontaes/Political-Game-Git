@@ -1,0 +1,123 @@
+/**
+ * The law in force as the country tier's month reads it, from the game's own law answers and the
+ * rules a town paycheck and a town claim already use (`withholdingFor`, `unemploymentTermsOf`):
+ * one rule, two tiers. The caller says how a state's law on a series is read (the laws module's
+ * `stateLawInForce` in play); answers are kept for the month this reader lives.
+ */
+import type { CountryLaw, CountryState } from "./country-model";
+import { unemploymentTermsOf } from "./jobs-benefits";
+import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
+import { startingLawRows } from "./laws-starting";
+import type { LawRowInput } from "./laws-starting";
+import { withholdingFor } from "./tax-withholding";
+
+const DAYS_PER_YEAR = 365;
+const WEEKS_PER_YEAR = 52;
+
+/** The value of a series at one level of an answer, or null where that level has no law on it. */
+function atLevel(
+  answer: LawInForceAnswer,
+  level: "state" | "federal",
+): number | null {
+  const found = answer.levels.find((row) => row.level === level);
+  if (!found?.row || found.setAside) return null;
+  return typeof found.row.value === "number" ? found.row.value : null;
+}
+
+export function countryLaw(
+  read: (stateKey: string, series: string) => LawInForceAnswer,
+  parameter: (key: string) => number,
+  asOf: string,
+): CountryLaw {
+  const answers = new Map<string, LawInForceAnswer>();
+  const law = (state: CountryState, series: string) => {
+    const id = `${state.key}|${series}`;
+    let answer = answers.get(id);
+    if (!answer) answers.set(id, (answer = read(state.key, series)));
+    return answer;
+  };
+  const hundred = parameter("macroHundred");
+  const minor = parameter("minorPerDollar");
+  const hours = parameter("countryHoursPerYear");
+  const terms = new Map<string, ReturnType<typeof unemploymentTermsOf>>();
+  return {
+    withheld(state, payYear) {
+      // One paycheck for the year: the percentage method gives the year's tax, the wage base and
+      // the added Medicare rate apply to the year's pay.
+      const lines = withholdingFor({
+        paidMinor: Math.round(payYear * minor),
+        periodDays: DAYS_PER_YEAR,
+        yearToDateMinor: 0,
+        incomeTax: law(state, "income-tax"),
+        socialSecurity: law(state, "social-security-tax"),
+        medicare: law(state, "medicare-tax"),
+      });
+      let toState = 0,
+        toNation = 0;
+      for (const line of lines)
+        if (line.level === "state") toState += line.minor;
+        else if (line.level === "federal") toNation += line.minor;
+      return { state: toState / minor, federal: toNation / minor };
+    },
+    salesTaxRate: (state) =>
+      (atLevel(law(state, "sales-tax"), "state") ?? 0) / hundred,
+    profitTaxRate: (state) =>
+      (atLevel(law(state, "corporate-income-tax"), "state") ?? 0) / hundred,
+    federalProfitTaxRate: (state) =>
+      (atLevel(law(state, "corporate-income-tax"), "federal") ?? 0) / hundred,
+    wageFloorYear: (state) =>
+      ((law(state, "minimum-wage").value ?? 0) / minor) * hours,
+    joblessBenefitYear(state, payYear) {
+      let own = terms.get(state.key);
+      if (!own)
+        terms.set(
+          state.key,
+          (own = unemploymentTermsOf(
+            law(state, "unemployment-insurance"),
+            law(state, "unemployment-weekly-maximum"),
+            parameter,
+            asOf,
+          )),
+        );
+      if (!own.hasProgram) return 0;
+      const weekly = Math.min(
+        (own.weeklyShare * payYear) / WEEKS_PER_YEAR,
+        own.weeklyMaximumMinor / minor,
+      );
+      return weekly * WEEKS_PER_YEAR;
+    },
+  };
+}
+
+/**
+ * A state's law read from the research's starting law alone, by the same rule
+ * the laws module uses: for a world that has no laws module open (a model test,
+ * a small world), where no act has changed anything.
+ */
+export function startingLawReader(
+  date: string,
+): (stateKey: string, series: string) => LawInForceAnswer {
+  const starting = new Map<string, readonly LawRowInput[]>();
+  return (stateKey, series) => {
+    const chain = {
+      placeKey: "",
+      placeName: stateKey,
+      townPlaceId: "",
+      stateKey,
+      countyGeoids: [],
+      incorporated: false,
+      levels: [
+        { level: "federal" as const, jurisdiction: "US" },
+        { level: "state" as const, jurisdiction: stateKey },
+      ],
+    };
+    let rows = starting.get(stateKey);
+    if (!rows) starting.set(stateKey, (rows = startingLawRows(chain)));
+    return resolveLawInForce({
+      series,
+      chain,
+      date,
+      rows: rows.filter((row) => row.series === series),
+    });
+  };
+}

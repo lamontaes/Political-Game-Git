@@ -1,0 +1,1729 @@
+{
+  "countryAdultShareAge18To29": {
+    "value": 0.155,
+    "tag": "TUNABLE",
+    "citation": "The share of a state's people aged 18 to 29 at the opening. Working value, set near the Census Bureau's national age distribution; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryAdultShareAge30To44": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "The share of a state's people aged 30 to 44 at the opening. Working value, set near the Census Bureau's national age distribution; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryAdultShareAge45To64": {
+    "value": 0.245,
+    "tag": "TUNABLE",
+    "citation": "The share of a state's people aged 45 to 64 at the opening. Working value, set near the Census Bureau's national age distribution; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryAdultShareAge65Plus": {
+    "value": 0.18,
+    "tag": "TUNABLE",
+    "citation": "The share of a state's people aged 65 and over at the opening. Working value, set near the Census Bureau's national age distribution; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryParticipationAge18To29": {
+    "value": 0.72,
+    "tag": "TUNABLE",
+    "citation": "The share of people aged 18 to 29 who work or look for work. Working value, set near the Current Population Survey's participation rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryParticipationAge30To44": {
+    "value": 0.83,
+    "tag": "TUNABLE",
+    "citation": "The share of people aged 30 to 44 who work or look for work. Working value, set near the Current Population Survey's participation rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryParticipationAge45To64": {
+    "value": 0.74,
+    "tag": "TUNABLE",
+    "citation": "The share of people aged 45 to 64 who work or look for work. Working value, set near the Current Population Survey's participation rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryParticipationAge65Plus": {
+    "value": 0.19,
+    "tag": "TUNABLE",
+    "citation": "The share of people aged 65 and over who work or look for work. Working value, set near the Current Population Survey's participation rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayRelativeFifth1": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "A worker's pay in the lowest income fifth against the average worker's. Working value, set near the spread of earnings by fifth in the Current Population Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayRelativeFifth2": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "A worker's pay in the second income fifth against the average worker's. Working value, set near the spread of earnings by fifth in the Current Population Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayRelativeFifth3": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "A worker's pay in the middle income fifth against the average worker's. Working value, set near the spread of earnings by fifth in the Current Population Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayRelativeFifth4": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "A worker's pay in the fourth income fifth against the average worker's. Working value, set near the spread of earnings by fifth in the Current Population Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayRelativeFifth5": {
+    "value": 2.25,
+    "tag": "TUNABLE",
+    "citation": "A worker's pay in the highest income fifth against the average worker's. Working value, set near the spread of earnings by fifth in the Current Population Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryHoursPerYear": {
+    "value": 1800,
+    "tag": "TUNABLE",
+    "citation": "Paid hours in a worker's year, which turns hourly pay into a year's pay. Working value, set near the Current Employment Statistics average weekly hours times 52; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareConstruction": {
+    "value": 0.32,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in construction. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareEducationHealth": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in education health. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareFinancial": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in financial. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareGovernment": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in government. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareInformation": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in information. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareLeisureHospitality": {
+    "value": 0.36,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in leisure hospitality. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareManufacturing": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in manufacturing. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareMiningLogging": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in mining logging. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareOtherServices": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in other services. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareProfessionalBusiness": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in professional business. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLaborShareTradeTransportUtilities": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "Pay as a share of sales in trade transport utilities. Working value, set near compensation over gross output in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayConstruction": {
+    "value": 1.05,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in construction against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayEducationHealth": {
+    "value": 0.9,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in education health against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayFinancial": {
+    "value": 1.6,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in financial against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayGovernment": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in government against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayInformation": {
+    "value": 1.9,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in information against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayLeisureHospitality": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in leisure hospitality against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayManufacturing": {
+    "value": 1.15,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in manufacturing against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayMiningLogging": {
+    "value": 1.6,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in mining logging against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayOtherServices": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in other services against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayProfessionalBusiness": {
+    "value": 1.3,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in professional business against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySectorPayTradeTransportUtilities": {
+    "value": 0.85,
+    "tag": "TUNABLE",
+    "citation": "A year's pay in trade transport utilities against the average job's. Working value, set near average weekly earnings by supersector in the Current Employment Statistics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketConstruction": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to construction. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketEducationHealth": {
+    "value": 0.22,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to education health. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketFinancial": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to financial. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketGovernment": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to government. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketInformation": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to information. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketLeisureHospitality": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to leisure hospitality. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketManufacturing": {
+    "value": 0.12,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to manufacturing. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketMiningLogging": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to mining logging. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketOtherServices": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to other services. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketProfessionalBusiness": {
+    "value": 0.03,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to professional business. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBasketTradeTransportUtilities": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending that goes to trade transport utilities. Working value, set near personal consumption by type in the BEA accounts, mapped to the sector that sells it; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedConstruction": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from construction that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedEducationHealth": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from education health that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedFinancial": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from financial that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedGovernment": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from government that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedInformation": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from information that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedLeisureHospitality": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from leisure hospitality that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedManufacturing": {
+    "value": 0.9,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from manufacturing that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedMiningLogging": {
+    "value": 0.95,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from mining logging that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedOtherServices": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from other services that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedProfessionalBusiness": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from professional business that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradedTradeTransportUtilities": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "The share of what buyers want from trade transport utilities that can be bought from another state. Working value, set near tradable shares by industry in the trade literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsConstruction": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from construction. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsEducationHealth": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from education health. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsFinancial": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from financial. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsGovernment": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from government. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsInformation": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from information. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsLeisureHospitality": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from leisure hospitality. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsManufacturing": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from manufacturing. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsMiningLogging": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from mining logging. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsOtherServices": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from other services. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsProfessionalBusiness": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from professional business. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestGoodsTradeTransportUtilities": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of firms' investment spending that buys from trade transport utilities. Working value, set near private fixed investment by type in the BEA accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayConstruction": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on construction's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayEducationHealth": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on education health's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayFinancial": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on financial's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayGovernment": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on government's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayInformation": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on information's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayLeisureHospitality": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on leisure hospitality's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayManufacturing": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on manufacturing's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayMiningLogging": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on mining logging's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayOtherServices": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on other services's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayProfessionalBusiness": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on professional business's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayTradeTransportUtilities": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "One where the wage floor binds on trade transport utilities's usual pay, zero where it does not. Working value, set near the sectors with the most workers at or near the minimum wage in BLS reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInputShare": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "Of a sector's sales after pay, the share spent on purchases from other firms and abroad. Working value, set near intermediate inputs over gross output less compensation in the BEA industry accounts; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryFirmCashMonths": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Months of sales a sector's firms hold as cash at the opening. Working value, set near cash over monthly sales for nonfinancial firms; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestPerSales": {
+    "value": 0.08,
+    "tag": "TUNABLE",
+    "citation": "Firms' investment spending as a share of the sales they expect. Working value, set near private nonresidential fixed investment over gross output; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestPerGrowth": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "How much more firms invest for each point of real sales growth they expect. Working value, set near accelerator estimates in the investment literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInvestPerRealRatePoint": {
+    "value": 0.04,
+    "tag": "TUNABLE",
+    "citation": "The share of investment firms drop for each point of the real interest rate. Working value, set near user-cost elasticities of business investment; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryHomesPerRealRatePoint": {
+    "value": 0.06,
+    "tag": "TUNABLE",
+    "citation": "The share of home building households drop for each point of the real interest rate. Working value, set near the response of residential investment to mortgage rates; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutlayFifth1": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The share of income after tax that the lowest income fifth spends. Working value, set near outlays over after-tax income by fifth in the Consumer Expenditure Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutlayFifth2": {
+    "value": 0.98,
+    "tag": "TUNABLE",
+    "citation": "The share of income after tax that the second income fifth spends. Working value, set near outlays over after-tax income by fifth in the Consumer Expenditure Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutlayFifth3": {
+    "value": 0.95,
+    "tag": "TUNABLE",
+    "citation": "The share of income after tax that the middle income fifth spends. Working value, set near outlays over after-tax income by fifth in the Consumer Expenditure Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutlayFifth4": {
+    "value": 0.9,
+    "tag": "TUNABLE",
+    "citation": "The share of income after tax that the fourth income fifth spends. Working value, set near outlays over after-tax income by fifth in the Consumer Expenditure Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutlayFifth5": {
+    "value": 0.72,
+    "tag": "TUNABLE",
+    "citation": "The share of income after tax that the highest income fifth spends. Working value, set near outlays over after-tax income by fifth in the Consumer Expenditure Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryCashMonthsFifth1": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Months of income the lowest income fifth keeps as cash. Working value, set near transaction balances by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryCashMonthsFifth2": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Months of income the second income fifth keeps as cash. Working value, set near transaction balances by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryCashMonthsFifth3": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Months of income the middle income fifth keeps as cash. Working value, set near transaction balances by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryCashMonthsFifth4": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Months of income the fourth income fifth keeps as cash. Working value, set near transaction balances by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryCashMonthsFifth5": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Months of income the highest income fifth keeps as cash. Working value, set near transaction balances by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryCashSpentPerMonth": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "The share of cash held above its usual months that a household spends in a month. Working value, set near estimates of the spending response to liquid wealth; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryHeldBackPerPoint": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "The share of spending households hold back for each point the share out of work rose over a quarter. Working value, set near precautionary saving estimates around rising unemployment; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryJoblessInsuredShare": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "The share of people looking for work who draw unemployment insurance. Working value, set near the recipiency rate in the Department of Labor's unemployment insurance data; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryRetirementYearFifth1": {
+    "value": 14000,
+    "tag": "TUNABLE",
+    "citation": "A year's retirement income, in opening dollars, for someone aged 65 and over who is not working, in the lowest income fifth. Working value, set near Social Security and pension income by fifth for people 65 and over; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryRetirementYearFifth2": {
+    "value": 19000,
+    "tag": "TUNABLE",
+    "citation": "A year's retirement income, in opening dollars, for someone aged 65 and over who is not working, in the second income fifth. Working value, set near Social Security and pension income by fifth for people 65 and over; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryRetirementYearFifth3": {
+    "value": 24000,
+    "tag": "TUNABLE",
+    "citation": "A year's retirement income, in opening dollars, for someone aged 65 and over who is not working, in the middle income fifth. Working value, set near Social Security and pension income by fifth for people 65 and over; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryRetirementYearFifth4": {
+    "value": 30000,
+    "tag": "TUNABLE",
+    "citation": "A year's retirement income, in opening dollars, for someone aged 65 and over who is not working, in the fourth income fifth. Working value, set near Social Security and pension income by fifth for people 65 and over; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryRetirementYearFifth5": {
+    "value": 38000,
+    "tag": "TUNABLE",
+    "citation": "A year's retirement income, in opening dollars, for someone aged 65 and over who is not working, in the highest income fifth. Working value, set near Social Security and pension income by fifth for people 65 and over; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOtherTransferYearFifth1": {
+    "value": 9000,
+    "tag": "TUNABLE",
+    "citation": "A year's aid, in opening dollars, to a working-age adult who is neither working nor looking, in the lowest income fifth. Working value, set near means-tested transfers by income fifth in Congressional Budget Office reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOtherTransferYearFifth2": {
+    "value": 4000,
+    "tag": "TUNABLE",
+    "citation": "A year's aid, in opening dollars, to a working-age adult who is neither working nor looking, in the second income fifth. Working value, set near means-tested transfers by income fifth in Congressional Budget Office reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOtherTransferYearFifth3": {
+    "value": 1500,
+    "tag": "TUNABLE",
+    "citation": "A year's aid, in opening dollars, to a working-age adult who is neither working nor looking, in the middle income fifth. Working value, set near means-tested transfers by income fifth in Congressional Budget Office reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOtherTransferYearFifth4": {
+    "value": 500,
+    "tag": "TUNABLE",
+    "citation": "A year's aid, in opening dollars, to a working-age adult who is neither working nor looking, in the fourth income fifth. Working value, set near means-tested transfers by income fifth in Congressional Budget Office reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOtherTransferYearFifth5": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "A year's aid, in opening dollars, to a working-age adult who is neither working nor looking, in the highest income fifth. Working value, set near means-tested transfers by income fifth in Congressional Budget Office reports; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySalesTaxedShare": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "The share of household spending the general sales tax applies to. Working value, set near the sales tax base over personal consumption in state tax studies; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayoutShare": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The share of profit after tax that firms pay out to their owners. Working value, set near dividends and proprietors' withdrawals over after-tax profit; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOwnershipFifth1": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of what firms pay out that goes to the lowest income fifth. Working value, set near business and equity ownership by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOwnershipFifth2": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The share of what firms pay out that goes to the second income fifth. Working value, set near business and equity ownership by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOwnershipFifth3": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "The share of what firms pay out that goes to the middle income fifth. Working value, set near business and equity ownership by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOwnershipFifth4": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "The share of what firms pay out that goes to the fourth income fifth. Working value, set near business and equity ownership by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOwnershipFifth5": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "The share of what firms pay out that goes to the highest income fifth. Working value, set near business and equity ownership by income in the Survey of Consumer Finances; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryFirmSpread": {
+    "value": 0.012,
+    "tag": "TUNABLE",
+    "citation": "How widely a sector's firms are spread around its monthly pace of growth: the source of jobs ending at some firms while others hire. Working value, set near monthly job creation and destruction rates in the Business Employment Dynamics; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryStaffAdjustPerMonth": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "The share of the way from its staff to the staff its sales need that a sector moves in a month. Working value, set near employment adjustment speeds in labor demand studies; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOpeningsPerSeeker": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Unfilled openings for each person looking for work at the opening. Working value, set near job openings over unemployed people in JOLTS; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOpeningsLapsePerMonth": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "The share of unfilled openings employers withdraw in a month. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryMatchSeekerWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "The weight of people looking, against openings, in how many find work in a month. Working value, set near matching function estimates (about one half); the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPayPerLogTightness": {
+    "value": 0.03,
+    "tag": "TUNABLE",
+    "citation": "How much faster pay rises in a year where openings per person looking are higher than employers there are used to, per unit of the log ratio. Working value, set near wage curve and wage Phillips curve estimates; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryUsualTightnessMonths": {
+    "value": 120,
+    "tag": "TUNABLE",
+    "citation": "Months over which employers and workers come to treat the job market they have lived in as normal. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPricePassPerMonth": {
+    "value": 0.06,
+    "tag": "TUNABLE",
+    "citation": "The share of the way from its price to what a unit costs that a sector moves in a month. Working value, set near the frequency of price changes in micro price studies; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPriceBusyPerYear": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much faster prices rise in a year for each unit of the log of how busy the staff is. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInflationViewMonths": {
+    "value": 36,
+    "tag": "TUNABLE",
+    "citation": "Months of lived price rises behind the rises people expect. Working value, set near survey expectations' lag behind inflation; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySalesViewMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Months of sales behind the sales growth a sector's firms expect. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countrySalesLevelViewMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Months of sales behind the monthly sales a sector's firms plan around. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryTradeElasticity": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How strongly buyers of a traded good shift between states' sellers as their prices differ. Working value, set near trade elasticities between regions; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutsideShareOfOtherBuyers": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Of a sector's buyers the cells do not hold, the share that is the outside world; the rest is firms here buying from each other. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutsideGrowthYear": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "The yearly real growth of what the outside world buys. Working value, set near trend growth of world trade; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutsideInflationYear": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "The yearly rise of the outside world's prices. Working value, set near the inflation goals of the main trading partners' central banks; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOutsideElasticity": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly the outside world's purchases answer our prices against theirs. Working value, set near export price elasticities; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryOvertime": {
+    "value": 0.03,
+    "tag": "TUNABLE",
+    "citation": "How far past its staff's normal output a sector can sell before its buyers go elsewhere. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryProductivityGrowthYear": {
+    "value": 0.012,
+    "tag": "TUNABLE",
+    "citation": "The yearly growth of what a worker makes. Working value, set near BLS labor productivity growth; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryMoveIncomeElasticity": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly movers favor a state for its pay after tax and prices. Working value, set near migration elasticities to after-tax income in the tax migration literature; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryMovePushElasticity": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly the share of people leaving a state answers how much better everywhere else looks. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryInterstateShareOfMoves": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Of people who leave their county in a year, the share who leave their state. Working value, set near state-to-state movers over all movers between counties in the American Community Survey; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBudgetPerHeadFallback": {
+    "value": 9000,
+    "tag": "TUNABLE",
+    "citation": "State and local spending a person, dollars a year, where a place has no published budget lines. Working value, set near the national average of state and local direct spending a person; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryMoveJobsPullPerPoint": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "How strongly movers favor a state for each point its share out of work is below home's. Working value, set near migration responses to unemployment gaps (Blanchard and Katz 1992); the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBirthsPerAdultYearAge18To29": {
+    "value": 0.055,
+    "tag": "TUNABLE",
+    "citation": "Births in a year for each person aged 18 to 29. Working value, set near CDC births by age of mother over both sexes; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBirthsPerAdultYearAge30To44": {
+    "value": 0.045,
+    "tag": "TUNABLE",
+    "citation": "Births in a year for each person aged 30 to 44. Working value, set near CDC births by age of mother over both sexes; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBirthsPerAdultYearAge45To64": {
+    "value": 0.002,
+    "tag": "TUNABLE",
+    "citation": "Births in a year for each person aged 45 to 64. Working value, set near CDC births by age of mother over both sexes; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryBirthsPerAdultYearAge65Plus": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "Births in a year for each person aged 65 and over. Working value, set near CDC births by age of mother over both sexes; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryDeathsPerYearAge18To29": {
+    "value": 0.001,
+    "tag": "TUNABLE",
+    "citation": "Deaths in a year for each person aged 18 to 29. Working value, set near CDC death rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryDeathsPerYearAge30To44": {
+    "value": 0.002,
+    "tag": "TUNABLE",
+    "citation": "Deaths in a year for each person aged 30 to 44. Working value, set near CDC death rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryDeathsPerYearAge45To64": {
+    "value": 0.007,
+    "tag": "TUNABLE",
+    "citation": "Deaths in a year for each person aged 45 to 64. Working value, set near CDC death rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryDeathsPerYearAge65Plus": {
+    "value": 0.045,
+    "tag": "TUNABLE",
+    "citation": "Deaths in a year for each person aged 65 and over. Working value, set near CDC death rates by age; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryYearsAsChild": {
+    "value": 18,
+    "tag": "TUNABLE",
+    "citation": "Years before a child is counted among the adults. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryYearsInBandAge18To29": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Years a person spends aged 18 to 29 before the next band; zero for the last. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryYearsInBandAge30To44": {
+    "value": 15,
+    "tag": "TUNABLE",
+    "citation": "Years a person spends aged 30 to 44 before the next band; zero for the last. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryYearsInBandAge45To64": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Years a person spends aged 45 to 64 before the next band; zero for the last. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryYearsInBandAge65Plus": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "Years a person spends aged 65 and over before the next band; zero for the last. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryLowPayOverFloor": {
+    "value": 1.15,
+    "tag": "TUNABLE",
+    "citation": "A low-pay sector's average pay against the wage floor when the floor binds. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPlaceFitPasses": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "Passes used at the opening to fit each state's draw to its surveyed arrivals. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryPlaceFitStep": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How far each pass moves a state's draw toward its surveyed arrivals. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "opening",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  },
+  "countryUnemploymentViewMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Months back households look when judging whether the share out of work is rising. Working value; the research item for the country tier replaces it with a sourced figure.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Set by hand while the country tier was built (Nov 10, 2026) and checked only for a calm 60-year run; not yet fitted to a published series."
+    },
+    "role": "coefficient",
+    "stopgapId": "SG-NATION-country-tier-working-values"
+  }
+}
