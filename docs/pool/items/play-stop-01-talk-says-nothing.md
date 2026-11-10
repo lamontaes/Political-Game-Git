@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/pool-play-stop-01-talk-says-nothing
-pr:
+pr: #8258
 after:
 blocked-on:
 standard: 2
