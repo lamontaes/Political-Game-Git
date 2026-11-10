@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: words
 source: Fable, Nov 10, 2026, seen while checking the words pull requests and rerun on clean main at ee9d543f05
 ---
 
