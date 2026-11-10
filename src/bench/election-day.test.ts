@@ -22,7 +22,7 @@ import {
   ELECTIONS_MODULE_ID,
   playerContests,
 } from "../core2/modules/elections";
-import { ballotOf } from "../core2/modules/voting";
+import { ballotOf, pollingPlaceOf } from "../core2/modules/voting";
 import { coreAPI } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { composeJournal } from "../director/journal";
@@ -113,6 +113,32 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
       day.lines.some((line) => line.sourceRecordIds.includes(filed.id)),
       `${where}: the morning cites ${filed.id}`,
     ).toBe(true);
+    // The morning says where the voter votes, from the voting engine's
+    // polling place record: its building by name, the precinct where the town
+    // has several, and one of the people working it.
+    expect(visit.pollingPlaceId, `${where}: a polling place`).toBeTruthy();
+    const polls = pollingPlaceOf(api, playerId!, visit.record.electionDate)!;
+    const building = core.organizations.get(polls.buildingId as EntityId);
+    if (building) {
+      const where_ = day.lines.find((line) =>
+        line.text.includes(building.name),
+      );
+      expect(
+        where_,
+        `${where}: the morning names ${building.name}`,
+      ).toBeTruthy();
+      expect(where_!.sourceRecordIds, where).toContain(polls.id);
+    }
+    if (polls.precincts > 1)
+      expect(
+        day.lines.some((line) =>
+          line.text.includes(`precinct ${polls.precinct}`),
+        ),
+        `${where}: the morning names precinct ${polls.precinct}`,
+      ).toBe(true);
+    console.log(
+      `election-day: polling place ${polls.id} (precinct ${polls.precinct} of ${polls.precincts}), "${day.lines.map((l) => l.text).join(" ")}"`,
+    );
     expect(day.canvass, `${where}: a candidate canvasses`).not.toBeNull();
     expect(day.ask.length, where).toBeGreaterThan(0);
     const canvass = campaignDay(core, playerId!, {
