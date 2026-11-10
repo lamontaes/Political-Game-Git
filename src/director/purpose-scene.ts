@@ -86,6 +86,7 @@ import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
+import { constituentFacts } from "./constituent-help-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -1295,6 +1296,22 @@ function composeBinding(
           text: "yes",
           sourceRecordIds: [...variant.recordIds],
         };
+  // A constituent's own records, worded: the job they lost, the notice on
+  // their rent, the pay under the floor, the relative who is ill.
+  if (variant && type.purpose === "constituent-help")
+    Object.assign(
+      facts,
+      constituentFacts(
+        core,
+        askerId,
+        {
+          id: moment.causeId,
+          date: record?.date ?? moment.date,
+          facts: said,
+        },
+        variant,
+      ),
+    );
   // A trade names the bill the asker already voted for, the asked person's own:
   // the most recent, from the asker's vote record.
   if (variant && (variant.reads["favor-given"] ?? P.zero) > P.zero) {
