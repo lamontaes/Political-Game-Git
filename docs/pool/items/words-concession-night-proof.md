@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/concession-call
-pr: pending
+pr: 8160
 blocked-on:
 lead: words
 source: coordinator, Nov 10 (scenes-from-life: the loser calls the winner; look-first found the scenes built)
