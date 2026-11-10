@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** When a town's income-tax, sales-tax or minimum-wage bill is barred by the state's law, the bill's screen says only that the state lets towns levy no such tax (src/bench/data/controls.json), and never which law says so. The bill's authority check already records that law's record id as its source (src/core2/modules/legislature.ts), and a state can now change the grant by bill. A player who sees their bill blocked should read the law's designation (the starting statute, or the bill that changed it, such as AB 54) beside the reason.
+**What.** When a town's income-tax, sales-tax or minimum-wage bill is barred by the state's law, the bill's screen says only that the state lets towns levy no such tax (src/bench/data/controls.json), and never which law says so. The bill's authority check already records that law's record id as its source (src/core2/modules/legislature.ts), and a state can now change the grant by bill. A player who sees their bill blocked should read the law's designation (the starting statute, or the bill that changed it, such as AB 54) beside the reason. Seen: the bill screen's line that names the state law barring a town tax or wage bill.
 
 **Cause.** Found in code: src/bench/data/controls.json line 502 maps 'state-gives-no-local-tax' to 'The state lets towns levy no such tax'; src/core2/modules/legislature.ts records the barring law's record id as the authority source (reason 'state-gives-no-local-tax', line 1601), and a bill's number comes from designation(numbering, n) in src/core2/legislature-bill-form.ts (line 111).
 

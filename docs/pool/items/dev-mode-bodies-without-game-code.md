@@ -5,7 +5,7 @@ area: play
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** docs/pool/items, src/bench/dev-mode.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have asked for engines for courts, school boards and appointments so dev mode could drive them; courts come after early access and no player screen reads those engines.

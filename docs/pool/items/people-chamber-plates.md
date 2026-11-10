@@ -19,7 +19,7 @@ root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
 ---
 
-**What.** When the player's meeting opens, every member is unplaced with reason no-plate, so the chamber is drawn empty behind the meeting panel. People are drawn only on a room's mannequin plate (owner, Oct 28 and 29; people-pack skill), and no meeting chamber has one: the plates on main are home, colonnade, depot and the two standard Oval rooms. The owner asked for the members drawn in the chamber. Until plates land, the lane shows members as faces on the panel, a registered stopgap. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided.
+**What.** When the player's meeting opens, every member is unplaced with reason no-plate, so the chamber is drawn empty behind the meeting panel. People are drawn only on a room's mannequin plate (owner, Oct 28 and 29; people-pack skill), and no meeting chamber has one: the plates on main are home, colonnade, depot and the two standard Oval rooms. The owner asked for the members drawn in the chamber. Until plates land, the lane shows members as faces on the panel, a registered stopgap. This is full-body staging, and on Nov 10 the owner ruled that staging waits while busts are decided. Seen: the council chamber behind a meeting, where members are drawn in their seats.
 
 **Cause.** Measured: Brookside, Delaware, seed 4d50e1f88df997f9, county-commission: every member unplaced with reason no-plate (lane report, the item). Code: plates are read by src/bench/mannequin-plates.ts and the staging engine stagePeople.
 

@@ -19,7 +19,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 checked: fable 2026-11-10
 ---
 
-**What.** The audit measured on Nov 9 in Blodgett Landing, New Hampshire (a random world, no seed given): "Your life shows a full-body figure." The You tab uses the approved strip screen with a bust, while the other two tabs of the group keep a side figure of a seated woman drawn head to shoes in a tall frame. The owner ruled on Nov 7 that menus show busts only. No menu should draw a full figure: Jobs and study and Your life show the same bust the You tab shows, from the same face record, and the full-figure slot, its picture source and its styles are deleted.
+**What.** The audit measured on Nov 9 in Blodgett Landing, New Hampshire (a random world, no seed given): "Your life shows a full-body figure." The You tab uses the approved strip screen with a bust, while the other two tabs of the group keep a side figure of a seated woman drawn head to shoes in a tall frame. The owner ruled on Nov 7 that menus show busts only. No menu should draw a full figure: Jobs and study and Your life show the same bust the You tab shows, from the same face record, and the full-figure slot, its picture source and its styles are deleted. Seen: Your life and Jobs and study, which draw a full figure where the owner ruled busts only.
 
 **Cause.** Found in code: `openSheet` in src/bench/play.mjs (about lines 5245 to 5259) keeps "the side figure" for two tabs, calling `fillArtwork` (src/bench/ui/picture.mjs, line 12) with `portraitUrl()` (src/bench/play.mjs, line 3167) into `#sheet-media` under the class `character-sheet`.
 

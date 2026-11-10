@@ -19,7 +19,7 @@ source: split from play-campaign-acts-as-scenes in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Put in your own money is a button on the campaign trail card. It becomes a scene with the campaign treasurer in which the player chooses the amount and whether it is a gift or a loan, and the same money record is written as the button wrote. This is the last of the three acts, so it also closes the registered stopgap SG-PLAY-campaign-acts-buttons.
+**What.** Put in your own money is a button on the campaign trail card. It becomes a scene with the campaign treasurer in which the player chooses the amount and whether it is a gift or a loan, and the same money record is written as the button wrote. This is the last of the three acts, so it also closes the registered stopgap SG-PLAY-campaign-acts-buttons. Seen: the scene with the campaign treasurer where the player puts in their own money.
 
 **Cause.** Found in code: the `case "contribute"` of the campaign act handler in src/bench/campaign.ts (line 314) moves the player's own money with the amount they chose and returns answers with no `scene`, while the volunteer and ad cases return `scene: askScene(core, personId, scenePlaces...)`; SG-PLAY-campaign-acts-buttons in src/core2/data/stopgaps/play.json (line 303) lists Put in your own money as still a button.
 

@@ -20,7 +20,7 @@ source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10,
 checked: fable 2026-11-10
 ---
 
-**What.** A law's page should say who the law reaches here, in people and in the place's terms, and how people and parties feel about it, from the records. The law engine keeps reach rows (the card already reads them as `lawEffects`), and views keep stored stances for the questions the survey asks. The Nov 9 audit found that after a law passes, no screen shows the people it reached.
+**What.** A law's page should say who the law reaches here, in people and in the place's terms, and how people and parties feel about it, from the records. The law engine keeps reach rows (the card already reads them as `lawEffects`), and views keep stored stances for the questions the survey asks. The Nov 9 audit found that after a law passes, no screen shows the people it reached. Seen: a law's page, with who it reaches here and what people think of it.
 
 **Cause.** Found in code: `lawPage` in src/bench/play.mjs (line 5059) reads neither the law engine's reach rows (`reachOn`, src/core2/law-reach/host.ts, used by src/bench/card.ts line 190) nor the stored stances (`openingStance` in src/core2/modules/views.ts); the page has no reach or views section.
 

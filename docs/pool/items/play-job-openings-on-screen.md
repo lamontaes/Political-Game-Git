@@ -20,7 +20,7 @@ root: rc7-player-cannot-drive
 checked: fable 2026-11-10
 ---
 
-**What.** A jobless 18-year-old player can go a whole year with no job offer in some towns, and world-player-jobless-no-offers is fixing the offers. Jobs and study says No current job and nothing more, and the only openings shown anywhere is a Jobs open count on Metrics. List the open positions in town with employer, hours and pay, mark the ones the player fits by the jobs engine's own fit rule, and let the player apply to one; when none fit, say why (experience asked, hours, distance), read from the position records.
+**What.** A jobless 18-year-old player can go a whole year with no job offer in some towns, and world-player-jobless-no-offers is fixing the offers. Jobs and study says No current job and nothing more, and the only openings shown anywhere is a Jobs open count on Metrics. List the open positions in town with employer, hours and pay, mark the ones the player fits by the jobs engine's own fit rule, and let the player apply to one; when none fit, say why (experience asked, hours, distance), read from the position records. Seen: Jobs and study, which lists the town's openings for a jobless player and says why none fit.
 
 **Cause.** Design: docs/play-first/LAW.md section 11 (the world on screen makes sense) and the position records of the jobs module (src/core2/modules/jobs.ts); the only openings on screen is the Jobs open count from `jobs.openPositions` in src/bench/metrics.ts (line 231). The old src/bench/jobs.ts is gone.
 

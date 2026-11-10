@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 **Screenshot.** The draft card with two steps filled in, and the bill paper with both dated sections.
 
 **Notes.** Filed by the governing lead at the lane's request (Oct 30). The engine half is branch governing/phase-in-dated-steps.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added an amount-and-date row per step to the draft card so a raise phases in; no ruling asks for it and the card already drafts a raise in one amount.

@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** no-scroll.browser.mjs on a drawn life in Bountiful, Utah (Oct 28) failed with "start · calendar: span.what over by 16px": one day-list entry's text runs 16px past its row on the first day. The same check passed in Stovall, North Carolina. The entry is a span.what inside a calendar entry, styled by the .calendar-entry .what rules in src/bench/play.css, and which entry runs long and why its row does not wrap it is not yet known, so the first step is to reproduce it on the Bountiful, Utah draw.
+**What.** no-scroll.browser.mjs on a drawn life in Bountiful, Utah (Oct 28) failed with "start · calendar: span.what over by 16px": one day-list entry's text runs 16px past its row on the first day. The same check passed in Stovall, North Carolina. The entry is a span.what inside a calendar entry, styled by the .calendar-entry .what rules in src/bench/play.css, and which entry runs long and why its row does not wrap it is not yet known, so the first step is to reproduce it on the Bountiful, Utah draw. Seen: a long Calendar entry that runs past its row.
 
 **Cause.** Needs cause. Looked at src/bench/play.css lines 1745 to 1790: the day-list entry is a grid whose text column is minmax(0, 1fr), and the rule .calendar-entry .what sets only text-align, with no wrapping rule; this is a likely but unreproduced cause, and the long entry was not identified on the Bountiful, Utah draw.
 

@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** The staff engine's review hires aides for every town officeholder except the player, since no engine decides for the controlled person, and no bench control calls the hire, so a player who wins a seat never has an aide. Every scene cast from the officeholder's staff then skips the player: the staffer bringing a story against them, the aide at the desk, a referred constituent case. The office screen should list the people the staff engine would weigh for the player, with the reasons it gives, and let the player hire one, paid from the same post the engine's hires are.
+**What.** The staff engine's review hires aides for every town officeholder except the player, since no engine decides for the controlled person, and no bench control calls the hire, so a player who wins a seat never has an aide. Every scene cast from the officeholder's staff then skips the player: the staffer bringing a story against them, the aide at the desk, a referred constituent case. The office screen should list the people the staff engine would weigh for the player, with the reasons it gives, and let the player hire one, paid from the same post the engine's hires are. Seen: the office screen's list of aides the player can hire, and the aide in later scenes (The Political Process has staff).
 
 **Cause.** Found in code: `staffReview` in src/core2/modules/staff.ts (line 1202) filters out `state.playerId` (line 1225), and `hireStaff` (line 700), `staffCandidates` (line 401) and `hireReasons` (line 679) are called only from src/bench/office-two-stakes.test.ts, never from the bench screens.
 

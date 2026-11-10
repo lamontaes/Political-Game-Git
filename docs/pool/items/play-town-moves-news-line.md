@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** The town's size and moves show on Who you are, but News prints nothing when someone the player knows moves away. The news engine keeps no story for a move: the move is recorded as person.moved-away and read by people, offices, jobs and parties, never by news or press. A line built in the bench would be a view inventing news, which breaks one engine per mechanic. The press should record a known person's move as a story, and News then prints it like any other story with no bench change.
+**What.** The town's size and moves show on Who you are, but News prints nothing when someone the player knows moves away. The news engine keeps no story for a move: the move is recorded as person.moved-away and read by people, offices, jobs and parties, never by news or press. A line built in the bench would be a view inventing news, which breaks one engine per mechanic. The press should record a known person's move as a story, and News then prints it like any other story with no bench change. Seen: a News line when someone the player knows moves away.
 
 **Cause.** Found in code: `person.moved-away` (MOVED_AWAY_EVENT, re-exported from src/core2/modules/people.ts) is read by src/core2/modules/people.ts, moves.ts, renewal.ts, offices.ts, jobs.ts and parties.ts but not by src/core2/modules/news.ts or src/core2/modules/press.ts, and `wireItem` in src/core2/press-topics.ts (line 111) has no case for it. The old branch play-first/play-town-moves-on-screen has a `wordMovedAway` draft for reference.
 

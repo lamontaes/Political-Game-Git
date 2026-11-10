@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 **Screenshot.** Before and after, from a drawn place, in the PR body.
 
 **Notes.** Filed by the Oct 25 pool audit: world-home-turnover's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with world-home-turnover (needs-from in the handoff line).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have printed a Homes sold line with street and price in the town's news; the sales are market detail no golden-path step or ruling asks the player to read.

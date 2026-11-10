@@ -20,7 +20,7 @@ root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
 ---
 
-**What.** With laws-bill-section-cites-research-source, a bill section's record cites the bill that passed the law it amends (before.statute, its designation, and before.statuteForm, its form) and cites nothing for a law in force when the game began. The bill paper passes only before.statute to the screen, and the estimate line shows it as 'Amends' plus the bare designation, so a town's law reads 'Amends 2025-3' where the section text says 'amending Ordinance 2025-3'. The two guards that kept a research web address off the paper can no longer match anything and are dead code.
+**What.** With laws-bill-section-cites-research-source, a bill section's record cites the bill that passed the law it amends (before.statute, its designation, and before.statuteForm, its form) and cites nothing for a law in force when the game began. The bill paper passes only before.statute to the screen, and the estimate line shows it as 'Amends' plus the bare designation, so a town's law reads 'Amends 2025-3' where the section text says 'amending Ordinance 2025-3'. The two guards that kept a research web address off the paper can no longer match anything and are dead code. Seen: the bill paper's estimate line, which names the law a bill amends in the same words as its section.
 
 **Cause.** Found in code: `billPaper` in src/bench/legislature.ts (line 397) passes only `section.before.statute` (about line 449) and still strips ', amending https' at line 434; `billEstimate` in src/bench/play.mjs (line ~2616, `webCite`) shows 'Amends' plus the bare designation, so the estimate line differs from the section text; both web-address guards are dead.
 

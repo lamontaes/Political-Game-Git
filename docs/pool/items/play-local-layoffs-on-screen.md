@@ -20,7 +20,7 @@ root: rc3-thin-life-record
 checked: fable 2026-11-10
 ---
 
-**What.** The jobs engine records hires, quits and layoffs, and world-job-turnover-far-below-jolts is raising them to real rates. The player sees none of it unless their own job changes. Print a local news story when an employer in town lays off or hires several people in a month, naming the employer and the count, each story citing the job-change records it counts. The list of open positions is not part of this item: it is play-job-openings-on-screen.
+**What.** The jobs engine records hires, quits and layoffs, and world-job-turnover-far-below-jolts is raising them to real rates. The player sees none of it unless their own job changes. Print a local news story when an employer in town lays off or hires several people in a month, naming the employer and the count, each story citing the job-change records it counts. The list of open positions is not part of this item: it is play-job-openings-on-screen. Seen: a News story naming a local employer's layoffs or hiring and the count.
 
 **Cause.** Design: docs/play-first/LAW.md section 11 (the world on screen makes sense); the job-change records of src/core2/modules/jobs.ts are read by no news story, and src/bench/story.ts has no layoff or hiring line. The old src/bench/jobs.ts is gone.
 

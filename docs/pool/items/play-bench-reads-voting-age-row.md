@@ -5,7 +5,7 @@ area: play
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/m0-check.ts, src/bench/scene-check.ts, src/bench/m1-10-check.ts, src/bench/verify.mjs, src/bench/whole-figures.ts, src/core2/data/parameters.json
 
 **Notes.** Filed by wire-elections-and-campaigns (law-reach age rows). lead: play-first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have swapped seven typed 18s for the one voting-age row; the age is the Twenty-sixth Amendment's 18 everywhere, so no player sees a difference.
