@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-scene-web-legislating
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:57:21.752Z
 after:
 standard: 2
 model: sonnet
@@ -57,3 +57,5 @@ Released (2026-11-10): Mostly Story-session lines under data/english/parts; the 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:56 UTC) on branch claude/pool-words-scene-web-legislating.
 
 Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-web-legislating.
+
+Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-words-scene-web-legislating.
