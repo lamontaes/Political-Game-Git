@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fable-life-record-list
-pr:
+pr: #8115
 after:
 blocked-on:
 lead: screens

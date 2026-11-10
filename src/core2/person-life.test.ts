@@ -12,12 +12,19 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import { isDemoted } from "./counted-groups";
-import { demoteHousehold } from "./modules/counted-demotion";
+import { canReturnToCounts, demoteHousehold } from "./modules/counted-demotion";
+import { residentsRuntime } from "./modules/residents";
 import { lifeOf, lifeSummary, REMEMBERED_RECORD_KINDS } from "./person-life";
 import table from "./data/life/remembered.json" with { type: "json" };
 import parameters from "./data/life/parameters.json" with { type: "json" };
 import { coreAPI, fillInPerson, personOrFillIn } from "./state";
-import type { CoreEventInput, CoreState, IsoDate, PersonId } from "./types";
+import type {
+  CoreEventInput,
+  CoreState,
+  IsoDate,
+  PersonId,
+  PersonState,
+} from "./types";
 import { keepsWhy } from "./why-kept";
 
 const seed = process.env.LIFE_SEED ?? randomBytes(8).toString("hex");
@@ -26,6 +33,12 @@ const placeKey = process.env.LIFE_PLACE_KEY ?? drawn.key;
 const DAYS = 60;
 const CAP = parameters.lifeRememberedMost.value;
 const OVER = 25;
+/** A town with fewer adults than this is too small for "under a twentieth" to mean anyone. */
+const SMALL_TOWN_ADULTS = 100;
+/** The most people one town's engines make to hold a role with no past of their own. */
+const ROLE_HOLDERS_MOST = 4;
+/** How many counted households a search may fill in before it gives up. */
+const FILL_IN_MOST = 40;
 
 setBookkeeping(false);
 const world = buildBenchWorld(drawn.seed, gameStartDate(), {
@@ -74,6 +87,32 @@ const strangers = () =>
       !keepsWhy(core, person.id),
   );
 
+/**
+ * A full living person outside the player's circle who fits. Where the town
+ * has none (a very small town can be all circle and officials), its counted
+ * households are filled in one at a time, as the game does when the player
+ * comes across someone, until one fits.
+ */
+function strangerWho(
+  fits: (row: PersonState) => boolean,
+): PersonState | undefined {
+  const full = strangers().find((row) => row.tier !== "husk" && fits(row));
+  if (full) return full;
+  const rt = residentsRuntime(core as CoreState);
+  if (!rt) return undefined;
+  const heads: PersonId[] = [];
+  for (const h of rt.store.liveHouseholds()) {
+    if (h.placeId !== world.placeId || h.quarters) continue;
+    const member = rt.store.countedMembers(h)[0];
+    if (member !== undefined) heads.push(rt.store.ids[member]! as PersonId);
+  }
+  for (const id of heads.sort().slice(0, FILL_IN_MOST)) {
+    const made = fillInPerson(core as CoreState, id);
+    if (made.alive && !keepsWhy(core, made.id) && fits(made)) return made;
+  }
+  return undefined;
+}
+
 describe(`the life record in ${where}`, () => {
   it("1: after 60 days every full living adult has a life of well-formed events", () => {
     advanceCore(core, addDays(makeIsoDate(core.date), DAYS));
@@ -109,29 +148,46 @@ describe(`the life record in ${where}`, () => {
         expect(allPairs.has(`${event.life}/${event.what}`), label).toBe(true);
       }
     }
-    console.log(
-      `person-life 1: ${where}; ${adults.length} adults, ${events} events at ${core.date}; made without a past: ${pastless.length} ${JSON.stringify(pastless.slice(0, 3))}`,
+    process.stdout.write(
+      `person-life 1: ${where}; ${adults.length} adults, ${events} events at ${core.date}; made without a past: ${pastless.length} ${JSON.stringify(pastless.slice(0, 3))}\n`,
     );
     expect(adults.length, where).toBeGreaterThan(0);
-    // They hold no past facts (checked above), so anyone the town's own build made has a
-    // life; in a very small town the role holders can outnumber a twentieth of the adults,
-    // so their share is not a test. Somebody in town has a life.
     expect(events, where).toBeGreaterThan(0);
-    expect(pastless.length, `${where}: ${pastless.join(", ")}`).toBeLessThan(
-      adults.length,
-    );
+    // The people made with no past are the holders of a few roles an engine fills (a paper's
+    // owner and the like): under a twentieth of the adults in a town of any size, and in a
+    // town too small for a twentieth to be one person, no more than the roles themselves.
+    const roles = pastless.filter((id) => !id.startsWith("person_"));
+    expect(
+      roles.length,
+      `${where}: someone the town's own build made has no life: ${pastless.filter((id) => id.startsWith("person_")).join(", ")}`,
+    ).toBe(pastless.length);
+    if (adults.length >= SMALL_TOWN_ADULTS)
+      expect(
+        pastless.length,
+        `${where}: ${pastless.length} of ${adults.length} adults: ${pastless.join(", ")}`,
+      ).toBeLessThan(adults.length / 20);
+    else
+      expect(
+        pastless.length,
+        `${where}: ${pastless.length} of ${adults.length} adults: ${pastless.join(", ")}`,
+      ).toBeLessThanOrEqual(ROLE_HOLDERS_MOST);
   }, 600_000);
 
   it("2: three kinds of event about a stranger are on their list though the log keeps none of them", () => {
-    const person = strangers().find((row) => row.familyIds.size >= 0);
-    if (!person) {
-      console.log(`person-life 2: ${where}; no full person outside the circle`);
-      return;
-    }
+    const person = strangerWho(() => true)!;
+    expect(
+      person,
+      `${where}: no person outside the player's circle, full or counted`,
+    ).toBeDefined();
     const job = `event:work.job-lost:${core.date}:job-of-${person.id}`;
     const split = `family.separated:link-of-${person.id}:${core.date}`;
     const ill = `health.serious-illness:${person.id}:${core.date}`;
-    const other = strangers().find((row) => row.id !== person.id)!;
+    // A second stranger for the other side of the separation.
+    const other = strangerWho((row) => row.id !== person.id)!;
+    expect(
+      other,
+      `${where}: no second person outside the circle`,
+    ).toBeDefined();
     const orgId = [...core.organizations.keys()][0]!;
     // Each shaped as its writer shapes it (jobs.ts layoff, state.ts separation, health.ts onset).
     emit(
@@ -345,15 +401,16 @@ describe(`the life record in ${where}`, () => {
   }, 600_000);
 
   it("5: a partner appears once on a life, not once per source", () => {
-    const person = [...core.people.values()].find((row) =>
+    const partnered = (row: PersonState) =>
       (row.pastFacts ?? []).some(
         (fact) => fact.kind === "family:partner" && fact.facts?.otherPersonId,
-      ),
-    );
-    if (!person) {
-      console.log(`person-life 5: ${where}; no one with a partner fact`);
-      return;
-    }
+      );
+    const person =
+      [...core.people.values()].find(partnered) ?? strangerWho(partnered)!;
+    expect(
+      person,
+      `${where}: nobody in town, full or among ${FILL_IN_MOST} counted households filled in, was built with a partner`,
+    ).toBeDefined();
     const partner = person.pastFacts!.find(
       (fact) => fact.kind === "family:partner",
     )!.facts!.otherPersonId!;
@@ -373,19 +430,23 @@ describe(`the life record in ${where}`, () => {
   }, 600_000);
 
   it("6: someone who goes back to the counts keeps their list when filled in again", () => {
-    const person = strangers().find(
-      (row) =>
-        row.tier !== "husk" &&
-        // No one at home works today: a job cannot be ended on the day it was attended.
-        core.households
-          .get(row.householdId)
-          ?.memberIds.every((id) => !core.people.get(id)?.jobId),
-    );
-    // A very small town can have no full household outside the player's circle.
-    if (!person) {
-      console.log(`person-life 6: ${where}; no full stranger to send back`);
-      return;
+    // A full person outside the player's circle whose household can go back
+    // today. Where the town has no such full household (a very small town can
+    // have none), one of its counted households is filled in first, as the
+    // game does when the player comes across someone. A household whose
+    // member worked today cannot go back until a day off, so the search steps
+    // on a day at a time, up to a week.
+    const find = () =>
+      strangerWho((row) => canReturnToCounts(api, row.householdId).ok);
+    let person = find();
+    for (let day = 0; !person && day < 7; day += 1) {
+      nextDay();
+      person = find();
     }
+    expect(
+      person,
+      `${where}: no household outside the player's circle, full or counted, could go back to the counts on any of eight days`,
+    ).toBeDefined();
     const id = `event:work.job-lost:${core.date}:demote-${person!.id}`;
     emit(
       {
@@ -410,7 +471,6 @@ describe(`the life record in ${where}`, () => {
     expect(isDemoted(core.people.get(person!.id)!), where).toBe(true);
     const back = personOrFillIn(core as CoreState, person!.id);
     expect(back && !isDemoted(back), where).toBe(true);
-    void fillInPerson;
     const after = lifeOf(core, person!.id);
     expect(
       after.some((event) => event.id === id),
@@ -422,7 +482,7 @@ describe(`the life record in ${where}`, () => {
     ).toEqual(
       before.filter((event) => event.from === "played").map((e) => e.id),
     );
-    console.log(
+    process.stdout.write(
       `person-life 6: ${where}; ${person!.id}; ${before.length} events before demotion, ${after.length} after the fill-in`,
     );
   }, 600_000);
