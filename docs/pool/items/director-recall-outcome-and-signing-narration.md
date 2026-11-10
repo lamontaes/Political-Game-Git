@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/director-recall-bills
-pr: pending
+pr: 8086
 blocked-on:
 lead: words
 milestone: play-first
