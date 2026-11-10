@@ -8,8 +8,11 @@
     "why": "The research's drift sizes (data/research/outcome-web/place-outcome-bases-2024.json, defaultDrift) include a monthly chance of a society-wide wave, which the no-dice rule forbids; the causes behind drift are not yet modeled.",
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-12",
-    "replacement": "Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-births-full-tier",
@@ -34,8 +37,11 @@
     "why": "The housing family's rent wiring is on its own branch; the news path lists the measure so the town hears of it the month an engine reads it, with no change here.",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "Point the news entry's readBy at src/core2/housing-occupancy.ts and delete this row's marker (pool item web-news-rent-reader-marker).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Point the news entry's readBy at src/core2/housing-occupancy.ts and delete this row's marker.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-moves-full-tax-pull",
@@ -46,8 +52,11 @@
     "why": "A full person's destination is chosen after the pull is built, so a tax difference between states has no place to enter the pull until a destination-aware pull exists.",
     "addedBy": "claude/effect-web-moves",
     "addedAt": "2026-10-20",
-    "replacement": "A destination-aware pull for full people that uses the same net-of-tax income comparison as pullBetween in counted-moves.ts.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A destination-aware pull for full people that uses the same net-of-tax income comparison as pullBetween in counted-moves.ts.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-moves-disaster-severity",
@@ -72,8 +81,11 @@
     "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022), and src/core2/housing-calibration.test.ts checks the curve only in a year with 10 or more court cases, which the drawn towns did not reach and the pinned Puerto Rico town fails.",
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-20",
-    "replacement": "A sized air-conditioning link (a published slope per cent of price) read by an engine that decides air-conditioning use; for rent burden, a played year with 10 or more court cases that passes the burden checks in src/core2/housing-calibration.test.ts.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A sized air-conditioning link (a published slope per cent of price) read by an engine that decides air-conditioning use; for rent burden, a played year with 10 or more court cases that passes the burden checks in src/core2/housing-calibration.test.ts.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-disaster-severity",
@@ -98,8 +110,11 @@
     "why": "No source sizes the effect of a FEMA declaration itself on prices or moving except Roth Tran and Wilson, who find none for the average declaration, so reading every declaration as severe would move every declared place by a guess; the study's deaths are not recorded, so damage stands in for them.",
     "addedBy": "disasters helper (laws lead)",
     "addedAt": "2026-10-28",
-    "replacement": "Deaths from a disaster recorded by the health engine's cause-of-death records within the incident's dates (SHELDUS-style county damages per capita if a source of them is added as data), read as disaster.severe; and a disasters engine that records damage to businesses, public buildings and people, so severity is not one town figure.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Deaths from a disaster recorded by the health engine's cause-of-death records within the incident's dates (SHELDUS-style county damages per capita if a source of them is added as data), read as disaster.severe; and a disasters engine that records damage to businesses, public buildings and people, so severity is not one town figure.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-voting-graduation-cause",
@@ -146,8 +161,11 @@
     "why": "The relief dollars are recorded (the disasters module pays FEMA public assistance and housing assistance as cash-journal transfers), but the research gives its size in vote share per unit of the log of per-person relief in 2008 dollars, and candidateReasons has no relief term, no per-person relief reading and no way to put today's dollars in 2008 dollars.",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "A relief term for the president's party in candidateReasons (src/core2/electorate-inputs.ts), read from the disasters module's recorded payments per person and gated on the town having heard of them, sized from Healy and Malhotra 2009 (Table 5, column 2: .454 points of vote share per unit of ln(1 + relief per person in 2008 dollars)).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A relief term for the president's party in candidateReasons (src/core2/electorate-inputs.ts), read from the disasters module's recorded payments per person and gated on the town having heard of them, sized from Healy and Malhotra 2009 (Table 5, column 2: .454 points of vote share per unit of ln(1 + relief per person in 2008 dollars)).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-snap-receipt-ledger",
@@ -350,8 +368,11 @@
     "why": "engine doesn't read the factor: housing.ac-share moves only in the web's monthly ledger; no engine multiplies its own rates by it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns housing.ac-share multiplies its own person, household or organization rate by webReach(api, placeId, \"housing.ac-share\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns housing.ac-share multiplies its own person, household or organization rate by webReach(api, placeId, \"housing.ac-share\", subject), as counted births do, so these links change its records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-gov-nondisaster-transfers",
@@ -682,11 +703,11 @@
     "kind": "missing-record",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 194,
-    "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); student-debt-relief-to-finances is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; its research gives no size the game can apply, so the web does not run it); no person, household or organization record changes.",
+    "whatItFakes": "abortion-denied-to-financial-distress is not run by the outcome web, so it moves nothing (no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied); no person, household or household-bill record changes. The student-debt-relief link was dropped Nov 10 (too in depth, owner): no screen shows it.",
     "why": "no measure: the web does not keep finance.past-due-debt and no engine produces it; nothing in the core records its cause, person.abortion-denied",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records finance.past-due-debt for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "replacement": "An engine that records finance.past-due-debt for households from their own bills, read by the web as an engine measure, and whose own rates read webReach for the abortion link (pool item outcome-causes-health-programs-part-3-lead-and-abortion-links).",
     "status": "open"
   },
   {
@@ -710,8 +731,11 @@
     "why": "the web does not run it: it has no researched size; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns gov.borrowing-cost multiplies its own person, household or organization rate by webReach(api, placeId, \"gov.borrowing-cost\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns gov.borrowing-cost multiplies its own person, household or organization rate by webReach(api, placeId, \"gov.borrowing-cost\", subject), as counted births do, so these links change its records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-press-media-trust",
@@ -722,8 +746,11 @@
     "why": "no measure: the web does not keep press.media-trust and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records press.media-trust for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An engine that records press.media-trust for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-election-incumbent-vote",
@@ -746,8 +773,11 @@
     "why": "no measure: the web does not keep disaster.damage and no engine produces it; its research gives no size the game can apply, so the web does not run it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records disaster.damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An engine that records disaster.damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-program-snap-receipt",
@@ -842,8 +872,11 @@
     "why": "engine doesn't read the factor: env.litter moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns env.litter multiplies its own person, household or organization rate by webReach(api, placeId, \"env.litter\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns env.litter multiplies its own person, household or organization rate by webReach(api, placeId, \"env.litter\", subject), as counted births do, so these links change its records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-disaster-flood-damage",
@@ -854,8 +887,11 @@
     "why": "no measure: the web does not keep disaster.flood-damage and no engine produces it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "An engine that records disaster.flood-damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An engine that records disaster.flood-damage for each place from its own people or organizations, read by the web as an engine measure, and whose own rates read webReach for these links.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-env-container-recycling-pct",
@@ -989,8 +1025,11 @@
     "why": "engine doesn't read the factor: farmland.value-per-acre moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns farmland.value-per-acre multiplies its own person, household or organization rate by webReach(api, placeId, \"farmland.value-per-acre\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns farmland.value-per-acre multiplies its own person, household or organization rate by webReach(api, placeId, \"farmland.value-per-acre\", subject), as counted births do, so these links change its records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-rail-intercity-ridership",
@@ -1001,8 +1040,11 @@
     "why": "engine doesn't read the factor: rail.intercity-ridership moves only in the web's monthly ledger; no engine multiplies its own rates by it",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns rail.intercity-ridership multiplies its own person, household or organization rate by webReach(api, placeId, \"rail.intercity-ridership\", subject), as counted births do, so these links change its records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The engine that owns rail.intercity-ridership multiplies its own person, household or organization rate by webReach(api, placeId, \"rail.intercity-ridership\", subject), as counted births do, so these links change its records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-unread-parks-access-to-exercise",
@@ -1121,8 +1163,11 @@
     "why": "Medicaid coverage is not an employer plan, so the coverage engine reads no Medicaid law into the employer-plan count; the residents' own coverage records are the one path for the expansion. Nothing yet sums those records into the place's uninsured share.",
     "addedBy": "laws lead (claude/laws-medical-debt)",
     "addedAt": "2026-11-01",
-    "replacement": "The place's uninsured share for the web's graduation link is read from the coverage records the world keeps (employer plans, Medicare, and the reach's Medicaid coverage records, full and counted), so the expansion and the requirement move it through the same records the bills read.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The place's uninsured share for the web's graduation link is read from the coverage records the world keeps (employer plans, Medicare, and the reach's Medicaid coverage records, full and counted), so the expansion and the requirement move it through the same records the bills read.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   },
   {
     "id": "SG-WEB-rent-burden-steeper-past-32",
@@ -1133,7 +1178,10 @@
     "why": "Colburn and Aldern 2022 give the 22 and 32 percent thresholds in charts only; GAO-20-433 gives a rent-level association and no burden-band slope.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-09",
-    "replacement": "Read the steeper-part slope from Colburn and Aldern 2022 (Homelessness Is a Housing Problem, UC Press) chapter data or its replication files, and set steeperExtraSize with its spread.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read the steeper-part slope from Colburn and Aldern 2022 (Homelessness Is a Housing Problem, UC Press) chapter data or its replication files, and set steeperExtraSize with its spread.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "owner-ruling-2026-11-10",
+    "resolution": "Dropped Nov 10, 2026 (stand-in triage, too in depth, owner): no screen, scene, paper, bill card, household dollar or election the player reaches shows it, and no ruling asks for it. The marker stays in the code."
   }
 ]
