@@ -64,6 +64,19 @@ export interface LineRule {
   readonly applies?: RuleApplies;
   readonly catches?: readonly string[];
   readonly spares?: readonly string[];
+  /**
+   * Lines he faulted for where they were said, not for their words: what came
+   * before, when they played, or a record they contradict. They stay in play;
+   * the judging of place and tense (steps 3 and 4) reads them as the cases a
+   * place rule must catch. `before` is the line before it when his words give it.
+   */
+  readonly examples?: readonly {
+    readonly line: string;
+    readonly before?: string;
+    readonly words: string;
+    readonly date: string;
+    readonly via?: string;
+  }[];
 }
 
 export interface LineRulesFile {

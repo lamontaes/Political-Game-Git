@@ -1,24 +1,6 @@
 {
   "schema": "english-pulled/1",
   "pulled": {
-    "conversation.address-view-raise-for.i-liked-what-the-president-had-to-say": [
-      "rejected-by-voice"
-    ],
-    "conversation.farewell-leave-home.i-ll-let-you-get-back-to-it": [
-      "rejected-by-voice"
-    ],
-    "conversation.other-work-answer-ack.good-for-you-is-it-busy": [
-      "rejected-by-voice"
-    ],
-    "scene-talk.follow-agree.then-we-agree-on-something-for-once": [
-      "rejected-by-voice"
-    ],
-    "scene-talk.narrate-narrate.a-notice-from-the-landlord-was-taped-to-the-door-name-has-read-it-twic": [
-      "rejected-by-voice"
-    ],
-    "scene-talk.reply-ask.what-kind-of-help-were-you-thinking": [
-      "rejected-by-voice"
-    ],
     "scene-talk.state-ask.i-m-with-you-i-only-need-to-know-how-we-get-through-remaining-on-savings-that-la": [
       "no-figures-people-would-not-know"
     ],

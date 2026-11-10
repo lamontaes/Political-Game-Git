@@ -77,6 +77,26 @@ describe("line rules: each rule does what it says", () => {
     );
   });
 
+  it("every whole line he rejected carries its own words, in the same order", () => {
+    for (const rule of run.rules)
+      if (rule.test.kind === "sentences") {
+        expect(rule.from.length, rule.id).toBe(rule.test.sentences.length);
+        expect(
+          rule.from.every((from) => from.words.trim().length > 0),
+          rule.id,
+        ).toBe(true);
+      }
+  });
+
+  it("an example of a line faulted for its place names the line, his words and the date", () => {
+    for (const rule of run.rules)
+      for (const example of rule.examples ?? []) {
+        expect(example.line.trim(), rule.id).not.toBe("");
+        expect(example.words.length, rule.id).toBeLessThanOrEqual(240);
+        expect(example.date, rule.id).not.toBe("");
+      }
+  });
+
   it("a rule that is not enforced has a test the run can read or waits for its step", () => {
     for (const rule of run.rules)
       if (rule.status === "awaiting-test")
