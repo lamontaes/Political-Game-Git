@@ -50,10 +50,8 @@ const OPENING_DATE = gameStartDate();
 const seed = process.env.PLAYED_WORLD_SEED ?? randomBytes(20).toString("hex");
 let place = drawPlace(seed, "federal-dollar");
 const start = OPENING_DATE;
-// A year and a quarter: the national step hears the town's own growth only
-// from the months that have a year-earlier month to compare with (its weight
-// rises a twelfth for each), so the last link needs the first months of the
-// second year after the opening (macro.ts, `townGrowthHeard`).
+// A year and a quarter: enough months of the town's paid income to compare
+// the changed budget with the base after the line has had time to land.
 const end = addDays(makeIsoDate(start), 450);
 /** The federal line dev mode passes: Social Security, the line whose payments
  * in town the game already reads (awards follow the line, recipients and
@@ -344,12 +342,12 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     );
   });
 
-  it("the town's paid income moved and the national month row heard it", () => {
-    // The macro read: the town's paid income is the only route the budget's
-    // dollars move national output now.
+  it("the town's paid income moved with the passed line", () => {
+    // The national row is the sum of the country tier's states, which the
+    // town does not feed; the town's own paid income is the read here.
     assert.ok(
       chain.townPaidIncomeByMonth.length >= 3,
-      "the town has no paid-income months for the national step to read",
+      "the town has no paid-income months to compare",
     );
     const lastWith = chain.townPaidIncomeByMonth.at(-1)![1];
     const lastBase = control.townPaidIncomeByMonth.at(-1)![1];
@@ -359,11 +357,6 @@ describe(`the federal dollar's chain (seed ${seed})`, () => {
     assert.ok(
       lastWith > lastBase,
       `the town's last paid-income month did not rise with the passed line (${lastWith} at base ${lastBase}): the dollars landed on no read`,
-    );
-    assert.notEqual(
-      chain.realOutput,
-      control.realOutput,
-      "national output is identical with the changed budget and at its base: the town's paid-income read moved nothing",
     );
   });
 });

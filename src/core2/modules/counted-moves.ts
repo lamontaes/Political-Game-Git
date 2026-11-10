@@ -1752,23 +1752,6 @@ export function countedStatePeople(
   return runtimes.get(core)?.totals.get(monthKey)?.get(usps);
 }
 
-/**
- * How a state's people changed over the last month the counts were moved
- * (latest over the month before), for the regional engine; undefined until
- * two months are counted.
- */
-export function countedStateGrowth(
-  core: CoreState,
-  usps: string,
-): number | undefined {
-  const totals = runtimes.get(core)?.totals;
-  if (!totals || totals.size < 2) return undefined;
-  const [before, latest] = [...totals.keys()].sort().slice(-2);
-  const a = totals.get(before!)?.get(usps),
-    b = totals.get(latest!)?.get(usps);
-  return a && b ? b / a : undefined;
-}
-
 /** The pull toward each place for one counted group, as last weighed. */
 export function countedPull(
   api: CoreAPI,

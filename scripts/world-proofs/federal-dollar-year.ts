@@ -318,10 +318,6 @@ console.log(
           withChange: finalWith.outputGapPct,
           atBase: finalBase.outputGapPct,
         },
-        townIncomeGrowthPct: {
-          withChange: finalWith.townIncomeGrowthPct,
-          atBase: finalBase.townIncomeGrowthPct,
-        },
       },
       calibration: {
         outlayChangeShareOfOutput: outlayShare,

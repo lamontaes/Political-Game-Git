@@ -51,14 +51,7 @@ P = {
     # Measured from the agency series.
     "macroNaturalUnemploymentPct": tunable(4.5, 4.0, round(u_mean, 2), "percent", f"CBO's noncyclical rate of unemployment, about 4.4 to 4.6 percent in its 2016-2026 Budget and Economic Outlook editions; the 1990-2019 mean unemployment rate, {u_mean:.2f} percent ({BLS}), bounds it from above."),
     "macroInflationAnchorPct": sourced(round(pi_mean, 3), f"Mean 12-month CPI-U inflation 1990-2019 ({BLS}).", 2.0, 2.9, "percent"),
-    "macroInflationPersistence": sourced(0.9444, f"OLS of 12-month CPI inflation on its previous month and unemployment, 1990-2019, SE 0.016 ({BLS}).", 0.912, 0.977, "monthly coefficient"),
-    "macroTrendGrowthPct": sourced(2.482, f"Okun regression of annualized real GDP growth on the quarterly unemployment change, 1990-2019 intercept, SE 0.18 ({BLS}).", 2.12, 2.84, "annual percent"),
     "macroOkunOutputPerUnemploymentPoint": sourced(1.152, f"Same Okun regression: 4.61 annualized points per quarterly point, so 1.15 percent of output per point of unemployment, SE 0.16 ({BLS}).", 0.83, 1.47, "percent of output per point"),
-    "macroJobsTrendMonthlyPct": sourced(0.0901, f"OLS of monthly payroll growth on the unemployment change, 1990-2019 intercept, SE 0.007 ({BLS}).", 0.075, 0.105, "percent per month"),
-    "macroJobsPerUnemploymentPoint": sourced(0.468, f"Same payroll regression: percent of jobs lost per point of unemployment, SE 0.048 ({BLS}).", 0.37, 0.56, "percent per point"),
-    "macroWageGrowthIntercept": sourced(3.554, f"OLS of 12-month average hourly earnings growth on lagged inflation and unemployment, 2007-2019, SE 0.13 ({BLS}).", 3.29, 3.82, "annual percent"),
-    "macroWageGrowthPerInflation": sourced(0.0175, "Same wage regression, inflation coefficient, SE 0.027.", -0.037, 0.072, "points per point"),
-    "macroWageGrowthPerUnemployment": sourced(-0.169, "Same wage regression, unemployment coefficient, SE 0.017.", -0.204, -0.135, "points per point"),
     "macroTreasuryIntercept": sourced(0.0345, f"OLS of the 10-year Treasury yield on its previous month and the effective funds rate, 1990-2019, SE 0.034 (H.15 RIFLGFCY10_N.M).", -0.033, 0.102, "percent"),
     "macroTreasuryPersistence": sourced(0.9832, "Same Treasury regression, own-lag coefficient, SE 0.011.", 0.960, 1.0, "monthly coefficient"),
     "macroTreasuryPerPolicy": sourced(0.0086, "Same Treasury regression, policy-rate coefficient, SE 0.009.", -0.010, 0.027, "points per point"),
@@ -73,10 +66,7 @@ P = {
     "macroPolicyStepPct": sourced(0.25, "FOMC target ranges move in multiples of 25 basis points."),
     # Judgment values with their checked spreads.
     "macroOutputGapPersistence": tunable(0.97, 0.94, 0.985, "monthly coefficient", "Output gaps close with a half-life of about two years (CBO potential output; Okun gaps 1990-2019); checked against the 1990-2026 bands in this module's test."),
-    "macroRealRateEffectOnGap": tunable(0.03, 0.01, 0.06, "gap points per month per real-rate point", "A one-point higher real policy rate lowers output by roughly 0.3 to 1 percent after a year or two (Romer and Romer 2004, AER; FRB/US simulations)."),
     "macroNeutralRealRatePct": tunable(0.5, -0.5, 1.5, "percent", "Laubach-Williams and Holston-Laubach-Williams estimates of the neutral real rate, 2016-2024, Federal Reserve Bank of New York."),
-    "macroPhillipsSlope": tunable(0.01, 0.0, 0.03, "12-month inflation points per month per gap point", "The 1990-2019 Phillips slope is flat (OLS on unemployment, -0.008, SE 0.013); kept small and positive."),
-    "macroTownWeightPerPerson": sourced(3.0e-9, "One resident's share of the national population, Census 2020 count 331.4 million."),
     "macroPublicBudgetImpulse": {"value": 0, "tag": "ESTIMATED", "citation": "Until M1-07 budgets land, public money adds no impulse beyond its real average, which the trend already carries.", "estimatedFrom": "Trend growth 1990-2019 includes average public spending.", "stopgapId": "SG-WORLD-macro-public-budget", "spread": {"low": -0.5, "high": 0.5, "unit": "gap points per year", "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."}},
     # The board.
     "macroTaylorInflationResponse": sourced(0.5, "Taylor (1993), Discretion versus policy rules in practice, Carnegie-Rochester 39."),
