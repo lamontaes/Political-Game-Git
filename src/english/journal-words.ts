@@ -325,7 +325,17 @@ export type MemoirField =
   | "letGoHeld"
   | "letGoPay"
   | "movedHeld"
-  | "movedPay";
+  | "movedPay"
+  | "movedFrom"
+  | "movedWith"
+  | "movedAge"
+  | "birthAge"
+  | "birthFirst"
+  | "togetherFor"
+  | "deathAge"
+  | "deathIllness"
+  | "schoolFor"
+  | "schoolAge";
 
 /**
  * A line of the journal: the event worded for whose it was (`line`, with
