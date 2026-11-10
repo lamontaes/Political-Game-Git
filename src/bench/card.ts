@@ -8,6 +8,7 @@ import {
   countedMoves,
   familyFactsOf,
   lifeOf,
+  openWholePast,
   MOVED_AWAY_EVENT,
   type LifeEvent,
 } from "../core2/modules/people";
@@ -241,6 +242,8 @@ function historyLines(
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
+  // A person met or opened for the first time has their whole past written now.
+  openWholePast(core, other.id);
   const life = lifeOf(core, other.id);
   const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",

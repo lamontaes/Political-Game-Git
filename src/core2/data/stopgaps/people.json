@@ -276,5 +276,17 @@
     "addedAt": "2026-11-10",
     "replacement": "The director's impact for the event and the person's traits decide what is kept; the cap is checked against the long-save speed run.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-whole-past-first-month-economy",
+    "kind": "estimated-parameter",
+    "file": "src/core2/past-work.ts",
+    "line": 1,
+    "whatItFakes": "Before the world's window the economy is its first month for a person's own working life: layoffs at the steady rate with no rise, and pay at the first month's level.",
+    "why": "The economy pass and the business pass start with the world's window, and the owner ruled (Nov 9, 2026) that only people's own pasts reach back to their birth.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "A coarse national series of unemployment and earnings by year, sourced (BLS), read by the same run.",
+    "status": "open"
   }
 ]

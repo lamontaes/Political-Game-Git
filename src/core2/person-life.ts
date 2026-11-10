@@ -272,7 +272,8 @@ export function lifeOf(
   const once: LifeEvent[] = [];
   for (const event of out) {
     if (event.from === "built" && inThePast.has(withKey(event))) continue;
-    const key = `${event.date}|${withKey(event)}`;
+    // A record of the past or of play is its own event: two on one day (a year-grain past) are two.
+    const key = `${event.date}|${withKey(event)}|${event.from === "built" ? "" : event.id}`;
     if (told.has(key)) continue;
     told.add(key);
     once.push(event);

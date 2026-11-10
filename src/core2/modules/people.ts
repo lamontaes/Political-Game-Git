@@ -35,6 +35,7 @@ import { ENCOUNTERS } from "../encounters";
 import { OPENING_KIN } from "../opening-kin";
 import {
   PAST_WORK_SPELL,
+  pastMovesFor,
   pastMovesHistory,
   pastWorkFor,
   pastWorkHistory,
@@ -43,6 +44,7 @@ import {
   preStartWindowOf,
   recordPreStartLater,
   residenceOn,
+  schoolHistoryFor,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartModule,
@@ -560,32 +562,49 @@ export function partneredForFilledIn(
   recordPreStartLater(core, moduleId, rows);
 }
 
+/**
+ * A person's whole past, once (the owner's ruling, Nov 9, 2026: each person's
+ * past covers their whole life, coarse, written only when they are opened or
+ * met): where they lived, their schools and their working life from their
+ * birth to the day before the world's opening, by the passes the run uses
+ * with the person's own window. Moves first, since school and work are placed
+ * by where they lived. Opening them again does nothing; the rows are the same
+ * whenever and however a person is opened (the world's seed and the person's
+ * records decide, nothing else).
+ */
+export function openWholePast(core: CoreState, personId: PersonId): void {
+  const person = core.people.get(personId);
+  if (!person || person.tier === "husk" || !preStartWindowOf(core)) return;
+  pastMovesFor(core, [person], departureRateFor, PEOPLE_MODULE_ID);
+  schoolHistoryFor(core, [person]);
+  pastWorkFor(core, [person], PEOPLE_MODULE_ID);
+}
+
+/** The people the player starts out knowing: their household and everyone they know, opened at the opening. */
+export function openStartingCircle(core: CoreState): void {
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  if (!player) return;
+  const circle = new Set<PersonId>([player.id, ...player.knownIds]);
+  for (const id of core.households.get(player.householdId)?.memberIds ?? [])
+    circle.add(id as PersonId);
+  for (const id of [...circle].sort()) openWholePast(core, id);
+}
+
 export const PEOPLE_MODULE: PreStartModule = {
   id: PEOPLE_MODULE_ID,
   preStart: { phase: "people", run: peopleHistory },
   // Someone filled in from the counts gets the working life the run would
   // have given them, read against the same economy and openings.
   onFillIn: (api, { memberIds }) => {
-    pastWorkFor(
-      api.state as CoreState,
-      memberIds.flatMap((id) => {
-        const person = api.state.people.get(id as PersonId);
-        return person &&
-          !pastWorkOf(api.state as CoreState, id as PersonId).length
-          ? [person]
-          : [];
-      }),
-      PEOPLE_MODULE_ID,
-    );
+    const people = memberIds.flatMap((id) => {
+      const person = api.state.people.get(id as PersonId);
+      return person ? [person] : [];
+    });
+    // Their whole past, as anyone's who is opened (moves, school, work).
+    for (const person of people)
+      openWholePast(api.state as CoreState, person.id);
     // Then the couple among them, from the working lives just written.
-    partneredForFilledIn(
-      api,
-      memberIds.flatMap((id) => {
-        const person = api.state.people.get(id as PersonId);
-        return person ? [person] : [];
-      }),
-      PEOPLE_MODULE_ID,
-    );
+    partneredForFilledIn(api, people, PEOPLE_MODULE_ID);
   },
   onDay: (api) => {
     shareHomeTime(api);
