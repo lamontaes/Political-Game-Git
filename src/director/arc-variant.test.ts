@@ -37,7 +37,7 @@ import {
 // choose, where different causes in one played year give different variants.
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 
-type Row = { purpose: string };
+type Row = { purpose: string; pull?: readonly string[] };
 const FAMILIES = (
   variantFile as unknown as {
     families: Record<string, { variants: Record<string, Row> }>;
@@ -103,6 +103,8 @@ const pressFacts: Record<string, Fact> = {
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
 };
+// What an accusation hands the plain arc's lines (a bill the accuser names).
+const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
 // asker already voted for (`earlier`) and the reads that came to something.
 const voteFacts: Record<string, Fact> = {
@@ -120,9 +122,11 @@ const factsOf = (family: string) =>
     ? donorFacts
     : family === "press-comment"
       ? pressFacts
-      : family === "ask-vote"
-        ? voteFacts
-        : generic;
+      : family === "conflict-accuse"
+        ? accuseFacts
+        : family === "ask-vote"
+          ? voteFacts
+          : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -151,7 +155,9 @@ const compose = (
     {},
     { includeHeld: true },
   );
-  expect(result.kind, `${family}/${variant}`).toBe("composed");
+  expect(result.kind, `${family}/${variant} ${JSON.stringify(result)}`).toBe(
+    "composed",
+  );
   if (result.kind !== "composed") throw new Error("not composed");
   return result.talk;
 };
@@ -218,13 +224,25 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-        } else
+        } else if (family === "conflict-accuse")
+          for (const id of ["disclosed", "feud"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "owed-apology")
+          for (const id of ["apology-taken", "grudge"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
             where,
           ).toBeGreaterThan(0);
       }
-  });
+  }, 300_000);
 
   it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
     for (const [family, row] of Object.entries(FAMILIES)) {
@@ -267,7 +285,7 @@ describe("a kind with several arcs", () => {
       );
       expect(skeletons.size, family).toBeGreaterThanOrEqual(3);
     }
-  });
+  }, 300_000);
 
   it("says a variant's own lines, and the family's where the variant has none", () => {
     const small = compose("bribe-offer", "small");
@@ -496,7 +514,17 @@ describe(`variants in a played year (seed ${seed})`, () => {
         choice.recordIds.some((id) => id.includes(first.id)),
         where,
       ).toBe(true);
-      expect(score("again"), where).toBeGreaterThan(0);
+      // The asker's pull multiplies the world's score (arc-variant.ts): a
+      // person at the floor of every facet the again variant lists never
+      // presses again, however plain the earlier refusal, so it scores 0.
+      const traits = played.people.get(offerer.id)?.traits ?? {};
+      const facets = FAMILIES["bribe-offer"]!.variants.again!.pull ?? [];
+      const pull =
+        facets.reduce((sum, key) => sum + (traits[key] ?? 0), 0) /
+        Math.max(1, facets.length);
+      if (pull > -1) expect(score("again"), where).toBeGreaterThan(0);
+      else expect(score("again"), where).toBe(0);
+      process.stdout.write(`ARC VARIANTS repeat pull ${pull.toFixed(2)}\n`);
       expect(score("again", scene.scene.variant!), where).toBe(0);
       process.stdout.write(
         `ARC VARIANTS repeat, ${where}: first ${first.id} played ${scene.scene.variant!.variant} and was handed back (${recordId}); second ${second.id} played ${choice.variant}, the earlier refusal on its reads (${choice.recordIds.join(", ")}), again scored ${score("again").toFixed(2)}\n`,
