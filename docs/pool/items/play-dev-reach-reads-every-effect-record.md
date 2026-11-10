@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: M
-status: merged
+status: done
 claimed-by:
 pr: #8106
 after:
@@ -13,6 +13,8 @@ blocked-on:
 lead: fable
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, What the code does and Every law in dev mode's list; Reported done items 3 and 13; Duplicate systems item 6)
 merged-at: 2026-11-10T05:30:05.410Z
+seen-by: "second session (acceptance check)"
+seen-at: 2026-11-10T05:49:51.510Z
 ---
 
 **What.** Dev mode has a control that answers "who did this law reach". It reads one family of records and misses most of what laws do, so the proof a tester needs after passing a law comes back empty or names the wrong tier of people. Every measured case from the audit:
@@ -33,3 +35,5 @@ Read in code on Nov 10. `reach` (`src/bench/dev-mode.ts`, line 515) walks every 
 **Files.** `src/bench/dev-mode.ts`, `src/bench/dev-api.ts`, `src/bench/ui/dev-bill-card.mjs`, `src/core2/law-reach/host.ts`, `src/core2/law-reach/applied.ts`, `src/core2/law-reach/group-a-records.ts`, `src/core2/law-reach/group-b-store.ts`, `src/core2/modules/budgets.ts`, `src/core2/wage-floor.ts`, `src/core2/data/stopgaps/play.json`, `src/bench/dev-mode.test.ts`, `scripts/dev-tests/twin.ts`.
 
 **Notes.** From the Fable audit of Nov 9, 2026. Pillar 2, "What the code does": the bullets "Dev mode's own proof came back empty" and "The reach control sees income tax and misses other laws". Pillar 2, "Every law in dev mode's list, tried at four bodies": "The proof tools rarely name the people a law reached" and "An income tax raise shows the gap". "Reported done", item 3 ("I ran dev mode's reach control on the 147 state laws my sweep enacted, a different count from the crew's 147. It named a full person for 9 laws and a counted person for 2") and item 13 ("Reach read zero for a wage law and for a property tax"). "Duplicate systems", item 6. The audit cited `src/bench/dev-mode.ts:515` for "The reach control only reads one family of records"; the function is still at line 515 on Nov 10 main. What was run: the lead's dev-mode sessions in As Matuis and Bigelow; the Woods Cross twin-world tax test (seed f61d987b2e0e, three years each; the audit does not say outright that the 72 was read in that same world); and the sweep of all 170 laws in dev mode's list at four bodies in Marion, Mississippi, seed 7df73e53cd67, each bill passed at a margin of three or four, run 120 days for local bodies and 180 for the state and Congress, and compared by cash account with a twin world. The audit gives no seed for As Matuis or Bigelow. What the audit did not verify: pay in As Matuis ("I did not check pay in that world. The sweep below did, in Mississippi, and pay moved"); which records the 72 and the 86 were read from; and about half of the sweep's twin results measured a rider the body added to the bill, not the law, so a twin check here must read the bill's sections first (`gov-riders-added-when-every-vote-is-forced`, filed from the same audit). The property tax cases also carry the defect in `laws-property-tax-billed-to-every-home-in-the-world`: most of the dollars came from officials who live elsewhere, and an honest reach will show that until it is fixed. Read on Nov 10 by the session that filed this, not in the audit: the core already has readers over both reach stores and the applied table, `reachedBy` and `reachOn` (`src/core2/law-reach/host.ts`, lines 325 and 260), used by the press desk and by `src/bench/reached.ts`; `reachedBy` keeps full people only. Build on those; do not write a new store. The stopgap row's `line` field still says 378. Build the reader once with `laws-proof-tools-count-voters-not-the-people-reached`, which makes the crew's harness and the wiring table read the same function. This is one of the five items for the acceptance rule. Related items found: `play-dev-run-until-stops-far-from-the-player` (the clock must stop on the law's own date first), `play-dev-trace-answers-why-for-every-record-the-game-names` (the "record-not-found" on the law), `dev-mode-remove-direct-law-write` (open, priority 3; it deletes the direct law write that returns this count today), `play-stopgap-dev-mode-missing-core-api` (dropped; it listed this stopgap), `web-reach-civic` (open). No open item covered this defect.
+
+Seen in the game (2026-11-10, second session (acceptance check)): Oakland, Arkansas, seed 707cf7e4-251e-453f-a00b-76572c887ad6, main 419e1a97: Who it reached for HB 30 read Records 24, Full people 8 in town, Counted people 11, Money moved $178, with named workers; Follow the money differences summed to zero with the outside line (read about a year after it took effect, not 45 days)

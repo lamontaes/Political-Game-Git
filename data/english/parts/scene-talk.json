@@ -4586,7 +4586,7 @@
       "key": "scene-talk.reply-agree.all-right-i-ll-do-it",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Alright. I'll do it.",
+      "text": "All right. I'll do it.",
       "uses": [
         {
           "subject": "scene",
@@ -118193,7 +118193,7 @@
       "key": "scene-talk.close-thank.thank-you-for-hearing-us-out",
       "move": "close-thank",
       "kind": "spoken",
-      "text": "Thank you for hearing me out.",
+      "text": "Thank you for hearing us out.",
       "uses": [
         {
           "subject": "scene",
@@ -195310,6 +195310,10 @@
       "tag": {
         "move": "withdraw",
         "key": "vote-wanted"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195335,6 +195339,10 @@
       "tag": {
         "move": "agree",
         "key": "honor"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195360,6 +195368,10 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195385,6 +195397,10 @@
       "tag": {
         "move": "request",
         "key": "news-received"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195418,6 +195434,10 @@
       "tag": {
         "move": "relent",
         "key": "favor-asked"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195442,6 +195462,10 @@
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195466,6 +195490,10 @@
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195490,6 +195518,10 @@
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195515,6 +195547,10 @@
       "tag": {
         "move": "ask",
         "key": "news-received"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195569,7 +195605,7 @@
       "key": "scene-talk.narrate-narrate.name-puts-a-pay-stub-from-employer-on-the-table-before-sitting-down",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} puts a pay stub from {employer} on the table before sitting down.",
+      "text": "{name} puts a paycheck from {employer} on the table before sitting down.",
       "uses": [
         {
           "subject": "scene",
@@ -195799,7 +195835,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help.lost-job",
-          "key": "favor-asked"
+          "key": "favor-asked",
+          "excludesFacts": ["evening"]
         }
       ],
       "bearing": "calm",
@@ -197462,7 +197499,7 @@
       "key": "scene-talk.narrate-narrate.name-has-a-pay-stub-in-one-hand-and-a-printout-of-the-minimum-wage-law-in-the-ot",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has a pay stub in one hand and a printout of the minimum wage law in the other, folded to the same page.",
+      "text": "{name} has a paycheck in one hand and a printout of the minimum wage law in the other, folded to the same page.",
       "uses": [
         {
           "subject": "scene",
@@ -197486,7 +197523,7 @@
       "key": "scene-talk.narrate-narrate.name-waits-until-the-person-ahead-leaves-then-lays-a-pay-stub-on-the-table-and-t",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} waits until the person ahead leaves, then lays a pay stub on the table and turns it to face you.",
+      "text": "{name} waits until the person ahead leaves, then lays a paycheck on the table and turns it to face you.",
       "uses": [
         {
           "subject": "scene",
@@ -197510,7 +197547,7 @@
       "key": "scene-talk.narrate-narrate.the-hourly-rate-on-the-pay-stub-name-slides-over-reads-pay-circled-twice-in-ink",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The hourly rate on the pay stub {name} slides over reads {pay}, circled twice in ink.",
+      "text": "The hourly rate on the paycheck {name} slides over reads {pay}, circled twice in ink.",
       "uses": [
         {
           "subject": "scene",
@@ -197730,7 +197767,7 @@
       "key": "scene-talk.reply-promise.i-ll-send-your-pay-stub-to-the-labor-standards-office-today-and-i-ll-give-you-th",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll send your pay stub to the labor standards office today, and I'll give you the name of whoever takes it.",
+      "text": "I'll send your paycheck to the labor standards office today, and I'll give you the name of whoever takes it.",
       "uses": [
         {
           "subject": "scene",
@@ -197898,7 +197935,7 @@
       "key": "scene-talk.reply-offer.my-caseworker-will-walk-you-through-the-labor-standards-form-bring-every-stub-yo",
       "move": "reply-offer",
       "kind": "spoken",
-      "text": "My caseworker will walk you through the labor standards form. Bring every stub you have.",
+      "text": "My caseworker will walk you through the labor standards form. Bring every paycheck you have.",
       "uses": [
         {
           "subject": "scene",
@@ -198066,7 +198103,7 @@
       "key": "scene-talk.reply-apologize.i-should-have-asked-to-see-the-stub-first-show-me",
       "move": "reply-apologize",
       "kind": "spoken",
-      "text": "I should have asked to see the stub first. Show me.",
+      "text": "I should have asked to see the paycheck first. Show me.",
       "uses": [
         {
           "subject": "scene",
@@ -198407,7 +198444,7 @@
       "key": "scene-talk.close-press.i-ll-be-back-with-every-stub-have-somebody-ready-to-look-at-them",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll be back with every stub. Have somebody ready to look at them.",
+      "text": "I'll be back with every paycheck. Have somebody ready to look at them.",
       "uses": [
         {
           "subject": "scene",
@@ -198726,7 +198763,7 @@
       "key": "scene-talk.state-request.my-doctor-says-i-can-t-go-back-full-time-yet-nothing-comes-in-on-the-days-i-m-ou",
       "move": "state-request",
       "kind": "spoken",
-      "text": "My doctor says I can't go back full time yet. Nothing comes in on the days I'm out.",
+      "text": "My doctor says I can't go back to work full time yet. Nothing comes in on the days I'm out.",
       "uses": [
         {
           "subject": "scene",
