@@ -1373,17 +1373,13 @@ async function sayLine(key) {
   lying = false;
   renderTalk(await post(`/api/talk/say?key=${encodeURIComponent(key)}`));
 }
-async function talkTo(otherId, momentId) {
+async function talkTo(otherId) {
   // The menu hides the conversation, so a conversation closes it first.
   closeSheet();
   lying = false;
   $("talk-name").textContent = "";
-  // From a scene, the talk is about the scene's moment.
-  const occasion = momentId ? `&momentId=${encodeURIComponent(momentId)}` : "";
   renderTalk(
-    await post(
-      `/api/talk/open?otherId=${encodeURIComponent(otherId)}${occasion}`,
-    ),
+    await post(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`),
   );
 }
 // Saying nothing is a smaller control beside the four replies (owner, Oct 14).
@@ -2065,14 +2061,22 @@ async function showStory(momentId) {
   const story = await api(
     `/api/story?momentId=${encodeURIComponent(momentId)}${HELD_VIEW ? "&held=1" : ""}`,
   );
+  // A scene with no lines of its own does not play; the day goes on and the
+  // moment stays in the journal. Never an everyday talk in its place.
+  if (story.missingBank) {
+    show("talk", false);
+    return act(
+      `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,
+    );
+  }
   me.names = { ...me.names, ...story.names };
   $("backdrop").src = story.backdrop.url;
   drawPeople(story.people);
   show("talk", true);
   show("talk-who", false);
   $("talk-name").textContent = "";
-  // A scene with a purpose is its own exchange; any other opens a talk.
-  // The narrator sets the scene alone; Continue, then the person speaks.
+  // A scene with a purpose is its own exchange. The narrator sets the scene
+  // alone; Continue, then the person speaks.
   const withId = story.talk?.askerId ?? story.talkToId;
   const setting = story.narration.map((line) =>
     talkLine({
@@ -2120,9 +2124,7 @@ async function showStory(momentId) {
     return;
   }
   if (withId) {
-    narrateFirst(setting, () =>
-      story.talk ? playExchange(story) : talkTo(withId, momentId),
-    );
+    narrateFirst(setting, () => playExchange(story));
     return;
   }
   // The narrator alone is a Continue.

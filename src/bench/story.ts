@@ -190,8 +190,20 @@ export function storyScene(
         }
       : null;
   const backdrop = backdropFor(core, pictured, minuteOfDay, personId);
+  // A scene with no lines of its own does not play (owner, Nov 8: everyday
+  // talk borrowed for it "should have been taken out of the game a long time
+  // ago"): it is reported by kind, purpose and step instead.
+  const missingBank =
+    !talk && scene.talkToId && !scene.speech
+      ? {
+          kind: scene.typeKey,
+          purpose: purpose?.kind === "skipped" ? purpose.reason : "no purpose",
+          step: "exchange",
+        }
+      : null;
   return {
     momentId,
+    missingBank,
     place: pictured,
     backdrop,
     people: stagePeople(core, backdrop.file, cast, undefined, scene.occasion)

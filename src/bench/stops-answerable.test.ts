@@ -33,6 +33,9 @@ it("every stop in a played year has something to show and answer", () => {
   player.select(personId);
   const until = addDays(makeIsoDate(gameStartDate()), 365);
   let stories = 0;
+  // The missing-bank report for the year: scenes with no lines of their own do
+  // not play; each is listed by kind, purpose and step.
+  const missing: string[] = [];
   for (let step = 0; step < 4000; step++) {
     const packet = player.packet;
     if (packet?.kind === "stop") {
@@ -46,6 +49,10 @@ it("every stop in a played year has something to show and answer", () => {
             row.recordId,
             packet.at.minuteOfDay,
           );
+          if (scene.missingBank)
+            missing.push(
+              `${packet.at.date} ${scene.missingBank.kind} / ${scene.missingBank.purpose} / ${scene.missingBank.step}`,
+            );
           expect(
             Boolean(scene.talk) || Boolean(scene.talkToId),
             `the stop on ${packet.at.date} (${row.recordId}) offers no one to answer: "${scene.narration.map((line) => line.text).join(" ")}" in ${where}`,
@@ -70,6 +77,9 @@ it("every stop in a played year has something to show and answer", () => {
       entry.bindings.length,
       `moment ${entry.momentId} stopped the day with no scene in ${where}`,
     ).toBeGreaterThan(0);
+  console.log(
+    `missing banks (${missing.length}): ${missing.join("; ") || "none"}`,
+  );
   console.log(
     `${stories} story stops, ${stopped.length} moments stopped the day, through ${player.packet?.at.date}`,
   );
