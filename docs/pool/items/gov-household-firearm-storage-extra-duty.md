@@ -11,15 +11,29 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: governing
+standard: 2
+model: sonnet
+effort: high
+root: none
 ---
 
-**What.** The focused household-firearms test still fails on exact clean main 4f4c069a5c4c04d5a322934429475b018d2b679c with HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c (Atascadero, CA0603064): storage-duty rows contain 24 people while the effective-date household and ownership records expect 20. PR #4998 preserves the exact set assertion and corrects only the age reference date; the same four extra person IDs occur before and after that PR. Diagnose the record mismatch at its cause.
+**What.** The household firearms storage-duty rows contained extra adults on a same-seed reproduction: with HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c (Atascadero, CA0603064) on clean main 4f4c069a5c, storage-duty rows held 24 people while the effective-date household and ownership records expected 20, with the same four extra person ids (person_76c8e949a5f5bbaa, person_76c8ea49a5f5bd5d, person_f502f74bd53befa1, person_f502f84bd53bf154) before and after PR #4998. The failing test, `src/core2/household-firearms.test.ts`, is not on main (PR #5371 was closed; the branch is claude/firearm-storage-extra-duty), so nothing reproduces on main. The mismatch is a record question: which rule admits four people the effective-date household, alive, age and ownership records do not.
+
+**Cause.** Needs cause. Searched `src/core2` for `household-firearms.test.ts` (absent) and storage-duty code (only `src/core2/law-wiring-justice.test.ts` and `src/core2/public-safety.ts`); the repro seed is HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c, Atascadero, California; the four extra ids were recorded on the branch only.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours for one sonnet session, to restore the test from the branch onto current main, run it at the seed, and name which rule admits the four extra people.
 
 **Rules.** One rule, all 56 places: fix eligibility from household and law records in every drawn place without a place-specific exception. One model, two tiers: full people and counted households follow the same effective-date age, alive and firearm-ownership rules. Never skip or loosen the exact set assertion to hide the mismatch.
 
-**Done when.** The focused household-firearms test passes with the reported seed and a fresh drawn world, with the storage-duty targets justified by effective-date household, alive, age and ownership records; changed-file checks pass. **On screen.** Nothing yet: it would show on a person's card in the People web, and nothing there reads it.
+**Done when.** A second session restores the focused test from claude/firearm-storage-extra-duty, runs it at HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c in Atascadero and on a fresh drawn world, and either sees it pass with the storage-duty targets justified by effective-date household, alive, age and ownership records, or rewrites this item with the rule that admits the extra people as a `Found in code:` cause.
 
-**Files.** src/core2/household-firearms.test.ts, src/core2/law-reach/group-a-records.ts, src/core2/modules/laws.ts
+**Waits on.** Nothing.
+
+**Files.** src/core2/law-reach/group-a-records.ts, src/core2/modules/laws.ts, src/core2/public-safety.ts
 
 **Notes.** Independent same-seed baseline and PR comparison: both fail identically with extra person_76c8e949a5f5bbaa, person_76c8ea49a5f5bd5d, person_f502f74bd53befa1, person_f502f84bd53bf154. Preserve existing claims on release-suite-red-list-core2 and people-household-firearms.
 

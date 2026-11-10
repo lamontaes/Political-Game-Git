@@ -6,17 +6,31 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: screens
+model: sonnet
+effort: medium
+root: rc10-screens-keep-own-facts
 ---
 
-**What.** Confirmer replay of Lane 1 path 1 on main 516a0f9070 (includes #7269, at-large seats counted as one race): New Game in Haleyville, Alabama (0132704, replay ab5f58e9be125c95). On May 20, 2025 the Campaigns screen lists five races for the August 26 election, 'Council member (Andrew Clay)', '(Cora Daniels)', '(Keith Robinson)', '(Robert Chavez)' and '(Suzanne Copeland)', each with its own running count, plus Mayor; File for it files for one seat (filing:contest:seat:gus2025:160735:council:0:2025-08-26). The count is pooled now, but the player still sees and files for one seat of five.
+**What.** A confirmer replay of Lane 1 path 1 on main (which includes the at-large seats counted as one race) in New Game, Haleyville, Alabama (0132704, replay ab5f58e9be125c95) shows, on May 20, 2025, five races on Campaigns for the August 26 election, 'Council member (Andrew Clay)', '(Cora Daniels)', '(Keith Robinson)', '(Robert Chavez)' and '(Suzanne Copeland)', each with its own running count, plus Mayor. File for it files for one seat (filing:contest:seat:gus2025:160735:council:0:2025-08-26). The count is pooled, but the player still sees and files for one seat of five. The owner met the same thing in Manchester, Connecticut as 'Selectman (Amy Villarreal)', 'Selectman (Janet Giles)', 'Selectman (Karen Li)', each with '1 running' (playtest 2026-11-08-1, point C14).
+
+**Cause.** Found in code: `localRaces` in src/bench/government.ts (its second `.map`, about lines 465 to 480) appends the incumbent's name to the title whenever two contests share a title, and `campaigns()` in src/bench/play.mjs (line 4217) draws one row per contest it is sent, so a pooled at-large council or board of selectmen shows as one-seat races named by their holders. Seen in Haleyville, Alabama (replay ab5f58e9be125c95) and Manchester, Connecticut (docs/coordination/playtest/2026-11-08-1-check.md, C14).
+
+**Fix.** Have the screen show one race per pooled contest (council or board of selectmen) that lists everyone running and files for that race, with its title from the English engine, and delete the holder-name renaming in `localRaces`.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One engine per mechanic: the screens read the pooled race the elections engine keeps; a view never splits it back into seats. No hand-written player text: the race's label comes from the English engine's banks, not from text typed into the screen.
 
-**Done when.** A fresh session replays New Game in Haleyville, Alabama at replay ab5f58e9be125c95 on main and on May 20, 2025 sees one Council member race for five seats on Campaigns, with everyone running in it, and files for that race; the same in one other at-large town drawn from all 56 (place and seed named). It is shown in a played world by screenshot, with the contest id named.
+**Done when.** A second session replays New Game in Haleyville, Alabama at replay ab5f58e9be125c95 on main and on May 20, 2025 sees one Council member race for five seats on Campaigns, with everyone running in it, and files for that race; the same in one other at-large town drawn from all 56 (place and seed named). It is shown in a played world by screenshot, with the contest id named.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/government.ts, src/bench/play.mjs, src/bench/filing.ts
 

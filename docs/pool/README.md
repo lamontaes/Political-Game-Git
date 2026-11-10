@@ -14,7 +14,7 @@ This folder is that place. It replaces the pool lists inside work orders, the "N
 - **Build gates:** an item with `after:` waits until those items are merged (a gate opens at merge and does not wait for the seen check); the index lists it under Gated and keeps it out of Next up, so take the top of Next up without reading further. **Merge gates** (the changed-file checks, the morning check) are the merger's problem; a builder only writes its one gate line.
 - **A merger's send-back reopens the item** (owner, Oct 15): the merger sets it open with the reason and the branch in Notes; the next builder claims it with that branch, which transfers the branch to them, and finishes it there (`pr-fixer`). Bugs the merger finds elsewhere become new items.
 - **Stale claims:** a claim older than 60 minutes with no pushed branch and no PR may be released and taken; say so in the item's Notes.
-- **Adding:** `npm run pool -- add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ...` creates the item and pushes it to main. A priority 1 or 2 item must give all four body flags (`--notes` is optional); `add` refuses one that would fail the quality check below. Priority 3 may start from the template.
+- **Adding:** `npm run pool -- add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model ... --effort ... --root ... --lead ...` creates the item at the standard and pushes it to main. Every flag but `--after`, `--size` and `--notes` is required, whatever the priority; `add` lists what is missing and refuses an item that would fail the standard or the quality check below.
 - **Size** (owner, Oct 15): an L item is split by the session that claims it into bounded sub-items in the pool (each S or M with its own done-when) before any building; the L item becomes `blocked-on` its parts.
 - **Pick in order:** the index's "Next up" list (the first 15) is the order: play-first items come first, in the order `docs/play-first/ORDER.md` gives (the lane's rules: `docs/play-first/README.md`); then priority, size, area, id. A session with an assignment finishes it, then takes the pool from the top.
 
@@ -36,6 +36,8 @@ Any agent with repository access (Claude, Codex, Cursor, Antigravity or another)
 
 ## The item file
 
+The standard is `.agents/rules/pool-item-standard.md` (owner, Nov 10: every assignment works without Fable; "I don't want any work to be done unless Fable found the fix"). An item carries `standard: 2` and says enough that whatever model picks it up can build it from the item alone. **An item without `standard: 2` is from before the standard and is being redone**; the check judges it as it always did.
+
 ```markdown
 ---
 id: laws-cannabis-read
@@ -45,26 +47,39 @@ kind: wiring # bug | feature | wiring | stopgap | research | cleanup | owner-dec
 priority: 1 # 1 now, 2 next, 3 later
 size: M # S | M | L, optional, default M
 status: open # open | claimed | in-pr | merged (on main, not yet seen in the game) | done (seen in the game by a second session, or closed by the CTO) | dropped | blocked
+standard: 2
 claimed-by: # branch name
 pr: # #4387
-after: # item ids (comma-separated) that must be merged before this can be built
-blocked-on: # another item's id, or an owner decision
+after: # item ids (comma-separated) that must be merged before this can be built; present, may be empty
+blocked-on: # another item's id, or an owner decision; present, may be empty
+lead: laws # the role that owns it; required
+model: sonnet # haiku | sonnet | opus | fable: the least capable model that can build it from the item alone
+effort: medium # low | medium | high
+root: rc8-law-judged-by-paperwork # an id from docs/pool/roots.md, or none
 milestone: M3 # from docs/ROADMAP.md, if any
 source: overnight order Session A; stopgap SG-GOV-REACH-A-cannabis
 ---
 
 **What.** One paragraph: what to build or fix, in plain words.
 
-**Time box.** Hours for one session, sized for the model named in `lead:` or the claimer (owner, Oct 26: every assignment is SMART, `.agents/rules/smart-and-look-first.md`). When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Cause.** Begins with exactly one of: `Found in code:` (a repository path that exists, with a line number or a function name), `Measured:` (a place and a seed, or the command that shows it), `Design:` (for work that is new, not broken: a path under docs/ that exists, or a dated owner ruling), or `Needs cause.` (nothing is known yet; say what was looked at).
+
+**Fix.** What to change, in plain words. For `Needs cause.` it reads `None until the cause is found.`
+
+**Time box.** Hours for one session of the model named in `model:` (owner, Oct 26: every assignment is SMART, `.agents/rules/smart-and-look-first.md`). When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** The owner rulings and AGENTS.md rules that bind this item, by name (no dice; an effect is a read; one rule, all 56 places; the chain is the acceptance).
 
-**Done when.** The check: what a played-world year in a drawn place must show, by record, and which test or guard proves it. "The owner plays it:" one sentence. An item that asks the owner anything carries the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`).
+**Done when.** What a second session sees in the running game, in a drawn place, by record where it can: which screen, which record id, which test or guard proves it. An item that asks the owner anything carries the reading line (`Read: OWNER-DECISIONS (...), DECISION-REGISTER, prior-rulings/..., LAW; searched: ...`).
 
-**Files.** The engine files it touches.
+**Waits on.** `Nothing.`, or the items or rulings it waits for (the same as `after:` and `blocked-on:`, in words).
 
-**Notes.** Where it came from, what was tried, what the last session left (PR, branch, comment).
+**Files.** The engine files it touches. Every path exists, unless followed by ` (new)`.
+
+**Notes.** Where it came from, what was tried, what the last session left (PR, branch, comment). Optional, and after the sections above.
 ```
+
+`npm run pool -- --check` names each thing a `standard: 2` item lacks. **A `Needs cause.` item is not built:** `claim` refuses it, and the index lists it under "Needs cause" and keeps it out of Next up, until Fable (or a session that finds the cause) rewrites it with `Found in code:` or `Measured:`. `npm run pool -- audit [--out <file>]` writes one JSON row for every open, gated and blocked item (at the standard or not, what it lacks, paths and names it cites that no longer exist, lead, size, last change); it changes nothing.
 
 Keep the body short; the rules and checks are usually one line each because AGENTS.md carries the detail. An item needs no instructions that AGENTS.md already gives.
 

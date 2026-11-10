@@ -108,7 +108,8 @@
       "stageWords": {
         "false": "\\bwithout a diploma\\b",
         "true": "\\b(?:graduated|got my diploma|finished high school)\\b"
-      }
+      },
+      "follow": ["schoolFor", "schoolAge"]
     },
     {
       "kindPrefix": "work:opening",
@@ -175,7 +176,8 @@
         }
       ],
       "entry": "story",
-      "lookBack": "memorable"
+      "lookBack": "memorable",
+      "follow": ["birthAge", "birthFirst"]
     },
     {
       "kindPrefix": "moved",
@@ -189,7 +191,8 @@
       ],
       "sameDay": "event:person.moved-away",
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "follow": ["movedFrom", "movedWith", "movedAge"]
     },
     {
       "kindPrefix": "unpaid-wages",
@@ -235,7 +238,8 @@
         }
       ],
       "entry": "story",
-      "framesAge": true
+      "framesAge": true,
+      "follow": ["deathBoth|deathAge|deathIllness"]
     },
     {
       "kindPrefix": "event:housing.eviction",
@@ -514,7 +518,8 @@
     {
       "kindPrefix": "household:partners-met",
       "turn": false,
-      "entry": "story"
+      "entry": "story",
+      "follow": ["togetherFor"]
     },
     {
       "kindPrefix": "household:moment:parent-new-job",

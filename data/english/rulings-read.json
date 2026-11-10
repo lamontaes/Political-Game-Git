@@ -1,0 +1,1550 @@
+{
+  "schema": "english-rulings-read/1",
+  "about": "The owner's rulings about words, lines, replies, scenes, narration, the journal, speeches and news text that live outside his grade notes: OWNER-DECISIONS.md, the playtest blocks, prior-rulings and play-first LAW.md. One row per ruling: the id, where it comes from, its date, his words copied exactly from the source file, and the rule it is attached to in line-rules.json (or, in notARule, why it is not a rule). Read by the run's report (npm run words:rules) and checked by src/english/line-rules.test.ts.",
+  "pendingRules": {
+    "four-replies-are-four-answers": "Another session is building this rule; these rulings are attached to its id by name and nothing is added to line-rules.json for it here."
+  },
+  "rulings": [
+    {
+      "id": "rr-001",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 10: rules, checks and skills merge first; staging waits for busts",
+      "date": "2026-11-10",
+      "words": "I thought it was supposed to be checking all of that stuff while it was updating, applying grades and feedback from all of the batches.",
+      "notARule": "About how far the words machine reaches (a process ruling); this file, the run's report and its tests are the answer, not a property of a line."
+    },
+    {
+      "id": "rr-002",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 10: rules, checks and skills merge first; staging waits for busts",
+      "date": "2026-11-10",
+      "words": "Imply relationship tension through ordinary concrete behavior/dialogue rather than narrating feelings.",
+      "rule": "journal-names-no-feeling"
+    },
+    {
+      "id": "rr-003",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 9: grades judge by rule",
+      "date": "2026-11-09",
+      "words": "this is why the entire engine being affected by grading is important. im not grading 6000 lines and 800 conversations individually.",
+      "notARule": "Procedure for how a grade reaches the rest of the lines; the ledger and the rules run implement it, and it is not a property of one line."
+    },
+    {
+      "id": "rr-004",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 9: grades judge by rule",
+      "date": "2026-11-09",
+      "words": "Yes, number three.",
+      "notARule": "Procedure for a line marked kind of weird with no rewrite (pull it until rewritten); the pulled list and the rewrite status do this, and it is not a property of a line."
+    },
+    {
+      "id": "rr-005",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 8, 2:10 to 2:45 p.m.: the playtest of v0.94.0",
+      "date": "2026-11-08",
+      "words": "If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton. And then it starts like that.",
+      "rule": "scene-opens-with-when-where-who",
+      "note": "Later than the enforced rules no-day-or-place-in-narration and no-day-or-place-in-scene-words (Oct 26), which flag a {date} or {weekday} slot in scene words; for scene openers the later ruling wins. Detectors are not changed here; see the report."
+    },
+    {
+      "id": "rr-006",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 8, 2:10 to 2:45 p.m.: the playtest of v0.94.0",
+      "date": "2026-11-08",
+      "words": "you're right inagural is fine. i just hate the way the speech looks which is the english engines fault.",
+      "notARule": "Says the speech reads badly without naming a fault; the faults he named are rules (vary-the-shape, speech-is-not-a-list)."
+    },
+    {
+      "id": "rr-007",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 8, 2:10 to 2:45 p.m.: the playtest of v0.94.0",
+      "date": "2026-11-08",
+      "words": "A rewrite never deletes a line he graded good.",
+      "notARule": "Already enforced: a line he graded good is never pulled or deleted (the ledger check in the run and liked-lines-kept.test.ts); not a property of a line."
+    },
+    {
+      "id": "rr-008",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 8 morning: check every ruling against the code",
+      "date": "2026-11-08",
+      "words": "there's only 5 in corruption scenes right now, you could get... 30 different scenes within there",
+      "rule": "many-versions-of-each-scene"
+    },
+    {
+      "id": "rr-009",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 23:30 UTC: the owner's answers and the filing visit",
+      "date": "2026-11-01",
+      "words": "this dialogue is absolutely god-awful. It's just listing things. Unless it calls for it specifically in the dialogue scene, it shouldn't read as a list. That's not how normal people talk.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-010",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 23:30 UTC: the owner's answers and the filing visit",
+      "date": "2026-11-01",
+      "words": "I never said that",
+      "rule": "player-never-says-unchosen"
+    },
+    {
+      "id": "rr-011",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 23:30 UTC: the owner's answers and the filing visit",
+      "date": "2026-11-01",
+      "words": "Do you mean city council?",
+      "rule": "body-named-as-place-names-it"
+    },
+    {
+      "id": "rr-012",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 23:30 UTC: the owner's answers and the filing visit",
+      "date": "2026-11-01",
+      "words": "That's how the tutorials should work in the game.",
+      "notARule": "A scene to build (a person offers the campaign tutorial on a first filing); a director producer, not a property of a line."
+    },
+    {
+      "id": "rr-013",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "I don't like where this part of the speech where it just laces statistics and stuff.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-014",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "The speech can be longer because, again, it's supposed to be like a montage.",
+      "notARule": "The address plays as a montage with cutaways: scene staging by the director, not a property of a line."
+    },
+    {
+      "id": "rr-015",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "none of this is a story",
+      "rule": "news-reads-as-a-story"
+    },
+    {
+      "id": "rr-016",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "Elected legislator, it needs to be told like a story. How many times do I have to say that?",
+      "rule": "person-history-tells-a-story"
+    },
+    {
+      "id": "rr-017",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "every one of these speeches has the same general outline. They need to vary",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-018",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "how do you know why I came here with my forms in a folder?",
+      "rule": "narration-assumes-no-reason"
+    },
+    {
+      "id": "rr-019",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 22:25 UTC: the owner's v0.73.0 playtest",
+      "date": "2026-11-01",
+      "words": "All 54 votes were cast. No, I can tell that's the generated number of people, not the simulated amount of votes",
+      "notARule": "About a vote count being the generated number rather than the simulated one; the election engine's record, not wording."
+    },
+    {
+      "id": "rr-020",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Nov 1, 18:30 UTC: CTO ruling: the paper prints what a body did, not that it sat",
+      "date": "2026-11-01",
+      "words": "there needs to be real ones with some good fluff or else it will get old",
+      "notARule": "About how many ordinary stories the paper prints (real ones with some fluff, so it does not get old); the press engine's selection, not wording."
+    },
+    {
+      "id": "rr-021",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 30, 04:10 UTC: the 04:00 ruling below is withdrawn",
+      "date": "2026-10-15",
+      "words": "Between relatives, work, school, where each is from and mutual acquaintances are not talked about ('Where do you work' between relatives is not a scene)",
+      "notARule": "Which talks may start (relatives are not asked what they already know; no cold question about someone not in the room); the director's conversation rules hold it (src/director/data/conversation-rules.json), not a line detector."
+    },
+    {
+      "id": "rr-022",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 29, 16:30 UTC: the second account's first sitting with the new CTO",
+      "date": "2026-10-29",
+      "words": "when you click continue and back, it's like headlines and then a little bit of story. Nothing is actually on the paper.",
+      "rule": "news-reads-as-a-story"
+    },
+    {
+      "id": "rr-023",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 29, 21:40 UTC: the owner's notes on the governing brief",
+      "date": "2026-10-29",
+      "words": "it's all about how this stuff is communicated through the English engine.",
+      "notARule": "Says the bill and vote screens depend on the English engine; it names no checkable fault in a line."
+    },
+    {
+      "id": "rr-024",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, 5 PM Eastern: the owner's answers to the CTO's question list",
+      "date": "2026-10-27",
+      "words": "Nothing happened this week. It shouldn't pop up anything.",
+      "rule": "no-quiet-weekday"
+    },
+    {
+      "id": "rr-025",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, 5 PM Eastern: the owner's answers to the CTO's question list",
+      "date": "2026-10-27",
+      "words": "There is no 'a week passes with nothing happens'.",
+      "rule": "no-quiet-weekday"
+    },
+    {
+      "id": "rr-026",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, 5 PM Eastern: the owner's answers to the CTO's question list",
+      "date": "2026-10-27",
+      "words": "these speeches are not all the same.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-027",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, 5 PM Eastern: the owner's answers to the CTO's question list",
+      "date": "2026-10-27",
+      "words": "none of that real data in there.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-028",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, 5 PM Eastern: the owner's answers to the CTO's question list",
+      "date": "2026-10-27",
+      "words": "Scenes are the game. They're the narrative",
+      "notARule": "A design principle (scenes are the narrative); the director's scene tests hold it, not a line detector."
+    },
+    {
+      "id": "rr-029",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, afternoon: screens rulings from the v0.56.2 sitting",
+      "date": "2026-10-27",
+      "words": "The player is not seeing this stuff. It needs to be a plain version of what this person's like",
+      "rule": "traits-read-as-plain-sentences"
+    },
+    {
+      "id": "rr-030",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, afternoon: screens rulings from the v0.56.2 sitting",
+      "date": "2026-10-27",
+      "words": "When it says you're in place or person is with you, I hate those. Remove every instance of that from the English engine. Block that",
+      "rule": "no-placing-narration"
+    },
+    {
+      "id": "rr-031",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, afternoon: screens rulings from the v0.56.2 sitting",
+      "date": "2026-10-27",
+      "words": "these scenes aren't making sense. I guess they're firing, but contextually they make no sense to the story.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-032",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27, afternoon: screens rulings from the v0.56.2 sitting",
+      "date": "2026-10-27",
+      "words": "four replies are four different answers, never one reworded",
+      "rule": "four-replies-are-four-answers"
+    },
+    {
+      "id": "rr-033",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27: rulings (owner, to the CTO, overnight)",
+      "date": "2026-10-27",
+      "words": "the opening speech flows like a real speech",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-034",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27: rulings (owner, to the CTO, overnight)",
+      "date": "2026-10-27",
+      "words": "the images of the unemployment is at 4.1%, the fact that I know that is ridiculous",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-035",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27: rulings (owner, to the CTO, overnight)",
+      "date": "2026-10-27",
+      "words": "And then the English engine handles the words",
+      "notARule": "About which circumstances the director may stage; the English engine words whatever it stages, so no rule on a line."
+    },
+    {
+      "id": "rr-036",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27: rulings (owner, to the CTO, overnight)",
+      "date": "2026-10-27",
+      "words": "a victory speech obviously means there needs to be a concession speech",
+      "notARule": "Scene coverage (a concession mirrors a victory speech); a director producer item, not a property of a line."
+    },
+    {
+      "id": "rr-037",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 27: rulings (owner, to the CTO, overnight)",
+      "date": "2026-10-27",
+      "words": "I grade 17, that should calibrate the entire engine",
+      "notARule": "Procedure for how one grade calibrates the whole engine; the run does this, and it is not a property of one line."
+    },
+    {
+      "id": "rr-038",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 26, evening: rulings from the playtest sitting",
+      "date": "2026-10-26",
+      "words": "It's okay if it goes from January 14th all the way to March 11th, and then there's something on March 11th, 17th, 18th, and 21st, then nothing till July.",
+      "notARule": "Pacing of scenes across a year (quiet stretches allowed); the director's cadence, not a property of a line."
+    },
+    {
+      "id": "rr-039",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 26, evening: rulings from the playtest sitting",
+      "date": "2026-10-26",
+      "words": "That's not a speech",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-040",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 26, evening: rulings from the playtest sitting",
+      "date": "2026-10-26",
+      "words": "What the hell kind of entry is that? There's no history",
+      "notARule": "About the journal having a history from day one; the life record's job (the past is simulated), not wording."
+    },
+    {
+      "id": "rr-041",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 26: rulings (owner, to the CTO)",
+      "date": "2026-10-26",
+      "words": "where the narrative and the story progresses through those scenes, where you're clicking through dialogue and then you play the game through the actual game",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-042",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)",
+      "date": "2026-10-14",
+      "words": "a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")",
+      "rule": "reply-second-move-follows-the-first"
+    },
+    {
+      "id": "rr-043",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)",
+      "date": "2026-10-14",
+      "words": "many variants of the same meaning so the player never sees a line twice",
+      "rule": "many-variants-of-the-same-meaning"
+    },
+    {
+      "id": "rr-044",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)",
+      "date": "2026-10-14",
+      "words": "lines must sound like people talk",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-045",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)",
+      "date": "2026-10-14",
+      "words": "nothing ships in dev speak.",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-046",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Ruled by the CTO overnight, October 14, 2026 (from standing rules; the owner may overrule)",
+      "date": "2026-10-14",
+      "words": "\"you have never met\" is never the only line.",
+      "rule": "never-met-is-never-the-only-line"
+    },
+    {
+      "id": "rr-047",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, morning (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "No entry is a lone event with no story around it.",
+      "rule": "journal-entry-has-story-around-it"
+    },
+    {
+      "id": "rr-048",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, morning (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "Numbering, title, sections and enacting language follow the norm for that body, as a real bill reads.",
+      "rule": "bill-reads-as-a-real-bill"
+    },
+    {
+      "id": "rr-049",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, morning (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "Businesses are generated with real-sounding names.",
+      "rule": "business-names-sound-real"
+    },
+    {
+      "id": "rr-050",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 24: rulings (owner, via the acting CTO)",
+      "date": "2026-10-24",
+      "words": "the current opening is the right shape, the words are wrong.",
+      "rule": "scene-opens-with-when-where-who"
+    },
+    {
+      "id": "rr-051",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 24: rulings (owner, via the acting CTO)",
+      "date": "2026-10-24",
+      "words": "People in the house need a reason to be there: no \"X is with you\"",
+      "rule": "no-placing-narration"
+    },
+    {
+      "id": "rr-052",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "A town or county ordinance reads as an ordinance",
+      "rule": "bill-reads-as-a-real-bill"
+    },
+    {
+      "id": "rr-053",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "A section reads as a real section does",
+      "rule": "bill-reads-as-a-real-bill"
+    },
+    {
+      "id": "rr-054",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "Boasts, threats and alarms are mined from public-domain speech like the other registers, plain and rude versions included",
+      "notARule": "Asks that the banks hold boasts, threats and alarms (coverage); checked by bank coverage, not a line detector."
+    },
+    {
+      "id": "rr-055",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "A conversation always offers four replies ranked by the engine",
+      "rule": "four-replies-are-four-answers"
+    },
+    {
+      "id": "rr-056",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "A reply's second move follows from its first.",
+      "rule": "reply-second-move-follows-the-first"
+    },
+    {
+      "id": "rr-057",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "The engine never says a policy's catalog name literally",
+      "rule": "bill-called-by-what-people-call-it"
+    },
+    {
+      "id": "rr-058",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Rulings, October 14, 2026, afternoon (owner, spoken; recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "Thirty items are thirty different scenes (a legislator arguing, pork barreling, a wedding, a council meeting, a rally), never the same closer thirty times.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-059",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Owner rulings from the Oct 14 night playthrough (recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "No cold \"How is X?\" questions about people not in the room unless something recorded happened to X",
+      "notARule": "Which talks may start (relatives are not asked what they already know; no cold question about someone not in the room); the director's conversation rules hold it (src/director/data/conversation-rules.json), not a line detector."
+    },
+    {
+      "id": "rr-060",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Owner rulings from the Oct 14 night playthrough (recorded by the CTO)",
+      "date": "2026-10-14",
+      "words": "its dialogue is consequential",
+      "rule": "stake-is-named"
+    },
+    {
+      "id": "rr-061",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "\"Where do you work\" between relatives is not a scene.",
+      "notARule": "Which talks may start (relatives are not asked what they already know; no cold question about someone not in the room); the director's conversation rules hold it (src/director/data/conversation-rules.json), not a line detector."
+    },
+    {
+      "id": "rr-062",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene.",
+      "rule": "scene-opens-with-when-where-who"
+    },
+    {
+      "id": "rr-063",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "\"All right\" and \"Okay\" as answers to \"How's Keanu?\" are not how conversations work, even when grammatical.",
+      "rule": "no-bare-yes-or-no-reply"
+    },
+    {
+      "id": "rr-064",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "The four replies each move the talk somewhere.",
+      "rule": "four-replies-are-four-answers"
+    },
+    {
+      "id": "rr-065",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "Journal lines carry their subject.",
+      "rule": "journal-line-carries-its-subject"
+    },
+    {
+      "id": "rr-066",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "A four-line rally is not a speech.",
+      "rule": "speech-has-a-core"
+    },
+    {
+      "id": "rr-067",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "\"Thank you very much\" over \"Thank you so much\" in a speech.",
+      "rule": "no-thank-you-so-much"
+    },
+    {
+      "id": "rr-068",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "A bill has a real name, not a description.",
+      "rule": "bill-called-by-what-people-call-it"
+    },
+    {
+      "id": "rr-069",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "A lie about where you are from names another place",
+      "rule": "lie-names-another-place"
+    },
+    {
+      "id": "rr-070",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "Nobody says a date in speech",
+      "rule": "no-year-in-speech"
+    },
+    {
+      "id": "rr-071",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 11 grading rulings (owner)",
+      "date": "2026-10-15",
+      "words": "no text is typed into screens or code.",
+      "notARule": "A standing rule enforced by the player-text guard (no hand-written player text); not a rule on a line."
+    },
+    {
+      "id": "rr-072",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 12 rejected; what a scene is (owner, relayed by the CTO)",
+      "date": "2026-10-15",
+      "words": "Nobody closes with \"Talk to you soon\" after a question was answered.",
+      "rule": "no-talk-to-you-soon"
+    },
+    {
+      "id": "rr-073",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 12 rejected; what a scene is (owner, relayed by the CTO)",
+      "date": "2026-10-15",
+      "words": "Each reply carries a stake and moves the exchange.",
+      "rule": "stake-is-named"
+    },
+    {
+      "id": "rr-074",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 12 rejected; what a scene is (owner, relayed by the CTO)",
+      "date": "2026-10-15",
+      "words": "A yes or no never ends a talk; the asker follows up.",
+      "rule": "no-bare-yes-or-no-reply"
+    },
+    {
+      "id": "rr-075",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, evening: batch 12 rejected; what a scene is (owner, relayed by the CTO)",
+      "date": "2026-10-15",
+      "words": "Every item of the form \"do you remember <school>\" is removed from the banks and the catalog as an opener",
+      "rule": "no-do-you-remember-the-school"
+    },
+    {
+      "id": "rr-076",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "Introduce people before they speak.",
+      "rule": "introduced-before-addressed"
+    },
+    {
+      "id": "rr-077",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "A reply fits the line it answers.",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-078",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "Plain words, no trade or dev language.",
+      "rule": "no-insider-words"
+    },
+    {
+      "id": "rr-079",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "Say why.",
+      "rule": "why-me-is-answered"
+    },
+    {
+      "id": "rr-080",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "Threats sound like politics",
+      "rule": "pressure-sounds-like-politics"
+    },
+    {
+      "id": "rr-081",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "a scene does not end at \"Deal.\" when there is more to settle",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-082",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "The player's character may say a line the player did not choose",
+      "notARule": "A feature (the player's character may say a line to keep a talk going); the talk picker builds it, not a property of a line."
+    },
+    {
+      "id": "rr-083",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "A request needs its ground.",
+      "rule": "request-needs-its-ground"
+    },
+    {
+      "id": "rr-084",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "Even good lines turn robotic when the structure repeats; vary openers, closers and the order of moves.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-085",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 15, night: batch 13 review, the rulings for batch 14 (owner, voice notes)",
+      "date": "2026-10-15",
+      "words": "a filing scene asks how they found out before it asks why",
+      "notARule": "The order of moves inside one scene (a filing reaction asks how they found out before why); it lives in that scene's rows."
+    },
+    {
+      "id": "rr-086",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "After the first exchange, the options must not rehash the first options; they move the talk on",
+      "rule": "later-replies-move-the-talk-on"
+    },
+    {
+      "id": "rr-087",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "\"I'm not going to talk about that\" is unnatural.",
+      "rule": "evasion-points-somewhere"
+    },
+    {
+      "id": "rr-088",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "\"Then put this in the story: I'm proud of my vote\" is wrong before the vote.",
+      "rule": "tense-of-the-record"
+    },
+    {
+      "id": "rr-089",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "\"You're right, I shouldn't have said that\" sounds like AI",
+      "rule": "no-stock-phrases"
+    },
+    {
+      "id": "rr-090",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "read as AI's quick resolution, not how people talk.",
+      "rule": "no-quick-resolution"
+    },
+    {
+      "id": "rr-091",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, early morning: batch 14 review and standing instructions (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "Don't hand over a batch with a \"still rough\" list",
+      "notARule": "Procedure for what is handed to him to grade (finished work only); not a property of a line."
+    },
+    {
+      "id": "rr-092",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, morning: batch 15 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "Every scene needs conclusions.",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-093",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, morning: batch 15 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "Not every line short; some carry an argument or a reason.",
+      "rule": "replies-may-be-long-and-substantive"
+    },
+    {
+      "id": "rr-094",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, morning: batch 15 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "an invitation to walk should be taken up",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-095",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, morning: batch 15 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "A scene needs a natural close, not a game-changing result",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-096",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, morning: batch 15 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "\"Where'd you drive in from?\" is creepy",
+      "notARule": "A remark on one line; the line is held by rejected-by-voice or the grades, and no pattern stands behind it."
+    },
+    {
+      "id": "rr-097",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "A complaint names the concrete effect",
+      "rule": "names-something-specific"
+    },
+    {
+      "id": "rr-098",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "the player can escalate back, not only de-escalate or leave",
+      "rule": "escalation-can-be-answered-in-kind"
+    },
+    {
+      "id": "rr-099",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "the floor switch had no \"Why?\"",
+      "rule": "why-me-is-answered"
+    },
+    {
+      "id": "rr-100",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "Walking away gets a beat, not a pleasantry",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-101",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "who, why you, what the job is, and some surprise.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-102",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "Asked to state your name for the record, the reply states it.",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-103",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "should put an event on the calendar",
+      "notARule": "A scene's ending should put an event on the calendar; a writeback by the director, not wording."
+    },
+    {
+      "id": "rr-104",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 16, afternoon: batch 16 review (owner, voice notes)",
+      "date": "2026-10-16",
+      "words": "\"Come stand on my corner at five\" reads wrong (drop it)",
+      "notARule": "A remark on one line; the line is held by rejected-by-voice or the grades, and no pattern stands behind it."
+    },
+    {
+      "id": "rr-105",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Every claim has a reason the listener can follow.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-106",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "People say \"have to\", not \"must\", about what a law makes them do",
+      "rule": "no-must-for-have-to"
+    },
+    {
+      "id": "rr-107",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "an office is named as people say it (\"the finance secretary\"), never as \"Budget Director / Finance Secretary\"",
+      "rule": "office-named-as-people-say-it"
+    },
+    {
+      "id": "rr-108",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "A reply answers the line right before it.",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-109",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Promise only what the character can do.",
+      "rule": "promise-only-what-the-speaker-can-do"
+    },
+    {
+      "id": "rr-110",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "A good exchange keeps going.",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-111",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Endings and their labels match the path.",
+      "rule": "ending-lands"
+    },
+    {
+      "id": "rr-112",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Introduce people by role.",
+      "rule": "introduced-before-addressed"
+    },
+    {
+      "id": "rr-113",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Vary the bills.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-114",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Narrated reactions are welcome",
+      "notARule": "A permission, not a prohibition (narrated reactions are welcome); there is nothing to flag."
+    },
+    {
+      "id": "rr-115",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "Mundane scenes need a stake.",
+      "rule": "stake-is-named"
+    },
+    {
+      "id": "rr-116",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: batch 17 review (owner, voice notes)",
+      "date": "2026-10-19",
+      "words": "avoid the pronoun or use the person's own.",
+      "rule": "pronoun-fits-the-person"
+    },
+    {
+      "id": "rr-117",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: speeches, voices and merging graded work (owner)",
+      "date": "2026-10-19",
+      "words": "Speeches should work in real figures naturally (inflation, Social Security, states' rights, whatever the record holds)",
+      "rule": "speech-is-not-a-list",
+      "supersededBy": "rr-027",
+      "note": "Earlier ruling; the later one (Oct 27) says no real figures in the address, so this one is not added to the rule."
+    },
+    {
+      "id": "rr-118",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: speeches, voices and merging graded work (owner)",
+      "date": "2026-10-19",
+      "words": "lines should belong to kinds of people and ways of speaking (a newscaster, a plain speaker, a polished one)",
+      "rule": "fits-speaker-and-tie"
+    },
+    {
+      "id": "rr-119",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: speeches, voices and merging graded work (owner)",
+      "date": "2026-10-19",
+      "words": "Call and response, saying things in threes and literary turns belong to speakers who have the skill",
+      "rule": "speech-craft-is-earned"
+    },
+    {
+      "id": "rr-120",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19: speeches, voices and merging graded work (owner)",
+      "date": "2026-10-19",
+      "words": "you might say something to your mom that you would never say to a coworker.",
+      "rule": "fits-speaker-and-tie"
+    },
+    {
+      "id": "rr-121",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19, later: batch 18 review (owner)",
+      "date": "2026-10-19",
+      "words": "A city attorney would not complain about a photo-ID law; only someone it burdens who is against it does.",
+      "rule": "fits-speaker-and-tie"
+    },
+    {
+      "id": "rr-122",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19, evening: batch 19 review (owner)",
+      "date": "2026-10-19",
+      "words": "Every scene opened with one narrator sentence and two lines from the other person. Vary it, and let the narrator speak between lines",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-123",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19, evening: batch 19 review (owner)",
+      "date": "2026-10-19",
+      "words": "Dates read month, day, year. \"office replied\", \"bond loyalty\", \"works as us-house at Us\" and \"no job on record\" for someone who just left a job are not English.",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-124",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19, evening: batch 19 review (owner)",
+      "date": "2026-10-19",
+      "words": "An 80-year-old is not told to wait a cycle or that they'll land on their feet",
+      "rule": "fits-speaker-and-tie"
+    },
+    {
+      "id": "rr-125",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19, evening: batch 19 review (owner)",
+      "date": "2026-10-19",
+      "words": "\"Then we'll settle it at the next meeting\" dropped the personal grievance she came with",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-126",
+      "source": "docs/coordination/OWNER-DECISIONS.md :: Oct 19, evening: batch 19 review (owner)",
+      "date": "2026-10-19",
+      "words": "\"can't afford a yes\" sounds like a bribe and should be a real trade",
+      "rule": "trade-not-bribe"
+    },
+    {
+      "id": "rr-127",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 4",
+      "date": "2026-10-06",
+      "words": "journal lines in the first person as story chapters from the record, never 'You are at home.'",
+      "rule": "no-x-is-home"
+    },
+    {
+      "id": "rr-128",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 5",
+      "date": "2026-09-29",
+      "words": "People speak about those, from their own views, in real-speech style (council minutes).",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-129",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 7",
+      "date": "2026-09-29",
+      "words": "\"options come from context, 3 to 5 at a time.\"",
+      "rule": "four-replies-are-four-answers",
+      "supersededBy": "rr-055",
+      "note": "Earlier count (3 to 5 options); the later ruling is four replies always."
+    },
+    {
+      "id": "rr-130",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 8",
+      "date": "2026-09-29",
+      "words": "Remove every out-of-world disclaimer from player text... The player is in the world; never talk to them as a developer.",
+      "rule": "no-out-of-world-words"
+    },
+    {
+      "id": "rr-131",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 10",
+      "date": "2026-09-29",
+      "words": "Before the public meeting, say what it's about and what you can do there, from the agenda record.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-132",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 13",
+      "date": "2026-09-29",
+      "words": "Generated places get names that fit the town.",
+      "notARule": "Place names come from place data (a fact about the town); not a bank line."
+    },
+    {
+      "id": "rr-133",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 14",
+      "date": "2026-09-29",
+      "words": "Show each story once.",
+      "notARule": "About which stories the paper prints (variety beyond politics, one story once); the press engine's selection, not wording."
+    },
+    {
+      "id": "rr-134",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 17",
+      "date": "2026-09-28",
+      "words": "Regional speech is word choice only (pop or soda, y'all, you guys), with no spelled-out accents.",
+      "rule": "regional-speech-is-word-choice-only"
+    },
+    {
+      "id": "rr-135",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 17",
+      "date": "2026-09-28",
+      "words": "Swearing in private rooms follows personality: crude characters swear freely in private, others rarely or never.",
+      "rule": "swearing-follows-personality"
+    },
+    {
+      "id": "rr-136",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 18",
+      "date": "2026-09-28",
+      "words": "ship word-for-word text only from public-domain government sources; every other corpus is for patterns and counts only.",
+      "notARule": "Superseded by the Oct 15, 2026 text rule (any source for patterns, no copyrighted text copied); sourcing, not a property of a line."
+    },
+    {
+      "id": "rr-137",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 20",
+      "date": "2026-09-28",
+      "words": "contrasts and three-part lists are allowed only in public-address registers.",
+      "rule": "speech-craft-is-earned",
+      "note": "Oct 19 (later) limits call and response and threes by the speaker's skill; both are cited on the rule."
+    },
+    {
+      "id": "rr-138",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 21",
+      "date": "2026-09-26",
+      "words": "A character can bring up a public matter only if they read it (in News) or took part in it.",
+      "rule": "brings-up-only-what-they-read-or-took-part-in"
+    },
+    {
+      "id": "rr-139",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 29",
+      "date": "2026-09-26",
+      "words": "a feeling is never invented to make a sentence work.",
+      "rule": "journal-names-no-feeling"
+    },
+    {
+      "id": "rr-140",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 29",
+      "date": "2026-09-26",
+      "words": "Ordinary scene narration elsewhere remains second person ('you').",
+      "rule": "narration-person"
+    },
+    {
+      "id": "rr-141",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 33",
+      "date": "2026-09-23",
+      "words": "Lines name the actual event in plain words",
+      "rule": "names-something-specific"
+    },
+    {
+      "id": "rr-142",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 34",
+      "date": "2026-09-23",
+      "words": "Growing-up 'Remembered as' lines must not claim outcomes.",
+      "rule": "childhood-lines-claim-no-outcomes"
+    },
+    {
+      "id": "rr-143",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 35",
+      "date": "2026-09-23",
+      "words": "the round-3 finding that 16 childhoods share one script is a blocker for #564.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-144",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 36",
+      "date": "2026-09-23",
+      "words": "No provenance or source wording on player screens.",
+      "rule": "no-out-of-world-words"
+    },
+    {
+      "id": "rr-145",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 39",
+      "date": "2026-09-19",
+      "words": "less source/debug boilerplate",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-146",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 40",
+      "date": "2026-09-07",
+      "words": "No literary phrasing, metaphor, epigrams, or visibly composed/generated texture.",
+      "rule": "no-literary-phrasing",
+      "note": "Older than concrete-image-over-generic; that rule asks for a concrete image where the voice allows, and this one does not forbid it."
+    },
+    {
+      "id": "rr-147",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 40",
+      "date": "2026-09-07",
+      "words": "Dialogue should sound spoken rather than authored.",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-148",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 40",
+      "date": "2026-09-07",
+      "words": "Prefer ordinary political, civic, family, school, work and institutional words.",
+      "rule": "no-insider-words"
+    },
+    {
+      "id": "rr-149",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 40",
+      "date": "2026-09-07",
+      "words": "Money is a concrete arrangement, not an abstract label.",
+      "rule": "concrete-image-over-generic"
+    },
+    {
+      "id": "rr-150",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 40",
+      "date": "2026-09-07",
+      "words": "Do not out-determine facts or explain what a situation 'means.'",
+      "rule": "no-explaining"
+    },
+    {
+      "id": "rr-151",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 40",
+      "date": "2026-09-07",
+      "words": "Reach the pressure and hand control back; do not add a concluding lesson sentence.",
+      "rule": "no-explaining"
+    },
+    {
+      "id": "rr-152",
+      "source": "docs/coordination/prior-rulings/words.md :: Rulings, newest first, 3",
+      "date": "2026-10-06",
+      "words": "Dialogue lines are never hand-written. Every line comes from the English engine; grades refine the engine.",
+      "notARule": "A standing rule enforced by the player-text guard (no hand-written player text); not a rule on a line."
+    },
+    {
+      "id": "rr-153",
+      "source": "docs/coordination/prior-rulings/press.md :: Rulings, newest first, 8",
+      "date": "2026-09-29",
+      "words": "If nothing happened, the paper doesn't invent it.",
+      "rule": "news-comes-from-a-record"
+    },
+    {
+      "id": "rr-154",
+      "source": "docs/coordination/prior-rulings/press.md :: Rulings, newest first, 8",
+      "date": "2026-09-29",
+      "words": "something about fishing rights in shared waters is hardcoded into the news.",
+      "rule": "news-comes-from-a-record"
+    },
+    {
+      "id": "rr-155",
+      "source": "docs/coordination/prior-rulings/people.md :: 2. 2026-10-05, owner: names of places and businesses",
+      "date": "2026-10-05",
+      "words": "private companies get GENERATED names from the town's own records (family names, streets); real names only for public bodies, hospitals, colleges and banks; no national chains.",
+      "rule": "business-names-sound-real"
+    },
+    {
+      "id": "rr-156",
+      "source": "docs/coordination/prior-rulings/people.md :: 4. 2026-10-02, locked UI decisions: the lie",
+      "date": "2026-10-02",
+      "words": "the word 'Lie' never appears.",
+      "rule": "the-word-lie-never-appears"
+    },
+    {
+      "id": "rr-157",
+      "source": "docs/coordination/prior-rulings/people.md :: 11. 2026-09-28, 8:35 p.m., owner: other answers that bind people",
+      "date": "2026-09-28",
+      "words": "Quoting real historical speeches (R2): yes. Public-domain lines only, always correctly attributed.",
+      "notARule": "Sourcing of quoted historical speeches (public-domain, attributed); superseded for sourcing by the Oct 15 text rule, and no line detector fits it."
+    },
+    {
+      "id": "rr-158",
+      "source": "docs/coordination/prior-rulings/people.md :: 24. 2026-09-06, owner-locked verdicts",
+      "date": "2026-09-06",
+      "words": "Imply relationship tension through ordinary concrete behavior/dialogue rather than narrating feelings.",
+      "rule": "journal-names-no-feeling"
+    },
+    {
+      "id": "rr-159",
+      "source": "docs/coordination/prior-rulings/people.md :: 24. 2026-09-06, owner-locked verdicts",
+      "date": "2026-09-06",
+      "words": "Do not restate implications the scene already makes clear.",
+      "rule": "no-explaining"
+    },
+    {
+      "id": "rr-160",
+      "source": "docs/coordination/prior-rulings/people.md :: 24. 2026-09-06, owner-locked verdicts",
+      "date": "2026-09-06",
+      "words": "Interpersonal scenes should usually feel like actual communication, not task-card copy.",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-161",
+      "source": "docs/coordination/prior-rulings/people.md :: 23. 2026-09-22, owner: successor, greeting and invitations",
+      "date": "2026-09-22",
+      "words": "Do not invent a spouse, job or picnic proofreading scene for a successor whose facts do not support it.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-162",
+      "source": "docs/coordination/prior-rulings/people.md :: 7. 2026-09-29, playtest rulings relayed in Build 7's final hand-back",
+      "date": "2026-09-29",
+      "words": "Your great-grandmother Maria Hudson, your grandfather's mother, died in <year>.",
+      "rule": "names-something-specific"
+    },
+    {
+      "id": "rr-163",
+      "source": "docs/coordination/prior-rulings/opening.md :: 16. September 20, 2026. Decision Register, Calais playtest addition",
+      "date": "2026-09-20",
+      "words": "Remove normal-play source/debug boilerplate, 'in this fictional world,' raw ISO dates",
+      "rule": "no-out-of-world-words"
+    },
+    {
+      "id": "rr-164",
+      "source": "docs/coordination/prior-rulings/screens.md :: Rulings, newest first, 15",
+      "date": "2026-09-27",
+      "words": "Never developer or record language.",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-165",
+      "source": "docs/coordination/prior-rulings/screens.md :: Rulings, newest first, 8",
+      "date": "2026-09-29",
+      "words": "remove 'a skip always stops for these, not a preference'",
+      "rule": "no-out-of-world-words"
+    },
+    {
+      "id": "rr-166",
+      "source": "docs/coordination/prior-rulings/screens.md :: Rulings, newest first, 3",
+      "date": "2026-10-07",
+      "words": "Strip every authored sentence, helper line, explanation and developer word from the [screen]",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-167",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Owner's playtest narration, Nov 8, 2026, about 2:10 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "this speech, again, it starts like it's an inauguration. I keep saying, like, that's not how these speeches should work. And almost all of them feel the exact same.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-168",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Owner's playtest narration, Nov 8, 2026, about 2:10 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "this isn't news. I mean, this is it. There's no story.",
+      "rule": "news-reads-as-a-story"
+    },
+    {
+      "id": "rr-169",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Owner's playtest narration, Nov 8, 2026, about 2:10 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "What do you think? What? That's how it starts. There's no context.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-170",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Owner's playtest narration, Nov 8, 2026, about 2:10 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "This scene makes absolutely no sense.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-171",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Owner's playtest narration, Nov 8, 2026, about 2:10 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "Again, it's only political stories.",
+      "notARule": "About which stories the paper prints (variety beyond politics, one story once); the press engine's selection, not wording."
+    },
+    {
+      "id": "rr-172",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Owner's playtest narration, Nov 8, 2026, about 2:10 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "I don't understand why it's not in the game and why this stuff isn't being updated.",
+      "notARule": "About how far the words machine reaches (a process ruling); this file, the run's report and its tests are the answer, not a property of a line."
+    },
+    {
+      "id": "rr-173",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Second message, about 2:20 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "If it's June 7th, it says first thing on June 7th.",
+      "rule": "scene-opens-with-when-where-who",
+      "note": "Later than the enforced rules no-day-or-place-in-narration and no-day-or-place-in-scene-words (Oct 26), which flag a {date} or {weekday} slot in scene words; for scene openers the later ruling wins. Detectors are not changed here; see the report."
+    },
+    {
+      "id": "rr-174",
+      "source": "docs/coordination/playtest/2026-11-08-1-verbatim.md :: Second message, about 2:20 p.m. Eastern (verbatim)",
+      "date": "2026-11-08",
+      "words": "It's like listing what the town clerk does. It's just a bunch of garbled mess.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-175",
+      "source": "docs/coordination/playtest/2026-11-08-1-check.md :: Check D, P9 row (his earlier rulings)",
+      "date": "2026-10-01",
+      "words": "Dates go into the prose where they matter",
+      "rule": "scene-opens-with-when-where-who"
+    },
+    {
+      "id": "rr-176",
+      "source": "docs/coordination/playtest/2026-10-26-1.md :: Playtest, Oct 26, 2026, sitting 1",
+      "date": "2026-10-26",
+      "words": "I see the biggest problem being words and scenes. That explains what's going on.",
+      "notARule": "A verdict on the whole build (words and scenes are the biggest problem); it names no specific fault."
+    },
+    {
+      "id": "rr-177",
+      "source": "docs/coordination/playtest/2026-10-26-1.md :: Stops in order",
+      "date": "2026-10-26",
+      "words": "That's not a speech",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-178",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, New rulings 2",
+      "date": "2026-10-27",
+      "words": "The speech needs to be like a real inaugural, not a player-centered one.",
+      "rule": "address-is-national-not-about-the-player"
+    },
+    {
+      "id": "rr-179",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, New rulings 8",
+      "date": "2026-10-27",
+      "words": "What the race turns on? What the hell does that mean? Remove that. This is dev language.",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-180",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, New rulings 12",
+      "date": "2026-10-27",
+      "words": "this journal needs to be written like a story, not individual fucking sections, but written like a story from birth.",
+      "rule": "journal-entry-has-story-around-it"
+    },
+    {
+      "id": "rr-181",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, New rulings 14",
+      "date": "2026-10-27",
+      "words": "When you update the English engine, it should update every line.",
+      "notARule": "About how far the words machine reaches (a process ruling); this file, the run's report and its tests are the answer, not a property of a line."
+    },
+    {
+      "id": "rr-182",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, His verdicts, verbatim",
+      "date": "2026-10-27",
+      "words": "This is something I would have graded like 2 or 3 weeks ago.",
+      "notARule": "About how far the words machine reaches (a process ruling); this file, the run's report and its tests are the answer, not a property of a line."
+    },
+    {
+      "id": "rr-183",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, His verdicts, verbatim",
+      "date": "2026-10-27",
+      "words": "These scenes have zero depth to them.",
+      "rule": "stake-is-named"
+    },
+    {
+      "id": "rr-184",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, Stops, Opening",
+      "date": "2026-10-27",
+      "words": "Why is he specifying on Colorado?",
+      "rule": "address-is-national-not-about-the-player"
+    },
+    {
+      "id": "rr-185",
+      "source": "docs/coordination/playtest/2026-10-27-1.md :: Playtest, Oct 27, 2026, sitting 1, Stops, Opening",
+      "date": "2026-10-27",
+      "words": "That doesn't make any sense",
+      "rule": "address-is-national-not-about-the-player"
+    },
+    {
+      "id": "rr-186",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 11",
+      "date": "2026-10-28",
+      "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president.",
+      "rule": "fits-speaker-and-tie"
+    },
+    {
+      "id": "rr-187",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 11",
+      "date": "2026-10-28",
+      "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office.",
+      "rule": "fits-speaker-and-tie"
+    },
+    {
+      "id": "rr-188",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 11",
+      "date": "2026-10-28",
+      "words": "Read previous inaugural addresses.",
+      "rule": "look-up-how-real-people-say-it"
+    },
+    {
+      "id": "rr-189",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 11",
+      "date": "2026-10-28",
+      "words": "Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do it?",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-190",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 26",
+      "date": "2026-10-28",
+      "words": "Clicking a story opens a page with no story: the headline repeated as the body.",
+      "rule": "news-reads-as-a-story"
+    },
+    {
+      "id": "rr-191",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 32",
+      "date": "2026-10-28",
+      "words": "is not a conversation.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-192",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 33",
+      "date": "2026-10-28",
+      "words": "the \"(counter: director)\" part is developer text.",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-193",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 36",
+      "date": "2026-10-28",
+      "words": "The narrator shows first, Continue, then the person talks.",
+      "notARule": "Screen flow (the narrator shows first, Continue, then the person talks); the scene tests hold it, not a property of a line."
+    },
+    {
+      "id": "rr-194",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 37",
+      "date": "2026-10-28",
+      "words": "Remove every \"X is home\" and \"X is at place\" line. Do not replace them.",
+      "rule": "no-x-is-home"
+    },
+    {
+      "id": "rr-195",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 38",
+      "date": "2026-10-28",
+      "words": "Did what? No lead-up: the director staged nothing before this.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-196",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 38",
+      "date": "2026-10-28",
+      "words": "None of it follows.",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-197",
+      "source": "docs/coordination/playtest/2026-10-28-1.md :: Owner sitting, October 28, v0.61.2 (8dbfff2), live narration, 41",
+      "date": "2026-10-28",
+      "words": "The speeches must not be one block.",
+      "rule": "speech-has-a-core"
+    },
+    {
+      "id": "rr-198",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 44, ruling)",
+      "date": "2026-10-27",
+      "words": "no real published statistics. Realistic.",
+      "notARule": "About data (no real published statistics); the realistic-not-real guards enforce it, not a rule on a line."
+    },
+    {
+      "id": "rr-199",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 73)",
+      "date": "2026-10-27",
+      "words": "I come to this office from Michigan and I carry it with me. That doesn't make any sense.",
+      "rule": "address-is-national-not-about-the-player"
+    },
+    {
+      "id": "rr-200",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 73)",
+      "date": "2026-10-27",
+      "words": "The national unemployment rate is 4.1%. I think that scene is hard-coded in.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-201",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 106)",
+      "date": "2026-10-27",
+      "words": "Sure, see you later. That's a good ending to it. That's good.",
+      "notARule": "Praise for lines he liked; the ledger protects them, and there is nothing to flag."
+    },
+    {
+      "id": "rr-202",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 240)",
+      "date": "2026-10-27",
+      "words": "What kind of help were you thinking? He just said to knock on doors.",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-203",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 240)",
+      "date": "2026-10-27",
+      "words": "this has no context. He shows up in your room at midnight.",
+      "rule": "every-line-gives-its-context"
+    },
+    {
+      "id": "rr-204",
+      "source": "docs/coordination/playtest/2026-10-27-1-log.md :: Playtest, Oct 27, 2026, sitting 1 (line 305)",
+      "date": "2026-10-27",
+      "words": "these replies literally don't even make sense. Like, grammatically, they don't even make sense.",
+      "rule": "reply-follows-the-line-before"
+    },
+    {
+      "id": "rr-205",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/covered-notes.md :: play-first-09-opening-speech-per-world",
+      "date": "2026-10-26",
+      "words": "This isn't coming out like a speech. And these scenes are hard-coded in.",
+      "rule": "speech-is-not-a-list"
+    },
+    {
+      "id": "rr-206",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/covered-notes.md :: words-journal-household-lines",
+      "date": "2026-10-26",
+      "words": "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up.",
+      "rule": "journal-line-carries-its-subject"
+    },
+    {
+      "id": "rr-207",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/words-household-filing-scene-has-a-purpose.md :: What.",
+      "date": "2026-10-26",
+      "words": "there was no reason to have that dialogue.",
+      "rule": "stake-is-named"
+    },
+    {
+      "id": "rr-208",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/words-news-inauguration-story-reads-as-news.md :: What.",
+      "date": "2026-10-26",
+      "words": "This isn't news.",
+      "rule": "news-reads-as-a-story"
+    },
+    {
+      "id": "rr-209",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/words-scene-narration-does-not-restate-where-you-are.md :: What.",
+      "date": "2026-10-26",
+      "words": "It shouldn't say you're at home. You're obviously [there].",
+      "rule": "no-placing-narration"
+    },
+    {
+      "id": "rr-210",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/words-traits-middle-reads-as-a-sentence.md :: What.",
+      "date": "2026-10-26",
+      "words": "traits neither much keeping commitments neither much those aren't traits",
+      "rule": "traits-read-as-plain-sentences"
+    },
+    {
+      "id": "rr-211",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/words-door-knocking-montage-with-porch-scenes.md :: What.",
+      "date": "2026-10-26",
+      "words": "How do you know you knocked on 45 doors, 32 [22] reached? What the hell does that mean?",
+      "notARule": "A campaign-screen tally (45 doors, 22 reached), a screen label kept with the door-knocking montage item, not a spoken line."
+    },
+    {
+      "id": "rr-212",
+      "source": "docs/coordination/playtest/2026-10-26-1-drafts/words-door-knocking-montage-with-porch-scenes.md :: What.",
+      "date": "2026-10-26",
+      "words": "It just throws you into a location. This is where a scene would help.",
+      "rule": "scene-opens-with-when-where-who"
+    },
+    {
+      "id": "rr-213",
+      "source": "docs/play-first/LAW.md :: 3. The opening and speeches",
+      "date": "2026-10-24",
+      "words": "The opening speech is generated per world and per president from the game's numbers, not formulaic.",
+      "rule": "vary-the-shape"
+    },
+    {
+      "id": "rr-214",
+      "source": "docs/play-first/LAW.md :: 3. The opening and speeches",
+      "date": "2026-10-15",
+      "words": "A four-line rally is not a speech.",
+      "rule": "speech-has-a-core"
+    },
+    {
+      "id": "rr-215",
+      "source": "docs/play-first/LAW.md :: 8. Dev-speak",
+      "date": "2026-10-14",
+      "words": "nothing ships in dev speak.",
+      "rule": "no-developer-words"
+    },
+    {
+      "id": "rr-216",
+      "source": "docs/play-first/LAW.md :: 4. Scenes and conversations",
+      "date": "2026-10-14",
+      "words": "a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")",
+      "rule": "reply-second-move-follows-the-first"
+    },
+    {
+      "id": "rr-217",
+      "source": "docs/play-first/LAW.md :: 7. Words that ship",
+      "date": "2026-10-16",
+      "words": "Ungraded is not rejected.",
+      "notARule": "Procedure: an ungraded line is not rejected and plays unless a rule pulls it; that is how the run works, not a property of a line."
+    },
+    {
+      "id": "rr-218",
+      "source": "docs/play-first/LAW.md :: 5. Journal and the past",
+      "date": "2026-10-15",
+      "words": "Journal lines carry their subject.",
+      "rule": "journal-line-carries-its-subject"
+    },
+    {
+      "id": "rr-219",
+      "source": "docs/play-first/LAW.md :: 6. News",
+      "date": "2026-10-14",
+      "words": "News you overhear: TV or radio speaks like anyone else",
+      "notARule": "How TV and radio news overheard in a conversation is drawn; a screen, not a line."
+    }
+  ]
+}

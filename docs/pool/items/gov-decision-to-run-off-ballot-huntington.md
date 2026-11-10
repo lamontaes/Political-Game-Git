@@ -11,13 +11,28 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: governing
+standard: 2
+model: opus
+effort: high
+root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
-**What.** M0-13's played-world check fails on clean main 3bb2e63717 in Huntington, Utah (place key 4936950, seed ca75d1e89cfcf56ed5c202205d4d2f7c1eefffc04d87f324dc5ed818233ab4c7, the golden-path draw for environment PR 5915's head). The check 'a named challenger runs' reads: 1 adult other than the incumbent chose to run in the 4 races decided, and none was on the ballot. The check 'every race has someone on the ballot' reads 1 of 4 races empty (Council member, 2025-11-04). The primary-loss case is already counted (5950 on main), so this decision to run did not reach a filing at all, or its filing never reached the ballot.
+**What.** A resident who decided to run never reaches the ballot, and a council race goes empty (golden-path M0-13 red on main by seed). The check "a named challenger runs" reads "1 adults other than the incumbent chose to run in the 4 races decided, and none was on the ballot" and "every race has someone on the ballot" reads 1 of 4 races empty. First seen in Huntington, Utah (place key 4936950, seed ca75d1e89cfcf56ed5c202205d4d2f7c1eefffc04d87f324dc5ed818233ab4c7), which passed again on Oct 26, and red on Nov 10 in Marlborough, New Hampshire, Southbridge Town, Massachusetts and Leominster, Massachusetts (key 2535075, seed 3f8277b54c6ccfe94f69e44a36bb3051241d13da2dc90faba045807fbb26ad6d). The primary-loss case is already counted, so this decision to run did not reach a filing at all, or its filing never reached the ballot.
 
-**Rules.** Never weaken a test: the check keeps failing when a decision to run never reaches a filing. Ask why: name the person's candidacy decision row, their filing record or its absence, and the race, from the records of that played year.
+**Cause.** Needs cause. Looked at: the replay, `GOLDEN_PATH_SEED=3f8277b54c6ccfe94f69e44a36bb3051241d13da2dc90faba045807fbb26ad6d GOLDEN_PATH_PLACE_KEY=2535075 node --max-old-space-size=6000 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` (Leominster, Massachusetts; about four minutes) fails "a named challenger runs", the only failing check of 22 (clean main caf1b49afc, Nov 10). Not yet known: at which stage a resident's decision to run stops before the ballot (the decision, the filing, or the ballot row).
 
-**Done when.** In the played world for Huntington, Utah on that seed, the decision to run is followed by record id to its filing and the ballot (or the reason it stops is named and fixed in candidacy.ts), M0-13 passes on that seed and on two fresh drawn places named in the PR, and no test is weakened. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Fix.** None until the cause is found.
+
+**Time box.** 6 hours for one opus session.
+
+**Rules.** Never weaken a test: the check keeps failing when a decision to run never reaches a filing. Ask why: name the person's candidacy decision row, their filing record or its absence, and the race, from the records of that played year. No dice. One rule, all 56 places.
+
+**Done when.** A second session replays the Leominster, Massachusetts world (seed above) and sees the decision to run followed by record id to its filing and the ballot (or the reason it stops named and fixed), M0-13 passing on that seed, on Huntington, Utah (seed ca75d1e8...) and on two fresh drawn places named in the PR, and no test weakened.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/candidacy.ts, tests/golden-path/played-world.node-test.ts
 
@@ -32,3 +47,11 @@ No longer reproduces on main (Claude worker, Oct 26, main at the time of this no
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (done by main).
 
 Nov 10, 2026 (CTO): still red on main by seed, in two more places. Marlborough, New Hampshire, seed ed2423c144c5caa4807feaaeca88165269abd7ee7c8f5f04ede6f4c4d787e91e (golden-path-year on PR 8093): "1 adults other than the incumbent chose to run in the 3 races decided, and none was on the ballot." Southbridge Town, Massachusetts, seed 280a66c516af44fb94ee80c6a589aef6c7b15961a9799fde169b46a7f6b06d67 (golden-path-year on PR 8125): the same, in 4 races. Neither PR touched candidacy or filing.
+
+**Notes (Fable, Nov 10).** Again on clean main at caf1b49afc in Leominster, Massachusetts (key 2535075, seed 3f8277b54c6ccfe94f69e44a36bb3051241d13da2dc90faba045807fbb26ad6d): "a named challenger runs: 1 adults other than the incumbent chose to run in the 4 races decided, and none was on the ballot", the only failing check of 22. Drawn by the year-long golden path on pull request 8114, which does not touch candidacy. Replay: `GOLDEN_PATH_SEED=<seed> GOLDEN_PATH_PLACE_KEY=2535075 node --max-old-space-size=6000 --expose-gc --import tsx --test-reporter=spec tests/golden-path/played-world.node-test.ts` (about four minutes).
+
+**Notes (Fable, Nov 10, a fourth place).** The played-world year (M0-13) fails the same check on clean main at c8273e2e6e in Staples, Connecticut (place key 0973175, world seed 200d85d767c28088c1d1d562f2f9d08e1dd56837345373ec5786c4a3492e3870): "a named challenger runs" is the one check of 22 that fails. It turned pull request 8152 red, which changes no game code. Replay: GOLDEN_PATH_SEED=<that seed> GOLDEN_PATH_PLACE_KEY=0973175 node --expose-gc --import tsx --test tests/golden-path/played-world.node-test.ts.
+
+**Notes (Fable's check, Nov 10).** How to find the cause: Follow one decision to run by record id to its filing and ballot in that world, and fix at the stage where it stops, in `src/core2/modules/candidacy.ts` or the filing step it hands to, without weakening the test. The St. Johnsbury red (play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots) shows the same symptom and waits on this.
+
+**Notes (Fable, Nov 10, a fifth place, and the quickest replay).** The same check fails on clean main at 626f86f4bf in Mashantucket, Connecticut (place key 0945995, world seed 7a0e449feba29bda0d3d54d316d649976ee7b892f35bcb55ce8adf0a619a44c7): "a named challenger runs: 1 adults other than the incumbent chose to run in the 3 races decided, and none was on the ballot", the one failing check of 21. It turned pull request 8176 red, which changes one test file. This world builds in 5 seconds and plays its year in 22, so it is the place to trace in: `GOLDEN_PATH_SEED=7a0e449feba29bda0d3d54d316d649976ee7b892f35bcb55ce8adf0a619a44c7 GOLDEN_PATH_PLACE_KEY=0945995 node --expose-gc --import tsx --test tests/golden-path/played-world.node-test.ts`.

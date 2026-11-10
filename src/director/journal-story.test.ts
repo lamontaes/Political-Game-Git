@@ -135,11 +135,18 @@ describe("the journal as a story from birth", () => {
           const next = line.momentIds.includes(`${row.id}:job-ended:moved-on`)
             ? spells[spells.indexOf(row) + 1]
             : undefined;
+          // The job found again after time out of work names the one lost
+          // before it ("I hadn't had a paycheck since ...").
+          const lost = line.momentIds.includes(`${row.id}:job-started:again`)
+            ? spells[spells.indexOf(row) - 1]
+            : undefined;
           return [
             row.facts.organizationId,
             row.facts.jobId,
             next?.facts.organizationId,
             next?.facts.jobId,
+            lost?.facts.organizationId,
+            lost?.facts.jobId,
           ]
             .filter(Boolean)
             .map(String);
@@ -292,7 +299,7 @@ describe("the journal as a story from birth", () => {
       links[line.link!.by] += 1;
     });
     // Another's turn told as what it meant, from the tie on record: a
-    // friend's with gladness, a rival's with doubt.
+    // friend's as the friendship (never a mood word), a rival's with doubt.
     const meant = (field: string) =>
       (
         journalBank as {

@@ -6,19 +6,33 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+lead: words
+model: sonnet
+effort: low
+root: none
 source: added with npm run pool -- add
 ---
 
 **What.** src/bench/filing-counter-petition.test.ts fails on main and on #7101 at GOLDEN_PATH_SEED=96f34b32a90f7079: North Amityville, New York (3651396), world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62. The player files, the elections engine writes the petition, but the director's book holds no filing scene for it ('no filing scene staged'). Found by Words while answering Checker 1's send-back on #7101 (Nov 2).
 
+**Cause.** Measured: GOLDEN_PATH_SEED=96f34b32a90f7079 (North Amityville, New York 3651396; world seed 48ecdf8d2595a1bafbf052509fe6e2fa00f861fe559fbc7a97fa73f32b6b6d62) and GOLDEN_PATH_SEED=9472a5100db5d8d3 (Boggstown, Indiana 1806292) with npx vitest run src/bench/filing-counter-petition.test.ts: 'no filing scene staged'. Cause per Words (Nov 2): filingClerkFor (src/core2/modules/filing-clerk.ts) named no one for a county-board filing, so the filing scene could not cast its clerk; gov-filing-counter-clerk-at-county-board, which seats that person, is now done, so re-measure first.
+
+**Fix.** Rerun both seeds on main. If still red, stage the petition scene from the elections engine's petition record with a clerk from filingClerkFor, and where a counter truly has none skip it as filing-visit-talk.test.ts does, naming the place.
+
+**Time box.** 2 hours for one Sonnet session.
+
 **Rules.** Wire to the world: the scene is staged from the elections engine's petition record, the same in every place. Red by seed is red (red-main skill). A scene is staged from the record that causes it (scene-producers); one rule for all 56 places.
 
-**Done when.** The test passes at GOLDEN_PATH_SEED=96f34b32a90f7079 and on three fresh drawn place seeds named in the PR body, with the cause of the unstaged petition scene named by file and line and by the filing record id it read.
+**Done when.** A second session runs src/bench/filing-counter-petition.test.ts at GOLDEN_PATH_SEED=96f34b32a90f7079, 9472a5100db5d8d3 and three seeds it chose in drawn places (named); it passes, and the report names the cause of any unstaged petition scene by file and line and by the filing record id it read.
 
-**Files.** src/director/purpose-scene.ts, src/bench/filing-counter-petition.test.ts
+**Waits on.** Nothing.
+
+**Files.** src/director/purpose-scene.ts, src/bench/filing-counter-petition.test.ts, src/core2/modules/filing-clerk.ts
 
 **Notes.** TODO
 

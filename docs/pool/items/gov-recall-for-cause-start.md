@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/recalls.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/modules/recalls.ts skips ordinance-started recalls where groundsRequired is set (line 449) and starts one from a misconduct record the town heard of; src/core2/recall-for-cause.test.ts proves it in a drawn place whose state requires grounds.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

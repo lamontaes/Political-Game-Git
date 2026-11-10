@@ -7,12 +7,8 @@
 import type { CountryLaw, CountryState } from "./country-model";
 import { unemploymentTermsOf } from "./jobs-benefits";
 import { withholdingFor } from "./budgets-treasury";
-import {
-  resolveLawInForce,
-  startingLawRows,
-  type LawInForceAnswer,
-  type LawRowInput,
-} from "./laws-in-force";
+import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
+import { stateOpeningLawRows } from "./modules/laws";
 
 const DAYS_PER_YEAR = 365;
 const WEEKS_PER_YEAR = 52;
@@ -99,28 +95,27 @@ export function countryLaw(
  */
 export function startingLawReader(
   date: string,
+  /** The world's first day: a series recorded only from a later date is in force from then. */
+  startedAt: string = date,
 ): (stateKey: string, series: string) => LawInForceAnswer {
-  const starting = new Map<string, readonly LawRowInput[]>();
-  return (stateKey, series) => {
-    const chain = {
-      placeKey: "",
-      placeName: stateKey,
-      townPlaceId: "",
-      stateKey,
-      countyGeoids: [],
-      incorporated: false,
-      levels: [
-        { level: "federal" as const, jurisdiction: "US" },
-        { level: "state" as const, jurisdiction: stateKey },
-      ],
-    };
-    let rows = starting.get(stateKey);
-    if (!rows) starting.set(stateKey, (rows = startingLawRows(chain)));
-    return resolveLawInForce({
+  return (stateKey, series) =>
+    resolveLawInForce({
       series,
-      chain,
+      chain: {
+        placeKey: "",
+        placeName: stateKey,
+        townPlaceId: "",
+        stateKey,
+        countyGeoids: [],
+        incorporated: false,
+        levels: [
+          { level: "federal" as const, jurisdiction: "US" },
+          { level: "state" as const, jurisdiction: stateKey },
+        ],
+      },
       date,
-      rows: rows.filter((row) => row.series === series),
+      rows: stateOpeningLawRows(stateKey, startedAt).filter(
+        (row) => row.series === series,
+      ),
     });
-  };
 }

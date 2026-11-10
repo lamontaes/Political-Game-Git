@@ -13,6 +13,10 @@ export interface YearTiming {
   readonly rssMiB?: number;
   readonly records?: number;
 }
+/** The records a world keeps: the rows of every table in dev mode's records proof. */
+export function recordsKept(tables: RecordProof["tables"]): number {
+  return Object.values(tables).reduce((sum, table) => sum + table.rows, 0);
+}
 export interface SpeedReceipt {
   readonly seed: string;
   readonly place: string;

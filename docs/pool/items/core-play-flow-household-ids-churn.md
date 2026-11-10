@@ -6,18 +6,32 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+model: sonnet
+effort: medium
+root: none
+lead: play-first
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** On the bench's play screen in Anson, Texas with the playtest's seed, a council candidate who knocks 36 doors every week finds 36 households their campaign has never knocked every single week from February 2025 to June 2026: 2,520 distinct household ids, on main and on the fix branch alike. The same town run by the engine alone (buildBenchWorld, then advanceCore a week at a time) opens with 1,147 households and has about 1,240 by October 2026, about one new household a week. So the play flow (player-v1 with the director, scenes and fill-ins) creates or re-keys households at a rate of dozens a week. Every reader keyed by household id (a campaign's doors, rent, property tax, arrears) then sees the same families as new ones.
+**What.** On the bench's play screen in Anson, Texas with the playtest's seed, a council candidate who knocks 36 doors every week found 36 households their campaign had never knocked every single week from February 2025 to June 2026: 2,520 distinct household ids against about 1,150 households. The same town run by the engine alone opens with 1,147 households and gains about one a week. The Oct 27 attempt built Anson through the bench's own routes for 20 weeks and the doors table ran out at 1,149 households, the same as the engine alone, so the churn did not reproduce. Only the playtest's exact newlife query (a creator-chosen player) is missing.
 
-**Rules.** One model, two tiers: a household filled in or returned to the counts keeps its own id and records. Ask why: name the writer that makes the new ids, by record id.
+**Cause.** Needs cause. Looked at: the item, the Oct 27 reproduction attempt in its Notes (Anson, Texas 4803372, seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213, 20 weeks, no re-keying), src/bench/player.ts and the household writers in src/core2/state.ts and src/core2/modules/residents.ts by name only. The look-first audit of Oct 27 advised closing.
 
-**Done when.** A test plays the bench's play flow in a place drawn from all 56 (place and seed named) for 26 weeks and shows the town's distinct household ids grow by no more than its recorded move-ins and new households, with the writer that made the extra ids named in the PR; the fix keeps the ids stable.
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One model, two tiers: a household filled in or returned to the counts keeps its own id and records. Ask why: name the writer that makes any new ids, by record id. Look before you ask: the playtest's newlife query comes from the playtest record or the owner through the CTO, not a guess.
+
+**Done when.** A second session, not the builder, replays the playtest's exact newlife query (with the person parameter) in Anson, Texas (4803372, seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213) or in a place drawn from all 56, knocks doors for 26 weeks, and reads the town's distinct household ids: they grow by no more than the recorded move-ins and new households, or the writer that made the extra ids is named by record id and this item is rewritten with Found in code. If the query cannot be found, the item is closed with that note.
+
+**Waits on.** The playtest's exact newlife query (the person parameter) from the owner or the playtest record; without it, close.
 
 **Files.** src/bench/player.ts, src/core2/state.ts, src/core2/modules/residents.ts, src/core2/modules/counted-demotion.ts
 

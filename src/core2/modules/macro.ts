@@ -205,8 +205,18 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
   const read = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
     ? (stateKey: string, series: string) =>
         stateLawInForce(api, stateKey, series, date)
-    : startingLawReader(date);
+    : startingLawReader(date, api.state.startedAt);
   return countryLaw(read, params(api), date);
+}
+
+/**
+ * The law the world began with: the research's starting law on the first day, with no act of
+ * play in it. The tier opens and fits its first month under it, so a law enacted on day one is
+ * a change the economy answers.
+ */
+function lawAtTheStart(api: CoreAPI) {
+  const start = api.state.startedAt;
+  return countryLaw(startingLawReader(start, start), params(api), start);
 }
 
 /** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */
@@ -286,10 +296,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
       // The tier's first month fits its hiring and matching constants, so it runs under the
       // law the world began with, as the opening does; a law enacted on the first day
       // reaches paychecks from the second month.
-      law:
-        tier.month === p("zero")
-          ? lawNow(api, addDays(makeIsoDate(api.state.startedAt), -p("one")))
-          : lawNow(api),
+      law: tier.month === p("zero") ? lawAtTheStart(api) : lawNow(api),
       policyRate: state.policyRatePct / p("macroHundred"),
       jobsLost: (row) => lost.get(row.usps) ?? p("zero"),
     },
@@ -389,7 +396,7 @@ function openCountryTier(
     // The opening is fitted under the law the world began with: the law in force the day
     // before the start. A law enacted on the first day (dev mode's law control, before the
     // economy opens) is a change the first month then answers, never part of the baseline.
-    lawNow(api, addDays(makeIsoDate(api.state.startedAt), -p("one"))),
+    lawAtTheStart(api),
     rules,
   );
   writeCountry(api, tier);

@@ -29,6 +29,7 @@ import { P, parameter } from "../core2/parameters";
 import { closenessBetween } from "../core2/closeness";
 import { daysBetweenText } from "../core2/kernel/dates";
 import { outletsHere } from "../core2/modules/press";
+import { careNeedOf } from "../core2/modules/health";
 import { votesOf } from "../core2/modules/people";
 import {
   LEADERSHIP_MODULE_ID,
@@ -48,7 +49,12 @@ interface Tagged {
 }
 
 /** One way of looking at the records, by its kind. */
-type ReadSpec =
+type ReadSpec = ReadKind & {
+  /** The read counts only where the cause record's fact holds this value (a wage case's shortfall means nothing on a job seeker's case); else 0. */
+  when?: { fact: string; is: string };
+};
+
+type ReadKind =
   | {
       /** A number kept on a module's record, named by a fact of the cause record. */
       kind: "record";
@@ -171,6 +177,48 @@ type ReadSpec =
       side: "for" | "against";
     }
   | {
+      /**
+       * How many rows of a module's table kept for the asker (a layoff in the
+       * jobs module's changes) fall in the last `within` days before the
+       * cause's day, as count / (count + scale). Rows from the cause's day on
+       * are not earlier and do not count.
+       */
+      kind: "person-rows";
+      module: string;
+      table: string;
+      /** The table's index on the person id. */
+      index: string;
+      /** Only rows whose fields hold all of these values count. */
+      where?: Readonly<Record<string, string>>;
+      within: Tagged;
+      scale: Tagged;
+    }
+  | {
+      /**
+       * An open row of a module's table kept for the asker's household (a
+       * rent notice served on it): 1 where one stands, else 0. With `field`,
+       * the number the newest open row holds, as a share of the asker's year
+       * of living costs (`against`) or of `scale`.
+       */
+      kind: "household-case";
+      module: string;
+      table: string;
+      /** The table's index on the household id. */
+      index: string;
+      field?: string;
+      against?: "asker-year";
+      scale?: Tagged;
+    }
+  | {
+      /**
+       * How much care a person's health asks of them and the people close to
+       * them (the health engine's own sliding scale, 0 up toward 1): the
+       * asker's own, or the most any other member of their household needs.
+       */
+      kind: "care-need";
+      whose: "self" | "household";
+    }
+  | {
       /** 1 where the scene is set at this kind of place, else 0. */
       kind: "setting";
       is: string;
@@ -189,6 +237,13 @@ interface VariantRow {
   base: number;
   terms?: readonly Term[];
   pull?: readonly string[];
+  /**
+   * The cause this variant speaks to: where the cause's record carries this
+   * fact, the variant plays only for this value (a visitor whose case is about
+   * work never states a relative's illness instead). A cause without the fact
+   * leaves every variant open.
+   */
+  forCause?: { fact: string; is: string };
   /** The variant's arc; absent for the family's own purpose, whose arc is in purpose-arcs.json. */
   arc?: unknown;
 }
@@ -210,6 +265,15 @@ const ARCS = new Map<string, unknown>(
     ),
   ),
 );
+
+/** Each variant purpose to the family purpose it is a variant of (the family's pieces serve it too). */
+export function variantFamilies(): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(DATA.families).flatMap(([family, row]) =>
+      Object.values(row.variants).map((variant) => [variant.purpose, family]),
+    ),
+  );
+}
 
 /** The arc a variant purpose plays, or undefined for a purpose that is not a variant. */
 export function variantArc(purpose: string): unknown {
@@ -335,6 +399,8 @@ function readOf(
   input: VariantInput,
   recordIds: Set<string>,
 ): number {
+  if (spec.when && input.cause.facts[spec.when.fact] !== spec.when.is)
+    return P.zero;
   if (spec.kind === "setting")
     return input.setting === spec.is ? P.one : P.zero;
   if (spec.kind === "strain") {
@@ -345,6 +411,77 @@ function readOf(
       asker.livingCostDailyMinor *
       parameter("daysPerMeanYear", core.data.parameters);
     return clamp(year / (year + asker.liquidMinor + P.one));
+  }
+  if (spec.kind === "care-need") {
+    const person = core.people.get(input.askerId);
+    if (!person) return P.zero;
+    if (spec.whose === "self") {
+      const need = careNeedOf(core, input.askerId);
+      if (need > P.zero) recordIds.add(input.askerId);
+      return clamp(need);
+    }
+    let most = P.zero;
+    let who: PersonId | undefined;
+    for (const id of core.households.get(person.householdId)?.memberIds ?? []) {
+      if (id === input.askerId || !core.people.get(id)?.alive) continue;
+      const need = careNeedOf(core, id);
+      if (need > most) [most, who] = [need, id];
+    }
+    if (who) recordIds.add(who);
+    return clamp(most);
+  }
+  if (spec.kind === "person-rows") {
+    if (!core.modules.has(spec.module)) return P.zero;
+    const rows = coreAPI(core as CoreState)
+      .moduleState(spec.module)
+      .table(spec.table)
+      .query(spec.index, [input.askerId]) as unknown as {
+      id: string;
+      date: string;
+    }[];
+    let count = P.zero;
+    for (const row of rows) {
+      if (row.date >= input.cause.date) continue;
+      if (daysBetweenText(row.date, input.cause.date) > spec.within.value)
+        continue;
+      if (
+        Object.entries(spec.where ?? {}).some(
+          ([key, want]) =>
+            (row as unknown as Record<string, unknown>)[key] !== want,
+        )
+      )
+        continue;
+      count += P.one;
+      recordIds.add(row.id);
+    }
+    return count / (count + spec.scale.value);
+  }
+  if (spec.kind === "household-case") {
+    const person = core.people.get(input.askerId);
+    if (!person || !core.modules.has(spec.module)) return P.zero;
+    const rows = (
+      coreAPI(core as CoreState)
+        .moduleState(spec.module)
+        .table(spec.table)
+        .query(spec.index, [person.householdId]) as unknown as {
+        id: string;
+        open?: boolean;
+      }[]
+    )
+      .filter((row) => row.open)
+      .sort((a, b) => b.id.localeCompare(a.id));
+    const row = rows[P.zero];
+    if (!row) return P.zero;
+    recordIds.add(row.id);
+    if (!spec.field) return P.one;
+    const value = fieldOf(row, spec.field);
+    if (value === undefined) return P.zero;
+    if (spec.against) {
+      const year = yearOf(core, input.askerId);
+      return clamp(value / (value + year + P.one));
+    }
+    if (spec.scale) return clamp(value / (value + spec.scale.value));
+    return clamp(value);
   }
   if (spec.kind === "closeness") {
     const a = input.askerId < input.askedId ? input.askerId : input.askedId;
@@ -550,7 +687,16 @@ export function chooseVariant(
   const reads: Record<string, number> = {};
   const read = (name: string) =>
     (reads[name] ??= readOf(core, DATA.reads[name]!, input, recordIds));
+  // Every read the family names is read, whichever variants are open: the
+  // scene's facts cite them (`read-...`), and a closed variant's records are
+  // still true of the asker.
+  for (const row of Object.values(family.variants))
+    for (const term of row.terms ?? []) read(term.read);
   const scores: VariantScore[] = Object.entries(family.variants)
+    .filter(([, row]) => {
+      const named = row.forCause && input.cause.facts[row.forCause.fact];
+      return !named || named === row.forCause!.is;
+    })
     .map(([variant, row]) => {
       const world = (row.terms ?? []).reduce((total, term) => {
         const value = read(term.read);

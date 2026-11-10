@@ -10,13 +10,27 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+standard: 2
+model: sonnet
+effort: medium
+root: rc6-scenes-repeat
+lead: director
 ---
 
 **What.** src/director/purpose-scenes.test.ts fails on main with GOLDEN_PATH_SEED=b192e3dbed748f0f, as it does on branches that merge main. On its third draw, Maysville, North Carolina (3742100), the filer behind filing:contest:seat:gus2025:131738:council:0:2025-11-04:person_04962cc79c8da140 has no scene for the November 4, 2025 count: the test's check "the count fired no scene" finds no schedule entry for the election-result record. The test draws its place at random, so this turns CI red on any director change whose run lands on it. The cause is not yet known: the count's moment may be missing, unbound, or held by the month's repeat window.
 
-**Rules.** Ask why: the fix names the cause by record (the moment, its schedule entry and the binding's failure) before changing anything. One rule, all 56 places: no place-specific branch in the director or the test. No dice: nothing decides the outcome but records.
+**Cause.** Needs cause. Looked at the item only: GOLDEN_PATH_SEED=b192e3dbed748f0f, third draw Maysville, North Carolina (3742100), src/director/purpose-scenes.test.ts finds no schedule entry for the election-result record of the November 4, 2025 count (filing:contest:seat:gus2025:131738:council:0:2025-11-04:person_04962cc79c8da140); whether the moment is missing, unbound, or held by the monthly repeat window in src/director/scheduling.ts is not found.
 
-**Done when.** src/director/purpose-scenes.test.ts passes on seed b192e3dbed748f0f and on three fresh seeds the builder did not choose, run in the played world (buildBenchWorld), with the cause of the Maysville miss named by record id in the PR body, and either the director fixed or the test's expectation corrected to what the records say.
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours for one Sonnet session, to find the cause by record (the moment, its schedule entry and the binding's failure) and rewrite this item with Found in code and a real Fix.
+
+**Rules.** Ask why: the cause is named by record before anything is changed. One rule, all 56 places: no place-specific branch in the director or the test. No dice: nothing decides the outcome but records.
+
+**Done when.** A second session, not the builder, reads the rewritten item and finds the Maysville miss named by record id with a Fix in plain words, then runs src/director/purpose-scenes.test.ts at seed b192e3dbed748f0f and on three fresh draws (place and seed named) in the played world (buildBenchWorld) and sees it pass.
+
+**Waits on.** Nothing.
 
 **Files.** src/director/purpose-scenes.test.ts, src/director/scheduling.ts
 

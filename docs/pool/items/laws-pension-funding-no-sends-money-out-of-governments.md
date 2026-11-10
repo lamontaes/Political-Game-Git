@@ -6,21 +6,31 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 after:
 blocked-on:
 lead: laws-effects
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+model: opus
+effort: high
+root: rc8-law-judged-by-paperwork
 ---
 
 **What.** A government that votes not to fund its pensions on schedule should pay less into them, and in the game it ends far poorer. Measured in the law sweep in Marion, Mississippi (seed 7df73e53cd67): answering no on funding pensions on schedule sent $20.6 million out of governments in 180 days, against a twin world with no bill. The figure has the public broadband rider's amounts taken out, because the bill left the body with that rider. The audit lists this among results that point the wrong way and did not trace it to a payer or to code. The audit does not name the body; it found the broadband rider on the Mississippi House's bills, which ran 180 days. Find which payment carries the $20.6 million, by its own label, and fix it at the cause for every government the law binds: a yes raises the retirement contribution by the law's amount and that money goes to the pension fund, and a no lowers it, so the treasury keeps what it no longer pays.
 
-**Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Cause.** Measured: Marion, Mississippi, seed 7df73e53cd67: answering no on fund-pensions-to-schedule sent $20.6 million out of governments in 180 days against a twin. Candidate code: src/core2/law-reach/group-b.ts case "pension-funding" (line 421), budgets-treasury.ts sweepReserves.
+
+**Fix.** Find the payment label carrying the $20.6 million (likely the retirementContributions line moved by a no, then swept to the outside account) and fix at the cause so a no lowers the contribution and the treasury keeps it.
+
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** The chain is the acceptance: the rule is followed from the law row to the budget line that changed, to the payment the treasury made or stopped making, and to who received it, by record id. Ask why: the proof names, by record, the payment that moved each dollar, and a government that ends poorer after deciding to pay less is a defect until its cause is named. One rule, all 56 places: the direction holds for every government the place's law lets answer the question. Owner, November 7, quoted by the audit: "these should all be able to be reversed."
 
 **Done when.** A second session, not the builder, runs the twin check through dev mode's own law control in the running game. Start the bench (`OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run bench`, play at `/play`) with the Place field empty so the place is a drawn place, and write down the place and seed the title shows; redraw until the place's state legislature may pass the law and the starting law answers yes. In dev mode's Bills panel on the Government screen pick the state legislature as the Body, a Sponsor, the Law (fund pensions to schedule) and the Answer No, press Introduce, tick Chair hears the bill, set the Margin to 3 and the Executive to Signs, and press Pass. The bill page must show one section and no rider (screenshot). Run 180 days in the Run panel. Start a second game on the same place and seed, pass nothing and run the same 180 days. Compare every cash account in the two worlds: full people in town, counted households, businesses, each government's treasury and the outside account. Governments must end no lower than in the twin, the retirement contributions they paid must be lower by the law's amount, and each difference is named by the payment's own label. Then pass the yes over it and show the contribution return. Then the same check as a named repro in Marion, Mississippi, seed 7df73e53cd67, where $20.6 million left governments. The script route for the same pair, `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" node --max-old-space-size=4500 --import tsx scripts/dev-tests/law-run.ts <seed> state fund-pensions-to-schedule 180` (one heavy run at a time; it passes the yes and then the repeal, so read the leg that matches), must point the same way, and a test on a drawn place fails when governments end lower after a no. The owner plays it: his state votes to skip the pension payment and its treasury has more cash this year, with the shortfall on the record for later.
+
+**Waits on.** Nothing. gov-riders-added-when-every-vote-is-forced is done; rerun the repro clean, with one section and no rider, before trusting the $20.6 million.
 
 **Files.** src/core2/law-reach/group-b.ts (the `pension-funding` case, line 421; `reviewFiscalRules`, line 1040), src/core2/data/laws/reach-group-b.json (the policy row, line 202), src/core2/budgets-treasury.ts (`sweepReserves`, line 1631), scripts/dev-tests/law-run.ts
 
