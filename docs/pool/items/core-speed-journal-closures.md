@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/journal-closures
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-10T01:40:18.811Z
 ---
 
 **What.** The cash journal is 7.9 s of Gunnison UT's election year (key 4932660, seed n8f6) and allocates about 9 GB a year. projectCashJournal made four checking closures for every posting (hundreds of thousands a year, each named at run time by the transpile), and postCashJournal copied each owner's and account's prior totals into a list that only the bookkeeping checks read.
