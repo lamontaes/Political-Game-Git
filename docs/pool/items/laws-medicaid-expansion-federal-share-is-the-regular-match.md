@@ -6,18 +6,32 @@ kind: research
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+lead: laws
+model: sonnet
+effort: medium
+root: none
 source: added with npm run pool -- add
 ---
 
 **What.** When the Medicaid expansion pays coverage, the federal government's share is taken at the state's regular match: 65.13 percent in Prescott, Michigan (seed a91c03e7d2b84f10) and 57.52 percent in Uehling, Nebraska (seed 5e27b0c4196fd3a8), measured in the health-schools year runs (found by the health-schools helper, Oct 25). Federal law pays a higher share for the expansion population: 90 percent from 2020 on (42 U.S.C. 1396d(y)(1), from the lead's memory; confirm against the statute's text). With the regular match, every expansion state's treasury pays several times what it should, which feeds its budget, its taxes and the outcome web.
 
-**Rules.** Estimate, never unknown, and research before building: the share is a sourced parameter quoted from the statute, the same rule in all 56 places, with territories handled by their own capped financing.
+**Cause.** Found in code: `payMedicaidCare` in src/core2/law-reach/group-b-money.ts (line 838) reads `lawInForce(api, "medicaid-match")` (line 856), the regular match (for example 51.37 in src/core2/data/laws/starting-law.json), for the expansion's federal leg.
 
-**Done when.** The statute's expansion match is quoted from a fetched page into a parameter table as SOURCED, the expansion's federal share reads it in `buildBenchWorld` worlds, and a year run of the health-schools family in Prescott, Michigan (seed a91c03e7d2b84f10) shows the expansion's federal share at that rate by journal id, with the territories' treatment stated. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Fix.** Add a sourced expansion match (42 U.S.C. 1396d(y)) to the law data, quoted from a fetched page, and have the expansion's federal leg read it; state the treatment of the territories' capped financing.
 
-**Files.** src/core2/law-reach/group-b-money.ts, src/core2/data/laws/
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Estimate, never UNKNOWN, and research before building: the share is a sourced parameter quoted from the statute, the same rule in all 56 places, with territories handled by their own capped financing. Use the researcher skill.
+
+**Done when.** A second session, not the builder, runs a year of the health-schools family in a played world (`buildBenchWorld`) at the drawn place Prescott, Michigan (seed a91c03e7d2b84f10) and sees the expansion's federal share at the statute's rate by journal id, the statute quoted from a fetched page in a parameter table as SOURCED, and the territories' treatment stated. Nothing on screen reads it yet beyond Politics → Budgets.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/law-reach/group-b-money.ts, src/core2/data/laws/starting-law.json, src/core2/data/laws/reach-group-b-parameters.json
 
 **Notes.** From the laws lead, Oct 25, on the health-schools helper's report. Use the researcher skill.

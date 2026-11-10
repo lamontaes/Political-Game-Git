@@ -1,0 +1,35 @@
+---
+id: core-finance-contracts-vs-obligations-part-1-payee-account
+title: "A finance contract can pay into a fund account"
+area: core
+kind: cleanup
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: money
+source: split from core-finance-contracts-vs-obligations in the pool redo, Nov 10, 2026
+standard: 2
+model: sonnet
+effort: high
+root: none
+---
+
+**What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee.
+
+**Cause.** Found in code: src/core2/finance-types.ts `FinanceContractInput` (line 7) and src/core2/finance-state.ts `admitFinanceContract` (line 464) resolve payer and payee as owners' main accounts; src/core2/law-reach/group-b-money.ts (`FUND`, line 420 `addObligation`) pays into a fund account instead.
+
+**Fix.** Add an optional payee account to `FinanceContractInput` with its settlement and journal source kind, post through it in `admitFinanceContract`, and test it with a fund payee. Change no caller yet.
+
+**Time box.** 3 hours for a Sonnet session.
+
+**Rules.** Replace, never layer: the layer that loses is deleted, not kept beside the winner. Wire to the world: every household's rent and bill still posts the same dollars on the journal, shown in a played year. Speed: a year must stay within 20 percent of its base, measured on the same machine.
+
+**Done when.** A second session, in a generated world of a drawn place (place and seed named), sees a fund payee post through a finance contract with its own journal kind, by journal record id, and a test in src/core2 fails when the payee account is ignored. No caller outside the new test uses it yet.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/finance-types.ts, src/core2/finance-state.ts, src/core2/finance-cash.test.ts

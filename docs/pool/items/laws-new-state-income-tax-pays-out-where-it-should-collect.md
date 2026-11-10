@@ -6,21 +6,31 @@ kind: bug
 priority: 1
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 after:
 blocked-on:
 lead: laws-effects
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+model: opus
+effort: high
+root: rc8-law-judged-by-paperwork
 ---
 
 **What.** A new income tax pays out where it should collect. Measured in LaGrange, Wyoming (seed 63355aee286d): Wyoming has no income tax, and adopting one at 1% left households $349,000 higher and governments $138,000 lower after 180 days, against a twin world with no bill. The payments' labels show the Wyoming treasury paying residents $349,000 more, and its withholding line fell by $31,000 where it should have risen (traced to the payer). The Wyoming treasury itself ended $142,000 lower: it paid out the $349,000, the $31,000 and about $8,000 on smaller lines, and a reserve sweep brought in $246,000 from outside. Where a state already has the tax the direction is right: in Marion, Mississippi (seed 7df73e53cd67), raising the state rate from 4.4% to 6.6% took $479,000 from counted households and $7,000 from full people in town. So the fault is in adopting the tax where no value was in force. The audit traced it to the treasury that pays and no further. Find the payment that carries the $349,000 and the reason the withholding line falls, and fix it at the cause for every government that adopts an income tax where it had none: paychecks are withheld at the new rate, the treasury that levied the tax receives it, and no payment to residents grows because of it.
 
-**Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Cause.** Measured: LaGrange, Wyoming, seed 63355aee286d: adopting a 1% state income tax left households $349,000 higher and the Wyoming treasury paying residents $349,000 more, while its withholding line fell by $31,000. Candidate code, not yet shown to be the cause: `withholdingFor` in src/core2/tax-withholding.ts, the `law-amount` branch of `enact` in src/core2/modules/legislature.ts, and `sweepReserves` in src/core2/budgets-treasury.ts.
+
+**Fix.** Trace which monthly state-treasury payment carries the $349,000 and why withholding falls when a row is adopted where none stood; fix at that payment so the tax withholds at the new rate and the treasury that levied it receives it.
+
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** The chain is the acceptance: the tax is followed from the law row to the amount withheld from a named worker's paycheck, to the treasury that received it, by record id. One rule, all 56 places: adopting a tax where none is in force follows the same rule as raising one that is, with no place named in the logic. One model, two tiers: counted households are withheld by the same rule as full people, times their count. Ask why: the proof names, by record, the payment behind each dollar the treasury paid out.
 
 **Done when.** A second session, not the builder, runs the twin check through dev mode's own law control in the running game. Start the bench (`OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" npm run bench`, play at `/play`) with the Place field empty so the place is a drawn place, and write down the place and seed the title shows; redraw until the place's state has no income tax in force (read the starting law first) and its legislature may adopt one. In dev mode's Bills panel on the Government screen pick the state legislature as the Body, a Sponsor, the Law (income tax) and the Value 1, press Introduce, tick Chair hears the bill, set the Margin to 3 and the Executive to Signs, and press Pass. The bill page must show one section and no rider (screenshot). Run 180 days in the Run panel. Start a second game on the same place and seed, pass nothing and run the same 180 days. Compare every cash account in the two worlds: full people in town, counted households, businesses, each government's treasury and the outside account. Households must end lower than in the twin by about 1% of the wages paid, the state treasury's income tax withholding must be higher by the same amount, no payment from the state treasury to residents may be larger than in the twin, and each difference is named by the payment's own label, with one worker's paycheck named by record id. Then the same check as a named repro in LaGrange, Wyoming, seed 63355aee286d, where households ended $349,000 higher and governments $138,000 lower. The script pair `OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14" node --max-old-space-size=4500 --import tsx scripts/dev-tests/law-run.ts <seed> state law:income-tax 180` (one heavy run at a time) must point the same way, and a test on a drawn place whose state has no income tax fails when households end higher. The owner plays it: his state adopts an income tax, paychecks in his town come out smaller, and the state has the money.
+
+**Waits on.** Nothing. Read with money-town-tax-raise-leaves-its-own-treasury-no-richer, which concerns the same reserve sweep.
 
 **Files.** src/core2/tax-withholding.ts (`withholdingFor`, line 112; `scheduleOf`, line 52), src/core2/modules/legislature.ts (the `law-amount` branch of `enact`, lines 6104 to 6111), src/core2/tax-applied.ts, src/core2/work-payroll-dispatch.ts, src/core2/counted-money.ts, src/core2/budgets-treasury.ts (`sweepReserves`, line 1631), scripts/dev-tests/law-run.ts
 

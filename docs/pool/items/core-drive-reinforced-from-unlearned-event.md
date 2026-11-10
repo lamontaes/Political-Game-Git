@@ -8,17 +8,31 @@ size: S
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
 source: added with npm run pool -- add
+lead: m0-m2
+standard: 2
+model: sonnet
+effort: high
+root: none
 ---
 
-**What.** With bookkeeping on (tests and the bench), the bench world for Londonderry, Vermont (5040150), drawn from run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0 with drawPlace(seed, 'filing-intro'), advanced a week at a time from January 20, 2025, throws 'Drive requires a learned source event and a finite strength.' on 2025-10-01 on main da7ec81210. The stack is state.ts updateDrive from drives.ts writeDrive, reinforce (line 390), respond (line 1018) and onEvent (line 1942): the drives engine reinforces a drive for a person from an event that person has no experienced knowledge of, or an event id that is not recorded. Play does not check, so a drive can form from something the person never lived through. Found by Lane 1 while checking the one-council-race branch, whose filing-intro test now advances weeks.
+**What.** With bookkeeping on (tests and the bench), the bench world for Londonderry, Vermont (5040150), drawn from run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0 with drawPlace(seed, 'filing-intro'), advanced a week at a time from January 20, 2025, throws 'Drive requires a learned source event and a finite strength.' on 2025-10-01 on main da7ec81210. The stack is src/core2/state.ts updateDrive (line 2128) from src/core2/modules/drives.ts writeDrive, reinforce (line 397), respond (line 764) and onEvent (line 1930): the drives engine reinforces a drive for a person from an event that person has no experienced knowledge of, or an event id that is not recorded. Play does not check, so a drive can form from something the person never lived through. Found by Lane 1 while checking the one-council-race branch, whose filing-intro test now advances weeks.
+
+**Cause.** Found in code: src/core2/state.ts `updateDrive` (line 2128) throws "Drive requires a learned source event and a finite strength." (line 2142) when the drives engine (src/core2/modules/drives.ts: `reinforce` at line 397, `respond` at line 764, the `onEvent` hook at line 1930) reinforces a drive from an event the person never learned. Measured: Londonderry, Vermont (5040150), run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0, drawPlace(seed, 'filing-intro'), advanced weekly from 2025-01-20, throws on 2025-10-01; second case Deenwood, Georgia (seed abc123) through jobs.ts reviewTurnover to layOff to work.job-lost to drives respond.
+
+**Fix.** Make the drives engine write the person's experienced knowledge of the event before it reinforces, or not reinforce. Never weaken the check. Add a test that reproduces the reinforce path.
+
+**Time box.** 3 hours for a Sonnet session.
 
 **Rules.** Ask why: a drive forms only from an event the person lived through, by record. Never weaken the check: the drives engine writes the experienced knowledge first or does not reinforce. One rule, all 56 places: proven on the Londonderry seed and fresh draws.
 
-**Done when.** The Londonderry, Vermont world from run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0 advances 104 weeks with bookkeeping on without a throw; the PR names the event kind and person that crashed and the line that skipped their knowledge; a test reproduces the reinforce path and fails when the fix is undone.
+**Done when.** A second session, in a drawn place, advances the Londonderry, Vermont world from run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0 for 104 weeks with bookkeeping on without a throw, and the Deenwood, Georgia world (seed abc123) a year past its start. The PR names the event kind and person that crashed and the line that skipped their knowledge, and a test reproduces the reinforce path and fails when the fix is undone.
 
-**Files.** src/core2/modules/drives.ts
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/drives.ts, src/core2/state.ts
 
 **Notes.** TODO
 

@@ -6,18 +6,32 @@ kind: wiring
 priority: 1
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #6026
 blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:
+after:
+lead: laws-effects
+model: sonnet
+effort: medium
+root: rc8-law-judged-by-paperwork
 ---
 
-**What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the health, assistance and schools family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): medicaid-match, expand-medicaid-eligibility, medicaid-work-requirement, work-requirement-for-assistance, budget-line:healthAndHospitals, snap-maximum, budget-line:welfareAndMedicaid, universal-preschool, budget-line:schools, public-funds-for-private-schooling, raise-teacher-minimum-salary and budget-line:higherEducation.
+**What.** Four laws of the health, assistance and schools family are still short of the nine wiring links, as the Oct 26 Notes narrow it: the budget lines healthAndHospitals, schools and higherEducation, which pay nothing under their own law id, and public-funds-for-private-schooling, which reached nobody in Prescott, Michigan. The rest of the family landed through the bounded item laws-nine-links-health-schools-eight (now dropped). A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The first job is to regrade the family on main and say which of the four still fail and why.
+
+**Cause.** Needs cause. Looked at the item, its Notes and docs/reports/law-wiring-matrix.json; the matrix was not regraded on main in this pass. The Notes blame the three budget lines on a treasury change in PR #5669, but #5669 is the rights-and-environment family PR, so that reason is stale and why each of the four still fails is not known.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. The session regrades the matrix on main for the four laws and rewrites this item with Found in code or Measured and a real Fix.
 
 **Rules.** An effect is a read, not a record: the engine that pays or decides reads the law and records whom it applied it to through `lawApplied`. One model, two tiers: counted groups take the same rule as full people, times the count. Ask why: a person attributes a change to the law only after news they received, a conversation, a notice or an ad. The chain is the acceptance: each law is followed to a named person and a dollar.
 
-**Done when.** In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Done when.** A second session, not the builder, replays this on main in the running game: in two drawn places on seeds nobody chose, dev mode and the law check follow each law still open in this item to a named person or household and a dollar, by `lawApplied` record id and journal entry. The builder's proof: In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/law-reach/group-b.ts, src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/law-reach/applied.ts
 

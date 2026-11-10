@@ -388,6 +388,9 @@ describe(`the life record in ${where}`, () => {
     );
     const summary = lifeSummary(core, person!.id);
     const folded = Object.values(summary).reduce((n, count) => n + count, 0);
+    // Exactly the cap, also when one of the engine's own records of the same
+    // kind falls on a day this test wrote one (Seville, Ohio, seed
+    // 8e2ff1bb8253966b): two records are two events.
     expect(played.length, where).toBe(CAP);
     // Everything the list let go of was counted, by kind and decade: nothing is lost unseen.
     // (an event of a kind held least dear can go the moment it arrives, before it is ever read)

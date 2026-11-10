@@ -6,20 +6,34 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+model: sonnet
+effort: medium
+root: rc5-full-detail-every-day
+lead: speed
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** With the journal and work cuts applied, a CPU profile of Long Hill, Connecticut's year (seed m7b) puts 12.7 s of self time in src/core2/module-state.ts: get checks the store's owner and re-validates the id on every call (2.6 s), insert recomputes and rewrites every index entry even when a row's index keys did not change (2.2 s), query wraps each call in an owner check and a closure (2.1 s), indexKey re-validates every value (1.2 s) and moduleState re-looks-up the store per call (1.0 s). The biggest callers are the views engine's stance reads, the news engine's heard-story rows and the laws engine's series reads. These checks only ever throw on a broken caller, so with bookkeeping off they can be skipped and a row whose index keys are unchanged can keep its index entries.
+**What.** With the journal and work cuts applied, a CPU profile of Long Hill, Connecticut's year (seed m7b) put 12.7 s of self time in src/core2/module-state.ts (get 2.6 s, insert 2.2 s, query 2.1 s, indexKey 1.2 s, moduleState 1.0 s). The exact branch that skipped the checks in play and kept unchanged index keys (claude/speed-module-table-in-play) was inside the noise on Oct 24 and Oct 26: module-state.ts self time fell only from 9.92 to 9.44 s, so the cost is the map lookups, index keys and the callers' call counts, not the checks. The biggest callers are the views engine's stance reads, the news engine's heard-story rows and the laws engine's series reads. This item also takes core-speed-kernel-walks-no-copies: the counted store's liveHouseholds walk should reuse one result object, whose branch failed src/core2/counted-demotion.test.ts (Lawrence, New York, seed 69fb54d718cc69e358245405c6c5c465).
+
+**Cause.** Needs cause. Looked at: the item and its Oct 24 and Oct 26 branch notes (claude/speed-module-table-in-play; Long Hill, Connecticut, seed m7b, deep fingerprint identical, no measurable gain); src/core2/module-state.ts. The profile attributes time the change did not remove, so the real cost is the callers' table traffic, not yet counted by call site.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Bookkeeping is a debug switch: validation and ownership checks run in tests and the bench, not in play. No dice: every engine reads the same rows in the same order. Speed: no change makes a year slower, measured before and after on the same machine.
 
-**Done when.** In the played world (buildBenchWorld, Long Hill, Connecticut, seed m7b, and a place drawn from all 56 for three years) the deep fingerprint is identical before and after on the same base; module-state.ts's self time in a CPU profile of the paired year falls by at least half; module-state.test.ts and the views, news and laws tests pass. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session, not the builder, profiles a year in a drawn place, Long Hill, Connecticut (seed m7b), in the played world with call counts per caller (views stance reads, news heard-story rows, laws series reads) and names the callers whose table traffic costs the most, by file and line; this item is then rewritten with Found in code and a Fix.
 
-**Files.** src/core2/module-state.ts
+**Waits on.** Nothing.
+
+**Files.** src/core2/module-state.ts, src/core2/module-state.test.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 
 **Notes.** Filed Oct 24 by the speed lead from the Long Hill profile with core-speed-journal-posting-in-play and the work items applied. Note core-speed-kernel-walks-no-copies (held, with a counted-demotion defect) also touches module-state.ts.
 

@@ -13,15 +13,28 @@ blocked-on:
 milestone:
 source: acting CTO ruling, Oct 19; replaces the old-core poll work in PRs #5091 and #5081
 claimed-at:
+lead: elections
+standard: 2
+model: sonnet
+effort: low
+root: rc2-done-from-records
 ---
 
-**What.** Polls on core2, replacing the old-core poll work in #5091 and #5081, which were closed because nothing new is added to `src/simulation`. Lift whatever is useful from those PRs into a core2 module.
+**What.** Polls on core2 exist, and a world campaign now commissions them, but no test proves it in the played world. This item began as the replacement for old-core poll work in PRs #5091 and #5081, which were closed because nothing new is added to the deleted old core. `commissionPoll` and `pollMargin` in `src/core2/modules/campaigns.ts` already sample the town's residents from their records and pay the pollster from campaign money. The Oct 19 measurement found no world-campaign poll in six drawn places over 420 days because statewide campaigns raised too little from the town alone; what remains is the proof in a played world that a non-player campaign buys a poll before its election.
 
-**Rules.** No dice; a poll samples the views people actually hold, read from their records. One rule, all 56 places.
+**Cause.** Found in code: `src/core2/modules/campaigns.ts` `commissionPoll` (line 5322) is called for non-player campaigns at line 6481 once `pollFundMinor` reaches the minimum interviews; no test on main drives a world campaign's poll (the closed PR #5815's test never reached main).
 
-**Done when.** A drawn place in the played world runs a poll before an election whose result is read from the sampled residents' records, with a test naming the place and seed.
+**Fix.** Add a played-world test (`buildBenchWorld`, a drawn place and a random seed printed) that a non-player campaign buys a poll before its election: every respondent id is a real record on the poll date, the answers add up to the contacted count, the campaign record exists and belongs to a non-player candidate, and the poll is dated before the contest.
 
-**Files.** `src/core2/modules/`.
+**Time box.** 3 hours for one sonnet session.
+
+**Rules.** No dice; a poll samples the views people actually hold, read from their records. One rule, all 56 places. Wire to the world: the test uses the ordinary generated world and existing producers, not a hand-built fixture. Do not waive missing respondent records with a ratio floor (the Oct 21 send-back): check every sampled person at the poll date.
+
+**Done when.** A second session runs the new test in a drawn place and seed (named in the PR) and sees a non-player campaign's poll rows dated before the contest, every respondent a real record on the poll date, and answers adding up to contacted. In the running game the campaign screen shows that poll with its margin.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaigns.test.ts, src/core2/world-campaign-poll.test.ts (new), src/bench/campaign.ts
 
 **Notes.** Closed PRs #5091 and #5081 hold the old-core attempt.
 

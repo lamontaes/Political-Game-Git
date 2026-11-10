@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/residents.ts, src/core2/housing-counted-evicted.test.ts
 
 **Notes.** Resolved as a test assumption, not an engine bug (One Map, Nov 5). Trace: the household had been filled in once, returned to the counts, evicted and filled in again; its person record kept 67,052 minor of pay it had collected, and the second fill-in added exactly the group's share (348,620) on top, so 415,672 = 67,052 + 348,620. The test now asserts after = before + share (`housing-counted-evicted.test.ts`, branch `one-map-rent`). Still worth a look by the demotion owner: a demoted person record keeps collecting pay in its own account while the household is counted.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The extra cash was a test assumption, not an engine bug (the item's own Notes trace it: a person record that had collected pay of its own kept it, and the second fill-in added the group's share on top, so 415,672 = 67,052 + 348,620). src/core2/housing-counted-evicted.test.ts now asserts after = before + share (comment near line 513, "fill-in adds the share"). The residual, that a demoted person record keeps collecting pay in its own account while the household is counted, is a note for the demotion owner and has no cause of its own to fix.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 3
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,7 @@ claimed-at: 2026-10-19T23:27:38.803Z
 **Notes.** Split Oct 19 by claude/political-game-pool-b6g0dl.
 
 Oct 20: Switched from blocked to the automatic after: gate on laws-cannabis-dispensaries, so it opens by itself the moment those items are done.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-cannabis-dispensaries. This umbrella was already split by its claimer: the adult-use record is done (laws-cannabis-adult-use-record, status done), the excise tax half is done (laws-cannabis-sales-tax, status done), and the dispensary half is laws-cannabis-dispensaries, whose done-when already names resolving SG-GOV-REACH-A-cannabis-market (still status open in src/core2/data/stopgaps/gov.json) and src/core2/cannabis-sales-law.test.ts. The kept item takes nothing more.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `laws-cannabis-dispensaries`, which carries this item's remaining work.
