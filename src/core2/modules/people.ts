@@ -16,6 +16,7 @@
  * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
  * and family and holds back organizing as it fades.
  */
+import { REMEMBERED_RECORD_KINDS, rememberEvent } from "../person-life";
 import {
   addDays,
   daysBetween,
@@ -174,6 +175,8 @@ export { keyPeopleOf } from "../opening-key-people";
 // move records and a named resident's moved-away event.
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
 export { MOVED_AWAY_EVENT } from "./moves";
+// A person's life as one list, for the screens that tell it (the card, the You screen).
+export { lifeOf, type LifeEvent } from "../person-life";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
 // A housemate's call for help, for the director's rescue scene.
@@ -588,8 +591,14 @@ export const PEOPLE_MODULE: PreStartModule = {
     shareHomeTime(api);
   },
   // Part 4: a death reaches the relatives who learn of it as grief.
-  eventKinds: GRIEF.deathEventKinds,
-  onEvent: (api, event, learnedBy) => recordDeath(api, event, learnedBy),
+  // A death reaches the family as grief; every record a person would remember goes on their own list (person-life.ts).
+  eventKinds: [
+    ...new Set([...GRIEF.deathEventKinds, ...REMEMBERED_RECORD_KINDS]),
+  ],
+  onEvent: (api, event, learnedBy) => {
+    recordDeath(api, event, learnedBy);
+    rememberEvent(api.state as CoreState, event);
+  },
   needEvaluators: {
     // The children at home need care each day; the act meets it for the day.
     "dependent-care": (api, actor) =>

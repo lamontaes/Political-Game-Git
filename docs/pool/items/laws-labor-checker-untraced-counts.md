@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The labor family's checker runs (audit seeds a91c03e7d2b84f10 Prescott, Michigan and 5e27b0c4196fd3a8 Uehling, Nebraska) leave four results untraced. The two local wage authority laws' money links grade wired on Uehling payroll posts journal:2025-01-24:1557 and journal:2025-01-28:1574 that no engine reading the grant made. Re-enacting a law in force at the opening reaches more records than the opening had (the state raise question 30 then 92 in Prescott). Paid family leave reaches exactly 138 records in both towns from different mixes. Social Security reaches 56 counted groups where the unemployment taxes on the same paydays reach 27. Also untraced (laws lead, Oct 25): why 9 of the year's 20 workers raised by the minimum wage show no bigger paycheck and why one was paid less (person_d1c82dce42074b2e, March 3: $392.00 against $404.54).

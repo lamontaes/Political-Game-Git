@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The price engine scales the miles a household drives by the outcome web's factor on `traffic.vehicle-miles` where it charges a mileage fee, so the fee and the fuel tax refund follow the miles. The household's own spending on fuel is meant to read the same factor, so a law that moves driving changes both the fee and what the household spends at the pump. The item says to check first which engine charges fuel today, and that check has not been completed, so the cause is not yet known.

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 1
 size: S
-status: blocked
+status: dropped
 claimed-by:
 pr: #5295
 after:
@@ -48,3 +48,5 @@ Oct 23 (claude/sleepy-carson-f8omzd, after the PR 5295 send-back): the conflict 
 Oct 25 audit: From the dropped core-town-size-census: it also waited on world-census-weight-owner-draws; check that item before closing.
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. `buildBenchWorld` opens a town at its real Census size: the sample is the people generated and each counted household stands for as many real households as the Census count is over the sample (src/bench/world.ts lines 420 to 424, `censusScale`). `Math.min(target, real)` in src/core2/population.ts (line 575) is the size of that sample, not a cap on the town, and deleting it would generate every resident as a record, against the two-level population. core-opening-counts-from-census and world-census-weight-owner-draws, which this item says to check first, were both closed as done. The year's speed in the largest town is held by the speed bar's own items.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Asks for work that already exists.

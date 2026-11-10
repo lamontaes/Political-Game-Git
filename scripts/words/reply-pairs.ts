@@ -1,46 +1,61 @@
 /**
- * Writes the judging sheets: every pair (line before, reply) the director can
- * produce (`src/english/reply-pairs.ts`), one JSON file per purpose, in a
- * directory outside the repository.
+ * Writes the judging sheets for one rule a reviewer judges, in a directory
+ * outside the repository.
  *
- *   npm run words:pairs -- --out <dir>                  every pair
- *   npm run words:pairs -- --out <dir> --only-unjudged  skip pairs already judged
+ *   npm run words:pairs -- --rule <id> --out <dir>
  *
- * A judge reads a sheet and writes `{ purpose, verdicts: [{ id, follows, why }] }`
- * beside it; `npm run words:verdicts -- --from <dir>` folds them in. A pair
- * appears on the sheet of the first purpose it is offered in.
+ * For a `judged` rule about one line (alone or in its spot): the lines the
+ * rule applies to that have no verdict in their current words, with what a
+ * reviewer needs (`lineSheets`). For the reply rule
+ * (`reply-follows-the-line-before`): every pair (line before, reply) the
+ * director can produce (`src/english/reply-pairs.ts`), one file per purpose;
+ * add `--only-unjudged` to skip pairs already judged, `--observed`,
+ * `--per-file`, `--sample` and `--seed` as below. A pair appears on the sheet
+ * of the first purpose it is offered in.
+ *
+ * A reviewer writes `{ rule, verdicts: [{ id, passes, why }] }` beside each
+ * sheet; `npm run words:verdicts -- --from <dir>` folds them into the store.
  */
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join, relative, resolve } from "node:path";
+import type { PartGradeLedger } from "../../src/english/english-grades";
+import type { JudgedStore } from "../../src/english/judged";
+import type { RulePiece } from "../../src/english/line-rules";
+import {
+  playableParts,
+  readBankPieces,
+  readLedger,
+  readRules,
+  RULES_FILE,
+  SCENE_TALK_FILE,
+} from "./run-rules";
 import type { BankPart } from "../../src/english/scene-talk-words";
-import { playable } from "../../src/english/bank-parts";
 import {
   REPLY_FOLLOWS,
+  REPLY_FOLLOWS_RUBRIC,
+  REPLY_RULE,
+  REPLY_STORE,
   type ReplyFollowsTable,
 } from "../../src/english/reply-follows";
 import {
   distinctPairs,
-  hash53,
   pairId,
   replyPairs,
   type ReplyPair,
 } from "../../src/english/reply-pairs";
+import { hash53, verdictId, verdictOf } from "../../src/english/judged";
+import {
+  judgesLines,
+  lineSubjects,
+  pieceVerdictId,
+  type LineRule,
+} from "../../src/english/line-rules";
 import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
-import { readVerdicts } from "./reply-verdicts";
+import { readStore, rubricOf, storeName } from "./verdicts";
 import {
   buildTalks,
   observedPairs,
 } from "../../tests/support/scene-talk-fixture";
-
-export const SCENE_TALK_FILE = "data/english/parts/scene-talk.json";
-
-/** The scene-talk bank's pieces play may say. */
-export function playableParts(): BankPart[] {
-  const bank = JSON.parse(readFileSync(SCENE_TALK_FILE, "utf8")) as {
-    parts: BankPart[];
-  };
-  return bank.parts.filter(playable);
-}
 
 /** Every pair, in the order of the director's scenes (purpose, then key). */
 export function pairsOf(
@@ -98,6 +113,8 @@ export interface SheetPair {
   seen?: number;
 }
 export interface Sheet {
+  rule: string;
+  rubric: string;
   purpose: string;
   pairs: SheetPair[];
 }
@@ -125,6 +142,70 @@ export interface SheetsResult {
   allPairs: ReplyPair[];
 }
 
+/** What every reply sheet carries: the rule and its rubric, word for word. */
+const REPLY_SHEET = { rule: REPLY_RULE, rubric: REPLY_FOLLOWS_RUBRIC };
+
+/** One line on a line rule's sheet: what a reviewer needs to judge it. */
+export interface SheetLine {
+  id: string;
+  key: string;
+  bank: string;
+  kind: string;
+  move: string;
+  line: string;
+  /** For a rule that judges a line in its spot: the tags of each place it is said. */
+  uses?: readonly Readonly<Record<string, unknown>>[];
+}
+export interface LineSheet {
+  rule: string;
+  /** The rule's `says`, word for word: the question for every line. */
+  rubric: string;
+  /** The owner's words behind the rule. */
+  from: LineRule["from"];
+  lines: SheetLine[];
+}
+
+/**
+ * The sheets for a `judged` rule about one line: every line it judges now
+ * (`lineSubjects`) with no verdict in its current words, split into files of
+ * `perFile` lines (`<store>.json`, or `<store>.<n>.json`).
+ */
+export function lineSheets(
+  rule: LineRule,
+  pieces: readonly RulePiece[],
+  ledger: PartGradeLedger,
+  store: JudgedStore,
+  perFile = 250,
+): Map<string, LineSheet> {
+  if (!judgesLines(rule))
+    throw new Error(
+      `${rule.id} judges a ${rule.judges}: its sheets come with words-machine part 3`,
+    );
+  const open = lineSubjects(rule, pieces, ledger).filter(
+    (piece) => verdictOf(store, pieceVerdictId(piece)) === undefined,
+  );
+  const lines = open.map((piece): SheetLine => ({
+    id: pieceVerdictId(piece),
+    key: piece.key,
+    bank: piece.bank,
+    kind: piece.kind,
+    move: piece.move,
+    line: piece.text,
+    ...(rule.judges === "piece-in-context" ? { uses: piece.uses } : {}),
+  }));
+  const files = new Map<string, LineSheet>();
+  const name = storeName(rule);
+  const chunks = Math.ceil(lines.length / perFile);
+  for (let k = 0; k < chunks; k += 1)
+    files.set(chunks === 1 ? `${name}.json` : `${name}.${k + 1}.json`, {
+      rule: rule.id,
+      rubric: rubricOf(rule),
+      from: rule.from,
+      lines: lines.slice(k * perFile, (k + 1) * perFile),
+    });
+  return files;
+}
+
 /** Built scenes by count: the director builds the same ones every time. */
 const TALKS = new Map<number, ReturnType<typeof buildTalks>>();
 
@@ -132,7 +213,7 @@ const TALKS = new Map<number, ReturnType<typeof buildTalks>>();
 export function sheetsFor(options: SheetOptions = {}): SheetsResult {
   const parts = playableParts();
   const text = new Map(parts.map((part) => [part.key, part]));
-  const verdicts = readVerdicts();
+  const verdicts = readStore(REPLY_STORE);
   const seen = new Map<string, number>();
   let allPairs: ReplyPair[];
   let scenes = 0;
@@ -161,17 +242,20 @@ export function sheetsFor(options: SheetOptions = {}): SheetsResult {
     }
     allPairs = [...order.values()];
   } else allPairs = currentPairs();
-  const judged = (pair: ReplyPair) => {
-    const id = pairId(pair.before, pair.reply);
-    return verdicts.yes.has(id) || verdicts.no.has(id);
-  };
+  const idOf = (pair: ReplyPair) =>
+    verdictId(
+      [pair.before, pair.reply],
+      [text.get(pair.before)?.text ?? "", text.get(pair.reply)?.text ?? ""],
+    );
+  const judged = (pair: ReplyPair) =>
+    verdictOf(verdicts, idOf(pair)) !== undefined;
   let pairs = options.onlyUnjudged
     ? allPairs.filter((p) => !judged(p))
     : allPairs;
   const moveOf = (key: string) =>
     text.get(key)?.uses.find((u) => u.subject === "scene")?.move ?? "";
   const line = (pair: ReplyPair): SheetPair => {
-    const id = pairId(pair.before, pair.reply);
+    const id = idOf(pair);
     return {
       id,
       before: pair.before,
@@ -181,7 +265,9 @@ export function sheetsFor(options: SheetOptions = {}): SheetsResult {
       replyText: text.get(pair.reply)?.text ?? "",
       replyMove: pair.move,
       step: pair.step,
-      ...(options.observed !== undefined ? { seen: seen.get(id) } : {}),
+      ...(options.observed !== undefined
+        ? { seen: seen.get(pairId(pair.before, pair.reply)) }
+        : {}),
     };
   };
   const files = new Map<string, Sheet>();
@@ -212,7 +298,11 @@ export function sheetsFor(options: SheetOptions = {}): SheetsResult {
       if (!any) break;
     }
     pairs = picked;
-    files.set("sample.json", { purpose: "sample", pairs: picked.map(line) });
+    files.set("sample.json", {
+      ...REPLY_SHEET,
+      purpose: "sample",
+      pairs: picked.map(line),
+    });
   } else {
     const byPurpose = new Map<string, ReplyPair[]>();
     for (const pair of pairs) {
@@ -226,6 +316,7 @@ export function sheetsFor(options: SheetOptions = {}): SheetsResult {
       const chunks = Math.ceil(list.length / size);
       for (let k = 0; k < chunks; k += 1)
         files.set(chunks === 1 ? `${name}.json` : `${name}.${k + 1}.json`, {
+          ...REPLY_SHEET,
           purpose,
           pairs: list.slice(k * size, (k + 1) * size).map(line),
         });
@@ -244,9 +335,32 @@ function main() {
     return at >= 0 ? argv[at + 1] : undefined;
   };
   const out = value("--out");
-  if (!out) throw new Error("usage: npm run words:pairs -- --out <dir>");
+  const ruleId = value("--rule");
+  if (!out || !ruleId)
+    throw new Error("usage: npm run words:pairs -- --rule <id> --out <dir>");
   if (!relative(resolve("."), resolve(out)).startsWith(".."))
     throw new Error("--out must be a directory outside the repository");
+  const rule = readRules().find((row) => row.id === ruleId);
+  if (!rule) throw new Error(`no rule ${ruleId} in ${RULES_FILE}`);
+  if (rule.id !== REPLY_RULE) {
+    const files = lineSheets(
+      rule,
+      readBankPieces(),
+      readLedger(),
+      readStore(storeName(rule)),
+      value("--per-file") ? Number(value("--per-file")) : 250,
+    );
+    mkdirSync(out, { recursive: true });
+    let count = 0;
+    for (const [name, sheet] of files) {
+      count += sheet.lines.length;
+      writeFileSync(join(out, name), `${JSON.stringify(sheet, null, 1)}\n`);
+    }
+    console.log(
+      `${rule.id}: ${count} lines with no verdict in their current words, in ${files.size} files. Wrote them to ${out}.`,
+    );
+    return;
+  }
   const observed = argv.includes("--observed")
     ? Number(
         argv[argv.indexOf("--observed") + 1]?.startsWith("--")

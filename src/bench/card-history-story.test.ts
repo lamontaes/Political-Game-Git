@@ -134,7 +134,7 @@ it("tells an official, a resident and the player as stories, with the header's s
   expectSentences(`${where} player`, own.history);
   expect(own.history.length, where).toBeGreaterThan(0);
   for (const line of own.history)
-    expect(line.text, `${where}: your own story`).toMatch(/^You /);
+    expect(line.text, `${where}: your own story`).toMatch(/^I /);
   expect(own.summary.length, where).toBeGreaterThanOrEqual(2);
   for (const line of own.summary)
     expect(line, `${where}: under your name`).toMatch(/^You /);
