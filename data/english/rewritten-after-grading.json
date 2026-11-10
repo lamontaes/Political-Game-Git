@@ -1,0 +1,23 @@
+{
+  "about": "Lines the owner graded in batch 2 or 3 that a later pass rewrote with his lessons (owner, Nov 9, batch 3 by voice): the key and the text as he graded it. The batch tests accept a bank line that matches this text instead of the shipped one.",
+  "rewritten": {
+    "bring-it-up.your-bill-failed-act.subject-says-your-bill-didnt-pass-im-sor": "{subject} says your bill didn't pass. I'm sorry.",
+    "journal.work-line-again.after-span-out-of-work-i-found-work-in-place": "After {span} out of work, I found work in {place}.",
+    "journal.work-line-again.after-span-out-of-work-i-went-back-to-work": "After {span} out of work, I went back to work.",
+    "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer": "After {span} out of work, I went to work for {employer}.",
+    "opening-speech.pledge.plain-twn-ill-fight-for-the-people-of-this-town-and-i-wont-be": "I'll fight for the people of this town, and I won't be polite about it when the fight is worth having.",
+    "opening-speech.pledge.plain-twn-ill-tell-you-the-truth-about-this-town-good-and-bad-and": "I'll tell you the truth about this town, good and bad, and I'll ask the same of everyone who works for you.",
+    "opening-speech.pledge.polished-twn-i-will-tell-you-the-truth-about-this-town-the-good-and": "I will tell you the truth about this town, the good and the bad, and I will ask the same of everyone who works for you.",
+    "opening-speech.salutation.plain-twn-combative-everybody-in-this-room-and-everybody-watching-let-s": "Everybody in this room, and everybody watching, let's not pretend this town is fine. It isn't, and somebody is to blame.",
+    "scene-talk.close-thank.thank-you-for-hearing-us-out": "Thank you for hearing us out.",
+    "scene-talk.follow-accept.a-hearing-then-schedule-it": "A hearing, then. Schedule it.",
+    "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors": "That's a big claim. I'll check it with your neighbors.",
+    "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest": "{pay} an hour to start. We'd train you on the rest.",
+    "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day": "We'd go over all of it on your first day.",
+    "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real": "My name on your next bill, as a co-sponsor. That's real.",
+    "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table": "Your amendment gets a vote next week. That's what's on the table.",
+    "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got": "Your district's money stays in the budget. That's what I've got.",
+    "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+    "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow": "Send me the list. I'll answer tomorrow."
+  }
+}
