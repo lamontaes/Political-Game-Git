@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: merged
+status: open
 standard: 2
 claimed-by:
-pr: #8241
+pr:
 after:
 blocked-on:
 lead: wire-elections
@@ -17,7 +17,6 @@ effort: medium
 root: design-electorate-one-model
 source: wire-office session, Oct 28 (found red on main)
 checked: fable 2026-11-10
-merged-at: 2026-11-10T21:51:39.788Z
 ---
 
 **What.** src/core2/two-level-elections.test.ts fails on clean main for two of four fixed seeds. With GOLDEN_PATH_SEED=b2 (Clayville, Rhode Island, 4415940) the Attorney General race has a third filing with no party and it gets 0 votes, while the test expects every filing in a contested race to get real votes; the same failure was seen with a Governor race on a random seed. With GOLDEN_PATH_SEED=c3 (Machias, Washington, 5341470) no November 3, 2026 race has both a Republican and a Democrat on the ballot. Seeds a1 and d4 pass.
@@ -41,3 +40,5 @@ merged-at: 2026-11-10T21:51:39.788Z
 **Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: Two reds that replay by seed; finding why is a read of one race's records: Opus at high effort.
 
 **Notes (Fable, Nov 10, what the game's own start does).** The test opens its world on October 20, 2026, two weeks before the election, so every race it sees closed before the record began. The game opens in January, where few partisan state or federal races sit between their deadline and their election; how many across the 56 places was not counted. The fault is real wherever one does, and in any saved game that later allows another start date.
+
+**Notes (Fable, Nov 10, reopened).** Pull request 8241 only wrote this item's cause; it built nothing. Its first line named this item, so the merge marked it merged by mistake. It is open again and nothing here is on main yet.
