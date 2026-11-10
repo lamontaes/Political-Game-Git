@@ -20,7 +20,7 @@ import { townSeats } from "../core2/modules/offices";
 import { coreAPI, fillInPerson } from "../core2/state";
 import type { PersonId } from "../core2/types";
 import { storyOfReadEvent } from "../core2/modules/news";
-import { printedStoryOf } from "../core2/modules/press";
+import { PRESS_MODULE_ID, printedStoryOf } from "../core2/modules/press";
 import { bringItUp } from "./bring-it-up";
 
 // Golden path: pass an ordinance, the town changes, people bring it up. The
@@ -97,6 +97,33 @@ it(`people bring up the player's passed ordinance, naming it and how it touched 
         if (billOf(api, bill.id)?.status === "failed") {
           tried.push(
             `${where}: ${candidate.policyId} ${candidate.operation} failed`,
+          );
+          continue;
+        }
+        // A reader can bring up only what the press printed. The desk files
+        // two stories a reporter a week, so a board's lone sitting can lose
+        // to the week's laws and go unprinted (Raynham Center, Massachusetts,
+        // seed 906aa625, property-tax lower; pool item
+        // people-press-own-ordinance-vote-unprinted): that bill cannot be
+        // raised, so the next candidate is tried, and the run fails only when
+        // none of them was printed.
+        const voteRecords = [...core.durableLog.values()].filter(
+          (row) =>
+            (row.kind === "legislative-vote" || row.kind === "bill-failed") &&
+            row.facts?.billId === bill.id,
+        );
+        const printedVotes = voteRecords.filter(
+          (row) =>
+            (
+              api
+                .moduleState(PRESS_MODULE_ID)
+                .table("stories")
+                .query("byWire", [row.id]) as unknown[]
+            ).length > 0,
+        );
+        if (!printedVotes.length) {
+          tried.push(
+            `${where}: ${candidate.policyId} ${candidate.operation} vote never printed`,
           );
           continue;
         }
