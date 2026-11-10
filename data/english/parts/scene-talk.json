@@ -48,6 +48,7 @@
     "cost": "What a law in force costs a household each month, from the price record it moved.",
     "chair": "The committee's chair, by name, from the committee's hold record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
+    "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
     "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
     "years": "Whole years a department head has held their post, from the appointment record.",
     "roll": "The count on a presented bill, yes to no, from the vote records.",
@@ -107341,7 +107342,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office"]
+          "requiresFacts": ["opponent", "office"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "calm",
@@ -107366,7 +107368,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent"]
+          "requiresFacts": ["opponent"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "braced",
@@ -107391,7 +107394,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office"]
+          "requiresFacts": ["opponent", "office"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "curious",
@@ -107416,7 +107420,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office"]
+          "requiresFacts": ["opponent", "office"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "tender",
@@ -107985,7 +107990,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office", "same-party"]
+          "requiresFacts": ["opponent", "office", "same-party"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "calm",
@@ -108010,7 +108016,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office", "same-party"]
+          "requiresFacts": ["opponent", "office", "same-party"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "braced",
@@ -108035,7 +108042,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office", "same-party"]
+          "requiresFacts": ["opponent", "office", "same-party"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "tender",
@@ -108060,7 +108068,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office", "same-party"]
+          "requiresFacts": ["opponent", "office", "same-party"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "curious",
@@ -108085,7 +108094,8 @@
           "step": "state",
           "move": "tell",
           "role": "asker",
-          "requiresFacts": ["opponent", "office", "same-party"]
+          "requiresFacts": ["opponent", "office", "same-party"],
+          "excludesFacts": ["already-filed"]
         }
       ],
       "bearing": "guarded",
@@ -108120,6 +108130,105 @@
         "move": "ask",
         "key": "news-received"
       }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-read-who-filed-for-office-before-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been reading who filed for {office} before you did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "requiresFacts": ["already-filed", "office"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-rival-filed-late)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-tell.rivals-already-filed-for-office-that-s-who-you-re-up-against",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "{rivals} already filed for {office}. That's who you're up against.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["rivals", "office", "already-filed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-rival-filed-late)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk.state-tell.before-you-filed-rivals-put-in-for-office",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "Before you filed, {rivals} put in for {office}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["rivals", "office", "already-filed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-rival-filed-late)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      },
+      "bearing": "calm"
+    },
+    {
+      "key": "scene-talk.state-tell.you-re-not-first-in-rivals-filed-for-office-ahead-of-you",
+      "move": "state-tell",
+      "kind": "spoken",
+      "text": "You're not first in: {rivals} filed for {office} ahead of you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "state",
+          "move": "tell",
+          "role": "asker",
+          "requiresFacts": ["rivals", "office", "already-filed"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-rival-filed-late)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell",
+        "key": "news-received"
+      },
+      "bearing": "braced"
     },
     {
       "move": "narrate-narrate",
