@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Weekly: every open counted job whose worker is no longer in the counts (the press fill-in would throw on it).
+// Weekly: every open counted job whose worker is no longer in the counts (the press fill-in would throw on it),
+// and each year, the living people marked returned to the counts whom no counted household holds, by why.
 // node --max-old-space-size=8000 --import tsx scripts/dev-tests/counted-job-orphans.ts <seed> <placeKey> <years>
 import { buildBenchWorld } from "../../src/bench/world";
 import { gameStartDate } from "../../src/core2/game-start";
@@ -19,6 +20,7 @@ const end = addDays(makeIsoDate(core.date), 365 * Number(years));
 const STATE = ["counted", "filled", "dead", "moved"];
 while (core.date < end) {
   advanceCore(core, addDays(makeIsoDate(core.date), 7));
+  if (core.date.slice(5, 7) === "01" && Number(core.date.slice(8)) <= 7) returnedWithoutHousehold();
   const rt = residentsRuntime(core) as any;
   if (!rt) continue;
   for (const [jobId, job] of rt.jobs as Map<string, any>) {
@@ -39,4 +41,19 @@ while (core.date < end) {
     }));
   }
 }
+function returnedWithoutHousehold(): void {
+  const rt = residentsRuntime(core) as any;
+  const why = new Map<string, number>();
+  const examples: string[] = [];
+  for (const p of core.people.values()) {
+    if (!p.alive || !isDemoted(p)) continue;
+    if (rt.store.countedMember(p.id) !== undefined) continue;
+    const m = rt.store.memberOf.get(p.id);
+    const k = m === undefined ? "never-in-store" : STATE[rt.store.state[m]];
+    why.set(k, (why.get(k) ?? 0) + 1);
+    if (examples.length < 5) examples.push(`${p.id}:${k}:${p.placeId}`);
+  }
+  console.log(`RETURNED-NO-HOUSEHOLD ${core.date} ${JSON.stringify(Object.fromEntries(why))} ${examples.join(" ")}`);
+}
 console.log(`done ${core.date} orphans=${seen.size}`);
+returnedWithoutHousehold();
