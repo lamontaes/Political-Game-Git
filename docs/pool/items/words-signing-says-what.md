@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/director-signing-says-what
-pr: pending
+pr: 8087
 blocked-on:
 lead: words
 milestone: play-first
