@@ -21,6 +21,7 @@ import {
 } from "./decision-detail";
 export { condenseCircleDecisions } from "./decision-detail";
 import { isExperiencedKey, queueExperience } from "./knowledge-retention";
+import { queueEventId } from "./event-id-retention";
 import { meetAtWork } from "./encounters";
 import { workgroupOf } from "./shared-history";
 import { derivePersonAppearance } from "./appearance";
@@ -2218,6 +2219,7 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
     if (!core.people.has(id) && !core.husks.has(id))
       throw new Error(`Event names an absent person: ${id}`);
   core.eventIds.add(event.id);
+  queueEventId(core, event.id);
   retainLog(core, event);
   const api = coreAPI(core);
   for (const id of new Set([...(event.witnessIds ?? []), ...event.personIds])) {
