@@ -5,6 +5,7 @@ import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
 import type { MacroMonth } from "./macro-model";
+import type { CountryState } from "./country-model";
 import { MACRO_MODULE_ID } from "./modules/macro";
 import { coreAPI } from "./state";
 import type { CoreState } from "./types";
@@ -41,48 +42,56 @@ function world() {
   return buildBenchWorld(SEED, gameStartDate(), { twoLevel: true }).core;
 }
 
+/** Lay off PUSH points of every state's labor force on day one: workers become seekers and their firms' jobs go with them. */
+function layOff(core: CoreState): void {
+  const table = coreAPI(core)
+    .moduleState(MACRO_MODULE_ID)
+    .table("countryStates");
+  for (const row of table.rows()) {
+    const state = structuredClone(row) as unknown as CountryState;
+    let before = 0,
+      after = 0;
+    for (const cell of state.cells) {
+      before += cell.workers;
+      const out = (PUSH / 100) * (cell.workers + cell.seekers);
+      cell.workers -= out;
+      cell.seekers += out;
+      after += cell.workers;
+    }
+    for (const sector of state.sectors) sector.jobs *= after / before;
+    table.put(state as unknown as { id: string });
+  }
+}
+
 describe("a pushed value does not drift back by itself", () => {
-  // KNOWN FAILURE (owner: Money). A three-point push closes to nothing in a
-  // year with the policy rate the same in both worlds (macro-model.ts: the
-  // unemployment rate is the natural rate minus the output gap over Okun's
-  // coefficient, and the gap decays by its persistence). `it.fails` records
-  // that: when the pull is removed this test starts passing, `it.fails` then
-  // fails, and the marker is deleted in the same change. The baseline only
-  // shrinks.
-  it.fails(
-    "national unemployment pushed up three points on day one stays apart where the policy rate is the same",
-    () => {
-      const pushed = world();
-      const control = world();
-      // The national model opens its month records on the first step.
-      for (const core of [pushed, control])
-        advanceCore(core, addDays(makeIsoDate(core.date), 1));
-      const api = coreAPI(pushed);
-      const last = months(pushed).at(-1)!;
-      api
-        .moduleState(MACRO_MODULE_ID)
-        .table("months")
-        .put({
-          ...last,
-          unemploymentPct: last.unemploymentPct + PUSH,
-        } as never);
-      for (const core of [pushed, control])
-        advanceCore(core, addDays(makeIsoDate(core.date), 365));
-      const a = months(pushed).at(-1)!;
-      const b = months(control).at(-1)!;
-      const gapStart = PUSH;
-      const gapEnd = a.unemploymentPct - b.unemploymentPct;
-      const policyRatesDiffer =
-        Math.abs(a.policyRatePct - b.policyRatePct) > 0.01;
-      const note = `unemployment gap ${gapStart} to ${gapEnd.toFixed(2)} points; policy rate ${a.policyRatePct} against ${b.policyRatePct}`;
-      // Closed by a recorded cause (the central bank answered): fine. Closed
-      // with the same policy rate in both worlds: a pull toward a level.
-      if (policyRatesDiffer) {
-        expect(policyRatesDiffer, note).toBe(true);
-        return;
-      }
-      expect(Math.abs(gapEnd), note).toBeGreaterThan(gapStart / 2);
-    },
-    3_600_000,
-  );
+  // The country tier keeps unemployment as counts (workers and seekers by
+  // state); the national row is their sum, so a push is laid on the counts.
+  // The cause it accepts is the central bank's recorded vote (the policy
+  // rate); this test asks whether the gap closes with the policy rate the
+  // same in both worlds.
+  it("national unemployment pushed up three points on day one stays apart where the policy rate is the same", () => {
+    const pushed = world();
+    const control = world();
+    // The country tier opens on the first step.
+    for (const core of [pushed, control])
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    layOff(pushed);
+    for (const core of [pushed, control])
+      advanceCore(core, addDays(makeIsoDate(core.date), 365));
+    const a = months(pushed).at(-1)!;
+    const b = months(control).at(-1)!;
+    const gapStart = PUSH;
+    const gapEnd = a.unemploymentPct - b.unemploymentPct;
+    const note = `unemployment gap ${gapStart} to ${gapEnd.toFixed(2)} points; policy rate ${a.policyRatePct} against ${b.policyRatePct}`;
+    console.log(`no-steering push: ${note}`);
+    const policyRatesDiffer =
+      Math.abs(a.policyRatePct - b.policyRatePct) > 0.01;
+    // Closed by a recorded cause (the central bank answered): fine. Closed
+    // with the same policy rate in both worlds: a pull toward a level.
+    if (policyRatesDiffer) {
+      expect(policyRatesDiffer, note).toBe(true);
+      return;
+    }
+    expect(Math.abs(gapEnd), note).toBeGreaterThan(gapStart / 2);
+  }, 3_600_000);
 });
