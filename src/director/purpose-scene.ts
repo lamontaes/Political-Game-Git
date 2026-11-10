@@ -101,6 +101,7 @@ const HOME_DAMAGED_EVENT = "disaster.home-damaged";
 import {
   ELECTIONS_MODULE_ID,
   ballot,
+  incumbentOf,
   petitionOf,
 } from "../core2/modules/elections";
 import {
@@ -981,6 +982,68 @@ function composeBinding(
         text: theirs,
         sourceRecordIds: [moment.causeId, said.filingId ?? moment.causeId],
       };
+  }
+  // A player who filed after others (the circumstance rival-known-late): the
+  // candidates already on the contest's ballot, each said by what their
+  // candidacy shows, the incumbent or the party they run under, cited to the
+  // filings and the count of them.
+  if (
+    record?.kind === "candidate-filed" &&
+    said.contestId &&
+    core.modules.has(ELECTIONS_MODULE_ID)
+  ) {
+    const elections = coreAPI(core as CoreState);
+    const incumbent = incumbentOf(elections, said.contestId);
+    const earlier = ballot(elections, said.contestId)
+      .filter((row) => row.personId !== askedId)
+      .sort(
+        (a, b) =>
+          a.filedOn.localeCompare(b.filedOn) || a.id.localeCompare(b.id),
+      );
+    const said_ = earlier.flatMap((row) => {
+      const person = core.people.get(row.personId as PersonId);
+      if (!person) return [];
+      const name = `${person.givenName} ${person.familyName}`;
+      return [
+        {
+          row,
+          name,
+          text:
+            incumbent?.personId === row.personId
+              ? `incumbent ${name}`
+              : row.party && row.party !== "party"
+                ? `${row.party} candidate ${name}`
+                : name,
+        },
+      ];
+    });
+    if (said_.length) {
+      const cited = [moment.causeId, ...said_.map((row) => row.row.id)];
+      const list =
+        said_.length === P.one
+          ? said_[P.zero]!.text
+          : `${said_
+              .slice(P.zero, -P.one)
+              .map((row) => row.text)
+              .join(", ")} and ${said_.at(-P.one)!.text}`;
+      facts["already-filed"] = {
+        text: String(said_.length),
+        sourceRecordIds: cited,
+      };
+      facts.rivals = { text: list, sourceRecordIds: cited };
+      facts.opponent = {
+        text: said_[P.zero]!.name,
+        sourceRecordIds: [moment.causeId, said_[P.zero]!.row.id],
+      };
+      if (
+        incumbent &&
+        said_.some((row) => row.row.personId === incumbent.personId)
+      )
+        facts["rival-incumbent"] = {
+          text: "yes",
+          sourceRecordIds: [moment.causeId, incumbent.id],
+        };
+    }
   }
   // What the relative has at stake in the run or the lost race, from the
   // household's and the campaign's records (the cast rule chose them for it):

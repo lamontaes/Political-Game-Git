@@ -417,6 +417,21 @@
       "everyParameter": "directorCircumstanceStreetEveryDays"
     },
     {
+      "id": "rival-known-late",
+      "recordKinds": ["candidate-filed"],
+      "playerNamed": true,
+      "afterDays": 1,
+      "place": "home",
+      "pool": ["own-household"],
+      "where": "pool",
+      "player": "filed-late",
+      "cast": "the day after the player files in a race others filed for first, someone who lives with them, telling who is already on the ballot; scored on tie and sociability",
+      "typeKey": "rival-filed",
+      "outcome": "scene.reply",
+      "impactParameter": "directorCircumstanceRaceImpact",
+      "everyParameter": "directorCircumstanceStreetEveryDays"
+    },
+    {
       "id": "race-result-known",
       "recordKinds": ["election-result"],
       "afterDays": 1,
