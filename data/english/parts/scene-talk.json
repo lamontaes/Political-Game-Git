@@ -62603,7 +62603,7 @@
       "key": "scene-talk.reply-agree.deal-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Deal. Yes.",
+      "text": "Then you have a deal.",
       "uses": [
         {
           "subject": "scene",
@@ -94596,7 +94596,7 @@
       "key": "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "You filed, and we have {cushion} saved. Nobody asked me what the next {remaining} would cost.",
+      "text": "You filed, and nobody asked me first. Can we even afford this?",
       "uses": [
         {
           "subject": "scene",
@@ -94621,7 +94621,7 @@
       "key": "scene-talk.state-ask.say-it-plainly-savings-for-cushion-a-race-of-remaining-where-does-the-money-come",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Say it plainly: savings for {cushion}, a race of {remaining}. Where does the money come from?",
+      "text": "Say it plainly. Where does the money come from?",
       "uses": [
         {
           "subject": "scene",
@@ -94646,7 +94646,7 @@
       "key": "scene-talk.state-ask.i-m-with-you-i-only-need-to-know-how-we-get-through-remaining-on-savings-that-la",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "I'm with you. I only need to know how we get through {remaining} on savings that last {cushion}.",
+      "text": "I'm with you. I just need to know we can afford this.",
       "uses": [
         {
           "subject": "scene",
