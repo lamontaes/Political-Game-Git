@@ -13,10 +13,11 @@ source: "collapsed Oct 19, 2026 from people-stopgap-health-estimated-behavior, p
 claimed-at:
 standard: 2
 model: opus
-effort: high
+effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind health severity and resilience. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Both rows are calibrations to run, not figures to look up. SG-P10-resilience-scale asks for the base death-rate scale and the chronic-condition weights fitted together and checked against the SSA life table across many places and ages; resilienceBaseRateScale is already 0.087, measured over sixteen drawn towns (seeds sr1 to sr16) with scripts/health/mortality-band.ts, and the condition weights are not refit. SG-P10-event-severity asks for the event impulses checked against published bereavement and illness affect trajectories (the Bonanno 2002 band is in data/research/health/bereavement-trajectories-bonanno-2002.json). The Holmes-Rahe conversion still needs an instrument-matched source.

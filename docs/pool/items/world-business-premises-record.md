@@ -14,9 +14,10 @@ blocked-on:
 milestone:
 lead: jobs
 model: opus
-effort: high
+effort: medium
 root: none
 source: Split from world-stopgap-employer-taxes-missing-engine and world-stopgap-finance-state-business-closure by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** A business's books record cash, sales, costs and wages but no building and no equipment, so the property-tax engine, which bills homes only, has nothing to bill a business for, and a closing business has nothing to sell. Add a premises record to each business in the business module: floor space from the EIA CBECS median floor space per worker for its kind of building activity, an assessed value from the place's commercial value per square foot (estimated from the state's taxable commercial property per the Census of Governments, with its spread), whether the business owns the premises or leases them from a landlord, and an equipment value from the IRS depreciable-assets share of receipts for its industry. Premises owned by the business are taxed at the property-tax rate in force; leased premises are taxed to the landlord and reach the business through rent. The cost shares in business-books already include rent and taxes, so the tax paid or the rent must come out of the same operating cost, not on top of it.

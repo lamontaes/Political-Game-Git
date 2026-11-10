@@ -16,13 +16,14 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of wire-law-links-to-people. The loan-rate cap acts after a 12-month lag that the web does not yet carry to a lender's rate, and family 10 of the effects plan needs its researched sizes added to the link table.
 
-**Cause.** Found in code: docs/reports/effects-web-plan-2026-10-29.md names the two loan caps (the lenders helper) and family 10, the research PR that adds sizes for eviction care, broadband, transit, birth-year air, heat, air-conditioning use and carbon monoxide; links live in data/research/outcome-web/links.json (`links.json`).
+**Cause.** Found in code: in data/research/outcome-web/links.json the two loan-cap links, loan-rate-cap-to-high-cost-borrowing and federal-loan-cap-to-high-cost-loans, both carry status built with lagMonths 12, so that half is on main. Seven links of family 10 in docs/reports/effects-web-plan-2026-10-29.md (the research family: eviction care, broadband, transit, heat, air-conditioning use and carbon monoxide) still carry status size-not-set: eviction-to-homelessness, eviction-to-hospital-visits, broadband-to-employment, transit-loss-to-unemployment, heat-to-deaths, energy-price-to-ac-use and carbon-monoxide-to-absence. The family's eighth, birth-year-pollution-to-adult-earnings, is graded person-level and is not this item's.
 
-**Fix.** Wire the loan-rate cap past its 12-month lag in a place that has a lender, and add family 10's researched sizes (fetched and quoted, SOURCED or ESTIMATED with spread) to links.json.
+**Fix.** Research a size for each of the seven links (pages fetched and quoted, SOURCED or ESTIMATED with a range, following .agents/skills/researcher/SKILL.md) and add it to the link's row in links.json; a link the research finds no effect for is graded about zero with the quote. Do not rebuild the loan cap: the Done when below has a second session look at it, and if that look fails, write what was seen as a new item.
 
 **Time box.** 6 hours for one Sonnet session.
 

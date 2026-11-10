@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the legislature and executive proposals. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/gov/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The Oct 24 slice delivered three per-place research tables with their check script and played-year script: who seats each chamber's committees (108 chambers), the enacting clause and numbering for town and county ordinances (56 places), and how a mayor or county executive brings a bill (56 places). All three stopgaps stay open because no engine reads the tables yet (builder items gov-leadership-committee-appointer-by-chamber, gov-legislature-local-rules-by-place and words-local-enacting-clause-by-state) and 81 chambers and most place rows are still ESTIMATED. The merger sent the earlier pull request back because local-ordinance-style-2026.json applies a city-only clause to Nebraska villages although statute 17-613 requires the chairperson or board-of-trustees alternative.

@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the opening's firm cash and owner funding. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The tail span (openingEmployerCashBufferTailSpan, ESTIMATED at 2.7, spread 2.6 to 2.85) was delivered, and the thirteen openingEmployerCashBufferDays rows already cite JPMorgan Chase Institute, Cash Is King (Sept 2016), Figures 5 to 7. Two rows remain: a measured employer cash distribution by industry on a payroll-and-cost basis (or recorded firm opening balances), and funding for public and nonbusiness owners, which is a mechanic waiting on world-corporate-office-staff-never-paid, world-public-employer-staff-never-paid and world-town-public-works-staff-never-paid. The Census 2022 'Cash and security holdings' line is pension and trust assets and must not seed an opening balance.

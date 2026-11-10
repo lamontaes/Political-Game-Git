@@ -16,6 +16,7 @@ lead: director
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** A confirmer replay of the unit for #7165 on main d6f72cf7c9 shows npx vitest run src/director/one-sponsor-one-evening-staged.test.ts failing "a sponsor's two asks on one evening, written by the engine, play in one stop and reach their roll calls (seed 8a51dac2a079525e)" with "no town body of three held seats" in As Rabagau, Northern Mariana Islands (territory:MP:as-rabagau), Alpine, Colorado (0801640) and the rest of its draws. On main 7898b3ea2c the same file passed on its own draw. The test gives up when every drawn place has only a small body, so the fix is in the search.
