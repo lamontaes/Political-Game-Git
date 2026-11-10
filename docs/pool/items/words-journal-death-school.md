@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/journal-death-school
-pr: pending
+pr: 8141
 blocked-on:
 lead: words
 source: words-journal-stories-life, whose death and school stories no played year produced
