@@ -5044,6 +5044,201 @@
         }
       ]
     },
+    "visited-ill-ask": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-yes-to-the-visitor",
+          "label": "You said yes to what your visitor offered",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "turned-the-visitor-down",
+          "label": "You turned down what your visitor offered, and it showed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "visited-ill-left-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "visited-held-ask": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-yes-to-the-visitor-inside",
+          "label": "You said yes to what your visitor offered, from inside",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "turned-the-visitor-down-inside",
+          "label": "You turned down what your visitor offered, and it showed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "visited-held-left-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "visit-ill-ask": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-yes-at-the-bedside",
+          "label": "You said yes to what they asked at the visit",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "turned-down-at-the-bedside",
+          "label": "You turned down what they asked, and it showed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "visit-ill-left-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "news-ask": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-yes-after-the-news",
+          "label": "You said yes to what they asked after the news",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "turned-down-after-the-news",
+          "label": "You turned them down after the news, and it showed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "news-ask-left-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
+    "departure-ask": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["press", "accept"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-yes-before-you-go",
+          "label": "You said yes before you went",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "turned-down-before-you-go",
+          "label": "You turned them down before you went, and they took it hard",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "departure-ask-left-open",
+          "label": "Left it open",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "rescue-ask": {
       "state": "request",
       "replies": ["agree", "promise", "ask", "decline"],

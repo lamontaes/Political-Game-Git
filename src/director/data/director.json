@@ -1349,6 +1349,11 @@
       "impactParameter": "directorJailTermImpact"
     },
     {
+      "eventKind": "justice.held-before-trial",
+      "channel": "feeling",
+      "impactParameter": "directorJailTermImpact"
+    },
+    {
       "eventKind": "justice.released",
       "channel": "feeling",
       "impactParameter": "directorReleasedImpact"

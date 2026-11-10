@@ -86,6 +86,8 @@ import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
+import { newsFacts } from "./news-facts";
+import { illnessFacts } from "./illness-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -656,8 +658,23 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // News a household member brings (a death, a pairing, a parting): who it
+    // is about, the other person, and whether the bearer lived with them.
+    // stopgapId: SG-WORDS-news-ask-unrecorded
+    ...newsFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      cast("about"),
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
+    // A visit to someone seriously ill (`health.serious-illness`): how long,
+    // who is at home and who else could be called. stopgapId:
+    // SG-WORDS-visit-ill-ask-unrecorded
+    ...illnessFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
     ...birthFacts(
       core,
       binding.typeKey,
