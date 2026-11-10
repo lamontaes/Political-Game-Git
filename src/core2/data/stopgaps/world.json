@@ -981,5 +981,41 @@
     "addedAt": "2026-11-04",
     "replacement": "Replace the sampled state and local proxies in treasury-opening-cash.json with available operating cash by government/type/place and a measured spread, preserving separate restricted funds. The existing budget and transfer engines must remain the readers. Complete world-government-opening-fund-balance with named payments, fixture removal, New Game and relative timing.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-arrived-housed-record-shares-one-unit-row",
+    "kind": "partial-model",
+    "file": "src/core2/housing-occupancy.ts",
+    "line": 1007,
+    "whatItFakes": "A record of arrived households that are housed holds one occupancy row and one dwelling row whatever its weight; the units its other households take are taken from the place's vacant-rental count, not unit by unit, at the mean rent its households pay (one housed record per template and landlord), and the set-aside law is applied only to the first.",
+    "why": "The occupancy and dwelling tables are keyed by household record and a unit; making them hold many units a record is the housing engine's own change.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Each unit carries its own rent: the occupancy table holds a count of units per record and a rent per unit, so the record's rent is no longer a mean, and the housed record's rent flow reads them (pool item for weight-true housing).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-arrived-households-average-their-workers",
+    "kind": "partial-model",
+    "file": "src/core2/modules/residents.ts",
+    "line": 3277,
+    "whatItFakes": "When households of an arrived record that waits for a home are housed, they join the housed record at the average of their out-of-town workers per household, so the member who found regional work stays on the waiting record while the housed record carries its share as a fraction.",
+    "why": "A record counts workers per household, not which member works; the jobs engine's per-member rows are not split between two records.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "The jobs engine keeps regional work per counted member and a move between records carries the member's row.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-arrived-housed-record-copies-people",
+    "kind": "partial-model",
+    "file": "src/core2/modules/residents.ts",
+    "line": 3238,
+    "whatItFakes": "The housed record of arrived households is a copy of the waiting record's counted people with new ids: the households it stands for share one sample of people, as every counted record does.",
+    "why": "Households that arrive like one template are the same shape; the wider population is counts until a person is met and filled in.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "None needed beyond the two-level population; a person met is filled in from the record they belong to.",
+    "status": "open"
   }
 ]

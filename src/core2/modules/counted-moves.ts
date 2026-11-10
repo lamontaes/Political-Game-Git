@@ -36,8 +36,12 @@ import {
   admitCountedHousehold,
   countedParameter,
   departCountedHousehold,
+  growCountedHousehold,
+  pruneArrived,
   householdIncome,
   residentsRuntime,
+  setArrivedUnplaced,
+  shrinkCountedHousehold,
   townPlaceOf,
   type ResidentsRuntime,
 } from "./residents";
@@ -71,6 +75,32 @@ function returnedMembersOf(
     if (person?.alive && isDemoted(person)) out.push(person);
   }
   return out;
+}
+
+/** A housed household moved away: its rental home is vacant again. */
+function returnRentalUnit(api: CoreAPI, placeId: string, units: number): void {
+  if (!(units > 0)) return;
+  const stock = api.moduleState("housing").table("stock");
+  const row = stock.get(`stock:${placeId}`) as
+    { rentalUnits: number; vacantRental: number } | undefined;
+  if (row)
+    stock.put({
+      ...row,
+      vacantRental: Math.min(row.rentalUnits, row.vacantRental + units),
+    } as unknown as ModuleRow);
+}
+
+/**
+ * The households a record sends in one move: an opening record leaves whole,
+ * as it always did; a record of arrived households leaves in lumps of the
+ * template's size, the size the households that built it arrived in.
+ */
+function leavingLump(residents: ResidentsRuntime, h: CountedHousehold): number {
+  const weight = residents.store.weightOf(h);
+  const root = residents.arrived.root.get(h.id);
+  const lump =
+    root === undefined ? undefined : residents.arrived.homes.get(root)?.lump;
+  return lump === undefined ? weight : Math.min(weight, lump);
 }
 
 const TABLE = "moves";
@@ -951,6 +981,8 @@ function month(api: CoreAPI): void {
     byPlace.set(first.placeId, list);
   }
   const orders = new Map<number, CountedHousehold[]>();
+  const reasonsHeld = new Map<string, Record<string, number>>();
+  let leftThisMonth = 0;
   let hashes = orderHashes.get(core);
   if (!hashes || hashes.seed !== core.seed) {
     hashes = { seed: core.seed, byId: new Map() };
@@ -994,9 +1026,13 @@ function month(api: CoreAPI): void {
       }
       if (g === undefined) break;
       const next = orderOf(g)[0]!;
-      const size = store.weightedCount(next);
+      // One household of the record leaves; the record leaves the order only
+      // with its last.
+      const lump = leavingLump(residents, next);
+      const size = store.countedCount(next) * lump;
       if (placeDue < size / 2) break;
-      orderOf(g).shift();
+      const whole = lump >= store.weightOf(next);
+      if (whole) orderOf(g).shift();
       const group = store.groups[g]!;
       const dests = dues.get(g)!.rows;
       const home = homeOf(next.placeId);
@@ -1025,49 +1061,63 @@ function month(api: CoreAPI): void {
       dues.set(g, dueOf(g));
       const ages = agesOf(residents, next, date);
       const bands = ages.map((age) => coarseIndex(age, adultAge));
-      const weight = store.weightOf(next);
       // What weighed toward its going, read before it leaves the counts: its
       // age's rate and the web against what held it, and toward another
       // state its pull (within the state taxes and prices are the same).
-      const head = headOf(residents, next, date, adultAge, ages);
-      const leaving = leavingOf(next, home, ages);
-      const pulled = groupPulls.get(g);
-      // A household with adults weighed its own adults' rate. One of minors
-      // alone was never weighed: its group's movers came due and the group's
-      // order reached it, so what weighed is the group's yearly rate of
-      // leaving across the households it did weigh.
-      const reasons = {
-        ...causesOf(
-          leaving.rate,
-          // The web's links land on a household by its adults; none, none.
-          head.adults ? leaving.web : 1,
-          holdsOf(residents, next, date, adultAge, ages),
-          to === home
-            ? {}
-            : pullFor(
-                home,
-                to,
-                head.wages,
-                next.tenure === "rent" || next.tenure === "none",
-              ),
-          !head.adults && pulled?.people
-            ? (pulled.total * 12) / pulled.people
-            : undefined,
-        ),
-        ...(head.adults ? pushesOf(api, next) : {}),
-      };
-      const returned = returnedMembersOf(core, next);
-      departCountedHousehold(core, next.id);
-      returnedMembersLeave(api, returned, next.placeId, to);
+      // The same for every household of the record this month.
+      let reasons = reasonsHeld.get(next.id);
+      if (!reasons) {
+        const head = headOf(residents, next, date, adultAge, ages);
+        const leaving = leavingOf(next, home, ages);
+        const pulled = groupPulls.get(g);
+        // A household with adults weighed its own adults' rate. One of minors
+        // alone was never weighed: its group's movers came due and the group's
+        // order reached it, so what weighed is the group's yearly rate of
+        // leaving across the households it did weigh.
+        reasons = {
+          ...causesOf(
+            leaving.rate,
+            // The web's links land on a household by its adults; none, none.
+            head.adults ? leaving.web : 1,
+            holdsOf(residents, next, date, adultAge, ages),
+            to === home
+              ? {}
+              : pullFor(
+                  home,
+                  to,
+                  head.wages,
+                  next.tenure === "rent" || next.tenure === "none",
+                ),
+            !head.adults && pulled?.people
+              ? (pulled.total * 12) / pulled.people
+              : undefined,
+          ),
+          ...(head.adults ? pushesOf(api, next) : {}),
+        };
+        reasonsHeld.set(next.id, reasons);
+      }
+      const arrived = residents.arrived.root.has(next.id);
+      const housed = arrived && next.tenure === "rent";
+      const placeId = next.placeId;
+      if (whole) {
+        const returned = returnedMembersOf(core, next);
+        shrinkCountedHousehold(core, next.id, lump);
+        returnedMembersLeave(api, returned, placeId, to);
+        // Housing gives the last home back when it sees the lease end.
+        if (housed) returnRentalUnit(api, placeId, lump - 1);
+      } else {
+        shrinkCountedHousehold(core, next.id, lump);
+        if (housed) returnRentalUnit(api, placeId, lump);
+      }
       const dest = rt.states.get(to)!;
-      for (const b of bands) dest.people[b] = dest.people[b]! + weight;
+      for (const b of bands) dest.people[b] = dest.people[b]! + lump;
       record(api, {
-        id: `move:out:${next.id}:${date}`,
+        id: `move:out:${next.id}:${date}:${leftThisMonth++}`,
         date,
         direction: "out",
         householdId: next.id,
         groupId: group.id,
-        fromPlace: next.placeId,
+        fromPlace: placeId,
         toPlace: to === home ? `${to}:rest-of-state` : to,
         people: size,
         reasons,
@@ -1313,6 +1363,7 @@ function arrivals(
   const date = api.state.date;
   const adultAge = api.parameter("votingAge");
   const templates = new Map<PlaceId, Map<number, CountedHousehold[]>>();
+  pruneArrived(core);
   for (const h of store.liveHouseholds()) {
     // A newcomer copying a room would join group quarters, and institutions
     // admit nobody yet: their rooms only empty as residents die or are met.
@@ -1320,6 +1371,9 @@ function arrivals(
     if (h.tenure === "group") continue;
     // A household without a home is no shape a newcomer arrives in.
     if (h.tenure === "none") continue;
+    // A record of arrived households is a count of copies of a template, no
+    // shape of its own.
+    if (residents.arrived.root.has(h.id)) continue;
     const members = store.countedMembers(h);
     if (!members.length) continue;
     let head = 0;
@@ -1368,26 +1422,39 @@ function arrivals(
         byBand.get(2) ??
         [...byBand.entries()].sort((x, y) => x[0] - y[0])[0]![1];
       const template = shapes[unit("arrival") % shapes.length]!;
+      // As many people as the template stands for, as ever: they join the
+      // record of households that arrived like it, as its households.
       const size = store.weightedCount(template);
       if (left < size) break;
       left -= size;
-      // They settle where the household they resemble lives.
+      // They settle where the household they resemble lives, in the record
+      // of households that arrived like it and wait for a home.
       const placeId = template.placeId;
-      const record = newcomers(api, rt, residents, template, origin!, source);
-      // A newcomer household stands for as many as the one it resembles.
-      admitCountedHousehold(core, record, store.weightOf(template));
-      const h = store.households[store.householdOf.get(record.household.id)!]!;
-      // Working-age newcomers share the place's unplaced workers at its rate.
-      h.unplacedWorkers = jobShare(residents, h, rates, date);
+      const homes = residents.arrived.homes.get(template.id) ?? {};
+      let h = store.liveHousehold(homes.waiting ?? "");
+      if (h) growCountedHousehold(core, h.id, store.weightOf(template));
+      else {
+        const record = newcomers(api, rt, residents, template, origin!, source);
+        admitCountedHousehold(core, record, store.weightOf(template));
+        h = store.liveHousehold(record.household.id)!;
+        residents.arrived.root.set(h.id, template.id);
+        residents.arrived.homes.set(template.id, {
+          ...homes,
+          waiting: h.id,
+          lump: homes.lump ?? store.weightOf(template),
+        });
+        // Working-age newcomers share the place's unplaced workers at its rate.
+        setArrivedUnplaced(core, h.id, jobShare(residents, h, rates, date));
+      }
       rt.serial++;
       api
         .moduleState(COUNTED_MOVES_MODULE_ID)
         .table(TABLE)
         .put({
-          id: `move:in:${record.household.id}:${date}`,
+          id: `move:in:${h.id}:${date}:${rt.serial}`,
           date,
           direction: "in",
-          householdId: record.household.id,
+          householdId: h.id,
           groupId: store.groups[h.group]!.id,
           fromPlace:
             origin === rt.townState ? `${origin}:rest-of-state` : origin!,

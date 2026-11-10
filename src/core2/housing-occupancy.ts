@@ -11,6 +11,7 @@ import construction from "./data/housing/construction.json" with { type: "json" 
 import type { ProjectRow, StockRow } from "./housing-construction";
 import {
   householdIncome,
+  moveArrivedHouseholds,
   regroupHousehold,
   residentsRuntime,
 } from "./modules/residents";
@@ -177,9 +178,14 @@ export function releaseVacatedRentals(api: CoreAPI): void {
     const stock = table(api, "stock").get(
       `stock:${project.placeId}`,
     ) as unknown as StockRow;
+    // A record of arrived households held a unit for each household.
+    const units =
+      counted && rt?.arrived.root.has(counted.id)
+        ? rt.store.weightOf(counted)
+        : 1;
     table(api, "stock").put({
       ...stock,
-      vacantRental: Math.min(stock.rentalUnits, stock.vacantRental + 1),
+      vacantRental: Math.min(stock.rentalUnits, stock.vacantRental + units),
     });
   }
 }
@@ -895,6 +901,8 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
     income: number;
     cash: number;
     counted: boolean;
+    /** Households of an arrived record waiting for a home (more than one is taken together). */
+    waiting?: number;
   }[] = [];
   const contracted = new Set<string>();
   const retirement = new Map<string, number>();
@@ -971,6 +979,9 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
         income: householdIncome(rt, house) / months,
         cash,
         counted: true,
+        ...(rt.arrived.root.has(house.id) && rt.store.weightOf(house) > 1
+          ? { waiting: rt.store.weightOf(house) }
+          : {}),
       });
     }
   // Lowest incomes reach set-aside homes first; equal circumstances use stable IDs.
@@ -991,11 +1002,69 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
         "A completed vacant unit, recorded household income and cash, and the landlord income qualification.",
     };
     const dueAt = makeIsoDate(nextDue(c.date));
+    let homeId = house.id;
+    let households = 1;
+    // stopgapId: SG-WORLD-arrived-housed-record-shares-one-unit-row
+    if (house.waiting) {
+      // As many households as the place has vacant rentals; a set-aside unit
+      // houses one at a time.
+      const vacant = Number(
+        (
+          table(api, "stock").get(
+            `stock:${house.placeId}`,
+          ) as unknown as StockRow
+        ).vacantRental,
+      );
+      households = offer.affordable
+        ? Math.min(1, house.waiting)
+        : Math.min(house.waiting, vacant);
+      const homes = rt!.arrived.homes.get(rt!.arrived.root.get(house.id)!);
+      const kept = rt!.store.liveHousehold(
+        homes?.housed?.[offer.project.payerId] ?? "",
+      );
+      const keptFlow = kept ? rt!.flows.get(`rent:${kept.id}`) : undefined;
+      if (kept && keptFlow && !keptFlow.endedAt && kept.tenure === "rent") {
+        // This landlord's housed record takes them at the record's rent, the
+        // mean of what its households pay.
+        const was = rt!.store.weightOf(kept);
+        moveArrivedHouseholds(
+          c,
+          house.id,
+          households,
+          offer.project.payerId,
+          kept.id,
+        );
+        keptFlow.amountMinor = Math.round(
+          (keptFlow.amountMinor * was + offer.rentMinor * households) /
+            (was + households),
+        );
+        const dwelling = table(api, "dwellings").get(`dwelling:${kept.id}`);
+        if (dwelling)
+          table(api, "dwellings").put({
+            ...dwelling,
+            rentMinor: keptFlow.amountMinor,
+          });
+        const stock = table(api, "stock").get(
+          `stock:${house.placeId}`,
+        ) as unknown as StockRow;
+        table(api, "stock").put({
+          ...stock,
+          vacantRental: Math.max(0, stock.vacantRental - Math.ceil(households)),
+        });
+        continue;
+      }
+      homeId = moveArrivedHouseholds(
+        c,
+        house.id,
+        households,
+        offer.project.payerId,
+      );
+    }
     const leaseId = house.counted
-      ? `rent:${house.id}`
+      ? `rent:${homeId}`
       : `lease:${house.id}:${c.date}`;
     if (house.counted) {
-      const h = rt!.store.liveHousehold(house.id)!;
+      const h = rt!.store.liveHousehold(homeId)!;
       if (
         !openCountedRent(api, h, offer.project.payerId, offer.rentMinor, source)
       )
@@ -1014,8 +1083,21 @@ export function houseUnassignedHouseholds(api: CoreAPI): void {
         source,
       });
     }
-    occupyRehousedRental(api, offer, house.id, leaseId);
-    const moveId = `housing-move:${house.id}:${c.date}`;
+    occupyRehousedRental(api, offer, homeId, leaseId);
+    if (Math.ceil(households) > 1) {
+      // The first unit is taken above; the rest of the households take theirs.
+      const stock = table(api, "stock").get(
+        `stock:${house.placeId}`,
+      ) as unknown as StockRow;
+      table(api, "stock").put({
+        ...stock,
+        vacantRental: Math.max(
+          0,
+          stock.vacantRental - (Math.ceil(households) - 1),
+        ),
+      });
+    }
+    const moveId = `housing-move:${homeId}:${c.date}`;
     table(api, "moves").put({
       ...table(api, "moves").get(moveId)!,
       monthlyIncomeMinor: house.income,

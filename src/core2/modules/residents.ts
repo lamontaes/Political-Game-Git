@@ -5,6 +5,7 @@
  */
 import { registerCountedPersonSource } from "../counted-actor";
 import { addDays, makeIsoDate } from "../kernel/dates";
+import { createStableId } from "../kernel/ids";
 import {
   advanceCadence,
   nextMonthDay,
@@ -226,6 +227,20 @@ export interface ResidentsRuntime {
   >;
   /** Households released to full people so far: each release names its own transfers, since a household can return to the counts and be filled in again. */
   fillIns: number;
+  /**
+   * Households that moved in, kept as counts (a move changes a weight, not
+   * the number of records): per template household the shape they copy, the
+   * record of arrived households waiting for a home and the record of arrived
+   * households that are housed; and each such record's template.
+   */
+  arrived: {
+    homes: Map<
+      string,
+      { waiting?: string; housed?: Record<string, string>; lump?: number }
+    >;
+    root: Map<string, string>;
+    serial: number;
+  };
 }
 
 interface ResidentMonth {
@@ -757,6 +772,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     moneyCache: { serial: 0 },
     fillInCash: new Map(),
     fillIns: 0,
+    arrived: { homes: new Map(), root: new Map(), serial: 0 },
   };
   const owners = packOpening(core, rt, input);
   for (const row of input.flows) {
@@ -3040,6 +3056,259 @@ export function departCountedHousehold(
     accountId: groupAccountOf(rt, placeId),
     placeId,
   };
+}
+
+/** Yearly periods of a pool flow, for turning a year's pay into one period's. */
+function periodsPerYear(flow: FlowState): number {
+  return flow.cadence.kind === "days"
+    ? DAYS_PER_YEAR / flow.cadence.every
+    : 12 / flow.cadence.every;
+}
+
+/**
+ * The place's unplaced workers' pay follows a record's out-of-town workers
+ * when its households change by `households` (negative when they leave):
+ * its workers per household times the households, each at the pool's pay.
+ */
+function shiftUnplacedPay(
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  households: number,
+): void {
+  if (!(h.unplacedWorkers > 0) || households === 0) return;
+  const base = unplacedFlowOf(rt, h.placeId, !!h.quarters);
+  const perWorker = unplacedPayPerWorkerBase(rt, h);
+  if (!base || !(perWorker > 0)) return;
+  base.amountMinor = Math.max(
+    0,
+    base.amountMinor +
+      Math.round(
+        (households * h.unplacedWorkers * perWorker) / periodsPerYear(base),
+      ),
+  );
+}
+
+/** An arrived record is gone (or no longer waiting): its template forgets it. */
+function forgetArrived(
+  rt: ResidentsRuntime,
+  id: string,
+  only?: "waiting",
+): void {
+  const root = rt.arrived.root.get(id);
+  if (root === undefined) return;
+  const homes = rt.arrived.homes.get(root);
+  if (homes?.waiting === id) delete homes.waiting;
+  if (only) return;
+  rt.arrived.root.delete(id);
+  if (homes?.housed)
+    for (const [landlord, held] of Object.entries(homes.housed))
+      if (held === id) delete homes.housed[landlord];
+  if (homes && !homes.waiting && !Object.keys(homes.housed ?? {}).length)
+    rt.arrived.homes.delete(root);
+}
+
+/** Arrived records that left the counts some other way (filled in, evicted away) are forgotten. */
+export function pruneArrived(core: CoreState): void {
+  const rt = runtimes.get(core);
+  if (!rt) return;
+  for (const id of [...rt.arrived.root.keys()])
+    if (!rt.store.liveHousehold(id)) forgetArrived(rt, id);
+}
+
+/** A newcomer record's out-of-town workers are set: the place's pool pays them. */
+export function setArrivedUnplaced(
+  core: CoreState,
+  householdId: string,
+  workersPerHousehold: number,
+): void {
+  const rt = runtimes.get(core);
+  const h = rt?.store.liveHousehold(householdId);
+  if (!rt || !h) return;
+  h.unplacedWorkers = workersPerHousehold;
+  shiftUnplacedPay(rt, h, rt.store.weightOf(h));
+}
+
+function liveCounted(
+  core: CoreState,
+  householdId: string,
+): { rt: ResidentsRuntime; h: CountedHousehold } {
+  const rt = runtimes.get(core);
+  const h = rt?.store.liveHousehold(householdId);
+  if (!rt || !h) throw new Error(`Not a counted household: ${householdId}`);
+  return { rt, h };
+}
+
+/** Money moved between a group's fund and the place's outside account for households that arrive or leave. */
+function moveArrivalCash(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  h: CountedHousehold,
+  cash: number,
+  reasonKey: string,
+): void {
+  const outsideOwner = outsideMarketOf(core, rt, h.placeId);
+  if (!(cash > 0) || !rt.api || !rt.funded || !outsideOwner) return;
+  const outside = core.cashJournal.residualAccountByOwner.get(outsideOwner)!;
+  const fund = fundOf(rt.api, rt, h.group);
+  const arriving = reasonKey.endsWith("arrival.cash");
+  transferSplit(core, rt.api, {
+    id: `${reasonKey}:${h.id}:${core.date}:${rt.arrived.serial++}`,
+    lines: [
+      { accountId: outside, deltaMinor: arriving ? -cash : cash },
+      { accountId: fund, deltaMinor: arriving ? cash : -cash },
+    ],
+    reasonKey,
+    source: rt.input.source,
+  });
+}
+
+/**
+ * More households like a counted record move in: its weight rises by
+ * `households`. They bring their money from the place's outside account at
+ * their group's money per person, and the place's unplaced workers' pay rises
+ * by the record's out-of-town workers per household.
+ */
+export function growCountedHousehold(
+  core: CoreState,
+  householdId: string,
+  households: number,
+): void {
+  const { rt, h } = liveCounted(core, householdId);
+  if (!(households > 0)) return;
+  const cash = Math.floor(householdCash(rt, h) * households);
+  rt.store.changeWeight(h, households);
+  moveArrivalCash(core, rt, h, cash, "residents.counted-arrival.cash");
+  shiftUnplacedPay(rt, h, households);
+}
+
+/**
+ * Households of a counted record move away: its weight falls by `households`
+ * (the reverse of `growCountedHousehold`: their share of the group's money
+ * leaves to the outside account, their unplaced workers' pay leaves the pool's
+ * flow). A record with no households left leaves the counts. Returns the
+ * households still standing for.
+ */
+export function shrinkCountedHousehold(
+  core: CoreState,
+  householdId: string,
+  households: number,
+): number {
+  const { rt, h } = liveCounted(core, householdId);
+  const weight = rt.store.weightOf(h);
+  if (households >= weight) {
+    shiftUnplacedPay(rt, h, -weight);
+    departCountedHousehold(core, householdId);
+    forgetArrived(rt, householdId);
+    return 0;
+  }
+  if (!(households > 0)) return weight;
+  const cash = Math.floor(householdCash(rt, h) * households);
+  shiftUnplacedPay(rt, h, -households);
+  const left = rt.store.changeWeight(h, -households);
+  moveArrivalCash(core, rt, h, cash, "residents.counted-departure.cash");
+  return left;
+}
+
+/**
+ * `households` of an arrived record (one waiting for a home) become a record
+ * of arrived households that are housed: the one `toId` names, or a new one
+ * shaped like it. Their people, their share of the group's money and their
+ * unplaced workers go with them, so the place's counts do not change.
+ * Returns the receiving record's id.
+ */
+export function moveArrivedHouseholds(
+  core: CoreState,
+  fromId: string,
+  households: number,
+  landlord: string,
+  toId?: string,
+): string {
+  const { rt, h: from } = liveCounted(core, fromId);
+  const store = rt.store;
+  const root = rt.arrived.root.get(fromId) ?? fromId;
+  const n = Math.min(store.weightOf(from), households);
+  if (!(n > 0)) throw new Error(`No households to move from ${fromId}`);
+  const people = store.countedCount(from) * n;
+  const peopleBefore = peopleInGroup(rt, from.group);
+  let to = store.liveHousehold(toId ?? "");
+  // All of a waiting record, and no record of housed ones yet: it is the
+  // housed record itself.
+  if (!to && n === store.weightOf(from)) {
+    rt.arrived.homes.set(root, {
+      ...rt.arrived.homes.get(root),
+      housed: { ...rt.arrived.homes.get(root)?.housed, [landlord]: from.id },
+    });
+    forgetArrived(rt, from.id, "waiting");
+    return from.id;
+  }
+  if (!to) {
+    const serial = rt.arrived.serial++;
+    const householdId = createStableId(
+      "household",
+      `${core.seed}:arrived:${root}:housed:${serial}`,
+    );
+    const ids = new Map<string, string>();
+    const base = store.peopleOf(from);
+    for (const p of base)
+      ids.set(
+        p.id,
+        createStableId("person", `${core.seed}:arrived:${p.id}:${serial}`),
+      );
+    // stopgapId: SG-WORLD-arrived-housed-record-copies-people
+    const copies = base.map((p) => ({
+      ...p,
+      id: ids.get(p.id)! as PersonId,
+      householdId,
+      traits: { ...p.traits },
+      liquidMinor: 0,
+      familyIds: p.familyIds.map((id) => ids.get(id)! as PersonId),
+    }));
+    to = store.addHousehold(
+      {
+        household: {
+          id: householdId,
+          placeId: from.placeId,
+          memberIds: copies.map((p) => p.id),
+          source: from.source,
+        },
+        people: copies,
+        jobs: [],
+        workCommitments: [],
+        contracts: [],
+      },
+      {
+        tenure: "other",
+        unplacedWorkers: from.unplacedWorkers,
+        ...(n !== 1 ? { weight: n } : {}),
+      },
+    );
+    if (from.district !== undefined) to.district = from.district;
+    if (from.since !== undefined) to.since = from.since;
+    rt.arrived.root.set(to.id, root);
+    rt.arrived.homes.set(root, {
+      ...rt.arrived.homes.get(root),
+      housed: { ...rt.arrived.homes.get(root)?.housed, [landlord]: to.id },
+    });
+    regroupHousehold(rt, to, core.date);
+  } else {
+    // Their workers join the record's, per household.
+    const total = store.weightOf(to) + n;
+    // stopgapId: SG-WORLD-arrived-households-average-their-workers
+    to.unplacedWorkers =
+      (to.unplacedWorkers * store.weightOf(to) + from.unplacedWorkers * n) /
+      total;
+    store.changeWeight(to, n);
+  }
+  const left = store.changeWeight(from, -n);
+  if (rt.api && to.group !== from.group)
+    moveShare(rt.api, rt, from.group, to.group, people, peopleBefore);
+  // Nothing left of the waiting record: it leaves the counts, its workers,
+  // money and people all with the housed record.
+  if (left <= 0) {
+    store.retire(from, MemberState.Moved);
+    forgetArrived(rt, from.id);
+  }
+  return to.id;
 }
 
 /** The place's account for buyers, sellers and movers outside the town. */
