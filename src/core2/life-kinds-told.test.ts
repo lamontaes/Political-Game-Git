@@ -7,7 +7,9 @@
  * occurred. The place and seed are in every message; replay with LIFE_SEED and LIFE_PLACE_KEY.
  */
 import { randomBytes } from "node:crypto";
-import { appendFileSync } from "node:fs";
+import { appendFileSync, readdirSync, readFileSync } from "node:fs";
+import { join } from "node:path";
+import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
@@ -44,7 +46,102 @@ const matches = (pattern: string, kind: string) =>
     ? kind.startsWith(pattern.slice(0, -1))
     : pattern === kind;
 
+/**
+ * Every record kind the engines' code emits about a person, read from the source: an object
+ * literal with a string `kind` (or a name of a string constant in the same file) and a `personIds`
+ * property, passed to a call whose callee is named `emit...`. The same every run.
+ */
+function emittedKinds(): Map<string, string[]> {
+  const found = new Map<string, string[]>();
+  const walk = (folder: string): string[] =>
+    readdirSync(folder, { withFileTypes: true }).flatMap((entry) =>
+      entry.isDirectory()
+        ? walk(join(folder, entry.name))
+        : entry.name.endsWith(".ts") &&
+            !entry.name.endsWith(".test.ts") &&
+            !entry.name.endsWith(".d.ts")
+          ? [join(folder, entry.name)]
+          : [],
+    );
+  for (const path of walk(join(process.cwd(), "src", "core2"))) {
+    const text = readFileSync(path, "utf8");
+    if (!text.includes("emit")) continue;
+    const file = ts.createSourceFile(path, text, ts.ScriptTarget.Latest, true);
+    const strings = new Map<string, string>();
+    const collect = (node: ts.Node) => {
+      if (
+        ts.isVariableDeclaration(node) &&
+        ts.isIdentifier(node.name) &&
+        node.initializer &&
+        ts.isStringLiteralLike(node.initializer)
+      )
+        strings.set(node.name.text, node.initializer.text);
+      ts.forEachChild(node, collect);
+    };
+    collect(file);
+    const visit = (node: ts.Node) => {
+      if (ts.isCallExpression(node)) {
+        const callee = node.expression;
+        const name = ts.isPropertyAccessExpression(callee)
+          ? callee.name.text
+          : ts.isIdentifier(callee)
+            ? callee.text
+            : "";
+        if (name.startsWith("emit"))
+          for (const arg of node.arguments) {
+            if (!ts.isObjectLiteralExpression(arg)) continue;
+            let kind: string | undefined;
+            let named = false;
+            for (const prop of arg.properties) {
+              if (
+                !ts.isPropertyAssignment(prop) &&
+                !ts.isShorthandPropertyAssignment(prop)
+              )
+                continue;
+              const key = prop.name.getText(file);
+              if (key === "personIds") named = true;
+              if (key === "kind") {
+                const value = ts.isPropertyAssignment(prop)
+                  ? prop.initializer
+                  : prop.name;
+                if (ts.isStringLiteralLike(value)) kind = value.text;
+                else if (ts.isIdentifier(value)) kind = strings.get(value.text);
+              }
+            }
+            if (kind && named) {
+              const at = file.getLineAndCharacterOfPosition(arg.getStart(file));
+              const where = `${path.slice(process.cwd().length + 1)}:${at.line + 1}`;
+              found.set(kind, [...(found.get(kind) ?? []), where]);
+            }
+          }
+      }
+      ts.forEachChild(node, visit);
+    };
+    visit(file);
+  }
+  return found;
+}
+
+const eventKindIsTold = (kind: string) =>
+  table.events.some((row) => row.record === kind) ||
+  NOT_TOLD.some((row) => row.from === "event" && matches(row.kind, kind));
+
 describe(`kinds about a person are told or have a reason, in ${placeKey}, seed ${seed}`, () => {
+  it("every kind the engines' code emits about a person is on a list or in notTold", () => {
+    const kinds = emittedKinds();
+    const missing = [...kinds.entries()]
+      .filter(([kind]) => !eventKindIsTold(kind))
+      .map(([kind, at]) => `${kind} (${at.join(", ")})`)
+      .sort();
+    note(
+      `life-kinds-told static: ${kinds.size} kinds emitted about a person in the code, ${missing.length} on no list`,
+    );
+    expect(
+      missing,
+      "kinds that name a person in the engines' code, on no list and not in notTold",
+    ).toEqual([]);
+  }, 120_000);
+
   it("every kind that names a full person is on a list or in notTold", () => {
     setBookkeeping(false);
     const world = buildBenchWorld(drawn.seed, gameStartDate(), {
@@ -81,6 +178,8 @@ describe(`kinds about a person are told or have a reason, in ${placeKey}, seed $
       history: (kind: string) => table.history.some((row) => row.kind === kind),
     };
     const rows: string[] = [];
+    const staticKinds = new Set(emittedKinds().keys());
+    const unseen: string[] = [];
     const missing: string[] = [];
     for (const from of ["event", "past", "history"] as const) {
       for (const [kind, count] of [...counts[from].entries()].sort()) {
@@ -103,9 +202,20 @@ describe(`kinds about a person are told or have a reason, in ${placeKey}, seed $
         rows.push(
           `${from.padEnd(7)} ${String(count).padStart(6)}  ${kind}  ${state}`,
         );
-        if (state === "UNDECIDED") missing.push(`${from} ${kind} x${count}`);
+        // An event kind the static scan sees is judged there; the drawn world fails only on a
+        // kind the scan cannot see (built from a variable) that is on no list.
+        if (
+          state === "UNDECIDED" &&
+          !(from === "event" && staticKinds.has(kind))
+        )
+          missing.push(`${from} ${kind} x${count}`);
+        if (from === "event" && !staticKinds.has(kind))
+          unseen.push(`${kind} x${count}`);
       }
     }
+    note(
+      `life-kinds-told: the static scan finds ${staticKinds.size} event kinds; this draw has ${counts.event.size}, ${unseen.length} the scan does not see: ${unseen.join(", ")}`,
+    );
     note(`life-kinds-told: ${where}; ${DAYS} days\n${rows.join("\n")}`);
     expect(
       missing,

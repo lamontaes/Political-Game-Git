@@ -305,24 +305,12 @@
     "id": "SG-PEOPLE-played-jobs-read-at-open",
     "kind": "faked-mechanic",
     "file": "src/core2/person-life.ts",
-    "line": 304,
+    "line": 316,
     "whatItFakes": "A job a person takes or leaves in play is not remembered when it happens: the life record reads it from the jobs engine's change rows (hire, quit, retired, closure) when a card opens, and maps each kind to a sentence by a hand-set table. A hire by an outside region (no employer to name) is not told, and a person back in the counts is told only from the rows their id keeps.",
     "why": "The brief for step 3 of the life record said to add no event and no record: the jobs table already holds the start, the employer and how the job ended, so a reader of it closes the gap without a second record of the same fact.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
     "replacement": "The jobs engine writes one hire or separation event that the people module remembers like any other row of the table, and the reader of the change rows is deleted.",
-    "status": "open"
-  },
-  {
-    "id": "SG-PEOPLE-pregnancy-told-undecided",
-    "kind": "owner-decision",
-    "file": "src/core2/data/life/remembered.json",
-    "line": 1,
-    "whatItFakes": "A pregnancy that is recorded or ends is on nobody's list: pregnancy-recorded and pregnancy-ended are named in notTold as undecided.",
-    "why": "Whether and how a pregnancy, and one that ends, is told on a card or in a journal is a design call on the player's own experience, not a research question; the birth that follows is told.",
-    "addedBy": "Fable",
-    "addedAt": "2026-11-10",
-    "replacement": "The owner's ruling on whether the life record tells a pregnancy and a loss of one; then a row in the table and a bank sentence.",
     "status": "open"
   }
 ]

@@ -1904,6 +1904,87 @@
       "author": "Fable, the life record gaps (life-record-gaps)",
       "date": "2026-11-10",
       "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.third",
+      "move": "story",
+      "text": "{who} lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.they",
+      "move": "story",
+      "text": "They lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.i",
+      "move": "story",
+      "text": "I lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.third",
+      "move": "story",
+      "text": "{who} got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.they",
+      "move": "story",
+      "text": "They got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.i",
+      "move": "story",
+      "text": "I got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.third",
+      "move": "story",
+      "text": "{who} won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.they",
+      "move": "story",
+      "text": "They won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.i",
+      "move": "story",
+      "text": "I won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
     }
   ]
 }

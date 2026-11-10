@@ -63,6 +63,8 @@ interface EventRow {
   readonly when?: { readonly fact: string; readonly is?: string };
   /** Facts the row adds to what the person keeps, as the table's own words for the event. */
   readonly set?: Readonly<Record<string, string>>;
+  /** Only the people this fact lists (a JSON list of person ids) remember it (those a primary put out). */
+  readonly inFact?: string;
   /** Every named person but the one this fact names remembers it (the others in a vote); nobody when the fact is empty. */
   readonly exceptFact?: string;
   /** A fact holding a JSON count by person, and the facts to keep from it: the rememberer's own count and the count of the person `exceptFact` names. */
@@ -160,6 +162,16 @@ function rememberers(
       for (const other of core.people.get(id)?.familyIds ?? [])
         if (!event.personIds.includes(other)) kin.add(other);
     return [...kin];
+  }
+  if (row.inFact) {
+    try {
+      const listed = JSON.parse(String(event.facts?.[row.inFact] ?? "[]"));
+      return Array.isArray(listed)
+        ? event.personIds.filter((id) => listed.includes(id))
+        : [];
+    } catch {
+      return [];
+    }
   }
   if (row.exceptFact) {
     const except = event.facts?.[row.exceptFact];

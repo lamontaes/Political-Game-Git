@@ -26,7 +26,9 @@
       "life": "work",
       "what": "job-started",
       "who": "named",
-      "when": { "fact": "how" },
+      "when": {
+        "fact": "how"
+      },
       "facts": ["how", "startedAt"]
     },
     {
@@ -34,9 +36,21 @@
       "life": "work",
       "what": "job-ended",
       "who": "named",
-      "when": { "fact": "end", "is": "retired" },
-      "set": { "ended": "retired" },
+      "when": {
+        "fact": "end",
+        "is": "retired"
+      },
+      "set": {
+        "ended": "retired"
+      },
       "facts": ["endedAt"]
+    },
+    {
+      "record": "pay-raised-to-minimum-wage",
+      "life": "work",
+      "what": "pay-raised",
+      "who": "named",
+      "facts": ["jobId", "fromMinor", "toMinor", "lawId"]
     },
     {
       "record": "person.moved-away",
@@ -161,6 +175,13 @@
       "facts": ["schoolId", "passed"]
     },
     {
+      "record": "school.honor",
+      "life": "school",
+      "what": "honor",
+      "who": "named",
+      "facts": ["honor", "tier", "school"]
+    },
+    {
       "record": "candidate-filed",
       "life": "politics",
       "what": "filed",
@@ -181,7 +202,19 @@
       "what": "lost",
       "who": "named",
       "exceptFact": "winnerId",
-      "counts": { "fact": "totals", "own": "votes", "other": "winnerVotes" },
+      "counts": {
+        "fact": "totals",
+        "own": "votes",
+        "other": "winnerVotes"
+      },
+      "facts": ["office", "contestId"]
+    },
+    {
+      "record": "primary-result",
+      "life": "politics",
+      "what": "lost-primary",
+      "who": "named",
+      "inFact": "outIds",
       "facts": ["office", "contestId"]
     },
     {
@@ -561,12 +594,12 @@
     {
       "kind": "pregnancy-recorded",
       "from": "event",
-      "reason": "undecided: whether and how a pregnancy is told is a design call on the player's experience (see the report)"
+      "reason": "owner's ruling, Oct 20, 2026 (OWNER-DECISIONS.md, unplanned pregnancies): nothing is shown beyond what the world already shows; the birth is told"
     },
     {
       "kind": "pregnancy-ended",
       "from": "event",
-      "reason": "undecided: whether and how a pregnancy that ends is told is a design call on the player's experience (see the report)"
+      "reason": "owner's ruling, Oct 20, 2026 (OWNER-DECISIONS.md, unplanned pregnancies): nothing is shown beyond what the world already shows; the birth is told"
     },
     {
       "kind": "birthplace",
@@ -647,6 +680,296 @@
       "kind": "person.birth",
       "from": "history",
       "reason": "the same birth as the birth-date fact, told once from there"
+    },
+    {
+      "kind": "corruption.bribe-refused",
+      "from": "event",
+      "reason": "an offer refused; the corruption record holds it, and what follows it (an accusation, a charge) is told"
+    },
+    {
+      "kind": "family.quarrel",
+      "from": "event",
+      "reason": "traffic on a tie between two people, not an event of a life"
+    },
+    {
+      "kind": "justice.bail-set",
+      "from": "event",
+      "reason": "a step in a case; the charge and the outcome are told"
+    },
+    {
+      "kind": "ballot-measure-result",
+      "from": "event",
+      "reason": "about a question on the ballot, not a person"
+    },
+    {
+      "kind": "bill-presented",
+      "from": "event",
+      "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
+      "kind": "budget-adopted",
+      "from": "event",
+      "reason": "a body's act; the budget record holds it"
+    },
+    {
+      "kind": "budget-hearing",
+      "from": "event",
+      "reason": "a body's act; the budget record holds it"
+    },
+    {
+      "kind": "budget-line-changed",
+      "from": "event",
+      "reason": "a body's act; the budget record holds it"
+    },
+    {
+      "kind": "budget-request",
+      "from": "event",
+      "reason": "an official's act in office; the budget record holds it"
+    },
+    {
+      "kind": "campaign-donor-meeting",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's record and the journal tell it"
+    },
+    {
+      "kind": "campaign-endorsed",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's record and the journal tell it"
+    },
+    {
+      "kind": "campaign-gift",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's record and the journal tell it"
+    },
+    {
+      "kind": "campaign-stepped-up",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's record and the journal tell it"
+    },
+    {
+      "kind": "carry-asked",
+      "from": "event",
+      "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
+      "kind": "civic.movement",
+      "from": "event",
+      "reason": "a civic act; the town's record of public action holds it"
+    },
+    {
+      "kind": "concession",
+      "from": "event",
+      "reason": "told in the race's own story; the result is on each candidate's list"
+    },
+    {
+      "kind": "corruption.bribe-offered",
+      "from": "event",
+      "reason": "an offer made; the corruption record holds it, and what follows it (an accusation, a charge) is told"
+    },
+    {
+      "kind": "corruption.bribe-pressed",
+      "from": "event",
+      "reason": "an offer pressed; the corruption record holds it, and what follows it (an accusation, a charge) is told"
+    },
+    {
+      "kind": "crime.told",
+      "from": "event",
+      "reason": "what a person was told of a crime, held in what they know, not in a life"
+    },
+    {
+      "kind": "debate",
+      "from": "event",
+      "reason": "a campaign event; the race's record and the journal tell it"
+    },
+    {
+      "kind": "debate-accepted",
+      "from": "event",
+      "reason": "a campaign event; the race's record and the journal tell it"
+    },
+    {
+      "kind": "debate-invited",
+      "from": "event",
+      "reason": "a campaign event; the race's record and the journal tell it"
+    },
+    {
+      "kind": "economy.board-appointment",
+      "from": "event",
+      "reason": "a national official's career, told on their own page"
+    },
+    {
+      "kind": "economy.state-jobs-report",
+      "from": "event",
+      "reason": "about the state's economy, not a person"
+    },
+    {
+      "kind": "emergency-declared",
+      "from": "event",
+      "reason": "an official's act in office; the executive record holds it"
+    },
+    {
+      "kind": "estate.accounting",
+      "from": "event",
+      "reason": "a court record of an estate; the death is told to the family"
+    },
+    {
+      "kind": "estate.settled",
+      "from": "event",
+      "reason": "the death is told to the family; what an heir received has no sentence yet"
+    },
+    {
+      "kind": "hazard.disaster",
+      "from": "event",
+      "reason": "about the place; a home damaged is told"
+    },
+    {
+      "kind": "housing.completed",
+      "from": "event",
+      "reason": "about a building, not a person"
+    },
+    {
+      "kind": "housing.homeless-count",
+      "from": "event",
+      "reason": "about the place, not a person"
+    },
+    {
+      "kind": "housing.rent-renewal",
+      "from": "event",
+      "reason": "a step on a lease; a move or an eviction is told"
+    },
+    {
+      "kind": "inauguration",
+      "from": "event",
+      "reason": "told when the seat is taken (took-office)"
+    },
+    {
+      "kind": "interview-accepted",
+      "from": "event",
+      "reason": "press traffic; the paper holds it"
+    },
+    {
+      "kind": "interview-invited",
+      "from": "event",
+      "reason": "press traffic; the paper holds it"
+    },
+    {
+      "kind": "interview-published",
+      "from": "event",
+      "reason": "press traffic; the paper holds it"
+    },
+    {
+      "kind": "item-veto",
+      "from": "event",
+      "reason": "an official's act in office; the executive record holds it"
+    },
+    {
+      "kind": "joint-address",
+      "from": "event",
+      "reason": "an official's act in office; the executive record holds it"
+    },
+    {
+      "kind": "law-took-effect",
+      "from": "event",
+      "reason": "about a law, not a person; what reached a paycheck is told"
+    },
+    {
+      "kind": "national.disaster",
+      "from": "event",
+      "reason": "about the place; a home damaged is told"
+    },
+    {
+      "kind": "office-act",
+      "from": "event",
+      "reason": "an official's act in office; the executive record holds it"
+    },
+    {
+      "kind": "official-appointed",
+      "from": "event",
+      "reason": "told when the seat is taken (took-office)"
+    },
+    {
+      "kind": "official-trip",
+      "from": "event",
+      "reason": "an official's act in office; the executive record holds it"
+    },
+    {
+      "kind": "party-asked",
+      "from": "event",
+      "reason": "a party's request; a filing that follows is told"
+    },
+    {
+      "kind": "petition-checked",
+      "from": "event",
+      "reason": "a step in a filing; the filing is told"
+    },
+    {
+      "kind": "public-staffing-changed",
+      "from": "event",
+      "reason": "about a government's staff, not a person; each job's end is told"
+    },
+    {
+      "kind": "recall-answer",
+      "from": "event",
+      "reason": "a step in a recall; the recall record holds it"
+    },
+    {
+      "kind": "recall-outcome",
+      "from": "event",
+      "reason": "names the organizer for the recall's record; no sentence for it yet"
+    },
+    {
+      "kind": "recall-petition",
+      "from": "event",
+      "reason": "a step in a recall; the recall record holds it"
+    },
+    {
+      "kind": "rival-filed",
+      "from": "event",
+      "reason": "told on the filing (candidate-filed) of each candidate"
+    },
+    {
+      "kind": "rival-word",
+      "from": "event",
+      "reason": "campaign traffic; the race's record and the journal tell it"
+    },
+    {
+      "kind": "scandal.reported",
+      "from": "event",
+      "reason": "a paper's story about the person; the corruption record holds it"
+    },
+    {
+      "kind": "succession",
+      "from": "event",
+      "reason": "told when the seat is taken (took-office)"
+    },
+    {
+      "kind": "successor-asked",
+      "from": "event",
+      "reason": "a party's request; a filing that follows is told"
+    },
+    {
+      "kind": "volunteer-offered",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's record holds it"
+    },
+    {
+      "kind": "volunteer-shift",
+      "from": "event",
+      "reason": "campaign traffic; the campaign's record holds it"
+    },
+    {
+      "kind": "vote-ahead",
+      "from": "event",
+      "reason": "a body's act on a bill; the legislature's record holds it"
+    },
+    {
+      "kind": "campaign-message",
+      "from": "event",
+      "reason": "campaign traffic; the race's record and the journal tell it"
+    },
+    {
+      "kind": "press.snubbed",
+      "from": "event",
+      "reason": "press traffic; the paper holds it"
     }
   ],
   "history": [

@@ -428,6 +428,8 @@ function lineOf(
         ? make("school.stage", { stage: facts.stage })
         : null;
     }
+    case "school/honor":
+      return make("school.honor", {});
     case "school/finished": {
       const school = orgName(facts.schoolId);
       return school && facts.passed !== "false"
@@ -528,6 +530,14 @@ function lineOf(
             office: inSentence(String(facts.office).replace(/-/g, " ")),
           })
         : null;
+    case "politics/lost-primary":
+      return facts.office
+        ? make("office.lost-primary", {
+            office: inSentence(String(facts.office).replace(/-/g, " ")),
+          })
+        : null;
+    case "work/pay-raised":
+      return make("work.raised", {});
     case "politics/took-office": {
       // The office a President held before is told under their name, not here.
       if (event.record === "career:prior-office") return null;
