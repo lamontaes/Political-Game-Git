@@ -209,7 +209,7 @@ export function governorRacesTonight(core: CoreState) {
     (race) =>
       race.office === "governor" &&
       race.date <= core.date &&
-      resultOf(api, race.id) !== null,
+      race.votes !== undefined,
   );
   const night = held.reduce(
     (last, race) => (race.date > last ? race.date : last),
