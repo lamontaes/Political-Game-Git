@@ -37,3 +37,7 @@ No rows were marked resolved. Register edits: text rewritten on three rows, line
 ## Questions for the owner
 
 None.
+
+## Reuse check (owner, Nov 10: one money system)
+
+Every new item names the existing function it changes and adds no second payment, tax or ledger path: the new items change the existing death path in health.ts and the existing flatSchedule in laws-death-taxes.ts as data; no second death writer or tax path.
