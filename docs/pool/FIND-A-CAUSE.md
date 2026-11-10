@@ -35,6 +35,17 @@ Whoever starts you names three things: the item's id, your branch, and your time
 
 Open the pull request all the same. The item keeps `Needs cause.`, and its new Notes paragraph says what you ruled out, by file and line, and what to print next. That is a result: the next finder starts from it.
 
+## A sweep: is each red still red?
+
+Many `Needs cause.` items are tests that were red on some draw weeks ago. Before anyone traces one, a sweep finds out which are still red. Whoever starts you names the list of item ids, your branch and your time box.
+
+1. For each item, in the order given: read it, and run exactly the command and seed it names on current main, one at a time, with its output sent to a file. Give one run at most 30 minutes. An item that names no command is skipped, and its note says so.
+2. Do not trace anything. A sweep only says green or red.
+3. Add one Notes paragraph to the item: `**Notes (re-run, <date>, main <first ten characters of the commit>).**` then the command, the place and seed, and the result. For a red, quote the first failing assertion as printed. For a green on the item's own seed, run one fresh draw too and name its place and seed; if both are green, end the note with "Proposed for the CTO: drop as fixed on main." Change nothing else in the item: its Cause stays `Needs cause.`
+4. Commit and push after every five items, so the work survives a session that ends.
+5. One pull request for the whole list, opened after the first push and kept up to date. The first line of its body is `Touches pool item: none (re-runs of red tests; notes only).` Under `## What I found` it has one table: item, still red or green, place and seed, and for a red the assertion in a few words.
+6. Tell whoever started you when the list is done, with the pull request number and the counts of red and green.
+
 ## What you never do
 
 - Change game code or tests in this pull request. It holds pool files and the release note only.
