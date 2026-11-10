@@ -18,7 +18,9 @@
     "years": "The later years they won the same office again, joined as a list: 2013 and 2015.",
     "state": "A state's name from the place records: Ohio.",
     "whom": "The person the story is about, as the object of a sentence: their full name the first time, then their pronoun (her, him).",
-    "employers": "The earlier employers as a spoken list: A, B and C."
+    "employers": "The earlier employers as a spoken list: A, B and C.",
+    "span": "How long a stretch of work lasted, as people say it: nine years.",
+    "here": "The town or county the person lives in now, from the place records."
   },
   "maxWords": 24,
   "parts": [
@@ -1657,6 +1659,330 @@
       "text": "I worked at {employers} before {employer}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third",
+      "move": "story",
+      "text": "{who} worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third",
+      "move": "story",
+      "text": "{who} worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third",
+      "move": "story",
+      "text": "{who} went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they",
+      "move": "story",
+      "text": "They worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they",
+      "move": "story",
+      "text": "They worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they",
+      "move": "story",
+      "text": "They went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i",
+      "move": "story",
+      "text": "I worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i",
+      "move": "story",
+      "text": "I worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i",
+      "move": "story",
+      "text": "I went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.third",
+      "move": "story",
+      "text": "{who} lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.they",
+      "move": "story",
+      "text": "They lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.i",
+      "move": "story",
+      "text": "I lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.third",
+      "move": "story",
+      "text": "{who} left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.they",
+      "move": "story",
+      "text": "They left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.i",
+      "move": "story",
+      "text": "I left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.third",
+      "move": "story",
+      "text": "{who} retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.they",
+      "move": "story",
+      "text": "They retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.i",
+      "move": "story",
+      "text": "I retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.third",
+      "move": "story",
+      "text": "{employer} closed in {year}, and {who} lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.they",
+      "move": "story",
+      "text": "{employer} closed in {year}, and they lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.i",
+      "move": "story",
+      "text": "{employer} closed in {year}, and I lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.third",
+      "move": "story",
+      "text": "{who} took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.they",
+      "move": "story",
+      "text": "They took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.i",
+      "move": "story",
+      "text": "I took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.third",
+      "move": "story",
+      "text": "{who} retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.they",
+      "move": "story",
+      "text": "They retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.i",
+      "move": "story",
+      "text": "I retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.third",
+      "move": "story",
+      "text": "{who} lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.they",
+      "move": "story",
+      "text": "They lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost-primary.i",
+      "move": "story",
+      "text": "I lost the primary for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.third",
+      "move": "story",
+      "text": "{who} got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.they",
+      "move": "story",
+      "text": "They got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.raised.i",
+      "move": "story",
+      "text": "I got a raise when the minimum wage went up in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.third",
+      "move": "story",
+      "text": "{who} won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.they",
+      "move": "story",
+      "text": "They won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.honor.i",
+      "move": "story",
+      "text": "I won an honor at school in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
       "date": "2026-11-10",
       "kind": "written"
     }

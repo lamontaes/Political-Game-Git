@@ -17,6 +17,7 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -594,6 +595,8 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // The people the player starts out knowing have their whole past at the opening.
+  openStartingCircle(core);
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
   openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one
