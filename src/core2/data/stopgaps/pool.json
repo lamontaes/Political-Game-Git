@@ -8,7 +8,9 @@
     "why": "The parties engine records one local committee and its chair per party, not a state committee, its officers or a national committee.",
     "addedBy": "GOV-CANDIDACY",
     "addedAt": "2026-10-14",
-    "replacement": "The parties engine records state and national committees and their officers; the pool reads them in place of the local chair.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The parties engine records state and national committees and their officers; the pool reads them in place of the local chair.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   }
 ]
