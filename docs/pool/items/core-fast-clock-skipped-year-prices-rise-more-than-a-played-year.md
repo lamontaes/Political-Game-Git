@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: merged
+status: open
 standard: 2
 claimed-by:
-pr: #8239
+pr:
 after:
 blocked-on:
 lead: speed
@@ -17,7 +17,6 @@ effort: medium
 root: design-country-tier
 source: found Nov 10 by the builder of the fast clock's part 3 (pull request #8238)
 checked: fable 2026-11-10
-merged-at: 2026-11-10T21:46:55.921Z
 ---
 
 **What.** After the fast clock's part 3, a skipped year moves prices, but in some places it moves them more than the same year played day by day. A player who skips ahead should come back to about the world they would have reached by playing. The gap is outside the fifth the fast clock's parts hold themselves to, and nobody knows which engines make it.
@@ -35,3 +34,5 @@ merged-at: 2026-11-10T21:46:55.921Z
 **Waits on.** Pull request #8238 on main, which adds the test and the engines' openings in a skip.
 
 **Files.** src/core2/results-mode-pay-prices-jobs.test.ts (new), src/core2/modules/macro.ts, src/core2/finance-state.ts
+
+**Notes (Fable, Nov 10, reopened).** Pull request 8239 only wrote this item's cause; it built nothing. Its first line named this item, so the merge marked it merged by mistake. It is open again and nothing here is on main yet.
