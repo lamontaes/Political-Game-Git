@@ -61,7 +61,7 @@ Only people who learn of it can act on it. Nobody is caught by a roll.
 
 - **From the start:** the official, and the person who keeps the government's books (the clerk or finance post on its payroll). Each holds it as a private knowledge record, as both parties to a bribe do.
 - **The complaint.** At the close after the move, the head of the shorted department sees their line paid less than the budget in force says. They learn of the diversion then. So does a council member who sits on the body's budget review, where the body has one on record.
-- **The audit.** Once a year, after the government's fiscal year closes, its auditor reads the year's books. The auditor is a person: the state's elected auditor where the state's law gives them the job, otherwise an outside firm's auditor named in the place's records. The auditor learns of every diversion in the audited year. How often a government of each kind is audited, and by whom, is a per-state table from the states' own audit laws, with a marked estimate where a state's row has not been read.
+- **The audit.** Once a year, after the fiscal year closes, the auditor of each government the player lives under (the town, the county, the state) reads the year's books. The auditor is a person: the state's elected auditor where the state's law gives them the job, otherwise an outside firm's auditor named in the place's records. The auditor learns of every diversion in the audited year. How often a government of each kind is audited, and by whom, is a per-state table from the states' own audit laws, with a marked estimate where a state's row has not been read.
 
 Each person who learns of it decides whether to tell, with the decision the bribe already uses: their tie to the official, their temperament, and what the move cost them or their department. An auditor who decides to report publishes a finding, which is a public record. Anyone else tells the person they are closest to, who decides whether to take it to the press. Either way the result is the event `scandal.reported`, and everything that reads a bribery scandal reads this one unchanged.
 
@@ -75,6 +75,7 @@ Each person who learns of it decides whether to tell, with the decision the brib
 ## What is not built
 
 - No new engine, scheduler, table of suspicion or detection chance.
+- Nothing outside the player's own town, county and state. Other places' governments are results under the country tier (owner, Nov 10: "it has to perform like a game"), and a diversion there, if it is ever wanted, is a line in that place's results, not a record per official.
 - No audit of anything but a government's own lines.
 - No repayment order, removal from office or prosecution. Those are other items once the justice engine exists.
 
