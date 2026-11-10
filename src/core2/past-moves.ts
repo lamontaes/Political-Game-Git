@@ -19,12 +19,27 @@
  */
 import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
-import { preStartHistory } from "./pre-start";
+import {
+  grainDate,
+  ownPastKind,
+  ownWindowOf,
+  preStartHistory,
+  preStartWindowOf,
+  recordPreStartLater,
+  wholePastOnce,
+} from "./pre-start";
+import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
 import type { HistoryRecord, HistoryWriter, PreStartWindow } from "./pre-start";
-import type { CoreAPI, CoreState, PersonId, PersonState } from "./types";
+import type {
+  CoreAPI,
+  CoreState,
+  IsoDate,
+  PersonId,
+  PersonState,
+} from "./types";
 
-export const PERSON_MOVED_IN = "person.moved-in";
+export const PERSON_MOVED_IN = ownPastKind("person.moved-in");
 
 const MOVES = moveRows as unknown as Readonly<
   Record<string, { value: number }>
@@ -66,11 +81,20 @@ function childrenOf(
   });
 }
 
-/** The moves into the county before the start, by the moves engine's yearly pull. */
+/**
+ * The moves into the county before the start, by the moves engine's yearly
+ * pull. `people` are everyone full by default; with `worldFrom`, the run is one
+ * person's own past: a move before the world's window is kept, and the
+ * children who came with them are named in the record's facts, not as people
+ * it belongs to (a child's own past is written when the child is opened).
+ */
 function moveRecords(
   api: CoreAPI,
   window: PreStartWindow,
   rate: DepartureRate,
+  people: Iterable<PersonState> = (api.state as CoreState).people.values(),
+  /** The first day of the world's window: the run is one person's own past. */
+  worldFrom: IsoDate | undefined = undefined,
 ): Omit<HistoryRecord, "moduleId">[] {
   const core = api.state as CoreState;
   stopgap("SG-HIST-moves-life-stage-only");
@@ -91,7 +115,7 @@ function moveRecords(
     return found;
   };
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
-  for (const person of core.people.values()) {
+  for (const person of people) {
     if (!person.alive || person.tier === "husk") continue;
     // A child comes with the parent who moved, never alone.
     const born = makeIsoDate(person.birthDate);
@@ -129,6 +153,9 @@ function moveRecords(
     // in the run's last year, on their birthday.
     date ??= `${lastYear}-${born.slice(5)}`.replace("-02-29", "-03-01");
     if (date < window.from || date > window.through) continue;
+    // A move before the world's window is told on the person's birthday that year.
+    if (worldFrom && date < worldFrom)
+      date = grainDate(person, date, worldFrom);
     const withThem = children
       .filter(
         (child) =>
@@ -142,9 +169,12 @@ function moveRecords(
       date: makeIsoDate(date),
       kind: PERSON_MOVED_IN,
       placeId: person.placeId,
-      personIds: [person.id, ...withThem],
+      personIds: worldFrom ? [person.id] : [person.id, ...withThem],
       facts: {
         personId: person.id,
+        ...(worldFrom && withThem.length
+          ? { childIds: withThem.join(" ") }
+          : {}),
         fromPlaceId: origin.placeId,
         toPlaceId: person.placeId,
         originRecordId: origin.recordId,
@@ -175,6 +205,36 @@ export function pastMovesHistory(
   rate: DepartureRate,
 ): void {
   for (const row of moveRecords(api, window, rate)) history.record(row);
+}
+
+/**
+ * A person's moves into the county over their own life, once (the owner's
+ * ruling, Nov 9, 2026): a move before the world's window is kept, and one
+ * the pre-start run already wrote stays as it is.
+ */
+export function pastMovesFor(
+  core: CoreState,
+  people: readonly PersonState[],
+  rate: DepartureRate,
+  moduleId: string,
+): void {
+  for (const person of people) {
+    const window = ownWindowOf(core, person);
+    if (!window || !wholePastOnce(core, person.id, "moves")) continue;
+    const held = new Set(
+      preStartHistory(core, { kind: PERSON_MOVED_IN, personId: person.id }).map(
+        (row) => row.id,
+      ),
+    );
+    const rows = moveRecords(
+      coreAPI(core),
+      window,
+      rate,
+      [person],
+      preStartWindowOf(core)!.from,
+    ).filter((row) => !held.has(row.id));
+    recordPreStartLater(core, moduleId, rows, { person: person.id });
+  }
 }
 
 export interface Residence {

@@ -6,24 +6,40 @@ kind: feature
 priority: 3
 size: L
 status: open
+standard: 2
 claimed-by:
 pr:
-blocked-on:
+blocked-on: laws-other-places-chains-part-1-record-chains, laws-other-places-chains-part-2-enacted-acts, laws-other-places-chains-part-3-close-stopgap
 after:
 source: added with npm run pool -- add
 claimed-at:
+lead: laws-effects
+model: sonnet
+effort: low
+root: design-country-tier
+checked: fable 2026-11-10
 ---
 
-**What.** This is the roll-up for recording other places' law chains as worlds, so a worker's residence law and a neighbor jurisdiction's enacted acts are read. Today only the town's chain is recorded (stopgap SG-WORLD-withholding-residence-law, found by gov-stopgap-budgets-assumed-data). It is built in two parts: laws-other-places-chains-record (each residence's chain and starting rows recorded in the laws module) and laws-other-places-chains-enacted (an act enacted elsewhere is written to the same table and read by withholding). When both are done this item is closed by checking one worker's paycheck end to end. Combined by the Oct 25 audit, one change in one seam; the parts folded in: laws-other-places-chains-record (Each other place's law chain is recorded in the laws module, so a worker's residence law is read from records); laws-other-places-chains-enacted (A law enacted in another place is written to the laws module and read by every worker who lives there). Each part's own done-when line is listed in Notes and is part of this item's acceptance.
+**What.** Only the played town's law chain is recorded as a world, so a worker who lives in another place is withheld by a static starting-law lookup and a law enacted in a jurisdiction the town does not share is never read (stopgap SG-WORLD-withholding-residence-law). This is the roll-up for recording other places' chains: part 1 records each residence's chain and starting rows, part 2 writes acts enacted elsewhere to the same table, part 3 closes the stopgap. It closes by checking one worker's paycheck end to end. It also takes over gov-standin-withholding-residence, which names the same stopgap row.
+
+**Cause.** Design: docs/design/country-tier.md ("Income and payroll taxes are withheld by the law in force in that state and the nation, with the same function a town paycheck uses") and stopgap SG-WORLD-withholding-residence-law in src/core2/data/stopgaps/world.json.
+
+**Fix.** Build part 1 and then part 3; this item adds no code of its own. Part 2 is a proposed drop: acts enacted in other states are already rows in the laws table. After part 3, check one worker's paycheck from the law row to the treasury that received the tax.
+
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** The chain is the acceptance: one enacted law is followed to a named worker's paycheck and the treasury that received it. An effect is a read: withholding must read the recorded rows. One rule, all 56 places: no place or state is named in logic. Replace, never layer: the static residence map and the stopgap are gone. No dice: tax follows the law in force and where the worker lives.
 
-**Done when.** After both parts are done, a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body) shows a worker living outside the town with withholding that follows their residence's recorded law, including one act enacted in play, by law row id and payroll record id; src/core2/tax-withholding.test.ts and src/core2/withholding-outside-governments.test.ts pass.
+**Done when.** A second session, not the builder, replays on main in the running game: in a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 on a seed nobody chose (both named), a worker living outside the town has withholding that follows their residence's recorded law, including one act enacted in play, by law row id and payroll record id; src/core2/tax-withholding.test.ts and src/core2/withholding-outside-governments.test.ts pass.
 
-**Files.** src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/data/stopgaps.json, src/core2/tax-withholding.test.ts, src/core2/modules/world-legislating.ts, src/core2/withholding-outside-governments.test.ts
+**Waits on.** laws-other-places-chains-part-1-record-chains and laws-other-places-chains-part-3-close-stopgap.
+
+**Files.** src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/data/stopgaps/world.json, src/core2/tax-withholding.test.ts, src/core2/modules/world-legislating.ts, src/core2/withholding-outside-governments.test.ts
 
 **Notes.** Oct 20 (pool feeder): spec written; L item split into two; the laws module already takes an enacting jurisdiction on every row, so no schema change is needed beyond a chains table.
 
 Folded in Oct 25 from laws-other-places-chains-record. Its done when: In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), a worker who lives in another state has a recorded chain row and recorded starting law rows, their withholding on a named payday equals the recorded rows' income-tax answer, and the journal balances; a test in src/core2/tax-withholding.test.ts names the chain row, the law row and the payroll record by id.
 
 Folded in Oct 25 from laws-other-places-chains-enacted. Its done when: In a one-year run of the played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (both named in the PR body), a law enacted in a jurisdiction the town does not share changes the withholding of a named worker who lives there from its effective date, with the law row id, the payroll record id and the treasury journal entry named, and SG-WORLD-withholding-residence-law is marked resolved in stopgaps.json with its replacement reader named and its ID retained; src/core2/withholding-outside-governments.test.ts proves it.
+
+**Notes (pool redo, Nov 10).** Split into the three parts named in Waits on. gov-standin-withholding-residence covers the same stopgap row; the CTO is asked to fold it into part 1.

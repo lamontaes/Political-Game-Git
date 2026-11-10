@@ -10,17 +10,28 @@ claimed-by:
 pr:
 after:
 blocked-on:
+standard: 2
+model: sonnet
+effort: medium
+root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Not fixed (measured)")
+checked: fable 2026-11-10
 ---
 
-**What.** Measured by the audit on Nov 9: "The opening still lands at 8:30 p.m." The audit's line gives no seed; its browser life was in Blodgett Landing, New Hampshire, a random world. The owner said it on Nov 8 at about 2:10 p.m. Eastern (v0.94.0): "I accidentally clicked skip intro, but that's fine. So then I show up somewhere randomly at 8:30 again." Read in code on main, Nov 10: `OPENING_EVENING_MINUTE` in `src/bench/opening.ts` (line 11) is 20 hours 30 minutes, `openingFrames` (line 21) hands it to the screen as the home's minute of the day, and `startLife` in `src/bench/play.mjs` (about line 6176) sets the clock from it and shows the room. The playtest check found that the landing follows the Oct 14 ruling (home after the address), "but no line says where or why, and Skip cuts straight to a room". So the defect is two things: a time typed into code, and an arrival with nothing told. Fix the cause: the hour comes from the opening's own records (when the address airs and the household is home), and the first thing on screen after the address, played or skipped, says the day, the place and who is there, through the scene opener every other scene already uses.
+**What.** The audit measured on Nov 9 that "the opening still lands at 8:30 p.m.", with no line saying where or why (its browser life was in Blodgett Landing, New Hampshire, no seed given). The owner said it on Nov 8 at about 2:10 p.m. (v0.94.0): "I accidentally clicked skip intro, but that's fine. So then I show up somewhere randomly at 8:30 again." The playtest check found the landing follows the Oct 14 ruling (home after the address), but no line says where or why and Skip cuts straight to a room. The defect is two things: a time typed into code, and an arrival with nothing told. The hour should come from the opening's own records, and the first screen after the address, played or skipped, should say the day, the place and who is there through the scene opener every other scene uses.
+
+**Cause.** Found in code: `OPENING_EVENING_MINUTE` in src/bench/opening.ts (line 11) is 20 hours 30 minutes, `openingFrames` hands it to the screen as the home's minute of the day, it is read in four places in src/bench/handler.ts (lines 205, 1578, 1764, 1786), and `startLife` in src/bench/play.mjs sets the clock from it. The landing is not a staged scene, so no opener line plays.
+
+**Fix.** Read the arrival hour from the opening's own records (the address airing, the household home) instead of the constant, and after the address (played or skipped) show one narration line naming the day as people say it and the place, through the one scene opener (src/director/opening-story.ts, src/english/day-words.ts). Any fixed minute that stays is a registered stopgap in the director's file.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** No hand-written player text: the arrival line comes from the English engine's day and arrival words through the one scene composer, never a sentence typed into the screen. Sliding scales and causes: the hour the player lands at follows from a record (the address's airing, the household's evening), not a fixed minute in code; if a fixed minute stays, it is a registered stopgap in the director's file. Owner, Nov 8, 2:10 p.m. (OWNER-DECISIONS, the playtest of v0.94.0): "If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton. And then it starts like that." Owner, Oct 14: home after the address.
+**Rules.** No hand-written player text: the arrival line comes from the English engine's day and arrival words through the one scene composer, never a sentence typed into the screen. Sliding scales and causes: the hour the player lands at follows from a record, not a fixed minute in code. Owner, Oct 14: home after the address.
 
-**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof), and plays the opening twice: once through the address to its end, once clicking Skip. Each time it takes a screenshot of the first screen after the address. That screen must show one narration line that names the day as people say it and the place the player is in, and the clock on the player card must agree with the light in the room and with that line. It must not show a bare room with no line, an ISO date, or a time that the narration contradicts. The proof names the record the hour was read from. The same two runs are repeated in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro. The owner plays it: after the speech he is told where he is and when, and the hour makes sense for a household that just watched the address.
+**Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named) and plays the opening twice, once through the address to its end and once clicking Skip, taking a screenshot of the first screen after the address each time. That screen shows one narration line naming the day and the place, and the clock on the player card agrees with the light in the room and with that line. It shows no bare room with no line, no ISO date, and no time the narration contradicts, and the proof names the record the hour was read from. The two runs are repeated in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/opening.ts, src/bench/handler.ts, src/bench/play.mjs, src/director/opening-story.ts, src/english/day-words.ts
 

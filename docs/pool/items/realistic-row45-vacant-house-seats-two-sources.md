@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/electorate-places.ts,src/core2/modules/officials.ts,data/research/offices/legislature-party-counts-2026.json,src/core2/realistic-not-real.test.ts
 
 **Notes.** lead: wire-elections. Filed by the standing red-main owner Oct 29 13:40 UTC from a fresh draw while fixing the delegate-seat variant of the same row (PR fixer/red-main-row45-delegate). Read: OWNER-DECISIONS (Oct 27 realistic not real; Oct 28 one engine per mechanic); searched docs/pool/items for row 45, vacant seat: none.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/electorate-places.ts (lines 714 to 735) now seats a House seat the published roster leaves vacant with a drawn holder in the world roster "for every engine to read (the offices engine seats the town state's members from it too)", so the roster and `allOfficials` agree for Florida's 20th and Texas's 23rd. Not replayed.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

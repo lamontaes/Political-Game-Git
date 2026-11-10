@@ -5,7 +5,7 @@ area: words
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** data/english/parts/newspaper-ledes.json, src/english/english-newscast.ts, src/bench/archive-words.ts, data/english/batches/batch-22.json
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. data/english/parts/newspaper-ledes.json and data/english/batches/batch-22.json no longer exist, and nothing under src, scripts or data names newspaper-ledes, which is the item's second done-when branch (the unread bank is deleted).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

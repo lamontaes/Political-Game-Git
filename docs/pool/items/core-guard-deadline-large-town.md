@@ -8,16 +8,31 @@ size: S
 status: open
 claimed-by:
 pr: #5943
+after:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+lead: speed
+standard: 2
+model: opus
+effort: medium
+root: none
+checked: fable 2026-11-10
 ---
 
 **What.** On #5871 (a test-only change) paired-performance ended twice with 'Measurement failed (deadline)': each measured month took about 5.5 to 6 minutes on base and head alike in the town drawn from the commit, and the job ran out of time during the head's third run (runs 40062678364, attempts 1 and 2). The place is drawn from the commit, so a re-run measures the same town again. A large drawn town can block any PR on time alone.
 
-**Rules.** Speed: a town's month must be measured within the guard's budget in every one of the 56 places' towns, so the guard's deadline must fit the largest town it can draw, or the measured span must scale with the town.
+**Cause.** Found in code: scripts/core2-guard/paired.mjs starts the first warmup and the first pair unconditionally (`measuredSpan`, line 43, called at line 163), so a drawn town too slow for even one pair at a month's span still runs out of time. Measured on a test-only change: each measured month took about 5.5 to 6 minutes on base and head alike and the job ended with 'Measurement failed (deadline)' twice.
 
-**Done when.** The paired guard completes base and head runs within its deadline for the town drawn on the voter-groups test change's head 671bcd7d16 (or the largest town in the place records), shown in a run log named in the PR; a test-only PR never fails it on time alone. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** Per the CTO's rule: report such a town as "not measured" instead of failing, or measure a span shorter than a month. A test-only change never fails on time alone.
+
+**Time box.** 4 hours for an Opus session.
+
+**Rules.** Speed: a town's month must be measured within the guard's budget in every one of the 56 places' towns, so the guard's deadline must fit the largest town it can draw, or the measured span must scale with the town. One rule, all 56 places: the choice applies to every drawn town alike.
+
+**Done when.** A second session reads the paired-performance run log for the voter-groups test change's head 671bcd7d16 (the town drawn there is Derry, New Hampshire, key 3317860, or the largest town in the place records) and sees base and head complete within the deadline, or the town reported as not measured, without failing the check. The log is named in the PR.
+
+**Waits on.** A rule from the CTO: report a too-slow town as not measured, or measure a span shorter than a month (the speed lead's Oct 24 question).
 
 **Files.** scripts/core2-guard/paired.mjs, scripts/core2-guard/policies.json, .github/workflows
 

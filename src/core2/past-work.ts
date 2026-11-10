@@ -35,9 +35,13 @@ import { profileFor } from "./opening-profile";
 import { countedHeadcountOf } from "./residents-economy";
 import {
   coarseSteps,
+  grainDate,
+  ownPastKind,
+  ownWindowOf,
   preStartHistory,
   preStartWindowOf,
   recordPreStartLater,
+  wholePastOnce,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartWindow,
@@ -55,8 +59,8 @@ import type {
   Source,
 } from "./types";
 
-export const PAST_WORK_SPELL = "person.work-spell";
-export const PAST_WORK_OUT = "person.out-of-work";
+export const PAST_WORK_SPELL = ownPastKind("person.work-spell");
+export const PAST_WORK_OUT = ownPastKind("person.out-of-work");
 
 /** How a spell ended: let go, left for another job, stopped for a reason on record, or still held on day one. */
 export type PastWorkEnd =
@@ -500,11 +504,21 @@ export function runPastWork(
   window: PreStartWindow,
   people: readonly PersonState[],
   openings: Map<string, number>,
+  /**
+   * The same run over the years before the world's window (a person's own
+   * past): `worldFrom` is the first day of the world's window, where the
+   * person's life goes on in the run of the window itself. The dates a spell
+   * is told on are the person's birthday in that year (`grainDate`), the
+   * records the opening already holds keep their own days, and a life still
+   * going at `worldFrom` is handed over, not closed.
+   */
+  before?: { worldFrom: IsoDate },
 ): Omit<HistoryRecord, "moduleId">[] {
   const c = api.state as CoreState;
   const p = (key: string) => api.parameter(key);
   const months = conditionsOf(c);
   if (!months.length) return [];
+  if (before) stopgap("SG-PEOPLE-whole-past-first-month-economy");
   const mean =
     months.reduce((sum, row) => sum + row.unemploymentPct, 0) / months.length;
   const latestEarnings = [...months]
@@ -512,7 +526,10 @@ export function runPastWork(
     .find((row) => row.hourlyEarnings)?.hourlyEarnings;
   const firms = firmsOf(api);
   const quarterDays = p("pastWorkDaysPerQuarter");
-  const steps = coarseSteps({ ...window, step: "quarter" });
+  const steps = coarseSteps({
+    ...window,
+    step: before ? "year" : "quarter",
+  });
   const runs: RunState[] = [];
   // The run is for people living where the world keeps businesses; the
   // working lives of officials and others elsewhere wait for their own
@@ -522,12 +539,12 @@ export function runPastWork(
     if (!places.has(person.placeId)) continue;
     const plan = planOf(api, person, window, months, mean);
     if (!plan || plan.end <= window.from) {
-      if (plan?.current) runs.push(heldOnly(plan, window));
+      if (plan?.current && !before) runs.push(heldOnly(plan, window));
       continue;
     }
     const from = plan.entry > window.from ? plan.entry : window.from;
     if (plan.end <= from) {
-      if (plan.current) runs.push(heldOnly(plan, window));
+      if (plan.current && !before) runs.push(heldOnly(plan, window));
       continue;
     }
     runs.push({
@@ -542,6 +559,25 @@ export function runPastWork(
     });
   }
   const firmById = new Map(firms.map((firm) => [firm.id, firm]));
+  // Before the world's window a spell is told on the person's birthday in its
+  // year (a year at a step); a day inside the window keeps its own.
+  const told = (plan: Plan, date: string): IsoDate => {
+    if (!before || date >= before.worldFrom) return makeIsoDate(date);
+    const day = grainDate(plan.person, date, before.worldFrom);
+    // Never later than the day the run stops: the job held on day one, a
+    // retirement or a child's birth keep their own days, so a spell told on
+    // the birthday of the year before is still before it.
+    return day > plan.end
+      ? grainDate(
+          plan.person,
+          `${Number(date.slice(0, 4)) - 1}${date.slice(4)}`,
+          before.worldFrom,
+        )
+      : day;
+  };
+  // The economy pass's record in force on a date; before its first month
+  // the first month stands (SG-PEOPLE-whole-past-first-month-economy).
+  const causeOn = (date: string) => monthOn(months, date).recordId;
   // Pay then: the employer's going rate (else the person's own on day one),
   // moved back by the national hourly earnings of the month.
   const payOn = (plan: Plan, date: string, organizationId?: string) => {
@@ -644,9 +680,7 @@ export function runPastWork(
         run,
         plan.end,
         plan.endCause as PastWorkEnd,
-        plan.endCause === "let-go"
-          ? monthOn(months, plan.end).recordId
-          : plan.endCauseRecordId,
+        plan.endCause === "let-go" ? causeOn(plan.end) : plan.endCauseRecordId,
       );
     // Out of work when the run ended: still out on day one (or for good).
     if (plan.endCause === "let-go" && !run.outs.some((row) => !row.endedAt))
@@ -666,7 +700,7 @@ export function runPastWork(
         // Out of school inside the run: first looking for work, from the day
         // they left. Out of school before it: at work when it begins.
         if (plan.entry >= window.from)
-          run.outs.push({ startedAt: run.from, causeSpell: -1 });
+          run.outs.push({ startedAt: told(plan, run.from), causeSpell: -1 });
         else begin(run, run.from, "before-the-run", quarter);
       }
       const begins = run.from > step ? run.from : step;
@@ -702,12 +736,13 @@ export function runPastWork(
             break;
           }
           at += Math.min(toLayoff, toQuit);
-          const date = makeIsoDate(
+          const date = told(
+            plan,
             addDays(makeIsoDate(begins), Math.round(at * quarterDays)),
           );
           const leftFirm = run.employed.organizationId;
           if (toLayoff <= toQuit) {
-            close(run, date, "let-go", month.recordId);
+            close(run, date, "let-go", causeOn(date));
             run.outs.push({
               startedAt: date,
               causeSpell: run.spells.length - 1,
@@ -728,7 +763,8 @@ export function runPastWork(
             break;
           }
           at += toFind;
-          const date = makeIsoDate(
+          const date = told(
+            plan,
             addDays(makeIsoDate(begins), Math.round(at * quarterDays)),
           );
           const out = run.outs.at(-1)!;
@@ -746,8 +782,19 @@ export function runPastWork(
       if (plan.end < next) finish(run);
     }
   }
-  for (const run of runs) if (!run.done) finish(run);
-  return runs.flatMap((run) => recordsOf(api, run, window));
+  for (const run of runs) {
+    if (run.done) continue;
+    // A life still going where the world's window starts is handed to the run
+    // of the window: its open spell or time out of work is left open.
+    if (before && run.plan.end > before.worldFrom) {
+      if (run.employed) {
+        run.spells.push({ spell: run.employed });
+        run.employed = undefined;
+      }
+      run.done = true;
+    } else finish(run);
+  }
+  return runs.flatMap((run) => recordsOf(api, run, window, before));
 }
 
 /** A day-one job held since before the run (or since before school ended): its one record. */
@@ -768,16 +815,29 @@ function recordsOf(
   api: CoreAPI,
   run: RunState,
   window: PreStartWindow,
+  before?: { worldFrom: IsoDate },
 ): Omit<HistoryRecord, "moduleId">[] {
   const { plan } = run;
   const personId = plan.person.id;
+  // The years before the world's window have their own ids, so a record of
+  // the window's run and one of the years before it never share one.
+  const mark = before ? "pre:" : "";
   // Each spell where the person lived when it began (history-past-moves).
   const placeOn = (date: string) =>
     residenceOn(api.state, plan.person, date).placeId;
-  const inWindow = (date: IsoDate) => (date < window.from ? window.from : date);
+  const told = (date: IsoDate) => inWindow(date);
+  const inWindow = (date: IsoDate) =>
+    before
+      ? date < before.worldFrom
+        ? grainDate(plan.person, date, before.worldFrom)
+        : date
+      : date < window.from
+        ? window.from
+        : date;
   const said = source(api, "Pre-start working life (src/core2/past-work.ts).");
   const rows: Omit<HistoryRecord, "moduleId">[] = [];
-  const spellId = (index: number) => `past-work:${personId}:${index + 1}`;
+  const spellId = (index: number) =>
+    `past-work:${personId}:${mark}${index + 1}`;
   run.spells.forEach((row, index) => {
     if (row.endedAt && row.endedAt < window.from) return;
     if (row.spell.startedAt > window.through) return;
@@ -805,9 +865,13 @@ function recordsOf(
   });
   run.outs.forEach((row, index) => {
     if (row.endedAt && row.endedAt < window.from) return;
+    // Years before the window are told a year at a step: a stretch that began
+    // and ended in one year (the months after school) is not told.
+    if (before && row.endedAt && told(row.endedAt) === told(row.startedAt))
+      return;
     if (row.startedAt > window.through) return;
     rows.push({
-      id: `past-work:${personId}:out:${index + 1}`,
+      id: `past-work:${personId}:${mark}out:${index + 1}`,
       date: inWindow(row.startedAt),
       kind: PAST_WORK_OUT,
       placeId: placeOn(row.startedAt),
@@ -889,9 +953,101 @@ export function pastWorkHistory(
 }
 
 /**
- * The working lives of people filled in from the counts after the run, by the
- * same rule, against the openings the full people left (each reads them as
- * they stood, so who is filled in first changes nobody's past).
+ * A person's working life from leaving school up to the day the world's
+ * window starts, a year at a step (their own past), and how it joins the
+ * run of the window: the run of the window began them at its first day in a
+ * job "held since before the run", and the years before are what that
+ * clipped. A spell still going at the window's first day is that first record
+ * with its true start and how it began; a stretch out of work still going
+ * ends where the window's first job begins; a job held on day one since
+ * before the window gets its true start. Returns the records to drop (the
+ * window's own, restated) and the records to write.
+ */
+function withYearsBefore(
+  api: CoreAPI,
+  person: PersonState,
+  window: PreStartWindow,
+  inside: readonly Omit<HistoryRecord, "moduleId">[],
+  openings: ReadonlyMap<string, number>,
+): { drop: string[]; add: Omit<HistoryRecord, "moduleId">[] } {
+  const own = ownWindowOf(api.state as CoreState, person);
+  if (!own || own.from >= window.from) return { drop: [], add: [] };
+  const years = runPastWork(
+    api,
+    {
+      from: own.from,
+      through: addDays(makeIsoDate(window.from), -1),
+      step: "year",
+    },
+    [person],
+    new Map(openings),
+    { worldFrom: window.from },
+  );
+  const drop: string[] = [];
+  const add = [...years];
+  const id = (tail: string) => `past-work:${person.id}:${tail}`;
+  const first = inside.find((row) => row.id === id("1"));
+  const held = inside.find((row) => row.id === id("held"));
+  const openSpell = years.find(
+    (row) => row.kind === PAST_WORK_SPELL && row.facts.endedAt === undefined,
+  );
+  const openOut = years.find(
+    (row) => row.kind === PAST_WORK_OUT && row.facts.endedAt === undefined,
+  );
+  if (first?.facts.how === "before-the-run" && (openSpell || openOut)) {
+    drop.push(first.id);
+    if (openSpell) {
+      // The same spell, begun in the years before the window.
+      add.splice(add.indexOf(openSpell), 1);
+      add.push({
+        ...first,
+        date: openSpell.date,
+        facts: {
+          ...first.facts,
+          startedAt: openSpell.facts.startedAt!,
+          how: openSpell.facts.how!,
+        },
+      });
+    } else if (openOut) {
+      // Out of work until the window's first job.
+      add.splice(add.indexOf(openOut), 1, {
+        ...openOut,
+        facts: { ...openOut.facts, endedAt: first.facts.startedAt! },
+      });
+      add.push({
+        ...first,
+        facts: { ...first.facts, how: "after-out-of-work" },
+      });
+    }
+  }
+  // A year-before record never shares an id with a record of the window,
+  // except the job held on day one, which the years before restate.
+  const ids = new Set(add.map((row) => row.id));
+  if (held && ids.has(held.id)) drop.push(held.id);
+  else if (held?.facts.how === "before-the-run") {
+    const since = held.facts.startedAt;
+    const moved = years.find(
+      (row) => row.kind === PAST_WORK_SPELL && row.facts.endedAt === since,
+    );
+    const out = years.find(
+      (row) => row.kind === PAST_WORK_OUT && row.facts.endedAt === since,
+    );
+    const how = moved ? "moved-on" : out ? "after-out-of-work" : undefined;
+    if (how) {
+      drop.push(held.id);
+      add.push({ ...held, facts: { ...held.facts, how } });
+    }
+  }
+  return { drop, add };
+}
+
+/**
+ * A person's whole working life, once (their own past): the run of the world's
+ * window (the one the pre-start run gave a full person, else the one a person
+ * filled in later gets, against the openings the full people left, each
+ * reading them as they stood, so who is filled in first changes nobody's
+ * past) and the years before it. A full person's records of the window stay;
+ * the years before join them.
  */
 export function pastWorkFor(
   core: CoreState,
@@ -902,10 +1058,29 @@ export function pastWorkFor(
   const openings = OPENINGS.get(core);
   if (!window || !openings || !people.length) return;
   const api = coreAPI(core);
-  const rows = people.flatMap((person) =>
-    runPastWork(api, window, [person], new Map(openings)),
-  );
-  recordPreStartLater(core, moduleId, rows);
+  for (const person of people) {
+    if (!wholePastOnce(core, person.id, "work")) continue;
+    const held = pastWorkOf(core, person.id);
+    const inside = held.length
+      ? held
+      : runPastWork(api, window, [person], new Map(openings));
+    const { drop, add } = withYearsBefore(
+      api,
+      person,
+      window,
+      inside,
+      openings,
+    );
+    const gone = new Set(drop);
+    recordPreStartLater(
+      core,
+      moduleId,
+      held.length
+        ? add
+        : [...inside.filter((row) => !gone.has(row.id)), ...add],
+      { person: person.id, drop: held.length ? drop : [] },
+    );
+  }
 }
 
 /** A person's working life before the start, oldest first. */

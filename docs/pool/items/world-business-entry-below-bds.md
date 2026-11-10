@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5369
 blocked-on:
@@ -40,3 +40,7 @@ Oct 20 (claude, released unbuilt): read the Oct 20 measurement above; I did not 
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: retitle to an entry/exit check against bds-rates.json at Census scale (item Note), or drop.
 Oct 27 (claude pool worker): no longer true on main; entries now run ABOVE the Census rate. `scripts/core2-year/closures.mjs` (CORE2_BOOKKEEPING=0, one year, seeds sw1 to sw8 drawn from all 56) lists each business with a `founded` flag: Pajonal, Puerto Rico 13 of 43, Horace, North Dakota 20 of 50, Petoskey, Michigan 16 of 45, Tapochao, Northern Mariana Islands 7 of 37, Charlotte Amalie East, U.S. Virgin Islands 11 of 41, Umatac, Guam 10 of 40, Jasper, Tennessee 12 of 40, Toomsuba, Mississippi 6 of 36 (the flag also marks the opening's press outlets, up to about ten a town, so these overcount market entries). The M1-08 check in Cochituate, Massachusetts counts 10, 12 and 12 openings in three years against the BDS entry range of 8.4 to 11.0 percent of 30 to 62 businesses (3 to 7 a year), all in one market a month: see the diagnosis in business-never-adds-location (the founding loop returns after one founding a month, always in the top-scoring market). The fix for both is the same change to `foundings` in src/core2/modules/business.ts, so this item is folded into that diagnosis; closures match (0 to 7.3 percent, under the 10 percent ceiling). Left open for the business lead; do not build the "raise entries" this item names.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into business-never-adds-location. This item's own Oct 27 note says the premise is gone (entries now run above the Census rate, not below) and that the fix is the same change to `foundings` in src/core2/modules/business.ts that business-never-adds-location diagnoses (the loop returns after one founding a month). The Nov 8 ruling that ranges are not targets also removes a count-matching Done-when. Nothing new is added; the measurements above (entries above the BDS rate, closures at or below it) are evidence for the kept item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `business-never-adds-location`, which carries this item's remaining work.
