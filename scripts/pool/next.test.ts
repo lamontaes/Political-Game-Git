@@ -401,9 +401,14 @@ describe("next for real", () => {
     expect(body).toContain("**Cause.** Found in code: src/x.ts:1");
     expect(body).toContain("**Waits on.** Nothing.");
     expect(body).toContain("## How this pull request is used");
+    expect(body).toContain(
+      "`Ready for the desk:` followed by the head commit's hash",
+    );
+    expect(body).toContain("never on issue 7365");
     for (const rule of [
       "Progress",
       "Questions",
+      "Ready",
       "Send-backs",
       "Handoff",
       "Stale claims",
