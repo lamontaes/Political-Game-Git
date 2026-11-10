@@ -264,5 +264,17 @@
     "addedAt": "2026-11-08",
     "replacement": "The modular busts read the person's origin record and a sourced mapping of origin to skin, hair and features.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-life-record-cap",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/life/parameters.json",
+    "line": 1,
+    "whatItFakes": "How many events a person keeps one by one (60) and the order in which kinds are let go (a move first, a loss last) are set by hand. A person's own traits do not yet change what they hold on to.",
+    "why": "The life record's first slice (docs/design/life-record.md) needs a cap so a long game does not grow; the director's measure of an event's impact lives in another family and is not read here yet.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The director's impact for the event and the person's traits decide what is kept; the cap is checked against the long-save speed run.",
+    "status": "open"
   }
 ]
