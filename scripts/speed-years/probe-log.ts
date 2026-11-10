@@ -41,6 +41,25 @@ for (let y = 1; y <= Number(years); y++) {
   const top = (m: Map<string, number>) => [...m].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([f, b]) => `${f}=${(b / 1e6).toFixed(1)}MB`).join(" ");
   console.log(`  ACTS ${acts.length}, naming the player ${own.length}; fields ${top(fields)}`);
   console.log(`  ACT DECISION fields ${top(dfields)}`);
+  // Acts by who they name, whether they still hold every option's score, and age.
+  const quarterAgo = addDays(makeIsoDate(core.date), -90);
+  const cells = new Map<string, { rows: number; bytes: number }>();
+  for (const row of acts as any[]) {
+    const who =
+      row.decision?.actorId === player || row.actorId === player
+        ? "by-player"
+        : row.personIds.includes(player)
+          ? "names-player"
+          : "other";
+    const age = row.date >= quarterAgo ? "<90d" : row.date >= yearAgo ? "90d-1y" : ">1y";
+    const k = `${who} ${row.decision?.scores ? "scores" : "condensed"} ${age} ${row.visibility}`;
+    const c = cells.get(k) ?? { rows: 0, bytes: 0 };
+    c.rows++;
+    c.bytes += JSON.stringify(row).length;
+    cells.set(k, c);
+  }
+  for (const [k, c] of [...cells].sort((a, b) => b[1].bytes - a[1].bytes))
+    console.log(`  ACTCELL ${k}: ${c.rows} rows ${(c.bytes / 1e6).toFixed(1)} MB`);
   for (const [k, e] of [...by].sort((a, b) => b[1].bytes - a[1].bytes).slice(0, 25))
     console.log(`  ${(e.bytes / 1e6).toFixed(1)} MB ${e.rows} rows ${e.old} old  ${k}`);
 }
