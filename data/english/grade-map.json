@@ -7321,7 +7321,6 @@
     "scene-talk.close-thank.welcome-aboard": 1.076,
     "scene-talk.close-thank.well-talk-again-get-some-sleep": 1.342,
     "scene-talk.close-thank.were-glad-you-came-good-luck": 1.148,
-    "scene-talk.close-thank.witness.thank-you-for-hearing-me-out-first": 1.336,
     "scene-talk.close-thank.you-did-good-it-just-wasn-t-enough": 1.088,
     "scene-talk.close-thank.you-just-made-my-week-thank-you": 1.124,
     "scene-talk.close-thank.you-ll-be-fine-probably": 1.135,
@@ -9367,7 +9366,6 @@
     "scene-talk.follow-thank.a-vote-i-ll-be-there-for-it": 1.265,
     "scene-talk.follow-thank.a-year-i-m-writing-it-down": 1.113,
     "scene-talk.follow-thank.again-it-is-thanks": 1.359,
-    "scene-talk.follow-thank.all-right-i-ll-hold-you-to-it": 1.287,
     "scene-talk.follow-thank.all-right-i-ll-print-your-denial-in-full": 1.342,
     "scene-talk.follow-thank.already-agreed-i-ll-quote-you": 1.373,
     "scene-talk.follow-thank.already-i-ll-quote-you-on-that": 1.368,
@@ -9633,7 +9631,6 @@
     "scene-talk.follow-thank.that-s-all-i-ask-thank-you": 0.999,
     "scene-talk.follow-thank.that-s-all-i-came-for-thank-you": 1.368,
     "scene-talk.follow-thank.that-s-all-i-d-ask-here-s-a-copy": 0.919,
-    "scene-talk.follow-thank.that-s-all-i-m-asking": 1.355,
     "scene-talk.follow-thank.that-s-all-i-needed-i-ll-get-you-the-figures": 1.367,
     "scene-talk.follow-thank.that-s-all-i-needed-thanks": 1.371,
     "scene-talk.follow-thank.that-s-all-i-needed-to-hear": 1.273,
@@ -10790,7 +10787,6 @@
     "scene-talk.reply-agree.alright-we-ll-work-it-out-together": 1.231,
     "scene-talk.reply-agree.alright-yes-i-can-do-that": 1.236,
     "scene-talk.reply-agree.alright-yes-i-ll-do-that-for-the-family": 1.205,
-    "scene-talk.reply-agree.alright-yes-i-ll-do-what-you-re-asking": 1.236,
     "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me": 1.237,
     "scene-talk.reply-agree.alright-you-re-right-i-ll-make-it-work": 1.203,
     "scene-talk.reply-agree.alright-you-re-right-i-ll-make-the-time": 1.21,
@@ -12908,7 +12904,6 @@
     "scene-talk.reply-promise.whatever-happens-let-s-not-lose-touch": 1.288,
     "scene-talk.reply-promise.whatever-you-ask-i-ll-tell-you-the-truth-even-when-it-doesn-t-make-me-": 1.044,
     "scene-talk.reply-promise.yes-you-can-count-on-me": 1.295,
-    "scene-talk.reply-promise.you-can-count-on-me-and-i-ll-do-it": 1.322,
     "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it": 1.258,
     "scene-talk.reply-promise.you-have-my-word-i-ll-do-it": 1.258,
     "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off": 1.223,
@@ -14825,10 +14820,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11546,
-    "reached": 11546,
-    "near": 10499,
-    "weighted": 11543,
+    "pieces": 11541,
+    "reached": 11541,
+    "near": 10494,
+    "weighted": 11538,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14921,9 +14916,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 7641,
-        "reached": 7641,
-        "near": 7641
+        "pieces": 7636,
+        "reached": 7636,
+        "near": 7636
       },
       "scene-words": {
         "pieces": 291,
