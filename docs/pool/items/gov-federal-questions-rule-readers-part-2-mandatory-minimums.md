@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: split from gov-federal-questions-rule-readers in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Write the effect reader for mandatory minimums: the enacted law row changes what a business, a court, an official or a household may do, and a named engine reads it at its decision. Add a row to `src/core2/data/laws/reach-group-a.json` or a module hook, use the powers catalog for who is bound, and remove the question from `SG-LAWS-federal-position-no-reader` in `src/core2/data/stopgaps/laws.json` once it is read.
@@ -33,3 +34,5 @@ source: split from gov-federal-questions-rule-readers in the pool redo, Nov 10, 
 **Waits on.** gov-congress-passes-policy-laws (or dev mode's enact-a-law route) so the law can be enacted.
 
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/modules/justice.ts, src/core2/data/stopgaps/laws.json
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. The federal courts engine in src/core2/modules/federal-courts.ts reads the reduce-mandatory-minimums law in force (its header, line 13 on, and the key at line 31) and takes the sentence of cases still subject to a minimum down for admissions after the law took effect. The Nov 10 sweep saw the law "move nothing" because that engine moves counts of people in federal custody, not dollars in one town. A named case and person the law reaches is justice-federal-case-stream-part-1-case-on-open and part 2.

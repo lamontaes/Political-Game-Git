@@ -4,7 +4,7 @@ title: "When an election fails to fill an office, the holdover and repeat electi
 area: gov
 kind: research
 priority: 3
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,8 +14,9 @@ after:
 lead: governing
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** When an election fails to fill an office, the holdover and repeat election follow a family estimate, not each place's own law. The voting module uses `holdover.json`'s family defaults for what happens when no one is elected, because no place has a researched failure-to-elect row. Research each of the 56 places' rule per office family (holdover, appointment or repeat election and its timing), cite it, and read it in the same function. The national contingent election (House by state delegation, Senate for vice president) is already built in `src/core2/contingent-election.ts` and handled in the voting module, so it is no longer part of this item. The work is two parts. Closes the stopgap `SG-GOV-empty-race-law`.
