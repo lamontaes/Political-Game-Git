@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
+status: open
+claimed-by:
 pr: #6111
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T23:57:40.431Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-06-texas-shows-local-income-tax
 ---
@@ -73,3 +73,5 @@ Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): Already replayed twice with a pass (sonnet-fd29, sonnet-cc77); pool seen cannot record it while the item is claimed, so the CTO must flip it to merged and record the check. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:57 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
+
+Released (2026-11-10): Nothing a builder can build: replay already recorded on the PR, or its lines are under data/english/parts (Story only); released so the claim is not held. Continue on branch claude/pool-play-stop-06-texas-shows-local-income-tax and pull request #6111.
