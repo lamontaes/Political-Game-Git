@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/journal-stories-life
-pr: pending
+pr: 8129
 blocked-on:
 lead: words
 source: owner batch 3 (journal entries told as statements, not stories); extends words-journal-as-stories to the other common life events
