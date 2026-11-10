@@ -20,7 +20,7 @@ lead: lives
 checked: fable 2026-11-10
 ---
 
-**What.** Let chronic conditions begin during a played life, not only at the opening. The health module gives each resident the opening conditions from the condition pack's prevalence cells (income-ranked) and a serious illness when strain crosses the person's own resilience line, but no one develops a condition after day one. Add a yearly incidence derived from the pack: the rise in prevalence from one age band to the next, adjusted for deaths of those with the condition. A person acquires a condition when their accumulated exposure crosses their own keyed line, written as a typed condition-begins event the mortality rule and the jobs engine read.
+**What.** Let chronic conditions begin during a played life, not only at the opening. The health module gives each resident the opening conditions from the condition pack's prevalence cells (income-ranked) and a serious illness when strain crosses the person's own resilience line, but no one develops a condition after day one. Add a yearly incidence derived from the pack: the rise in prevalence from one age band to the next, adjusted for deaths of those with the condition. A person acquires a condition when their accumulated exposure crosses their own keyed line, written as a typed condition-begins event the mortality rule and the jobs engine read. Seen: a person's card, where conditions now begin during play.
 
 **Cause.** Design: docs/design/life-record.md (health is one of the kinds a life keeps) and the item's spec: src/core2/modules/health.ts gives conditions only at the opening, from the prevalence cells in src/core2/condition-pack.ts.
 

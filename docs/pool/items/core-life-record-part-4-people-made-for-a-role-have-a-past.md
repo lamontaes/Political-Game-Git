@@ -19,7 +19,7 @@ source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every
 checked: fable 2026-11-10
 ---
 
-**What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met.
+**What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met. Seen: the card of a newspaper owner, an election chief or another role-holder, which now has a birthplace and a working life.
 
 **Cause.** Design: docs/design/life-record.md. The stopgap SG-PEOPLE-role-people-have-no-past (registered in pull request 8123, in src/core2/data/stopgaps/people.json) says what is faked: such a person gets schooling when opened, but no working life when their place is a state with no businesses on record, and no birthplace, parents or partners.
 

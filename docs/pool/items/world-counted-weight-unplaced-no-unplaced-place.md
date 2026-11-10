@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The test src/core2/counted-weight-unplaced.test.ts fails in a place with no unplaced workers (Lone Chimney, Oklahoma): it draws a place, and when the town has none it tries up to eight more before failing with "no unplaced workers in <places>". This item was released from an idle draft with an empty body. The first job is to rerun the test, record the places and seeds drawn, and decide whether a town with no unplaced workers is a real case the test should skip.
+**What.** The test src/core2/counted-weight-unplaced.test.ts fails in a place with no unplaced workers (Lone Chimney, Oklahoma): it draws a place, and when the town has none it tries up to eight more before failing with "no unplaced workers in <places>". This item was released from an idle draft with an empty body. The first job is to rerun the test, record the places and seeds drawn, and decide whether a town with no unplaced workers is a real case the test should skip. Guards: the counted-weight-unplaced test on main, red by draw in a place with no unplaced workers.
 
 **Cause.** Needs cause. Item body is empty; the title names Lone Chimney, Oklahoma. Looked at src/core2/counted-weight-unplaced.test.ts (the draw loop near line 44 retries up to eight places); why it fails on main is not established.
 
