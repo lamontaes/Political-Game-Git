@@ -549,10 +549,52 @@ export function readGradedBatches(
     });
 }
 
+/** A part's counts plus another's. */
+function plus(was: PartGradeCounts, add: PartGradeCounts): PartGradeCounts {
+  const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
+  for (const [axis, counts] of Object.entries(add.axes ?? {}) as [
+    string,
+    AxisGradeCounts,
+  ][]) {
+    const prior = axes[axis] ?? { good: 0, bad: 0, fix: 0 };
+    axes[axis] = {
+      good: prior.good + counts.good,
+      bad: prior.bad + counts.bad,
+      fix: prior.fix + counts.fix,
+    };
+  }
+  return {
+    good: was.good + add.good,
+    bad: was.bad + add.bad,
+    fix: was.fix + add.fix,
+    sharedGood: was.sharedGood + add.sharedGood,
+    sharedBad: was.sharedBad + add.sharedBad,
+    sharedFix: was.sharedFix + add.sharedFix,
+    ...(Object.keys(axes).length ? { axes } : {}),
+  };
+}
+
+/** Two sets of part counts added together, parts in key order. */
+function addParts(
+  one: Readonly<Record<string, PartGradeCounts>>,
+  two: Readonly<Record<string, PartGradeCounts>>,
+): Record<string, PartGradeCounts> {
+  const parts: Record<string, PartGradeCounts> = { ...one };
+  for (const [key, add] of Object.entries(two))
+    parts[key] = plus(parts[key] ?? EMPTY, add);
+  const sorted: Record<string, PartGradeCounts> = {};
+  for (const key of Object.keys(parts).sort()) sorted[key] = parts[key]!;
+  return sorted;
+}
+
 /**
- * Adds a fresh fold to grades kept from batches whose files were since
- * removed from the repository (the old batch and grade files were deleted
- * once folded), so no earlier grade is lost.
+ * The ledger is a pure result of the grade files on disk plus the share of
+ * batches whose files are gone. That share is written into the ledger itself
+ * (`kept`), so a rerun never has to guess it back out of the totals: the
+ * totals are always the fresh fold plus `kept`, however many times this runs.
+ * A batch whose files have just gone away is moved into `kept` by taking its
+ * share out of the old totals (everything the files still on disk fold to,
+ * and the old `kept`, come out first).
  */
 export function withKept(
   fresh: PartGradeLedger,
@@ -560,51 +602,42 @@ export function withKept(
   /** Folds the named batches still on disk, to take their share out of `existing`. */
   refold?: (ids: readonly string[]) => PartGradeLedger,
 ): PartGradeLedger {
-  const kept = (existing?.batches ?? []).filter(
-    (id) => !fresh.batches.includes(id),
-  );
-  if (!existing || !kept.length) return fresh;
-  let base = existing;
-  if (kept.length !== existing.batches.length) {
-    // Some of the ledger's batches are still on disk: their share comes out
-    // of the ledger, and the fresh fold adds it back once.
-    if (!refold)
-      throw new Error(
-        `${LEDGER_FILE}: some of its batches are on disk and some are not (${kept.join(", ")} missing); restore their files or fold them together`,
-      );
-    base = without(
-      existing,
-      refold(existing.batches.filter((id) => !kept.includes(id))),
+  if (!existing) return fresh;
+  const prior = existing.kept ?? { batches: [], parts: {} };
+  const back = prior.batches.filter((id) => fresh.batches.includes(id));
+  if (back.length)
+    throw new Error(
+      `${LEDGER_FILE}: batches ${back.join(", ")} are kept from files that are gone but are on disk again; remove them from "kept" and refold`,
     );
-  }
-  const parts: Record<string, PartGradeCounts> = { ...base.parts };
-  for (const [key, add] of Object.entries(fresh.parts)) {
-    const was = parts[key] ?? EMPTY;
-    const axes: Record<string, AxisGradeCounts> = { ...(was.axes ?? {}) };
-    for (const [axis, counts] of Object.entries(add.axes ?? {}) as [
-      string,
-      AxisGradeCounts,
-    ][]) {
-      const prior = axes[axis] ?? { good: 0, bad: 0, fix: 0 };
-      axes[axis] = {
-        good: prior.good + counts.good,
-        bad: prior.bad + counts.bad,
-        fix: prior.fix + counts.fix,
-      };
-    }
-    parts[key] = {
-      good: was.good + add.good,
-      bad: was.bad + add.bad,
-      fix: was.fix + add.fix,
-      sharedGood: was.sharedGood + add.sharedGood,
-      sharedBad: was.sharedBad + add.sharedBad,
-      sharedFix: was.sharedFix + add.sharedFix,
-      ...(Object.keys(axes).length ? { axes } : {}),
+  const onDisk = existing.batches.filter((id) => fresh.batches.includes(id));
+  const gone = existing.batches.filter(
+    (id) => !fresh.batches.includes(id) && !prior.batches.includes(id),
+  );
+  let kept = prior;
+  if (gone.length) {
+    // Some of the ledger's batches are still on disk: their share comes out
+    // of the ledger, and what is left beyond the old `kept` is the share of
+    // the batches that went away.
+    if (!refold && onDisk.length)
+      throw new Error(
+        `${LEDGER_FILE}: some of its batches are on disk and some are not (${gone.join(", ")} missing); restore their files or fold them together`,
+      );
+    const rest = without(
+      without(existing, { ...existing, batches: [], parts: prior.parts }),
+      onDisk.length ? refold!(onDisk) : { ...existing, batches: [], parts: {} },
+    );
+    kept = {
+      batches: [...prior.batches, ...gone],
+      parts: addParts(prior.parts, rest.parts),
     };
   }
-  const sorted: Record<string, PartGradeCounts> = {};
-  for (const key of Object.keys(parts).sort()) sorted[key] = parts[key]!;
-  return { ...fresh, batches: [...kept, ...fresh.batches], parts: sorted };
+  if (!kept.batches.length) return fresh;
+  return {
+    ...fresh,
+    batches: [...kept.batches, ...fresh.batches],
+    parts: addParts(kept.parts, fresh.parts),
+    kept: { batches: kept.batches, parts: kept.parts },
+  };
 }
 
 /** A ledger with another ledger's counts taken out. */
@@ -728,13 +761,19 @@ export function withVoiceGrades(
   return { ...fold, batches, parts };
 }
 
-function main() {
-  const graded = readGradedBatches();
-  const ledger = withKept(
-    withVoiceGrades(foldGrades(graded)),
-    existsSync(LEDGER_FILE)
-      ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
-      : undefined,
+/**
+ * The ledger the grade files in `gradeDir` fold to: every row of every file
+ * counted once, plus the share of batches whose files are gone (`kept`, read
+ * from `existing`). Folding again from its own result changes nothing.
+ */
+export function foldLedger(
+  graded: readonly GradedBatch[],
+  existing: PartGradeLedger | undefined,
+  gradeDir = GRADE_DIR,
+): PartGradeLedger {
+  return withKept(
+    withVoiceGrades(foldGrades(graded), gradeDir),
+    existing,
     // A voice batch's share comes out with the rest, or each run counts it again.
     (ids) =>
       withVoiceGrades(
@@ -743,9 +782,19 @@ function main() {
             ids.includes(row.batch?.id ?? row.grades.batch ?? ""),
           ),
         ),
-        GRADE_DIR,
+        gradeDir,
         ids,
       ),
+  );
+}
+
+function main() {
+  const graded = readGradedBatches();
+  const ledger = foldLedger(
+    graded,
+    existsSync(LEDGER_FILE)
+      ? (JSON.parse(readFileSync(LEDGER_FILE, "utf8")) as PartGradeLedger)
+      : undefined,
   );
   // The coverage file keeps what batches asked (byKind, cells) beside what the
   // owner has graded, axis by kind.
