@@ -5,14 +5,15 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: story/home-new-four-answers
+pr: 8162
 blocked-on:
+lead: words
 source: added with npm run pool -- add
 ---
 
-**What.** Home-new offered one answer four ways (I'm from X, I grew up here, Here in X). New moves detail (work from the player's record), work and mutual (ask back, raise their-work or mutual), and deflect (a later time) sit beside plain, always and brief, with follows.home extended for the asking moves.
+**What.** In a talk, "Where are you from?" (subject home-new) offered one answer said four ways: "I'm from Grandville. And you?", "I grew up here.", "I'm from Grandville." and "Here in Grandville." New moves now sit beside plain, always and brief: a detail from the player's record (moved here, or born here, and where they work), a question back about the other person's work or people they both know, and a deflection to a later time. The owner ruled this three times in OWNER-DECISIONS: "Four dynamic choices, always" (Oct 14), "The four replies each move the talk somewhere" (Oct 15), and "four replies are four different answers, never one reworded" (Oct 27).
 
 **Rules.** Declared slots only; no year in speech; evasion points to a later time; American English; no dice (traits and calibration rank the moves).
 
