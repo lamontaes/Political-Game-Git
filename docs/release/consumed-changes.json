@@ -1,6 +1,36 @@
 {
   "entries": [
     {
+      "version": "0.99.0",
+      "releasedOn": "2026-11-09",
+      "revision": "c32c767b89adb6e0f98cda51ebb1be07b6f652bc",
+      "changeIds": [
+        "arc-variant-again-pull",
+        "country-tier-design",
+        "coverage-rows-owned",
+        "journal-closures",
+        "memory-candidacy-decisions",
+        "memory-counted-ballots",
+        "memory-event-ids",
+        "memory-petition-signatures",
+        "other-places-count-less-garbage",
+        "pool-fable-audit-items",
+        "press-comment-context",
+        "press-staff-departed-worker",
+        "press-variants-seed",
+        "purposes-celebration-gathering",
+        "purposes-first-meeting",
+        "purposes-rescue",
+        "purposes-return-visit",
+        "purposes-reunion-letter",
+        "scenes-new-baby-visit",
+        "skills-memory-folds-guards",
+        "story-purposes-news-departure",
+        "variants-accusation",
+        "variants-apology"
+      ]
+    },
+    {
       "version": "0.98.0",
       "releasedOn": "2026-11-09",
       "revision": "4f89a1de28949a301cc08ff965b638715f68170a",

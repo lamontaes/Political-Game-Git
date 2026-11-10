@@ -1,0 +1,27 @@
+---
+id: play-six-list-and-detail-screens-build-their-own
+title: "Six list-beside-detail screens each build their own layout, the old framed plate is still called 8 times beside 47 strip sections, and Campaign builds its own tab strip"
+area: play
+kind: cleanup
+priority: 2
+size: M
+status: open
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: screens
+source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, "Duplicate systems worth merging", item 5, and Pillar 6)
+---
+
+**What.** Read in code by the audit on Nov 9, not measured in play: "Six list-beside-detail screens that each build their own, two generations of panel, three kinds of tab strip. Patch notes, Journal, Calendar, People, Travel and the Guide never call the shared list-and-detail parts (`src/bench/ui/roster-screen.mjs`, `src/bench/ui/split-screen.mjs`). The play screen still calls the older framed plate 8 times beside the newer strip section 47 times. The campaign screen builds its own tab strip (`src/bench/ui/campaign-acts.mjs:23`)." Confirmed on main, Nov 10, in `src/bench/play.mjs`: `rosterScreen` is called by Campaign, Elections, Parties and Issues only (lines 4201, 4383, 4993, 5137 and 5154) and `splitScreen` by Government only (line 4894). The six named screens use their own builders: `patchNotesScreen` and `journalScreen` (`src/bench/ui/strips.mjs`, lines 365 and 423), `calendar` (`src/bench/ui/calendar.mjs`), `peopleScreen` (`src/bench/ui/people-screen.mjs`, line 21), `travelScreen` (`src/bench/ui/travel-screen.mjs`, line 27) and `guideScreen` (`src/bench/ui/guide-screen.mjs`, line 16). `plate(` is still called 8 times and `stripSection(` 47 times in `play.mjs`, and `debateCard` in `src/bench/ui/campaign-acts.mjs` (line 23) builds a `nav` of tabs by hand beside the shared `tabBar` (`src/bench/ui/tab.mjs`, line 40). Fix the class with no change to what a player can do: one list-beside-detail part that every such screen calls, one section part, one tab strip, and the others deleted.
+
+**Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Replace, never layer: each screen moved onto the shared part loses its own builder, styles and browser-check selectors in the same change, and the PR body counts the functions and style rules removed. AGENTS.md, one engine per mechanic (owner, Oct 27): there is "one screen renderer per menu type", and a second one is a duplicate to delete. Owner, Nov 8, 2:10 p.m. (OWNER-DECISIONS): a long list is a list beside its detail, with no arrows and no "1 of N". The screen-to-mock skill: "One shared component per control... If the shared part doesn't exist yet, make it its own module and move the existing copies onto it in the same PR."
+
+**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof) and takes a screenshot at 1440×900 of each of the six screens with one row chosen: Patch notes (from the title), Journal, Calendar, People, Travel and the Guide, plus Campaign's debate card. Each is set beside a screenshot of the same screen taken on the commit before the change, in the same place and seed: the same rows, the same detail and the same words must show, and every row must still open its detail on a click. In the code, a search must find `plate(` nowhere in `src/bench/play.mjs`, no hand-built tab `nav` outside `src/bench/ui/tab.mjs`, and the six screens calling one shared list-and-detail part; a guard test fails when a second such part is added. The slim-down skill's checks apply (no behavior change, the browser checks that named the old classes updated in the same change). The owner plays it: the six screens look and work as one family, and nothing he could do before is gone.
+
+**Files.** src/bench/ui/roster-screen.mjs, src/bench/ui/split-screen.mjs, src/bench/ui/strips.mjs, src/bench/ui/plate.mjs, src/bench/ui/campaign-acts.mjs, src/bench/ui/tab.mjs, src/bench/ui/calendar.mjs, src/bench/ui/people-screen.mjs, src/bench/ui/travel-screen.mjs, src/bench/ui/guide-screen.mjs, src/bench/play.mjs, src/bench/play.css
+
+**Notes.** From the audit's "Duplicate systems" item 5 ("I checked each item below in the code myself") and Pillar 6 ("One renderer per menu type is not met (read)... The stylesheet carries the older framed-plate look under the newer strips look"). The third kind of tab strip, read here: the sheet's own tabs are built with `makeTab` straight into `#sheet-tabs` in `openSheet` (`play.mjs`, about line 5215). The 8 `plate(` calls are at lines 883, 1004, 3065, 3408, 3441, 3450, 3925 and 4879 of `play.mjs` on Nov 10; two of them (3441 and 3450) hold the timeline that play-timeline-still-drawn-on-your-life-and-the-person-card (filed Nov 10) deletes, so build after that item or take its lines with it. This is one M item because the shared part comes first; if moving all six does not fit the time box, land the shared part with the first two screens, set the item back to open with the list of screens left, and say so in one line. Size it as an L and split it if the CTO prefers one screen per PR (owner, Oct 27: each finished unit ships on its own). Read `.agents/skills/slim-down/SKILL.md` and `.agents/skills/screen-to-mock/SKILL.md` first. Related, filed Nov 10: play-one-person-shows-two-faces (one face part and one person card). Not verified by the audit: nothing here was checked in the running game; the counts are a search of the code.

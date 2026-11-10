@@ -1480,7 +1480,9 @@ export function postCashJournal(
       for (const [id, amount] of values) {
         const before = totalsMap.get(id),
           change = changes.get(id)!;
-        if (before) priorCounters.push({ live: before, before: { ...before } });
+        // Only the bookkeeping checks below read the prior counters.
+        if (checks && before)
+          priorCounters.push({ live: before, before: { ...before } });
         journalWrites.push(
           stagedMapSet(
             totalsMap,
