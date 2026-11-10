@@ -1,0 +1,27 @@
+---
+id: play-travel-in-a-village-lists-no-town-office
+title: "Travel in a village of 128 people lists three markets and three kitchens and no place where the town does its business"
+area: play
+kind: bug
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: screens
+source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Not fixed (measured)")
+---
+
+**What.** Measured by the audit on Nov 9: "Travel in a village of 128 people lists three markets and three kitchens and no town office." The audit's line names no place or seed; its browser life was in Blodgett Landing, New Hampshire, a random world. The owner said it on Nov 8 at about 2:10 p.m. Eastern (v0.94.0, Manchester, Connecticut): "I go to travel. Everything's a market or a post office. I don't even know how I'm supposed to be able to run for office." Read in code on main, Nov 10: `townPlaces` in `src/bench/places.ts` (line 74) lists where the player, their household and people they know work, then fills the list with up to nine public places (`PUBLIC_PLACES`, line 34, and `PUBLIC_FILL`, line 54) sorted by staff size, and its own comment says a town office is left out on purpose (owner, Oct 26: "Why have to travel ... Public Works Department?"). Every card is a real organization in the place's records (`core.organizations` whose `placeId` is the player's), so the three markets and three kitchens are in the world's records, not made by the screen; whether six such businesses fit a place of 128 people was not traced. What the screen gets wrong, in every small place and not this one village, is that nothing on it tells a player where politics happens. Fix the class from the place's records: the place where the player has political business (where their town's body meets, where filings are taken) is on the list when the records show that business, and every card says why it is listed.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One rule, all 56 places: what Travel lists is read from the place's own organizations and offices, never from a list of place names or sizes typed into the screen. Look before you ask: the Nov 9 Screens row note in docs/coordination/playtest/2026-11-08-1-check.md (P13) calls this settled by earlier rulings, so the builder reads that note and the rulings it cites before building and brings any conflict to the CTO, not to the owner. Owner, Oct 27 (quoted in `src/bench/places.ts`): "Travel always lists where the player can go, with what is open now." Owner, Nov 8, 2:10 p.m.: "I don't even know how I'm supposed to be able to run for office."
+
+**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place of under 500 people (place, seed and population named in the proof) and opens Travel. A screenshot at 1440×900 must show each card with the reason it is listed, and the proof lists each listed organization by record id with its staff count, so a reader can see the shops exist in the records. It must show the place where the player's town body meets or takes filings whenever the records give the player business there: on a day the body meets, while filing is open, or when the player holds a seat. It must not show a card with no reason, a raw record kind, or a town office listed only for being an office. The same check is then run in a drawn place of over 5,000 people and in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro, and each screenshot is set beside `docs/mocks/2026-11-08-play/renders/pl-travel.jpg`. The owner plays it: in a tiny village he opens Travel and can tell where to go to take part in the town's government.
+
+**Files.** src/bench/places.ts, src/bench/ui/travel-screen.mjs, src/bench/play.mjs, src/bench/backdrop-places.ts
+
+**Notes.** From the audit's Pillar 6, re-checked in the game; playtest point P13 of docs/coordination/playtest/2026-11-08-1.md. The rulings pull two ways and the conflict is flagged here, not resolved. The Screens row note of Nov 9 (check file, "Row notes", P13: "settled, nothing to build beyond today's card") cites Oct 26 ("no D.C., no Capitol"; a town office is not listed on being a civic office alone) and Oct 28 ("'File for it' on a race triggers the travel to the filing office"), and says the Nov 8 play mock's standing City Hall, county party office and Capitol entries are superseded. The owner's Nov 8 words are later than both rulings, and the audit measured the same complaint on Nov 9 after that note was written. The rule in OWNER-DECISIONS is that the most recent ruling wins unless the older one makes more sense, and either way the conflict is flagged; the CTO rules which reading stands before this is built. The Done when above is written to fit both: no office listed for its own sake, an office listed when the records show business. Related: play-join-a-party-has-no-scene-and-no-headquarters (filed Nov 10). Not verified by the audit: which village the 128 people are, what the six shops' records are, and whether that village has a town body at all (a place with no local government of its own would list its county's). If the proof shows a village that size really holds three markets and three kitchens as employers, that is a separate defect for the jobs lead (too many firms for the people): file it as its own item with the record ids, and do not hide the cards here.

@@ -1,0 +1,27 @@
+---
+id: play-nov8-journal-chapter-has-no-picture
+title: "A journal chapter is words only: the approved journal has a picture for the chapter and the game draws none (owner's Nov 8 playtest, Manchester, Connecticut)"
+area: play
+kind: bug
+priority: 2
+size: S
+status: open
+claimed-by:
+pr:
+after:
+blocked-on:
+lead: screens
+source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P35, not fixed)
+---
+
+**What.** The owner, Nov 8, about 2:20 p.m. Eastern (v0.94.0, Manchester, Connecticut; docs/coordination/playtest/2026-11-08-1-verbatim.md): "I go to journal. Again, it's just words. There's no illustration. There's no UI elements." What main does now, read in code on Nov 10, not measured: `journalScreen` in `src/bench/ui/strips.mjs` (line 423) draws the list of chapters and the chosen chapter's paragraphs and nothing else; the conditionally approved journal (`docs/mocks/2026-11-08-play/renders/pl-journal.jpg`) has a picture for the chapter. The Screens row note of Nov 9 in the playtest check says why it was not built: "not built, no source". A journal line keeps the ids of the moments it tells, but a scene already played cannot be fetched again to get its backdrop (checked there at Fort Wingate, New Mexico, seed dd6bca35-d61e-40b7-876c-008c3460e712: 1 chapter, 3 lines, 7 moment ids, none returns a scene). Fix the cause: when the journal writes a line from a scene, it keeps the place of that scene on the line's record, and a chapter shows the picture of the place its lead line happened in; a chapter with no place on record shows no picture slot at all.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** An effect is a read, not a record: the chapter's picture is read from the record of the scene or place the chapter tells, kept when the line is written, never chosen by the screen from a stock list. No hand-written player text: the picture carries no caption, and nothing is typed under it. Owner, Nov 5, about 4 p.m. (docs/mocks/2026-11-07-approved/RULINGS-nov5.md, item 13): "I don't mind this rail on the left kind of acting as chapters for your story... just fill up the page. I do like this general format." OWNER-DECISIONS, Oct 14, morning: "The journal is a dramatized story, not a list of facts."
+
+**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof), plays until at least two scenes have written journal lines, opens Journal and takes a screenshot at 1440×900 of each chapter. A chapter whose lead line came from a scene must show the picture of the place that scene happened in, and the proof names the journal line's record id, the place it kept and the picture's file. A chapter of the life before the game began shows a picture only when its records name a place that has one, and otherwise shows no empty frame. No picture may carry a caption. The page must have no bare half. The same check is then run in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro, and each screenshot is set beside `docs/mocks/2026-11-08-play/renders/pl-journal.jpg`. The owner plays it: he opens his journal and each chapter of his life has a picture of where it happened beside the words.
+
+**Files.** src/bench/ui/strips.mjs, src/director/journal.ts, src/bench/play.mjs, src/bench/handler.ts, src/bench/backdrop-places.ts
+
+**Notes.** From the Nov 8 playtest, point P35 (docs/coordination/playtest/2026-11-08-1.md), its row in `2026-11-08-1-check.md` (Check D: "Copied the mock's columns, not its picture or prose") and the Nov 9 Screens row note quoted above, which ends: "A chapter would need to record the backdrop of the scene it tells; that is a new link, left for a later pass. A chapter with no scene gets no picture slot, the same rule as `storyPhoto`." This item is that later pass. The two sibling points are handled on main: a chapter is one column with no drop cap unless its words fill two (`JOURNAL_TWO_COLUMNS` and `JOURNAL_DROP_CAP` in `strips.mjs`; points C32 and C33). Related, filed Nov 10: play-journal-says-one-thing-three-times, play-nov8-journal-says-he-moved-to-where-he-was-born. Related done item on the older look: play-menus-journal-shared-look. Any new picture goes through `.agents/skills/asset-scene-admission/SKILL.md`; this item should need none, since it reuses the backdrops scenes already draw. Not verified: nothing here was measured in the running game on Nov 10 beyond the row note's own check.
