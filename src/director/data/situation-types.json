@@ -193,12 +193,17 @@
     },
     {
       "key": "departure",
+      "note": "The day the player goes into prison (the justice engine's justice.imprisoned, the sentence handed down), someone in their home who stays asks something of them before they go: to write, to call when they can, to tell the child themself, to keep out of trouble inside, to forgive. How long the sentence is, the day they get out and the child at home are said only when the records give them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
+      "purpose": "departure-ask",
+      "asker": "staying",
+      "asked": "leaving",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "leaving",
           "fill": "subject",
           "count": "one",
-          "moves": ["farewell", "promise", "comfort", "tell"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["change", "commit"],
           "bearing": "tender"
         },
@@ -206,7 +211,7 @@
           "key": "staying",
           "fill": "household",
           "count": "some",
-          "moves": ["farewell", "comfort", "request", "blame"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["keep-same", "engage"],
           "bearing": "solemn"
         },
@@ -227,8 +232,8 @@
             "leaving": "subject",
             "staying": "kin"
           },
-          "opener": "leaving",
-          "opening": "farewell",
+          "opener": "staying",
+          "opening": "request",
           "match": {
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
@@ -239,7 +244,7 @@
       "tag": {
         "key": "departure",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -305,6 +310,10 @@
     },
     {
       "key": "news-arrives",
+      "note": "A household member brings the player news about someone they know: a death (life.death), a pairing (family.partnered) or a parting (family.separated). What the news is about, who it is about, the other person in a pairing or parting and whether the bearer lived with them are said only when a record gives them. The bearer asks the player for something the news brings: to tell the others, to come, to meet the new partner, to keep a person company, to call. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie. News the player carries to their household, and news of an eviction, a job, an illness, a prison term or a street rumor, stays plain talk.",
+      "asker": "bearer",
+      "asked": "receiver",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "bearer",
@@ -384,7 +393,8 @@
             "bearer": "household"
           },
           "opener": "bearer",
-          "opening": "tell"
+          "opening": "tell",
+          "purpose": "news-ask"
         },
         {
           "match": {
@@ -397,7 +407,8 @@
             "bearer": "household"
           },
           "opener": "bearer",
-          "opening": "tell"
+          "opening": "tell",
+          "purpose": "news-ask"
         },
         {
           "match": {
@@ -410,7 +421,8 @@
             "bearer": "household"
           },
           "opener": "bearer",
-          "opening": "tell"
+          "opening": "tell",
+          "purpose": "news-ask"
         },
         {
           "match": {
@@ -533,7 +545,13 @@
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal", "bring-it-up"]
+        "registers": [
+          "conversation",
+          "scene-talk",
+          "scene-words",
+          "journal",
+          "bring-it-up"
+        ]
       }
     },
     {
@@ -1314,7 +1332,7 @@
           },
           "sceneKey": "school-goodbye",
           "opener": "staying",
-          "opening": "farewell",
+          "opening": "request",
           "setting": ["school"]
         },
         {
@@ -1328,7 +1346,7 @@
             "staying": "former-coworkers"
           },
           "opener": "leaving",
-          "opening": "farewell",
+          "opening": "request",
           "setting": ["workplace"]
         }
       ],
@@ -1797,12 +1815,25 @@
     {
       "key": "visit",
       "occasion": "visit",
+      "note": "The player visits someone they know who is seriously ill (the health engine's health.serious-illness, a person the player has a tie to): the sick person asks the visitor for something: to see to the house, to call someone who has not been told, to bring a child, to say honestly how they look, to come back. How long they have been ill, whether they live alone or with a partner or a child, and another person who heard and could be called are said only when the records give them; the illness itself is never named. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie. Two causes have a purpose: the player visits the ill (visit-ill-ask) and a relative visits the player when the player is the one ill (visited-ill-ask: they offer something or ask whether to tell the family). A relative visits the player when the player is held (visited-held-ask: news from home, money, a lawyer, the house, the children, the job, or whether to come again), so every cause of this type has a purpose.",
+      "asker": "cannot-come",
+      "asked": "visitor",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "visitor",
           "fill": "kin",
           "count": "one",
-          "moves": ["comfort", "tell", "recall", "promise"],
+          "moves": [
+            "comfort",
+            "tell",
+            "recall",
+            "promise",
+            "agree",
+            "ask",
+            "decline",
+            "leave"
+          ],
           "wants": ["help-others", "commit"],
           "bearing": "tender"
         },
@@ -1810,7 +1841,15 @@
           "key": "cannot-come",
           "fill": "subject",
           "count": "one",
-          "moves": ["thank", "tell", "request", "confess"],
+          "moves": [
+            "thank",
+            "tell",
+            "request",
+            "confess",
+            "answer",
+            "accept",
+            "press"
+          ],
           "wants": ["engage"],
           "bearing": "solemn"
         }
@@ -1827,7 +1866,10 @@
           "match": {
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
-          }
+          },
+          "purpose": "visited-held-ask",
+          "asker": "visitor",
+          "asked": "cannot-come"
         },
         {
           "match": {
@@ -1838,7 +1880,8 @@
             "visitor": "subject",
             "cannot-come": "counterpart"
           },
-          "opener": "visitor"
+          "opener": "cannot-come",
+          "purpose": "visit-ill-ask"
         },
         {
           "match": {
@@ -1850,7 +1893,10 @@
             "cannot-come": "subject"
           },
           "opener": "visitor",
-          "opening": "comfort"
+          "opening": "comfort",
+          "purpose": "visited-ill-ask",
+          "asker": "visitor",
+          "asked": "cannot-come"
         },
         {
           "match": {
@@ -1861,14 +1907,17 @@
             "cannot-come": "subject",
             "visitor": "kin"
           },
-          "opener": "visitor"
+          "opener": "visitor",
+          "purpose": "visited-held-ask",
+          "asker": "visitor",
+          "asked": "cannot-come"
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],
       "tag": {
         "key": "routine",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["conversation", "scene-talk", "scene-words", "journal"]
       }
     },
     {
