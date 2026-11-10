@@ -106,6 +106,17 @@ it(`a birthday with a relative missing asks the player to reach out, from the en
           const result = purposeScene(core, director, id, entry, {
             typeKey: "gathering-missing",
           });
+          // With no one else at home to ask (the player lives alone by now),
+          // there is no one to cast as the asker and the scene is skipped.
+          const askers =
+            entry.bindings
+              .find((bound) => bound.typeKey === "gathering-missing")
+              ?.roles.find((role) => role.role === "household")?.personIds ??
+            [];
+          if (askers.length === 0) {
+            expect(result?.kind, where).toBe("skipped");
+            continue;
+          }
           expect(result?.kind, `${where}: ${JSON.stringify(result)}`).toBe(
             "composed",
           );
