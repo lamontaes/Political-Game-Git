@@ -17,6 +17,8 @@ model: sonnet
 effort: low
 root: none
 lead: governing
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Dev mode's custom start as a sitting state officeholder writes the player's term into the offices engine's table directly, because the engine has no call to seat a chosen person (SG-STATE-dev-seat-player). It ends the seat's serving term and keeps the previous holder's party, and ordinary play never reaches it. Replace the direct table write with a seating function the offices engine exports. The row is kept, marked resolved, and never deleted.

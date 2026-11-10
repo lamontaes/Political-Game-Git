@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The cause-activity report shows too few of a played town's adults ever act on a cause. In Bedford, Wyoming's third year (seed 9a4dd331ace7) 3.3 percent of full adults volunteer against the Civic Engagement and Volunteering survey figure of 23.2 to 30.3, 2.8 percent donate against 7.0 to 9.4, and 7.0 percent belong to a group against 23.8 to 27.1. How many adults form a cause drive and act at all is this item, split from people-drives-cause-acts-pull-less by the acting CTO's Oct 25 ruling.

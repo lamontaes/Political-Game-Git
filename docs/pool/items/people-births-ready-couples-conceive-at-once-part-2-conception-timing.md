@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: none
 source: split from people-births-ready-couples-conceive-at-once in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Every couple ready for a child conceives at its next review, so births run above the expectation in some towns and a town's ready couples arrive as one wave. src/core2/modules/renewal.ts reconstructs every ready couple's pregnancy at the opening, so about 25 ready couples in Roche Harbor all conceive at once. How long a ready couple takes to conceive should follow their score and the mother's age on a sliding scale, and a couple should reconsider a child when their circumstances change, not every 91 days.

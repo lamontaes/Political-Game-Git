@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The renewal module reconstructs the pregnancies already under way at the opening from each couple's current money, housing, health and temperament, run through both partners' chooser at past review dates, because the opening population has no dated history before day one. On a given day about 3.9 percent of women 15 to 44 nationally carry a pregnancy that will end in a live birth, 2.2 to 5.7 percent across the 56 places. Give the reconstruction a dated pre-opening history so the town's opening pregnancies fall near the place's figure and deliveries are not bunched. Closes SG-M1-opening-pregnancies.

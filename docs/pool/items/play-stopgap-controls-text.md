@@ -17,6 +17,8 @@ root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** The play screen names an act's choice button from a bench table of control names where the mined choice-names bank has no name for the act yet. This is the open text stopgap SG-PLAY-act-control-names. About two thirds of the 21 act keys in the table have no matching move in the bank. Add mined names for them to the bank, read them in the two places that use the table, and delete the table and resolve the stopgap.

@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Played towns show children attending 99 percent of school days or more (Monroe, Oregon 99.8 percent, Guam 99.3 percent) against NCES average daily non-attendance of 6.5 to 10 percent, because a child's reason to stay home reads the care need, which is zero except for a serious onset or a held chronic condition. The health module has no passing illness (colds, flu, injury) that raises a person's care need for days. Add short episodes from the person's age, season and household (a sick sibling), read by school and work absence alike, calibrated to the sourced NHIS illness absence, not NCES's total. A household-circumstance term (merged from people-school-attendance-circumstances) follows as a second step.
@@ -31,7 +32,7 @@ lead: lives
 
 **Done when.** A second session runs a one-year played world (buildBenchWorld, a place drawn from all 56, seed named) in at least three drawn places and sees school-age children stay home for passing illness episodes, by episode and school attendance record ids, with the year's illness absence reported beside the NHIS figure (mean 3.24 days) in a test beside src/core2/school.test.ts.
 
-**Waits on.** Owner answer: build minor illness for school and work absence, or accept the current attendance of 99 percent (the item's own question; look first in docs/coordination/OWNER-DECISIONS.md and the decision register).
+**Waits on.** Nothing. Whether to build it is not a question for the owner: a mechanic real life has that the simulation needs is built from research as a background simulation (owner, Oct 24, "Simulate it, don't ask", AGENTS.md). It adds no step to the player's life; an absence shows only as a record.
 
 **Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/data/parameters.json, src/core2/school.test.ts
 
