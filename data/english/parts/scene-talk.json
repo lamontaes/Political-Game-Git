@@ -196812,7 +196812,7 @@
       "key": "scene-talk.close-press.i-ll-ask-again-before-the-next-one-if-that-s-all-right",
       "move": "close-press",
       "kind": "spoken",
-      "text": "I'll ask again before the next one, if that's all right.",
+      "text": "I'll ask again before the next one, if that's okay.",
       "uses": [
         {
           "subject": "scene",
