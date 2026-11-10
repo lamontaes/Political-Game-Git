@@ -6,7 +6,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ root: rc2-done-from-records
 checked: fable 2026-11-10
 ---
 
-**What.** On the head of the pull request whose run was 40566380843 (both attempts) the eighteen accepted quick specs ahead of M3-09 took about 427 of the 450 seconds in prMilliseconds (scripts/core2-guard/policies.json), so M3-09 (src/core2/corruption.test.ts, Cascade Colony, Montana, seed f034e12d17cb23f3024faec0a35a99648e1340d1e181a9ed58b569aad37c50fd) was killed at 22.8 seconds and reported as a timeout. The specs' times in that run were M0-01 23.7, M0-02 13.1, M0-03 22.3, M0-05 9.1, M0-06 22.5, M0-09 33.1, M1-01 28.9, M1-11 63.6, M2-01 26.5, M2-02 24.1, M2-05 23.9, M2-06 23.9, M2-07 25.7, M2-08 23.6, M2-04 25.9 and M2-09 34.6 seconds. The goldenBudgetReason in the policies file measured the accepted quick specs at about 380 seconds, so the suite has outgrown its budget and the last accepted spec fails on time on any pull request, whatever it changes. Guards: the golden-path quick run's time budget, which times out its last test.
+**What.** On the head of the pull request whose run was 40566380843 (both attempts) the eighteen accepted quick specs ahead of M3-09 took about 427 of the 450 seconds in prMilliseconds (scripts/core2-guard/policies.json), so M3-09 (src/core2/corruption.test.ts, Cascade Colony, Montana, seed f034e12d17cb23f3024faec0a35a99648e1340d1e181a9ed58b569aad37c50fd) was killed at 22.8 seconds and reported as a timeout. The specs' times in that run were M0-01 23.7, M0-02 13.1, M0-03 22.3, M0-05 9.1, M0-06 22.5, M0-09 33.1, M1-01 28.9, M1-11 63.6, M2-01 26.5, M2-02 24.1, M2-05 23.9, M2-06 23.9, M2-07 25.7, M2-08 23.6, M2-04 25.9 and M2-09 34.6 seconds. The goldenBudgetReason in the policies file measured the accepted quick specs at about 380 seconds, so the suite has outgrown its budget and the last accepted spec fails on time on any pull request, whatever it changes.
 
 **Cause.** Measured: run 40566380843 on GitHub's runner (rerun with node --import tsx tests/golden-path/runner.mjs; the M3-09 draw was Cascade Colony, Montana, seed f034e12d17cb23f3024faec0a35a99648e1340d1e181a9ed58b569aad37c50fd), where the specs ahead of M3-09 took about 427 of the 450 seconds in prMilliseconds (scripts/core2-guard/policies.json) and M3-09 was killed at 22.8 seconds; M1-11 at 63.6 seconds is the largest single cost. It must be re-measured on current main with the golden-path runner (tests/golden-path/runner.mjs) before choosing a fix.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** scripts/core2-guard/policies.json, tests/golden-path/runner.mjs, .github/workflows/m0-guard.yml, src/core2/corruption.test.ts
 
 **Notes.** Found Oct 27 by the laws-and-effects lead from #6375's golden-path summary. M1-11 at 63.6 seconds is the largest single cost.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a time budget in the golden-path quick run; no player sees the budget.

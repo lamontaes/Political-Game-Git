@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/bench/opening-address.browser.mjs failed on a fresh bench on Nov 3 in Santa Isabel, Puerto Rico (seed fecc3ab9-7f3c-4efb-9845-569e4c79325d) with "Skip scene ended the address": after Skip scene the talk box still contains "Thank you all". The file is unchanged since 36503ddd20, so either Skip scene no longer clears the address or the talk that follows now quotes the closing line. The browser check ends the opening address with Skip scene and then reads the talk box (lines 58 to 70), so the failure is in what Skip clears or in what the next talk quotes. Nobody has decided which. Guards: the opening-address browser check, and Skip scene on the President's address.
+**What.** src/bench/opening-address.browser.mjs failed on a fresh bench on Nov 3 in Santa Isabel, Puerto Rico (seed fecc3ab9-7f3c-4efb-9845-569e4c79325d) with "Skip scene ended the address": after Skip scene the talk box still contains "Thank you all". The file is unchanged since 36503ddd20, so either Skip scene no longer clears the address or the talk that follows now quotes the closing line. The browser check ends the opening address with Skip scene and then reads the talk box (lines 58 to 70), so the failure is in what Skip clears or in what the next talk quotes. Nobody has decided which. Guards: Skip scene on the President's address, which should clear the talk box.
 
 **Cause.** Needs cause. Looked at src/bench/opening-address.browser.mjs lines 58 to 70, which assert the talk box lacks "Thank you all" after Skip scene: whether Skip scene keeps the text or the following talk quotes the closing line was not read. Measured: Santa Isabel, Puerto Rico, seed fecc3ab9-7f3c-4efb-9845-569e4c79325d.
 

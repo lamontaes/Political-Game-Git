@@ -18,7 +18,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 ---
 
-**What.** A second session replayed the plain-text check for play-stop-02 on main at 4fbc6a18a8 and it stopped in two drawn places. After the filing counter step in src/bench/plain-text.browser.mjs (the line that clicks #talk-leave), the talk box on screen was an unrelated talk with no Leave button. The check never reached the clerk's reply or Campaigns, so the item's finish line cannot be shown. Guards: the plain-text browser check, which stops at the filing counter.
+**What.** A second session replayed the plain-text check for play-stop-02 on main at 4fbc6a18a8 and it stopped in two drawn places. After the filing counter step in src/bench/plain-text.browser.mjs (the line that clicks #talk-leave), the talk box on screen was an unrelated talk with no Leave button. The check never reached the clerk's reply or Campaigns, so the item's finish line cannot be shown. Guards: the filing counter's talk and the clerk's reply, read as plain text.
 
 **Cause.** Measured: plain-text.browser.mjs line 173 timed out waiting for #talk-leave in Graniteville, Vermont (seed f416f8cf-40c0-4aff-a4da-5f4b834fc1a4) and Carolinas Heights, Northern Mariana Islands (seed c8fd1703-0ec9-44ca-baa7-6b6f031ce553). In the second, the box held Ella Holland asking 'Do you know much about Brian Monroe?' with replies and only Mark gap, no Leave. The failing step is the click after counter('seventeen'), so either the clerk talk was replaced by that scene or a Continue-only talk has no Leave; which one is not yet known.
 

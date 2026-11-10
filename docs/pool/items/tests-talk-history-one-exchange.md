@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** src/bench/talk-history.browser.mjs talks to the first person in the room and picks a reply twice to build a history block. Since the talk after the President's address was rewritten, that talk has one exchange: a reply, the person's answer with Continue, then it ends (Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4). The check then fails with no second reply, so the history display goes unchecked. Guards: the talk-history browser check, which expects two exchanges where a talk now has one.
+**What.** src/bench/talk-history.browser.mjs talks to the first person in the room and picks a reply twice to build a history block. Since the talk after the President's address was rewritten, that talk has one exchange: a reply, the person's answer with Continue, then it ends (Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4). The check then fails with no second reply, so the history display goes unchecked. Guards: the history block a player reads in a talk.
 
 **Cause.** Measured: in Nibbe, Montana, seed 9300f75f-9b1d-48b4-8d84-c409754ff9a4, the first person in the room after the President's address has a talk of one reply, the person's answer with Continue, then it ends, so src/bench/talk-history.browser.mjs finds no second reply and the history block goes unchecked.
 

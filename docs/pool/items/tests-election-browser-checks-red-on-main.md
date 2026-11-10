@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** Both election browser checks fail on clean main (Oct 28, 18:00 UTC) before they reach the ballot. src/bench/polling.browser.mjs with BENCH_SEED=poll-25-a times out clicking the party sheet's Join Republican button, which is found but never visible. src/bench/election-day.browser.mjs with EDAY_SEED=1793207574936 (Livermore Falls, Maine, race contest:seat:gus2025:105833:board:0:2026-11-03) times out waiting for the election-morning panel after the calendar skip and twelve Day clicks. The unit test src/bench/election-day.test.ts reaches the same morning through the bench player, so the break is in the screens or the checks' drive, not the voting engine. Guards: the polling and election-day browser checks, red on main.
+**What.** Both election browser checks fail on clean main (Oct 28, 18:00 UTC) before they reach the ballot. src/bench/polling.browser.mjs with BENCH_SEED=poll-25-a times out clicking the party sheet's Join Republican button, which is found but never visible. src/bench/election-day.browser.mjs with EDAY_SEED=1793207574936 (Livermore Falls, Maine, race contest:seat:gus2025:105833:board:0:2026-11-03) times out waiting for the election-morning panel after the calendar skip and twelve Day clicks. The unit test src/bench/election-day.test.ts reaches the same morning through the bench player, so the break is in the screens or the checks' drive, not the voting engine. Guards: the party sheet's Join button and the ballot on election day.
 
 **Cause.** Needs cause. Looked at the two checks named in the item: the element that hides Join Republican and the step that keeps the election-morning panel from showing were not identified, and neither check was re-run.
 
