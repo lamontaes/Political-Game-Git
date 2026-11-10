@@ -4763,6 +4763,20 @@ select.release-pick {
   gap: 8px;
   margin: 8px 0;
 }
+/* The country in 20 years: a wide table in a narrow panel, so its first column and its figures stay on one line. */
+.dev-outlook-table table {
+  width: 100%;
+  font-size: 0.85em;
+}
+.dev-outlook-table th,
+.dev-outlook-table td {
+  padding: 2px 6px 2px 0;
+  text-align: left;
+  vertical-align: bottom;
+}
+.dev-outlook-table td {
+  white-space: nowrap;
+}
 
 /* Journal (Nov 8 play mock, pl-journal): two columns of prose with a drop cap. */
 .journal-text {

@@ -1963,3 +1963,6 @@ export function applySocialSecurityLevel(
   // same line (OPUS-CORE, one model, two tiers).
   rerateCountedRetirement(core, level);
 }
+
+// Re-exported so other engine families read the paycheck rule through this entry, not the file (families guard).
+export { withholdingFor } from "./tax-withholding";

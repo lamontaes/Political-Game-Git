@@ -119,8 +119,12 @@ describe("the journal as a story from birth", () => {
     );
     let checked = 0;
     for (const line of lines) {
+      // The lines that tell this person's own spells. A line that only cites
+      // a spell because a time or cause link joins it to the line before
+      // (a partner's livelihood after "Nineteen years on,") tells another
+      // person's job, whose records are its own.
       const told = spells.filter((row) =>
-        line.sourceRecordIds.includes(row.id),
+        line.momentIds.some((momentId) => momentId.startsWith(`${row.id}:`)),
       );
       if (!told.length) continue;
       checked += 1;
@@ -131,11 +135,18 @@ describe("the journal as a story from birth", () => {
           const next = line.momentIds.includes(`${row.id}:job-ended:moved-on`)
             ? spells[spells.indexOf(row) + 1]
             : undefined;
+          // The job found again after time out of work names the one lost
+          // before it ("I hadn't had a paycheck since ...").
+          const lost = line.momentIds.includes(`${row.id}:job-started:again`)
+            ? spells[spells.indexOf(row) - 1]
+            : undefined;
           return [
             row.facts.organizationId,
             row.facts.jobId,
             next?.facts.organizationId,
             next?.facts.jobId,
+            lost?.facts.organizationId,
+            lost?.facts.jobId,
           ]
             .filter(Boolean)
             .map(String);
