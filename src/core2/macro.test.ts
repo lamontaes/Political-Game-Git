@@ -5,10 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
   MACRO_MODULE,
-<<<<<<< HEAD
   countryOutlook,
-=======
->>>>>>> origin/main
   countryStates,
   linkCreditLineToPrime,
   macroCoreData,
@@ -185,7 +182,6 @@ describe("national economy", () => {
       `${where} ${latest.month}`,
     ).toBeCloseTo((100 * seekers) / (workers + seekers), 6);
   });
-<<<<<<< HEAD
   it("the outlook is the months the game then lives, and it writes nothing", () => {
     const seed = `outlook-${Math.random().toString(36).slice(2, 10)}`;
     const core = createCore(opening("2025-01-20", seed), {
@@ -246,8 +242,6 @@ describe("national economy", () => {
       );
     }
   });
-=======
->>>>>>> origin/main
   it("a higher policy rate raises the long rates the bank quotes, with no draws", () => {
     const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
     const nation = {
