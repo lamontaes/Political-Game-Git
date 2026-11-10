@@ -70,6 +70,7 @@ import type {
   Source,
 } from "../types";
 import { placeStateKey } from "../place-map";
+import { registerReturnedMembersLeave } from "../returned-members-move";
 
 export const MOVES_MODULE_ID = "moves";
 export const MOVES_PARAMETERS = rows as unknown as Readonly<
@@ -1798,7 +1799,7 @@ export const movesModule: CoreModule = {
  * core-press-staff-counted-job-not-resident; Montpelier, Vermont, seed mont1,
  * 2027; South Hero, Vermont, seed 9bf1ede27ce5a00e).
  */
-export function returnedMembersLeave(
+function returnedMembersLeave(
   api: CoreAPI,
   people: readonly PersonState[],
   fromPlace: string,
@@ -1852,3 +1853,5 @@ export function returnedMembersLeave(
     ),
   });
 }
+
+registerReturnedMembersLeave(returnedMembersLeave);

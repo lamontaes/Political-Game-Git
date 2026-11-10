@@ -25,7 +25,7 @@ import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
-import { returnedMembersLeave } from "./moves";
+import { returnedMembersLeave } from "../returned-members-move";
 import { isDemoted } from "../counted-groups";
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./laws";
