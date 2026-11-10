@@ -5,20 +5,21 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-words-scene-web-legislating
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:53:21.329Z
 after:
 standard: 2
 model: sonnet
 effort: medium
 root: design-story-director
 checked: fable 2026-11-10
+branch: claude/pool-words-scene-web-legislating
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the legislating domain, one row per cause that fires it. This domain covers legislating at council, county, state and Congress: a floor vote, a hearing, a vote asked or confirmed, a bill carried, a section bargained. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's legislating requests with no type are listed under Missing in the report and become rows here.
@@ -44,3 +45,5 @@ checked: fable 2026-11-10
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
 
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-legislating`; last push Oct 27, 14:11 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:53 UTC) on branch claude/pool-words-scene-web-legislating.
