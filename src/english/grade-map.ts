@@ -62,6 +62,8 @@ export interface LineGrade {
 export interface RuleLesson {
   readonly id: string;
   readonly features: Readonly<Record<string, number>>;
+  /** The register class the rule holds in (private talk, broadcast ...); every register when absent. */
+  readonly register?: string;
 }
 
 export interface MapCell {
@@ -118,6 +120,7 @@ export function contextsOf(
   return [
     "all",
     "rule",
+    `rule:${register}`,
     `reg:${register}`,
     `voice:${voice}`,
     ...scenes.map((scene) => `scene:${scene}`),
@@ -190,7 +193,7 @@ export function scoreOf(
       const cell = row[context];
       if (!cell || cell.n === 0) continue;
       touched = true;
-      if (context !== "all" && context !== "rule") reached = true;
+      if (context !== "all" && !context.startsWith("rule")) reached = true;
       if (context.startsWith("scene:") || context.startsWith("rv:"))
         near = true;
       total +=
@@ -225,13 +228,18 @@ export function buildGradeMap(
     for (const span of grade.spans) {
       if (span.strength === 0) continue;
       for (const feature of gradedFeatures(piece.text, span))
-        for (const context of contexts.filter((c) => c !== "rule"))
+        for (const context of contexts.filter((c) => !c.startsWith("rule")))
           add(cells, feature, context, span.strength);
     }
   }
   for (const rule of rules)
     for (const [feature, strength] of Object.entries(rule.features))
-      add(cells, feature, "rule", strength);
+      add(
+        cells,
+        feature,
+        rule.register ? `rule:${rule.register}` : "rule",
+        strength,
+      );
   const factors: Record<string, number> = {};
   const scored: [string, number][] = [];
   const byBank: Record<

@@ -33,3 +33,11 @@ describe("a spoken note becomes span grades with strengths", () => {
     ]);
   });
 });
+
+describe("not knowing what a line means", () => {
+  it("counts against the line, though it holds 'sure'", () => {
+    expect(strengthOf("I'm not quite sure what that means.")).toBeLessThan(0);
+    expect(strengthOf("I don't really understand that one.")).toBeLessThan(0);
+    expect(strengthOf("I don't know what that means.")).toBeLessThan(0);
+  });
+});
