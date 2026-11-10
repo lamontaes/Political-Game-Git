@@ -54,6 +54,7 @@ import { appliedTo } from "./law-reach/applied";
 import { stancesOf } from "./modules/views";
 import { composeJournal } from "../director/journal";
 import { composeScene } from "../director/scene";
+import { questionAxis } from "./campaign-views";
 
 const seed = process.env.LAWS_E2E_SEED ?? randomBytes(16).toString("hex");
 /** Draws tried for each outcome before the test says none held it. */
@@ -69,7 +70,12 @@ const PRICE_QUESTIONS = [
   "transportation-infrastructure.mileage-fee-replaces-fuel-tax",
   "environment-energy.allow-retail-electric-choice",
   "environment-energy.price-carbon",
-].map((q) => `us-policy-positions:${q}`);
+]
+  .map((q) => `us-policy-positions:${q}`)
+  // A member reads a question by their own views and their district's lean,
+  // each a lean times the question's axis: a question with no measured axis
+  // is read as nothing by every member (laws-price-questions-without-an-axis).
+  .filter((q) => questionAxis(q) !== 0);
 
 interface Deal {
   memberId: string;
@@ -197,6 +203,11 @@ function expectReasonedVotes(played: Played) {
         `${where}: ${vote.memberId}'s ${reason}`,
       ).toBe(true);
   }
+  // The members' own reads of their lives and districts weigh on the vote.
+  expect(
+    votes.some((v) => v.position.views !== 0 || v.position.constituents !== 0),
+    `${where}: no member's views or district read ${bill.id}`,
+  ).toBe(true);
   return votes
     .map(
       (v) =>
