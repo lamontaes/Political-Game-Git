@@ -41,6 +41,16 @@
       "before": "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
       "why": "'I will' answers nothing A said."
     },
+    "076j5kky79k": {
+      "reply": "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it",
+      "before": "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "07pixm3m9dv": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-get-it-done",
+      "before": "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
     "0a21dvry7n4": {
       "reply": "scene-talk.reply-deny.no-where-did-you-hear-that",
       "before": "scene-talk.follow-ask.then-why-vote-at-all",
@@ -55,6 +65,11 @@
       "reply": "scene-talk.reply-press.i-ve-heard-by-friday-before",
       "before": "scene-talk.follow-promise.you-re-welcome",
       "why": "'You're welcome' gives no Friday; B answers a promise never made."
+    },
+    "0ct4kwefjtl": {
+      "reply": "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it",
+      "before": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "0fx1mq8xsbq": {
       "reply": "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
@@ -76,10 +91,20 @@
       "before": "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
       "why": "A offers to tell how it went; B asks why vote at all."
     },
+    "0mfo1j86u54": {
+      "reply": "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it",
+      "before": "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
     "0o4tnrga83l": {
       "reply": "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
       "before": "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
       "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
+    },
+    "0oo7m2v1oro": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-get-it-done",
+      "before": "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "0q5r5wansuf": {
       "reply": "scene-talk.reply-confront.i-m-not-planning-on-being-the-third",
@@ -90,6 +115,16 @@
       "reply": "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor",
       "before": "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
       "why": "A never mentions a prosecutor or going to one."
+    },
+    "0uo1ol8jnk9": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-get-it-done",
+      "before": "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "0vcxtzd61cc": {
+      "reply": "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it",
+      "before": "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "0vxja518iah": {
       "reply": "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first",
@@ -115,6 +150,11 @@
       "reply": "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part",
       "before": "scene-talk.follow-ask.how-much-did-they-give",
       "why": "A asks how much was given; B answers about family saying yes"
+    },
+    "114ikb1y1ad": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-get-it-done",
+      "before": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "1359jbi16r6": {
       "reply": "scene-talk.reply-confront.i-m-not-planning-on-being-the-third",
@@ -191,6 +231,11 @@
       "before": "scene-talk.follow-ask.friend.is-that-all-of-it-first",
       "why": "A asks if that is all; B answers about the rule to vote."
     },
+    "1kg7zsqjmk5": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-get-it-done",
+      "before": "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
     "1l40781tr6f": {
       "reply": "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here",
       "before": "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
@@ -230,6 +275,11 @@
       "reply": "scene-talk.reply-confront.i-m-not-planning-on-being-the-third",
       "before": "scene-talk.follow-confront.prove-it-by-lunch",
       "why": "\"The third\" has no referent in A."
+    },
+    "1znr6xarvdh": {
+      "reply": "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it",
+      "before": "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
     "20casmfl5so": {
       "reply": "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours",
