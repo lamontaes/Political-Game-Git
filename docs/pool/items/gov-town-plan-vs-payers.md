@@ -12,7 +12,7 @@ claimed-by:
 pr:
 after:
 blocked-on:
-model: fable
+model: opus
 effort: high
 root: none
 source: Money, Nov 9; scripts/money/collected.ts
@@ -25,7 +25,7 @@ claimed-at:
 
 **Fix.** None until the cause is found.
 
-**Time box.** 6 hours for one Fable session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Wire to the world: the town's plan and its receipts come from the same laws and payers, so a vote reads one record of what the town raised, proven in a generated world. One rule, all 56 places: the reconciliation runs in drawn places and names no place in code. Estimate, never UNKNOWN: a plan figure the town's payers cannot support is a registered estimate with its source and spread. Real town ratios are reported, never steered to (owner, Nov 8: ranges aren't targets).
 
@@ -36,3 +36,5 @@ claimed-at:
 **Files.** src/core2/modules/budgets.ts, src/core2/budgets-treasury.ts, src/core2/data/budgets/, scripts/money/collected.ts
 
 **Notes.** Money, Nov 9: measured while building the receipts tally for the spending vote (gov-budget-spending-voted-from-revenue).
+
+**Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: Finding this cause is one engine's receipts read against one plan: an Opus session at high effort can do it, and a second session checks the cause before anything is built on it.

@@ -12,7 +12,7 @@ pr:
 after:
 blocked-on:
 lead: wire-elections
-model: fable
+model: opus
 effort: high
 root: design-electorate-one-model
 source: wire-office session, Oct 28 (found red on main)
@@ -24,7 +24,7 @@ source: wire-office session, Oct 28 (found red on main)
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for one Fable session, which finds the cause and rewrites this item with it.
+**Time box.** 3 hours for one Opus session, which finds the cause and rewrites this item with it.
 
 **Rules.** No dice: a candidate's votes come from voters' appeals, so a candidate with zero votes must be explained by the appeal, never forced by a roll or a floor. One rule, all 56 places: the fix and its test draw places from data and the failure names the place and the seed. Never weaken a test: the expectation is kept or replaced by one as strong, derived from the race's records.
 
@@ -35,3 +35,5 @@ source: wire-office session, Oct 28 (found red on main)
 **Files.** src/core2/two-level-elections.test.ts, src/core2/modules/voting.ts
 
 **Notes.** Found by the wire-office session on Oct 28 while testing the 2024 vote drawn per world; both seeds fail identically on clean main at d3ee6986bc.
+
+**Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: Two reds that replay by seed; finding why is a read of one race's records: Opus at high effort.

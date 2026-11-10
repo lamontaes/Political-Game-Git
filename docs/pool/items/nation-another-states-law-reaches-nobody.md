@@ -13,7 +13,7 @@ after: core-country-tier-first-slice
 blocked-on:
 lead: fable
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "The results change nobody's life")
-model: fable
+model: opus
 effort: high
 root: design-country-tier
 ---
@@ -24,7 +24,7 @@ root: design-country-tier
 
 **Fix.** Land other states' laws on their counted groups through the same reach rules times counts, stepped monthly.
 
-**Time box.** 10 hours for one Fable session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One model, two tiers: a state's counted groups are read by the same law-reach rule as a full person, times their count, and a rule that reaches only the played town's people is an unregistered placeholder. An effect is a read, not a record: a notice and a news record are not an effect; the law counts when a different engine reads it at the moment it decides or pays, named by record id. The chain is the acceptance: one rule followed from the other state's law row to the group it reached, the figure that moved and the view or move that answered. Speed: counts and results only, stepped monthly, with no full people built for a state the player has not opened. Owner, November 8: "this stuff needs to follow, not follow, but be influenced by local, state, and national events or trends." Owner, November 5: "just simulate based on the people there and then you can fill in the gaps based on what was simulated when things need to be generated. generate on demand".
 
@@ -35,3 +35,5 @@ root: design-country-tier
 **Files.** src/core2/law-reach/host.ts (`runHandlers`, line 148; the skip for a `national:` place at line 151), src/core2/modules/outcome-web.ts (`OUTCOME_WEB_MODULE.onEvent`, line 719; the skip at line 723), src/core2/modules/laws.ts (`lawTookEffect`, line 1012, which emits another state's law as a `national:` event near line 1023), src/core2/modules/climate.ts (the carbon laws, the one reader today, near line 97), src/core2/counted-reach.ts, src/core2/regional-model.ts, src/bench/dev-mode.ts
 
 **Notes.** Fable's country tier design (pool item core-country-tier-first-slice) decides the shape; this item is the measured defect it must close. From the Fable audit, Pillar 3. Measured there: one played year with the audit's own readings in Caño Martín Peña, Puerto Rico; the two skips were read in the code and confirmed by the audit's independent reviewer. The audit's size call: "When every state is counted groups with a ledger, a state's opinion and economy exist to drive its legislature, and its laws have people to land on." That is why this item waits on the country tier's first slice and has Fable as its lead. Confirmed on main, Nov 10 (helper): both skips are as cited, each with a comment that another state's act "is a national event, not the town's law". The audit did not check whether the national opinion module reads these events beyond the press, and its twin-world test in Pillar 1 (Woods Cross, Utah, seed f61d987b2e0e) shows the same gap inside the player's own state: with both income taxes at zero that region's population was 729,822 in both worlds. Note for the checker: `after:` names an item that must exist in the pool before the pool check passes. Related: `nation-other-states-change-laws-in-year-one-then-almost-never`, `nation-other-states-never-change-an-amount`, `world-other-places-coarse-population` (open: a coarse population for every other place), `laws-other-places-chains` (open, priority 3: another place's law reaches a worker who lives there), `views-other-places-voters` (open: other places' voters have no views to change).
+
+**Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: The country tier now reads each state's law in its monthly steps, so this is a build inside the reach code against a written fix: Opus at high effort.

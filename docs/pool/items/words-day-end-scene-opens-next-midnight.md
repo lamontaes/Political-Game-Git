@@ -12,7 +12,7 @@ pr:
 after:
 blocked-on:
 lead: words
-model: fable
+model: opus
 effort: high
 root: rc2-done-from-records
 source: added with npm run pool -- add
@@ -24,7 +24,7 @@ source: added with npm run pool -- add
 
 **Fix.** Choose one: run the world's day before the player walks it, or land the stop at the player's next waking moment; either way make the narration name the day the scene plays. Needs a short ruling on when the player's day begins; ask the CTO.
 
-**Time box.** 6 hours for one Fable session.
+**Time box.** 6 hours for one Opus session.
 
 **Rules.** Ask why: the stop's time comes from the record's own date and the player's clock, by record, never a fixed hour. One rule, all 56 places: the same timing applies to every scene that stops the day. No hand-written player text: the narration's day stays the record's day.
 
@@ -39,3 +39,5 @@ source: added with npm run pool -- add
 Oct 27 (director lead): reproduces on clean main at 820801c06 in `src/director/played-talks.test.ts` with GOLDEN_PATH_SEED=102b8c4d5f1ea00d (Gray Court, South Carolina): the appointment talk for moment `person_d8e14eeb5bd8ca2b:2025-01-20:appointed:appointment:town:finance-director:2025-01-20` reports "opened on 2025-01-21, staged for 2025-01-20". The director lead owns `src/director/scheduling.ts` now and takes this after `director-scenes-from-circumstance`.
 
 Oct 27, 11:05 UTC (director lead), root cause measured: the core writes a day's records after the player clock has already passed that day's midnight. In a played run on branch claude/director-scenes-from-circumstance (Wiscon, Florida, seed director-circ-1, 200 days through the player clock), all 371 records that could call a scene from circumstance were written with the player's frontier at the next day, 00:00. A stop may not be set before the frontier (`registerModuleStopV1`, src/core2/player-stops-v1.ts:276). So no director change can open such a scene on its record's own day, and the item's rule forbids a fixed hour. Two ways forward, both outside the director: the core runs the world's day before the player walks it (core2, lead m0-m2), or the stop lands at the player's next waking moment once `play-stop-07-every-day-starts-at-midnight-a` defines when the player's day begins (lane). Either way the narration must name the day the scene plays. The director side is ready to read whichever lands.
+
+**Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: The cause is found; it waits on a short ruling from the CTO on when the player's day begins, then it is a build against that ruling: Opus at high effort.

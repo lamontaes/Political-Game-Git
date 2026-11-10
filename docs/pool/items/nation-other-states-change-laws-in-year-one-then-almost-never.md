@@ -13,7 +13,7 @@ after:
 blocked-on:
 lead: nation
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "One tally per session" and "A flood in year one, then silence")
-model: fable
+model: opus
 effort: high
 root: design-country-tier
 ---
@@ -24,7 +24,7 @@ root: design-country-tier
 
 **Fix.** Drive what a session takes up from what moved in the state since the last one, counts only; keep cause on the result row.
 
-**Time box.** 10 hours for one Fable session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Sliding scales and causes: a state changes a law because something moved there, its opinion, its economy, an election or a lobby, and each change keeps that cause on its result row; nothing passes on a fixed pace or a yearly quota. No dice: the members' and the governor's views and the state's conditions decide, with no chance, cap or rate. Ask why: every change can answer why this year and not last, by record. Speed: one result per change on session days, and no per-member rows for a state the player has not opened. Owner, November 8: "The other 49 states changing laws and, stuff happening nationally and locally and stuff is to the utmost importance, even simulation kind of stuff." Owner, November 5: the members' and governor's views decide, keep only the result, build the detail on demand; the finish line is "at least 40 states change a law in force" in a played year. Owner, October 14: "a legislature passing its whole year on one day... each is a defect until the record answers why."
 
@@ -35,3 +35,5 @@ root: design-country-tier
 **Files.** src/core2/modules/world-legislating.ts (`openOutsideSession`, line 1354; the tally loop over `PLATFORM_QUESTIONS` at lines 1386 to 1420; `needsChange`, line 320; `outsideEnact`, line 1486), src/core2/modules/national-opinion.ts, src/core2/modules/outside-budgets.ts, src/core2/regional-model.ts, src/core2/state-sessions.test.ts, src/bench/nation-news.ts, src/bench/ui/dev-watch.mjs
 
 **Notes.** Fable's country tier design (pool item core-country-tier-first-slice) decides the shape; this item is the measured defect it must close. From the Fable audit, Pillar 3. Measured there: a 19-year run of the Wickliffe, Oklahoma world with readings each year; the tally was read in the code and confirmed by the audit's independent reviewer. The audit did not measure how often control of a statehouse changes over a long run, and its call is that nobody should claim the country's politics turn over until a long run records it year by year. Confirmed on main, Nov 10 (helper): `openOutsideSession` computes, for each question and each direction, each chamber's count of members whose `officialStance` leans that way, requires every chamber to have more yes than no and the governor to agree or two thirds to override, and reads nothing else. Related: `laws-session-moves-too-many-questions` (open, priority 3: the home state's own session moves 10 to 19 questions in one sitting, the same one-time sort seen from inside), `nation-other-states-never-change-an-amount`, `nation-another-states-law-reaches-nobody`, `play-states-screen-opens-any-state`, `words-nation-newsworthy-by-reach-and-ties` (open: which of these laws the paper prints).
+
+**Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: One engine (the outside sessions) and a written fix: Opus at high effort.

@@ -11,7 +11,9 @@ Owner, Nov 10: "spend time fleshing everything out so that everything has an ass
 | Replaced by a design or ruling: drop    | 29      |
 | **Total**                               | **932** |
 
-Model proposed for the live items: sonnet 430, opus 262, haiku 23, fable 12.
+Model proposed for the live items by the sort: sonnet 430, opus 262, haiku 23, fable 12.
+
+**After Fable's own pass (Nov 10, later).** Fable split its five large items (the fast clock, the town joining its state, the country tier's umbrella, the life record and the words machine) into 28 parts by hand, and read the seven other items the sort had marked for a Fable-level model again: each is one engine's work or a cause inside one engine, so each is now Opus at high effort. Counting the 198 parts the helpers split out and these 28, the live items at the standard are 951: Sonnet 548, Opus 384, Haiku 18, and one for a Fable-level model. That one is `core-fast-clock-part-8-design-the-town-as-counts-in-a-skip`: the design that takes a skipped year from tens of seconds to under one does not exist yet, and it is marked needs cause. 119 items are marked needs cause in all.
 
 ## Proposed drops: already done on main
 

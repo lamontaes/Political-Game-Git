@@ -14,7 +14,7 @@ claimed-at:
 after:
 lead: elections
 standard: 2
-model: fable
+model: opus
 effort: high
 root: none
 ---
@@ -25,7 +25,7 @@ root: none
 
 **Fix.** None until the cause is found.
 
-**Time box.** 6 hours for one fable session, to find which recorded reasons (engagement, time, age, incumbency) differ between the towns' adults and explain the spread, by record id.
+**Time box.** 6 hours for one Opus session, to find which recorded reasons (engagement, time, age, incumbency) differ between the towns' adults and explain the spread, by record id.
 
 **Rules.** No dice: candidates run from their traits, principles, money and the place's conditions, never a fixed percentage. Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE). Real rates check totals and never pick one actor's outcome (owner, Nov 8).
 
@@ -48,3 +48,5 @@ Measured Oct 20 (claude/political-game-pool-3xfqef-7), not closed. Contests now 
 Against the cited band (most local seats draw one or two candidates), state and federal seats sit inside it. County and city seats do not hold across places: half of Tupelo's county contests drew no one while Warrenville's four city contests averaged four candidates, so the same weights give a spread of 0.5 to 4.0 between towns. That spread is for the builder to explain (which reasons differ between the towns' adults: engagement, time, age) before the row can close; three places is too few to move a weight, and the incumbent re-run share (the 81 percent the incumbency weight cites) was not measured here. The scratch test is not kept; it is about 30 lines over `moduleState("core2-elections-v1")` filings and contests.
 
 Sent back 2026-10-23 from PR #5436 (branch claude/candidacy-calibration-g08lgv): this measurement-only PR still marks the unfinished calibration umbrella for automatic completion while SG-P15-candidacy-weights stays open; use a bounded reporting item and a Done-when evidence table; finish on that branch, merge main into it first.
+
+**Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: A calibration read inside the candidacy engine: Opus at high effort.
