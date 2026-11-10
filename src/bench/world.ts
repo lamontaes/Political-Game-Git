@@ -30,6 +30,7 @@ import { openOfficialPay } from "../core2/modules/official-pay";
 import { openCrime } from "../core2/modules/crime";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openGrievance } from "../core2/modules/people";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
@@ -534,6 +535,8 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Disputes between two people from the layoffs and evictions above.
+  openGrievance(core);
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
   openEstates(core);

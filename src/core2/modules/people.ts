@@ -188,6 +188,8 @@ export { SCHOOL_MEASURE } from "../school-outcomes";
 export { isNoncitizen, isUnauthorized } from "../citizenship";
 export { SPEECH_MODULE_ID, addressesGivenBy, deliverSpeech } from "./speech";
 export { ENCOUNTERS } from "../encounters";
+// Disputes between two people from layoffs and evictions, for the world that opens them.
+export { openGrievance } from "./grievance";
 // A household's month of income (its open jobs and income awards), for
 // readers outside the family.
 export { householdIncome } from "./moves";
