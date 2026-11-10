@@ -27,8 +27,6 @@ import type { PartGradeLedger } from "../../src/english/english-grades";
 import {
   gradeNotesOf,
   readingOf,
-  readingSections,
-  readingTotals,
   type GradeRow,
   type NotesNotRulesFile,
   type ReadingReport,
@@ -155,6 +153,45 @@ export function freshRun(): {
     "reply-follows-the-line-before": replyFollowsReport(),
   } satisfies PlaceReports);
   return { result, pulledFile: pulledFileOf(result), rules, pieces };
+}
+
+const quote = (text: string) => `"${text.replace(/\s+/g, " ").trim()}"`;
+
+/** The top lines of the report: what was read and how much of it is attached. */
+function readingTotals(reading: ReadingReport): string[] {
+  const notes = reading.notes.length;
+  const noteAttached = notes - reading.unattachedNotes.length;
+  const rulings = reading.rulings.length;
+  const places = Object.entries(reading.perPlace)
+    .map(([name, count]) => `${name} ${count}`)
+    .join(", ");
+  return [
+    `- Grade notes read: ${notes}. Attached to a rule: ${noteAttached}. Attached to none: ${reading.unattachedNotes.length}.`,
+    `- Rulings read from the other places: ${rulings} (${places}). Attached to a rule: ${reading.attachedRulings}. Not rules: ${rulings - reading.attachedRulings}.`,
+  ];
+}
+
+/** The two lists at the end of the report: notes no rule cites, and rulings that are not rules. */
+function readingSections(reading: ReadingReport): string[] {
+  const batch = (file: string) => file.replace(/\.json$/, "");
+  return [
+    `## Grade notes attached to no rule (${reading.unattachedNotes.length})`,
+    "",
+    ...reading.unattachedNotes.map(
+      (note) =>
+        `- ${note.date || "no date"}, ${batch(note.file)}, ${quote(note.note)}: ${note.reason || "NO REASON GIVEN"}`,
+    ),
+    "",
+    `## Rulings that are not rules (${reading.rulings.length - reading.attachedRulings})`,
+    "",
+    ...reading.rulings
+      .filter((r) => !r.rule)
+      .map(
+        (r) =>
+          `- ${r.id}, ${r.date}, ${r.source}, ${quote(r.words)}: ${r.notARule ?? "NO REASON GIVEN"}`,
+      ),
+    "",
+  ];
 }
 
 const short = (text: string, max = 80) =>
