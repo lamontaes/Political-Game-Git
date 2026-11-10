@@ -182,6 +182,31 @@ describe("national economy", () => {
       `${where} ${latest.month}`,
     ).toBeCloseTo((100 * seekers) / (workers + seekers), 6);
   });
+  it("however many openings there are, some people are still looking: no state reaches zero out of work", () => {
+    // The second session's check in Broadland, South Dakota (Nov 10, 2026) read a state at
+    // 0.0% out of work a year in; left alone, three territories reached zero within three
+    // years, because every seeker was hired in a month once openings outnumbered them.
+    const seed = `seekers-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2025-01-20", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2025-01-21");
+    const years = 5;
+    const outlook = countryOutlook(api, years * 12);
+    let lowest = { pct: 100, usps: "", month: "" };
+    for (const [usps, points] of Object.entries(outlook.states))
+      for (const point of points)
+        if (point.unemploymentPct < lowest.pct)
+          lowest = { pct: point.unemploymentPct, usps, month: point.month };
+    const where = `seed ${seed}: ${lowest.usps} at ${lowest.month}`;
+    process.stderr.write(
+      `${where}: the lowest share out of work at any year's end in ${years} years is ${lowest.pct.toFixed(3)}%\n`,
+    );
+    // More than one seeker in ten thousand people in the labor force.
+    expect(lowest.pct, where).toBeGreaterThan(0.01);
+  });
   it("the outlook is the months the game then lives, and it writes nothing", () => {
     const seed = `outlook-${Math.random().toString(36).slice(2, 10)}`;
     const core = createCore(opening("2025-01-20", seed), {
