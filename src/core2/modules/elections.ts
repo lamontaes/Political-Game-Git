@@ -69,6 +69,7 @@ export function isLocalFamily(family: OfficeFamily): boolean {
 /** This world's swing from 2024, for the engines outside elections that read a place's lean. */
 export {
   publishedSenateSeats,
+  senateSides,
   worldRoster,
   worldSeatParty,
   worldSwing,

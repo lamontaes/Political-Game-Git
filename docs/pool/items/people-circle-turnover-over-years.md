@@ -11,13 +11,27 @@ pr: #5913
 blocked-on: people-circle-turnover-too-low
 source: added with npm run pool -- add
 claimed-at: 2026-10-24T15:16:05.149Z
+after:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: m0-m2
 ---
 
-**What.** Roadmap M0-07's test text ends 'over years, circle turnover matches a sourced study'. Its command (src/core2/m0-meeting-people.test.ts) passes on main b09ba675cd in Bridgeville, Pennsylvania, but its four tests cover 91 days only: new acquaintances, a tie growing closer, saved reasons and visits inside the GSS and ATUS ranges. No test plays years or compares how many of a person's ties are replaced with a study. Research the turnover rate, then add the multi-year check against it.
+**What.** Roadmap M0-07's test text ends "over years, circle turnover matches a sourced study". Its command passes on main in Bridgeville, Pennsylvania, but its four tests cover 91 days only: new acquaintances, a tie growing closer, saved reasons and visits inside the GSS and ATUS ranges. No test plays years or compares how many of a person's ties are replaced with a study. Research the turnover rate, then add the multi-year check against it.
+
+**Cause.** Found in code: src/core2/m0-meeting-people.test.ts (the describe at line 104 and its four tests, lines 110 to 151) covers 91 days only; nothing plays years against a sourced turnover rate.
+
+**Fix.** Research the turnover rate of a person's close ties from a fetched study, then add a three-year test in two drawn places that reports the share of the player's circle replaced beside the study's figure and fails if ties never end.
+
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Research before building: the turnover rate is SOURCED from a fetched study with its citation, and it checks the total, never one tie's fate (No dice). Wire to the world: the check plays a world built with buildBenchWorld in a drawn place.
 
-**Done when.** A test plays at least three years of a world built with buildBenchWorld in a place drawn from all 56 (place and seed named) and checks the share of the player's circle replaced against the sourced study's range; it runs from the M0-07 command, passes in two drawn places and fails when ties never end. **On screen.** Nothing yet: it would show on the People web and the Journal, and nothing there reads it.
+**Done when.** A second session runs the M0-07 command and sees a test that plays at least three years of a world built with buildBenchWorld in two places drawn from all 56 (place and seed named), reports the share of the player's circle replaced beside the sourced study's figure, and fails when ties never end. The People web shows ties ending in those years.
+
+**Waits on.** people-circle-turnover-too-low (the check passes in two drawn places only after the turnover fix).
 
 **Files.** src/core2/m0-meeting-people.test.ts, src/core2/data/parameters.json
 

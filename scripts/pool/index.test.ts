@@ -346,10 +346,13 @@ describe("quality gate", () => {
 });
 
 describe("add", () => {
-  it("refuses a priority 1 or 2 item without its body and writes one that passes the gate", () => {
+  it("refuses an item missing any field of the standard and writes one that passes the check", () => {
     const dir = mkdtempSync(join(tmpdir(), "pool-add-"));
     const pool = join(dir, "docs", "pool");
     mkdirSync(join(pool, "items"), { recursive: true });
+    mkdirSync(join(dir, "src", "core2", "modules"), { recursive: true });
+    writeFileSync(join(dir, "src", "core2", "modules", "example.ts"), "x\n");
+    writeFileSync(join(pool, "roots.md"), "- `rc8-law`: a root.\n");
     const cwd = process.cwd();
     const g = (...a: string[]): string =>
       execFileSync("git", a, { cwd: dir, encoding: "utf8" });
@@ -372,40 +375,47 @@ describe("add", () => {
       ];
       const rest = ["--kind", "wiring", "--priority", "2", "--no-push"];
       const refused = command([...head, ...rest]);
-      expect(refused).toContain("missing --what, --rules, --done, --files");
+      expect(refused).toContain(
+        "missing --what, --cause, --fix, --timebox, --rules, --done, --waits, --files, --model, --effort, --root, --lead",
+      );
       expect(() =>
         readFileSync(join(pool, "items", "laws-new.md"), "utf8"),
       ).toThrow();
-      const body = [
-        "--what",
-        "The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.",
-        "--rules",
-        "Wire to the world: the law must move a price and a ledger line for every retailer in the module.",
-        "--done",
-        "A one-year played world in a drawn place shows the retailer ledger record id changing after the law, and the test in tests/pool-x.test.ts proves it. The owner plays it: pass the law and see the shelf price move.",
-        "--files",
-        "src/core2/modules/example.ts",
-      ];
-      expect(command([...head, ...rest, ...body])).toBeNull();
-      const written = readFileSync(join(pool, "items", "laws-new.md"), "utf8");
-      expect(written).not.toContain("TODO\n\n**Rules");
-      expect(run(pool, true).errors).toEqual([]);
-      // Priority 3 may still start from the template.
+      const body = {
+        what: "The sales law never reaches the retailer ledger. A buyer pays the old price at the counter. The player would notice, while shopping in any town, that the shelf price never moves after the law passes, in any town they visit.",
+        cause:
+          "Found in code: src/core2/modules/example.ts:12, where the law is never read by the retailer ledger.",
+        fix: "Read the law in force when the retailer sets a price.",
+        timebox: "3",
+        rules:
+          "Wire to the world: the law must move a price and a ledger line for every retailer in the module.",
+        done: "A second session plays a one-year world in a drawn place and sees the retailer ledger record id change after the law, and the test in tests/pool-x.test.ts proves it. The owner plays it: pass the law and see the shelf price move.",
+        waits: "Nothing.",
+        files: "src/core2/modules/example.ts",
+        model: "sonnet",
+        effort: "medium",
+        root: "rc8-law",
+        lead: "laws",
+      };
+      const flagsOf = (b: Record<string, string>): string[] =>
+        Object.entries(b).flatMap(([k, v]) => [`--${k}`, v]);
+      // Each flag left out is refused by name.
+      for (const k of Object.keys(body)) {
+        const less: Record<string, string> = { ...body };
+        delete less[k];
+        expect(command([...head, ...rest, ...flagsOf(less)])).toContain(
+          `missing --${k}`,
+        );
+      }
+      // A flag that is given but wrong is refused by the standard's own check.
       expect(
-        command([
-          "add",
-          "laws-late",
-          "--title",
-          "A later item",
-          "--area",
-          "laws",
-          "--kind",
-          "wiring",
-          "--priority",
-          "3",
-          "--no-push",
-        ]),
-      ).toBeNull();
+        command([...head, ...rest, ...flagsOf({ ...body, model: "gpt" })]),
+      ).toMatch(/model "gpt" is not one of/);
+      expect(command([...head, ...rest, ...flagsOf(body)])).toBeNull();
+      const written = readFileSync(join(pool, "items", "laws-new.md"), "utf8");
+      expect(written).toContain("standard: 2");
+      expect(written).toContain("**Time box.** 3 hours");
+      expect(run(pool, true).errors).toEqual([]);
     } finally {
       process.chdir(cwd);
     }

@@ -6,20 +6,34 @@ kind: feature
 priority: 3
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5367
 blocked-on:
+after:
+lead: laws-effects
+model: opus
+effort: high
+root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** Full renter households can buy a home (`buyHomes` in `src/core2/modules/housing.ts`): the shared chooser weighs a mortgage against the lease, the household pays a down payment, the bank lends, the lease ends and a mortgage starts. Counted renters never do, so a town's wider population is renters for ever and its ownership rate only falls. Give a counted renter household the same decision and the same money steps, through its group's accounts: its rent part (`rent:<household>`) ends and a mortgage part joins the place's merged mortgage flow (`amountByContract`, as `addCountedRetiree` joins a retiree), with the down payment paid from the group's account and the seller paid.
+**What.** Full renter households can buy a home (`buyHomes` in src/core2/modules/housing.ts): the shared chooser weighs a mortgage against the lease, the household pays a down payment, the bank lends, the lease ends and a mortgage starts. Counted renters never do, so a town's wider population is renters for ever and its ownership rate only falls. Give a counted renter household the same decision and the same money steps, through its group's accounts: its rent part (`rent:<household>`) ends and a mortgage part joins the place's merged mortgage flow, with the down payment paid from the group's account and the seller paid. This item also takes the buy half of world-apply-and-buy-reasons-vary: each home purchase carries a circumstance reason that differs between buyers, by record id. The helper names in the old notes (addCountedRetiree, addFlowPart) are not on main; the ends of a part are endFlowPart in src/core2/residents-economy.ts and removeCountedHousehold in src/core2/housing-homeless.ts.
 
-**Rules.** One model, two tiers: a counted renter weighs buying with the same chooser and the same affordability read as a full one, times its count; `decisionActor` already builds a counted person for the chooser. No dice: who buys follows income against payment, means and traits, never a share. Wire to the world: the loan, the down payment and the seller's proceeds move through the accounts API and every dollar balances. Speed: no scan of every counted renter each month; read the households whose rent is small against their income. Owner decision to flag: a counted household has no cash of its own (the group's cash is pooled by place), so its means for a down payment need a stand-in, registered as an `owner-decision` stopgap and written under OWNER DECISIONS NEEDED.
+**Cause.** Found in code: buyHomes (src/core2/modules/housing.ts:1487) handles full renter households only; counted mortgages are built at the opening by src/core2/housing-mortgages.ts (countedMortgageFlowId, one flow per place and holder, a part per household), and nothing adds a counted renter's mortgage part afterwards.
 
-**Done when.** In a one-year played world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) at least one counted renter household is shown by record id to leave its `rent:<household>` part, join the mortgage flow with a `mortgage:<household>` part, and the new owner appears in `ownedHomes` with `escrowed` true, and the group's cash, the bank's loans and the seller's account balance to the dollar. A test in `src/core2/housing.test.ts` covers it, and the town's ownership share is reported before and after.
+**Fix.** Give counted renter households the buy decision through their group accounts: the rent part ends (endFlowPart), a mortgage part joins the place's counted mortgage flow, the down payment is paid from the group's account, the seller is paid, and the bank-room check applies; each purchase keeps a circumstance reason from the household's own means. Register the stand-in for a counted household's down payment as an owner-decision stopgap.
 
-**Files.** src/core2/modules/housing.ts, src/core2/residents-economy.ts, src/core2/housing-mortgages.ts, src/core2/housing.test.ts
+**Time box.** 10 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One model, two tiers: a counted renter weighs buying with the same chooser and the same affordability read as a full one, times its count; `decisionActor` in src/core2/choice.ts already builds a counted person for the chooser. No dice: who buys follows income against payment, means and traits, never a share. Wire to the world: the loan, the down payment and the seller's proceeds move through the accounts API and every dollar balances. Speed: no scan of every counted renter each month; read the households whose rent is small against their income. Owner decision to flag: a counted household has no cash of its own (the group's cash is pooled by place), so its means for a down payment need a stand-in, registered as an `owner-decision` stopgap and written under OWNER DECISIONS NEEDED.
+
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place from all 56, place and seed named in the PR body) and sees at least one counted renter household, by record id, leave its `rent:<household>` part, join the mortgage flow with a `mortgage:<household>` part and appear as a new owner in `ownedHomes` with `escrowed` true, with the group's cash, the bank's loans and the seller's account balancing to the dollar and each purchase carrying a circumstance reason that differs between buyers. A test in src/core2/housing.test.ts covers it, and the town's ownership share is reported before and after.
+
+**Waits on.** Nothing. The down-payment stand-in is a registered owner-decision stopgap.
+
+**Files.** src/core2/modules/housing.ts, src/core2/residents-economy.ts, src/core2/housing-mortgages.ts, src/core2/housing-homeless.ts, src/core2/housing.test.ts
 
 **Notes.** Read Oct 19 (claude/counted-renters-buy-g08lgv), not built: full-household buy path is `buyHomes` (about line 860) with `lendMortgage`; counted mortgages are built at the opening by `housing-mortgages.ts` (one flow per place and holder, a part per household, `countedMortgageFlowId`); a part is removed by `endFlowPart` and a counted removal by `removeCountedHousehold` (`housing-homeless.ts`); `housing-foreclosure.ts` already ends counted mortgage parts. Missing: an `addFlowPart` for a mortgage, the counted down-payment source, and the bank-room check (`room`) for a new loan.
 Sent back 2026-10-20 from PR #5243 (branch claude/counted-renters-buy): Merge conflict with main in docs/pool/items/world-counted-renters-buy.md; superseded by PR #5367.

@@ -741,3 +741,12 @@ export function worldRoster(seed: string): typeof ROSTER {
   rosters.set(seed, world);
   return world;
 }
+
+/** The U.S. Senate's members' party sides, seat by seat. */
+export function senateSides(seed: string): readonly number[] {
+  // Who holds each Senate seat in this world (realistic, not real).
+  const congress = worldRoster(seed).congress;
+  return Object.values(congress).flatMap((seats) =>
+    (seats.senate ?? []).map((p) => partySide(p)),
+  );
+}

@@ -6,20 +6,34 @@ kind: feature
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
+after:
+lead: words
+model: haiku
+effort: low
+root: rc4-hand-written-words
 source: "split from words-unworded-moments, Oct 16"
 claimed-at:
 ---
 
-**What.** Four moments the records fire still have no words or thin ones: the player saying they filed their papers after the filing visit, a new law taking effect, a held meeting, and the blame someone was told. Author each to the calibrated patterns as bank parts with move tags (author and date on each, at least two wordings each), and have the director say them when the filing, law-effect, meeting and blame records fire. The clerk does not state a fee or a signature count, because no one pays a fee or gathers signatures to file (owner, Oct 13).
+**What.** Four moments the records fire still have no words or thin ones: the player saying they filed their papers after the filing visit, a new law taking effect, a held meeting, and the blame someone was told. Each is to be authored to the calibrated patterns as bank parts with move tags (author and date on each, at least two wordings each), and the director says them when the filing, law-effect, meeting and blame records fire. The clerk does not state a fee or a signature count, because no one pays a fee or gathers signatures to file (owner, Oct 13). The item named a bank file, filing-visit.json, that does not exist; the director side is src/director/filing-visit.ts and src/director/bring-it-up.ts. The first job is an inventory of which of the four moments still lack pieces.
+
+**Cause.** Needs cause. Looked at src/director/filing-visit.ts, src/director/bring-it-up.ts and data/english/parts (there is no filing-visit.json there); which of the four moments lack bank pieces today is not established.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 2 hours for one session of the Haiku model, to list which of the four moments have bank pieces and which do not, and write the list into this item. When it runs out, push what is known and stop.
 
 **Rules.** No hand-written player text: the words are bank parts authored with origin, author and date, never typed into code. Ask why: each line cites the event or record it voices. This is a game, not a spreadsheet: no new player step or form.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in a place drawn from all 56 with a seed the builder did not choose (named in the PR body), the filing visit and a law taking effect each produce worded lines citing the filing record id and the law record id, composed through the real engine, and tests in tests/english-parts-banks.test.ts pass; the owner grades the lines in the next words batch. **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Done when.** A second session (not the builder) runs a one-year played world (`buildBenchWorld`) in a place drawn from all 56 with a seed the builder did not choose (named in the PR body) and sees the filing visit and a law taking effect each produce worded lines citing the filing record id and the law record id, composed through the real engine; tests in tests/english-parts-banks.test.ts pass; the owner grades the lines in the next words batch.
 
-**Files.** data/english/parts/filing-visit.json, data/english/parts/scene-words.json, data/english/parts/bring-it-up.json, src/director/filing-visit.ts, src/director/bring-it-up.ts
+**Waits on.** Nothing.
+
+**Files.** data/english/parts/scene-words.json, data/english/parts/bring-it-up.json, src/director/filing-visit.ts, src/director/bring-it-up.ts, tests/english-parts-banks.test.ts
 
 **Notes.** Split from words-unworded-moments, which fixed the misfit school answer. The original item asked for the clerk to say the fee and signature count and the player to say "I paid the fee"; those are dropped under the Oct 13 ruling recorded in the elections engine (modules/elections.ts header). Released from idle draft #5180 by the CTO, Oct 26.
 

@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -29,3 +29,7 @@ milestone: play-first
 **Files.** src/bench/budget.ts, src/bench/play.mjs
 
 **Notes.** Filed by the Oct 25 pool audit: gov-prior-year-budgets-at-opening's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with gov-prior-year-budgets-at-opening (needs-from in the handoff line).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The Budgets screen shows last year beside each line: src/bench/budget.ts (line 250) reads "The year before" from the government's previous budget and src/bench/play.mjs (lines 3601 to 3648) draws Last year, Since last year and the change; gov-prior-year-budgets-at-opening is done. Not replayed in a game.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -28,3 +28,7 @@ Released Oct 20 after reading `postCashJournal` (journal-state.ts 1137 on): it i
 Oct 25 audit: set open; it waited on a design item that was never filed, so the claimer designs the batching and says so in the PR.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/pool-cash-journal` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The cash journal posting work is done: core-speed-journal-posting-in-play (#5907), core-speed-alloc-cash-journal, core-speed-journal-portfolios-in-play and core-speed-journal-closures are all status done. The one leftover (account changes built for unposted funds) is core-speed-journal-unposted-fund-changes (open, rewritten to the standard).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

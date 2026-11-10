@@ -4,7 +4,7 @@ title: "Stopgaps in deep-past (generated-history-proxy): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: research-deep-past-sourced-parameters
@@ -26,3 +26,7 @@ claimed-at:
 Folded into research-deep-past-sourced-parameters (CTO, Oct 19, 2026).
 
 Superseded by #6640 (merged Oct 28): `src/core2/data/deep-past.json` and its generated school cohorts are deleted; schooling is the school engine's `school.started` records in the one history, and the one-history proxy list is down to one kind (the birth date). Nothing left to build here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its own Notes say it was superseded by #6640 (merged Oct 28): src/core2/data/deep-past.json is deleted and schooling is the school engine's school.started records. The row SG-P8-deep-past that remains in src/core2/data/stopgaps/p8.json names src/core2/past-school.ts (the stage offsets), which is a separate matter.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).
