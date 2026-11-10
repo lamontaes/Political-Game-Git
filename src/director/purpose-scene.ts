@@ -80,6 +80,8 @@ import {
 import type { Fact } from "../english/scene-talk-words";
 import { custodyFacts } from "./custody-facts";
 import { meetingFacts } from "./meeting-facts";
+import { reunionFacts } from "./reunion-facts";
+import { letterFacts } from "./letter-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -573,6 +575,32 @@ function composeBinding(
   for (const [key, fact] of Object.entries(
     meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
   ))
+    facts[key] = fact;
+  // Someone who has come back after a long time apart (the director's thread
+  // for the pair), and a letter from a relative elsewhere (kin-contact.ts's
+  // `family.contact`): how long, where they live, what changed in their life
+  // and what the tie records, each cited. stopgapId:
+  // SG-WORDS-reunion-ask-unrecorded, SG-WORDS-letter-ask-unrecorded
+  const placeNamed = (placeId: string) => destinationSaid(placeId, "");
+  for (const [key, fact] of Object.entries({
+    ...reunionFacts(
+      core,
+      director,
+      binding.typeKey,
+      moment.date,
+      askerId,
+      askedId,
+      placeNamed,
+    ),
+    ...letterFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      placeNamed,
+    ),
+  }))
     facts[key] = fact;
   // A damaged home (disasters.ts, the day its aid is paid): the kind of home,
   // what the repairs cost and what the aid came to, each as people round a

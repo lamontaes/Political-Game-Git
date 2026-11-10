@@ -610,12 +610,17 @@
     },
     {
       "key": "letter",
+      "note": "A relative who lives elsewhere writes to the player (kin-contact.ts's family.contact, one whole contact a month at full closeness). The letter asks for something: a visit, a call or a letter back, or to be told how the player is. Where the writer lives, what changed in their life since their last letter (a child born, a wedding, a move, new work, a serious illness), a birthday of the player's they missed at the table and their own birthday coming are said only when a record gives them. The player's reply is written back; what they agree to or promise is kept on the reply record (a promise), and a no that is pressed strains the tie.",
+      "purpose": "letter-ask",
+      "asker": "writer",
+      "asked": "reader",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "writer",
           "fill": "absent",
           "count": "one",
-          "moves": ["tell", "recall", "promise", "request"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "commit"],
           "bearing": "tender"
         },
@@ -623,7 +628,7 @@
           "key": "reader",
           "fill": "subject",
           "count": "one",
-          "moves": ["thank", "tell", "recall", "promise"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["engage"],
           "bearing": "curious"
         }
@@ -642,13 +647,14 @@
           "bind": {
             "writer": "counterpart",
             "reader": "subject"
-          }
+          },
+          "opener": "writer"
         }
       ],
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
-        "registers": ["journal", "scene-words"]
+        "registers": ["scene-talk", "journal", "scene-words"]
       }
     },
     {
@@ -1484,21 +1490,26 @@
     },
     {
       "key": "reunion",
+      "note": "Someone the player has not been in touch with for a long time comes back into their life: a change in the player's day that names a person whose thread with the player had faded (the director's re-entry). The one who returns asks for something from seeing the player again: to make up after a falling-out the thread kept, a lead on work, to be told about the player's life, or a visit back. How long they were apart (the thread's renewing turn), where they live now (their place) and what changed in their life since (a child born, a wedding, a move, new work, a serious illness, each from its record) are said only when a record gives them. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
+      "purpose": "reunion-ask",
+      "asker": "other",
+      "asked": "one",
+      "stakes": ["relative", "friend", "job"],
       "roles": [
         {
           "key": "one",
           "fill": "subject",
           "count": "one",
-          "moves": ["recall", "tell", "apologize", "thank", "promise"],
-          "wants": ["engage", "change"],
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
+          "wants": ["engage", "keep-same"],
           "bearing": "glad"
         },
         {
           "key": "other",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["recall", "tell", "apologize", "thank", "promise"],
-          "wants": ["engage", "keep-same"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
+          "wants": ["engage", "change"],
           "bearing": "glad"
         }
       ],
@@ -1512,13 +1523,14 @@
           "bind": {
             "one": "subject",
             "other": "counterpart"
-          }
+          },
+          "opener": "other"
         }
       ],
       "tag": {
         "key": "arrival",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
