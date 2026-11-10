@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -42,3 +42,5 @@ checked: fable 2026-11-10
 Oct 20 (pool feeder): spec written; the blocker said the CTO adds the commands; the CTO merges every PR, so the builder writes the commands in the PR and the CTO's merge accepts them (a CTO call, recorded in the pool feeder report). All eleven candidate test files exist on main.
 
 Oct 29 (governing lead): M3-01, M3-02, M3-04 and M3-05 got commands on branch governing/m3-spec-commands, in the root-config form (`npx vitest run <files> --maxWorkers=1 --testTimeout=900000`, as M4-06), because the core2 config does not match the src/bench and src/director files they need; `passes` stays false on all four, since no named test covers each whole sentence. The uncovered clauses are filed as gov-m3-01-city-attorney-warning-on-the-bill, gov-m3-01-fiscal-note-at-drafting, gov-m3-01-phase-in-by-dated-steps, gov-m3-02-amend-and-endorsement-deals, gov-m3-02-deals-in-the-journal, gov-m3-02-two-stakes-in-a-played-world, gov-m3-04-person-card-law-effects, gov-m3-04-funded-work-delayed-or-failed, gov-m3-05-player-signs-one-vetoes-another and gov-m3-05-mayor-appoints-someone-they-know, with a note on laws-end-to-end-proof. M2-03 and M2-10 already have commands on main, so of its eleven this item keeps M3-03, M3-06, M3-07, M3-08 and M3-10 with no command.
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have written test commands into five M3 specs so their pass flags can be set, but no player sees a flag and the specs' tests already run.

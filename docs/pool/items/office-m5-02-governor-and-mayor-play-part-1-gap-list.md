@@ -19,7 +19,7 @@ source: split from office-m5-02-governor-and-mayor-play in the pool redo, Nov 10
 checked: fable 2026-11-10
 ---
 
-**What.** The umbrella M5-02 says a governor should set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results. Its child items office-governor and the three office-budget-season-mayor-act, -bench-editor and -payment-chain are done, so nobody knows what is left. List, for each of the three powers, whether a played governor in a drawn state can already do it, with the record ids that show it. Write the list into the umbrella item's Notes.
+**What.** The umbrella M5-02 says a governor should set budget priorities with staff advice, appoint a cabinet, sign or veto, and live with the results. Its child items office-governor and the three office-budget-season-mayor-act, -bench-editor and -payment-chain are done, so nobody knows what is left. List, for each of the three powers, whether a played governor in a drawn state can already do it, with the record ids that show it. Write the list into the umbrella item's Notes. Feeds: office-m5-02-governor-and-mayor-play-part-2-priorities-move-spending and office-m5-02-governor-and-mayor-play-part-3-cabinet-and-veto.
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md (M5-02, approved by the owner Oct 12) says to verify how much is built; office-governor and the budget-season children are done in docs/pool/items, and nobody has listed the remaining gap.
 

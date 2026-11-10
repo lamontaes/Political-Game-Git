@@ -21,7 +21,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** Roadmap M7-04: automatic updates, content updates without a reinstall, in-game bug reports with logs, and crash reports. Early access needs a test update that installs itself and a bug report that arrives with its log. It is too large for one session, so it is split into the parts named in Waits on; the bug-report button and the after-crash prompt are the separate item release-bug-report-control, and desktop/updater.mjs already exists, so each part starts by checking how much is built.
+**What.** Roadmap M7-04: automatic updates, content updates without a reinstall, in-game bug reports with logs, and crash reports. Early access needs a test update that installs itself and a bug report that arrives with its log. It is too large for one session, so it is split into the parts named in Waits on; the bug-report button and the after-crash prompt are the separate item release-bug-report-control, and desktop/updater.mjs already exists, so each part starts by checking how much is built. Feeds: release-bug-report-control and its crash-report part; the two update parts are dropped and its Waits on should lose them.
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md section M7-04 (approved by the owner Oct 12) and docs/packages/M7-early-access.md.
 

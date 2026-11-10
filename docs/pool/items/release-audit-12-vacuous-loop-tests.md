@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The merge audit of Oct 20 (docs/reports/merge-audit-2026-10-20.md, item 12) found tests that loop over a found set of flows or rows and pass when the set is empty, in pull requests 5016, 5033, 5008 and 5020. The item names those four pull requests and no test file, so it cannot be built from the item alone. The fix it asks for is an assertion that the rows exist before each such loop. A cheaper route is one guard that fails any test which loops over a found set without asserting it is non-empty.
+**What.** The merge audit of Oct 20 (docs/reports/merge-audit-2026-10-20.md, item 12) found tests that loop over a found set of flows or rows and pass when the set is empty, in pull requests 5016, 5033, 5008 and 5020. The item names those four pull requests and no test file, so it cannot be built from the item alone. The fix it asks for is an assertion that the rows exist before each such loop. A cheaper route is one guard that fails any test which loops over a found set without asserting it is non-empty. Guards: tests that loop over rows and pass when there are none, so a green main means something.
 
 **Cause.** Needs cause. Looked at the item and docs/reports/merge-audit-2026-10-20.md item 12; no file or test is named, only the four pull requests.
 

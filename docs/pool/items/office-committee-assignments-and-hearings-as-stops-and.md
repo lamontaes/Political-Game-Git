@@ -21,7 +21,7 @@ size: M
 checked: fable 2026-11-10
 ---
 
-**What.** A state legislator's committee seat and committee hearings exist as records, but neither reaches the player as a scene. Assignments (assignCommittees in src/core2/modules/leadership.ts) and hearings with witnesses and a committee vote (committeeRecords in src/core2/modules/legislature.ts) are written, and the state day cites them, but actOn only spends time. Add a learn-your-seat event when the player is seated and an attend-the-hearing stop when their committee hears a bill. The player notices it on the politics screen as a choice among people, never a form.
+**What.** A state legislator's committee seat and committee hearings exist as records, but neither reaches the player as a scene. Assignments (assignCommittees in src/core2/modules/leadership.ts) and hearings with witnesses and a committee vote (committeeRecords in src/core2/modules/legislature.ts) are written, and the state day cites them, but actOn only spends time. Add a learn-your-seat event when the player is seated and an attend-the-hearing stop when their committee hears a bill. The player notices it on the politics screen as a choice among people, never a form. Seen: a learn-your-seat scene and an attend-the-hearing stop for a state legislator.
 
 **Cause.** Design: docs/design/story-director.md (records that change a life become scenes) and the item's own Oct 20 check: the committee day cites the seating and hearing records, but no scene reads them and the hearing bank has no question move yet.
 

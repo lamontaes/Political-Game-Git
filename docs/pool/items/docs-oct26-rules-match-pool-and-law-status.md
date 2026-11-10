@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** PR #6166 introduced useful owner rulings and a SMART process rule, but two documentation claims are stale or broader than the implemented behavior. The rule says the pool check flags an open item without a time box, while the check enforces the Time box only for play-first items (and for items at the standard). The LAW-LINK package describes old handler counts and a single Codex builder in the present tense, which conflicts with the laws and effects lead. Correct those statements without weakening any runtime or release guard.
+**What.** PR #6166 introduced useful owner rulings and a SMART process rule, but two documentation claims are stale or broader than the implemented behavior. The rule says the pool check flags an open item without a time box, while the check enforces the Time box only for play-first items (and for items at the standard). The LAW-LINK package describes old handler counts and a single Codex builder in the present tense, which conflicts with the laws and effects lead. Correct those statements without weakening any runtime or release guard. Guards: the rules sessions read, so they match what the pool check enforces (owner, Oct 23: stop the stale docs).
 
 **Cause.** Found in code: `.agents/rules/smart-and-look-first.md` line 15 says `npm run pool -- --check` flags an open item without a time box, but `scripts/pool/index.ts` (line 173) enforces the Time box only for items with `milestone: play-first`, and `scripts/pool/standard.ts` (`hasHours`) enforces it for items that carry `standard: 2`. `docs/packages/LAW-LINK.md` section "Who builds it, where" names one Codex session as the builder.
 

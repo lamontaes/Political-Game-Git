@@ -5,7 +5,7 @@ area: office
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Written Oct 20 (claude/interim-spec) from the code. The shared day is read at `office-day-state.ts` lines 375 to 385; the parameter is in `state-parameters.json` with its NCSL source note. Many states do not publish a single schedule, so expect a share of ESTIMATED rows.
 
 Oct 20 (pool feeder): the spec was already complete from the Oct 20 write-up; only the blocked-on text was stale and is now cleared. It is research plus a small reader, so it needs no other item; verified against office-day-state.ts and state-parameters.json that interimCommitteeDayOfMonth exists.
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have replaced one estimated interim committee day with each state's own sourced schedule, but a player sees one calendar entry whose day an estimate serves.

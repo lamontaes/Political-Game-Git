@@ -5,7 +5,7 @@ area: office
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -45,3 +45,5 @@ Looked at Oct 20 (claude/political-game-pool-b6g0dl), not built. SG-GOV-term-end
 Oct 24, 2026: split. PR 5859 (item research-offices-term-starts-statewide-parties) delivers governors' and legislators' term-start rows for all 56 places and the live-page check of 60 statewide parties, which resolves SG-GOV-statewide-parties-unverified. Still open here: SG-GOV-term-end-estimate for town offices and county offices with no county calendar row, which start on the table's default of January 1 because their start day is each charter's or the state's municipal law's. Eight governor rows and ten legislature rows stay ESTIMATED because the start day is not read from the text. Bug gov-officeholder-parties-opening-date records that the rosters hold October 2026 holders, not those of January 20, 2025.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have turned estimated office term-start numbers into sourced ones; no player sees the difference, and a number may stay an estimate.

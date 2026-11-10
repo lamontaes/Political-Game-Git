@@ -19,7 +19,7 @@ source: split from office-m5-02-governor-and-mayor-play in the pool redo, Nov 10
 checked: fable 2026-11-10
 ---
 
-**What.** In a drawn state a played governor sets budget priorities with staff advice, and a changed priority moves a budget line and a later payment. Live with the results: the line change shows in the next payment a department or person receives. The gap list in part 1 says how much of this exists; build only what it lists as missing.
+**What.** In a drawn state a played governor sets budget priorities with staff advice, and a changed priority moves a budget line and a later payment. Live with the results: the line change shows in the next payment a department or person receives. The gap list in part 1 says how much of this exists; build only what it lists as missing. Seen: a governor's changed priority moving a budget line and the next payment.
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md (M5-02, approved by the owner Oct 12). The remaining gap is not yet listed; part 1 lists it.
 

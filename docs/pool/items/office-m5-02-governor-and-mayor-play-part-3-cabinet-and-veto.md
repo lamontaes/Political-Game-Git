@@ -19,7 +19,7 @@ source: split from office-m5-02-governor-and-mayor-play in the pool redo, Nov 10
 checked: fable 2026-11-10
 ---
 
-**What.** A played governor appoints a cabinet member and signs or vetoes a bill that reaches their desk. The appointment is read by the department's engine and the bill's signing or veto changes the law in force. The gap list in part 1 says which of these a governor can already do; build only the missing ones.
+**What.** A played governor appoints a cabinet member and signs or vetoes a bill that reaches their desk. The appointment is read by the department's engine and the bill's signing or veto changes the law in force. The gap list in part 1 says which of these a governor can already do; build only the missing ones. Seen: a played governor's cabinet appointment and the sign-or-veto choice on a bill.
 
 **Cause.** Design: docs/roadmap/later-specs-draft.md (M5-02, approved by the owner Oct 12). The remaining gap is not yet listed; part 1 lists it.
 

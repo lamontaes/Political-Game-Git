@@ -19,7 +19,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** Lane 5's path 10 asks that a Mac build installs and opens with no workroom notes inside. Nothing checks what the packaged app holds, so docs, the pool, coordination files, test files, developer-only routes and dated owner notes in code or data could all ship. The early-access checklist (docs/packages/M7-early-access.md, Oct 19) already says dated owner decisions in the game must not ship, and release-audit-07-08 holds the same strip for data citations and stopgap text.
+**What.** Lane 5's path 10 asks that a Mac build installs and opens with no workroom notes inside. Nothing checks what the packaged app holds, so docs, the pool, coordination files, test files, developer-only routes and dated owner notes in code or data could all ship. The early-access checklist (docs/packages/M7-early-access.md, Oct 19) already says dated owner decisions in the game must not ship, and release-audit-07-08 holds the same strip for data citations and stopgap text. Guards: the packaged build, so no developer route or dated owner note reaches a player (early-access checklist, Oct 19).
 
 **Cause.** Design: docs/packages/M7-early-access.md line 88 (Oct 19) says dated owner decisions must not ship; desktop/scripts/stage.mjs stages the package, and nothing in scripts/release or .github/workflows/release-package.yml lists its files against a refusal list.
 

@@ -5,7 +5,7 @@ area: release
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -35,3 +35,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing in code. Early-access preparation (AGENTS.md: saves and release work wait for it) and the weekly reschedule.
 
 **Files.** desktop/runtime-content.mjs, desktop/main.mjs, desktop/tests, docs/packages/M7-early-access.md
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a data-only bundle replace a game table without a reinstall, but a nightly Steam build already ships data and no player sees a bundle.
