@@ -2,6 +2,7 @@
 import { execFileSync } from "node:child_process";
 import {
   existsSync,
+  mkdirSync,
   mkdtempSync,
   readdirSync,
   readFileSync,
@@ -11,6 +12,14 @@ import {
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import {
+  branchPrefix,
+  identify,
+  identityFile,
+  levelOf,
+  readTiers,
+  tierOfLevel,
+} from "./agent";
 import { NOTE_PLACEHOLDER, prBody, prTitle, releaseNote } from "./draft-pr";
 import {
   claimable,
@@ -346,7 +355,7 @@ export function buildIndex(
     "",
     "## Ready by model",
     "",
-    "What `npm run pool -- next --model <level>` can take now: open, checked by Fable, cause known, and waiting on nothing that is not on main. Each level counts only its own items; `next` takes lower levels when its own run out.",
+    "What `npm run pool -- next` can take now, by the level each item names (an agent's tier maps to a level in tiers.json): open, checked by Fable, cause known, and waiting on nothing that is not on main. Each level counts only its own items; `next` takes lower levels when its own run out.",
     "",
     order.levels
       .map((l) => `**${l}:** ${ready.get(l)?.length ?? 0}`)
@@ -858,7 +867,7 @@ export interface NextIO {
 }
 
 const NEXT_USAGE =
-  "usage: pool next --model <level> [--agent <name>] [--branch-prefix <prefix>] [--no-pr] [--dry-run]";
+  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--no-pr] [--dry-run]';
 /** The subject of a new item branch's first commit; any other commit on the branch means another agent started. */
 const startSubject = (id: string): string =>
   `${id}: start the branch with its release note`;
@@ -907,16 +916,35 @@ const when = (t: number): string =>
  * at the caller's level or the nearest level below, claims it on main, starts
  * its branch and opens its draft pull request. Returns an error or null.
  */
-function next(f: Record<string, string>, io: NextIO): string | null {
+function next(
+  f: Record<string, string>,
+  io: NextIO,
+  env: NodeJS.ProcessEnv,
+): string | null {
   const order = readOrder(POOL());
-  const at = order.levels.indexOf(f.model ?? "");
-  if (at < 0)
-    return `${NEXT_USAGE}\nThe levels are ${order.levels.join(", ")}.`;
-  const level = order.levels[at];
-  const levels = order.levels.slice(0, at + 1).reverse();
-  const prefix = f["branch-prefix"] || "pool/";
-  const agent = oneLine(f.agent ?? "");
+  const tiers = readTiers(POOL());
   const dry = !!f["dry-run"];
+  const now = Date.now();
+  // The agent of this checkout: named and given its tier by the tool, from
+  // what it says it is. `--tier` (or the older `--model`) and `--agent` are
+  // for an owner or CTO who wants to set them by hand.
+  const who = identify(f.as ?? "", tiers, identityFile(env), now, !dry);
+  const asked = f.tier ?? f.model ?? who.tier;
+  const level = levelOf(asked, tiers, order.levels);
+  const at = level ? order.levels.indexOf(level) : -1;
+  if (!level || at < 0)
+    return `${NEXT_USAGE}\nThe tiers are ${tiers.tiers.map((x) => x.name).join(", ")}.`;
+  const tier = tierOfLevel(level, tiers);
+  const levels = order.levels.slice(0, at + 1).reverse();
+  const prefix = branchPrefix(f["branch-prefix"], env);
+  const agent = oneLine(
+    f.agent
+      ? f.agent
+      : `${who.name} (${who.as ? `${who.as}, ` : ""}tier ${tier})`,
+  );
+  io.out(
+    `You are ${f.agent ? oneLine(f.agent) : who.name}, tier ${tier}${who.as ? ` (${who.as})` : ""}.`,
+  );
   const template = join(process.cwd(), ".github", "PULL_REQUEST_TEMPLATE.md");
   const startPage = join(POOL(), "START-A-BUILDER.md");
   for (const p of [template, startPage])
@@ -939,8 +967,7 @@ function next(f: Record<string, string>, io: NextIO): string | null {
     }
     return null;
   };
-  const now = Date.now();
-  const none = `No item is ready for ${level} or any level below it.`;
+  const none = `No item is ready for tier ${tier} or any tier below it.`;
   const staleLine = (s: Stale): string =>
     `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
 
@@ -1017,6 +1044,21 @@ function next(f: Record<string, string>, io: NextIO): string | null {
         "docs/pool/INDEX.md",
         ...ids.map((x) => `docs/pool/items/${x}.md`),
       ];
+      // The check-in: one small file per agent, written with its first claim,
+      // so who is working outlives the session and needs no comment thread.
+      const card = join(POOL(), "agents", `${who.name}.json`);
+      if (item && !f.agent && !existsSync(card)) {
+        mkdirSync(join(POOL(), "agents"), { recursive: true });
+        writeFileSync(
+          card,
+          JSON.stringify(
+            { name: who.name, tier, as: who.as, checkedIn: who.at },
+            null,
+            2,
+          ) + "\n",
+        );
+        files.push(`docs/pool/agents/${who.name}.json`);
+      }
       git("add", ...files);
       if (!git("diff", "--cached", "--name-only")) return;
       const parts = [
@@ -1164,8 +1206,14 @@ export function command(
         );
       };
       mutate(id, edit, `pool: release ${id}`, noPush);
+    } else if (cmd === "check-in") {
+      const tiers = readTiers(POOL());
+      const who = identify(f.as ?? "", tiers, identityFile(env), Date.now());
+      io.out(
+        `You are ${who.name}, tier ${who.tier}${who.as ? ` (${who.as})` : ""}.`,
+      );
     } else if (cmd === "next") {
-      return next(f, io);
+      return next(f, io, env);
     } else if (cmd === "status") {
       const st = pos[2];
       if (

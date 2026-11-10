@@ -1,20 +1,24 @@
 # Start a builder
 
-Owner, Nov 10, 2026: "can you make a general pool command again? ... it needs to be model agnostic ... being able to be picked up by codex, muse, etc. ... and i want it to be session proof."
+Owner, Nov 10, 2026: "can you make a general pool command again? ... it needs to be model agnostic ... being able to be picked up by codex, muse, etc. ... and i want it to be session proof." And later that day: "I might not be using Claude for these... they're not all going to be Opus, Sonnet, or Haiku. And I'm not choosing the name."
 
 This page is for any agent, on any tool or account, with no context: Claude, Codex, Muse or another. It tells you how to take the next right item from the pool, build it, and leave it so the next agent can carry on. It uses only git, npm and a way to open a pull request (`gh`, or your tool's own GitHub functions).
 
 ## The command to paste
 
-The owner pastes this, with the level filled in:
+The owner pastes this as it is. Nothing in it is filled in by him:
 
-> You are a builder for the game in lamontaes/Political-Game-Git. Read `AGENTS.md`, then `docs/pool/START-A-BUILDER.md`, and follow that page exactly. Your level is `<haiku | sonnet | opus>`. Loop: run `npm run pool -- next --model <level> --agent <a short name for you>`; it claims one item and gives you its branch and its draft pull request. Read the item. Check its Cause against the code, and if the code differs, say so on the pull request, release the item and take the next. Build the Fix and nothing more, with its test passing in two drawn places. Fill in the pull request, mark it ready, and take the next item. Everything about an item goes on its pull request: progress, questions, and a handoff note whenever you stop. Never build an item that says "Needs cause". Never write lines under `data/english/parts/`. Stop cleanly when your usage or the item's time box runs out. Done when the pool has no item left for your level, or you are told to stop.
+> You are a builder for the game in lamontaes/Political-Game-Git. Read `AGENTS.md`, then `docs/pool/START-A-BUILDER.md`, and follow that page exactly. First check in: run `npm run pool -- check-in --as` followed by, in quotes, the model you are running on and the tool you are running in, in your own words. It gives you your name and your tier. Then loop: run `npm run pool -- next`; it claims one item and gives you its branch and its draft pull request. Read the item. Check its Cause against the code, and if the code differs, say so on the pull request, release the item and take the next. Build the Fix and nothing more, with its test passing in two drawn places. Fill in the pull request, mark it ready, and take the next item. Everything about an item goes on its pull request: progress, questions, and a handoff note whenever you stop. Never build an item that says "Needs cause". Never write lines under `data/english/parts/`. Stop cleanly when your usage or the item's time box runs out. Done when the pool has no item left for your tier, or you are told to stop.
 
-## Your level
+## Your name and your tier
 
-Every item names the least capable model that can build it from the item alone: `haiku`, `sonnet`, `opus` or `fable`, lowest to highest. `next` gives you items at your own level first, and lower levels only when none are left at yours. It never gives you an item above your level.
+You name yourself, once, by saying what you are: `npm run pool -- check-in --as "<your model and your tool>"`, for example `--as "GPT-5 Codex in the Codex CLI"`. Say it truthfully and in your own words. The tool answers with a name made for you (a short stem and four characters nobody else has) and your tier, and keeps both in this checkout, so every later `next` knows you. A new checkout checks in again and gets a new name.
 
-If you are not a Claude model, use the level the owner gave you. With none given, use `sonnet`.
+There are four tiers, weakest first: `light`, `mid`, `top` and `lead`. The table that maps models and tools to tiers is `docs/pool/tiers.json`. It is the crew's judgment of each model on this repository, and the CTO moves a row when a model's merged work shows it is stronger or weaker. A model the table does not know, or an agent that says nothing, is `mid`.
+
+Every item names the least capable model that can build it from the item alone, in its `model:` field: `haiku` is a light item, `sonnet` a mid one, `opus` a top one, and `fable` is for the lead. `next` gives you items of your own tier first, and lower ones only when none are left at yours. It never gives you an item above your tier.
+
+Your first claim also puts one small file about you on main, under `docs/pool/agents/`: your name, your tier and what you said you are. That is the check-in. Nobody has to post or approve anything.
 
 ## Before the first item
 
@@ -24,9 +28,10 @@ If you are not a Claude model, use the level the owner gave you. With none given
 
 ## The loop
 
-1. **Take an item.** `npm run pool -- next --model <level> --agent <name>`.
+1. **Take an item.** `npm run pool -- next`. It starts by saying who you are and your tier.
    - It picks the first item in the written order that your level may build, claims it on main so no other agent can take it, makes the item's branch and opens its draft pull request.
-   - If your tool may push only under its own prefix, add `--branch-prefix <prefix>` (a Claude cloud session uses `claude/pool-`).
+   - The branch is named `pool/<item>`. A Claude cloud session may push only under `claude/`, and the tool sees that by itself and names the branch `claude/pool-<item>`. If your tool has a prefix of its own, set `POOL_BRANCH_PREFIX` once or add `--branch-prefix <prefix>`.
+   - The owner or the CTO can set a tier or a name by hand with `--tier <tier>` and `--agent <name>`. You do not.
    - If it cannot open the pull request itself, it prints the title and a file holding the body. Open a draft pull request from the branch with those, then record it: `npm run pool -- claim <id> --branch <branch> --pr <number>`.
    - If it says **continue**, another agent started this item. Read its pull request from top to bottom and the branch's commits before you change anything.
    - To see what it would take without changing anything, add `--dry-run`. To skip opening the draft, add `--no-pr`; it then prints the title and body file.
@@ -69,7 +74,8 @@ An item is offered only when it is open, carries `checked: fable`, has a known c
 
 ## What you never do
 
-- Build an item whose Cause says "Needs cause", or one above your level.
+- Build an item whose Cause says "Needs cause", or one above your tier.
+- Say you are a model you are not, to be given harder items.
 - Write, change or delete a line under `data/english/parts/`.
 - Decide what a person, business or body does by chance or a fixed percentage.
 - Name a state, city or place key in logic. A named place appears only in a test, as a labeled case.
