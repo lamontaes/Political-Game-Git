@@ -106,12 +106,14 @@
     "kind": "missing-engine",
     "file": "src/core2/turnout-web.ts",
     "line": 96,
-    "whatItFakes": "The graduation-to-turnout link moves turnout from the web's own school.graduation-pct ledger number, although the school engine now records each senior's graduation (graduationOf); the link does not read those rows.",
+    "whatItFakes": "The graduation-to-turnout link's cause was the web's own school.graduation-pct ledger number (written Nov 10 as not reading the school engine's graduation rows; the code already reads them).",
     "why": "The school module keeps no graduation outcomes by place, so the cause is the web's baseline plus its own links (universal pre-K, tuition freeze), not students who graduated.",
     "addedBy": "EFFECT-WEB-VOTING",
     "addedAt": "2026-10-20",
-    "replacement": "Read the school engine's graduation rows for the place, lagged five years, in turnoutWeb instead of the ledger number.",
-    "status": "open"
+    "replacement": "Resolved Nov 10 (stand-in triage): commit 66e741eb23 (\"Schools: yearly test, graduation and spending records in both tiers, read by the outcome web\"). outcome-web.ts overwrites school.graduation-pct with the school engine's own record (SCHOOL_MEASURED, schoolMeasure in src/core2/school-measures.ts:29, outcome-web.ts:619-625), and the turnout link reads that month row five years back through causeAt (outcome-web.ts:435-470); the marker comment at src/core2/turnout-web.ts:96 is still there. Was: Read the school engine's graduation rows for the place, lagged five years, in turnoutWeb instead of the ledger number.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WEB-voting-newspaper-closure",

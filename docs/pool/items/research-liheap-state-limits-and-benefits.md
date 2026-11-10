@@ -22,7 +22,7 @@ root: none
 
 **Cause.** Found in code: `payEnergyAssistance` in src/core2/law-reach/group-b-money.ts (line 1207, marker in its comment) reads one limit and the FY2014 national average benefit (src/core2/data/laws/reach-group-b-parameters.json line 389); the policy row is at src/core2/data/laws/reach-group-b.json line 333.
 
-**Fix.** Fetch the HHS LIHEAP state plans or the LIHEAP Clearinghouse state tables, quote the pages, and write a per-state table (income limit as percent of poverty or of state median income, average heating benefit, with a spread and citation) under data/research/laws/. Point the payment at the table with the national figure as the estimate for a territory the source lacks. Do not add an application or utility-bill record; that part may stay at early access as a marked estimate.
+**Fix.** Fetch the HHS LIHEAP state plans or the LIHEAP Clearinghouse state tables, quote the pages, and write a per-state table (income limit as percent of poverty or of state median income, average heating benefit, with a spread and citation) under data/research/laws/. Point `payEnergyAssistance` (src/core2/law-reach/group-b-money.ts:1210, the existing benefit payment; no second payer) at the table with the national figure as the estimate for a territory the source lacks. Do not add an application or utility-bill record; that part may stay at early access as a marked estimate.
 
 **Time box.** 4 hours for one Sonnet session at medium effort.
 

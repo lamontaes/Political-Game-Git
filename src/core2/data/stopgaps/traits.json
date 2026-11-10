@@ -56,7 +56,7 @@
     "why": "The partnership engine is gated in the pool (people-partnerships-full-people-form and people-partnerships-full-people-end wait on core family-link and household-membership changes). The effect sizes are in data/research/trait-effect-sizes.json (outcome.marriage-formation, outcome.divorce).",
     "addedBy": "claude/traits-family",
     "addedAt": "2026-10-20",
-    "replacement": "Resolved Nov 10 (stand-in triage): the partnerships module (src/core2/modules/partnerships.ts, PR #7082) forms and ends partnerships in play and reads both partners' traits through decisionLean on people.partner and people.part. Counted couples stay under SG-LIVES-partner-counted. Was: When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
+    "replacement": "Resolved Nov 10 (stand-in triage): the partnerships module (src/core2/modules/partnerships.ts, commit ea9c3df2fd for the played town's people and PR #7082) forms and ends partnerships in play and reads the person's traits when forming (partnerFactorOf) and both partners' traits when parting (partFactorOf), through decisionLean on people.partner and people.part. Counted couples stay under SG-LIVES-partner-counted. Was: When partnerships form and end in play, the forming and ending decisions read both partners' traits through leanedYes with weights calibrated from those rows by scripts/traits/trait-calibrate.ts.",
     "status": "resolved",
     "resolvedAt": "2026-11-10",
     "resolvedBy": "stand-in-triage"
