@@ -164500,7 +164500,7 @@
       "key": "scene-talk.reply-answer.every-word-send-me-the-paragraph-before-it-runs",
       "move": "reply-answer",
       "kind": "spoken",
-      "text": "Every word. Send me the paragraph before it runs.",
+      "text": "Every word. Send me the quote before it runs.",
       "uses": [
         {
           "subject": "scene",
@@ -164892,7 +164892,7 @@
       "key": "scene-talk.follow-thank.that-s-what-i-needed-i-ll-send-you-the-paragraph-before-it-runs",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "That's what I needed. I'll send you the paragraph before it runs.",
+      "text": "That's what I needed. I'll send you the quote before it runs.",
       "uses": [
         {
           "subject": "scene",
@@ -165093,7 +165093,7 @@
       "key": "scene-talk.close-promise.i-ll-send-you-the-paragraph-before-it-runs",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll send you the paragraph before it runs.",
+      "text": "I'll send you the quote before it runs.",
       "uses": [
         {
           "subject": "scene",
@@ -167310,7 +167310,7 @@
       "key": "scene-talk.narrate-narrate.name-of-outlet-is-not-from-here-and-says-so-in-the-first-sentence",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} of {outlet} is not from here and says so in the first sentence.",
+      "text": "{name} of {outlet} is not from here, and has come to write about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -167318,7 +167318,8 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "calm",
@@ -167359,7 +167360,7 @@
       "key": "scene-talk.narrate-narrate.name-writes-for-outlet-and-the-recorder-is-already-running",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} writes for {outlet}, and the recorder is already running.",
+      "text": "{name} writes for {outlet}, and the recorder is already running. The piece is about {story}.",
       "uses": [
         {
           "subject": "scene",
@@ -167368,7 +167369,7 @@
           "role": "narrator",
           "purpose": "press-comment.national",
           "key": "routine",
-          "requiresFacts": ["outlet"]
+          "requiresFacts": ["outlet", "story"]
         }
       ],
       "bearing": "calm",
@@ -167434,7 +167435,7 @@
       "key": "scene-talk.open-greet.thanks-for-making-time-i-have-a-deadline-so-i-ll-be-direct",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "Thanks for making time. I have a deadline, so I'll be direct.",
+      "text": "Thanks for making time. I'm writing about {story} on a deadline, so I'll be direct.",
       "uses": [
         {
           "subject": "scene",
@@ -167442,7 +167443,8 @@
           "move": "greet",
           "role": "asker",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "calm",
@@ -167558,7 +167560,7 @@
       "key": "scene-talk.state-ask.what-should-someone-outside-place-know-about-where-you-stand",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "What should someone outside {place} know about where you stand?",
+      "text": "What should someone outside {place} know about where you stand on {story}?",
       "uses": [
         {
           "subject": "scene",
@@ -167566,7 +167568,8 @@
           "move": "ask",
           "role": "asker",
           "purpose": "press-comment.national",
-          "key": "routine"
+          "key": "routine",
+          "requiresFacts": ["story"]
         }
       ],
       "bearing": "curious",
@@ -168049,7 +168052,7 @@
       "key": "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "That's a big claim. I'll check it with your neighbors.",
+      "text": "That's a big claim about {story}. I'll check it with people in {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -168058,6 +168061,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
+          "requiresFacts": ["story"],
           "after": "boast"
         }
       ],
@@ -168100,7 +168104,7 @@
       "key": "scene-talk.follow-press.my-editors-need-it-by-the-end-of-the-week",
       "move": "follow-press",
       "kind": "spoken",
-      "text": "My editors need it by the end of the week.",
+      "text": "My editors need your answer on {story} by the end of the week.",
       "uses": [
         {
           "subject": "scene",
@@ -168109,6 +168113,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
+          "requiresFacts": ["story"],
           "after": "stall"
         }
       ],
@@ -168125,7 +168130,7 @@
       "key": "scene-talk.follow-accept.i-ll-hold-the-paragraph-the-deadline-won-t-wait-long",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "I'll hold the paragraph. The deadline won't wait long.",
+      "text": "I'll hold my story on {story} for now. The deadline won't wait long.",
       "uses": [
         {
           "subject": "scene",
@@ -168134,6 +168139,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
+          "requiresFacts": ["story"],
           "after": "stall"
         }
       ],
@@ -168150,7 +168156,7 @@
       "key": "scene-talk.follow-accept.then-it-says-you-were-asked-and-didn-t-say",
       "move": "follow-accept",
       "kind": "spoken",
-      "text": "Then it says you were asked and didn't say.",
+      "text": "Then I'll print what you told me about {story}, and the day I asked.",
       "uses": [
         {
           "subject": "scene",
@@ -168159,6 +168165,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
+          "requiresFacts": ["story"],
           "after": "lie"
         }
       ],
@@ -168175,7 +168182,7 @@
       "key": "scene-talk.follow-thank.noted-i-ll-check-it-against-what-the-clerk-has",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Noted. I'll check it against what the clerk has.",
+      "text": "Noted. I'll check what you said against what the clerk has.",
       "uses": [
         {
           "subject": "scene",
@@ -168225,7 +168232,7 @@
       "key": "scene-talk.close-promise.i-ll-send-you-the-paragraph-so-it-sounds-like-you",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll send you the paragraph so it sounds like you.",
+      "text": "I'll send you what I write about {story} so it sounds like you.",
       "uses": [
         {
           "subject": "scene",
@@ -168234,6 +168241,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
+          "requiresFacts": ["story"],
           "outcome": "resolved"
         }
       ],
@@ -168250,7 +168258,7 @@
       "key": "scene-talk.close-accept.i-ll-say-you-didn-t-comment-and-the-day-i-asked",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "I'll say you didn't comment, and the day I asked.",
+      "text": "I'll say you didn't comment on {story}, and the day I asked.",
       "uses": [
         {
           "subject": "scene",
@@ -168259,6 +168267,7 @@
           "role": "asker",
           "purpose": "press-comment.national",
           "key": "routine",
+          "requiresFacts": ["story"],
           "outcome": "refused"
         }
       ],
