@@ -160570,7 +160570,8 @@
           "role": "asker",
           "purpose": "donor-ask.small",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -161526,7 +161527,8 @@
           "role": "asker",
           "purpose": "donor-ask.large",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "calm",
@@ -162458,7 +162460,8 @@
           "role": "asker",
           "purpose": "donor-ask.friend",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "warm",
@@ -163414,7 +163417,8 @@
           "role": "asker",
           "purpose": "donor-ask.again",
           "key": "favor-asked",
-          "requiresFacts": ["gift"]
+          "requiresFacts": ["gift"],
+          "excludesFacts": ["donor-bill"]
         }
       ],
       "bearing": "braced",
