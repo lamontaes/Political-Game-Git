@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc9-place-facts-one-default
 source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A redistricting plan needs the makeup of each neighborhood the way courts read it: Census place makeup, citizen voting-age population and language-minority data, kept as cited place data and never as a field on a person. It comes from the stubs gov-redistricting-neighborhood-data and gov-redistricting-cvap-and-language.

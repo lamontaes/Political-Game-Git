@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Make the child access prevention law change what happens when a child reaches a household's gun. Household ownership already exists (`householdOwnsFirearm`, state survey rate from RAND 2020), the law reach already limits the storage duty to adults in owning households with a child, and the public-safety engine already makes owning households with a child buy a lock. Add the case the duty exists for: when the incident producer records a carried or reached weapon in an owning household with a child, the justice engine reads `lawInForce` and, where the law is in force, charges the adult who kept the gun (the household's oldest adult by record) with the misdemeanor the law row names, and where it is not in force no charge follows from the same facts.

@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** When police identify a suspect from an incident, the identification step should read the facial-recognition warrant law in force: with a warrant rule the department needs a warrant record before using it and otherwise falls back to witness identification; without a rule it may use it freely. The identification route is recorded on the case. The warrant, where one is needed, is a record the court can read. This waits on the incident producer.

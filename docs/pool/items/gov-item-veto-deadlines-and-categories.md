@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** The item veto strikes or reduces appropriation increases with exact override fractions and the played year proves the chain, but special deadlines, external assent and some protected or mixed appropriation categories are incomplete, and territorial reductions are unavailable. Read the remaining legal details from data per place and finish those cases. Closes the stopgap `SG-STATE-line-item-veto-engine`.

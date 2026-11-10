@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: split from gov-town-payers-vehicle-tax in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** With vehicles on households and a rate, a household must pay its vehicle tax from its own cash on the due date in the revenue payers data, and the outside group of payers must pay that much less on the same installment, so nothing is paid twice. The line belongs to the state and federal treasuries, not the town's, so a resident's payment is credited to the right treasury's `townPaidMinor` the way corporate tax is. Counted households pay by the same rule times their count.

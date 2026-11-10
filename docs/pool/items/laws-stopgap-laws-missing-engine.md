@@ -17,6 +17,8 @@ lead: laws-effects
 model: sonnet
 effort: low
 root: rc9-place-facts-one-default
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** The public pay floor's employer-to-level map treats public schools as town employers (stopgap SG-GOV-public-pay-floor-owner in src/core2/data/stopgaps/gov.json). The day-of-hire hold was fixed in PR #5285 (`publicPayFloorHourly`); school districts still need their own level so a floor set at the district binds only the district. Give them one and close the row.

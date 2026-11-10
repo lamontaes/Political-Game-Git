@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The parties engine records one local committee and its chair per party, so src/core2/candidate-pool.ts treats the state party's officers as the local chair. Record each party's state committee (chair, vice chair, treasurer) and national committee chair as named officials, filled in like any official, and have the pool read them. Closes SG-POOL-party-officers-local.
