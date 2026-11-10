@@ -61,6 +61,11 @@
       "before": "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
       "why": "'Who else knew?' has no link to A's rule-and-vote reason."
     },
+    "0boch5vobbx": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-contact-them",
+      "before": "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
     "0bqb945tr9r": {
       "reply": "scene-talk.reply-press.i-ve-heard-by-friday-before",
       "before": "scene-talk.follow-promise.you-re-welcome",
@@ -75,6 +80,11 @@
       "reply": "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
       "before": "scene-talk.follow-ask.taken.who-else-knew-first",
       "why": "A asks who else knew; B gives a voting justification"
+    },
+    "0i2afwv49ss": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-contact-them",
+      "before": "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "0jqw2n0tu2a": {
       "reply": "scene-talk.reply-relent.you-ve-made-your-point-count-me-in",
@@ -111,6 +121,11 @@
       "before": "scene-talk.follow-confront.welcome-to-public-service",
       "why": "'The third' has no referent in A's welcome."
     },
+    "0rohtw1ebbg": {
+      "reply": "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them",
+      "before": "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
     "0sndysl6ixt": {
       "reply": "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor",
       "before": "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
@@ -145,6 +160,11 @@
       "reply": "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g",
       "before": "scene-talk.follow-confront.i-will",
       "why": "A's 'I will' is no question or claim; B gives a rebuttal."
+    },
+    "0zdlifi5j1e": {
+      "reply": "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them",
+      "before": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "10kojvu9aav": {
       "reply": "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part",
@@ -281,10 +301,20 @@
       "before": "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
       "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
     },
+    "200iw2wnryu": {
+      "reply": "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them",
+      "before": "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
     "20casmfl5so": {
       "reply": "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours",
       "before": "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
       "why": "A comments on quiet people; B's bag remark answers nothing in A."
+    },
+    "20tpslkbfxe": {
+      "reply": "scene-talk.reply-agree.you-re-right-i-ll-contact-them",
+      "before": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
     },
     "22ynz0byxvm": {
       "reply": "scene-talk.reply-deflect.it-s-temporary-it-ll-settle-down",
