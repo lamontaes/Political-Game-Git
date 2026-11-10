@@ -19,7 +19,7 @@ root: rc2-done-from-records
 checked: fable 2026-11-10
 ---
 
-**What.** Unemployment claims read the person's pay by quarter (first four of the last five completed quarters, #7949). No played year has yet shown a claim after a real hours cut (Jobs' #7781 rehourJob) drawing the same benefit as steady hours. The first played pair found no claim because the layoff was refused for the day, and the state's weekly maximum capped both reads.
+**What.** Unemployment claims read the person's pay by quarter (first four of the last five completed quarters, #7949). No played year has yet shown a claim after a real hours cut (Jobs' #7781 rehourJob) drawing the same benefit as steady hours. The first played pair found no claim because the layoff was refused for the day, and the state's weekly maximum capped both reads. Seen: the unemployment benefit on a laid-off person's card after an hours cut.
 
 **Cause.** Found in code: `basePeriodWages` in src/core2/jobs-benefits.ts (line 299) reads pay by quarter (first four of the last five completed quarters, PR #7949), and stopgap SG-LAWS-ui-base-period-last-pay (src/core2/data/stopgaps/laws.json, line 108) is open because no played year has yet shown a claim after a real hours cut.
 

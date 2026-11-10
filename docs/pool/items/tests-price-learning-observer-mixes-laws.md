@@ -20,7 +20,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** The unchanged place-prices-learned test captures every price-learning event but compares each one with its fare-free-transit fixture. In Williamsburg, Virginia, an ordinary clean-electricity law produces a legitimate learned event on February 3. All three cases then fail on that event: its law ID, hearing record and date are checked against the unrelated fixture. The same failures occur with the original production source, so this is not introduced by the adopted-income-tax reader.
+**What.** The unchanged place-prices-learned test captures every price-learning event but compares each one with its fare-free-transit fixture. In Williamsburg, Virginia, an ordinary clean-electricity law produces a legitimate learned event on February 3. All three cases then fail on that event: its law ID, hearing record and date are checked against the unrelated fixture. The same failures occur with the original production source, so this is not introduced by the adopted-income-tax reader. Guards: main stays green: the price-learning test fails in Williamsburg, Virginia.
 
 **Cause.** Found in code: the observer in src/core2/place-prices-learned.test.ts compares every captured learned event with the fare-free-transit fixture, so the clean-electricity event (event:law.effect-learned:2025-02-03:person_83d3d0b011b9d2ec:law:US-VA:state:us-policy-positions:environment-energy.clean-electricity-standard:general:starting) fails all three cases. Williamsburg, Virginia, key 5186160, world seed 0b78c1619cc76f06cec8d961f71113190a9b7d0d6f2f8b03458f96bde27a5c13.
 

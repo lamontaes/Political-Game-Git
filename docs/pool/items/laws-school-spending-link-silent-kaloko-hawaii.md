@@ -19,7 +19,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/law-wiring-health-schools.test.ts fails in Kaloko, Hawaii (place 1526867, world seed 9d81ae8d65f3ef846ff8b7ee8a840ad51e55175bffa3f89648ffe0fb3d44f2bc; pin it with GOLDEN_PATH_PLACE_KEY=1526867 GOLDEN_PATH_WORLD_SEED=9d81ae8d65f3ef846ff8b7ee8a840ad51e55175bffa3f89648ffe0fb3d44f2bc): "the web link school-spending-to-attainment never fired". The town's web month rows hold no effect for the link in any month from 2025-01-23 to 2026-05 although the test raises the schools line on its first day. It fails the same way with and without the Nov 1 changes on claude/laws-medical-debt.
+**What.** src/core2/law-wiring-health-schools.test.ts fails in Kaloko, Hawaii (place 1526867, world seed 9d81ae8d65f3ef846ff8b7ee8a840ad51e55175bffa3f89648ffe0fb3d44f2bc; pin it with GOLDEN_PATH_PLACE_KEY=1526867 GOLDEN_PATH_WORLD_SEED=9d81ae8d65f3ef846ff8b7ee8a840ad51e55175bffa3f89648ffe0fb3d44f2bc): "the web link school-spending-to-attainment never fired". The town's web month rows hold no effect for the link in any month from 2025-01-23 to 2026-05 although the test raises the schools line on its first day. It fails the same way with and without the Nov 1 changes on claude/laws-medical-debt. Guards: main stays green: the health and schools test fails in Kaloko, Hawaii.
 
 **Cause.** Needs cause. Looked at the item and its pinned repro (GOLDEN_PATH_PLACE_KEY=1526867, world seed 9d81ae8d65f3ef846ff8b7ee8a840ad51e55175bffa3f89648ffe0fb3d44f2bc), but nobody has yet read Kaloko's month rows or the cause row the link reads (`budget.schools-added-pct`), so why the link never fires is not known.
 
