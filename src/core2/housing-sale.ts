@@ -57,6 +57,15 @@ export function recordEstatePaid(
   } as unknown as ModuleRow);
 }
 
+/** Whether an owner's cash is outside the game's books (an outside market, a lender elsewhere). */
+function outsideOwner(core: CoreState, ownerId: string): boolean {
+  const account = core.cashJournal.residualAccountByOwner.get(ownerId);
+  return (
+    account !== undefined &&
+    core.cashJournal.accounts.get(account)?.outsideFlow === true
+  );
+}
+
 /** A household's home sale on a date, if it sold. */
 export function homeSaleOf(
   api: CoreAPI,
@@ -142,10 +151,13 @@ export function sellHome(
       remaining,
       Math.round(mortgage.balanceMinor * times),
     );
-    // The outside market that buys the home can also hold its mortgage: paying
-    // itself moves no cash, and the loan is settled all the same.
+    // The outside market that buys the home pays a lender who can be outside
+    // the game's books too: the same market, or another place's (a household
+    // that moved within the county keeps its lender, and its new place has its
+    // own market). Money between two outside parties is not on the books, so
+    // no cash moves and the loan is settled all the same.
     const paid =
-      mortgage.holderId === buyer.id
+      mortgage.holderId === buyer.id || outsideOwner(c, mortgage.holderId)
         ? owedNow
         : transferCash(
             api,

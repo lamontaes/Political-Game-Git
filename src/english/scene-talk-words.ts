@@ -73,6 +73,18 @@ const PARTS = (sceneTalkBank as unknown as { parts: BankPart[] }).parts;
 /** What play may say: a part the owner's grades hold back is not. */
 const SHIPPED = admittedParts(PARTS);
 const SHIPPED_KEYS = new Set(SHIPPED.map((part) => part.key));
+/**
+ * A piece that calls the other person by their first name ("Thank you,
+ * {first}."). A voice that has done it on a branch does not do it on every
+ * line after (owner, batch 3: the name tag on every line): while another
+ * piece fits, the next line leaves the name off, and a piece that tags the
+ * name after a comma ("Thank you, {first}.") is said without it.
+ */
+const VOCATIVE = /\{first\}/;
+const TAIL_NAME = /, \{\{first\}\}(?=[.?!,;])/g;
+const VOCATIVE_KEYS = new Set(
+  PARTS.filter((part) => VOCATIVE.test(part.text)).map((part) => part.key),
+);
 /** Whether play may say this piece: the owner's grades do not hold it. */
 export function shipped(partKey: string): boolean {
   return SHIPPED_KEYS.has(partKey);
@@ -290,6 +302,11 @@ export function wordSceneMove(input: {
     : every.filter((part) => !input.said.has(part.key));
   let parts = fresh.length ? fresh : every;
   if (!parts.length) return null;
+  const named = [...input.said].some((key) => VOCATIVE_KEYS.has(key));
+  if (named) {
+    const plain = parts.filter((part) => !VOCATIVE_KEYS.has(part.key));
+    if (plain.length) parts = plain;
+  }
   const unseen = parts.filter((part) => !options.shown?.has(part.key));
   if (unseen.length || options.freshOnly) parts = unseen;
   if (!parts.length) return null;
@@ -311,7 +328,9 @@ export function wordSceneMove(input: {
     version: "scene-talk-v1",
     variants: parts.map((part) => ({
       key: part.key,
-      text: directorSlots(part.text),
+      text: named
+        ? directorSlots(part.text).replace(TAIL_NAME, "")
+        : directorSlots(part.text),
       ...(part.bearing ? { bearing: part.bearing } : {}),
       pieceKey: part.key,
     })),
