@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: story/red-scene-talk-bank
-pr: pending
+pr: 8113
 blocked-on:
 lead: words
 source: tests/english-parts-banks.test.ts red on main for scene-talk.json on every seed (found Nov 10)
