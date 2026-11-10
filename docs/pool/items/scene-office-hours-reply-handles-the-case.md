@@ -5,20 +5,21 @@ area: director
 kind: wiring
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-scene-office-hours-reply-handles-the-case
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web constituents pass (packet a-constituents-case)"
 lead: director
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:43:24.229Z
 after:
 model: sonnet
 effort: medium
 root: design-director-on-core2
 checked: fable 2026-11-10
+branch: claude/pool-scene-office-hours-reply-handles-the-case
 ---
 
 **What.** The office-hours scene stages a resident with a case, but the official's reply writes only a scene.reply that no engine reads. Only the desk's decision calls handleCase (src/core2/office-day-state.ts, src/core2/office-day-acts.ts). So "I'll take it on", "Let me refer you" and "There's nothing I can do" change nothing for the resident. The packet docs/design/scenes/from-life/a-constituents-case.md (legislative casework guides and city council records, calibration only) shows what each answer does in real life: a call to the agency, a referral, a letter, or an honest no.
@@ -42,3 +43,5 @@ checked: fable 2026-11-10
 **Files.** src/director/purpose-scene.ts, src/core2/modules/constituent-cases.ts, src/core2/office-day-state.ts, src/core2/office-day-acts.ts
 
 **Notes.** Engine gaps the packet names (offices, housing, jobs): only two kinds of case exist; no eviction, shutoff, benefits or code case; no agency reply or closing for silence.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:43 UTC) on branch claude/pool-scene-office-hours-reply-handles-the-case.
