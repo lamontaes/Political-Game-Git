@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/primary-challenge-seed
-pr: pending
+pr: 8128
 blocked-on:
 lead: words
 milestone: play-first
