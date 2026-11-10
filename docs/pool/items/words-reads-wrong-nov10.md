@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: merged
 claimed-by: story/reads-wrong-nov10
-pr: 8138
+pr: #8138
 blocked-on:
 lead: words
 source: "read-through of celebration and gathering, rescue, apology and accusation, new baby, reporter story, race told, rival filed late and the win side against the owner's batch 3 notes"
 claimed-at: 2026-11-10T12:00:00.000Z
+merged-at: 2026-11-10T11:34:57.457Z
 ---
 
 **What.** Composed in drawn worlds (seeds rw1 Casco, Wisconsin and rw2 Barrigada, Guam through the grading bench's staged year; the celebration, gathering and rescue tests' own printed scenes on seeds 101 and 102), read line by line, and the bank of every scene named above scanned for each class. Found and fixed:
