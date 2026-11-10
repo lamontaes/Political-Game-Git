@@ -86,6 +86,7 @@ import { celebrationFacts } from "./celebration-facts";
 import { gatheringFacts } from "./gathering-facts";
 import { rescueFacts } from "./rescue-facts";
 import { birthFacts } from "./birth-facts";
+import { newsFacts } from "./news-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
 
 /** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
@@ -200,8 +201,10 @@ export function purposeScene(
   // the day's sitting took in (one sponsor asking about several bills in one
   // evening): each is its own exchange, about its own record.
   const units = entry.bindings.flatMap((binding) => {
-    const type = TYPES.get(binding.typeKey) as
+    const found = TYPES.get(binding.typeKey) as
       (PurposeType & { repeatsBy?: string }) | undefined;
+    // A cause may give a type the purpose its other causes lack.
+    const type = found ? typeForCause(found, moment.label) : undefined;
     if (!type?.purpose) return [];
     const joined =
       type.repeatsBy === "bill"
@@ -270,8 +273,12 @@ export function destinationSaid(
  */
 export function typeForCause(type: PurposeType, label: string): PurposeType {
   const causes = (type as { causes?: SituationType["causes"] }).causes;
-  const sceneKey = causes?.find((row) => row.match?.label === label)?.sceneKey;
-  return sceneKey ? { ...type, tag: { ...type.tag, key: sceneKey } } : type;
+  const cause = causes?.find((row) => row.match?.label === label);
+  return {
+    ...type,
+    ...(cause?.sceneKey ? { tag: { ...type.tag, key: cause.sceneKey } } : {}),
+    ...(cause?.purpose ? { purpose: cause.purpose } : {}),
+  };
 }
 
 /**
@@ -633,6 +640,17 @@ function composeBinding(
     // A rescue (`health.rescued`): who got help, who was there to see it.
     // stopgapId: SG-WORDS-rescue-ask-unrecorded
     ...rescueFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+    // News a household member brings (a death, a pairing, a parting): who it
+    // is about, the other person, and whether the bearer lived with them.
+    // stopgapId: SG-WORDS-news-ask-unrecorded
+    ...newsFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      cast("about"),
+    ),
     // A new baby (`person-birth`): the child's name, the other parent and the
     // visitor's town. stopgapId: SG-WORDS-new-baby-ask-unrecorded
     ...birthFacts(
