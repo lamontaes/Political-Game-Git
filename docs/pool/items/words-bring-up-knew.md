@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: story/bring-up-knew
-pr: 8143
+pr: #8143
 blocked-on:
 lead: words
 source: owner rule "nobody attributes a change to a law unless they learned of it" (AGENTS.md); coordinator unit, Nov 10
 claimed-at: 2026-11-10T13:00:00.000Z
+merged-at: 2026-11-10T12:41:37.066Z
 ---
 
 **What.** src/director/bring-it-up-knew.test.ts plays a year in a drawn place and, for every person who brings a change up to someone they know, checks: the line cites a record that is a fact of the speaker's own knowledge, learned on or before the talk day; the change itself is held by the speaker (a story they read under its own key, a telling they were given under `heard:`, or a record they saw); any cause they name came from a record they hold (a blame they were told, the record they saw, a public role they know of); the telling is on record and the listener holds the change. A record a line cites is dated no later than the talk.
