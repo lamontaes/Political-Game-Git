@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/director-donor-ask-fires
-pr: pending
+pr: 8095
 blocked-on:
 lead: words
 milestone: play-first
