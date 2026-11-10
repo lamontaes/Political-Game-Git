@@ -7,7 +7,7 @@ priority: 1
 size: M
 status: claimed
 claimed-by: claude/pool-carcass-audit-everything-not-engine-view-or-guard
-pr:
+pr: #8232
 after:
 blocked-on:
 source: added with npm run pool -- add
