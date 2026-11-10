@@ -5,14 +5,14 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-campaigns-volunteer-joined-and-lapsed-records
 pr:
 after:
 blocked-on:
 source: "Helper B, Oct 27, docs/design/scenes/from-life/quiet-weeks-listener-offers.md"
 lead: effects
-claimed-at:
+claimed-at: 2026-11-10T23:09:40.580Z
 standard: 2
 model: sonnet
 effort: medium
