@@ -71,6 +71,10 @@ List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=
 - Its `Merge desk: ready #N <sha>` line still goes on issue 7365 for the CTO to merge.
 - A send-back goes on the item's own pull request, not on issue 7365. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`).
 
+## 1c. A stack gated as one tree (CTO, Nov 10)
+
+When several pull requests are stacked and the desk gated them together on one tree, merge only the top pull request and close the ones below it as contained in it. Squash-merging the bottom one first leaves every pull request above it in conflict, because each still carries the bottom one's original commits, which now differ from its squash on main. That happened on Nov 10 with #8115, #8123 and #8139 (the life record's three steps): #8115 was squashed first, and #8123 and #8139 both went to conflicting until main was merged into the top branch and it was gated again. (This refines the older "a stack is merged bottom first" lines below for the case where the whole stack was gated as one tree; in every other case they still apply.)
+
 ## 2. For each PR
 
 1. **Base.** Merge into main only a PR whose base is main.
