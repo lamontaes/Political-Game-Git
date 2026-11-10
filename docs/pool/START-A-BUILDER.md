@@ -59,7 +59,7 @@ A session can end at any moment. Nothing may live only in your conversation.
 
 - **The item's time box is used.** Push what passes, write the handoff, and take the next item only if your usage allows.
 - **Your usage is running out.** Write the handoff first.
-- **The item needs words.** Every line under `data/english/parts/` is written by the Story session. List each spot and what it must say in the pull request, and build everything else.
+- **The item needs words.** Every line under `data/english/parts/` is written by the session that holds words (Fable B since Nov 10, owner ruling) or the helper it names for that file. List each spot and what it must say in the pull request, and build everything else.
 
 ## The order
 
