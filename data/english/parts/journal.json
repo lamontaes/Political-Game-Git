@@ -9509,7 +9509,7 @@
       "key": "journal.memoir-again-felt.up-from-paid-more-than-it-was-a-relief",
       "move": "memoir-again-felt",
       "kind": "spoken",
-      "text": "Up from {paid_more_than}, it was a raise.",
+      "text": "Up from {paid_more_than}, and it was work again.",
       "uses": [
         {
           "move": "memoir-again-felt",
