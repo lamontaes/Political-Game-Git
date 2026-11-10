@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: high
 root: rc1-world-outside-town
 source: split from gov-other-towns-and-counties-never-meet in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T23:43:54.626Z
+claimed-at:
 branch: claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results
 ---
 
@@ -40,3 +40,5 @@ branch: claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as
 **Notes.** Released (2026-11-10): Cause differs from code: seatOutsideOffices seats only other states' chambers and executives, and local offices exist only for the player's place (offices.ts:712), so no other town or county body exists to schedule. Continue on branch claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results.
 
 Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:43 UTC) on branch claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results.
+
+Released (2026-11-10): Re-offered after opus-d23b released it (PR 8269); confirmed no other town or county body is seated (offices.ts:712), marking its Cause Needs cause. Continue on branch claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results.
