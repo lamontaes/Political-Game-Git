@@ -47,7 +47,9 @@ import {
   countryStateFigures,
   openCountry,
   stepCountry,
+  COUNTRY_SECTORS,
   type CountryMonth,
+  type CountrySector,
   type CountryRules,
   type CountryState,
   type CountryTier,
@@ -56,7 +58,12 @@ import { countryOpening } from "../country-opening";
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
-import { scaleOutsideSales } from "../residents-economy";
+import {
+  scaleOutsideSales,
+  type OutsideSectorFactor,
+} from "../residents-economy";
+import { placeStateKey } from "../place-map";
+import { coreStateKeyOfPlaceholderId } from "../place-lookup";
 import { firmStaffing } from "./jobs";
 import { LAWS_MODULE_ID, stateLawInForce } from "./laws";
 import { openingRegionMonths, stateFigures } from "../regional-model";
@@ -102,6 +109,8 @@ export interface CountryStateBase {
   jobs: number;
   hourlyPay: number;
   population: number;
+  /** Each sector's sales in the opening month, dollars: what its outside buyers' factor is read against. */
+  sectorSales: Readonly<Record<CountrySector, number>>;
 }
 
 export interface LinkedLineRow {
@@ -156,6 +165,7 @@ function publishConditions(
   const one = api.parameter("one"),
     hundred = api.parameter("macroHundred");
   const regional = regionalRegistered(api);
+  const outside = outsideBySector(api);
   for (const placeId of state.placeIds) {
     // The place's region moves its pay, demand and price level against the nation's.
     const region = regional
@@ -167,11 +177,11 @@ function publishConditions(
         ((one + row.outputGapPct / hundred) /
           (one + opening.outputGapPct / hundred)) *
         region.demand;
-    // Buyers outside the town spend with the nation's prices and real output (its trend and its cycle), and the region's demand.
+    // Buyers outside the town follow the seller's own sector: its sales in the place's state and the nation's.
     scaleOutsideSales(
       api.state as CoreState,
       placeId,
-      prices * (row.realOutput / opening.realOutput) * region.demand,
+      outside(placeId),
       (organizationId) => firmStaffing(api, organizationId)?.serviceLevel,
     );
     api.addFinanceCondition({
@@ -189,6 +199,81 @@ function publishConditions(
       ),
     });
   }
+}
+
+/**
+ * Each sector's outside buyers this month, for a place: the sector's sales against the opening
+ * month's, the state's own cell for the part of the sector that sells at home and the nation's
+ * sum for the part traded between states (`tradedShare`). Sales are dollars, so prices are in
+ * them. Read once a month per sector and state, never per flow; a place in no state follows
+ * the nation.
+ */
+function outsideBySector(
+  api: CoreAPI,
+): (placeId: string) => ReadonlyMap<CountrySector, OutsideSectorFactor> {
+  const rules = rulesOf(api);
+  const zero = api.parameter("zero"),
+    one = api.parameter("one"),
+    hundred = api.parameter("macroHundred");
+  const states = countryStates(api);
+  const bases = new Map(
+    (
+      store(api).table("countryBases").rows() as unknown as CountryStateBase[]
+    ).map((row) => [row.fips, row]),
+  );
+  const since = (now: number, then: number) => (then > zero ? now / then : one);
+  const nationNow = new Map<CountrySector, number>(),
+    nationThen = new Map<CountrySector, number>();
+  for (const own of states)
+    for (const cell of own.sectors) {
+      nationNow.set(
+        cell.sector,
+        (nationNow.get(cell.sector) ?? zero) + cell.sales,
+      );
+      nationThen.set(
+        cell.sector,
+        (nationThen.get(cell.sector) ?? zero) +
+          (bases.get(own.fips)?.sectorSales[cell.sector] ?? zero),
+      );
+    }
+  const byState = new Map<
+    string | null,
+    ReadonlyMap<CountrySector, OutsideSectorFactor>
+  >();
+  const read = (key: string | null) => {
+    const own = key ? states.find((row) => row.key === key) : undefined;
+    const base = own && bases.get(own.fips);
+    const factors = new Map<CountrySector, OutsideSectorFactor>();
+    for (const sector of COUNTRY_SECTORS) {
+      const nation = since(
+        nationNow.get(sector) ?? zero,
+        nationThen.get(sector) ?? zero,
+      );
+      const cell = own?.sectors.find((row) => row.sector === sector);
+      if (!own || !base || !cell) {
+        factors.set(sector, {
+          factor: nation,
+          followed: `${sector} sales in the nation (country)`,
+        });
+        continue;
+      }
+      const traded = rules.tradedShare[sector];
+      factors.set(sector, {
+        factor:
+          (one - traded) * since(cell.sales, base.sectorSales[sector]) +
+          traded * nation,
+        followed: `${sector} sales in ${own.id} for the ${Math.round((one - traded) * hundred)}% sold at home and in the nation (country) for the ${Math.round(traded * hundred)}% traded`,
+      });
+    }
+    return factors;
+  };
+  return (placeId) => {
+    const key =
+      placeStateKey(placeId) ?? coreStateKeyOfPlaceholderId(placeId) ?? null;
+    let factors = byState.get(key);
+    if (!factors) byState.set(key, (factors = read(key)));
+    return factors;
+  };
 }
 
 /** The rules' numbers, read once per parameter registry. */
@@ -415,6 +500,9 @@ function openCountryTier(
         jobs: figures.jobs,
         hourlyPay: figures.hourlyPay,
         population: figures.population,
+        sectorSales: Object.fromEntries(
+          state.sectors.map((cell) => [cell.sector, cell.sales]),
+        ) as Record<CountrySector, number>,
       } satisfies CountryStateBase);
   }
   return {

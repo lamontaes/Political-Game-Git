@@ -11,6 +11,8 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import type { ResidentFlowInput } from "./residents";
+import { sectorOfKind } from "./business-books";
+import type { CountrySector } from "./country-model";
 import type { CoreState, JobInput, WorkCommitmentInput } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";
@@ -368,11 +370,13 @@ export function purchaseShareOf(
  * its amount to an equal new flow paying the entrant. Money the buyers spend
  * is unchanged. Returns the entrant's customers' spending a year.
  */
-/** Outside buyers' flows at the opening's prices and demand, and each place's latest factor (see scaleOutsideSales). */
+/** Outside buyers' flows at the opening's sales, and the latest factor each flow followed, by flow id (see scaleOutsideSales). */
 const outsideBases = new WeakMap<CoreState, Map<string, number>>();
 registerWorldMapPart("core2-outside-bases", outsideBases);
 const outsideFactors = new WeakMap<CoreState, Map<string, number>>();
 registerWorldMapPart("core2-outside-factors", outsideFactors);
+const flowFactor = (core: CoreState, flowId: string) =>
+  outsideFactors.get(core)?.get(flowId) ?? 1;
 /** A business's own limit on what it can sell outside (an operating limit under law), by organization. */
 const outputLimits = new WeakMap<CoreState, Map<string, number>>();
 registerWorldMapPart("core2-output-limits", outputLimits);
@@ -444,10 +448,11 @@ export function shiftPurchaseShare(
     if (flow.kind === "outside-sales") {
       let bases = outsideBases.get(core);
       if (!bases) outsideBases.set(core, (bases = new Map()));
-      bases.set(
-        id,
-        amount / (outsideFactors.get(core)?.get(flow.placeId) ?? 1),
-      );
+      const factor = flowFactor(core, flow.id);
+      bases.set(id, amount / factor);
+      let factors = outsideFactors.get(core);
+      if (!factors) outsideFactors.set(core, (factors = new Map()));
+      factors.set(id, factor);
     }
     addResidentFlow(core, {
       id,
@@ -468,28 +473,35 @@ export function shiftPurchaseShare(
   return Math.round(moved);
 }
 
+/** What one sector's outside buyers do this month: its sales against the opening month's, and the tier's records it read. */
+export interface OutsideSectorFactor {
+  factor: number;
+  /** The tier's records the factor read, by id (the state's row and the nation's), as a source line says it. */
+  followed: string;
+}
+
 /**
- * Buyers outside the town follow the nation and region: each place's
- * `outside-sales` flow is its opening amount times `factor` (prices times
- * real demand against the opening month). Returns the flows changed.
+ * Buyers outside the town follow the sales of the seller's own sector: each
+ * `outside-sales` flow of the place is its opening amount times its seller's
+ * sector's factor this month (the macro module reads it once a month per
+ * sector from the country tier). Returns the flows changed.
  */
 export function scaleOutsideSales(
   core: CoreState,
   placeId: string,
-  factor: number,
+  bySector: ReadonlyMap<CountrySector, OutsideSectorFactor>,
   /** A seller's service level now (staff against what its demand needs, 0 to 1), where the jobs engine keeps one. */
   serviceLevel?: (organizationId: string) => number | undefined,
 ): number {
   const rt = residentsRuntime(core);
-  if (!rt || !(factor > 0)) return 0;
+  if (!rt) return 0;
   let bases = outsideBases.get(core);
   if (!bases) outsideBases.set(core, (bases = new Map()));
   let factors = outsideFactors.get(core);
   if (!factors) outsideFactors.set(core, (factors = new Map()));
   let shares = outsideShares.get(core);
   if (!shares) outsideShares.set(core, (shares = new Map()));
-  const before = factors.get(placeId) ?? 1;
-  factors.set(placeId, factor);
+  const sectorOf = new Map<string, CountrySector | null>();
   let changed = 0;
   // Each seller's outside spending before the division, by its kind.
   const kinds = serviceLevel
@@ -502,24 +514,41 @@ export function scaleOutsideSales(
       flow.placeId !== placeId
     )
       continue;
-    // First seen: its amount is at the last month's factor.
+    const book = core.finance.businesses.get(flow.payeeId);
+    let sector = book ? sectorOf.get(book.kindId) : null;
+    if (book && sector === undefined)
+      sectorOf.set(book.kindId, (sector = sectorOfKind(book.kindId)));
+    const own = sector ? bySector.get(sector) : undefined;
+    if (!own || !(own.factor > 0))
+      throw new Error(
+        `Outside buyers' flow ${flow.id} has no sector to follow (seller ${flow.payeeId}, kind ${book?.kindId ?? "none"}).`,
+      );
+    // First seen: its amount is at the factor it last followed.
     if (!bases.has(flow.id))
       bases.set(
         flow.id,
         flow.amountMinor /
-          (before * limitOf(core, flow.payeeId) * shareOfFlow(core, flow.id)),
+          (flowFactor(core, flow.id) *
+            limitOf(core, flow.payeeId) *
+            shareOfFlow(core, flow.id)),
       );
-    const raw = bases.get(flow.id)! * factor * limitOf(core, flow.payeeId);
+    factors.set(flow.id, own.factor);
+    // The flow's source names the sector's records it follows, so a trace of its payments reads them.
+    const note = `Since the opening its outside buyers follow ${own.followed}.`;
+    if (!flow.source.estimatedFrom?.endsWith(note))
+      flow.source = {
+        ...flow.source,
+        estimatedFrom: flow.source.estimatedFrom
+          ? `${flow.source.estimatedFrom} ${note}`
+          : note,
+      };
+    const raw = bases.get(flow.id)! * own.factor * limitOf(core, flow.payeeId);
     flow.amountMinor = Math.round(raw * shareOfFlow(core, flow.id));
     changed += 1;
     const level = kinds && serviceLevel!(flow.payeeId);
-    const book =
-      kinds && level !== undefined
-        ? core.finance.businesses.get(flow.payeeId)
-        : undefined;
-    if (kinds && book && !book.closedAt) {
+    if (kinds && book && level !== undefined && !book.closedAt) {
       const group = kinds.get(book.kindId) ?? [];
-      group.push({ flow, raw, level: level! });
+      group.push({ flow, raw, level });
       kinds.set(book.kindId, group);
     }
   }
@@ -573,8 +602,6 @@ export function limitOutsideSales(
   limits.set(organizationId, limit);
   let bases = outsideBases.get(core);
   if (!bases) outsideBases.set(core, (bases = new Map()));
-  const placeFactor = (placeId: string) =>
-    outsideFactors.get(core)?.get(placeId) ?? 1;
   let changed = 0;
   for (const flow of rt.flows.values()) {
     if (
@@ -587,11 +614,11 @@ export function limitOutsideSales(
       bases.set(
         flow.id,
         flow.amountMinor /
-          (placeFactor(flow.placeId) * before * shareOfFlow(core, flow.id)),
+          (flowFactor(core, flow.id) * before * shareOfFlow(core, flow.id)),
       );
     flow.amountMinor = Math.round(
       bases.get(flow.id)! *
-        placeFactor(flow.placeId) *
+        flowFactor(core, flow.id) *
         limit *
         shareOfFlow(core, flow.id),
     );
