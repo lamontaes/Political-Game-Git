@@ -971,5 +971,17 @@
     "addedAt": "2026-11-09",
     "replacement": "A justice-engine reading of what the accused told the accuser (a disclosure or a confession to a witness) as evidence or mitigation.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-new-baby-ask-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "What the relative who comes to see a new baby offers or asks (dinner, the dishes, an hour of sleep, to hold the baby) is worded for every birth; nothing on a record says this relative will bring dinner. The child's name, the other parent, and the visitor's town (when it is not the parent's) are from the birth record and the people records.",
+    "why": "No engine keeps what a visitor brings to a new parent; the visit is the purpose itself, and its lines name only things any relative might offer.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A wants record per person and the household's chores and sleep from the people engine, so the visit offers what the home needs.",
+    "status": "open"
   }
 ]
