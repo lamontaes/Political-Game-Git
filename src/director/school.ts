@@ -79,9 +79,16 @@ export function graduationResults(
   core: Readonly<CoreState>,
   personId: PersonId,
 ): { id: string; date: string; passed: boolean }[] {
-  const results = school(core)?.table("results");
-  if (!results) return [];
-  return (results.query("byPerson", [personId]) as unknown as ResultRow[])
+  // A copy of the core that carries no module stores (a fixture's) holds no
+  // results to read.
+  let rows: ResultRow[] = [];
+  try {
+    rows = (school(core)?.table("results").query("byPerson", [personId]) ??
+      []) as unknown as ResultRow[];
+  } catch {
+    return [];
+  }
+  return rows
     .filter((row) => row.measure === GRADUATION)
     .map((row) => ({ id: row.id, date: row.date, passed: row.passed }))
     .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
