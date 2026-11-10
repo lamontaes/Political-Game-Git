@@ -84,11 +84,6 @@ try {
   }
   // Dev mode on, from Options, so the bill's page carries its dev card.
   await devModeOn(page);
-  // The Politics sheet, where the Bills tab is.
-  await page
-    .locator('#rings [data-tab="politics"]')
-    .first()
-    .evaluate((e) => e.click());
   // A state bill that changes an amount, passed through the game's own votes with the chair cast to
   // hear it and the governor to sign. A bill a trade added a section to is not a clean test: try the
   // next law until one becomes law with no section added.
@@ -148,7 +143,52 @@ try {
     !result.error,
     `a one-section state bill became law: ${result.error}`,
   );
-  // Open the bill's page from the Bills tab.
+  // Run until this law takes effect, through dev mode's own run: nothing else may stop it.
+  const law = await page.evaluate(async (billId) => {
+    const outcome = await (
+      await fetch(`/api/dev/bill-outcome?billId=${encodeURIComponent(billId)}`)
+    ).json();
+    return outcome.laws[0] ?? null;
+  }, result.billId);
+  assert.ok(law, "the bill made a law row");
+  if (!law.inForce) {
+    const out = await page.evaluate(async (lawId) => {
+      const r = await fetch("/api/dev/run-until", {
+        method: "POST",
+        body: JSON.stringify({
+          event: "law-takes-effect",
+          subject: lawId,
+          cap: 800,
+        }),
+      });
+      return r.json();
+    }, law.id);
+    console.log("run until it takes effect:", out);
+    assert.equal(
+      out.reason,
+      "event",
+      "the run stopped on the law taking effect",
+    );
+    assert.equal(out.where, "mine");
+    assert.ok(
+      out.records.length > 0 && out.records.every((id) => id.includes(law.id)),
+      "it stopped on this law's own record and no other",
+    );
+  }
+  // Paydays and tax days under the law: 45 days with dev mode's own run.
+  const days = await page.evaluate(async () => {
+    const r = await fetch("/api/dev/run-until", {
+      method: "POST",
+      body: JSON.stringify({ days: 45, cap: 45 }),
+    });
+    return r.json();
+  });
+  console.log("ran:", days.from, "to", days.to);
+  // The Politics sheet, the Bills tab, and the bill's own page.
+  await page
+    .locator('#rings [data-tab="politics"]')
+    .first()
+    .evaluate((e) => e.click());
   await page
     .locator("#sheet-tabs")
     .getByRole("button", { name: "Bills", exact: true })
@@ -158,26 +198,18 @@ try {
     .getByRole("button", { name: "Read the bill" })
     .first()
     .waitFor();
-  const place = await page.evaluate(async (id) => {
+  // The list's order moves as bills come and go: find the bill's place in it.
+  const listed = await page.evaluate(async (id) => {
     const list = await (await fetch("/api/bills/following")).json();
     return list.findIndex((item) => item.id === id);
   }, result.billId);
-  assert.ok(place >= 0, "the Bills tab follows the bill dev mode decided");
-  const openPaper = async () => {
-    // The list's order moves as bills come and go: find the bill's place each time.
-    const at = await page.evaluate(async (id) => {
-      const list = await (await fetch("/api/bills/following")).json();
-      return list.findIndex((item) => item.id === id);
-    }, result.billId);
-    assert.ok(at >= 0, "the Bills tab still follows the bill");
-    await page
-      .locator("#sheet-body")
-      .getByRole("button", { name: "Read the bill" })
-      .nth(at)
-      .click();
-    await page.locator('[data-testid="dev-bill-ending"]').waitFor();
-  };
-  await openPaper();
+  assert.ok(listed >= 0, "the Bills tab follows the bill dev mode decided");
+  await page
+    .locator("#sheet-body")
+    .getByRole("button", { name: "Read the bill" })
+    .nth(listed)
+    .click();
+  await page.locator('[data-testid="dev-bill-ending"]').waitFor();
   const read = (testid) =>
     page.locator(`[data-testid="${testid}"]`).allInnerTexts();
   const ending = (await read("dev-bill-ending"))[0];
@@ -187,57 +219,11 @@ try {
   assert.match(ending, /became law/i, "the card says how the bill ended");
   assert.match(added, /: 0$/, "no section was added by a trade");
   assert.ok(lawLines.length > 0, "the card names the law row the bill made");
+  assert.match(lawLines[0], /in force/i, "the law is in force after the run");
   await page
     .locator('[data-testid="dev-bill-ending"]')
     .scrollIntoViewIfNeeded();
   if (SHOTS) await page.screenshot({ path: `${SHOTS}/01-what-came-of-it.png` });
-  // Not yet in force: run until this law takes effect, and nothing else stops the run.
-  if (await page.locator('[data-testid="dev-bill-run-to-effect"]').count()) {
-    const ran = page.waitForResponse(
-      (r) => new URL(r.url()).pathname === "/api/dev/run-until",
-      { timeout: 900000 },
-    );
-    await page
-      .locator('[data-testid="dev-bill-run-to-effect"]')
-      .first()
-      .click();
-    const out = await (await ran).json();
-    console.log("run until it takes effect:", out);
-    assert.equal(
-      out.reason,
-      "event",
-      "the run stopped on the law taking effect",
-    );
-    assert.ok(
-      out.records.every((id) => id.includes("law-took-effect")),
-      "it stopped on a law-took-effect record",
-    );
-  }
-  // Paydays under the law: 45 days with dev mode's own run, then read who it reached.
-  const days = await page.evaluate(async () => {
-    const r = await fetch("/api/dev/run-until", {
-      method: "POST",
-      body: JSON.stringify({ days: 45, cap: 45 }),
-    });
-    return r.json();
-  });
-  console.log("ran:", days.from, "to", days.to);
-  // Redraw the page: the Bills tab again (opening Politics first if the sheet closed), then the paper.
-  const billsTab = page
-    .locator("#sheet-tabs")
-    .getByRole("button", { name: "Bills", exact: true });
-  if (!(await billsTab.isVisible().catch(() => false)))
-    await page
-      .locator('#rings [data-tab="politics"]')
-      .first()
-      .evaluate((e) => e.click());
-  await billsTab.click();
-  await page
-    .locator("#sheet-body")
-    .getByRole("button", { name: "Read the bill" })
-    .first()
-    .waitFor();
-  await openPaper();
   const reach = await read("dev-bill-reach");
   const sides = await read("dev-bill-reach-side");
   const people = await read("dev-bill-reach-person");
@@ -276,6 +262,9 @@ try {
   console.log(
     `ok: ${result.series} at ${result.chamber}: the card said how the bill ended, named its law, who it reached and where the money went`,
   );
+} catch (error) {
+  if (SHOTS) await page.screenshot({ path: `${SHOTS}/failed.png` });
+  throw error;
 } finally {
   await browser.close();
 }
