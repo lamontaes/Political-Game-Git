@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** A newspaper's owner, an election chief and others the engines make to fill a role open with schooling and almost nothing else. Their cards are the shortest in the game. This part gives them a birthplace and the working life that led to the role, when they are opened or met.

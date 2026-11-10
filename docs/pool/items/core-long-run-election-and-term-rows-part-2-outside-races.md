@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** Every state's legislature and officers are raced on their own calendars, and each race keeps a result, returns and a row per voting place forever, 12,492 voting places growing to 40,971 in four years in Kirkman, Iowa. Outside contests' details are read by nothing once the next general election has been counted. Fold them as the Notes agree with the laws lead.

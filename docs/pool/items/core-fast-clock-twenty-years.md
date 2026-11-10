@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-country-tier
+checked: fable 2026-11-10
 ---
 
 **What.** Everything in the game steps day by day, so twenty years take 17 to 51 minutes where they finish at all. The owner asked on Nov 8 for a 20-year run in about five seconds, and said he is fine with it simulating everything as long as it makes sense in the end. The country tier already steps every state by the month in a few milliseconds. This item adds the second speed: when nobody is watching, the played town runs as results too (its monthly engines run; the daily loop, rival campaigns event by event, interviews and the press do not; elections are counted from the voters), and on return the day-by-day detail is rebuilt from the results. Dev mode's Run panel gets a 20 years control. The past before the start already runs this way (src/core2/pre-start.ts), so one coarse engine serves the past, other places and skipped years, and the campaign-stride switch (src/core2/fast-forward.ts) is deleted.

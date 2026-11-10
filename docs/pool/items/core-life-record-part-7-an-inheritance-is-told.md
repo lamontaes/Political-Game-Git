@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** When someone dies and leaves money or a home, the record is kept and the heir's card says nothing, because the kind has no sentence. This part adds the row that tells it, with who left it, the year and the amount. Story writes the sentence.

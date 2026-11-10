@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc1-world-outside-town
+checked: fable 2026-11-10
 ---
 
 **What.** The parent's finish line needs one run that shows the whole of it together. Over five years of the played world, every husk adult should be reviewed by the moves, work, partnerships, births and health engines on their cadence. The household talk with a relative should open on that relative's news. This part runs that check in three drawn places and files whatever is missing as items.
@@ -30,6 +31,6 @@ root: rc1-world-outside-town
 
 **Done when.** A second session, in three drawn places (places and seeds named), runs five years of buildBenchWorld and sees every husk adult reviewed by each of the five engines on their cadence, by record ids, and sees the household talk open on a relative's news in src/director/household-talk.test.ts. The yearly share of husks with a life record is printed beside those engines' real rates as figures to report, and `npm run speed:year` stays within 20% of base on the same machine.
 
-**Waits on.** Parts 1 of this item and core-every-life-partners, core-every-life-partner-from-counts and core-every-life-work-dead-rows merged.
+**Waits on.** core-every-life-simulated-part-1-births-for-couples-elsewhere, core-every-life-partner-from-counts and core-every-life-work-dead-rows merged (core-every-life-partners is done).
 
 **Files.** src/director/household-talk.test.ts, src/core2/modules/people.ts, src/core2/modules/jobs.ts

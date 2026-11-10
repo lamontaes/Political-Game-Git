@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** The audit's root cause 3: a life holds too little to tell. The records keep births, schools, jobs and moves, and nothing that happened between people. Measured in Blodgett Landing, New Hampshire: a 17-year-old's life is four lines (born 2007, started school 2012, middle school 2018, high school 2021), and the journal says one thing three times. Measured in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af): of 117 full adults aged 25 and up, 115 have a job record, 44 a family record, 21 a school record and one a move; none of the 82 born before 1980 has a school record, because everyone's simulated past starts in the player's birth year. This item gives each full person one short list of remembered events (who, what, when and what it changed), written by the engines that already run (health, justice, partnerships, school, work, elections) and by the simulated past, and makes the journal, the person card, the You screen and the scenes read that one list. It builds no new engine and no new past: an event is remembered when an existing engine's record is one a person would remember.

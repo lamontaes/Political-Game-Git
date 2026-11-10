@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-country-tier
+checked: fable 2026-11-10
 ---
 
 **What.** Every number in the country tier's rules sits in src/core2/data/country/parameters.json with the tag TUNABLE and the stopgap SG-NATION-country-tier-working-values. They cover what each income fifth spends and holds as cash, each sector's pay share and pay level, the household basket, how much of each sector is traded between states, how fast firms adjust staff and prices, the matching of people and openings, how strongly movers answer pay after tax and work, and births, deaths and aging. Each was set near a figure the builder knew and checked only for a calm forty-year run. The building session could not reach the BLS and Census hosts. This item fetches each figure's table, sets the value with its citation and spread, and marks it SOURCED or ESTIMATED.

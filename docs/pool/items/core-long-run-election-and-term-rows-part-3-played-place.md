@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** The played town keeps every election's returns and places forever. The governing lead agreed that every town result stays, but a town contest's returns and places can go once the town has a newer election night with a result, since the past-elections prior-election records the opening paper reads stay whole. The fold applies this rule once a newer night has a result.

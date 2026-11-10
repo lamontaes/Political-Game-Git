@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** The owner asked for twenty years in about five seconds. Parts 1 to 4 bring a skipped year down from day-by-day time; nobody knows yet to what. This part measures it in three towns of different sizes and names, engine by engine, what still costs more than a second a year.

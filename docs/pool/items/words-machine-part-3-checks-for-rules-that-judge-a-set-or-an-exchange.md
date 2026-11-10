@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** Some of the owner's rulings cannot be seen in any one line: four replies must be four different answers; a reply must answer what was said; a talk must not end the same way every time. Sixteen such rules are written down. One has a check that reads the lines together.

@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** In Ringgold, Louisiana's 100-year save the campaign tables grow fastest: causes 889 to 721,144 rows, doors 2,037 to 54,355, money 333 to 20,288 and gifts 310 to 10,494 between years 1 and 6. Play reads the campaign's own rows only while the race is open or for the player's own race. Fold each table into a summary once its readers' window has passed, with the player's contests kept whole.
@@ -33,3 +34,5 @@ root: rc5-full-detail-every-day
 **Waits on.** Nothing.
 
 **Files.** src/core2/modules/campaigns.ts, scripts/speed-years/run.ts
+
+**Notes (Fable's check, Nov 10).** Proposed drop (Fable's check): this part asks for work that exists or is owned elsewhere. Campaign causes already fold at a race's close (`foldClosedRaceCauses`, src/core2/modules/campaigns.ts line 5486, and `foldOldCauses`, line 5527; item core-long-run-campaign-causes-fold is done). Money rows are core-long-run-campaign-money-rows, in a pull request. Gifts, endorsements, polls and stepped-up rows are core-long-run-race-close-campaign-rows. Impressions are one row per voter and person carried across races, so they never fold at a race's close (skill speed-work). Do not build this item; whatever still grows is named by core-long-run-tables-grow-with-history-part-4-whole-save-check.

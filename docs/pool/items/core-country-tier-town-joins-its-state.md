@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-country-tier
+checked: fable 2026-11-10
 ---
 
 **What.** About four fifths of a small town's business sales are to buyers outside the town, and today every firm's outside sales move by one smooth factor for the whole place (scaleOutsideSales, called from publishConditions in src/core2/modules/macro.ts). No firm's demand ever differs from its neighbor's, so firms almost never let anyone go, and a fixed layoff pace (reviewTurnover in src/core2/modules/jobs.ts, stopgap SG-LABOR-turnover-fixed-rate) stands in for the churn. The country tier now holds every state's households and sectors. This item makes the town's outside buyers the tier's: each sector's outside demand in the town follows that sector's sales in its state and the nation, each seller's share of it follows its price, capacity and standing against its rivals, and the town's people, jobs and dollars are counted inside their state's sums. Then reviewTurnover and its table are deleted.
