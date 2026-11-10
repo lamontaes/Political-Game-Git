@@ -8,12 +8,10 @@
  * is cited to the records it came from.
  */
 import { daysBetweenText } from "../core2/kernel/dates";
-import { JOBS_MODULE_ID } from "../core2/modules/jobs";
-import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { spanSaid } from "../english/span-words";
 import type { Director } from "./ledger";
-import { newsSince, type NewsFact } from "./life-news";
+import { newsSince, seekerWithoutJob, type NewsFact } from "./life-news";
 
 /** The situation type that reads these facts. */
 export const REUNION_TYPE = "reunion";
@@ -62,17 +60,12 @@ export function reunionFacts(
       sourceRecordIds: [soured.causeId, thread.otherId],
     };
   // Out of work: the jobs engine holds them as a seeker without a job.
-  if (asker.tier !== "husk" && core.modules.has(JOBS_MODULE_ID)) {
-    const seeker = coreAPI(core as CoreState)
-      .moduleState(JOBS_MODULE_ID)
-      .table("seekers")
-      .get(askerId) as unknown as { id: string; employed: boolean } | undefined;
-    if (seeker && !seeker.employed)
-      facts["looking-for-work"] = {
-        text: "yes",
-        sourceRecordIds: [seeker.id, askerId],
-      };
-  }
+  const seeking = seekerWithoutJob(core, askerId);
+  if (seeking)
+    facts["looking-for-work"] = {
+      text: "yes",
+      sourceRecordIds: [seeking, askerId],
+    };
   for (const [key, fact] of Object.entries(
     newsSince(core, askerId, back.since, asked.householdId, back.date),
   ))

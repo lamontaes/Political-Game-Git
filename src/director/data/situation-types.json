@@ -867,7 +867,20 @@
     },
     {
       "key": "celebration",
+      "note": "People gather to mark something that happened in the player's household: a wedding (partnerships.ts's family.married) or a new job (the job row and its employer). A relative at the celebration asks the player for something the occasion brings: a few words for everyone, a picture, a dance, a talk about an old quarrel that the tie's record kept, a hand finding work. Whose occasion it is, what it is, the guest's town, a new child and whether the guest is out of work are said only when a record gives them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
+      "purpose": "celebration-ask",
+      "asker": "guests",
+      "asked": "you",
+      "stakes": ["relative"],
       "roles": [
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["engage"],
+          "bearing": "glad"
+        },
         {
           "key": "honoree",
           "fill": "subject",
@@ -888,7 +901,7 @@
           "key": "guests",
           "fill": "kin",
           "count": "some",
-          "moves": ["thank", "tell", "offer"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "cooperate"],
           "bearing": "glad"
         }
@@ -941,7 +954,7 @@
       "tag": {
         "key": "honor",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -1049,12 +1062,25 @@
     },
     {
       "key": "gathering-missing",
+      "note": "A birthday at home with the closest relative who lives elsewhere missing (kin-contact.ts's family.gathering-missed). Someone in the household asks the player to reach out to the one who was missing: to call, write, visit or make the first move. Whose birthday it was and the age they turned, who was missing and where they live, what changed in the missing relative's life lately (a child born, a wedding, a move, new work, a serious illness) and whether the player's last word with them was a quarrel are said only when a record gives them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
+      "purpose": "gathering-ask",
+      "asker": "household",
+      "asked": "you",
+      "stakes": ["relative", "tie"],
       "roles": [
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["engage"],
+          "bearing": "solemn"
+        },
         {
           "key": "household",
           "fill": "household",
           "count": "some",
-          "moves": ["recall", "comfort", "tell"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["keep-same", "engage"],
           "bearing": "solemn"
         },
@@ -1086,7 +1112,7 @@
       "tag": {
         "key": "loss",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {

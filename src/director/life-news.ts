@@ -7,8 +7,10 @@
  * that need it never play.
  */
 import { FAMILY_MARRIED } from "../core2/modules/partnerships";
+import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { P } from "../core2/parameters";
 import { MOVED_AWAY_EVENT } from "../core2/modules/moves";
+import { coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { properName } from "./words";
 
@@ -37,6 +39,24 @@ export function recordsSince(
       (a, b) => b!.date.localeCompare(a!.date) || a!.id.localeCompare(b!.id),
     )
     .map((row) => row!);
+}
+
+/**
+ * The jobs engine's seeker row id for a full person who is out of work and
+ * looking, or undefined (employed, a counted resident, or no jobs engine).
+ */
+export function seekerWithoutJob(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): string | undefined {
+  const person = core.people.get(personId);
+  if (!person || person.tier === "husk" || !core.modules.has(JOBS_MODULE_ID))
+    return undefined;
+  const seeker = coreAPI(core as CoreState)
+    .moduleState(JOBS_MODULE_ID)
+    .table("seekers")
+    .get(personId) as unknown as { id: string; employed: boolean } | undefined;
+  return seeker && !seeker.employed ? seeker.id : undefined;
 }
 
 /**
