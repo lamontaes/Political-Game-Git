@@ -4313,7 +4313,7 @@
       "key": "journal.memoir-meant-friend.i-was-happy-about-that",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "We were friends.",
+      "text": "We knew each other well.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -5376,7 +5376,7 @@
       "key": "journal.memoir-remember.we-were-friends",
       "move": "memoir-remember",
       "kind": "spoken",
-      "text": "We were friends.",
+      "text": "We were close.",
       "uses": [
         {
           "move": "memoir-remember",
