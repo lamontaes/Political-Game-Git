@@ -152,4 +152,47 @@ describe("what the owner flagged in batch 3, in the scenes merged on Nov 10", ()
       "not named again",
     ).not.toContain("Devon");
   });
+
+  it("answers a request in a new-baby visit with a line that fits what was asked", () => {
+    const babyParts = parts.filter((part) =>
+      part.uses.some((use) => use.purpose === "new-baby"),
+    );
+    const byKey = new Map(babyParts.map((part) => [part.key, part]));
+    // "Go. {kid} and I will be fine." leaves the baby with the asker: it only
+    // follows a request to take the baby for a sleep or a nap.
+    for (const part of babyParts.filter((row) =>
+      /^Go\. (\{kid\} and I will be fine|I've got \{kid\})/.test(row.text),
+    )) {
+      for (const use of part.uses) {
+        const asked = use.after ? byKey.get(use.after) : undefined;
+        expect(asked?.text, `${part.key}: follows ${use.after}`).toMatch(
+          /\{kid\}.*(sleep|nap)/,
+        );
+      }
+    }
+  });
+
+  it("refers to nothing a scene never said (no groceries, no apology, nobody sorry)", () => {
+    // A close that puts the groceries away needs a visit that brought them.
+    const groceries = parts.filter(
+      (part) =>
+        /groceries/.test(part.text) &&
+        part.uses.some(
+          (use) => use.purpose === "new-baby" && use.step === "close",
+        ),
+    );
+    expect(groceries.map((part) => part.text)).toEqual([]);
+    // A follow that answers any reply to an owed apology does not presuppose one was made.
+    const presumes = parts.filter(
+      (part) =>
+        /you're sorry|^Sorry helps/.test(part.text) &&
+        part.uses.some(
+          (use) =>
+            use.purpose?.startsWith("owed-apology") &&
+            use.step === "follow" &&
+            !use.after,
+        ),
+    );
+    expect(presumes.map((part) => part.text)).toEqual([]);
+  });
 });
