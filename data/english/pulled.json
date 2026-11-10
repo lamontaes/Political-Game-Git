@@ -67,5 +67,64 @@
       "alright-in-dialogue"
     ]
   },
-  "noReplyFollows": {}
+  "noReplyFollows": {
+    "scene-talk.follow-ask.then-why-vote-at-all": [
+      "conflict-accuse.friend/deny",
+      "conflict-accuse.hearsay/deny",
+      "conflict-accuse.taken/deny"
+    ],
+    "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first": [
+      "conflict-accuse.hearsay/tell"
+    ],
+    "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me": [
+      "conflict-accuse.hearsay/tell"
+    ],
+    "scene-talk.follow-confront.i-will": [
+      "conflict-accuse.hearsay/deny",
+      "conflict-accuse.hearsay/leave",
+      "conflict-accuse.hearsay/tell",
+      "conflict-accuse.taken/deny",
+      "conflict-accuse.taken/leave",
+      "conflict-accuse.taken/tell",
+      "conflict-accuse.witness/deny",
+      "conflict-accuse.witness/leave",
+      "conflict-accuse.witness/tell",
+      "conflict-accuse/deny",
+      "conflict-accuse/leave",
+      "conflict-accuse/tell"
+    ],
+    "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
+      "conflict-accuse.hearsay/confront"
+    ],
+    "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor": [
+      "conflict-accuse.hearsay/confront"
+    ],
+    "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation": [
+      "conflict-accuse.witness/confront"
+    ],
+    "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say": [
+      "conflict-accuse.witness/confront"
+    ],
+    "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
+      "ask-vote.watched/accept"
+    ],
+    "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y": [
+      "conflict-accuse/accept"
+    ],
+    "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
+      "favor-job/press"
+    ],
+    "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up": [
+      "conflict-accuse.friend/ask"
+    ],
+    "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish": [
+      "conflict-accuse.hearsay/ask"
+    ],
+    "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge": [
+      "conflict-accuse.taken/ask"
+    ],
+    "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it": [
+      "conflict-accuse.witness/ask"
+    ]
+  }
 }
