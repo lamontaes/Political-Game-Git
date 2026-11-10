@@ -5,11 +5,11 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 after:
-blocked-on: play-stop-11-campaign-actions-do-nothing-visible-a, play-stop-11-campaign-actions-do-nothing-visible-b
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -17,6 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+checked: fable 2026-11-10
 ---
 
 **What.** After filing for Anson City Council on the v0.22.10 release, Give a speech made its button disappear and nothing else happened, Ask for an interview added a line and nothing more, Call donors left "$0.00 raised", Hold an event stayed grayed with no reason, and only Knock on doors showed a scene. Child -a is done (PR 6787) and -b is dropped as a twin of play-first-13-campaign-screen-to-mock-b (done); a grayed action now shows its reason from the records on its button. What is left is a second session's replay of the finish line.
@@ -31,7 +32,7 @@ milestone: play-first
 
 **Done when.** A second session (not the builder) starts the bench in a drawn place (place and seed named), files for a local seat, and in the first week after filing uses Give a speech, Ask for an interview and Call donors, taking a screenshot of each result at 1440x900: each shows a scene or a result line, Call donors can raise money from a named person (record id in the proof), and a grayed action says why. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
 
-**Waits on.** Nothing. Child -a is done and -b is dropped; A second session's check in the running game (seen-in-game).
+**Waits on.** Nothing. What it was blocked on is done; what is left is a second session's check in the running game (skill seen-in-game).
 
 **Files.** src/bench/campaign.ts, src/core2/modules/campaigns.ts, src/bench/play.mjs
 

@@ -14,9 +14,10 @@ source: owner, Oct 29 voice note on the governing brief
 claimed-at:
 after:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc1-world-outside-town
+checked: fable 2026-11-10
 ---
 
 **What.** In three played years Congress passed no policy bill in any world; it adopted only its budget. The owner, Oct 29: "No, laws need to work federally." The president's desk signs or vetoes like any executive's. Federal laws must pass through the same legislature engine on Congress's real session calendar, with members deciding from their own reasons, and reach the town through the law store like state and local laws do. Measured Nov 9 in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af): Congress introduced five bills in the year (two on the minimum wage, one on a Medicaid work rule, one on an income tax and one budget), the Senate none, against 130 bills in the whole world. In Marion, Mississippi (seed 7df73e53cd67) with every vote forced, all 40 bills Congress may pass failed at 219 to 216 and 52 to 48 and all 40 passed at 233 to 202 and 65 to 35, so the 60-vote rule is in force. This item folds in `gov-federal-questions-admitted` and, in this redo, the stance work of `gov-federal-questions-answers-stances`; the work is three parts.
@@ -25,7 +26,7 @@ root: rc1-world-outside-town
 
 **Fix.** Do the three parts in order: Congress reads one source of federal law and files on a question list from data (part 1); every federal question has a cited answer and every member and the President holds a stance on it (part 2); a played year shows Congress enacting a policy law that reaches a named resident (part 3). Delete the `SG-GOV-federal-proposal-coverage` call and marker and mark the row resolved (never deleted) once only questions with a standing answer, members' stances and an effect reader are admitted.
 
-**Time box.** 2 hours for one opus session to hand out the parts and check them in; each part carries its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check once the three parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** One engine per mechanic: Congress uses the same `draftBill`, committee and floor engine as every chamber, with the 60 percent cloture row already in data. No dice: what passes follows members' positions, party and the president's desk, never a rate. Wire to the world: a federal law reaches named people through law-reach. An effect is a read, not a record. One rule, all 56 places.
 

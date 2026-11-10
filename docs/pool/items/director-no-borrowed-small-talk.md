@@ -16,6 +16,7 @@ effort: high
 root: rc4-hand-written-words
 lead: words
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4 and the grading section, root causes 4 and 6)
+checked: fable 2026-11-10
 ---
 
 **What.** A scene whose own lines are missing hands the player to everyday talk, and everyday talk says whatever is biggest on record, which has often been the President's address. The audit forced a serious illness on the player through dev mode in As Matuis, Northern Mariana Islands, and the mother's scene turned into replies about the President thirteen months after the address. On Nov 10's main (commit 8ac2262853) the scene tool shows 2 of 64 scenes still fall back (both news-arrives, the eviction news at home: Tesuque, New Mexico, seed 8a5d1fba28fc, 2026-11-21, and Odessa, Washington, seed fd7e212758b7, 2026-12-02), and the governor's address in Odessa played as narration alone. The fix is to remove the fallback: a scene whose own lines are missing does not play, its cause becomes a journal line, and the missing bank is reported by kind, purpose and step.

@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr: #6038
 after:
-blocked-on: owner-installed-build-acceptance
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -18,6 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A life started as a 17-year-old in Anson, Texas on the v0.22.10 release listed "Anson Middle" and "Anson El" under school, no high school, and no enrollment in the senior year. It is implemented by play-teen-has-current-high-school (done; merged as 48d74a8b39). The Nov 4 check in the Notes (Anson, Texas, age 17) shows Who you are with School "Anson Public Schools" and Jobs and study reading "You went on to high school." What is left is a closing check by a second session in a drawn place, including whether a current high school should be named by its own name and not its district.
@@ -32,7 +33,7 @@ claimed-at:
 
 **Done when.** A second session (not the builder) starts a new life at age 17 in a drawn place (place and seed named) and opens Who you are and Jobs and study with screenshots at 1440x900: a current high school or school is shown by a full name with no cut-off, and the history reads that the player went on to high school. The session reports whether the name shown is the school's or its district's. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
 
-**Waits on.** owner-installed-build-acceptance (the item's `blocked-on:`, replaced by the second-session rule); A second session's check in the running game (seen-in-game).
+**Waits on.** Nothing. What it was blocked on is done; what is left is a second session's check in the running game (skill seen-in-game).
 
 **Files.** src/core2/past-school.ts, src/bench/card.ts, src/bench/words.ts
 

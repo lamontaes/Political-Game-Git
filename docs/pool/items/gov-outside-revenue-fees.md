@@ -5,10 +5,10 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: blocked
+status: open
 claimed-by:
 pr: #5926
-blocked-on: gov-service-charges-by-use
+blocked-on:
 standard: 2
 model: opus
 effort: high
@@ -17,6 +17,7 @@ root: rc1-world-outside-town
 source: added with npm run pool -- add
 claimed-at:
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Charges, fees and miscellaneous general revenue (tuition at public colleges, hospital and park charges, transit fares, permits, utility charges) reach each treasury today as an even twelfth of Census revenue from the outside account, with nobody paying them. Replace that share so each charge is paid by the households and businesses that use the service, on the day they use it, at the price the law and the budget set, into the treasury of the government that runs it. The player would notice that raising a park or transit fee costs the people who use the park or ride, and that a fee nobody uses brings in nothing.

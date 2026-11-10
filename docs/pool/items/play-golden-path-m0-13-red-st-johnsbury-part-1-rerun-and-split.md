@@ -16,6 +16,7 @@ model: sonnet
 effort: high
 root: rc2-done-from-records
 source: split from play-golden-path-m0-13-red-st-johnsbury in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The M0-13 draw in St. Johnsbury, Vermont is more than a month old, and many fixes have merged since. Before anyone fixes a symptom, re-run the check on current main in that place and seed and write down what still fails, then file each still-failing symptom as its own item with a cause, or mark the part for it dropped when the symptom is gone. The six symptoms of the old run were heap growth of 110.5 MiB a month, modules that never ran (public projects, succession, world races, ballot measures, past), 2 of 15 races with no one on the ballot, 9 of 2,830 homes with no value or rent, 7 of 42 people paid with no cash at the end, and new businesses borrowing more than 9 times the founder's cash.

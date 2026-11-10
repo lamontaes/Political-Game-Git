@@ -12,19 +12,20 @@ after:
 blocked-on: gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results,gov-other-towns-and-counties-never-meet-part-2-roll-call-on-open,gov-other-towns-and-counties-never-meet-part-3-readers-and-speed
 lead: nation
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc1-world-outside-town
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 3, "Other towns and counties")
+checked: fable 2026-11-10
 ---
 
 **What.** Outside the player's own town, no local government does anything. Measured in a played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af): 130 bills were introduced in the whole world, 111 in the home legislature, 14 in the player's own municipal board and 5 in Congress. All 25 local sittings were the player's own board, and no other town or county body met. The pool item for this, `gov-every-state-and-town-governs`, is marked done. Read in the code on main: the only local bodies given meetings are the played town's own council, county board and township board. So a neighbor town never raises a tax, a county next door never passes a budget, and nothing local happens anywhere for the news, the economy or the player's rivals to read. Fix it at the cause for every place: other towns and counties decide through the one body engine at a coarser level, from the views of the people there, and keep only the result (the law or budget in force, its date and the vote count), with the meeting, the members and the roll call built when the player opens one.
 
-**Cause.** Measured: Caño Martín Peña, Puerto Rico, seed 50fe2d1143af, one played year: 130 bills in the world and all 25 local sittings the player's own board. The cause is in src/core2/modules/world-legislating.ts function openWorldLegislating (line 209), which calls scheduleMeeting for townBodies only (line 250).
+**Cause.** Measured: Caño Martín Peña, Puerto Rico, seed 50fe2d1143af, one played year: 130 bills in the world and all 25 local sittings the player's own board. The cause is in src/core2/modules/world-legislating.ts function openWorldLegislating (line 209), which calls `scheduleMeeting` for `townBodies` only (line 217; `townBodies` is defined at line 250).
 
 **Fix.** Let other towns' and counties' bodies decide through the one body engine at a coarse level on the days they sit, from the views of the people there, keeping only the result (law or budget in force, date, vote count), and build the roll call on open with the existing rollCallOf pattern. The work is split into the three parts named in Waits on; this item is done when all three are merged and the whole Done when below holds.
 
-**Time box.** 2 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop. The build itself is in the three parts; this item's time is for checking them together.
+**Time box.** 2 hours for one Sonnet session, the closing check once the three parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** One rule, all 56 places: which other local bodies exist and when they sit comes from each place's data rows, and the one body engine reads them, with no second engine and no named place. No dice: what another town's board passes follows its members' views and the place's conditions, never a rate, a cap or a chance. An effect is a read, not a record: another town's result counts only when a different engine reads it (the press, the regional economy, a neighbor's price or tax in a household's choice), named by record id. Speed: results only, on the days a body sits, and nothing scans every town every day. Owner, November 5: "just simulate based on the people there and then you can fill in the gaps based on what was simulated when things need to be generated. generate on demand"; for every government outside the player's own chain, keep only the result and build the detail on open. Owner, November 8: "The other 49 states changing laws and, stuff happening nationally and locally and stuff is to the utmost importance, even simulation kind of stuff."
 

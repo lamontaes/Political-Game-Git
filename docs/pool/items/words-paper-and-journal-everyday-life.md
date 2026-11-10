@@ -13,9 +13,10 @@ blocked-on: words-paper-and-journal-everyday-life-part-1-race-roundups, words-pa
 source: owner, Nov 1 ("what are the events that are reported in the news/in journal? there needs to be real ones with some good fluff or else it will get old")
 after:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** The news bank has about 124 story kinds, most of them government process (bills, committees, roll calls, budgets), with 3 to 7 wordings each. It has no obituaries, no wedding or anniversary notices, no milestone birthdays or retirements, no letters to the editor and no local business features. The journal's everyday lines are 15 routine-day pieces. A paper that prints the same council sentence every week gets old. This item makes the paper and the journal carry real everyday life from records the world already keeps, worded with enough variety that a reader rarely meets the same sentence twice in a year. First it measures what a played year actually prints.
@@ -24,7 +25,7 @@ root: rc3-thin-life-record
 
 **Fix.** Four pieces, each its own item: print a race's gifts and endorsements as a periodic roundup (part 1) or have each outlet remember the context sentences it printed for a race (part 2), whichever the CTO rules; let letters to the editor print from a resident's recorded view (part 3); add a birth-notice press kind from the person-birth record (part 4).
 
-**Time box.** 16 hours for one Opus session across the parts; each part has its own box. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session, the closing replay once the parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** No hand-written player text: every story and line comes from the banks and cites the record it reports, never invented news (scene-standard, ask why). Wire to the world: a story kind prints only from a record an engine writes; where the record does not exist the kind waits and says so. Every bank piece plays unless the owner's grades reject it.
 

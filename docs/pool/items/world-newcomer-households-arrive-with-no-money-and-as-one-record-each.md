@@ -5,9 +5,9 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-moves-change-weights
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ effort: high
 root: rc5-full-detail-every-day
 lead: fable
 source: Fable, Nov 10, 2026, measured in South Fork, Missouri while proving the workers fix (pull request for world-regional-work-piles-unplaced-workers-on-a-household)
+checked: fable 2026-11-10
 ---
 
 **What.** A household that moves into the county arrives with no money on its records and as a record of its own. Measured in South Fork, Missouri, twelve months in, in the rest-of-county place: the 140 opening records that stand for 15,902 households hold 11,074 out-of-town workers, none of their members is in regional work and none is looking; the 1,126 newcomer households, each a record of its own, hold 615 workers, 360 members already in regional work and 348 more looking, and their members' money covers zero days of their costs. So every free newcomer looks for work and is hired, the county's workers climb while its people stay flat (12,305 of 27,866 adults at the opening, 19,150 after five years, 26,796 of 29,938 after eleven), and records grow without bound (238 at the opening, 1,356 after twelve months, 2,428 after eighteen, while households go from 17,126 to 18,303), so each year of a long game is slower than the last (43 seconds for year 1, 94 for year 10 in the same run, on a busy machine).

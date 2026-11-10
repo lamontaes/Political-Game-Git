@@ -16,6 +16,7 @@ effort: high
 root: rc6-scenes-repeat
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root cause 6)
+checked: fable 2026-11-10
 ---
 
 **What.** A scene plays again every time its cause recurs, and nothing asks what the last one settled. Measured by the audit's scene tool, a 17-year-old for one year in each of Ninnekah, Oklahoma (seed 3dac8ffb3f3c), Tesuque, New Mexico (seed 8a5d1fba28fc) and Odessa, Washington (seed fd7e212758b7): 45 of 64 scenes were the same job-offer call (15 of 16, 16 of 24, 14 of 24). In Ninnekah ten employers called, Woodward's Market three times, and he had no job at the end; in Tesuque one caller phoned four times and a relative's letter made the same ask three times in six months. In the audit's browser play (Blodgett Landing, New Hampshire, ten weeks) one stranger asked the same question three times. This item also takes the vote-ask cap: for a player seated in a legislature past the six-per-91-days cap, the ask is recorded with the season-cap reason and a bank journal line says the sponsor asked (Springfield, Oregon, 4169600, run seed chk2-b).

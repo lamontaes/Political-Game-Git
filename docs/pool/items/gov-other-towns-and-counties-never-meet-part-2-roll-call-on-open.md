@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc1-world-outside-town
 source: split from gov-other-towns-and-counties-never-meet in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A neighboring town's result is kept without its members or votes. When the player opens one from the News or the Government screen, the meeting, the members and the roll call must be built on demand from the kept result, the same every time and adding up to the vote count. Without it a neighbor's decision could be shown but never examined. The roll call is built when the player opens the result, not kept.

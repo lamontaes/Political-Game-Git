@@ -16,6 +16,7 @@ effort: medium
 root: rc7-player-cannot-drive
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "What a player sees" and "Size of the fix", root cause 7)
+checked: fable 2026-11-10
 ---
 
 **What.** A player in office has no way to say "repeal this law". The audit found on Nov 9 that there is no Repeal button outside dev mode and a player repeals by typing 0; in Davenport, North Dakota (three seats taken through Advanced, Play as; no seed given) the word repeal appears on none of the Your office screens. The one Repeal button is dev mode's, which introduces a bill for the chosen law with the value 0, and a law's own page shows what is in force, the statute, what changed and how members voted, with no action on it. Build the class, not one button: every law page shows a Repeal action to an officeholder whose body has the power over that law, and the action drafts the repeal bill through the one bill engine, the same call the seat and dev mode already use. Where the player's body has no power over the law, the page says which body does.

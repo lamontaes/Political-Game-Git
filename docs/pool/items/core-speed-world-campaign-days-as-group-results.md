@@ -11,12 +11,13 @@ claimed-by:
 pr:
 blocked-on: core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group, core-speed-world-campaign-days-as-group-results-part-2-door-answers-counted-group, core-speed-world-campaign-days-as-group-results-part-3-asks-endorsements-by-group, core-speed-world-campaign-days-as-group-results-part-4-proof-across-places
 after: core-speed-message-viewers-as-groups
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: design-country-tier
 lead: speed
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** After speeches and paid messages became group results (core-speed-hearers-as-groups, core-speed-message-viewers-as-groups), Gunnison, Utah's election year (key 4932660, seed n8f6) still spends 35 s in world campaigns, spread thin: campaign day choices, volunteer door shifts, polls and group endorsements. Each is a per-person decision by people nobody watches. Make a world campaign's polls, donation asks, endorsements and counted residents' door answers a result by hearer group: a group impression row per group and candidate (mean warmth, share who heard of them, share who know the platform), `impressionOf` reading the group for a member with no row of their own, and voting reading it by the same rule as a counted voter. The doors part for unwatched full people was built and does not pay (walkWith 5.8 s on main against 5.2 s on the branch, because most door openers are counted residents who already take the counted path), so the item is re-cut around counted residents. It is built in four parts.
@@ -25,13 +26,13 @@ claimed-at:
 
 **Fix.** Make a world campaign's polls, donation asks, endorsements and counted residents' door answers a result by hearer group (a group impression row per group and candidate that `impressionOf` and voting read by the same rule as a person, times the count); keep the player's circle, focus and officials individual (`hearsAsPerson`, src/core2/hearer-groups.ts). Built in the four parts named in blocked-on.
 
-**Time box.** 16 hours across the four parts for one Opus session; each part has its own box. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check once the four parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Level of detail (owner, Nov 9): the player's circle and focus and officials stay individual; the player's own campaign is untouched. One model, two tiers: a group is read by the rule a person is, times its count. No dice. Behavior changes on purpose, so the proof is outcomes: town race winners, shares, turnout and stance spreads compared.
 
 **Done when.** A second session, not the builder, plays Gunnison, Utah (key 4932660, seed n8f6) and two other drawn places for four years, the branch against its base in alternating pairs of both orders: year 4 is faster in both orders, and town race winners, shares, turnout and stance spreads are compared and reported. A test shows a group impression times its members equals the sum of the members' warmth reads within rounding. All four parts are done.
 
-**Waits on.** core-speed-message-viewers-as-groups (the after: line) and the four parts (core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group to -part-4-proof-across-places).
+**Waits on.** Its four parts: core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group, -part-2-door-answers-counted-group, -part-3-asks-endorsements-by-group and -part-4-proof-across-places. (core-speed-message-viewers-as-groups is done.)
 
 **Files.** src/core2/modules/campaigns.ts, src/core2/modules/voting.ts, src/core2/hearer-groups.ts, src/core2/campaign-day.ts
 

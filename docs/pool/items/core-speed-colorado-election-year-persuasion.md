@@ -16,6 +16,7 @@ effort: high
 root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Upper Witter Gulch, Colorado (0879800, seed 5a1c0de7a11ce5e1), year 4 with the profiler on: 182 s, of which 146 s is the day loop. Campaign work is 50 s (campaignTurn 37 s; takeCampaignDayChoice 21 s, nearly all holdEvent 17 s), applying each event to listeners costs 20 s (the views engine's onEvent 9 s: stanceAfterCase 4.1 s, standingWith 1.4 s, putOwned 1.6 s; drives onEvent 4.3 s; life onEvent 2.3 s) and the collector 36 s. Unprofiled, main's year 4 is within noise of the 120 s bar (121.1 s on Nov 8; Gunnison's Nov 9 profile puts it near 117 s). This item also takes two finished leads from items now merged here: monthlyIncome (src/core2/modules/credit.ts line 1179) shows 5.6 s of self time and 3.2 s in its callback though a person-to-jobs index changed nothing, and the door contacts' weighed rows (Montpelier, Vermont, 5046000, same seed) were cut from 106,628 to 41,904 at day 100 without shortening year 4, but campaign-turn and the donor meeting read a guest's kept weighed record, so any cut must keep it one day.

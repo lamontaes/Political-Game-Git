@@ -5,11 +5,11 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 after:
-blocked-on: play-stop-02-developer-text-on-play-screens-a, play-stop-02-developer-text-on-play-screens-b
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -18,6 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Playing the v0.22.10 release, developer text reached the player on at least eight screens: a Mark gap button in every talk box, News lines such as "REGION · 2025-01 unemploymentPct 4.4" and "Press.archived", Politics rows such as "in office at the opening" and "Views fit 0.91", the filing panel's "FILING-DEADLINE 2025-02-08 / 2026-08-17", and the clerk saying "on-ballot". Both children of this item are done. Mark gap now joins the talk box only in dev mode, statuses read through control names, and src/bench/plain-text.browser.mjs checks News, Politics, the filing panel and the talk box. What is left is a second session's replay of the finish line.

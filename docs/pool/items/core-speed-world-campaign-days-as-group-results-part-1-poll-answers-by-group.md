@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-speed-world-campaign-days-as-group-results in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A poll of unwatched full people is a per-person answer. Add the group impression row per group and candidate (mean warmth, share who heard of them, share who know the platform) in src/core2/hearer-groups.ts, let `impressionOf` (src/core2/modules/campaigns.ts line 730) read the group for a member with no row of their own, and answer a world campaign's poll from it. This is part 1 of core-speed-world-campaign-days-as-group-results and the shape the other parts use.
@@ -30,6 +31,6 @@ source: split from core-speed-world-campaign-days-as-group-results in the pool r
 
 **Done when.** A second session, not the builder, plays a drawn place, Gunnison, Utah (key 4932660, seed n8f6), for four years in the played world: year 4's poll time falls in a paired profile, and town race winners, shares and turnout are compared with the base and reported. The sum test passes.
 
-**Waits on.** core-speed-message-viewers-as-groups.
+**Waits on.** Nothing. (core-speed-message-viewers-as-groups, which it built on, is done.)
 
 **Files.** src/core2/hearer-groups.ts, src/core2/modules/campaigns.ts, src/core2/modules/voting.ts

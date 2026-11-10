@@ -16,11 +16,12 @@ model: opus
 effort: high
 root: rc1-world-outside-town
 source: split from gov-other-towns-and-counties-never-meet in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Outside the player's own town, no local government does anything: in a played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af) all 25 local sittings were the player's own board. This part makes other towns' and counties' bodies decide through the one body engine at a coarse level, on the days they sit, from the views of the people there. Only the result is kept: the law or budget in force, its date and the vote count.
 
-**Cause.** Found in code: src/core2/modules/world-legislating.ts function openWorldLegislating (line 209) calls scheduleMeeting for townBodies only (line 250); localMeeting (line 1957) and scheduleMeeting (line 2072) are the engine to reuse; src/core2/modules/offices.ts seatOutsideOffices (line 792) seats the other bodies.
+**Cause.** Found in code: src/core2/modules/world-legislating.ts function openWorldLegislating (line 209) calls `scheduleMeeting` for `townBodies` only (line 217; `townBodies` is defined at line 250); localMeeting (line 1957) and scheduleMeeting (line 2072) are the engine to reuse; src/core2/modules/offices.ts seatOutsideOffices (line 792) seats the other bodies.
 
 **Fix.** Schedule meetings for other towns' and counties' bodies from the bodies data, decide each through the same body engine from the views of the people there, and write a result row (law or budget changed, date, vote count) with no member rows kept. Do not scan every town every day.
 

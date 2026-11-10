@@ -17,6 +17,7 @@ effort: medium
 root: rc7-player-cannot-drive
 milestone: play-first
 source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Two things on a law's page. First, a control to choose the player's position on the law (the owner: "You could choose your position"), kept as the player's stance and read by the campaign and the journal. Second, the citation: a law's page prints a bare statute row such as "STATUTE 19 U.S.C. 1862" with nothing to click, which the owner's bill ruling forbids ("Citations open the game's own display of that law, never a web page"). The citation opens the game's own display of that law, or is not shown.

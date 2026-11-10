@@ -5,11 +5,11 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 after:
-blocked-on: play-stop-05-politics-lists-wrong-officials-a, play-stop-05-politics-lists-wrong-officials-b
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -17,6 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+checked: fable 2026-11-10
 ---
 
 **What.** In Anson, Texas on the v0.22.10 release, Politics, then Government listed three U.S. senators, the U.S. Speaker from New York as one of the player's two representatives, about 180 state legislators, and no mayor, with council terms of 28 and 16 years. Parties showed only the Republican party. The owner expected his mayor, his council with normal terms, his two senators, his one representative and both parties. Both children (-a, merged in PR 6127, and -b, PR 6791) are done. What is left is a second session's replay of the finish line in a drawn place.
@@ -31,7 +32,7 @@ milestone: play-first
 
 **Done when.** A second session (not the builder) starts the bench in a town drawn from all 56 (place and seed named) and opens Politics, then Government, and Parties, with screenshots at 1440x900: the player's mayor, a council with plausible terms, two U.S. senators where the place has them, one U.S. representative, one state legislator per chamber, and every party holding seats. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
 
-**Waits on.** Nothing. Both children are done; A second session's check in the running game (seen-in-game).
+**Waits on.** Nothing. What it was blocked on is done; what is left is a second session's check in the running game (skill seen-in-game).
 
 **Files.** src/bench/government.ts, src/core2/opening-key-people.ts, src/core2/modules/offices.ts, src/bench/play.mjs
 

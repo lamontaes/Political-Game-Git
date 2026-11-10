@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-speed-world-campaign-days-as-group-results in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A world campaign's donation asks and group endorsements are decided person by person. Read them from the group impression of part 1 by the same rule as a person, times the count, so a group's donations and endorsement are one result. This is part 3 of core-speed-world-campaign-days-as-group-results.
