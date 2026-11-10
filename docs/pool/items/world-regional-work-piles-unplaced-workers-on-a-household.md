@@ -5,12 +5,13 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fable-unplaced-workers-unit
 pr:
 blocked-on:
 lead: jobs
 source: Fable, Nov 10, 2026, found by running a 20-year game on main for the country tier's proof
+claimed-at: 2026-11-10T13:30:02.986Z
 ---
 
 **What.** A counted person who finds work in the wider region (startRegionalWork in src/core2/modules/residents.ts, called from the regional find in src/core2/modules/jobs.ts, about line 2545) adds to their household record's unplacedWorkers, and the same household is added to again and again. In South Fork, Missouri (place key 2968762, world seed a499835260b786a6f03656c7b468096d095bdd4534cd0d04275bc3186d34d28f) on main at 9478f160ca: the small counted place beside the town (140 households, weight 1 each, about 1.3 people a household) holds 74.5 unplaced workers at the opening and 161.8 a year later, with one household record at 6.18; the rest-of-county place (17,126 households in 238 records, 33,877 people) goes from 2.1 on its records at the opening to 1,023.7 after one year and 4,544.4 after two, with one record at 35.09. Read the way a household's income reads it (householdIncome: unplacedWorkers times the pay per worker, per household, then times the record's weight), the three counted places together hold 312 workers at the start, 6,622 after two years, 33,036 after eight (more than their 29,935 adults) and 49,697 after twelve, while the people stay near 34,000. Median household income by the dev tester's vitals goes from $74,467 to $129,214 in eight years and the poverty share from 99 percent to 48. Two causes to settle, read in the code and not yet proved one by one: (1) the engines disagree about the unit of unplacedWorkers: householdIncome, unplacedShare and the head's work status read it per household and multiply by the record's weight, while startRegionalWork adds the record's whole weight to it, stopRegionalWork takes the weight off, jobs.ts line 917 divides it by the weight and counted-moves.ts line 1544 sums it unweighted; (2) even at weight 1 a household of one or two people reaches six, so the same person is found regional work more than once without the earlier one ending (the regional table keeps one row a person, so only one is ever taken back).

@@ -81,6 +81,7 @@ Turn it on from the game's options (the "On" button under dev mode). What each c
 - **Congress needs a wide margin.** The Senate needs three fifths to end debate; set the margin to 20 or more.
 - **A place may lack the body.** A census-designated place has no council. Draw until the place has the body the item names, and list the places passed over.
 - **One place is one place.** A result seen in one drawn place is true of that place. Say so, or repeat it.
+- **Someone the player talks to is kept for good.** The game never sends the player's household, family or anyone the player knows back to the counts, nor officials, public workers, business owners and candidates. To watch a household go back, have the player look in on a workplace without talking to anyone (the staff are filled in and not known), run past the wait of 180 to 240 days and the next first of the month, and read those people with dev mode.
 - **A change made on the first day can be taken as the starting point.** An engine that fits its opening on day one may absorb a law set that morning (Nov 10, Willow River, Minnesota: ending the income tax on day one moved the nation's unemployment a tenth of a point until the opening read the law of the day before). When a first-day change does almost nothing, repeat it after a month has run before calling the law weak, and report both.
 
 ## Recording what you saw
@@ -110,6 +111,7 @@ Either way, comment once on the pull request, starting "Seen:" or "Not seen:", w
 - Where money is involved, ask for "Follow the money" and say which holders must and must not move.
 - Never ask for "a record exists" or "the test passes" alone.
 - Open the screen yourself before you write its steps. On Nov 10 two checks named a "Laws panel" that does not exist and asked for a state row where the table has state columns; the second session had to say what it used instead.
+- Do the whole check yourself once before you hand it over, in a played world, and write the steps from what you did. On Nov 10 a check asked a second session to meet a neighbor and watch them go back to the counts after 240 days. It could not happen: a person the player talks to joins the player's circle, and the circle is kept as full people on purpose. The check came back "not seen" for a fix that worked.
 
 ## Stop condition
 
