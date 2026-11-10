@@ -246,6 +246,37 @@
         "spread": [0.5, 2],
         "checkedAgainst": "As refused-before, for earlier quarrels between the same two people that the records name: one earlier quarrel reads one half, so the second is already a different scene."
       }
+    },
+    "complaint": {
+      "kind": "fact-map",
+      "fact": "offense",
+      "values": {
+        "bribery": 1
+      }
+    },
+    "witnessed": {
+      "kind": "record",
+      "module": "core2-justice-v1",
+      "table": "complaints",
+      "idFact": "complaintId",
+      "field": "basis",
+      "equals": "witness"
+    },
+    "told": {
+      "kind": "record",
+      "module": "core2-justice-v1",
+      "table": "complaints",
+      "idFact": "complaintId",
+      "field": "basis",
+      "equals": "told"
+    },
+    "bribe-taken": {
+      "kind": "record",
+      "module": "corruption",
+      "table": "crimes",
+      "idFact": "crimeId",
+      "field": "taken",
+      "equals": true
     }
   },
   "families": {
@@ -2363,6 +2394,347 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "conflict-accuse": {
+      "variants": {
+        "plain": {
+          "purpose": "conflict-accuse",
+          "base": 0.3,
+          "terms": []
+        },
+        "witness": {
+          "purpose": "conflict-accuse.witness",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "witnessed",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["deny", "tell", "confront", "apologize"],
+            "follow": {
+              "tell": ["ask", "accept"],
+              "deny": ["press"],
+              "confront": ["confront"],
+              "apologize": ["accept", "press"],
+              "leave": []
+            },
+            "again": {
+              "ask": ["tell", "apologize", "leave"],
+              "press": ["tell", "apologize", "confront", "leave"],
+              "confront": ["apologize", "deny", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "hearsay": {
+          "purpose": "conflict-accuse.hearsay",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "told",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["ask", "deny", "tell", "confront"],
+            "follow": {
+              "ask": ["answer"],
+              "tell": ["ask", "accept"],
+              "deny": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "answer": ["tell", "deny", "leave"],
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "confront", "leave"],
+              "confront": ["deny", "tell", "confront", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "taken": {
+          "purpose": "conflict-accuse.taken",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "bribe-taken",
+              "weight": 1.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-blunt",
+            "personality-v1:facet-skeptical"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["tell", "apologize", "deny", "leave"],
+            "follow": {
+              "tell": ["ask", "accept"],
+              "apologize": ["accept", "press"],
+              "deny": ["press"],
+              "leave": []
+            },
+            "again": {
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "friend": {
+          "purpose": "conflict-accuse.friend",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "complaint",
+              "weight": 0.3
+            },
+            {
+              "read": "close",
+              "weight": 2.0
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-devoted"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["apologize", "ask", "deny", "tell"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "ask": ["answer"],
+              "deny": ["press"],
+              "tell": ["ask", "accept"],
+              "leave": []
+            },
+            "again": {
+              "answer": ["tell", "deny", "apologize"],
+              "ask": ["tell", "deny", "leave"],
+              "press": ["tell", "apologize", "leave"]
+            },
+            "endings": [
+              {
+                "id": "disclosed",
+                "label": "You told them the truth",
+                "keeps": "none",
+                "when": {
+                  "anyReply": ["tell"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "owned-up",
+                "label": "You owned up to it",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "half-owned",
+                "label": "You half owned up, and they weren't satisfied",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "denied",
+                "label": "You denied it",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["deny"]
+                }
+              },
+              {
+                "id": "feud",
+                "label": "It's a feud now",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave"]
                 }
               },
               {
