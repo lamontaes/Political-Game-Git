@@ -596,6 +596,27 @@
           "opener": "bearer",
           "setting": ["public"],
           "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "circumstance:race-result-known-after-ran",
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": {
+            "bearer": "counterpart",
+            "you": "subject",
+            "about": "winner"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
         }
       ],
       "tag": {

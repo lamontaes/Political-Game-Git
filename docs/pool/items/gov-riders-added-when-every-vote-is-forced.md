@@ -5,13 +5,16 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 claimed-by:
-pr:
+pr: #8106
 after:
 blocked-on:
 lead: legislation
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+merged-at: 2026-11-10T05:30:25.485Z
+seen-by: "second session (acceptance check)"
+seen-at: 2026-11-10T05:49:39.925Z
 ---
 
 **What.** The vote-trading step that lets a sponsor short of votes add a holdout's own section still runs when every member's vote has already been cast. Dev mode fixes each vote before it holds the vote, and so does the crew's test harness, yet the bill leaves the body with a second section on a different subject. Measured in the law sweep in Marion, Mississippi (seed 7df73e53cd67): one-section bills left with a second, unrelated section in 35 of 40 cases in Congress, 6 of 18 at the county board and 2 of 18 at the town board, and in the Mississippi House 38 of the 72 bills checked that had results of their own. In Congress 33 of the 40 came out carrying a yes on raising the minimum wage, and two carried a no on having a federal income tax. So about half of the twin tests measured the rider. Of the 147 state laws, 75 changed the town's money by exactly the same amounts, to the dollar: $51,945 out of governments and $46,646 into counted households; the two of those bills the audit read both carried a no on public broadband. In Congress 18 of the 40 show one change, the same to within two dollars, and it is the wage rider's: businesses $308,500 lower, households $30,500 higher, governments $194,000 higher and $82,000 gone to the outside. Fix it at the cause: a member whose vote is already cast is counted as cast when the sponsor counts support, so a sponsor with every vote fixed is not short, trades nothing, and no opponent's section is adopted against votes that are already decided.
@@ -25,3 +28,5 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 **Files.** src/core2/modules/legislature.ts (`floorAmendments`, line 4533, and `floorAmendmentsRun`, line 4549, called from `holdVote` at line 5126 and from the committee markup at line 4363; `chamberVote`, line 3913; `castMemberVote`, line 5802), src/bench/dev-mode.ts (`decideAt`, line 802), scripts/dev-tests/law-run.ts, scripts/dev-tests/twin.ts
 
 **Notes.** From the Fable audit, Pillar 2. Measured: the 680-try sweep in Marion, Mississippi (720 bills with the second pass in Congress), and a further pass that checked 150 of the bills for a rider; the bill's own record shows the trade. The audit infers the broadband rider for the other 73 of the 75 identical state results from the identical amounts; it read two. Read, and confirmed on main Nov 10: `floorAmendmentsRun` counts support with `positionOn(...).total` for every member on the roll, the member's own leaning, and never reads the `choices` table where `castMemberVote` writes a fixed vote; `chamberVote` then reads `choices` first. So with all votes cast yes the sponsor still looks short, the trade runs, and the vote passes anyway. The same count feeds the poison-pill branch below it. The harness is exposed the same way: `law-run.ts` and `twin.ts` cast every member yes and call `holdVote`. Until this lands, every twin result from either route must name the sections the bill left with. Related: `gov-poison-pill-guards-measured` (open; why no member ever moves a pill, a different question), `gov-m3-02-amend-and-endorsement-deals` (open; the player's own trades). The audit also found in As Matuis, Northern Mariana Islands, that seven of the eight wage bills in that legislature paired two unrelated questions in ordinary play; whether trades are too common when no vote is forced is not part of this item and was not measured further.
+
+Seen in the game (2026-11-10, second session (acceptance check)): Oakland, Arkansas, seed 707cf7e4-251e-453f-a00b-76572c887ad6, main 419e1a97: Dev card for HB 30 read Became law, Sections added by a trade: 0, and listed law row minimum-wage state 1500 minor/hour taking effect 2025-12-18

@@ -5247,6 +5247,12 @@ body.color-blind .meeting-member.vote-abstain {
 .dev-bill-card .acts {
   margin: 8px 0;
 }
+/* What came of the bill: its ending, the law it made and who that law reached, a line each. */
+.dev-bill-line {
+  margin: 2px 0;
+  font: 500 13px var(--ui);
+  color: #f2e6c9;
+}
 
 /* Dev mode's Trace of a vote (fr-dev-trace): the record, why, and what came of it side by side. */
 #sheet-body:has(.dev-trace-vote) {

@@ -65,14 +65,19 @@ It holds no sentence. The words come from the banks when a screen shows it.
 
 **6. Three screens, one reader.** One function returns a person's life in order. The Journal's "before" chapters, the card's Life story and a new My life section on the You screen all call it. Each screen's own assembly is deleted. One bank words every event, in the first person for your journal, the second for the You screen and the third for someone else's card. The facts are the same on all three.
 
+**On screen it is sentences, never a timeline.** You withdrew the timeline on November 7 ("on 'their life' again i said no timeline"), and your complaint about the You screen was "just an excel sheet of facts." The reader returns events in order. The screens show short sentences grouped by what mattered, as the approved mock does, in the first, second or third person. There is no dated list and no line of dots. Where a life is shown with a face, it is the bust.
+
 **7. Scenes can cite it.** A remembered event is a record, so a scene's cause can match it. The first scenes to use it are talks that bring up something the two people share, such as a job at the same firm or a loss in the family.
 
 **8. Two tiers, one rule.** A counted person has no list until filled in. The list built at fill-in agrees with what the counts already say about them: their age, job, pay, household and place. Someone who goes back to the counts keeps their list, so they are the same person when you meet them again.
+
+**9. A skipped stretch leaves a past.** When the fast clock runs the town as monthly results, the engines that run still write remembered events. Twenty skipped years leave twenty years on the list. That check belongs to whichever lands second, this or the fast clock.
 
 ## What stays out
 
 - **An injury, a hospital stay, an arrest, a car.** No engine records these today. Each is a pool item for the engine that would write it, and the life record picks them up when it does. This design adds no new engine.
 - **A full past for everyone.** Nobody gets a list until you open or meet them.
+- **"What people say about me."** The approved mock's section of that name reads this list once it exists. It is the next reader, filed as its own pool item.
 - **The fading memory dev mode shows.** That list is what someone heard or saw lately, and it fades in two weeks. It stays as it is and is not the life record.
 
 ## What is deleted
