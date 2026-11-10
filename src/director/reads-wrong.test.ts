@@ -564,8 +564,9 @@ it(`a signed or vetoed bill's scene plays and says which bill and who acted (see
       `${found.where}: ${found.type}: what the bill does`,
     ).toBeTruthy();
     expect(said, `${found.where}: ${found.type}`).toContain(does!.text);
+    // A bill's number may carry a period after its chamber (S.2, H.B. 12).
     expect(said, `${found.where}: ${found.type}`).toMatch(
-      /\b[A-Z]{1,4} ?\d|Ordinance|Bill|Resolution|Act/,
+      /\b[A-Z]{1,4}\.? ?\d|Ordinance|Bill|Resolution|Act/,
     );
   }
   expect(
