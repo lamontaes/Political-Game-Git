@@ -923,5 +923,29 @@
     "addedAt": "2026-11-09",
     "replacement": "A people-engine plan or owed-talk record that reads a kept promise on these two types and brings the player and the missing relative together, and kin contact that rises after a kept call or visit.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-rescue-ask-unrecorded",
+    "kind": "missing-data",
+    "file": "data/english/parts/scene-talk.json",
+    "line": 1,
+    "whatItFakes": "What the housemate who got the player help asks afterward (a ride to the doctor, a visit to one, to stay close, a promise to say when the player feels sick again, leave to tell the family, a word with a child who was in the room) is worded for every rescue; nothing on a record says this rescuer wants a visit to the doctor. That the rescuer got help, whether they are the player's partner, whether a child was in the room and whether other grown people saw it are from the rescue record, the family records and the witnesses; the illness itself is never named, because the rescue record does not say its kind.",
+    "why": "No engine keeps what a person who helped in an emergency wants from the one they helped; the ask is the purpose itself, so its lines name only things anyone who called for help might ask, and lines about a partner, a child or the others at home play only when a record says so.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A wants record per person, and the health engine's case row (condition, how serious, the care it calls for) that the rescue reads, so the ask is the one the care needs.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-rescue-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/purpose-arcs.json",
+    "line": 1,
+    "whatItFakes": "What the player agrees to or promises after a rescue (to see a doctor, to let the rescuer stay close, to say when they feel ill again) is written on the reply record as a promise; no engine sends the player to a doctor or reads that they said so.",
+    "why": "The health engine keeps no care visits the player can be sent to, and no hook reads a scene.reply of typeKey rescue.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A health-engine care visit the promise books, and a tie that warms when the player keeps it.",
+    "status": "open"
   }
 ]
