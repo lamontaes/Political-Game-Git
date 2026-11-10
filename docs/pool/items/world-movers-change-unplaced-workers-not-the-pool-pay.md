@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: fable
 source: Fable, Nov 10, 2026, found by the new test for the unit of a counted household's out-of-town workers (src/core2/unplaced-workers-unit.test.ts)
 ---
 
