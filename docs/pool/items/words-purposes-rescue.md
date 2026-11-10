@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: story/purposes-rescue
-pr: 8076
+pr: #8076
 blocked-on:
 lead: words
 source: CTO brief, Nov 9 ("a purpose for every scene kind that lacks one"); the golden path's "meet people" step
