@@ -4287,7 +4287,7 @@
       "key": "journal.memoir-meant-friend.that-made-me-glad",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "That made me glad.",
+      "text": "We got along well.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -4313,7 +4313,7 @@
       "key": "journal.memoir-meant-friend.i-was-happy-about-that",
       "move": "memoir-meant-friend",
       "kind": "spoken",
-      "text": "I was happy about that.",
+      "text": "We were on good terms.",
       "uses": [
         {
           "move": "memoir-meant-friend",
@@ -5376,7 +5376,7 @@
       "key": "journal.memoir-remember.we-were-friends",
       "move": "memoir-remember",
       "kind": "spoken",
-      "text": "We were friends.",
+      "text": "We were close.",
       "uses": [
         {
           "move": "memoir-remember",
@@ -10801,6 +10801,58 @@
       ],
       "origin": "authored",
       "author": "Words, scenes and the director (journal stories of life events)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-both.name-was-death-age-and-had-been-after-illness",
+      "move": "memoir-death-both",
+      "kind": "spoken",
+      "text": "{name} was {death_age} and had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-both",
+          "subject": "memoir",
+          "role": "death-both",
+          "choice": "death-both",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathBoth"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal death named once)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-both.name-was-death-age-years-old-and-had-been-after-illness",
+      "move": "memoir-death-both",
+      "kind": "spoken",
+      "text": "{name} was {death_age} years old and had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-both",
+          "subject": "memoir",
+          "role": "death-both",
+          "choice": "death-both",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathBoth"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal death named once)",
       "date": "2026-11-10",
       "tag": {
         "move": "tell"

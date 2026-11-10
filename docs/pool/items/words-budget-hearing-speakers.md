@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5359
 blocked-on: spec: the item text is an empty TODO shell; the done-when must be written before it can be built (pool-todo-shells-need-spec)
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** Written Oct 20 (claude/budget-hearing-spec) from the code: the composer and its played-world test (`scripts/english-corpus/body-bank-world.test.ts`, PR #5187) already word a parks budget vote from a bill's own records. Missing: the speakers (public-comment statements) in the scene, and a director or bench reader. Waits on #5187 for the bank and composer.
 
 Sent back 2026-10-20 from PR #5359 (branch claude/budget-hearing-build): data/english/parts/address.json adds two entries with origin authored and shippable true, while the body says they have not been graded. The morning check forbids shipping authored bank pieces before grading. Keep them held until graded, and correct the player-visible release claim to match that state. This is also a non-main fixer: its parent must be handled in its share, and a branch-only merge must not mark the main pool item done.; finish on that branch, merge main into it first.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into words-hearing-chair-question. Same fix (a worded hearing scene with a chair's questions); this item is an empty TODO shell and its composer is gone: scripts/english-corpus/body-bank.ts and composeBodyScene no longer exist, and data/english/parts/hearing.json has no chair-invite or member-question part. The kept item (already rewritten to the standard) takes the budget hearing's public-comment speakers (the meeting engine's public-comment statements in src/core2/modules/meetings.ts, called by name) and the chair announcing the recorded vote counts, naming the bill by its title.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `words-hearing-chair-question`, which carries this item's remaining work.
