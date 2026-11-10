@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by:
-pr: 8211
+pr: #8225
 blocked-on:
 lead: words
 source: docs/words/one-line-spots.md (#8182), rows 1 to 30
+merged-at: 2026-11-10T21:38:26.199Z
 ---
 
 **What.** The most-played spots that held a single line (the job-offer decline farewell was heard 107 times in three drawn places) now hold two to five. Each of 61 new pieces sits in the same spot as the line it varies (same subject, step, move, role, purpose, key and after), says the same fact in other words, and carries a bearing so the speaker's traits pick the tone. The existing lines stay.
