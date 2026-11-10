@@ -15,6 +15,7 @@ import { ageOnDate, daysBetweenText } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import { spanSaid } from "../english/span-words";
+import { properName } from "./words";
 import { ILLNESS_EVENT, type NewsFact } from "./life-news";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 
@@ -25,8 +26,9 @@ export const VISIT_TYPE = "visit";
 const MIN_DAYS = 15;
 
 /**
- * The facts for `askerId`, the one who is ill, asking `askedId`, who visits.
- * Empty for any other type, or a cause that is not an illness of the asker.
+ * The facts for `askerId`, the one who is ill, asking `askedId`, who visits;
+ * or for `askerId`, who visits `askedId`, the one who is ill. Empty for any
+ * other type, or a cause that is not an illness of one of the two.
  */
 export function illnessFacts(
   core: Readonly<CoreState>,
@@ -38,11 +40,16 @@ export function illnessFacts(
   if (typeKey !== VISIT_TYPE) return {};
   const record = core.durableLog.get(causeId);
   if (record?.kind !== ILLNESS_EVENT) return {};
-  if (record.personIds.at(P.zero) !== askerId) return {};
-  const ill = core.people.get(askerId);
+  // The sick person asks the visitor, or the visitor comes to the sick person.
+  const illId = record.personIds.at(P.zero) as PersonId | undefined;
+  const visited = illId === askedId;
+  if (!illId || (illId !== askerId && !visited)) return {};
+  const ill = core.people.get(illId);
   if (!ill) return {};
   const facts: Record<string, NewsFact> = {};
-  facts.ill = { text: ill.givenName, sourceRecordIds: [causeId, askerId] };
+  if (visited)
+    facts["you-ill"] = { text: "yes", sourceRecordIds: [causeId, illId] };
+  else facts.ill = { text: ill.givenName, sourceRecordIds: [causeId, illId] };
 
   // How long they have been ill.
   if (daysBetweenText(record.date, core.date) >= MIN_DAYS)
@@ -64,7 +71,7 @@ export function illnessFacts(
   )
     facts["lives-alone"] = { text: "yes", sourceRecordIds: homeIds };
   const partner = others.find(
-    (row) => familyRelation(core, askerId, row!.id) === "partner",
+    (row) => familyRelation(core, illId, row!.id) === "partner",
   );
   if (partner)
     facts.partner = {
@@ -89,18 +96,34 @@ export function illnessFacts(
 
   // Someone else who heard of it, the closest to them, who could be called.
   const heard = (record.witnessIds ?? [])
-    .filter((id) => id !== askedId && id !== askerId)
+    .filter((id) => id !== askedId && id !== askerId && id !== illId)
     .map((id) => core.people.get(id))
     .filter((row) => row?.alive && row.householdId !== ill.householdId)
     .sort(
       (a, b) =>
-        closenessBetween(core, askerId, b!.id) -
-          closenessBetween(core, askerId, a!.id) || a!.id.localeCompare(b!.id),
+        closenessBetween(core, illId, b!.id) -
+          closenessBetween(core, illId, a!.id) || a!.id.localeCompare(b!.id),
     )[P.zero];
   if (heard)
     facts.other = {
       text: heard.givenName,
       sourceRecordIds: [causeId, heard.id],
     };
+  if (visited) {
+    // The visitor is the sick person's partner, or lives with them.
+    if (familyRelation(core, illId, askerId) === "partner")
+      facts["visitor-partner"] = {
+        text: "yes",
+        sourceRecordIds: [causeId, askerId],
+      };
+    // Their work, where the job row names an employer.
+    const job = ill.jobId ? core.jobs.get(ill.jobId) : undefined;
+    const org = job ? core.organizations.get(job.organizationId) : undefined;
+    if (job && org && !job.endsAt)
+      facts.employer = {
+        text: properName(org.name),
+        sourceRecordIds: [causeId, job.id, org.id],
+      };
+  }
   return facts;
 }

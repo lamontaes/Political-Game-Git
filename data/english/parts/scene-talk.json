@@ -196773,6 +196773,914 @@
       "author": "Claude Sonnet (Story, visit-ill purpose)",
       "date": "2026-11-10",
       "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-seriously-ill-and-name-has-come-to-see-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You are seriously ill, and {name} has come to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-been-seriously-ill-for-sick-for-and-name-has-come-to-see-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You have been seriously ill for {sick-for}, and {name} has come to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["sick-for"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-live-alone-and-are-seriously-ill-and-name-has-come-to-see-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You live alone and are seriously ill, and {name} has come to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["lives-alone"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-seriously-ill-with-child-in-your-household-and-name-has-come-to-see-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You are seriously ill, with {child} in your household, and {name} has come to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-are-seriously-ill-and-your-partner-name-has-come-to-see-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You are seriously ill, and your partner {name} has come to see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["visitor-partner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-came-as-soon-as-i-could-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I came as soon as I could, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.how-are-you-feeling-today",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "How are you feeling today?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.you-don-t-have-to-get-up-stay-right-where-you-are",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "You don't have to get up. Stay right where you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-won-t-stay-long-unless-you-want-me-to",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I won't stay long unless you want me to.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.can-i-bring-dinner-over-tomorrow-i-d-like-to-do-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can I bring dinner over tomorrow? I'd like to do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.let-me-take-child-for-a-few-days-so-you-can-rest",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Let me take {child} for a few days so you can rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.should-i-let-employer-know-you-re-ill",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Should I let {employer} know you're ill?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.can-i-drive-you-to-your-next-appointment",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Can I drive you to your next appointment?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.should-i-tell-other-or-would-you-rather-do-it-yourself",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Should I tell {other}, or would you rather do it yourself?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["other"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.i-can-stay-the-night-if-you-d-like",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I can stay the night if you'd like.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.let-me-sleep-on-the-couch-for-a-few-nights-so-you-re-not-alone",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Let me sleep on the couch for a few nights, so you're not alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["lives-alone"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.you-ve-been-ill-for-sick-for-can-i-come-by-every-few-days",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You've been ill for {sick-for}. Can I come by every few days?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "requiresFacts": ["sick-for"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-please-i-d-be-glad-of-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, please. I'd be glad of that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "agree", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-agree.that-would-help-more-than-you-know",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "That would take a weight off, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "agree", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-thank-you-for-thinking-of-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Thank you for thinking of it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "agree", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-tell-you-the-moment-i-need-more",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll tell you the moment I need more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-say-so-if-it-gets-to-be-too-much",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll say so if it gets to be too much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-be-easiest-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would be easiest for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "ask", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-ask.are-you-sure-it-isn-t-too-much-for-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Are you sure it isn't too much for you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "ask", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-decline.that-s-kind-of-you-but-i-d-rather-manage-that-myself",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "That's kind of you, but I'd rather manage that myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "decline", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-just-now-but-thank-you-for-offering",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not just now, but thank you for offering.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "decline", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-m-worn-out-let-me-think-it-over-and-i-ll-tell-you-tomorrow",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm worn out. Let me think it over, and I'll tell you tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-glad-it-s-what-i-wanted-to-do",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm glad. It's what I wanted to do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-thank.good-i-ll-take-care-of-it",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'll take care of it, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-i-ll-set-it-up",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll set it up this afternoon.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.good-that-s-one-less-thing-for-you-to-carry",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "That's one less thing for you to carry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "agree"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.alright-i-won-t-push",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I won't push.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-the-offer-is-still-open",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. The offer is still open.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.i-ll-hold-you-to-that-don-t-wait-until-it-s-bad",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I'll hold you to that. Don't wait until it's bad.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "promise"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.you-say-that-but-you-d-never-ask-will-you-really",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You say that, but you'd never ask. Will you really?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "promise"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.is-there-anything-small-you-d-let-me-do-instead",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is there anything small you'd let me do instead?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "decline"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.then-at-least-let-me-check-in-on-you-in-a-few-days",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Then at least let me check in on you in a few days.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "decline"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-s-easiest-for-you-i-want-to-be-useful",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever's easiest on you. I'd like to be of use.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "answer", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-answer.anything-at-all-you-only-have-to-say",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever it is, a call is enough.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "answer", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-i-came-get-some-rest",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad I came. Get some rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-be-back-soon-i-mean-it",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll be back soon. I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-leave-you-to-rest",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll leave you to rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-when-i-come-back-if-that-s-alright",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again when I come back, if that's alright.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "visited-ill-ask",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, visited-ill purpose)",
+      "date": "2026-11-10",
+      "tag": { "move": "press", "key": "routine" }
     }
   ]
 }

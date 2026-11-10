@@ -205,7 +205,9 @@ export function purposeScene(
     const found = TYPES.get(binding.typeKey) as
       (PurposeType & { repeatsBy?: string }) | undefined;
     // A cause may give a type the purpose its other causes lack.
-    const type = found ? typeForCause(found, moment.label) : undefined;
+    const type = found
+      ? typeForCause(found, moment.label, moment.counterpartIds.length)
+      : undefined;
     if (!type?.purpose) return [];
     const joined =
       type.repeatsBy === "bill"
@@ -272,13 +274,27 @@ export function destinationSaid(
  * tags the exchange's pieces in place of the type's key, so one purpose speaks
  * for each cause's own reason (the cause is matched by the moment's label).
  */
-export function typeForCause(type: PurposeType, label: string): PurposeType {
+export function typeForCause(
+  type: PurposeType,
+  label: string,
+  /** How many counterparts the moment names: two causes may share a label and differ in this. */
+  counterparts?: number,
+): PurposeType {
   const causes = (type as { causes?: SituationType["causes"] }).causes;
-  const cause = causes?.find((row) => row.match?.label === label);
+  const cause = causes?.find(
+    (row) =>
+      row.match?.label === label &&
+      (counterparts === undefined ||
+        (row.match.counterpart === "none" && counterparts > P.zero) !== true) &&
+      (counterparts === undefined ||
+        (row.match.counterpart === "some" && counterparts === P.zero) !== true),
+  );
   return {
     ...type,
     ...(cause?.sceneKey ? { tag: { ...type.tag, key: cause.sceneKey } } : {}),
     ...(cause?.purpose ? { purpose: cause.purpose } : {}),
+    ...(cause?.asker ? { asker: cause.asker } : {}),
+    ...(cause?.asked ? { asked: cause.asked } : {}),
   };
 }
 
@@ -327,6 +343,7 @@ function composeBinding(
   const type = typeForCause(
     TYPES.get(binding.typeKey) as PurposeType,
     moment.label,
+    moment.counterpartIds.length,
   );
   const cast = (role: string | undefined) =>
     binding.roles.find((row) => row.role === role)?.personIds[P.zero];

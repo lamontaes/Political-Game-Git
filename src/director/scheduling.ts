@@ -99,6 +99,9 @@ export interface SituationCause {
    * news the player carries to their household stays a plain talk).
    */
   purpose?: string;
+  /** The roles that ask and are asked when this cause names its own purpose; the type's own otherwise. */
+  asker?: string;
+  asked?: string;
   /**
    * Where this cause stages the type, when it is not the type's own order of
    * settings: a vote trade is asked for in the chamber its record names.
