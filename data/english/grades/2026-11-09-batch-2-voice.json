@@ -1,0 +1,575 @@
+{
+  "batch": "2026-11-09-batch-2",
+  "from": "cto/voice-batch-2-part-1:docs/coordination/voice-notes/2026-11-09-batch-2-part-1.md",
+  "note": "His voice note on moments 1 to 13, read by scripts/dialogue-batch/voice-note-reader.ts; four lines it missed are taken from the CTO's reading, marked 'from'. His own rewrites are new pieces (origin owner-voice) graded good. The rules he stated are in data/english/writing-rules.json.",
+  "grades": [
+    {
+      "key": "scene-talk.reply-tell.it-matters-to-me-whoever-won-i-live-under-what-they-decide",
+      "id": "1.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 60,
+          "strength": 0.25
+        }
+      ],
+      "note": "That's almost right.",
+      "rewrites": [
+        "It sounds a little clunky, like saying something like, \"Of course I care who won.\" I mean, they govern me, or I mean, they're our head politician or the other president, something like that."
+      ]
+    },
+    {
+      "key": "scene-talk.reply-tell.i-ll-be-watching-what-they-do-with-it",
+      "id": "1.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 38,
+          "strength": -0.375
+        },
+        {
+          "start": 0,
+          "end": 38,
+          "strength": -0.375
+        }
+      ],
+      "note": "This like no subject in these answers is a little weird. Like it, I don't like."
+    },
+    {
+      "key": "scene-talk.reply-tell.it-changes-what-i-have-to-think-about-next",
+      "id": "1.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 43,
+          "strength": -1
+        }
+      ],
+      "note": "That doesn't even make any sense."
+    },
+    {
+      "key": "scene-talk.state-tell.guess-who-won-the-office-race-winner",
+      "id": "2.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 42,
+          "strength": -0.75
+        }
+      ],
+      "note": "I don't have any context around this race."
+    },
+    {
+      "key": "scene-talk.narrate-returns-mine.you-came-up-short-this-time",
+      "id": "3.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 28,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 28,
+          "strength": 0.125
+        }
+      ],
+      "note": "Sure. Or, like, you didn't win or something like that, sure."
+    },
+    {
+      "key": "scene-talk.narrate-vote-away.there-s-no-ballot-for-you-here-today-you-no-longer-live-where-this-race-is-voted",
+      "id": "3.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 82,
+          "strength": -1
+        }
+      ],
+      "note": "Number 2 shouldn't even, or 3.2 shouldn't even be in there."
+    },
+    {
+      "key": "scene-talk.state-ask.you-decided-and-i-m-the-one-finding-out-who-has-child-on-those-nights",
+      "id": "4.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 73,
+          "strength": -0.75
+        }
+      ],
+      "note": "Okay, so 4.1, that doesn't...",
+      "rewrites": ["It'd be like, what, did you just decide this without me?"]
+    },
+    {
+      "key": "scene-talk.state-ask.our-savings-cover-cushion-of-what-the-paychecks-don-t-and-the-race-runs-remainin",
+      "id": "4.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 115,
+          "strength": -0.75
+        }
+      ],
+      "note": "4.2, how would they know how much the race costs?",
+      "rewrites": [
+        "But it'd be like 4.2, can we even afford this?",
+        "That would be more realistic."
+      ]
+    },
+    {
+      "key": "scene-talk.state-ask.you-filed-fine-tell-me-who-has-child-the-nights-you-re-out",
+      "id": "4.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 63,
+          "strength": -0.75
+        }
+      ],
+      "note": "4.3 is not good."
+    },
+    {
+      "key": "scene-talk.reply-request.will-you-help-with-the-campaign-i-ll-keep-the-money-out-of-it-if-you-do",
+      "id": "5.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 73,
+          "strength": -1
+        }
+      ],
+      "note": "Does not make any sense."
+    },
+    {
+      "key": "scene-talk.reply-request.i-need-you-with-me-on-this-can-you-take-the-school-nights-when-i-m-out",
+      "id": "5.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 72,
+          "strength": -1
+        }
+      ],
+      "note": "That doesn't make any sense."
+    },
+    {
+      "key": "scene-talk.close-warn.i-hope-you-know-what-this-costs-you",
+      "id": "6.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 36,
+          "strength": -0.375
+        }
+      ],
+      "note": "Six 6.2 and 6.3 are kind of weird."
+    },
+    {
+      "key": "scene-talk.close-warn.then-we-ll-see-who-s-right",
+      "id": "6.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 27,
+          "strength": -0.375
+        }
+      ],
+      "note": "Six 6.2 and 6.3 are kind of weird."
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-m-really-worried-about-this-vote-i-can-t-do-it",
+      "id": "7.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 50,
+          "strength": 0.25
+        }
+      ],
+      "note": ".2 and 7.3 are all right."
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-know-i-told-you-yes-but-i-can-t-this-time",
+      "id": "7.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 45,
+          "strength": 0.25
+        }
+      ],
+      "note": ".2 and 7.3 are all right."
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-gave-you-my-word-and-i-m-going-back-on-it-i-m-sorry",
+      "id": "7.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 56,
+          "strength": -0.75
+        }
+      ],
+      "note": "7.1, I don't really like.",
+      "rewrites": [
+        "Some you'd be like, I know what I said, but circumstances have changed."
+      ]
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-your-post-wants-to-talk-about-one-line-in-the-council-s-budget",
+      "id": "8.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 74,
+          "strength": 0.75
+        }
+      ],
+      "note": "So it was 8.2."
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-held-the-post-s-job-for-years-years",
+      "id": "8.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 51,
+          "strength": 0.75
+        }
+      ],
+      "note": "8.3 is also good."
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-put-it-on-the-calendar-i-d-rather-have-the-argument-in-the-open",
+      "id": "9.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 76,
+          "strength": 0.75
+        }
+      ],
+      "note": "I like 9.2."
+    },
+    {
+      "key": "scene-talk.reply-relent.you-ve-worn-me-down-i-ll-set-the-date",
+      "id": "9.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 39,
+          "strength": 0.5
+        }
+      ],
+      "note": "9.1 is probably the second best."
+    },
+    {
+      "key": "scene-talk.reply-agree.i-slept-on-worse-fine-yes",
+      "id": "10.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 28,
+          "strength": 0.75
+        }
+      ],
+      "note": "Fine, yes, I like that."
+    },
+    {
+      "key": "scene-talk.reply-agree.all-right-yes",
+      "id": "10.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 15,
+          "strength": -0.75
+        }
+      ],
+      "note": "Not a huge fan of 10.2."
+    },
+    {
+      "key": "scene-talk.open-greet.i-wanted-to-thank-you-in-person",
+      "id": "11.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 32,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 32,
+          "strength": 0.75
+        }
+      ],
+      "note": "I wanted to take you in person, sure. All 3 of those are good."
+    },
+    {
+      "key": "scene-talk.open-greet.can-we-close-the-door",
+      "id": "11.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 22,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 22,
+          "strength": 0.75
+        }
+      ],
+      "note": "Sure. All 3 of those are good."
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short",
+      "id": "11.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 21,
+          "strength": 0.75
+        }
+      ],
+      "note": "All 3 of those are good."
+    },
+    {
+      "key": "scene-talk.reply-refuse.not-for-any-price",
+      "id": "12.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 18,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 18,
+          "strength": 0.75
+        }
+      ],
+      "note": "Not for any price, sure. I like all of 12."
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-doesn-t-weigh-that-much-take-it-back",
+      "id": "12.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 50,
+          "strength": 0.75
+        }
+      ],
+      "note": "I like all of 12."
+    },
+    {
+      "key": "scene-talk.reply-refuse.a-thank-you-is-a-card-this-is-not-a-card",
+      "id": "12.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 42,
+          "strength": 0.75
+        }
+      ],
+      "note": "I like all of 12."
+    },
+    {
+      "key": "scene-talk.close-accept.understood-my-door-s-open-if-you-change-your-mind",
+      "id": "13.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 51,
+          "strength": 0.75
+        }
+      ],
+      "note": ".1 is good."
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-got-you-i-ll-keep-working",
+      "id": "13.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 40,
+          "strength": -1
+        }
+      ],
+      "note": "13.2, no."
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-thanks-for-listening",
+      "id": "13.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 32,
+          "strength": 0.5
+        }
+      ],
+      "note": "13.3, that's the second best."
+    },
+    {
+      "key": "scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race",
+      "id": "2.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 51,
+          "strength": -1
+        }
+      ],
+      "note": "An apology implies the listener was running; if you were running you wouldn't hear the result secondhand.",
+      "from": "the CTO's reading of his note (the reader missed it)"
+    },
+    {
+      "key": "scene-talk.state-tell.i-won-the-office-race-first-i-still-can-t-quite-believe-it",
+      "id": "2.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 65,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure, I guess that's fine.",
+      "from": "the CTO's reading of his note (the reader missed it)"
+    },
+    {
+      "key": "scene-talk.reply-relent.all-right-you-ve-made-your-case",
+      "id": "9.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 33,
+          "strength": -0.75
+        }
+      ],
+      "note": "It sounds like the end of a hearing, not giving in to hold one; it reads as a fragment.",
+      "from": "the CTO's reading of his note (the reader missed it)"
+    },
+    {
+      "key": "scene-talk.reply-agree.when-you-put-it-like-that-yes",
+      "id": "10.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 31,
+          "strength": 0.75
+        }
+      ],
+      "note": "When you put it like that, yes, or like, how could I say no, you know?",
+      "from": "the CTO's reading of his note (the reader missed it)"
+    },
+    {
+      "key": "scene-talk.reply-withdraw.i-know-what-i-said-but-circumstances-have-changed-i-cant-im-sorry",
+      "spans": [
+        {
+          "start": 0,
+          "end": 71,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.reply-agree.how-could-i-say-no",
+      "spans": [
+        {
+          "start": 0,
+          "end": 19,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.state-ask.what-did-you-just-decide-this-without-me-whos-going-to-take-care-of-ch",
+      "spans": [
+        {
+          "start": 0,
+          "end": 79,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.reply-request.i-cant-do-this-alone-i-need-help-with-phones-and-door-knocking-and-hon",
+      "spans": [
+        {
+          "start": 0,
+          "end": 113,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi",
+      "spans": [
+        {
+          "start": 0,
+          "end": 102,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.reply-tell.of-course-i-care-who-won-theyre-the-ones-who-govern-me",
+      "spans": [
+        {
+          "start": 0,
+          "end": 57,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.reply-tell.i-cant-say-im-filled-with-confidence",
+      "spans": [
+        {
+          "start": 0,
+          "end": 39,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.reply-tell.im-a-little-apprehensive",
+      "spans": [
+        {
+          "start": 0,
+          "end": 26,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    },
+    {
+      "key": "scene-talk.state-ask.can-we-even-afford-this-its-not-like-we-have-a-ton-of-savings-right-ho",
+      "spans": [
+        {
+          "start": 0,
+          "end": 101,
+          "strength": 1
+        }
+      ],
+      "note": "His own words for this line (batch 2 voice note).",
+      "from": "his rewrite"
+    }
+  ]
+}

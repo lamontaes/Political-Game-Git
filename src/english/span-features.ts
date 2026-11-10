@@ -66,6 +66,28 @@ const INSIDER = [
   "messaging",
 ];
 
+/** Words that make a line a fragment when they are all it holds. */
+const FRAGMENT_WORDS = new Set([
+  "all",
+  "right",
+  "alright",
+  "yes",
+  "yeah",
+  "no",
+  "okay",
+  "ok",
+  "fine",
+  "sure",
+  "well",
+  "deal",
+  "understood",
+  "noted",
+  "got",
+  "it",
+  "then",
+  "so",
+]);
+
 /** Words that pad the front of a line and carry nothing ("Well,", "Look,", "So,"). */
 const FILLER_OPENERS = [
   "well",
@@ -361,7 +383,15 @@ export function spanFeatures(text: string, whole = true): string[] {
   if (/\b(we|us|our)\b/.test(t)) out.add("person:we");
   else if (/\b(i|me|my|i'm|i've|i'll|i'd)\b/.test(t)) out.add("person:i");
   if (/\byou\b|\byour\b|\{first\}/.test(t)) out.add("person:you");
+  // A figure an ordinary speaker would not know to the dollar: the household's
+  // savings, a race's cost, a share in percent (owner, Nov 9: "how would they
+  // know how much the race costs? ... Can we even afford this?").
+  if (slots.some((slot) => /^\{(cushion|cost|percent|savings)\}$/.test(slot)))
+    out.add("figure:household");
   if (whole) {
+    // A line of nothing but "All right. Yes." or "Fine.": a fragment (owner,
+    // Nov 9: "I don't like the kind of dangling sentence fragment").
+    if (list.every((word) => FRAGMENT_WORDS.has(word))) out.add("fragment");
     const opener = FILLER_OPENERS.find((phrase) =>
       new RegExp(`^${phrase}\\b[,.]?`).test(t),
     );
