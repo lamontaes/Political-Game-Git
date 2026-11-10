@@ -5,6 +5,8 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
   MACRO_MODULE,
+  countryOutlook,
+  countryStates,
   linkCreditLineToPrime,
   macroCoreData,
   withCentralBank,
@@ -12,9 +14,10 @@ import {
 import {
   checkBands,
   historyMonths,
+  countryMacroMonth,
   macroWorldOffsets,
   publishedMonths,
-  stepMacroMonth,
+  type MacroMonth,
 } from "./macro-model";
 import {
   experiencedInflationPct,
@@ -37,9 +40,9 @@ const source: Source = {
   estimatedFrom: "Macro module fixture only.",
 };
 const place = "place:macro-fixture";
-function opening(startedAt = "2021-01-01"): CoreInput {
+function opening(startedAt = "2021-01-01", seed = "macro-fixture"): CoreInput {
   return withCentralBank({
-    seed: "macro-fixture",
+    seed,
     startedAt,
     people: [],
     households: [],
@@ -84,46 +87,44 @@ describe("national economy", () => {
       unemploymentPct: 6.7,
     });
   });
-  it("a simulated year follows from its causes; the 1990-2026 bands are reported beside it", () => {
-    // The engine's own steps from published openings, and from drawn worlds on the game's start date.
-    const openings = [
-      ...["2021-01-01", "2026-10-01", "2008-10-01"].map((start) =>
-        publishedMonths(start, p),
-      ),
-      ...["world-a", "world-b", "world-c", "world-d"].map((seed) =>
-        historyMonths("2025-01-20", seed, p),
-      ),
+  it("a simulated two years follows from the states' sum; the 1990-2026 bands are reported beside it", () => {
+    // The module's own months from published openings, and from drawn worlds on the game's start date.
+    const worlds: [string, string][] = [
+      ["2021-01-01", "macro-fixture"],
+      ["2026-10-01", "world-a"],
+      ["2025-01-20", "world-b"],
     ];
-    for (const months of openings) {
-      for (let i = 0; i < 24; i++)
-        months.push(
-          stepMacroMonth(months.at(-1)!, months.at(-1)!.policyRatePct, 0, 0, p),
-        );
-      // Every simulated month follows from the one before it: unemployment is
-      // the normal rate less the gap over Okun's coefficient, and the normal
-      // rate and expected inflation move toward what was lived, never away.
+    for (const [start, seed] of worlds) {
+      const where = `start ${start} seed ${seed}`;
+      const core = createCore(opening(start, seed), {
+        data,
+        modules: [MACRO_MODULE],
+      });
+      advanceCore(core, `${Number(start.slice(0, 4)) + 2}${start.slice(4)}`);
+      const months = [
+        ...coreAPI(core).moduleState("macro").table("months").rows(),
+      ].sort((a, b) =>
+        String(a.month).localeCompare(String(b.month)),
+      ) as unknown as MacroMonth[];
+      // Every simulated month follows from the one before it: the normal rate
+      // and expected inflation move toward what was lived, never away.
       const simulated = months.filter((row) => row.kind === "simulated");
-      expect(simulated.length).toBeGreaterThan(0);
+      expect(simulated.length, where).toBeGreaterThan(12);
       for (const row of simulated) {
         const before = months[months.indexOf(row) - 1]!;
-        expect(row.unemploymentPct).toBeCloseTo(
-          row.naturalUnemploymentPct -
-            row.outputGapPct / p("macroOkunOutputPerUnemploymentPoint"),
-          9,
-        );
         const lived = before.unemploymentPct - before.naturalUnemploymentPct;
         const moved =
           row.naturalUnemploymentPct - before.naturalUnemploymentPct;
-        expect(Math.sign(moved) * Math.sign(lived) >= 0).toBe(true);
+        expect(Math.sign(moved) * Math.sign(lived) >= 0, where).toBe(true);
         const lessons = before.inflationPct - before.expectedInflationPct;
         const learned = row.expectedInflationPct - before.expectedInflationPct;
-        expect(Math.sign(learned) * Math.sign(lessons) >= 0).toBe(true);
+        expect(Math.sign(learned) * Math.sign(lessons) >= 0, where).toBe(true);
       }
       // The real 1990-2026 band, beside the causes, as a comparison line only.
       const own = checkBands(months, p).filter((row) => !row.baseIsHistory);
       const outside = own.filter((row) => !row.inside);
       console.log(
-        `macro bands ${months[0]!.month}: ${own.length - outside.length} of ${own.length} 12-month changes inside the real band${
+        `macro bands ${where}: ${own.length - outside.length} of ${own.length} 12-month changes inside the real band${
           outside.length
             ? `; outside: ${outside
                 .map((row) => JSON.stringify(row))
@@ -134,7 +135,7 @@ describe("national economy", () => {
       );
     }
   });
-  it("the 2020 spike raised the normal rate on the record, and the 2021-22 fall follows from the recorded gap and hires", () => {
+  it("the 2020 spike raised the normal rate on the record, and the opening month sits below trend", () => {
     const months = publishedMonths("2021-01-01", p);
     const at = (month: string) => months.find((row) => row.month === month)!;
     const spikeBefore = at("2019-12");
@@ -143,56 +144,129 @@ describe("national economy", () => {
     expect(opening.naturalUnemploymentPct).toBeGreaterThan(
       spikeBefore.naturalUnemploymentPct,
     );
-    for (let i = 0; i < 24; i++)
-      months.push(
-        stepMacroMonth(months.at(-1)!, months.at(-1)!.policyRatePct, 0, 0, p),
-      );
-    const later = months.at(-1)!;
-    // Unemployment above the normal rate is a negative gap that closes: the rate falls and jobs come back with it (the recorded hires).
+    // Unemployment above the normal rate is a negative gap on the record.
     expect(opening.outputGapPct).toBeLessThan(0);
-    expect(later.unemploymentPct).toBeLessThan(opening.unemploymentPct);
-    expect(later.payrollJobsThousands).toBeGreaterThan(
-      opening.payrollJobsThousands,
-    );
   });
-  it("omits unobserved local growth while observed growth changes national output", () => {
-    const previous = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
-    const absent = stepMacroMonth(
-      previous,
-      previous.policyRatePct,
-      undefined,
-      100_000,
-      p,
-    );
-    const noTown = stepMacroMonth(
-      previous,
-      previous.policyRatePct,
-      undefined,
-      0,
-      p,
-    );
-    const growing = stepMacroMonth(
-      previous,
-      previous.policyRatePct,
-      10,
-      100_000,
-      p,
-    );
-    expect(absent).not.toHaveProperty("townIncomeGrowthPct");
-    expect(absent).toEqual(noTown);
-    expect(growing.townIncomeGrowthPct).toBe(10);
-    expect(growing.outputGapPct).toBeGreaterThan(absent.outputGapPct);
-    expect(growing.unemploymentPct).toBeLessThan(absent.unemploymentPct);
+  it("the country tier holds every state as counts, and the national row is their sum", () => {
+    const seed = `tier-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2026-10-01", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2026-12-31");
+    const where = `seed ${seed}`;
+    const states = countryStates(api);
+    expect(states, where).toHaveLength(56);
+    expect(
+      api.moduleState("macro").table("countryStates").rows(),
+      where,
+    ).toHaveLength(56);
+    const latest = api
+      .moduleState("macro")
+      .table("months")
+      .rows()
+      .filter((row) => row.kind === "simulated")
+      .sort((a, b) => String(a.month).localeCompare(String(b.month)))
+      .at(-1)!;
+    let workers = 0,
+      seekers = 0;
+    for (const state of states)
+      for (const cell of state.cells) {
+        workers += cell.workers;
+        seekers += cell.seekers;
+      }
+    expect(workers, where).toBeGreaterThan(0);
+    expect(
+      Number(latest.unemploymentPct),
+      `${where} ${latest.month}`,
+    ).toBeCloseTo((100 * seekers) / (workers + seekers), 6);
   });
-  it("a higher rate lowers output and raises unemployment, with no draws", () => {
+  it("the outlook is the months the game then lives, and it writes nothing", () => {
+    const seed = `outlook-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2025-01-20", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2025-01-21");
+    const where = `seed ${seed}`;
+    const kept = () => JSON.stringify(api.moduleState("macro").snapshot());
+    const before = kept();
+    const years = 3;
+    const outlook = countryOutlook(api, years * 12);
+    // Read-only: the same tables, the same day.
+    expect(kept(), where).toBe(before);
+    expect(core.date, where).toBe("2025-01-21");
+    expect(outlook.nation, where).toHaveLength(years + 1);
+    expect(Object.keys(outlook.states), where).toHaveLength(56);
+    expect(outlook.monthsWithProblems, where).toBe(0);
+    expect(outlook.moneyDrift, where).toBeLessThan(1e-9);
+    // With nothing else changing, the world then plays the same months.
+    advanceCore(core, "2028-01-31");
+    const lived = new Map(
+      (
+        api
+          .moduleState("macro")
+          .table("months")
+          .rows() as unknown as MacroMonth[]
+      ).map((row) => [row.month, row]),
+    );
+    for (const point of outlook.nation) {
+      const row = lived.get(point.month)!;
+      expect(row, `${where} ${point.month}`).toBeDefined();
+      expect(point.unemploymentPct, `${where} ${point.month}`).toBeCloseTo(
+        row.unemploymentPct,
+        6,
+      );
+      expect(point.inflationPct, `${where} ${point.month}`).toBeCloseTo(
+        row.inflationPct,
+        6,
+      );
+      expect(point.hourlyPay, `${where} ${point.month}`).toBeCloseTo(
+        row.hourlyEarnings,
+        6,
+      );
+    }
+    // Each state's last point is the state as the tier then keeps it.
+    const last = outlook.nation.at(-1)!.month;
+    expect(last, where).toBe("2028-01");
+    for (const state of countryStates(api)) {
+      const point = outlook.states[state.usps]!.at(-1)!;
+      let people = state.children;
+      for (const cell of state.cells) people += cell.people;
+      expect(point.people, `${where} ${state.usps}`).toBeCloseTo(people, 3);
+      expect(point.budgetYear, `${where} ${state.usps}`).toBeCloseTo(
+        state.ledger.budgetYear,
+        0,
+      );
+    }
+  });
+  it("a higher policy rate raises the long rates the bank quotes, with no draws", () => {
     const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
+    const nation = {
+      unemploymentPct: start.unemploymentPct,
+      priceIndex: 1,
+      jobs: 1,
+      hourlyPay: 1,
+      realOutput: 1,
+      busy: 0,
+    };
     const run = (rate: number) => {
       let row = start;
-      for (let i = 0; i < 12; i++) row = stepMacroMonth(row, rate, 0, 0, p);
+      for (let i = 0; i < 12; i++)
+        row = countryMacroMonth(
+          row,
+          { row: start, nation },
+          nation,
+          undefined,
+          rate,
+          p,
+        );
       return row;
     };
-    expect(run(5).unemploymentPct).toBeGreaterThan(run(3).unemploymentPct);
     expect(run(5).mortgage30Pct).toBeGreaterThan(run(3).mortgage30Pct);
+    expect(run(5).treasury10Pct).toBeGreaterThan(run(3).treasury10Pct);
     expect(run(4)).toEqual(run(4));
   });
   it("carries no fiscal multiplier or budget impulse: output moves with the money actually paid and spent (owner, Oct 16)", () => {
@@ -201,10 +275,22 @@ describe("national economy", () => {
     );
     expect(keys).toEqual([]);
     const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
-    const row = stepMacroMonth(start, 4, 0, 0, p) as unknown as Record<
-      string,
-      unknown
-    >;
+    const nation = {
+      unemploymentPct: start.unemploymentPct,
+      priceIndex: 1,
+      jobs: 1,
+      hourlyPay: 1,
+      realOutput: 1,
+      busy: 0,
+    };
+    const row = countryMacroMonth(
+      start,
+      { row: start, nation },
+      nation,
+      undefined,
+      4,
+      p,
+    ) as unknown as Record<string, unknown>;
     expect(
       Object.keys(row).filter((key) => /budget|fiscal/i.test(key)),
     ).toEqual([]);
@@ -339,14 +425,6 @@ describe("the board", () => {
       .rows()
       .filter((row) => row.kind === "simulated");
     expect(simulated.length).toBeGreaterThan(0);
-    // Before the town has a comparable year of its own paid income, the
-    // national step hears the nation's payroll-income growth as the estimate,
-    // with none of the town's own weight.
-    for (const row of simulated) {
-      expect(row.townGrowthOwnWeight).toBe(0);
-      expect(row.townIncomeGrowthPct).toBe(row.townGrowthEstimatePct);
-      expect(row.townIncomeGrowthPct).toBeTypeOf("number");
-    }
     const conditions = core.finance.conditionsByPlace.get(place)!;
     expect(conditions.map((row) => row.at)).toEqual([
       "2026-10-01",

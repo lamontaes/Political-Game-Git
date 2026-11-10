@@ -498,3 +498,6 @@ export function resolveLawInForce(input: {
 function round(value: number): number {
   return Math.round(value * 10000) / 10000;
 }
+
+// Re-exported so other engine families read the starting rows through this entry, not the file (families guard).
+export { startingLawRows, type LawRowInput } from "./laws-starting";

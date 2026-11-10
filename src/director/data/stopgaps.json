@@ -983,5 +983,17 @@
     "addedAt": "2026-11-09",
     "replacement": "A wants record per person and the household's chores and sleep from the people engine, so the visit offers what the home needs.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORDS-journal-story-no-helper",
+    "kind": "missing-data",
+    "file": "src/director/data/journal-rows.json",
+    "line": 1,
+    "whatItFakes": "A job found, lost or left is told as a small story from the past-work records: how long, the employer before, what each job paid and how that compares. It never says who helped or how the job was found, and the feeling in it (\"it was work again\") is only what the pay comparison supports.",
+    "why": "The past-work spells keep no referral, no search and no mood; naming a helper or a feeling the records do not hold would be invented.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-10",
+    "replacement": "A referral and a search on the jobs engine's seeker and hire records, read when a past or played job starts, so the entry can say who made the difference.",
+    "status": "open"
   }
 ]
