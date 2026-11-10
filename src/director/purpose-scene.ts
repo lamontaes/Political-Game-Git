@@ -41,6 +41,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
+import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
   questionName,
   storyTopicName,
@@ -1102,6 +1103,11 @@ function composeBinding(
     resultFacts(facts, record.personIds, winner, askerId, askedId, {
       id: moment.causeId,
     });
+  // Who turned out, from the count's own rows: the winner's share of the
+  // ballots, the share of the eligible who voted and the place that gave the
+  // winner the biggest share.
+  if (record?.kind === "election-result" && said.contestId)
+    Object.assign(facts, raceTurnoutFacts(core, said.contestId));
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {

@@ -8089,6 +8089,7 @@
     "scene-talk.follow-answer.a-few-months-now-it-s-been-hard-to-keep-up": 1.102,
     "scene-talk.follow-answer.a-lot-of-things-added-up-i-couldn-t-point-at-one": 1.098,
     "scene-talk.follow-answer.about-cost-a-year-to-the-people-i-speak-for": 1.342,
+    "scene-talk.follow-answer.about-turnout-percent-of-the-people-who-could-vote-did": 1.364,
     "scene-talk.follow-answer.after-the-death-i-couldn-t-stand-how-quiet-it-got-i-need-a-different-v": 1.094,
     "scene-talk.follow-answer.after-the-eviction-there-was-nothing-to-hold-on-to-here": 1.178,
     "scene-talk.follow-answer.after-the-job-ended-i-couldn-t-make-it-work-here-there-s-nothing-left": 1.098,
@@ -8167,6 +8168,7 @@
     "scene-talk.follow-answer.i-d-rather-have-both": 1.375,
     "scene-talk.follow-answer.i-d-sit-it-out-and-spend-the-year-raising-money-and-making-friends-the": 1.291,
     "scene-talk.follow-answer.i-decided-nothing-i-m-asking-because-people-will-ask-me": 1.374,
+    "scene-talk.follow-answer.i-did-best-in-best-place": 1.298,
     "scene-talk.follow-answer.i-did-that-s-how-i-know-it-works": 1.353,
     "scene-talk.follow-answer.i-didn-t-want-to-worry-you-so-i-didn-t-say-how-it-was-going": 1.335,
     "scene-talk.follow-answer.i-don-t-have-it-worked-out-either-right-now-it-s-mostly-wanting-to-do-": 1.162,
@@ -8176,6 +8178,7 @@
     "scene-talk.follow-answer.i-found-out-who-was-paying-for-the-other-side-i-didn-t-like-it": 1.183,
     "scene-talk.follow-answer.i-got-the-job-over-there-i-can-t-afford-to-turn-it-down": 1.098,
     "scene-talk.follow-answer.i-got-the-most-votes-that-s-all-i-know-for-sure": 1.342,
+    "scene-talk.follow-answer.i-got-vote-share-percent-of-the-ballots-cast": 1.345,
     "scene-talk.follow-answer.i-grew-up-thinking-i-d-leave-and-then-i-kept-finding-reasons-to-stay-m": 1.057,
     "scene-talk.follow-answer.i-have-it-here-it-came-last-month": 1.222,
     "scene-talk.follow-answer.i-have-the-filing-and-the-dates-i-ll-show-you-and-then-you-answer": 1.335,
@@ -8407,7 +8410,10 @@
     "scene-talk.follow-answer.where-you-stand-on-the-questions-people-in-place-care-about-and-why-you-re-running": 1.356,
     "scene-talk.follow-answer.whoever-needs-your-district-s-votes-on-the-next-budget-start-there": 1.327,
     "scene-talk.follow-answer.whoever-you-d-tell-us-to-send-that-s-why-we-need-you": 1.31,
+    "scene-talk.follow-answer.winner-did-best-in-best-place-that-s-where-the-biggest-share-went": 1.248,
+    "scene-talk.follow-answer.winner-drew-vote-share-percent-of-the-ballots-cast": 1.324,
     "scene-talk.follow-answer.winner-got-the-most-votes-that-s-all-i-know-for-sure": 1.315,
+    "scene-talk.follow-answer.winner-took-vote-share-percent-and-best-place-gave-winner-the-most": 1.226,
     "scene-talk.follow-answer.within-two-weeks-it-ll-be-in-the-minutes": 1.3,
     "scene-talk.follow-answer.word-gets-around-i-m-sorry-it-got-to-me-before-i-got-to-you": 1.115,
     "scene-talk.follow-answer.work-dried-up-here-i-have-to-go-where-it-is": 1.125,
@@ -14856,10 +14862,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11577,
-    "reached": 11577,
-    "near": 10530,
-    "weighted": 11574,
+    "pieces": 11583,
+    "reached": 11583,
+    "near": 10536,
+    "weighted": 11580,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14952,9 +14958,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 7640,
-        "reached": 7640,
-        "near": 7640
+        "pieces": 7646,
+        "reached": 7646,
+        "near": 7646
       },
       "scene-words": {
         "pieces": 291,

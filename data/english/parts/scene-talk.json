@@ -91,6 +91,9 @@
     "away": "How long the person was in prison before they came home, as people say a span of time, from the justice engine's custody record.",
     "sentence": "How long a prison sentence runs, as people say a span of time, from the justice engine's sentence record.",
     "release": "The day a person in prison gets out, as people say a date, from the justice engine's sentence record.",
+    "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
+    "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
+    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
     "bail": "What a person held before trial would have to pay to get out, as people round a sum, from the justice engine's pretrial record.",
     "earlier": "The bill the asker already voted for at the asked person's side, as people say its number, from the asker's vote record.",
     "new-child": "The name of a child born in the guest's household since the two last talked, from the birth record.",
@@ -125143,7 +125146,8 @@
           "purpose": "race-told",
           "key": "race-heard",
           "requiresFacts": ["winner", "winner-is-other"],
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["vote-share"]
         }
       ],
       "bearing": "calm",
@@ -125169,7 +125173,8 @@
           "purpose": "race-told",
           "key": "race-heard",
           "requiresFacts": ["bearer-won"],
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["vote-share"]
         }
       ],
       "bearing": "calm",
@@ -194207,6 +194212,167 @@
       "author": "Claude Sonnet (Story, new-baby purpose)",
       "date": "2026-11-09",
       "tag": { "move": "accept", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-drew-vote-share-percent-of-the-ballots-cast",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} drew {vote_share} percent of the ballots cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other", "vote-share"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-did-best-in-best-place-that-s-where-the-biggest-share-went",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} did best in {best_place}. That's where the biggest share went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other", "best-place"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.about-turnout-percent-of-the-people-who-could-vote-did",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {turnout} percent of the people who could vote did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["turnout"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-took-vote-share-percent-and-best-place-gave-winner-the-most",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} took {vote_share} percent, and {best_place} gave {winner} the most.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": [
+            "winner",
+            "winner-is-other",
+            "vote-share",
+            "best-place"
+          ],
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-got-vote-share-percent-of-the-ballots-cast",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I got {vote_share} percent of the ballots cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "vote-share"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-did-best-in-best-place",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I did best in {best_place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "best-place"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
     }
   ]
 }
