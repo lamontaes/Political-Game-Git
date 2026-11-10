@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 **Notes (Fable's check, Nov 10).** How to find the cause: run the M1-04 check in Niceville, Florida, take three of the 27 changes it counts, and for each find the writer of the job-change record and what removed the person it names (a move away, a demotion to the counts, a death). The fix then keeps the decider findable (the employer or the move as decider, or the person kept as a counted member), in the writer or the removal, never in the check.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have kept every job change's decider id a live record; a bookkeeping id on a record no screen shows.

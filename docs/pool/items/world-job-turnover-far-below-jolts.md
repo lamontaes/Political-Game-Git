@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the town's unemployment rate on the Metrics tab and the hires and layoffs the paper reports, now far below any real range.
 
 **Rules.** No dice: each hire, quit and layoff comes from the worker's or employer's own situation, and the JOLTS ranges report the gap and never decide a pass (owner, Nov 8: ranges are not targets). One model, two tiers: counted workers change jobs by the same rules, times their count.
 

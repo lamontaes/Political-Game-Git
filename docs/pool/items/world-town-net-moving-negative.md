@@ -26,7 +26,7 @@ checked: fable 2026-11-10
 
 **Fix.** None until the cause is found.
 
-**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Seen: the town's population on the Metrics tab, which falls 3.6 to 4.7 percent a year to net moving.
 
 **Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed. Real migration rates report the gap and never decide a pass (owner, Nov 8: ranges are not targets).
 

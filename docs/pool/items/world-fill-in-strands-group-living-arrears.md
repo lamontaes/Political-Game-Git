@@ -25,7 +25,7 @@ checked: fable 2026-11-10
 
 **Fix.** Carry the group's living arrears onto the filled-in households in the fill-in step in src/core2/modules/residents.ts, so an empty group owes none; never loosen the test's comparison.
 
-**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 4 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop. Guards: keeps the living-costs-arrears test green on main; a clicked household otherwise strands its group's arrears.
 
 **Rules.** One model, two tiers: a filled-in household carries what its counted weight owed, as it carries what the weight held. Wire to the world: arrears are owed by a household that exists, never by an empty group. Ask why by record: name the group, the households and the amount moved. Fix at the root in the fill-in, never by loosening the test's comparison.
 

@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/moves.ts, src/core2/modules/credit.ts, src/core2/moves.test.ts, src/core2/data/stopgaps/p15.json
 
 **Notes.** Oct 20 (pool feeder): the row SG-P15-moves-owners-stay stays open while its pool item is done.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded who keeps the mortgaged home when members leave; the player's own family is ruled to stay and nobody else's split is shown.

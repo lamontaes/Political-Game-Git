@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/counted-moves.ts, src/core2/modules/residents.ts, src/core2/unplaced-workers-unit.test.ts (new)
 
 **Notes.** The test prints both sides after its played days and does not assert them yet; turn that print into the assertion. Also seen and not looked into: a household that returns to the counts holds its commuter's pay as so many of the pool's workers (returnCommuterPay), so a one-household record can read 3.17 workers with two working-age members; and a counted person in regional work who dies or passes working age keeps their worker on the household until the turnover pull ends it. The moves engine's place rate (unplacedRates) adds records without their weights on both sides.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have reconciled counted incomes with the out-of-town pool pay; it rides on the dropped commute split and no screen shows the drift.
