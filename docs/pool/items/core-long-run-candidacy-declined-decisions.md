@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: memory/candidacy-decisions
 pr: #8067
 blocked-on:

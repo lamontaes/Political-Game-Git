@@ -233,21 +233,6 @@
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
           }
-        },
-        {
-          "match": {
-            "label": "circumstance:moved-away-farewell"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "person.moved-away",
-          "bind": {
-            "leaving": "counterpart",
-            "staying": "subject",
-            "others": "present"
-          },
-          "opener": "leaving",
-          "setting": ["other-home", "home"],
-          "opening": "farewell"
         }
       ],
       "awaiting": ["record:deployment"],
@@ -259,22 +244,27 @@
     },
     {
       "key": "return",
+      "note": "Someone is home from prison (the justice engine's release record). Either the player is the one who came home and a relative asks what happens now, or a relative or housemate who came home asks the player for a place to stay until there is work, for help finding work with a record, and to know where they stand after what the term cost. How long they were away, whether the term ended their job, whether they share the household and the child at home are said only when the records give them. What the player agrees to or promises is kept on the reply record (a promise); a talk put off strains the tie.",
+      "purpose": "homecoming",
+      "asker": "speaker",
+      "asked": "you",
+      "stakes": ["home", "relative", "job"],
       "roles": [
         {
-          "key": "returning",
-          "fill": "subject",
+          "key": "speaker",
+          "fill": "kin",
           "count": "one",
-          "moves": ["tell", "apologize", "thank", "recall"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "change"],
           "bearing": "relieved"
         },
         {
-          "key": "waiting",
-          "fill": "kin",
-          "count": "some",
-          "moves": ["comfort", "confront", "recall", "thank"],
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
           "wants": ["engage", "keep-same"],
-          "bearing": "glad"
+          "bearing": "calm"
         }
       ],
       "setting": ["home"],
@@ -288,10 +278,10 @@
           "causeEngine": "justice",
           "causeRecord": "justice.released",
           "bind": {
-            "returning": "subject",
-            "waiting": "kin"
+            "you": "subject",
+            "speaker": "kin"
           },
-          "opener": "waiting"
+          "opener": "speaker"
         },
         {
           "match": {
@@ -301,16 +291,16 @@
           "causeEngine": "justice",
           "causeRecord": "justice.released",
           "bind": {
-            "waiting": "subject",
-            "returning": "counterpart"
+            "you": "subject",
+            "speaker": "counterpart"
           },
-          "opener": "returning"
+          "opener": "speaker"
         }
       ],
       "tag": {
         "key": "arrival",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -491,36 +481,6 @@
         },
         {
           "match": {
-            "label": "circumstance:story-read-home"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "news.read",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "counterpart"
-          },
-          "opener": "bearer",
-          "setting": ["home"],
-          "opening": "tell"
-        },
-        {
-          "match": {
-            "label": "circumstance:national-news-work"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "news.read",
-          "bind": {
-            "bearer": "counterpart",
-            "receiver": "subject",
-            "about": "counterpart"
-          },
-          "opener": "bearer",
-          "setting": ["workplace"],
-          "opening": "tell"
-        },
-        {
-          "match": {
             "label": "circumstance:death-known-street"
           },
           "causeEngine": "circumstance",
@@ -650,12 +610,17 @@
     },
     {
       "key": "letter",
+      "note": "A relative who lives elsewhere writes to the player (kin-contact.ts's family.contact, one whole contact a month at full closeness). The letter asks for something: a visit, a call or a letter back, or to be told how the player is. Where the writer lives, what changed in their life since their last letter (a child born, a wedding, a move, new work, a serious illness), a birthday of the player's they missed at the table and their own birthday coming are said only when a record gives them. The player's reply is written back; what they agree to or promise is kept on the reply record (a promise), and a no that is pressed strains the tie.",
+      "purpose": "letter-ask",
+      "asker": "writer",
+      "asked": "reader",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "writer",
           "fill": "absent",
           "count": "one",
-          "moves": ["tell", "recall", "promise", "request"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "commit"],
           "bearing": "tender"
         },
@@ -663,7 +628,7 @@
           "key": "reader",
           "fill": "subject",
           "count": "one",
-          "moves": ["thank", "tell", "recall", "promise"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["engage"],
           "bearing": "curious"
         }
@@ -682,13 +647,14 @@
           "bind": {
             "writer": "counterpart",
             "reader": "subject"
-          }
+          },
+          "opener": "writer"
         }
       ],
       "tag": {
         "key": "news-received",
         "endpoint": "personal",
-        "registers": ["journal", "scene-words"]
+        "registers": ["scene-talk", "journal", "scene-words"]
       }
     },
     {
@@ -854,12 +820,17 @@
     },
     {
       "key": "becoming-friends",
+      "note": "A tie that grew over time together (the relationship engine's contact tie, turned from an acquaintance to a friend). The other asks the player for something that tests the tie: to come along somewhere or to do them a favor. What the two share is said only when a record gives it: the employer both work for (the jobs engine), the school they were both at in one school year or their children share (the school engine), the party both belong to (the parties engine), the town the other lives in. What the player agrees to or promises is kept on the reply record (a promise); a no that is pressed strains the tie.",
+      "purpose": "friend-ask",
+      "asker": "other-friend",
+      "asked": "friend",
+      "stakes": ["friend", "favor"],
       "roles": [
         {
           "key": "friend",
           "fill": "subject",
           "count": "one",
-          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["engage", "trust"],
           "bearing": "warm"
         },
@@ -867,7 +838,7 @@
           "key": "other-friend",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "trust"],
           "bearing": "warm"
         }
@@ -883,19 +854,33 @@
           "bind": {
             "friend": "subject",
             "other-friend": "counterpart"
-          }
+          },
+          "opener": "other-friend"
         }
       ],
       "tag": {
         "key": "routine",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       },
       "yieldsTo": ["reconciliation"]
     },
     {
       "key": "celebration",
+      "note": "People gather to mark something that happened in the player's household: a wedding (partnerships.ts's family.married) or a new job (the job row and its employer). A relative at the celebration asks the player for something the occasion brings: a few words for everyone, a picture, a dance, a talk about an old quarrel that the tie's record kept, a hand finding work. Whose occasion it is, what it is, the guest's town, a new child and whether the guest is out of work are said only when a record gives them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
+      "purpose": "celebration-ask",
+      "asker": "guests",
+      "asked": "you",
+      "stakes": ["relative"],
       "roles": [
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["engage"],
+          "bearing": "glad"
+        },
         {
           "key": "honoree",
           "fill": "subject",
@@ -916,7 +901,7 @@
           "key": "guests",
           "fill": "kin",
           "count": "some",
-          "moves": ["thank", "tell", "offer"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "cooperate"],
           "bearing": "glad"
         }
@@ -969,7 +954,7 @@
       "tag": {
         "key": "honor",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -1077,12 +1062,25 @@
     },
     {
       "key": "gathering-missing",
+      "note": "A birthday at home with the closest relative who lives elsewhere missing (kin-contact.ts's family.gathering-missed). Someone in the household asks the player to reach out to the one who was missing: to call, write, visit or make the first move. Whose birthday it was and the age they turned, who was missing and where they live, what changed in the missing relative's life lately (a child born, a wedding, a move, new work, a serious illness) and whether the player's last word with them was a quarrel are said only when a record gives them. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
+      "purpose": "gathering-ask",
+      "asker": "household",
+      "asked": "you",
+      "stakes": ["relative", "tie"],
       "roles": [
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["engage"],
+          "bearing": "solemn"
+        },
         {
           "key": "household",
           "fill": "household",
           "count": "some",
-          "moves": ["recall", "comfort", "tell"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["keep-same", "engage"],
           "bearing": "solemn"
         },
@@ -1114,7 +1112,7 @@
       "tag": {
         "key": "loss",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -1173,30 +1171,27 @@
     },
     {
       "key": "first-meeting",
+      "note": "A new hire at the player's employer (the jobs engine's new job record) comes over to introduce themselves and asks the player something grounded in what the two share: how things run at the employer, the job if it is the same, the school they were both at in one year or their children share, the party both belong to, the town the newcomer drives in from. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
+      "purpose": "introduction",
+      "asker": "newcomer",
+      "asked": "met",
+      "stakes": ["job", "friend"],
       "roles": [
         {
           "key": "newcomer",
-          "fill": "subject",
+          "fill": "counterpart",
           "count": "one",
-          "moves": ["tell", "offer", "thank"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "change"],
           "bearing": "curious"
         },
         {
           "key": "met",
-          "fill": "counterpart",
+          "fill": "subject",
           "count": "one",
-          "moves": ["tell", "offer", "thank"],
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
           "wants": ["engage"],
-          "bearing": "curious"
-        },
-        {
-          "key": "introducer",
-          "fill": "present",
-          "count": "one",
-          "moves": ["tell", "offer"],
-          "wants": ["help-others", "engage"],
-          "bearing": "warm"
+          "bearing": "calm"
         }
       ],
       "setting": ["public", "venue"],
@@ -1210,19 +1205,17 @@
           "causeRecord": "job",
           "bind": {
             "newcomer": "counterpart",
-            "met": "subject",
-            "introducer": "present"
+            "met": "subject"
           },
-          "opener": "introducer",
-          "setting": ["workplace"],
-          "opening": "tell"
+          "opener": "newcomer",
+          "setting": ["workplace"]
         }
       ],
       "awaiting": ["record:new-neighbor"],
       "tag": {
         "key": "arrival",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -1523,21 +1516,26 @@
     },
     {
       "key": "reunion",
+      "note": "Someone the player has not been in touch with for a long time comes back into their life: a change in the player's day that names a person whose thread with the player had faded (the director's re-entry). The one who returns asks for something from seeing the player again: to make up after a falling-out the thread kept, a lead on work, to be told about the player's life, or a visit back. How long they were apart (the thread's renewing turn), where they live now (their place) and what changed in their life since (a child born, a wedding, a move, new work, a serious illness, each from its record) are said only when a record gives them. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
+      "purpose": "reunion-ask",
+      "asker": "other",
+      "asked": "one",
+      "stakes": ["relative", "friend", "job"],
       "roles": [
         {
           "key": "one",
           "fill": "subject",
           "count": "one",
-          "moves": ["recall", "tell", "apologize", "thank", "promise"],
-          "wants": ["engage", "change"],
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
+          "wants": ["engage", "keep-same"],
           "bearing": "glad"
         },
         {
           "key": "other",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["recall", "tell", "apologize", "thank", "promise"],
-          "wants": ["engage", "keep-same"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
+          "wants": ["engage", "change"],
           "bearing": "glad"
         }
       ],
@@ -1551,13 +1549,14 @@
           "bind": {
             "one": "subject",
             "other": "counterpart"
-          }
+          },
+          "opener": "other"
         }
       ],
       "tag": {
         "key": "arrival",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
@@ -1669,6 +1668,67 @@
       }
     },
     {
+      "key": "prison-visit",
+      "note": "The player visits someone they know whom the justice engine holds: a prison term handed down (justice.imprisoned) or a person held for want of bail (justice.held-before-trial). The person inside asks the visitor for something real: money on their account, a child looked after, a lawyer called, a word taken to the family. How long the sentence is, the day they get out and the bail are said only when the record gives them. What the visitor agrees to or promises is kept on the reply record (a promise); a visit that ends on a refusal pressed strains the tie.",
+      "purpose": "prison-visit",
+      "asker": "inside",
+      "asked": "visitor",
+      "stakes": ["relative", "money", "years"],
+      "roles": [
+        {
+          "key": "inside",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "answer", "accept", "thank", "press"],
+          "wants": ["engage", "commit"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "visitor",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["help-others", "engage"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:held-known-visit"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.held-before-trial",
+          "bind": {
+            "visitor": "subject",
+            "inside": "counterpart"
+          },
+          "opener": "inside",
+          "setting": ["venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:imprisoned-known-visit"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.imprisoned",
+          "bind": {
+            "visitor": "subject",
+            "inside": "counterpart"
+          },
+          "opener": "inside",
+          "setting": ["venue"]
+        }
+      ],
+      "tag": {
+        "key": "prison-visit",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "visit",
       "occasion": "visit",
       "roles": [
@@ -1736,19 +1796,6 @@
             "visitor": "kin"
           },
           "opener": "visitor"
-        },
-        {
-          "match": {
-            "label": "circumstance:held-known-visit"
-          },
-          "causeEngine": "circumstance",
-          "causeRecord": "justice.held-before-trial",
-          "bind": {
-            "visitor": "subject",
-            "cannot-come": "counterpart"
-          },
-          "opener": "visitor",
-          "setting": ["venue"]
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],
@@ -5650,6 +5697,115 @@
       "tag": {
         "key": "threat",
         "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "story-read",
+      "note": "Someone in the player's household (at home) or a coworker (at work) read a printed story, the news engine's read record, and brings it up with the player: which story, from the catalog's name for its topic and the paper that ran it. The player can agree, disagree, ask what it said or put the talk off. A story the catalog cannot name is not talked over (the scene is skipped rather than worded as 'something'). The ending is written on the reply record: a talk put off owes the other a talk and strains the tie.",
+      "purpose": "story-read",
+      "asker": "reader",
+      "asked": "you",
+      "stakes": ["story", "home"],
+      "roles": [
+        {
+          "key": "reader",
+          "fill": "household",
+          "count": "one",
+          "moves": ["tell", "press", "accept", "answer"],
+          "wants": ["speak-out"],
+          "bearing": "curious"
+        },
+        {
+          "key": "you",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "disagree", "ask", "deflect", "leave"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home", "workplace"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:story-read-home"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "reader": "counterpart",
+            "you": "subject"
+          },
+          "opener": "reader",
+          "setting": ["home"]
+        },
+        {
+          "match": {
+            "label": "circumstance:national-news-work"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "news.read",
+          "bind": {
+            "reader": "counterpart",
+            "you": "subject"
+          },
+          "opener": "reader",
+          "setting": ["workplace"]
+        }
+      ],
+      "tag": {
+        "key": "story-read",
+        "endpoint": "political",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
+      "key": "moving-goodbye",
+      "note": "Someone the player knows has moved away (the moves engine's departure record, circumstance row moved-away-farewell) and comes to say goodbye: where they are going, who goes with them, and why when the records name a reason (an eviction, a job lost or found elsewhere, family, kin who left first, a death at home). The player can comfort them, ask, promise to visit or thank them. A promise to visit is kept on its record and told in the journal; a farewell cut short strains the tie.",
+      "purpose": "moving-goodbye",
+      "asker": "leaving",
+      "asked": "staying",
+      "stakes": ["relative", "home"],
+      "roles": [
+        {
+          "key": "leaving",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "answer", "accept", "thank", "press"],
+          "wants": ["change", "commit"],
+          "bearing": "tender"
+        },
+        {
+          "key": "staying",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["comfort", "ask", "promise", "thank", "leave"],
+          "wants": ["keep-same", "engage"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["other-home", "home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:moved-away-farewell"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "person.moved-away",
+          "bind": {
+            "leaving": "counterpart",
+            "staying": "subject"
+          },
+          "opener": "leaving",
+          "setting": ["other-home", "home"]
+        }
+      ],
+      "tag": {
+        "key": "moving-goodbye",
+        "endpoint": "personal",
         "registers": ["scene-talk", "scene-words"]
       }
     },
