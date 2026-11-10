@@ -35,8 +35,10 @@
     "why": "The source tables give firearm deaths for ages 10 to 24 as one band and report nothing under 10; drug overdose deaths are reported from 15; counted people hold no conditions.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Single-age firearm and overdose death counts from CDC WONDER (underlying cause, one-year ages 0 to 24), and a condition record on counted people.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-condition-record",
@@ -47,8 +49,10 @@
     "why": "No condition, prescription or birth-weight record exists for a child's asthma, an enrollee's drug spending or a newborn; condition-pack.ts holds adult chronic conditions only.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "A childhood asthma condition and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A childhood asthma condition and Part D spending on the household's books, each decided from the engine's own records times the web's factor.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-unsized-links",
@@ -59,8 +63,10 @@
     "why": "Three links are unsized in links.json and no producer exists for premature births, heat deaths or hospital visits; the two about-zero links run at size 0.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Sized links from fetched research, then the death and birth engines read them like the wired ones.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Sized links from fetched research, then the death and birth engines read them like the wired ones.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-person-level",
@@ -71,8 +77,10 @@
     "why": "A person's coverage history, displacement, weekly hours, childhood benefit years and a birth weight are not stored.",
     "addedBy": "effect-web-health",
     "addedAt": "2026-10-20",
-    "replacement": "Records on the person for each cause, read by the health engine's hazard like the web's death factor. The reader is the monthly look in src/core2/modules/health.ts (refreshWebFactors), which books a per-person factor from health-own.ts (plan.own): coverage-to-mortality-55-64, job-loss-to-death-risk and long-hours-to-heart-and-stroke are read that way now (carriedBy in data/research/outcome-web/links.json), and the links still waiting here are read the same way once the person's record exists (a stored coverage history for catastrophic bills and depression, childhood benefit years, a birth weight).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Records on the person for each cause, read by the health engine's hazard like the web's death factor. The reader is the monthly look in src/core2/modules/health.ts (refreshWebFactors), which books a per-person factor from health-own.ts (plan.own): coverage-to-mortality-55-64, job-loss-to-death-risk and long-hours-to-heart-and-stroke are read that way now (carriedBy in data/research/outcome-web/links.json), and the links still waiting here are read the same way once the person's record exists (a stored coverage history for catastrophic bills and depression, childhood benefit years, a birth weight).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   },
   {
     "id": "SG-EW-HEALTH-marriage-equality-cause",
@@ -83,7 +91,9 @@
     "why": "Nothing in the core records law.marriage-equality, the link's cause; the web does not run a link whose cause it cannot read.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A recorded marriage-equality law the web reads as the link's cause (a spouse's employer plan then covers a same-sex spouse through the coverage engine), or the link graded not applicable because the law is national and does not change in play.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stopgap-triage-2026-11-10"
   }
 ]
