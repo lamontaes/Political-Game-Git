@@ -20,7 +20,7 @@ import type { LineRule, RulePiece } from "../src/english/line-rules";
  * Fixtures are written in our own words; the rule rows are the real ones.
  */
 const RULES = readRules();
-const LINE_RULE = "no-filler";
+const LINE_RULE = "no-explaining";
 const lineRule = RULES.find((rule) => rule.id === LINE_RULE)!;
 
 const piece = (key: string, text: string): RulePiece => ({

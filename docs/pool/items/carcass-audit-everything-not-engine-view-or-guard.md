@@ -5,13 +5,13 @@ area: core
 kind: research
 priority: 1
 size: M
-status: claimed
+status: in-pr
 claimed-by: claude/pool-carcass-audit-everything-not-engine-view-or-guard
-pr:
+pr: #8232
 after:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at: 2026-11-10T21:03:44.718Z
+claimed-at: 2026-11-10T22:29:08.622Z
 lead: cto
 standard: 2
 model: haiku
@@ -42,3 +42,7 @@ branch: claude/pool-carcass-audit-everything-not-engine-view-or-guard
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/carcass-audit` is kept; claiming this item takes it over.
 
 Claimed by next for pool-check (2026-11-10 21:01 UTC) on branch claude/pool-carcass-audit-everything-not-engine-view-or-guard.
+
+Released (2026-11-10): acceptance check of the pool command; nothing was built. Continue on branch claude/pool-carcass-audit-everything-not-engine-view-or-guard and pull request #8232.
+
+Claimed by next for haiku-a69d (Claude Haiku 5.5 in the Claude Code cloud CLI, tier light) (2026-11-10 22:26 UTC) on branch claude/pool-carcass-audit-everything-not-engine-view-or-guard.

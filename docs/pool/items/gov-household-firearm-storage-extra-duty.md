@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Sent back 2026-10-20 from PR #5371 (branch claude/firearm-storage-extra-duty): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
 
 Oct 29 (CTO, second account): PR #5371 closed as stale under the owner's standing approval; back to open. Branch `claude/firearm-storage-extra-duty` is kept; claiming this item takes it over.
+
+**Notes (Fable, Nov 10, read).** Nothing on main can show this fault: the test that found it is only on the branch claude/firearm-storage-extra-duty, whose pull request was closed, and main's storage duty is three lines in src/core2/public-safety.ts with no household record beside it. A finder would have to start from that branch. It is the CTO's call whether to drop this item or block it on the branch's work coming back.

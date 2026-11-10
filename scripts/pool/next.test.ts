@@ -14,6 +14,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import { NOTE_PLACEHOLDER, prBody, sentences } from "./draft-pr";
+import { branchPrefix, identify, readTiers, tierOf } from "./agent";
 import { command, flags, run, staleClaims, validate, type Item } from "./index";
 import {
   claimable,
@@ -107,6 +108,7 @@ function world(
   mkdirSync(join(pool, "items"), { recursive: true });
   mkdirSync(join(seed, ".github"), { recursive: true });
   copyFileSync(join(ROOT, "docs/pool/order.json"), join(pool, "order.json"));
+  copyFileSync(join(ROOT, "docs/pool/tiers.json"), join(pool, "tiers.json"));
   copyFileSync(
     join(ROOT, "docs/pool/START-A-BUILDER.md"),
     join(pool, "START-A-BUILDER.md"),
@@ -337,16 +339,20 @@ describe("next --dry-run by level", () => {
     expect(dry.out).toContain("Dry run: nothing was changed.");
     expect(git(a, "rev-parse", "HEAD")).toBe(head);
     expect(git(a, "status", "--porcelain")).toBe("");
-    expect(pool(a, ["next", "--model", "gpt", "--dry-run"]).err).toMatch(
-      /^usage: pool next --model <level>/,
-    );
+    // The older flag still takes a level, and a tier by its own name.
+    expect(
+      line(pool(a, ["next", "--tier", "top", "--dry-run"]).out, "Would take:"),
+    ).toBe("Would take: laws-o (opus, p3)");
+    const bad = pool(a, ["next", "--tier", "gpt", "--dry-run"]).err;
+    expect(bad).toMatch(/^usage: pool next \[--as/);
+    expect(bad).toContain("The tiers are light, mid, top, lead.");
   });
   it("says so and succeeds when nothing is ready at or below the level", () => {
     const { clones } = world({ "laws-o": unit("laws-o", { model: "opus" }) });
     const r = pool(clones[0], ["next", "--model", "sonnet", "--dry-run"]);
     expect(r.err).toBeNull();
-    expect(r.out).toEqual([
-      "No item is ready for sonnet or any level below it.",
+    expect(r.out.slice(1)).toEqual([
+      "No item is ready for tier mid or any tier below it.",
     ]);
   });
 });
@@ -361,7 +367,8 @@ describe("next for real", () => {
     const [a] = clones;
     const r = pool(a, ["next", "--model", "haiku", "--agent", "check"]);
     expect(r.err).toBeNull();
-    expect(r.out[0]).toBe("Item: laws-h");
+    expect(r.out[0]).toBe("You are check, tier light.");
+    expect(r.out[1]).toBe("Item: laws-h");
     expect(r.out).toContain("Title: Title of laws-h");
     expect(r.out).toContain("File: docs/pool/items/laws-h.md");
     expect(line(r.out, "Branch:")).toMatch(/^Branch: pool\/laws-h \(to start/);
@@ -503,9 +510,9 @@ describe("next for real", () => {
     );
     expect(raced).toBe(true);
     expect(first!.err).toBeNull();
-    expect(first!.out[0]).toBe("Item: laws-1");
+    expect(first!.out[1]).toBe("Item: laws-1");
     expect(second.err).toBeNull();
-    expect(second.out[0]).toBe("Item: laws-2");
+    expect(second.out[1]).toBe("Item: laws-2");
     expect(onOrigin("main", `${ITEM}/laws-1.md`)).toContain(
       "Claimed by next for a ",
     );
@@ -557,10 +564,10 @@ describe("next for real", () => {
     expect(dry2.out).toContain("continue: another agent started this item.");
     const r = pool(a, ["next", "--model", "sonnet"]);
     expect(r.err).toBeNull();
-    expect(r.out[0]).toMatch(
+    expect(r.out[1]).toMatch(
       /^Released laws-nobranch: no push to lane\/none since 2026-01-01 00:00 UTC, more than twice its 4-hour time box\.$/,
     );
-    expect(r.out[1]).toMatch(
+    expect(r.out[2]).toMatch(
       /^Released laws-quiet: no push to lane\/quiet since 2026-01-01 00:00 UTC, more than twice its 3-hour time box\.$/,
     );
     expect(line(r.out, "Item:")).toBe("Item: laws-quiet");
@@ -700,5 +707,120 @@ describe("staleClaims", () => {
       "time-box": "3 hours",
     } as unknown as Item;
     expect(staleClaims([i], Date.now(), () => null)).toEqual([]);
+  });
+});
+
+describe("an agent names itself and takes its own tier", () => {
+  const tiers = readTiers(join(ROOT, "docs/pool"));
+  it("finds the tier from what the agent says it is, by whole words, and mid when it is unknown", () => {
+    const tier = (as: string): string => tierOf(as, tiers).tier;
+    expect(tier("Claude Opus 5.5 in Claude Code")).toBe("top");
+    expect(tier("claude-sonnet-5-5")).toBe("mid");
+    expect(tier("Claude Haiku 5.5")).toBe("light");
+    expect(tier("Claude Fable 5.2")).toBe("lead");
+    expect(tier("gpt-5-mini in Codex")).toBe("light");
+    expect(tier("GPT-5 Codex")).toBe("mid");
+    // "gemini" holds the letters of "mini" and is not the small model.
+    expect(tier("Gemini 3 Pro in Antigravity")).toBe("mid");
+    expect(tier("Gemini 3 Flash")).toBe("light");
+    expect(tier("Muse")).toBe("mid");
+    expect(tier("something nobody has heard of")).toBe("mid");
+    expect(tier("")).toBe("mid");
+    expect(tierOf("Claude Opus 5.5", tiers).label).toBe("opus");
+    expect(tierOf("", tiers).label).toBe("agent");
+    // Every tier names a level of the order, weakest first.
+    const order = readOrder(join(ROOT, "docs/pool"));
+    expect(tiers.tiers.map((x) => x.level)).toEqual(order.levels);
+    for (const row of tiers.models)
+      expect(tiers.tiers.map((x) => x.name)).toContain(row.tier);
+  });
+  it("keeps one name for a checkout, gives two checkouts different names, and renames when the agent says it is something else", () => {
+    const dir = mkdtempSync(join(tmpdir(), "pool-agent-"));
+    const a = join(dir, "a.json");
+    const b = join(dir, "b.json");
+    const first = identify("Claude Sonnet 5.5", tiers, a, 0);
+    expect(first.fresh).toBe(true);
+    expect(first.name).toMatch(/^sonnet-[0-9a-f]{4}$/);
+    expect(identify("", tiers, a, 0)).toMatchObject({
+      name: first.name,
+      tier: "mid",
+      fresh: false,
+    });
+    expect(identify("Claude Sonnet 5.5", tiers, a, 0).name).toBe(first.name);
+    expect(identify("Claude Sonnet 5.5", tiers, b, 0).name).not.toBe(
+      first.name,
+    );
+    const again = identify("Claude Opus 5.5", tiers, a, 0);
+    expect(again.tier).toBe("top");
+    expect(again.name).toMatch(/^opus-/);
+    // A dry run leaves the checkout as it was.
+    const c = join(dir, "c.json");
+    expect(identify("Muse", tiers, c, 0, false).name).toMatch(/^muse-/);
+    expect(existsSync(c)).toBe(false);
+  });
+  it("finds a Claude cloud session's branch prefix without being told", () => {
+    expect(branchPrefix(undefined, {})).toBe("pool/");
+    expect(branchPrefix(undefined, { CLAUDE_CODE_REMOTE: "true" })).toBe(
+      "claude/pool-",
+    );
+    expect(branchPrefix(undefined, { POOL_BRANCH_PREFIX: "codex/" })).toBe(
+      "codex/",
+    );
+    expect(branchPrefix("mine/", { CLAUDE_CODE_REMOTE: "true" })).toBe("mine/");
+  });
+  it("next with nothing typed takes a mid item, and after a check-in as a top model takes a top item and files its card with the claim", () => {
+    fakeGh(null);
+    const { clones, onOrigin } = world({
+      "laws-s": unit("laws-s", { model: "sonnet" }),
+      "laws-o": unit("laws-o", { model: "opus" }),
+      "laws-o2": unit("laws-o2", { model: "opus" }),
+    });
+    const [a, b] = [clones[0], clones[0]];
+    const plain = pool(a, ["next"]);
+    expect(plain.err).toBeNull();
+    expect(plain.out[0]).toMatch(/^You are agent-[0-9a-f]{4}, tier mid\.$/);
+    expect(plain.out[1]).toBe("Item: laws-s");
+    const name = /^You are (\S+),/.exec(plain.out[0])![1];
+    expect(onOrigin("main", `${ITEM}/laws-s.md`)).toContain(
+      `Claimed by next for ${name} (tier mid)`,
+    );
+    expect(
+      JSON.parse(onOrigin("main", `docs/pool/agents/${name}.json`)),
+    ).toMatchObject({
+      name,
+      tier: "mid",
+      as: "",
+    });
+    const said = pool(b, [
+      "check-in",
+      "--as",
+      "Claude Opus 5.5 in Claude Code",
+    ]);
+    expect(said.out[0]).toMatch(
+      /^You are opus-[0-9a-f]{4}, tier top \(Claude Opus 5\.5 in Claude Code\)\.$/,
+    );
+    const top = pool(b, ["next"]);
+    expect(top.out[0]).toBe(said.out[0]);
+    expect(top.out[1]).toBe("Item: laws-o");
+    const opus = /^You are (\S+),/.exec(top.out[0])![1];
+    expect(onOrigin("main", `${ITEM}/laws-o.md`)).toContain(
+      `Claimed by next for ${opus} (Claude Opus 5.5 in Claude Code, tier top)`,
+    );
+    expect(onOrigin("main", `docs/pool/agents/${opus}.json`)).toContain(
+      '"tier": "top"',
+    );
+    // The same agent's next claim files no second card.
+    expect(pool(b, ["next"]).out[1]).toBe("Item: laws-o2");
+    expect(
+      git(
+        clones[0],
+        "ls-tree",
+        "--name-only",
+        "origin/main",
+        "docs/pool/agents/",
+      )
+        .split("\n")
+        .filter(Boolean).length,
+    ).toBe(2);
   });
 });
