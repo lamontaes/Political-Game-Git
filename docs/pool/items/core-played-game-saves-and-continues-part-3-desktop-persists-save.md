@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from core-played-game-saves-and-continues in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The packaged desktop app runs the bench through desktop/play-api-host.mjs and must keep the life across quitting and reopening. It writes its save where the operating system keeps app data and reads it through the same saves.ts path as the bench, not a second writer. This is part 3 of core-played-game-saves-and-continues.

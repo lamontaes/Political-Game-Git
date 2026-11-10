@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The opening's last beat at home casts the player and the household, but in some drawn places the home picture draws nobody. src/bench/montage.test.ts fails with "home: expected 0 to be greater than 0" in Brighton, Colorado (0808675, run seed lane4-open-a), Agat, Guam (run seed lane4-open-b:a) and St. Johnsbury, Vermont (5062125, run seed lane4-open-b:b), found by Lane 4 on Nov 4. The likely reason is that the home backdrop had no mannequin plate, so staging placed nobody. Home plates now exist, but the owner ruled on Nov 10 that staging defects wait while busts are coming, so this item holds until he decides how busts are shown.

@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** The candidacy chooser gives a named adult a cause term (up to 2, from a recorded cause drive) and a time term (their work hours). A counted adult's record holds no drives, so their cause is always zero, and the unplaced workers among them have no work commitment, so their time term is zero too. In 18 played towns no counted adult was drawn to run at the calibrated settings; every challenger came from the 80 to 100 named adults. A counted adult should weigh running by the same terms, times their count.

@@ -16,6 +16,7 @@ lead: governing
 root: none
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** startPublicJob (src/core2/public-payroll.ts, stopgap SG-GOV-officer-stipend-hours) cuts a post's hourly rate to fit its budget line but keeps the full 8.5-hour public-office week, so Prescott, Michigan's planning director holds an 8.5-hour day at about $1.07 an hour. The pay in total is right; the hours and the hourly rate are not. The minimum wage now skips these posts by law (PR 6190), so nothing breaks, but the schedule, the hourly rate and the work the post attends do not match a part-time stipend.

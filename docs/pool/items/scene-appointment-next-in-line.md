@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** When the executive makes an appointment, the person ranked second among the five the executive weighed comes to them the day it is recorded and asks how it came out. The executive answers one of four ways: tell the reason, offer the next post, close the door, or ask what the visitor would have done. The scene says only that the visitor was weighed, since the records rank who was weighed and hold no application. The packet and drafted lines are on main; no situation type exists for the passed-over visit.

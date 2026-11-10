@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from research-start-law-remaining-2025-phases in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Source the phase in force on January 20, 2025 for the county, city and some state minimum-wage tiers that the opening still carries back from January 2026. Read each tier's wage and its effective date from the published schedule, quote it, and write the 2025 phase the same way the other tables were written. The part is done when the series no longer reaches the opening's law rows.

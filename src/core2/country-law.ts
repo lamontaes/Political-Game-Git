@@ -4,7 +4,11 @@
  * one rule, two tiers. The caller says how a state's law on a series is read (the laws module's
  * `stateLawInForce` in play); answers are kept for the month this reader lives.
  */
-import type { CountryLaw, CountryState } from "./country-model";
+import type {
+  CountryLaw,
+  CountryState,
+  CountryWithheldLine,
+} from "./country-model";
 import { unemploymentTermsOf } from "./jobs-benefits";
 import { withholdingFor } from "./budgets-treasury";
 import { resolveLawInForce, type LawInForceAnswer } from "./laws-in-force";
@@ -43,20 +47,49 @@ export function countryLaw(
     withheld(state, payYear) {
       // One paycheck for the year: the percentage method gives the year's tax, the wage base and
       // the added Medicare rate apply to the year's pay.
+      const income = law(state, "income-tax");
       const lines = withholdingFor({
         paidMinor: Math.round(payYear * minor),
         periodDays: DAYS_PER_YEAR,
         yearToDateMinor: 0,
-        incomeTax: law(state, "income-tax"),
+        incomeTax: income,
         socialSecurity: law(state, "social-security-tax"),
         medicare: law(state, "medicare-tax"),
       });
       let toState = 0,
         toNation = 0;
-      for (const line of lines)
+      const byLaw = new Map<string, CountryWithheldLine>();
+      // An income tax row in force that withholds nothing (a rate ended at zero) is still the
+      // law read: it is listed at zero, so a trace names the row that changed.
+      for (const level of income.levels)
+        if (
+          level.row &&
+          !level.setAside &&
+          (level.level === "state" || level.level === "federal")
+        )
+          byLaw.set(level.row.id, {
+            lawId: level.row.id,
+            level: level.level,
+            dollars: 0,
+          });
+      for (const line of lines) {
+        if (line.level !== "state" && line.level !== "federal") continue;
         if (line.level === "state") toState += line.minor;
-        else if (line.level === "federal") toNation += line.minor;
-      return { state: toState / minor, federal: toNation / minor };
+        else toNation += line.minor;
+        const kept = byLaw.get(line.lawId);
+        if (kept) kept.dollars += line.minor / minor;
+        else
+          byLaw.set(line.lawId, {
+            lawId: line.lawId,
+            level: line.level,
+            dollars: line.minor / minor,
+          });
+      }
+      return {
+        state: toState / minor,
+        federal: toNation / minor,
+        lines: [...byLaw.values()],
+      };
     },
     salesTaxRate: (state) =>
       (atLevel(law(state, "sales-tax"), "state") ?? 0) / hundred,

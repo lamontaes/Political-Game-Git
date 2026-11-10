@@ -17,6 +17,8 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** A territory's prior elections (its delegate and governor) count only the town's own ballots, since territories cast no presidential vote to scale from (stopgap `SG-CORE-past-territory-ballots`). The replacement data exists only as estimates from web summaries, not certified returns. Replace the estimates with each territory's certified 2024 delegate and governor returns, recording the deciding-round winner and share separately from first-round totals (PR #5747 was sent back because it called the largest first-round candidate the winner of a runoff), and read them in place of the town's ballots.

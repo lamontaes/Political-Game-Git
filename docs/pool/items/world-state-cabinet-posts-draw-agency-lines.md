@@ -17,6 +17,7 @@ root: none
 source: words-and-scenes helper D, Oct 27, from scenes-from-life episode budget-cut-department-head
 lead: laws-effects
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A town's department heads are matched to a budget line by the post-line table (police chief to police, fire chief to fire, public works to highways), so a cut to that line has a person to argue it. A state cabinet post has no such entry: every post that is not a town post falls to the general administration line, so a cut to a state agency's line has no head, and the governor's version of the department-head scene cannot be cast. Give each state cabinet post the state spending line its agency's pay draws on, sourced from the Census function codes already cited in the table, and the county executive's posts the same.

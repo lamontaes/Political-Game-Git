@@ -3204,22 +3204,6 @@ details.entry[open] {
 .split-screen.single .split-body {
   grid-template-columns: minmax(0, 1fr);
 }
-/* Issues: the subjects on a rail, a search beside them, one subject's law cards
-   paged inside a plate (owner, Oct 29). */
-.issues-screen .split-controls {
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.issues-screen .issue-subjects {
-  flex: 1 1 auto;
-  margin: 0;
-}
-.issues-screen input[type="search"] {
-  flex: 0 0 240px;
-}
-.issue-plate {
-  margin: 0;
-}
 /* One law's page: its name over the plates. */
 .law-page .split-controls .heading {
   margin: 0;
@@ -5003,20 +4987,37 @@ select.release-pick {
   white-space: nowrap;
 }
 
-/* Issues (pl-issues): subjects, then a subject's laws, then the law's page. */
-.issues-screen,
+/* Issues (pl-issues): three filters (level, in force, subject) over the laws, then the
+   long list of laws beside the chosen law's page. */
+.issues-screen {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 1180px;
+  max-width: 100%;
+}
+.issue-filter-row {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+}
+.issue-filter-row > span {
+  color: var(--text-strong);
+}
+.issue-filter-row .tab-rail {
+  margin: 0;
+}
+.issue-filter-row select.issue-filter {
+  justify-self: start;
+  min-width: 260px;
+}
 .issues-laws {
   width: auto;
   max-width: 100%;
-}
-.issues-screen {
-  width: 1180px;
-  grid-template-columns: 250px minmax(0, 1fr);
-}
-.issues-laws {
   grid-template-columns: 270px minmax(0, 1fr);
 }
-.issues-screen .roster-row span {
+.issues-laws .roster-row span {
   min-width: 1.5em;
   text-align: right;
 }

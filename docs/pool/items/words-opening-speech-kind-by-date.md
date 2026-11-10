@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc4-hand-written-words
+checked: fable 2026-11-10
 ---
 
 **What.** Owner, Oct 29 02:35 UTC (OWNER-DECISIONS): the inaugural on Inauguration Day, the State of the Union in its season, and otherwise a televised address to the nation from the Resolute desk in the Oval Office; this replaces the rule that every non-inaugural opening is a State of the Union. Today composeOpeningStory in src/director/opening-story.ts picks inaugural or state-of-the-union only, and the opening-speech bank (data/english/parts/opening-speech.json) has words for those two kinds. Every game starts January 20, 2025 (owner, Oct 14), so play shows the inaugural; the rule matters once an opening falls on another date.

@@ -4,7 +4,7 @@ title: "The causes the justice incident producer needs: a patrol-hours record fr
 area: world
 kind: feature
 priority: 3
-size: L
+size: S
 status: blocked
 standard: 2
 claimed-by: claude/police-patrol-causes
@@ -12,11 +12,12 @@ pr:
 after:
 blocked-on: world-police-patrol-and-grievance-causes-part-1-patrol-hours, world-police-patrol-and-grievance-causes-part-2-grievance-record, world-police-patrol-and-grievance-causes-part-3-readers
 lead: laws-effects
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: design-movements-and-unrest
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:01:01.986Z
+checked: fable 2026-11-10
 ---
 
 **What.** gov-justice-incident-producer asks incidents to arise from a town's patrol hours, its crime outcomes and two people's recorded grievance. The crime measure now exists (src/core2/modules/crime.ts keeps monthly victimization rows by place with the web's index), so what is missing is patrol hours and a grievance record. No module records patrol hours (the police department is staff and a budget line), and no engine writes a grievance between two people (only recalls reads the word). Build the two as records other engines write and read: patrol hours from the police department's staffing and the budget line, and a grievance record written by the engines that already create conflict (a dispute over a business, a rent, a bill), then give the incident producer one way to read all three. Household firearm ownership already exists in src/core2/firearm-ownership.ts.
@@ -25,7 +26,7 @@ claimed-at: 2026-10-20T06:01:01.986Z
 
 **Fix.** Record patrol hours from the police department's staffing and budget line, and a grievance record written by the engines that already create conflict, each read by another engine; the crime measure already exists. Built in three parts: patrol hours, grievance, and the one read the incident producer uses.
 
-**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the three parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** No dice: a measure moves from the place's recorded conditions, never a roll. An effect is a read, not a record: each record must be read by another engine the day it decides. Estimate, never UNKNOWN: a town starts from the real average with a per-world spread. One model, two tiers: counted groups carry the same measure times their count. One rule, all 56 places.
 

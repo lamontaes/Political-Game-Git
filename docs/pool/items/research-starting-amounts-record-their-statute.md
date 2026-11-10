@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Of 1,259 starting-law amount rows (src/core2/data/laws/starting-law.json), none carries terms.cite; only the 49 local-minimum-wage-authority rows and the policy answers do, and that structured field is what Issues shows and, after laws-bill-section-cites-research-source, what a bill section amending a starting law cites. Most amount rows name a web page or a survey as their source, but some begin with the statute itself (26 U.S.C. 11(b) for the corporate income tax, 26 U.S.C. 3101(a) for the Social Security tax, Ky. Rev. Stat. 140.070 for Kentucky's inheritance tax, Md. Code, Tax-General 7-203). The owner's ruling keeps laws in force as the real starting law, citations included (OWNER-DECISIONS: realistic, not real, for every statistic unless it is in law), so each row whose law has a code section should record it as data, read from the statute, never parsed from the source text at run time.

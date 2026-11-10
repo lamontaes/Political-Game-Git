@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The partner-with-federal-immigration-enforcement question is flagged as a state-set rule (preempts) in 16 places: CA CT DC DE FL GA IL MD ME NJ NM NY OR TN TX WA. The flag fits both directions, but the question is narrower than the first report assumed: it covers 287(g) agreements only (an answer "yes" means state law requires local police and sheriffs to hold one, and preempts true on a "no" means state law bars them), so a state statute that forbids local sanctuary limits is a different rule. Arizona (A.R.S. 11-1051(A)) and North Carolina (G.S. 160A-205.2(a)) leave a town free to hold 287(g) agreements, so their flags are right. What is missing is a second catalog question, a town's own sanctuary policy (limiting cooperation), barred in the anti-sanctuary states and required or allowed in the limiting ones, with its own research file. About 13 anti-sanctuary states and CO, RI, VT and MA remain to be sourced.

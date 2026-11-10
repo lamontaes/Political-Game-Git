@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** A town's local election day is one default for its whole state, not a fact about the town. Measured on the Government screen in Blodgett Landing, New Hampshire (a random world; the audit gives no seed): the town votes for selectmen on November 4, and New Hampshire towns vote at town meeting in March. Where a state's law lets each town choose its election season and names no default, the calendar gives every town in that state the one option that the most state packs name, and the town itself is never asked. New Hampshire's pack allows town meeting day in March or the odd-year November election, and every place there gets November. Eighteen of the 51 state packs leave the season to each town this way. Each place's local election day must come from its own data row.

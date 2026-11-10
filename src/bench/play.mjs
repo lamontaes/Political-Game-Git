@@ -19,6 +19,12 @@ import { chamberHeader } from "./ui/chamber.mjs";
 import { memberCard } from "./ui/member-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
+import {
+  ALL,
+  filterLaws,
+  issueFilterScreen,
+  levelChoices,
+} from "./ui/issue-filter.mjs";
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
@@ -362,8 +368,8 @@ let governmentLevel;
 let governmentState = "";
 // The branch the Government tab shows, Legislative or Executive.
 let governmentBranch;
-// The subject the Issues tab shows (Taxes and money, Schools...).
-let issueSubject;
+// What the Issues tab shows: the laws at a level, in force or not, on a subject.
+const issueFilter = { level: ALL, force: ALL, subject: ALL };
 // The party whose officeholders the Parties tab shows.
 let partyTab;
 let guideQuery = "";
@@ -5120,56 +5126,63 @@ const sheets = {
         ...(votes.length ? [stripSection(4, labels.votes, ...votes)] : []),
       ];
     };
-    // Subjects at the left with how many laws each holds; a subject's laws beside it with
-    // the law now in force; the chosen law's page at the right (the Nov 8 mock).
+    // Three filters over the one list of laws: level, in force and subject. The list is the
+    // long-list box beside the chosen law's page (the Nov 8 mock); the filters read the law rows.
+    const fw = labels.issueFilter;
     const order = Object.keys(labels.issueGroups ?? {});
     const byName = (a, b) =>
       policyLabel(a.series).localeCompare(policyLabel(b.series));
-    const subjects = new Map();
-    for (const law of v.law) {
-      const key = groupOf(law.series);
-      if (!subjects.has(key)) subjects.set(key, []);
-      subjects.get(key).push(law);
-    }
-    const keys = [...subjects.keys()].sort(
-      (a, b) => order.indexOf(a) - order.indexOf(b),
-    );
-    if (!keys.length) return [prose(labels.noIssues, "record-empty")];
-    return rosterScreen({
-      title: labels.subjects,
-      className: "issues-screen",
-      chosenKey: keys.includes(issueSubject) ? issueSubject : keys[0],
-      groups: [
-        {
-          entries: keys.map((key) => ({
-            key,
-            label: labels.issueGroups?.[key] ?? words(key),
-            aside: String(subjects.get(key).length),
-            subject: key,
-          })),
-        },
+    if (!v.law.length) return [prose(labels.noIssues, "record-empty")];
+    const subjectKeys = [
+      ...new Set(v.law.map((law) => groupOf(law.series))),
+    ].sort((a, b) => order.indexOf(a) - order.indexOf(b));
+    const levelWord = (level) =>
+      (fw.levels?.[level] ?? words(level)).replaceAll(
+        "{level}",
+        v.homeState?.levelWord ?? "",
+      );
+    const choices = {
+      level: levelChoices(v.law).map((key) => [key, levelWord(key)]),
+      force: [
+        ["in", fw.inForce],
+        ["not", fw.notInForce],
       ],
-      render: async (entry) => {
-        issueSubject = entry.subject;
-        const laws = [...subjects.get(entry.subject)].sort(byName);
-        return rosterScreen({
-          title: entry.label,
-          className: "issues-laws",
-          groups: [
-            {
-              entries: laws.map((law) => ({
-                key: law.series,
-                label: policyLabel(law.series),
-                aside: valueText(law) ?? "",
-                data: { series: law.series },
-                law,
-              })),
-            },
-          ],
-          render: (lawEntry) => lawPage(lawEntry.law),
-        });
-      },
-    });
+      subject: subjectKeys.map((key) => [
+        key,
+        labels.issueGroups?.[key] ?? words(key),
+      ]),
+    };
+    const draw = (list) => {
+      const laws = filterLaws(v.law, issueFilter, groupOf).sort(byName);
+      list.replaceChildren(
+        ...(laws.length
+          ? rosterScreen({
+              title: controls.titles.issues,
+              className: "issues-laws",
+              groups: [
+                {
+                  entries: laws.map((law) => ({
+                    key: law.series,
+                    label: policyLabel(law.series),
+                    aside: valueText(law) ?? "",
+                    data: { series: law.series },
+                    law,
+                  })),
+                },
+              ],
+              render: (lawEntry) => lawPage(lawEntry.law),
+            })
+          : [prose(fw.none, "record-empty")]),
+      );
+    };
+    return [
+      issueFilterScreen({
+        words: fw,
+        choices,
+        state: issueFilter,
+        draw,
+      }),
+    ];
   },
 };
 // Screens shown as tabs across the top of one menu screen.

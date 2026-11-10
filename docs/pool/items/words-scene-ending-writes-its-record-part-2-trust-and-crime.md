@@ -16,6 +16,7 @@ effort: medium
 root: design-story-director
 source: split from words-scene-ending-writes-its-record in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** Endings that keep "trust-lost" (16 endings) and the bribe endings (bribe-taken, bribe-reported, bribe-refused, bribe-promised, bribe-pending) write only a label. Make them write the trust change and the crime row through the writers the relationship, corruption and crime modules already have. The records are then read by the engines that decide trust and charges.

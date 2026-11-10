@@ -16,6 +16,7 @@ effort: medium
 root: rc9-place-facts-one-default
 lead: laws
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The law history (src/core2/past-laws.ts) gives every policy answer in force at the opening an enactment date drawn between 1 and 20 years before day one (pastUndatedLawAgeYearsLow and High, SG-CORE-past-undated-law-age), so a 1947 right-to-work law reads as passed in the 2000s and a 2023 Medicaid expansion can read as fifteen years old. Research the enactment year of each starting-law policy answer for all 56 places into a table keyed by policy question and postal code, starting from data/research/core/state-law-adoption-dates-2025.json, which already holds Medicaid expansion and right-to-work. Then have the law history read that year in place of the seeded age, keeping a seeded range only for answers the research could not date, marked ESTIMATED with its reason.

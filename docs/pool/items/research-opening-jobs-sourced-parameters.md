@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the opening's jobs, workgroups and pay calendars. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The pay-calendar row is nearly sourced: the 44 pay-frequency weights (`openingPayrollBls*Weight`) already come from BLS, and the BLS Current Employment Statistics 'Length of pay period' page (https://www.bls.gov/ces/publications/length-pay-period.htm, February 2023: weekly 27.0, biweekly 43.0, semimonthly 19.8, monthly 10.3 percent of establishments) is the newer source to check them against. What stays estimated is the phase span, the period-end lag and the boundary days. Coworker groups and the job mix need mechanics, not numbers, and stay registered.

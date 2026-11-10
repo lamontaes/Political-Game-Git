@@ -17,6 +17,7 @@ root: rc9-place-facts-one-default
 source: "Helper B, Oct 27, episode docs/design/scenes/from-life/concession-call-received.md"
 lead: laws
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A loser's real choice after a close count is to concede, wait for certification, or ask for a recount, but the elections engine keeps no record of a recount or a contested count. A scene where the loser says they will not concede yet has no outcome beyond a tag. Real cases show this branch: a trailing candidate withdrew a concession half an hour after making it when the count narrowed, and others say they will speak when the county certifies. Add a contested-count record opened from the loser's own decision, the place's recount law and the margin, and let certification close it.

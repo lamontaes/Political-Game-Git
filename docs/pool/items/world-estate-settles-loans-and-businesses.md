@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** SG-CORE-estate-cash-only: an estate pays a dead person's cash, counted relatives now inherit, savings are on the way and the home is sold by world-estate-sells-the-home, but a loan they owed or held is not settled by probate. The Oct 21 check narrowed this item: a business whose owner dies is already handed on in src/core2/modules/business.ts ("an owner who has died, hands it on"; an heir or household takes it on, or the household closes it), and src/core2/estates.ts already pays a dead person's unpaid contract arrears from the estate before heirs (payDebts, Uniform Probate Code 3-805). What is left is the unpaid principal of a loan they owed through a credit facility, which is not a standing contract with arrears, and a loan they held. Loans should be paid from the estate before heirs.

@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind the deep past, peer networks, profiles and partnerships. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The ACS 2023 table-based files were fetched on Oct 20 (see Notes). The spouse age gap (ESTIMATED), both school offsets (SOURCED) and the peer group size spread were delivered earlier. Still open: all six rows, because each still fakes something a number cannot fix. SG-P15-partnership-model waits on art-stopgap-opening-partnership-estimated-behavior, SG-P8-civic-inputs on core-stopgap-civic-inputs-civic-data-vintage-and-permission, SG-P8-deep-past on core-deep-past-school-place-from-birthplace, SG-P15-kin-light-past on core-deep-past-kin-past-on-fill-in, SG-P8-opening-peer-network (recognition never fades) on people-peer-recognition-fades, and SG-P15-opening-profile on core-opening-profile-attainment-from-schooling.

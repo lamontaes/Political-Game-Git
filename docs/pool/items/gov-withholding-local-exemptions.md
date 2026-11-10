@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone:
 source: split from gov-stopgap-budgets-assumed-data by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** A county or city flat income tax on a paycheck is taken on the gross pay when the law row's base is wages or AGI, and after the standard deduction only when the base is taxable income, because the law rows name the base but carry no exemption or adjustment amounts. Research the personal exemption or allowance each local income-tax row allows (with its source), add it to the row as `terms.personalExemption` (dollars a year, per person) next to the existing base, and read it in `withholdingFor` so the local tax is the rate times pay less the exemption, spread over the pay periods. This replaces the registered stopgap SG-WORLD-withholding-local-base.
@@ -36,3 +37,5 @@ source: split from gov-stopgap-budgets-assumed-data by pool feeder Oct 20
 **Files.** src/core2/modules/budgets.ts, src/core2/tax-withholding.ts, src/core2/data/laws/starting-law.json, src/core2/tax-withholding.test.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Oct 20 (pool feeder): split from gov-stopgap-budgets-assumed-data. CTO call recommended: pre-tax deductions are not built (game, not spreadsheet); the row is narrowed to name them.
+
+**Notes (Fable's check, Nov 10).** This item also covers what is left of gov-standin-withholding-residence (proposed drop): the working town's local tax withheld on its own base, with the local law rows' exemptions and adjustments, and SG-WORLD-withholding-local-base resolved.

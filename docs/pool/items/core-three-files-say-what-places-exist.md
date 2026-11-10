@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, "Duplicate systems worth merging", item 8)
+checked: fable 2026-11-10
 ---
 
 **What.** Three files in src/core2 each say what places exist. `place-lookup.ts` (about 24,000 bytes) answers a place by key or jurisdiction id, the state identities and the place search (`corePlaceByKey`, line 400; `searchCorePlaces`, line 657) from the Gazetteer lists, the territory list and data/places/place-lookup.json. `places.ts` is the core's own place listing, the 56 jurisdictions and every locality in each (`placeStateKeys`, line 59; `placeLocalities`, line 128). `place-map.ts` calls itself "the one place map" (`allPlaces`, line 60; `placeRow`, line 65) and itself imports three functions from `place-lookup.ts`. By a search on Nov 10, 212 files import the first, 62 the second and 63 the third. Fix with no behavior change: one module and one data file answer what places exist and where each sits, the other two are folded into it and deleted, and every importer reads the one.

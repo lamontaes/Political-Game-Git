@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** A person who carries a weapon applies for a permit where the law requires one, and the sheriff's decision reads the permit law in force and the applicant's record: issued, refused with the reason, or not needed where permitless carry is law. A carried weapon without a permit where one is required becomes an incident record. The permit, the refusal and the reason are records the applicant can be told about. This waits on the incident producer, which is itself blocked.

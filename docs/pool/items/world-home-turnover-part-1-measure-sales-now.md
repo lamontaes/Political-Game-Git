@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: split from world-home-turnover in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The item world-home-turnover was measured on Oct 17, before home sales for owners who leave or die existed: West Hammond, New Mexico wrote 0 sales and 0 purchases among 860 owner households and Epping, New Hampshire 1 sale among 1,226. Since then src/core2/housing-sale.ts (sellHome) sells a home when its owners leave town or die, and the sale row is kept by the housing ledger. Measure again what a played year writes today, so the remaining work is known: sales by reason (leave, death, move), purchases by who bought, and homes that should have changed hands and did not. Fix any owner who leaves, dies or moves and writes no sale row.

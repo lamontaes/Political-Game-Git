@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Confirmer replay of #7239's unit on main 7898b3ea2c: npx vitest run src/core2/elections-law.test.ts fails 'the filing announcement's tag follows the contest's basis; a next contest points at the serving term' in Waimea, Hawaii (US-HI, seed e7e4517e988c, its own draw) and again with GOLDEN_PATH_SEED=e7e4517e988c, which drew Durham, New Hampshire (US-NH): 1 failed, 17 passed. The assertion lists contests from 2026 to 2030 (president 2028-11-07, U.S. Senate 2030 and 2028, U.S. House 02 2026). #7239 (Alabama towns vote in 2025) last changed this test.

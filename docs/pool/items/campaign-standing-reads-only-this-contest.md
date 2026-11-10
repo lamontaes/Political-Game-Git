@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** `contestStanding` in src/core2/campaign-day.ts sums every cause row of each candidate on the ballot, from every race they ever ran, not only this contest's, so a candidate who ran before starts a new race with the old one's reach counted. The speed lead found it while folding closed races' cause rows on Oct 30. Standing should be read from this contest's own causes.

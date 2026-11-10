@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc9-place-facts-one-default
 source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The independent-redistricting law decides who holds the pen: the legislature, an independent commission or the council. A plan is built for a drawn place by that drawer from the new count and the neighborhood data, with the choice among printed plans and its reasons kept. It comes from the stubs gov-redistricting-who-draws and gov-redistricting-plan-builder.

@@ -11,11 +11,12 @@ claimed-by:
 pr:
 after:
 blocked-on:
-lead: fable
+lead: cto
 model: sonnet
 effort: low
 root: design-guards
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Pointing the zero-dice guard at src/core2 in full found seeded draws compared with a threshold in the opening's generation of who exists (citizenship.ts, nativity.ts, deep-past.ts, given-name-cohorts.ts, person-identity.ts, opening-kin.ts, opening-partnership.ts, town-households.ts). Seeded generation of who exists is allowed by the no-dice rule, but the guard records a roll with only an owner, not the class and reason a list-pick carries. Give the guard's roll entries the same class (GENERATION) and a one-line reason, or rewrite a draw that decides what someone does.

@@ -12,10 +12,11 @@ pr:
 blocked-on: world-disasters-from-conditions-part-1-damage-to-named-buildings, world-disasters-from-conditions-part-2-repairs-and-insurance-over-months, world-disasters-from-conditions-part-3-aid-on-real-obligation-dates, world-disasters-from-conditions-part-4-close-the-stopgap
 after:
 lead: laws-effects
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: rc1-world-outside-town
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/modules/disasters.ts makes disasters from FEMA declarations on their real dates and, after the records end, from the county's weather (hazardRate): a disaster happens the month the exposure holds one more whole one. What it does not do is damage businesses, public buildings or people, repair anything over time or pay assistance over its real obligation dates; the assistance is a lump to the counted residents. The owner ruled Oct 16: both FEMA's records and the world's own conditions, and the game keeps making its own weather after the records end. Build damage to named households and businesses, repairs and insurance over time, and assistance over its real obligation dates, reading the existing hazard records.

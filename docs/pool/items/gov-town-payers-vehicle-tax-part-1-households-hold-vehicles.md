@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: split from gov-town-payers-vehicle-tax in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** No household record holds a vehicle, so no vehicle tax can read one. Give every household a vehicle count drawn from the Census vehicles-available counts by household size and tenure, an estimate with a spread, and keep the count where the household's other records live. A counted household carries the same count per member of its group, so a clicked counted household shows the number its group stands on. This is data and a record only; the tax is the next parts.

@@ -4,7 +4,7 @@ title: "Bills are routed and committees seated from each chamber's own committee
 area: gov
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,9 +14,10 @@ milestone:
 source: split from gov-stopgap-legislature-committees-assumed-data by pool feeder Oct 20
 lead: governing
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** Bills are routed and committees seated from one national list of nine committees for every chamber. Change the committee reader so `committeeForSection`, `COMMITTEES` and `committeeTopics` take the chamber (its jurisdiction key and kind) and read that chamber's own committee list from a new `chamber-committees.json` (committee id, display name key, the catalog topics, law series and budget lines it hears), falling back to the national nine in `committees.json` for a chamber with no row. Pass the chamber through `committeeFor` in the legislature module and the seating loop in the leadership module, whose cap uses `COMMITTEES.length`. For Congress, build the list from `src/core2/data/office-day/federal-committees.json` using each real committee's jurisdiction questions. The work is split into four parts, each its own item.
@@ -25,7 +26,7 @@ root: rc9-place-facts-one-default
 
 **Fix.** Land the parts in order: part 1 makes the reader take the chamber and fall back to the nine, part 2 builds Congress's list from the federal file, parts 3 and 4 add the sourced state and territory chamber rows. The global `COMMITTEES` constant is deleted in part 1 and the stopgap marker stays until part 4.
 
-**Time box.** 2 hours for one opus session to hand the four parts out and check them in; each part carries its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Replace, never layer: one reader takes the chamber and the global `COMMITTEES` constant is deleted, with no parallel router beside it. One rule, all 56 places: the reader names no chamber, and the data decides. An effect is a read, not a record: the routed committee is the one the leadership engine seats and whose members vote, so a different list changes a roll call. No hand-written player text: committee names are data keys that the English engine words. Speed: look the chamber's list up once per session, never scan per bill per day.
 

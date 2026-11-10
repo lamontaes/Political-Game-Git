@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** On clean main (87f5634c92, Oct 29 01:30 UTC) two tests fail on drawn seeds. src/core2/death-cause.test.ts with DEATH_CAUSE_SEED=9c7ce4dc6075f587 (Kingston, Rhode Island): 'assigns causes by record, and the shifted links raise the right causes at the right ages' fails with "expected 'other' to be 'drug-overdose'". src/core2/death-cause-firearm-homicide.test.ts with FIREARM_HOMICIDE_SEED=0ca4bee1b70dbf0c (Malaeloa/Ituau, American Samoa): 'moves the cause's share and every person's death hazard' fails with "expected 1 to be close to 1.1664", so a person's hazard read no firearm homicide factor there. Found by the laws session's mortality helper and confirmed on main; other seeds pass, so either can turn a PR's run red.

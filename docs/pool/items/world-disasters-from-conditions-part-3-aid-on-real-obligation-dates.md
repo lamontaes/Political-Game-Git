@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc1-world-outside-town
 source: split from world-disasters-from-conditions in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Assistance for a disaster is paid in full on the declaration day from the Treasury outside account the game already keeps. Pay it over its real obligation dates to every kind of applicant (households, the county and town governments, businesses) from a federal disaster account of its own, so aid arrives when the rules say and not in one lump.

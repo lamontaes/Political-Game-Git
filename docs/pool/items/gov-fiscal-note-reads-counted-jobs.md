@@ -16,13 +16,14 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** A wage bill's fiscal note counts only full people's open work commitments paid under the new floor. It never reads the counted jobs of the modeled wider population, so in a two-level town the note undercounts the workers and the yearly pay a raise reaches. It also walks every commitment in the world rather than the jobs in the drafting body's own place, and the note's words (town jobs paid under the new floor, no pay effect) are typed in code rather than worded by the English engine.
 
 **Cause.** Found in code: `src/core2/modules/legislature.ts` `employerCosts` (line 740) and `costOf` (line 1652) count only full people's commitments; `countedJobsOf` in `src/core2/modules/jobs.ts` is never read there.
 
-**Fix.** Add the counted jobs of the body's own place paid under the new floor to the note (by count and row id), restrict the commitments to the body's place, and word the note through a bill-paper bank line in `data/english/parts/bill-paper.json`.
+**Fix.** Add the counted jobs of the body's own place paid under the new floor to the note (by count and row id), restrict the commitments to the body's place, and word the note through a bill-paper bank line in `data/english/parts/bill-paper.json`, which Story writes (every line in data/english/parts/ is Story's, owner's ruling of Nov 10): send the Words line the facts the line must carry and build against the key it gives back.
 
 **Time box.** 4 hours for one sonnet session.
 

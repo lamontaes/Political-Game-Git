@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The law matrix keeps one run per law and place, so a link that needs a longer window is graded from a hand-merged file. A later run file replaces an earlier one, yet some links need a longer window than the rest: an outcome link with a months-long lag needs a long run, and the knowing link reads hearers inside the window. So on Oct 24 the rights-env family graded its web links from composite "weblag" files that join two runs by hand, and the matrix cannot say which run proved which link. Three narrower faults are folded in: a counted group that stands for no one counts as reach, a 12-month outcome link misses a 365-day run by one day, and the matrix grades reach over run places that have no subject for the law.

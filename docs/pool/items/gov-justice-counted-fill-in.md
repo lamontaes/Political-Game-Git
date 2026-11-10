@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** When the player meets or clicks a counted adult and the core fills them in as a full person, make their justice record match what the group already says. If the group row shows 3 people serving a sentence, 2 awaiting trial and 11 with a past conviction, the filled-in member is assigned one of those states by their own id (seeded, the same person every time), and their case, sentence and custody rows are written from the group's case rows with the law, dates and charge already recorded; a member the group counts as never charged gets no case. This item also carries the combined acceptance of the dropped roll-up gov-justice-counted-cases: all three counted parts in one year, with a filled-in adult matching the group rows.

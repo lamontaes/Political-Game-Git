@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** In renewal.test.ts "where a restriction is law, the miles it adds to a counted household's trip are money its counted group paid under it" (seed 11, place 5400748 US-WV, world seed 3a11d3ee580c5255465b4fb37d44d2642f0dc00395923edbabc1c910c54594cc) a counted woman (person_579a712ae38ca2ec, 2025-08-01) decides to end a pregnancy: births-counted.ts reads cash as the sum of her record's people liquidMinor (193724) against a trip of 4728, but countedPayment (counted-money.ts) pays from the group's fund account, seeded once by fundGroups at the opening from the records' cash (scaled down if the place residents account holds less) and drained by the group's later flows. The log at the payment line: group 'group:jurisdiction_69b0188fc557a677:town:with-children:income-0:none:30-44:not-working', moved 0, stands 1, lawShare 0.217, lawPaid 0. So the household ends the pregnancy, pays nothing and no trip-lengthened-by-restriction row is written.

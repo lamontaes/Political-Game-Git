@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** In New Richmond, West Virginia (place 5458756, world seed 316714e6a857a0fbf59cec54893baa1a7a979e67ea5fbc4009f891993e48c36b) the trucking firm organization_99dd43244afa92df posts its driver's job on 2025-03-01 (position:organization_99dd43244afa92df:2025-03-01:1, replacing work-relationship_51778e3a54bb829c) and it is still open on 2026-01-20. The only seeker in town is person_66c4ada36c12b1a8, who took the firm on as heir on 2025-03-01 and seeks work from 2025-11-01 (reason demand-below-staff). Find why the seeker does not take the firm's open job, or why nobody else applies, and whether open jobs sit unfilled in other places.

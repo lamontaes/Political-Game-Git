@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from wire-law-links-to-people in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of wire-law-links-to-people. Families 2 to 5 of the Oct 29 effects plan (treasury interest, medical bills, voting relief, jobs pull to work) are unread links: the research exists but no engine reads the measure, so the law's effect stops at a record. Each family is one PR, proven in two drawn places, with the matrices regenerated once.

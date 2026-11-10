@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Once no engine calls the accounts layer's obligation functions, the code that remains is dead: the schedule, settleObligations, the due map and its tests, about 200 lines of src/core2/accounts.ts. Delete it in one change with its tests and the accounts.due journal kind. Show the year did not slow.

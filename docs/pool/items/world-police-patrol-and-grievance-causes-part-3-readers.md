@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-movements-and-unrest
 source: split from world-police-patrol-and-grievance-causes in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Once patrol hours and grievances exist, gov-justice-incident-producer needs one place to read them with the existing crime rows. Add the read functions (the patrol hours of a place and month, the grievances of a person, the crime place-month row) as one small module the producer imports, and prove in a played year that all three return records with ids. This is the third of three parts of world-police-patrol-and-grievance-causes; the producer itself stays in gov-justice-incident-producer.

@@ -17,6 +17,8 @@ root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/modules/credit.ts, kind missing-record"
 claimed-at:
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** The bank holds opening mortgages whose original funding is an unmatched opening liability instead of named customer deposits. The money to back them is in the town, but moving it into deposit records takes it out of people's cash with nothing to offset it on the bank's side, so the offset needs a choice before the code: the ledger's opening-balance entry, or a one-time cut to every household's opening cash in proportion to its savings using a deposit-to-loan ratio from FDIC data with a spread. The choice is a stopgap to register, not a wait. Fund the opening mortgages from deposit records of named and counted households and clear the row.

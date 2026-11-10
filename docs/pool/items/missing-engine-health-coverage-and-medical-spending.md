@@ -4,7 +4,7 @@ title: "Households pay health premiums and medical bills, and a person's coverag
 area: people
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** This is the roll-up for health spending in core2, which had none: living costs carried only drugs and medical supplies. It is built by four items: a coverage record for each person with a monthly premium flow (people-coverage-record-monthly-pass, done), the same coverage share for counted households (people-coverage-counted, done), the BLS Consumer Expenditure health insurance and medical services lines bound to household flows (world-medical-spending-categories, in a PR), and the Medicaid expansion reader that gives eligible adults a coverage record and a lower bill (gov-medicaid-coverage-reader, open). When the last two are done this item is closed by checking the whole chain once in the played world: law row, eligibility, coverage record, premium and out-of-pocket flow, and the household's cash.

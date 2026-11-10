@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The link eitc-to-low-birthweight waits on program.eitc-dollars, and no engine pays an earned income credit yet. Build the credit as a payment made from a household's earnings, then record its dollars as the link's cause and keep low birthweight as the outcome. Estimates and sources go in the parameter table.

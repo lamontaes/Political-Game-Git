@@ -49,6 +49,9 @@
     "chair": "The committee's chair, by name, from the committee's hold record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
     "rivals": "The candidates already on a contest's ballot when the player filed, each said by what their candidacy shows (\"incumbent Ann Lee\", \"Democratic candidate Bo Chen\"), from the contest's filing records.",
+    "building": "The building a precinct votes in, the town government's own, from the voting engine's polling place record.",
+    "precinct": "The number of the voter's precinct, from the voting engine's polling place record (said only where the town has more than one).",
+    "worker": "One of the people who work the voter's polling place that day, by name, from the voting engine's polling place record.",
     "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
     "years": "Whole years a department head has held their post, from the appointment record.",
     "roll": "The count on a presented bill, yes to no, from the vote records.",
@@ -105,7 +108,8 @@
     "spouse": "The name of the person the celebrant married, from the marriage record.",
     "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
-    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results."
+    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record."
   },
   "maxWords": 70,
   "parts": [
@@ -532,6 +536,104 @@
       "origin": "authored",
       "author": "Claude Opus (pool item words-election-day-and-night-scenes)",
       "date": "2026-10-27",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-polls.you-vote-at-building-in-precinct-precinct",
+      "move": "narrate-polls",
+      "kind": "written",
+      "text": "You vote at the {building} offices, in precinct {precinct}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["building", "precinct"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-polling-place-names-the-precinct)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-polls.your-polling-place-is-building",
+      "move": "narrate-polls",
+      "kind": "written",
+      "text": "Your polling place is the {building} offices.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["building"],
+          "excludesFacts": ["precinct"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-polling-place-names-the-precinct)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-polls.you-vote-in-precinct-precinct",
+      "move": "narrate-polls",
+      "kind": "written",
+      "text": "You vote in precinct {precinct}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "polls",
+          "role": "narrator",
+          "requiresFacts": ["precinct"],
+          "excludesFacts": ["building"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-polling-place-names-the-precinct)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "election-day"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-poll-worker.worker-is-working-the-polls-at-your-precinct",
+      "move": "narrate-poll-worker",
+      "kind": "written",
+      "text": "{worker} is working the polls at your precinct.",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "election-night",
+          "key": "election-day",
+          "step": "narrate",
+          "move": "poll-worker",
+          "role": "narrator",
+          "requiresFacts": ["worker"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Director helper (pool item words-polling-place-names-the-precinct)",
+      "date": "2026-11-10",
       "tag": {
         "move": "narrate",
         "key": "election-day"
@@ -62603,7 +62705,7 @@
       "key": "scene-talk.reply-agree.deal-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Deal. Yes.",
+      "text": "Then you have a deal.",
       "uses": [
         {
           "subject": "scene",
@@ -94596,7 +94698,7 @@
       "key": "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "You filed, and we have {cushion} saved. Nobody asked me what the next {remaining} would cost.",
+      "text": "You filed, and nobody asked me first. Can we even afford this?",
       "uses": [
         {
           "subject": "scene",
@@ -94621,7 +94723,7 @@
       "key": "scene-talk.state-ask.say-it-plainly-savings-for-cushion-a-race-of-remaining-where-does-the-money-come",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "Say it plainly: savings for {cushion}, a race of {remaining}. Where does the money come from?",
+      "text": "Say it plainly. Where does the money come from?",
       "uses": [
         {
           "subject": "scene",
@@ -94646,7 +94748,7 @@
       "key": "scene-talk.state-ask.i-m-with-you-i-only-need-to-know-how-we-get-through-remaining-on-savings-that-la",
       "move": "state-ask",
       "kind": "spoken",
-      "text": "I'm with you. I only need to know how we get through {remaining} on savings that last {cushion}.",
+      "text": "I'm with you. I just need to know we can afford this.",
       "uses": [
         {
           "subject": "scene",

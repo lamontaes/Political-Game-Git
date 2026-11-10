@@ -16,11 +16,12 @@ effort: medium
 root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P16, partly fixed)
+checked: fable 2026-11-10
 ---
 
 **What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut): "if you notice, all like the things are changing, like the news outlets, and now it's something about New York bottle deposit. What is going on?" News puts the stories into a map of outlets in the order they arrive, newest first, and opens on the first key, so the paper in front is the outlet of the newest story and the tabs reorder with it. Nothing remembers which paper the player was reading. News should open on the player's own local paper, keep the tabs in one order, and keep the tab the player last chose while the game is open.
 
-**Cause.** Found in code: `news` in src/bench/play.mjs (about line 3824) builds the outlets map in story order (lines 3829 to 3838) and `newsBoard` in src/bench/ui/news-board.mjs opens on `outlets.keys().next().value` (line 20). Read on Nov 10, not measured in the running game; whether the press engine keeps a record of which outlets a household follows was not traced.
+**Cause.** Found in code: `news` in src/bench/play.mjs (line 3830) builds the outlets map in story order (the lines just after) and `newsBoard` in src/bench/ui/news-board.mjs opens on `outlets.keys().next().value` (line 20). Read on Nov 10, not measured in the running game; whether the press engine keeps a record of which outlets a household follows was not traced.
 
 **Fix.** Open on the player's own local paper (the outlet the household's records say they follow, or else the town's outlet; the town's own paper first is the smallest version and is registered as a stopgap), keep one fixed tab order, and keep the tab the player chose while the game is open. A story about another state sits under the national or other-states paper, never in front of the local one.
 

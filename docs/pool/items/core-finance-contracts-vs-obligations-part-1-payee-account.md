@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Finance contracts pay between a person or organization and another, resolved through core.people or core.organizations, while group B law reach pays benefits into a counted group's fund account, which is not an owner's main account. Before group B can move onto finance contracts, a contract needs a payee account (or the fund's owner id with the fund as its settlement account). This part adds that, with its own settlement and journal source kind, and tests it on a fund payee.

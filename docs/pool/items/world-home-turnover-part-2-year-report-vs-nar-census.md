@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: design-one-model-two-tiers
 source: split from world-home-turnover in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Once the pieces of world-home-turnover are built (sales from reasons, buyers taking listed homes, the price index reading sales), measure a played year: sales and purchases per thousand owner households in a drawn place, the first-time-buyer share, beside about 5 percent of owner-occupied homes changing hands (NAR existing-home sales against the Census owner-occupied stock). The check compares totals only. It never picks any household's outcome, and a gap is filed as a pool item only if nothing in the world explains it.

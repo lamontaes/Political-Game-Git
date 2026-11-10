@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: split from people-views-opening-place-type-and-values in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Form the game's 14 values (limited government, collective provision, local control, fiscal restraint, equal treatment, personal liberty, public safety, property rights, environmental stewardship, equal opportunity, tradition, transparency, protection for working people, open competition) for each adult at the opening from their own records (upbringing, faith, schooling, work, place and family), through researched weights, and keep them with the reasons behind each. Stances on issues stay separate records that can drift and disagree with the values. Counted groups carry the same values, times their count. The old core formed these by hand-set weights; the new core forms them nowhere.

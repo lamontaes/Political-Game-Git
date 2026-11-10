@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: split from people-births-ready-couples-conceive-at-once in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Measure how many full births a played year makes against the CDC age-band counts on current main, in three drawn places. Two earlier measurements disagree: births were 1.3 times the expectation in Roche Harbor, Washington, and about ten times too few in three other places (3 births against about 38). On Oct 20 only 3 of 191 active couples planned a child (1.6 percent, age term averaging -2.96), against 12.2 percent a day before. Settle which is true now, so the other parts build on a real figure.

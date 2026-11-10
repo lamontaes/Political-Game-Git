@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: split from gov-town-payers-vehicle-tax in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** No law row sets a vehicle or personal-property tax rate for any of the 56 places, so the tax has nothing to read. Where a sourced statutory rate exists, a law row carries it. Everywhere else the rate is the treasury's budgeted vehicle line divided by the vehicles in its jurisdiction, as the owner ruled, marked ESTIMATED with its source. A household's tax is its vehicle count times the rate.

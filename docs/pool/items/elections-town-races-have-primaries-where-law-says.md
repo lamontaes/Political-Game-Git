@@ -14,6 +14,7 @@ standard: 2
 model: opus
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** Every town or city race in every state is given no primary, though some states hold municipal primaries. `municipal()` in the elections calendar returns `primaryDate: null`, so the clerk says "No primary, just the one election" and a race that has one is grouped as at-large where it should not be. Connecticut's own filing record names a September municipal primary for partisan town elections (`data/research/elections/filing-requirements.json`, US-CT municipalOffice: filing deadline "about 63 days before the September primary"). Other states hold municipal primaries too (partisan city elections, nonpartisan top-two primaries). The rule lives in data by state, read by the voting engine, which holds the primary only when more candidates file than the rule allows.

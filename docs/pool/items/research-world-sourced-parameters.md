@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind opening finance, business compliance cost and credit. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Three rows are open. SG-WORLD-business-compliance-cost can be sourced from Census PACE abatement operating costs by industry. The two opening-finance rows (SG-P8-opening-finance-cadence and the credit minimum loan) need recorded calendars or purchase distributions, or an FDIC range of community-bank personal loan minimums. Keep unreachable ones registered.
@@ -27,7 +28,7 @@ after:
 
 **Cause.** Design: each stopgap row named below is still open in its family file under src/core2/data/stopgaps/ and waits on sourced data. The rule is AGENTS.md "Placeholders" (every shortcut registered, every number tagged SOURCED, ESTIMATED or TUNABLE), and the research is in docs/research/core-parameter-sources-2026-10-12.md.
 
-**Fix.** Source SG-WORLD-business-compliance-cost from Census PACE by industry; the opening-finance rows need recorded calendars or purchase distributions; keep unreachable ones registered. Check the pull request already claimed on the item first.
+**Fix.** Source SG-WORLD-business-compliance-cost from Census PACE by industry; the opening-finance rows need recorded calendars or purchase distributions; keep unreachable ones registered. Pull request #5419, named in this item's header, merged in October and sourced only the small-loan minimum; nothing of this Fix is in it.
 
 **Time box.** 5 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 

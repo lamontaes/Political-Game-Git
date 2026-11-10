@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5708
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** A household's move into a new home has journal and scene words from the English engine. The housing engine writes the move and the director can fire a situation from it, but no banked piece words 'we moved into a new place' for the journal or the scene. Mine and grade pieces for the move from the real home and rent records, and wire them through the English engine so the player reads who moved where and what it cost.
@@ -46,3 +47,7 @@ Looked at Oct 21 (claude, Sonnet, non-Words session): not taken. The two send-ba
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political-game-pool-yucp92-bp last pushed Oct 20; PR #5708 stays open for the next builder).
 
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of world-new-homes-moves-read. The record this item could not find is `housing.moved`, written in src/core2/housing-occupancy.ts (line 383) with the household's members, and read by nothing. world-new-homes-moves-read has that record written to the life record and read by the journal and the director, with Story writing the lines.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Its open question has an answer in the code: a household's move within town is the housing.moved record written at housing-occupancy.ts 383, which nothing reads.
