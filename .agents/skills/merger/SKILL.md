@@ -63,6 +63,14 @@ Several mergers run at once, splitting open PRs by PR number modulo the number o
 
 List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=100'` (all pages). Skip drafts whose body says work in progress.
 
+## 1b. How the desk finds pull requests to gate (CTO, Nov 10)
+
+- Ready means the pull request is no longer a draft. A builder marks it ready with `gh pr ready <number>` or its tool's own button or API.
+- If a tool cannot take a pull request out of draft, the builder posts one comment on it starting with `Ready for the desk:` and the head commit's hash. The desk treats that the same way.
+- The merge desk scans open pull requests whose body names a pool item and gates each one that is ready by either signal, oldest first after the merge-first group (rules, checks and skills).
+- Its `Merge desk: ready #N <sha>` line still goes on issue 7365 for the CTO to merge.
+- A send-back goes on the item's own pull request, not on issue 7365. The pull request is the item's thread (`docs/pool/START-A-BUILDER.md`).
+
 ## 2. For each PR
 
 1. **Base.** Merge into main only a PR whose base is main.
