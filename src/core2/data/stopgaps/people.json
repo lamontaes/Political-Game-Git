@@ -276,5 +276,17 @@
     "addedAt": "2026-11-10",
     "replacement": "The director's impact for the event and the person's traits decide what is kept; the cap is checked against the long-save speed run.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-role-people-have-no-past",
+    "kind": "faked-mechanic",
+    "file": "src/core2/person-life.ts",
+    "line": 1,
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner is one) is made with no past facts and no past records, so their life is empty and their card tells no story until something happens to them in play.",
+    "why": "The life record's first slice reads the pasts that exist; the past passes run only for the town's residents and the people filled in from the counts. Found by the life record's own test in Hewitt, Wisconsin, seed b8f4c36df5632058.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The whole-life past (docs/design/life-record.md, step 2) runs for anyone opened or met, role holders included, by the same passes.",
+    "status": "open"
   }
 ]
