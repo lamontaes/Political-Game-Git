@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination.
 
 Oct 20 (pool feeder): spec written; after world-hiring-discrimination-ban-refusal (which itself waits on world-hiring-bias-reasons and the employer attitude table). CTO call recorded in the report: back pay plus a fine; the fine amount comes from the law row where it carries one, else a registered ESTIMATED parameter sourced to EEOC resolution figures by the builder.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a refused applicant file a civil complaint a commission hears; no screen shows one, and courts come after early access.

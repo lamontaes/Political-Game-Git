@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** The jobs-web wage case is red on main by draw. src/core2/jobs-web.test.ts ('a higher wage factor moves the pay of new postings') failed on clean main (514ebcf9a1, Oct 29) with WEB_LABOR_SEED=c0cb88e1667c71e5, Montrose, Arkansas: 'web labor wage twin: new postings 1->1, pay against the copied job 1.0126->1.0126', so 'expected 1.0125811688311688 to be greater than 1.0429586038961038'. The town posted one job in each world and the web's raised wage factor did not reach its pay. Other seeds pass. Found by the laws session.
+**What.** The jobs-web wage case is red on main by draw. src/core2/jobs-web.test.ts ('a higher wage factor moves the pay of new postings') failed on clean main (514ebcf9a1, Oct 29) with WEB_LABOR_SEED=c0cb88e1667c71e5, Montrose, Arkansas: 'web labor wage twin: new postings 1->1, pay against the copied job 1.0126->1.0126', so 'expected 1.0125811688311688 to be greater than 1.0429586038961038'. The town posted one job in each world and the web's raised wage factor did not reach its pay. Other seeds pass. Found by the laws session. Guards: the jobs-web wage test on main, which is red by draw, and the pay of a new job after a law moves wages.
 
 **Cause.** Needs cause. Measured: WEB_LABOR_SEED=c0cb88e1667c71e5 (Montrose, Arkansas) fails src/core2/jobs-web.test.ts with pay 1.0126 in both worlds. Three candidates, none shown: the posting was priced before the shifted row was read, it copies a job's pay without the factor (src/core2/modules/jobs.ts), or the trial accepts a draw too thin to show the factor.
 
