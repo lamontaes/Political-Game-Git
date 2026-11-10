@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/pool-core-long-run-election-and-term-rows-part-3-played-place
-pr:
+pr: #8273
 after:
 blocked-on:
 lead: speed
