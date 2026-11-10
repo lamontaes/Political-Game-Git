@@ -5,6 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
   MACRO_MODULE,
+  countryOutlook,
   countryStates,
   linkCreditLineToPrime,
   macroCoreData,
@@ -180,6 +181,66 @@ describe("national economy", () => {
       Number(latest.unemploymentPct),
       `${where} ${latest.month}`,
     ).toBeCloseTo((100 * seekers) / (workers + seekers), 6);
+  });
+  it("the outlook is the months the game then lives, and it writes nothing", () => {
+    const seed = `outlook-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2025-01-20", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2025-01-21");
+    const where = `seed ${seed}`;
+    const kept = () => JSON.stringify(api.moduleState("macro").snapshot());
+    const before = kept();
+    const years = 3;
+    const outlook = countryOutlook(api, years * 12);
+    // Read-only: the same tables, the same day.
+    expect(kept(), where).toBe(before);
+    expect(core.date, where).toBe("2025-01-21");
+    expect(outlook.nation, where).toHaveLength(years + 1);
+    expect(Object.keys(outlook.states), where).toHaveLength(56);
+    expect(outlook.monthsWithProblems, where).toBe(0);
+    expect(outlook.moneyDrift, where).toBeLessThan(1e-9);
+    // With nothing else changing, the world then plays the same months.
+    advanceCore(core, "2028-01-31");
+    const lived = new Map(
+      (
+        api
+          .moduleState("macro")
+          .table("months")
+          .rows() as unknown as MacroMonth[]
+      ).map((row) => [row.month, row]),
+    );
+    for (const point of outlook.nation) {
+      const row = lived.get(point.month)!;
+      expect(row, `${where} ${point.month}`).toBeDefined();
+      expect(point.unemploymentPct, `${where} ${point.month}`).toBeCloseTo(
+        row.unemploymentPct,
+        6,
+      );
+      expect(point.inflationPct, `${where} ${point.month}`).toBeCloseTo(
+        row.inflationPct,
+        6,
+      );
+      expect(point.hourlyPay, `${where} ${point.month}`).toBeCloseTo(
+        row.hourlyEarnings,
+        6,
+      );
+    }
+    // Each state's last point is the state as the tier then keeps it.
+    const last = outlook.nation.at(-1)!.month;
+    expect(last, where).toBe("2028-01");
+    for (const state of countryStates(api)) {
+      const point = outlook.states[state.usps]!.at(-1)!;
+      let people = state.children;
+      for (const cell of state.cells) people += cell.people;
+      expect(point.people, `${where} ${state.usps}`).toBeCloseTo(people, 3);
+      expect(point.budgetYear, `${where} ${state.usps}`).toBeCloseTo(
+        state.ledger.budgetYear,
+        0,
+      );
+    }
   });
   it("a higher policy rate raises the long rates the bank quotes, with no draws", () => {
     const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
