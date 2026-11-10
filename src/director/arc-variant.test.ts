@@ -103,6 +103,8 @@ const pressFacts: Record<string, Fact> = {
   "read-town-against": fact("yes"),
   "read-scandal": fact("yes"),
 };
+// What an accusation hands the plain arc's lines (a bill the accuser names).
+const accuseFacts: Record<string, Fact> = { ...generic, bill: fact("Bill 14") };
 // What a colleague's ask for a vote hands the scene: the bill, the bill the
 // asker already voted for (`earlier`) and the reads that came to something.
 const voteFacts: Record<string, Fact> = {
@@ -120,9 +122,11 @@ const factsOf = (family: string) =>
     ? donorFacts
     : family === "press-comment"
       ? pressFacts
-      : family === "ask-vote"
-        ? voteFacts
-        : generic;
+      : family === "conflict-accuse"
+        ? accuseFacts
+        : family === "ask-vote"
+          ? voteFacts
+          : generic;
 
 const everyLine = (node: TreeNode | null, into: string[] = []): string[] => {
   if (!node) return into;
@@ -151,7 +155,9 @@ const compose = (
     {},
     { includeHeld: true },
   );
-  expect(result.kind, `${family}/${variant}`).toBe("composed");
+  expect(result.kind, `${family}/${variant} ${JSON.stringify(result)}`).toBe(
+    "composed",
+  );
   if (result.kind !== "composed") throw new Error("not composed");
   return result.talk;
 };
@@ -218,7 +224,13 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-        } else if (family === "owed-apology")
+        } else if (family === "conflict-accuse")
+          for (const id of ["disclosed", "feud"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else if (family === "owed-apology")
           for (const id of ["apology-taken", "grudge"])
             expect(
               talk.endingCounts[id] ?? 0,

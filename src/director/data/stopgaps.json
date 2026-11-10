@@ -569,7 +569,7 @@
     "kind": "uncalibrated-tunable",
     "file": "src/director/data/arc-variants.json",
     "line": 1,
-    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set; for a donor's ask, the gift against the donor's own year, its share of what others gave, how close the two are, earlier gifts and earlier asks the candidate put off; for a reporter's call, how far the town's shares stand against the member's vote, earlier talks the two had, a quarrel on their tie, stories of scandal against the member, and the reporter's outlet with the bill's level; for an apology owed after a quarrel over a missed payment, whether the quarrel is about money, how close the two are, earlier quarrels between them and the wronged person's own money pressure) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
+    "whatItFakes": "How much each read of the records (the size of a bribe against the official's year, the tie, the offerer's need, earlier refusals and pressure, where the scene is set; for a donor's ask, the gift against the donor's own year, its share of what others gave, how close the two are, earlier gifts and earlier asks the candidate put off; for a reporter's call, how far the town's shares stand against the member's vote, earlier talks the two had, a quarrel on their tie, stories of scandal against the member, and the reporter's outlet with the bill's level; for an apology owed after a quarrel over a missed payment, whether the quarrel is about money, how close the two are, earlier quarrels between them and the wronged person's own money pressure; for an accusation after a complaint to the prosecutor, whether the accuser saw the offer or was told of it, whether the bribe was taken and how close the two are) counts toward each variant of a scene, and how much each variant's facets pull the asker to it.",
     "why": "The mechanism is data and the reads are real records, but the weights are set by hand against the spread of reads in drawn places (Nov 8, Story session) so that every variant wins somewhere in play; no study sizes how much a small gift or a repeated ask differs in the way people go about it. They stay TUNABLE against play and the owner's voice notes. Gaps in the press-comment reads (Nov 9, Story session): the town's view is the electorate's shares on the bill's question (voting.ts electorateSides), which read nothing for a question the survey has no item for, so a vote on such a bill never reads as against the town; no record keeps an outlet's lean toward the member, so a hostile reporter is read from the town, earlier quarrels and the tie alone; press.snubbed and press.attacked name the outlet's staff but not who snubbed them in their people, so they are not read; no record keeps an accusation that the press has not printed, so a chase is read from reported bribes, convictions and press.exposed stories (the last half year); the national press is the reporter's outlet tier (only federal bills cast national reporters) and a state bill reaches it only through the level read; a call about a bill held in committee has no vote of the member's to read.",
     "addedBy": "Story session",
     "addedAt": "2026-11-08",
@@ -958,6 +958,18 @@
     "addedBy": "Story session",
     "addedAt": "2026-11-09",
     "replacement": "A credit or people-engine reading that a kept promise warms the tie when the next payments are made, and a broken one strains it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORDS-accusation-promise-unread",
+    "kind": "missing-hook",
+    "file": "src/director/data/arc-variants.json",
+    "line": 1,
+    "whatItFakes": "What the accused says to the person who reported them (that they will tell the whole of it, own up, or answer) is written on the reply record; no engine reads it, so an accused who owns up to the accuser is not treated any differently by the prosecutor's investigation. The accuser's reason for reporting is the justice engine's weighing (duty, traits, tie); the lines say only what the records show: who saw it or was told, whether the money was taken, and how close the two are.",
+    "why": "The investigation weighs the crime and the complaint, not a conversation between the accuser and the accused.",
+    "addedBy": "Story session",
+    "addedAt": "2026-11-09",
+    "replacement": "A justice-engine reading of what the accused told the accuser (a disclosure or a confession to a witness) as evidence or mitigation.",
     "status": "open"
   }
 ]
