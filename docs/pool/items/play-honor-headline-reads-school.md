@@ -5,13 +5,14 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8133
 blocked-on:
 source: owner's batch 3 voice grades (Nov 9), the honors headline ("for what? For Lexingtonians?"); traced by the Words line Nov 10
 lead: play-first
 milestone: play-first
+merged-at: 2026-11-10T10:10:06.357Z
 ---
 
 **What.** The headline "{number} {place} seniors sign with Division I programs" (data/english/parts/headlines.json, `headlines.honor.*`, and news.json) names no school, so the owner could not tell who won. The `school.honor` record from src/core2/school-honors.ts already carries the school's name in `facts.school`, but the `honor` builder in src/bench/printed-words.ts (about line 2933) reads only `place`, `number` and a single named student, and never reads `f.school`. Played years show it: Opal, Virginia (seed h1:1), `school.honor:spelling-bee-local:jurisdiction_7a86b8261e03ad36:2025-02-07`, school "Opal Public Schools"; Bowie, Arizona (seed h2:0), `school.honor:spelling-bee-local:jurisdiction_3343ab66493cf07b:2025-02-07`, school "Bowie Public Schools".
