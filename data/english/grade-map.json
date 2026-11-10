@@ -4688,7 +4688,6 @@
     "journal.memoir-death-age.name-was-death-age": 1.023,
     "journal.memoir-death-age.name-was-death-age-years-old": 0.989,
     "journal.memoir-death-illness.name-had-been-after-illness": 0.989,
-    "journal.memoir-death-illness.name-had-been-after-illness-for-some-time": 0.989,
     "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election": 0.845,
     "journal.memoir-first-pay.i-earned-wage-an-hour": 0.815,
     "journal.memoir-hard.it-was-a-difficult-time": 0.865,
@@ -4751,8 +4750,8 @@
     "journal.memoir-revise.name-mattered-more-than-i-knew": 0.906,
     "journal.memoir-school-age.i-was-age-then-that-day": 0.81,
     "journal.memoir-school-age.i-was-age-then-when-it-ended": 0.81,
-    "journal.memoir-school-for.i-had-been-at-school-for-school-for": 0.765,
-    "journal.memoir-school-for.that-ended-school-for-at-school": 0.804,
+    "journal.memoir-school-for.i-had-been-at-school-for-school-for": 0.815,
+    "journal.memoir-school-for.that-ended-school-for-at-school": 0.865,
     "journal.memoir-together-for.it-has-been-together-since-then": 0.865,
     "journal.memoir-together-for.we-have-been-together-together": 0.912,
     "journal.memoir-when-age.when-i-was-age": 0.836,
@@ -14857,10 +14856,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11578,
-    "reached": 11578,
-    "near": 10531,
-    "weighted": 11575,
+    "pieces": 11577,
+    "reached": 11577,
+    "near": 10530,
+    "weighted": 11574,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14908,9 +14907,9 @@
         "near": 3
       },
       "journal": {
-        "pieces": 348,
-        "reached": 348,
-        "near": 348
+        "pieces": 347,
+        "reached": 347,
+        "near": 347
       },
       "legislation": {
         "pieces": 4,
