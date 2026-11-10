@@ -1742,6 +1742,168 @@
       "author": "Fable, the life record (core-life-record, step 2)",
       "date": "2026-11-10",
       "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.third",
+      "move": "story",
+      "text": "{who} lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.they",
+      "move": "story",
+      "text": "They lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.office.lost.i",
+      "move": "story",
+      "text": "I lost the race for {office}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.third",
+      "move": "story",
+      "text": "{who} left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.they",
+      "move": "story",
+      "text": "They left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.quit.i",
+      "move": "story",
+      "text": "I left the job at {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.third",
+      "move": "story",
+      "text": "{who} retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.they",
+      "move": "story",
+      "text": "They retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired.i",
+      "move": "story",
+      "text": "I retired from {employer} in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.third",
+      "move": "story",
+      "text": "{employer} closed in {year}, and {who} lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.they",
+      "move": "story",
+      "text": "{employer} closed in {year}, and they lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.closed.i",
+      "move": "story",
+      "text": "{employer} closed in {year}, and I lost the job.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.third",
+      "move": "story",
+      "text": "{who} took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.they",
+      "move": "story",
+      "text": "They took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.found.i",
+      "move": "story",
+      "text": "I took a new job in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.third",
+      "move": "story",
+      "text": "{who} retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.they",
+      "move": "story",
+      "text": "They retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.retired-plain.i",
+      "move": "story",
+      "text": "I retired in {year}.",
+      "origin": "authored",
+      "author": "Fable, the life record gaps (life-record-gaps)",
+      "date": "2026-11-10",
+      "kind": "written"
     }
   ]
 }

@@ -437,6 +437,8 @@ function lineOf(
     case "work/job-started": {
       const employer = orgName(facts.organizationId);
       if (!employer) {
+        // A new job a relative took far away, in play: the record keeps no employer.
+        if (event.from === "played" && facts.how) return make("work.found", {});
         // Work where the town keeps no employer (another place, before they came here):
         // told by the place and the length, never by a name.
         if (!facts.endedAt) return null;
@@ -460,8 +462,18 @@ function lineOf(
         slots: { year: began.slice(0, 4), employer },
       };
     }
-    case "work/job-ended":
-      return make("work.out", {});
+    case "work/job-ended": {
+      // A job that ended in play says how: left, retired or closed with the employer.
+      // A move away is told by the move.
+      const how = facts.ended;
+      if (how === "moved") return null;
+      const employer = orgName(facts.organizationId);
+      if (!how) return make("work.out", {});
+      if (how === "retired" && !employer) return make("work.retired-plain", {});
+      return employer && ["quit", "retired", "closed"].includes(how)
+        ? make(`work.${how}`, { employer })
+        : null;
+    }
     case "work/job-lost": {
       const employer = orgName(facts.organizationId);
       return employer
@@ -510,6 +522,12 @@ function lineOf(
       if (term) line.start = term.startDate;
       return line;
     }
+    case "politics/lost":
+      return facts.office
+        ? make("office.lost", {
+            office: inSentence(String(facts.office).replace(/-/g, " ")),
+          })
+        : null;
     case "politics/took-office": {
       // The office a President held before is told under their name, not here.
       if (event.record === "career:prior-office") return null;

@@ -193,7 +193,7 @@ describe(`the life record in ${where}`, () => {
     );
   }, 600_000);
 
-  it("2b: a vote names every candidate and only the winner remembers winning it", () => {
+  it("2b: a vote names every candidate; the winner remembers winning it and the others remember losing it", () => {
     const [winner, loser] = strangers();
     expect(winner && loser, `${where}: two strangers`).toBeTruthy();
     const id = `election-result:test-${winner!.id}`;
@@ -208,6 +208,7 @@ describe(`the life record in ${where}`, () => {
           contestId: "contest-test",
           office: "Council Member",
           winnerId: winner!.id,
+          totals: JSON.stringify({ [winner!.id]: 120, [loser!.id]: 80 }),
         },
       },
       winner!.id,
@@ -218,10 +219,19 @@ describe(`the life record in ${where}`, () => {
       "won",
     ]);
     expect(won?.facts?.office, where).toBe("Council Member");
+    // The loser does not remember winning: the same vote is on their list as a loss.
+    const lost = lifeOf(core, loser!.id).find((event) => event.id === id);
     expect(
-      lifeOf(core, loser!.id).some((event) => event.id === id),
-      `${where}: ${loser!.id} lost and does not remember winning`,
-    ).toBe(false);
+      [lost?.life, lost?.what],
+      `${where}: ${loser!.id} lost and remembers losing, not winning`,
+    ).toEqual(["politics", "lost"]);
+    expect(lost?.facts?.office, where).toBe("Council Member");
+    // Their own count and the winner's, not the whole count.
+    expect(lost?.facts, where).toMatchObject({
+      votes: "80",
+      winnerVotes: "120",
+    });
+    expect(lost?.facts?.totals, where).toBeUndefined();
   }, 600_000);
 
   it("3: a death is a loss for every living family member and nothing for the dead", () => {
@@ -268,6 +278,10 @@ describe(`the life record in ${where}`, () => {
     );
   }, 600_000);
 
+  // What the person's own list holds: the jobs read from the jobs engine's change records are not on it.
+  const isRemembered = (event: { from: string; record: string }) =>
+    event.from === "played" && !event.record.startsWith("job-change:");
+
   it("4: the list stops at the cap and keeps its losses and children first", () => {
     const clean = strangers().filter((row) => {
       const kept = row as {
@@ -295,7 +309,7 @@ describe(`the life record in ${where}`, () => {
     const kinds = new Map<string, number>();
     const note = () => {
       for (const event of lifeOf(core, person!.id))
-        if (event.from === "played" && !seen.has(event.id)) {
+        if (isRemembered(event) && !seen.has(event.id)) {
           seen.add(event.id);
           kinds.set(event.record, (kinds.get(event.record) ?? 0) + 1);
         }
@@ -316,9 +330,7 @@ describe(`the life record in ${where}`, () => {
       );
       note();
     }
-    const played = lifeOf(core, person!.id).filter(
-      (event) => event.from === "played",
-    );
+    const played = lifeOf(core, person!.id).filter(isRemembered);
     const summary = lifeSummary(core, person!.id);
     const folded = Object.values(summary).reduce((n, count) => n + count, 0);
     expect(played.length, where).toBe(CAP);
@@ -428,6 +440,9 @@ describe(`the life record in ${where}`, () => {
   }, 600_000);
 
   it("every record kind the people module listens for is a row of the table", () => {
-    expect(REMEMBERED_RECORD_KINDS.length).toBe(table.events.length);
+    // A kind can have more than one row (a vote is won by one and lost by the rest).
+    expect([...REMEMBERED_RECORD_KINDS].sort()).toEqual(
+      [...new Set(table.events.map((row) => row.record))].sort(),
+    );
   });
 });

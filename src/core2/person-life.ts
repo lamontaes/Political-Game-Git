@@ -9,8 +9,10 @@
  * (data/life/remembered.json) says which records a person remembers and as what, and the reader
  * returns them in order with the ids of the records behind them.
  */
+import jobsData from "./data/jobs/jobs.json" with { type: "json" };
 import parameterRows from "./data/life/parameters.json" with { type: "json" };
 import table from "./data/life/remembered.json" with { type: "json" };
+import { moduleState } from "./module-state";
 import { preStartHistory } from "./past";
 import { stopgap } from "./stopgaps";
 import type {
@@ -57,6 +59,18 @@ interface EventRow {
   readonly notFact?: string;
   /** Only the named person this fact of the record names remembers it (a vote names every candidate; the fact names the winner). */
   readonly onlyFact?: string;
+  /** The row applies only when the record carries this fact (and, when `is` is given, with that value). */
+  readonly when?: { readonly fact: string; readonly is?: string };
+  /** Facts the row adds to what the person keeps, as the table's own words for the event. */
+  readonly set?: Readonly<Record<string, string>>;
+  /** Every named person but the one this fact names remembers it (the others in a vote); nobody when the fact is empty. */
+  readonly exceptFact?: string;
+  /** A fact holding a JSON count by person, and the facts to keep from it: the rememberer's own count and the count of the person `exceptFact` names. */
+  readonly counts?: {
+    readonly fact: string;
+    readonly own?: string;
+    readonly other?: string;
+  };
   readonly facts: readonly string[];
   readonly topicAs?: string;
 }
@@ -77,7 +91,10 @@ const TABLE = table as unknown as {
   past: readonly PastRow[];
   history: readonly HistoryRow[];
 };
-const EVENT_ROWS = new Map(TABLE.events.map((row) => [row.record, row]));
+/** A record kind can have more than one row: a vote is won by one and lost by the rest. */
+const EVENT_ROWS = new Map<string, EventRow[]>();
+for (const row of TABLE.events)
+  EVENT_ROWS.set(row.record, [...(EVENT_ROWS.get(row.record) ?? []), row]);
 const HISTORY_ROWS = new Map(TABLE.history.map((row) => [row.kind, row]));
 const PARAMETERS = parameterRows as unknown as Record<
   string,
@@ -85,9 +102,9 @@ const PARAMETERS = parameterRows as unknown as Record<
 >;
 
 /** The record kinds a person remembers: what the people module listens for. */
-export const REMEMBERED_RECORD_KINDS: readonly string[] = TABLE.events.map(
-  (row) => row.record,
-);
+export const REMEMBERED_RECORD_KINDS: readonly string[] = [
+  ...EVENT_ROWS.keys(),
+];
 
 function lifeParameter(key: string): number {
   const row = PARAMETERS[key];
@@ -144,6 +161,11 @@ function rememberers(
         if (!event.personIds.includes(other)) kin.add(other);
     return [...kin];
   }
+  if (row.exceptFact) {
+    const except = event.facts?.[row.exceptFact];
+    if (except === undefined || except === "") return [];
+    return event.personIds.filter((id) => id !== except);
+  }
   if (row.onlyFact) {
     const only = event.facts?.[row.onlyFact];
     return event.personIds.filter((id) => id === only);
@@ -161,9 +183,22 @@ export function rememberEvent(
   core: CoreState,
   event: Readonly<CoreEventInput>,
 ): void {
-  const row = EVENT_ROWS.get(event.kind);
-  if (!row) return;
-  const kept: Record<string, string> = {};
+  const rows = EVENT_ROWS.get(event.kind);
+  if (!rows) return;
+  for (const row of rows) rememberRow(core, event, row);
+}
+
+function rememberRow(
+  core: CoreState,
+  event: Readonly<CoreEventInput>,
+  row: EventRow,
+): void {
+  if (row.when) {
+    const held = event.facts?.[row.when.fact];
+    if (held === undefined || held === "") return;
+    if (row.when.is !== undefined && String(held) !== row.when.is) return;
+  }
+  const kept: Record<string, string> = { ...row.set };
   for (const key of row.facts) {
     // Some writers key a fact by its event (`event:<id>:causeOfDeath`).
     const value =
@@ -172,14 +207,28 @@ export function rememberEvent(
   }
   if (row.topicAs && event.topic && kept[row.topicAs] === undefined)
     kept[row.topicAs] = event.topic;
+  let counts: Record<string, number> = {};
+  if (row.counts) {
+    try {
+      counts = JSON.parse(String(event.facts?.[row.counts.fact] ?? "{}"));
+    } catch {
+      counts = {};
+    }
+  }
   for (const id of rememberers(core, event, row)) {
     const person = core.people.get(id) as Rememberer | undefined;
     if (!person?.alive) continue;
     if (person.remembered?.some((held) => held.id === event.id)) continue;
+    const own = { ...kept };
+    if (row.counts?.own && typeof counts[id] === "number")
+      own[row.counts.own] = String(counts[id]);
+    const other = row.exceptFact ? event.facts?.[row.exceptFact] : undefined;
+    if (row.counts?.other && other && typeof counts[String(other)] === "number")
+      own[row.counts.other] = String(counts[String(other)]);
     const withIds =
       row.who === "kin-of-named"
         ? [...event.personIds]
-        : event.personIds.filter((other) => other !== id);
+        : event.personIds.filter((someone) => someone !== id);
     (person.remembered ??= []).push({
       id: event.id,
       date: event.date as IsoDate,
@@ -188,7 +237,7 @@ export function rememberEvent(
       record: event.kind,
       withIds,
       ...(event.placeId ? { placeId: event.placeId as PlaceId } : {}),
-      ...(Object.keys(kept).length ? { facts: kept } : {}),
+      ...(Object.keys(own).length ? { facts: own } : {}),
     });
     fold(person);
   }
@@ -203,6 +252,108 @@ export function lifeSummary(
     ...((core.people.get(personId) as Rememberer | undefined)
       ?.rememberedSummary ?? {}),
   };
+}
+
+/** A job's id as it was before a demotion to the counts renamed it (`<id>:counted:<date>`). */
+const jobKey = (jobId: string) => jobId.split(":counted:")[0]!;
+
+/** How the jobs engine's change kinds end a job, as the life record says it (`ended`), by kind and reason. */
+function jobEnding(kind: string, reasonKey: string): string | undefined {
+  const reasons = jobsData.reasons;
+  if (kind === "quit") return "quit";
+  if (kind === "closure") return "closed";
+  if (kind === "left-work") {
+    if (reasonKey === reasons.retired) return "retired";
+    if (reasonKey === reasons.movedAway) return "moved";
+    if (reasonKey === reasons.died) return undefined;
+    return "quit";
+  }
+  return undefined;
+}
+
+interface JobChangeRow {
+  readonly id: string;
+  readonly date: IsoDate;
+  readonly kind: string;
+  readonly jobId: string;
+  readonly organizationId: string;
+  readonly reasonKey: string;
+  readonly values?: Readonly<Record<string, number>>;
+}
+
+/**
+ * The jobs a person took and left in play, from the jobs engine's own change
+ * records (its per-person index; no new record). A job already told by the
+ * simulated past (the same job, or the same employer on the same day) or by a
+ * remembered `work.job-lost` is skipped, and a job renamed by a demotion to the
+ * counts is the same job.
+ */
+function playedJobs(
+  core: CoreState,
+  personId: PersonId,
+  out: readonly LifeEvent[],
+  held: readonly RememberedEvent[],
+): LifeEvent[] {
+  if (!core.modules.has("jobs")) return [];
+  const rows = moduleState(core, "jobs")
+    .table("changes")
+    .query("byPerson", [personId]) as unknown as JobChangeRow[];
+  if (!rows.length) return [];
+  const pastJobs = new Set<string>();
+  const pastDays = new Set<string>();
+  for (const event of out) {
+    if (event.life !== "work" || event.what !== "job-started") continue;
+    if (event.facts?.jobId) pastJobs.add(jobKey(event.facts.jobId));
+    pastDays.add(
+      `${event.facts?.organizationId ?? ""}|${event.facts?.startedAt ?? event.date}`,
+    );
+  }
+  const lost = new Set(
+    held
+      .filter((event) => event.what === "job-lost")
+      .map(
+        (event) =>
+          `${event.date}|${jobKey(event.id.split(":").slice(3).join(":"))}`,
+      ),
+  );
+  const told: LifeEvent[] = [];
+  for (const row of [...rows].sort(
+    (a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id),
+  )) {
+    const job = jobKey(row.jobId);
+    const base = {
+      id: row.id,
+      date: row.date,
+      life: "work",
+      record: `job-change:${row.kind}`,
+      withIds: [] as PersonId[],
+      from: "played" as const,
+    };
+    const facts = { organizationId: row.organizationId, jobId: row.jobId };
+    if (row.kind === "hire") {
+      // Work for buyers and sellers outside the town has no employer to name.
+      if (row.date < core.startedAt || row.values?.regional) continue;
+      if (
+        pastJobs.has(job) ||
+        pastDays.has(`${row.organizationId}|${row.date}`)
+      )
+        continue;
+      told.push({
+        ...base,
+        what: "job-started",
+        facts: { ...facts, startedAt: row.date },
+      });
+    } else if (row.kind === "layoff") {
+      // A layoff the person's own list holds (`work.job-lost`) is that record's to tell.
+      if (lost.has(`${row.date}|${job}`) || row.date < core.startedAt) continue;
+      told.push({ ...base, what: "job-lost", facts });
+    } else {
+      const ended = jobEnding(row.kind, row.reasonKey);
+      if (!ended || row.date < core.startedAt) continue;
+      told.push({ ...base, what: "job-ended", facts: { ...facts, ended } });
+    }
+  }
+  return told;
 }
 
 /**
@@ -258,6 +409,9 @@ export function lifeOf(
   }
   for (const held of person.remembered ?? [])
     out.push({ ...held, from: "played" });
+  out.push(
+    ...playedJobs(core as CoreState, personId, out, person.remembered ?? []),
+  );
   // The same event told by two sources (a partner as a built fact and as a
   // record of the past) is told once, from the first source in the order above.
   // A built fact carries the day the person was made, so it is matched to its
