@@ -10152,7 +10152,7 @@
       "key": "journal.memoir-let-go-pay.that-was-wage-an-hour-gone",
       "move": "memoir-let-go-pay",
       "kind": "spoken",
-      "text": "That was {wage} an hour gone.",
+      "text": "That was {wage} an hour I wouldn't have anymore.",
       "uses": [
         {
           "move": "memoir-let-go-pay",
@@ -10282,7 +10282,7 @@
       "key": "journal.memoir-again-wait.i-had-not-been-paid-since-last-employer",
       "move": "memoir-again-wait",
       "kind": "spoken",
-      "text": "I had not been paid since {last_employer}.",
+      "text": "I hadn't had a paycheck since {last_employer}.",
       "uses": [
         {
           "move": "memoir-again-wait",

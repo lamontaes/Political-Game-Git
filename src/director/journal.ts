@@ -62,6 +62,7 @@ import {
 } from "../core2/past";
 import { pastParameter } from "../core2/past-module";
 import { moneySaid } from "../english/count-words";
+
 import { spanSaid } from "../english/span-words";
 import type { Moment } from "./types";
 import { tieSide } from "./purpose-scene";
@@ -72,6 +73,8 @@ import {
 
 /** The school year's end, as the director keeps its moment. */
 const SCHOOL_FINISHED = "event:school.finished";
+/** The id prefix of the past-work engine's records (src/core2/past-work.ts). */
+const PAST_WORK_PREFIX = "past-work:";
 const zero = P.zero;
 const one = P.one;
 
@@ -1806,11 +1809,21 @@ function linkLines(
             !core.households.has(name)
           )
             theirs.set(name, id);
-      const shared = line.sourceRecordIds.flatMap((id) =>
-        [...namesOf(core, id)]
-          .filter((name) => theirs.has(name))
-          .flatMap((name) => [theirs.get(name)!, id]),
-      );
+      // Two lines of a working life (both told from the past-work records)
+      // are one life, never one causing the other: a hire does not cause the
+      // layoff from that job, and a layoff does not cause the next hire. They
+      // are joined by the time between them.
+      const work = (ids: readonly string[]) =>
+        ids.some((id) => id.startsWith(PAST_WORK_PREFIX));
+      const working =
+        work(line.sourceRecordIds) && work(earlier.sourceRecordIds);
+      const shared = working
+        ? []
+        : line.sourceRecordIds.flatMap((id) =>
+            [...namesOf(core, id)]
+              .filter((name) => theirs.has(name))
+              .flatMap((name) => [theirs.get(name)!, id]),
+          );
       const echoed = line.momentIds.some((id) =>
         moments
           .get(id)
