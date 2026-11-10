@@ -25,6 +25,8 @@ import { scheduleTax } from "../tax-withholding";
 import { ageOn, type CountedHousehold } from "../counted-groups";
 import { openingTemperaments } from "../opening-personality";
 import { coreStateKeyOfPlaceholderId } from "../place-lookup";
+import { returnedMembersLeave } from "../returned-members-move";
+import { isDemoted } from "../counted-groups";
 import { stateFigures, type RegionMonth } from "../regional-model";
 import { LAWS_MODULE_ID, lawInForce, stateLawInForce } from "./laws";
 import { REGIONAL_MODULE_ID } from "./regional";
@@ -46,12 +48,30 @@ import type {
   CoreModule,
   CoreState,
   IsoDate,
+  PersonId,
   PersonInput,
+  PersonState,
   PlaceId,
   Source,
 } from "../types";
 
 export const COUNTED_MOVES_MODULE_ID = "core2-counted-moves-v1";
+
+/** The living members of a counted household who keep their own records: people returned to the counts earlier. */
+function returnedMembersOf(
+  core: CoreState,
+  h: CountedHousehold,
+): PersonState[] {
+  const residents = residentsRuntime(core);
+  if (!residents) return [];
+  const out: PersonState[] = [];
+  for (const m of residents.store.countedMembers(h)) {
+    const person = core.people.get(residents.store.ids[m]! as PersonId);
+    if (person?.alive && isDemoted(person)) out.push(person);
+  }
+  return out;
+}
+
 const TABLE = "moves";
 const PULLS_TABLE = "pulls";
 
@@ -1046,7 +1066,9 @@ function month(api: CoreAPI): void {
         ),
         ...(head.adults ? pushesOf(api, next) : {}),
       };
+      const returned = returnedMembersOf(core, next);
       departCountedHousehold(core, next.id);
+      returnedMembersLeave(api, returned, next.placeId, to);
       const dest = rt.states.get(to)!;
       for (const b of bands) dest.people[b] = dest.people[b]! + weight;
       record(api, {
@@ -1244,7 +1266,9 @@ export function moveCountedHouseholdAway(
   const weight = store.weightOf(h);
   const size = store.weightedCount(h);
   const fromPlace = h.placeId;
+  const returned = returnedMembersOf(core, h);
   departCountedHousehold(core, h.id);
+  returnedMembersLeave(api, returned, fromPlace, to);
   const dest = rt.states.get(to);
   if (dest) for (const b of bands) dest.people[b] = dest.people[b]! + weight;
   record(api, {

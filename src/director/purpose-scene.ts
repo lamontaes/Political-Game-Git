@@ -1193,6 +1193,17 @@ function composeBinding(
     };
     facts.first = { text: asker.givenName, sourceRecordIds: [askerId] };
   }
+  // A reporter's call is about something: the bill the record names, else the
+  // topic it is about. The lines that follow (what the reporter will print,
+  // check or hold) name it through `story`, cited to the records it came from.
+  if (type.purpose === "press-comment" && !facts.story) {
+    const about = facts.bill ?? facts.cause;
+    if (about)
+      facts.story = {
+        text: about.text,
+        sourceRecordIds: about.sourceRecordIds,
+      };
+  }
   // The kind's own arc, or the variant of it the records give this cause. A
   // scene where the player asks plays the kind's own arc: its variants are
   // the colleague's ask of the player.

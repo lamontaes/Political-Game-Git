@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: claimed
+status: done
 claimed-by: memory/press-staff
-pr:
+pr: #8101
 blocked-on:
 source: added with npm run pool -- add
 claimed-at: 2026-11-10T01:43:04.375Z
