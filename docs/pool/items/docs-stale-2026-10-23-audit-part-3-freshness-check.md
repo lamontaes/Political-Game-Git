@@ -19,7 +19,7 @@ source: split from docs-stale-2026-10-23-audit in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Nothing checks a doc's freshness, so ended docs drift back into the live tree. This optional part adds a script that lists docs without a Current as of line and prints the table in release:check. The first attempt truncated the git inventory at the default buffer, so the new script must read the inventory without that limit. Guards: the docs tree, so ended docs do not drift back (owner, Oct 23); its parent waits on it.
+**What.** Nothing checks a doc's freshness, so ended docs drift back into the live tree. This optional part adds a script that lists docs without a Current as of line and prints the table in release:check. The first attempt truncated the git inventory at the default buffer, so the new script must read the inventory without that limit.
 
 **Cause.** Design: the owner on Oct 23 ("stop the stale docs"), recorded in docs/coordination/OWNER-DECISIONS.md. The first attempt's `freshness.mjs` silently truncated the git file inventory at the default `maxBuffer` (ENOBUFS), per the Notes on the parent.
 

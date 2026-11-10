@@ -18,7 +18,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 ---
 
-**What.** The new tests:load sweep (tests-every-test-file-loads) found three test files on main that throw while loading, so every check inside them has stopped running. Each throws a 'before initialization' error caused by two engines importing each other and the test entering them by the wrong door. They were found by the sweep, not by any gate, and must be fixed at the root, never skipped. Guards: three test files that cannot load, so the checks inside them run again and main stays honest.
+**What.** The new tests:load sweep (tests-every-test-file-loads) found three test files on main that throw while loading, so every check inside them has stopped running. Each throws a 'before initialization' error caused by two engines importing each other and the test entering them by the wrong door. They were found by the sweep, not by any gate, and must be fixed at the root, never skipped. Guards: the checks behind the Journal opening, the officials and the election law, which have silently stopped running.
 
 **Cause.** Measured: the command node --import tsx scripts/tests-load/load-one.mjs with the absolute path of each failing module, run on main at 4fbc6a18a8, shows it. src/core2/births-counted.test.ts throws 'Cannot access linePayers before initialization' in src/core2/modules/counted-moves.ts; src/core2/budget-line-staffing-year.test.ts throws 'Cannot access staffing before initialization' in src/core2/law-reach/group-a-staffing.ts; src/core2/housing-construction.test.ts throws 'Cannot access NATIONAL_DISASTER before initialization' in src/core2/housing-occupancy.ts. The cycle partner of each is not yet traced.
 

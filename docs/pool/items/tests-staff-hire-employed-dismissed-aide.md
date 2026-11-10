@@ -5,7 +5,7 @@ area: office
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/staff-hire-employed.test.ts finds aides hired from a private job and requires each one's post still running after 400 played days. An official may let an aide go for missing too much work (reviewAttendance in src/core2/modules/staff.ts, on main), which ends the post, so a draw where such an aide is later dismissed fails the test though the hire was right. Seen Oct 26 on the integrity cases branch: Townshend, Vermont (5073225), seed e08b751381b9d0c300eb0c369cc39dd52f14125abbec67c38f2120e63ba15279, a governor's aide whose post ended 2025-03-21. Guards: a test that fails by draw when an aide is rightly let go, so main is not red for a correct hire.
+**What.** src/core2/staff-hire-employed.test.ts finds aides hired from a private job and requires each one's post still running after 400 played days. An official may let an aide go for missing too much work (reviewAttendance in src/core2/modules/staff.ts, on main), which ends the post, so a draw where such an aide is later dismissed fails the test though the hire was right. Seen Oct 26 on the integrity cases branch: Townshend, Vermont (5073225), seed e08b751381b9d0c300eb0c369cc39dd52f14125abbec67c38f2120e63ba15279, a governor's aide whose post ended 2025-03-21.
 
 **Cause.** Found in code: src/core2/modules/staff.ts reviewAttendance (line 1091) lets an aide go when the share of missed days exceeds the official's tolerance and ends the post (the row's dismissed record, line 1144); src/core2/staff-hire-employed.test.ts requires each employed-hire aide's post still running after 400 days and never reads that dismissal (no 'dismiss' in the file). Seen at Townshend, Vermont (5073225), seed e08b751381b9d0c300eb0c369cc39dd52f14125abbec67c38f2120e63ba15279.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/staff-hire-employed.test.ts, src/core2/modules/staff.ts
 
 **Notes.** TODO
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have stopped a test failing by draw when an aide is rightly dismissed; the hire a player sees is already right.

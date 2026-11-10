@@ -5,7 +5,7 @@ area: release
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The merge audit of Oct 20 (docs/reports/merge-audit-2026-10-20.md, item 12) found tests that loop over a found set of flows or rows and pass when the set is empty, in pull requests 5016, 5033, 5008 and 5020. The item names those four pull requests and no test file, so it cannot be built from the item alone. The fix it asks for is an assertion that the rows exist before each such loop. A cheaper route is one guard that fails any test which loops over a found set without asserting it is non-empty. Guards: tests that loop over rows and pass when there are none, so a green main means something.
+**What.** The merge audit of Oct 20 (docs/reports/merge-audit-2026-10-20.md, item 12) found tests that loop over a found set of flows or rows and pass when the set is empty, in pull requests 5016, 5033, 5008 and 5020. The item names those four pull requests and no test file, so it cannot be built from the item alone. The fix it asks for is an assertion that the rows exist before each such loop. A cheaper route is one guard that fails any test which loops over a found set without asserting it is non-empty.
 
 **Cause.** Needs cause. Looked at the item and docs/reports/merge-audit-2026-10-20.md item 12; no file or test is named, only the four pull requests.
 
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Item 12 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (depth sweep).** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added non-empty assertions to four old pull requests' tests, but the item names no test file and guards no screen a player sees.

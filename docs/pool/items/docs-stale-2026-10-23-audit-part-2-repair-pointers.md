@@ -19,7 +19,7 @@ source: split from docs-stale-2026-10-23-audit in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** After part 1 moves the ended files, pointers in AGENTS.md, skills, rules and other docs still name the old paths. A reader following one hits a missing file. This part finds every pointer and repairs it, and leaves nothing that names an old path except a commit-pinned permalink. Guards: the pointers to archived docs, so no session follows one to a missing file (owner, Oct 23).
+**What.** After part 1 moves the ended files, pointers in AGENTS.md, skills, rules and other docs still name the old paths. A reader following one hits a missing file. This part finds every pointer and repairs it, and leaves nothing that names an old path except a commit-pinned permalink.
 
 **Cause.** Design: the owner on Oct 23 ("stop the stale docs"), recorded in docs/coordination/OWNER-DECISIONS.md; the moved paths are listed by part 1.
 

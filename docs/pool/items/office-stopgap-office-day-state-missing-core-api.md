@@ -21,7 +21,7 @@ size: S
 checked: fable 2026-11-10
 ---
 
-**What.** Dev mode's custom start as a sitting state officeholder writes the player's term into the offices engine's table directly, because the engine has no call to seat a chosen person (SG-STATE-dev-seat-player). It ends the seat's serving term and keeps the previous holder's party, and ordinary play never reaches it. Replace the direct table write with a seating function the offices engine exports. The row is kept, marked resolved, and never deleted. Guards: dev mode's start as a sitting state officeholder, which today writes the seat's table by hand and keeps the old holder's party.
+**What.** Dev mode's custom start as a sitting state officeholder writes the player's term into the offices engine's table directly, because the engine has no call to seat a chosen person (SG-STATE-dev-seat-player). It ends the seat's serving term and keeps the previous holder's party, and ordinary play never reaches it. Replace the direct table write with a seating function the offices engine exports. The row is kept, marked resolved, and never deleted. Seen: the seat's party and term after dev mode's start as a sitting state officeholder, which today keeps the old holder's party.
 
 **Cause.** Found in code: src/core2/office-day-state.ts lines 1598 to 1649 call api.stopgap("SG-STATE-dev-seat-player") and write the offices table directly; the row is at src/core2/data/stopgaps/state.json line 51.
 
