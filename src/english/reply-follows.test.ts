@@ -182,8 +182,14 @@ describe("a reply that does not follow is not offered after that line", () => {
       return performance.now() - start;
     };
     time(NONE);
-    const bare = Math.min(time(NONE), time(NONE));
-    const withTable = Math.min(time(big), time(big));
+    // Timed in turn, the best of five each: on a busy machine one slow slice
+    // lands on either side, and the best run of each is what the code costs.
+    let bare = Infinity,
+      withTable = Infinity;
+    for (let round = 0; round < 5; round += 1) {
+      bare = Math.min(bare, time(NONE));
+      withTable = Math.min(withTable, time(big));
+    }
     expect(withTable).toBeLessThan(bare * 1.5 + 25);
   });
 });
