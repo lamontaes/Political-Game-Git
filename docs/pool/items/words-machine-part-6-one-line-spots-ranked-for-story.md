@@ -5,9 +5,9 @@ area: words
 kind: research
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-b2-one-line-spots
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** Nearly half of all spots have one line, so a player hears the same words every time and pulling that line leaves the spot silent. Story needs to know which of them a player actually meets. This part counts how often each one plays in three drawn places and lists them in that order.

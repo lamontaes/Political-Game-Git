@@ -16,13 +16,14 @@ standard: 2
 model: opus
 effort: medium
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
-**What.** Two tables keep a row per event forever: the durable log (10,438 to 149,782 rows between years 1 and 6 in Ringgold, Louisiana) and speech retellings (1,088 to 95,783). Fold each into a summary once play no longer reads the detail. Keep what the person card, the director, the journal and the trace read, and keep the player's own and the people they deal with whole.
+**What.** Two tables keep a row per event forever: the durable log (10,438 to 149,782 rows between years 1 and 6 in Ringgold, Louisiana) and speech retellings (1,088 to 95,783). Fold what still grows into a summary once play no longer reads the detail; the speech half was folded after this was measured. Keep what the person card, the director, the journal and the trace read, and keep the player's own and the people they deal with whole.
 
 **Cause.** Measured: `npm run speed:year -- --seed long-1 --years 100` (Ringgold, Louisiana) table counts at years 1 and 6; the durable log is in src/core2/state.ts and speech retellings are in src/core2/modules/speech.ts.
 
-**Fix.** Name every reader of the durable log and of speech retellings, agree each reader's window, and fold rows older than it into a summary that those readers read instead.
+**Fix.** Speech retellings are already folded on main (`forgetOldRetellings`, src/core2/modules/speech.ts line 309; item core-long-run-speech-retellings-fold is done), so do not build that half. For the durable log, re-measure first on current main: `npm run speed:year -- --seed long-1 --years 6 --out <file>` and read core.durableLog per year. Then read the retention that already exists (src/core2/decision-detail.ts drops condensed circle decisions after `circleActRetentionMonths`) before proposing anything. If the log still grows year over year, name every reader of the rows that grow, agree each reader's window with its owner, and fold rows older than it into a summary those readers read instead. If it does not grow, write the per-year counts in this item's Notes and close it with no code change.
 
 **Time box.** 5 hours for an Opus session.
 

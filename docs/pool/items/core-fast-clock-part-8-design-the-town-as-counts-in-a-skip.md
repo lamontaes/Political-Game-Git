@@ -16,6 +16,7 @@ model: fable
 effort: high
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** The country tier steps every state for a month in a few milliseconds because a state is a few dozen cells. The town's own monthly engines work record by record, so a skipped year stays at seconds, not hundredths. Reaching twenty years in about five seconds needs the town itself kept as the tier's kind of cells during a skip, with only the player's household and circle kept as people, and rebuilt on return. That design does not exist yet.

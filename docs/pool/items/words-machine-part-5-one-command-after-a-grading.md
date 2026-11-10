@@ -5,10 +5,10 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: in-pr
 standard: 2
 claimed-by:
-pr:
+pr: 8168
 after:
 blocked-on:
 lead: words
@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** The owner, Oct 23: "every time I update a batch or something, it should update through the entire game." Today that takes several commands in the right order, listed in a skill. This part makes it one command that anyone, or a scheduled job, can run after a grading. Running it twice changes nothing.

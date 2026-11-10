@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-b2-outside-by-sector
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** About four fifths of a small town's business sales are to buyers outside the town. Today all of them move by one number for the whole place each month, so no seller's demand ever differs from its neighbor's. After this part a seller's outside buyers follow the sales of its own sector, which the country tier already keeps for every state.

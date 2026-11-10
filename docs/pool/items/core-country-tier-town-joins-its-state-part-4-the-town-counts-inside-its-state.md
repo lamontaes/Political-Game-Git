@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-b1-town-in-state
 pr:
 after:
 blocked-on:
@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-country-tier-town-joins-its-state by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** The country tier opens each state from its published totals and steps it by the month. The played town and its county are simulated in full beside it. The state's totals already include the town's people, so they are held twice, and nothing that happens in the town moves its state's figures.

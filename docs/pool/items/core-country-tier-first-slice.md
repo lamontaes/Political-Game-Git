@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-country-tier
+checked: fable 2026-11-10
 ---
 
 **What.** The audit's root causes 1 and 5. The town is simulated from its people; the nation was one formula with a built-in cycle (`stepMacroMonth`, in src/core2/macro-model.ts before the tier replaced it; no longer in src/core2), each state followed the nation (`stepRegionMonth`, src/core2/regional-model.ts, likewise replaced), moves between states are forced to match the Census every month (src/core2/modules/counted-moves.ts) and routine layoffs follow a fixed pace (`reviewTurnover`, src/core2/modules/jobs.ts). Measured in Woods Cross, Utah (seed f61d987b2e0e): with the state and federal income taxes set to zero, national unemployment after three years was 5.722% against 5.727%, and the region's population was 729,822 in both worlds. A 20-year game takes 17 to 51 minutes where it finishes at all, and the game has no fast clock. This item writes one design for both causes and builds its first working slice: other states as counted groups with a state ledger, stepped monthly by the town's own rules times their counts; the nation as the sum of the states; whatever the player is not watching kept as results and rebuilt when opened; that tier advancing in months; a "20 years" button. It deletes what it replaces: the national formula, the pull of each state toward the nation, the Census-forced moves and the fixed layoff pace.

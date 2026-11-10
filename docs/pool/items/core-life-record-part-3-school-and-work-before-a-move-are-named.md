@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** A person's past now reaches back to their birth. For the years before they moved to town, the school has no name and the work has no employer, so the card reads as a gap. This part names a school and an employer in the place the person came from, the same every time they are opened.

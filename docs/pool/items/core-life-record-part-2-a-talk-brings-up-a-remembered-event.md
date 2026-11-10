@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-life-record
 source: split from core-life-record by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
+checked: fable 2026-11-10
 ---
 
 **What.** People now remember what happens to them, and no conversation ever uses it. A neighbor who lost a job last spring, or who was at your wedding, talks as if nothing had happened. This part lets a talk bring up a remembered event, with the event's record kept as the scene's source.
