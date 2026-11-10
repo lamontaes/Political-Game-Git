@@ -5581,16 +5581,16 @@
       "citation": "A season to a three-year term; checked against the memory check (scripts/core2-guard/memory.mjs) and the journal."
     }
   },
-  "countedBallotRetentionDays": {
+  "candidacyDecisionRetentionDays": {
     "value": 60,
     "tag": "TUNABLE",
     "role": "coefficient",
-    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after its election a race's counted ballots (each counted voter's turnout, split and reasons) are kept for the why-lookups; the result, returns and named ballots stay (voting.ts dropOldCountedBallots). Kept forever they were 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after a race's election day a person's decision not to run in it is kept (candidacy.ts dropPastNonRunners). Every reader asks about a race still being run or about those who ran, which stay; two months covers a runoff's own contest and the seating. Kept forever, declined decisions were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
     "spread": {
       "low": 30,
       "high": 400,
       "unit": "days",
-      "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
+      "citation": "A month (the monthly pass) to a year and a month; checked against the records proof of a two-year Montpelier run."
     }
   },
   "experiencedKeyRetentionDays": {
@@ -8440,6 +8440,18 @@
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "countedBallotRetentionDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after its election a race's counted ballots (each counted voter's turnout, split and reasons) are kept for the why-lookups; the result, returns and named ballots stay (voting.ts dropOldCountedBallots). Kept forever they were 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
+    "spread": {
+      "low": 30,
+      "high": 400,
+      "unit": "days",
+      "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
     }
   }
 }
