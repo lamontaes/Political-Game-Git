@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 2
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/fable-four-replies
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ root: rc4-hand-written-words
 lead: words
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 5, "What the code does and what a player sees")
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T19:03:15.351Z
 ---
 
 **What.** The audit measured on Nov 9 that of 14 sets of replies offered in its browser sessions, 7 had three choices and 7 had four, against the owner's rule of four always (its browser life was in Blodgett Landing, New Hampshire; the count names no seed). The rule is in the data, but neither composer fills a short set. A second session on Nov 10 also saw a set of four that was one answer worded four ways (Grandville, Michigan, seed c163aaf0-16e5-460f-872e-56f2b65d2412): "I'm from Grandville. And you?", "I grew up here.", "I'm from Grandville.", "Here in Grandville." Fix both: a turn that offers replies offers four different answers, drawing the fourth from the moves the scene allows when one drops out, and a node that cannot reach four is reported as a gap in the banks, never shown short.

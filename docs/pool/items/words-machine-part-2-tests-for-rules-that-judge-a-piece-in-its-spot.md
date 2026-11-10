@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-b3-spot-rule-tests
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: design-words-machine
 source: split from words-machine-rules-from-the-owners-notes by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T19:03:05.502Z
 ---
 
 **What.** Many of the owner's notes are about a line in its place: fine from a friend, wrong from a stranger; fine at a kitchen table, wrong at a podium. Twenty-eight such rules are written down with no test. This part hands a rule the line together with its spot, and writes those tests.
