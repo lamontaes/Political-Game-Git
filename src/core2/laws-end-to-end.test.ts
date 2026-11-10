@@ -157,6 +157,8 @@ function playBill(drawSeed: string) {
   /** Lives on a week at a time; a meeting or the desk holding the clock is the character's own to do. */
   const liveUntil = (date: string) => {
     for (let guard = 0; core.date < date && guard < 400; guard++) {
+      // An election day stops at the polls; the races are the character's own to leave.
+      if (player.pollingPlace) player.leavePolls();
       const packet =
         player.packet?.kind === "stop"
           ? player.packet
