@@ -281,10 +281,10 @@ describe(`the whole past in ${where}`, () => {
       kinds.has("work"),
       `${where}: ${person.id} a work sentence before ${from}`,
     ).toBe(true);
-    const missing = lines.filter(
-      (line) =>
-        traceNode(core, world.director, line.recordId).answer ===
-        "not-a-record",
+    const missing = lines.filter((line) =>
+      line.records.some(
+        (id) => traceNode(core, world.director, id).answer === "not-a-record",
+      ),
     );
     expect(
       missing.map((line) => `${line.recordId}: ${line.text}`),
@@ -368,6 +368,26 @@ describe(`the whole past in ${where}`, () => {
   }, 600_000);
 });
 
+describe(`the card story reads well (${where})`, () => {
+  it("12: three opened adults of different ages, the whole story in order", () => {
+    const all = adultsOf(core, world.placeId);
+    const year = (p: PersonState) => Number(p.birthDate.slice(0, 4));
+    const nowYear = Number(core.date.slice(0, 4));
+    const picks = [
+      all.find((p) => year(p) < 1960),
+      all.find((p) => year(p) >= 1970 && year(p) < 1990),
+      all.find((p) => nowYear - year(p) < 30),
+    ].filter(Boolean) as PersonState[];
+    for (const person of picks) {
+      const card = knownCard(core, core.playerId!, person.id);
+      console.log(
+        `whole-past 12: ${where}; ${person.id} born ${person.birthDate}:\n${card.history.map((l) => `  [${l.kind}] ${l.text}`).join("\n")}`,
+      );
+      expect(card.history.length, `${where}: ${person.id}`).toBeGreaterThan(0);
+    }
+  }, 600_000);
+});
+
 describe(`opening is the same every time and touches only the people opened (${where})`, () => {
   it("4 and 5: five people opened in another order, one twice, have the same rows; nobody else changed", () => {
     const twin = build(drawn.seed, placeKey);
@@ -410,12 +430,39 @@ describe("the named repro: Caño Martín Peña, Puerto Rico, seed 50fe2d1143af",
       (person) => person.birthDate < "1980",
     );
     expect(elders.length, label).toBeGreaterThan(0);
-    const person = elders.find((p) => circle.has(p.id)) ?? elders[0]!;
-    const lines = knownCard(c, c.playerId!, person.id).history;
+    const early = (id: string, line: { records: string[] }) =>
+      line.records.some(
+        (rec) =>
+          (lifeOf(c, id as PersonId).find((e) => e.id === rec)?.date ??
+            "9999") < from,
+      );
+    const told = (p: PersonState) => knownCard(c, c.playerId!, p.id).history;
+    const ordered = [
+      ...elders.filter((p) => circle.has(p.id)),
+      ...elders.filter((p) => !circle.has(p.id)),
+    ];
+    const person =
+      ordered.find((p) =>
+        told(p).some((l) => l.kind === "work" && early(p.id, l)),
+      ) ?? ordered[0]!;
+    const lines = told(person);
     const earlier = lifeOf(c, person.id).filter((e) => e.date < from);
     console.log(
       `whole-past 9: ${label}; ${person.id} born ${person.birthDate}, ${earlier.length} events before ${from}:\n${lines.map((l) => `  ${l.text}`).join("\n")}`,
     );
     expect(earlier.length, `${label}: ${person.id}`).toBeGreaterThan(0);
+    expect(
+      lines.some((l) => l.kind === "work" && early(person.id, l)),
+      `${label}: ${person.id} a work sentence before ${from}`,
+    ).toBe(true);
+    const missing = lines.filter((line) =>
+      line.records.some(
+        (id) => traceNode(c, repro.director, id).answer === "not-a-record",
+      ),
+    );
+    expect(
+      missing.map((l) => l.recordId),
+      label,
+    ).toEqual([]);
   }, 900_000);
 });

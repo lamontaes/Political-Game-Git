@@ -1,5 +1,5 @@
 import { servingTermsOf } from "../core2/modules/offices";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
+import { ageOnDate, daysBetween, makeIsoDate } from "../core2/kernel/dates";
 import { reachOn } from "../core2/law-reach/host";
 import { coreAPI, personOrFillIn } from "../core2/state";
 import { currentCloseness } from "../core2/closeness";
@@ -25,6 +25,7 @@ import {
   type PronounWords,
 } from "../english/pronoun-words";
 import { joinList } from "../english/bill-names";
+import { spanSaid } from "../english/span-words";
 import {
   corePlaceByJurisdictionId,
   coreStateName,
@@ -253,6 +254,22 @@ function historyLines(
     .filter((event) => event.life === "child" && event.what === "born")
     .map((event) => event.date)
     .sort()[0];
+  // The first school start in each place they lived before this one, where the
+  // school is not one the town names.
+  const awayFirst = new Set<string>();
+  const awayPlaces = new Set<string>();
+  for (const event of life)
+    if (
+      event.life === "school" &&
+      event.what === "started" &&
+      !schools.has(event.id) &&
+      event.placeId &&
+      event.placeId !== other.placeId &&
+      !awayPlaces.has(event.placeId)
+    ) {
+      awayPlaces.add(event.placeId);
+      awayFirst.add(event.id);
+    }
   for (const event of life) {
     const line = lineOf(
       core,
@@ -262,6 +279,7 @@ function historyLines(
       schools,
       firstSchool?.id,
       firstChild,
+      awayFirst,
     );
     if (line) lines.push(line);
   }
@@ -312,6 +330,7 @@ function lineOf(
   schools: ReadonlyMap<string, { name: string; stage: string; grade: number }>,
   firstSchoolId: string | undefined,
   firstChildDate: string | undefined,
+  awayFirst: ReadonlySet<string>,
 ): HistoryLine | null {
   const facts = event.facts ?? {};
   const year = event.date.slice(0, 4);
@@ -395,6 +414,14 @@ function lineOf(
           school: school.name,
           stage: school.stage,
         });
+      // Schooled before they lived here, in a place the moves give: one
+      // sentence for the years there; where the place is not known, the
+      // stage lines below.
+      const away = placeName(event.placeId);
+      if (away && event.placeId !== other.placeId)
+        return awayFirst.has(event.id)
+          ? make("school.elsewhere", { place: away })
+          : null;
       // Each stage of school after the first is its own line (the first is
       // the line that names the school).
       return facts.stage && event.id !== firstSchoolId
@@ -409,7 +436,23 @@ function lineOf(
     }
     case "work/job-started": {
       const employer = orgName(facts.organizationId);
-      if (!employer) return null;
+      if (!employer) {
+        // Work where the town keeps no employer (another place, before they came here):
+        // told by the place and the length, never by a name.
+        if (!facts.endedAt) return null;
+        const days = daysBetween(
+          makeIsoDate(String(facts.startedAt ?? event.date)),
+          makeIsoDate(String(facts.endedAt)),
+        );
+        const away = placeName(event.placeId);
+        return make(
+          away ? "work.elsewhere" : "work.elsewhere-plain",
+          away
+            ? { place: away, span: spanSaid(days) }
+            : { here: placeName(other.placeId), span: spanSaid(days) },
+          { days },
+        );
+      }
       const began = facts.startedAt ?? event.date;
       return {
         ...make("work.spell", { employer }),
@@ -505,6 +548,8 @@ interface HistoryLine {
   key: string;
   slots: Record<string, string>;
   recordId: string;
+  /** The days a stretch of work elsewhere lasted, summed when its spells are joined. */
+  days?: number;
   /** The day the term an office line tells began, when it is not the line's own day (an election in November, a term in January). */
   start?: string;
 }
@@ -533,6 +578,24 @@ function tellerOf(
   if (viewerId === personId) return { form: "you", name, words: null };
   const words = pronounWords(pronouns);
   return { form: words ? "third" : "they", name, words };
+}
+
+/**
+ * The earlier line of work elsewhere that `line` continues: the same place (or
+ * both of unknown place), with no move between them.
+ */
+function lastElsewhere(
+  folded: readonly (HistoryLine & { later?: string[] })[],
+  line: HistoryLine,
+) {
+  if (!line.key.startsWith("work.elsewhere")) return undefined;
+  for (let i = folded.length - 1; i >= 0; i--) {
+    const held = folded[i]!;
+    if (held.key === "moved.in") return undefined;
+    if (held.key === line.key && held.slots.place === line.slots.place)
+      return held;
+  }
+  return undefined;
 }
 
 /** The most later terms a run names by year before it is said whole. */
@@ -578,6 +641,15 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
       run.key === "work.spell" &&
       line.key === "work.spell" &&
       run.slots.employer === line.slots.employer;
+    // Work elsewhere in one place, one spell after another with no move between,
+    // is one sentence with the years summed.
+    const elsewhere = lastElsewhere(folded, line);
+    if (elsewhere && line.days !== undefined) {
+      elsewhere.days = (elsewhere.days ?? 0) + line.days;
+      elsewhere.slots.span = spanSaid(elsewhere.days);
+      (elsewhere.later ??= []).push(line.recordId);
+      continue;
+    }
     if (run && (term || spell)) {
       const year = line.date.slice(0, 4);
       const years = (run.again ??= []);

@@ -18,7 +18,9 @@
     "years": "The later years they won the same office again, joined as a list: 2013 and 2015.",
     "state": "A state's name from the place records: Ohio.",
     "whom": "The person the story is about, as the object of a sentence: their full name the first time, then their pronoun (her, him).",
-    "employers": "The earlier employers as a spoken list: A, B and C."
+    "employers": "The earlier employers as a spoken list: A, B and C.",
+    "span": "How long a stretch of work lasted, as people say it: nine years.",
+    "here": "The town or county the person lives in now, from the place records."
   },
   "maxWords": 24,
   "parts": [
@@ -1657,6 +1659,87 @@
       "text": "I worked at {employers} before {employer}.",
       "origin": "authored",
       "author": "Fable, the life record (core-life-record)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.third",
+      "move": "story",
+      "text": "{who} worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.third",
+      "move": "story",
+      "text": "{who} worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.third",
+      "move": "story",
+      "text": "{who} went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.they",
+      "move": "story",
+      "text": "They worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.they",
+      "move": "story",
+      "text": "They worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.they",
+      "move": "story",
+      "text": "They went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere.i",
+      "move": "story",
+      "text": "I worked in {place} for {span}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.work.elsewhere-plain.i",
+      "move": "story",
+      "text": "I worked for {span} before coming to {here}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
+      "date": "2026-11-10",
+      "kind": "written"
+    },
+    {
+      "key": "person-history.story.school.elsewhere.i",
+      "move": "story",
+      "text": "I went to school in {place}.",
+      "origin": "authored",
+      "author": "Fable, the life record (core-life-record, step 2)",
       "date": "2026-11-10",
       "kind": "written"
     }
