@@ -5,13 +5,14 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8106
 after:
 blocked-on:
 lead: legislation
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "Every law in dev mode's list, tried at four bodies")
+merged-at: 2026-11-10T05:30:25.485Z
 ---
 
 **What.** The vote-trading step that lets a sponsor short of votes add a holdout's own section still runs when every member's vote has already been cast. Dev mode fixes each vote before it holds the vote, and so does the crew's test harness, yet the bill leaves the body with a second section on a different subject. Measured in the law sweep in Marion, Mississippi (seed 7df73e53cd67): one-section bills left with a second, unrelated section in 35 of 40 cases in Congress, 6 of 18 at the county board and 2 of 18 at the town board, and in the Mississippi House 38 of the 72 bills checked that had results of their own. In Congress 33 of the 40 came out carrying a yes on raising the minimum wage, and two carried a no on having a federal income tax. So about half of the twin tests measured the rider. Of the 147 state laws, 75 changed the town's money by exactly the same amounts, to the dollar: $51,945 out of governments and $46,646 into counted households; the two of those bills the audit read both carried a no on public broadband. In Congress 18 of the 40 show one change, the same to within two dollars, and it is the wage rider's: businesses $308,500 lower, households $30,500 higher, governments $194,000 higher and $82,000 gone to the outside. Fix it at the cause: a member whose vote is already cast is counted as cast when the sponsor counts support, so a sponsor with every vote fixed is not short, trades nothing, and no opponent's section is adopted against votes that are already decided.
