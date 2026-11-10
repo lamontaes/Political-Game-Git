@@ -16,13 +16,14 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from office-budget-season-attend-hearing in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** With the budget on a meeting agenda and voted there, a seated player who holds the every-meeting stop must be stopped at that meeting and be able to speak on the budget (`speakOnItem` in src/core2/modules/office-day.ts, line 568) or take it up. The wording of the hearing comes from the English engine's banks. This is part 3 of office-budget-season-attend-hearing.
 
 **Cause.** Found in code: the every-meeting stop is read in src/core2/modules/office-day.ts (line 420) for meetings on the agenda; the budget meeting is not among them until parts 1 and 2 land.
 
-**Fix.** Hold the player at the budget meeting and offer `speakOnItem` on the budget item; the wording comes from words-budget-hearing-speakers.
+**Fix.** Hold the player at the budget meeting and offer `speakOnItem` on the budget item; the wording comes from words-hearing-chair-question.
 
 **Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -30,6 +31,6 @@ source: split from office-budget-season-attend-hearing in the pool redo, Nov 10,
 
 **Done when.** A second session, not the builder, plays a seated council member with the every-meeting stop in a drawn place and seed (named), is stopped at the meeting that votes the budget, speaks on it, and sees the adopted budget id and the kept act id named; src/core2/office-day-budget-season.test.ts still passes.
 
-**Waits on.** office-budget-season-attend-hearing-part-2-vote-at-meeting and words-budget-hearing-speakers (open).
+**Waits on.** office-budget-season-attend-hearing-part-2-vote-at-meeting, and words-hearing-chair-question for the wording (words-budget-hearing-speakers was folded into it).
 
 **Files.** src/core2/modules/office-day.ts, src/core2/modules/legislature.ts, src/core2/office-day-budget-season.test.ts

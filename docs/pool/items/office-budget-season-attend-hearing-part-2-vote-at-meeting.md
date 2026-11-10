@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from office-budget-season-attend-hearing in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** With the bill on the agenda, vote it at that meeting through `holdVote`, as every other item does, and delete the one-call draft-and-vote path so a computer-run body still votes it the same day but through the meeting. The vote record then belongs to a meeting like every other item's. This is part 2 of office-budget-season-attend-hearing.

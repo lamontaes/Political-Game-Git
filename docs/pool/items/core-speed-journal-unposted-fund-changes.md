@@ -17,6 +17,7 @@ root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** projectCashJournal (src/core2/journal.ts) builds a change record for every fund of every touched owner on each posting, though in play only the posted accounts' changes are read: the totals and latest records loop over the posted accounts, and since core-speed-journal-portfolios-in-play (#6131) the fund writes skip funds that did not move. In Long Hill, Connecticut (seed m7b) one jurisdiction owner with 112 funds gets 7,959 of 57,967 owner postings in 60 days, so the projection allocates about 111 unused records each time, some 5 million a year. The sums over every fund stay, since the residual needs them. With bookkeeping on, the checked path keeps every record for the receipt copy and its checks.

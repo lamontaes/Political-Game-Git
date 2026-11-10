@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: rc1-world-outside-town
+checked: fable 2026-11-10
 ---
 
 **What.** Every ballot measure in play comes from `src/core2/data/elections/ballot-measures.json`: 17 measures in 11 states, all on the 2026 ballot. A place in the other 45 jurisdictions never votes on a measure, and after 2026 no place does, so the voter's measure decision (`ballot-measures.vote`) and the campaigns for and against a measure stop. The owner ruled measures in for early access (Oct 14: the player votes on them and campaigns for or against them). The world should put measures on the ballot the way states do: a legislature refers an amendment or a law where the state's constitution requires a public vote, and a petition qualifies an initiative or referendum where the state's law allows one, read from the state's law rows.

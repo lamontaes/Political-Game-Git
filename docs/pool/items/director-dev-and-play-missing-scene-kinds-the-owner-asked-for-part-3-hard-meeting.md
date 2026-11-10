@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Meetings come from bills and budgets only. There is no secretary or department head the player can call in, and no scene for a meeting where the other person disagrees. Add a hard-meeting scene for an executive and a department head, a secretary or a legislator who disagrees, whose result moves the bill or budget line it was about.

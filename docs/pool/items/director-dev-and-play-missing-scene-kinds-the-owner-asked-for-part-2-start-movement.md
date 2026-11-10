@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A resident in a crowd can found a standing group in the public-action records. The player can join one through the cause-invite scene, but the player cannot start one. Add a scene where a resident or officeholder founds a group around a cause they hold, people with a reason to join do join, and the group and its members are records the public-action engine and the press read.

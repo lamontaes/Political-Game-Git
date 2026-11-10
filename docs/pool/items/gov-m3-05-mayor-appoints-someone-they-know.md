@@ -16,6 +16,7 @@ effort: low
 root: rc2-done-from-records
 source: governing lead Oct 29
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** M3-05's test sentence says the mayor appoints someone they know. The appointments engine already weighs whether a candidate is known to the appointer (`known`, a relationship pair, in `townPostInput`, src/core2/modules/executive.ts), and src/core2/executive.test.ts has the player name a resident to a post, but it picks the first resident by id, not anyone the player knows, and checks no tie. Nothing proves that the player's route as mayor lets them name a person from their own circle and that the record says so. Prove it from the player's office in the played world.

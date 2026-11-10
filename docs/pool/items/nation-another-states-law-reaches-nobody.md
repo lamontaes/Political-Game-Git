@@ -16,13 +16,14 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: opus
 effort: high
 root: design-country-tier
+checked: fable 2026-11-10
 ---
 
 **What.** When another state passes a law, nothing happens to anyone. Measured in a played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af): 54 other states and territories changed 473 laws, and the only records that mention any of them are 463 "law took effect" notices and 127 news records. The ten laws without a notice take effect after the year the audit ran ended. None of those records names a person. Read in the code, and confirmed by the audit's reviewer: another state's law becomes a news item, and the two parts of the game that carry a law to people both skip it (`src/core2/law-reach/host.ts`, near line 151, and `src/core2/modules/outcome-web.ts`, near line 723). The one exception is a carbon price, which feeds national warming (`src/core2/modules/climate.ts`, near line 97). So a neighbor's tax cut pulls nobody across the line, a state's wage law raises nobody's pay there, and the country's numbers never answer what its states do. Fix it at the cause for every state and territory: the people a state's law lands on are that state's counted groups, read by the same reach rules the played town uses times their counts, so each change in force moves a figure in that state that another engine reads.
 
 **Cause.** Found in code: src/core2/law-reach/host.ts line 151 and src/core2/modules/outcome-web.ts (~line 723) skip national: places, so another state's law is only a notice and news.
 
-**Fix.** Land other states' laws on their counted groups through the same reach rules times counts, stepped monthly.
+**Fix.** Since the country tier (pull request 8116), a state's own law already reaches its counted people each month for eight series, read in src/core2/country-law.ts: income tax, Social Security tax, Medicare tax, sales tax, corporate income tax, the minimum wage, unemployment insurance and its weekly maximum. Every other law another state passes still does nothing there, because the law-reach host and the outcome web stop at a `national:` place. First list, from the reach rules' own tables under src/core2/law-reach/, every law series that has a reach rule in the town and is not one of those eight. For each, either add a reader in the tier's month that applies the same rule to the state's cells times their counts (one rule, two tiers; never a second copy of the rule), or record in data, with the reason, that the series has no effect the tier holds (a rule about one town's zoning, for example). Keep the two skips for the town-only records they protect, and say so in a comment. Put the list in the pull request.
 
 **Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -30,7 +31,7 @@ root: design-country-tier
 
 **Done when.** A second session, not the builder, runs this in the running game. Start the bench (`npm run bench`, play at `/play`) with the Place field empty so the place is a drawn place, and write down the place and seed. With dev mode's Run on the Calendar, play one year. Pick three laws that other states changed in the year, from dev mode's Watch panel or the Nation heading in the News, and open each with dev mode's Trace: each names the counted groups in that state it reached, how many people they stand for, and one figure in that state that moved because of it (pay, a tax paid, people moving in or out), by record id, with a screenshot of each. Follow the dollars for one tax or wage law in a twin world with and without the change: the state's households, employers and treasury differ by account in the direction the law says. Then the named repro, Caño Martín Peña, Puerto Rico, seed 50fe2d1143af, one year: the records that mention the other states' changed laws are no longer notices and news alone. A test draws a place, plays a year and fails if every record naming another state's law is a notice or a news record. The owner plays it: a neighboring state cuts a tax, and over the next year his Metrics tab and the News show people and businesses there answering it.
 
-**Waits on.** core-country-tier-first-slice (open), which decides the shape of a state's counted groups.
+**Waits on.** Nothing. The country tier it builds on is on main (pull request 8116).
 
 **Files.** src/core2/law-reach/host.ts (`runHandlers`, line 148; the skip for a `national:` place at line 151), src/core2/modules/outcome-web.ts (`OUTCOME_WEB_MODULE.onEvent`, line 719; the skip at line 723), src/core2/modules/laws.ts (`lawTookEffect`, line 1012, which emits another state's law as a `national:` event near line 1023), src/core2/modules/climate.ts (the carbon laws, the one reader today, near line 97), src/core2/counted-reach.ts, src/core2/regional-model.ts, src/bench/dev-mode.ts
 

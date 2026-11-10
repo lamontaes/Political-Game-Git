@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A debate is a sitting the player takes part in (kinds debate-invite and debate-sitting). Nothing in the elections engine makes a field of 15 or stages one. Make a debate sitting stage a field of up to 15 with every candidate on the contest answering, and sometimes just two or three, as the contest's own filings give.

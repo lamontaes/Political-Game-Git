@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc1-world-outside-town
 source: split from justice-federal-case-stream in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The federal courts keep only a monthly flow and a stock by offense group, so no federal defendant, judge or sentence exists to read. Build one on open: choose a federal offense group and a month from the flow, fill in a defendant from the counted population, name a judge, and file the case and its sentence through justice.ts's existing case flow, with the sentence length from the Sentencing Commission's mean for the group reduced by the mandatory-minimum law in force. The filled-in defendant must match the counts the flow stands on.

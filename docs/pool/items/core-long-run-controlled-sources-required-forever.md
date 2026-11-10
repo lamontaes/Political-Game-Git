@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** prunePriorSource (src/core2/work-cash.ts, line 556) returns early for a source in retainedControlledSources, and the payroll path (src/core2/work-payroll-cash.ts:1916, :2212, :2383) never releases a controlled source at all, so every payroll and cash-act source paid to the person under explicit control (the player on the player clock, or anyone dev mode controls) stays required. Each such receipt keeps `retention.requiredBySource`, core.cashJournal.requiredBySource gains a row every payday, and the monthly fold of itemized receipts (foldOldCashJournalDetail in src/core2/decision-detail.ts) must keep them all and walks them again on every 1st. speed:year cannot show it, because advanceCore refuses to run while a person is controlled (src/core2/life.ts:605). In dev mode, dropOldPayrollSources (src/core2/decision-detail.ts, line 446) also deletes a controlled non-player's payroll source rows after 7 days while requiredBySource still names them, so those receipts can never be released.

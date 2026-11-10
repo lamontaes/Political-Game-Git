@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 source: split from play-campaign-acts-as-scenes in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Mail is a button on the campaign trail card. It becomes a scene at a printing place where the player decides what to mail and how much to spend, and the same mailer record is written as the button wrote (mailers to the town's next households, as many as the amount buys, never past what the campaign holds). Each act keeps its existing handler and record; only how it starts changes. The button is deleted with the scene.

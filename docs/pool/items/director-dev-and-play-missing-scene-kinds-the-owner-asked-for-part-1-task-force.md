@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc7-player-cannot-drive
 source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A study committee or task force is a row in the body engine, formed when a body cannot settle a bill, and nothing stages it or forms one by an executive's order. Add a task-force scene: an executive or a body forms it, the cast is the members the world gives, the player answers with four replies, and the report it files is read by the next bill's positions and by the press. The executive's order that forms one belongs to the body engine (Legislation); until it exists the scene uses the study-referral record and a registered stopgap names the missing order.

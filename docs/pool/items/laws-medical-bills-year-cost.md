@@ -16,6 +16,7 @@ effort: high
 root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 lead: laws
+checked: fable 2026-11-10
 ---
 
 **What.** After the quadratic cut already on main, the monthly bill pass still adds up to 19.5% to a year (the speed lead's alternating four-year Ringgold, Louisiana runs: +3% and +19.5% in year 4). Three of four head runs put year 3 or 4 past 120 s, against 103 to 116 s on base. In a profiled Long Hill, Connecticut year (seed m7b) what is left is the put of about 21,300 bill rows a month (module-state put, plainCopy of each row with its members, webLinks and ownRecordsFor arrays), the cash journal postings the payments make (postCashJournal, projectCashJournal), and recordMedicalDebt. Cut the row copies and journal postings it makes for counted households without changing what the simulation decides.

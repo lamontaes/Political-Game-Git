@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
 source: split from play-campaign-acts-as-scenes in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Poll is a button on the campaign trail card. It becomes a scene: the player meets the pollster for a briefing at a place, chooses the sample, and the same poll record is written as the button wrote. A first build exists on branch play-first/play-campaign-poll-scene at 82eb4dac0b (a poll case with a line and a scene, a pollsterBriefingPlace row, two poll-none bank pieces, src/bench/poll-briefing.browser.mjs) but it is not on main, and its check failed: after the player puts money in and reopens the card, the second Poll click gets no /api/campaign/act response. That branch may be gone; the work does not depend on it.

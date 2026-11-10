@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** Three campaign acts are still buttons on the campaign trail card, not scenes: Poll, Mail and Put in your own money (the registered stopgap SG-PLAY-campaign-acts-buttons). Volunteers, donor calls, endorsements and the ad were turned into scenes with people on screen, each writing the same record as its button did. The owner ruled that every campaign act is a scene you go to ("Scenes are the game. They're the narrative"), so these three need the same treatment. Each keeps its existing handler and record; only how it starts changes. The work is split into three parts, one per act, and the stopgap closes with the last of them.

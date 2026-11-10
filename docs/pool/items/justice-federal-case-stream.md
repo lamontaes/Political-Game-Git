@@ -12,10 +12,11 @@ pr:
 after:
 blocked-on: justice-federal-case-stream-part-1-case-on-open, justice-federal-case-stream-part-2-door-and-proof
 lead: governing
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc1-world-outside-town
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Federal laws (mandatory minimums, drug sentencing) need a case stream so they reach a person, not only a count. The counts half is on main: src/core2/modules/federal-courts.ts keeps the federal courts as a monthly flow and a stock by offense group from the Sentencing Commission's yearly admissions (data/research/justice/ussc-federal-sentencing-fy2025.json) and the Bureau of Prisons table (data/research/justice/bop-federal-offenses-2026.json, 152,107 in custody, fetched Nov 8), checks the stock against the Bureau's table without steering to it, and reads the reduce-mandatory-minimums law (`REDUCE_MANDATORY_MINIMUMS`, `reductionFactor`). What is left is the case: its header says "No case, judge or defendant is kept" and that who was sentenced "is built when someone opens the case". Add a federal case through the existing justice case flow, built when opened, so one defendant, one judge and one sentence exist, and the sentencing floor the mandatory-minimum question sets is the one the case reads.
@@ -24,7 +25,7 @@ source: added with npm run pool -- add
 
 **Fix.** Build it in two parts: part 1 builds a federal case, defendant and sentence on open from the flow through justice.ts; part 2 adds the door that opens one, proves the stock against the Bureau's table by offense group over ten years, and shows that an enacted mandatory-minimum bill changes the floor the case reads.
 
-**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. (the parts carry their own boxes; this item joins them.)
+**Time box.** 2 hours for one Sonnet session, the closing check once both parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** No dice: sentences come from the Sentencing Commission's means and the law in force, never a roll. One engine: justice.ts case flow, not a second court system. One model, two tiers: a counted federal case is read by the same rule as a named one, times its count. Estimate, never UNKNOWN: sizes are SOURCED with citation. Real figures (the Bureau's table) are reported next to the result, never steered to (owner, Nov 8: ranges aren't targets).
 
