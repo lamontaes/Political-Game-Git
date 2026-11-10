@@ -230,11 +230,17 @@ it(`someone out of touch for years comes back and asks for something (seed ${see
       ).toEqual([]);
       for (const row of scene.talk.lines)
         expect(row.text, where).not.toMatch(SLOP);
-      for (const row of scene.talk.lines)
-        expect(
-          (row.text.match(new RegExp(player.givenName, "g")) ?? []).length,
-          `${where}: ${row.text}`,
-        ).toBeLessThanOrEqual(1);
+      // The player's name is said at most once a line; another person in the
+      // scene may share it (a new child named for the player's own first name).
+      const sharedName = scene.facts.some(
+        (fact) => fact.key !== "first" && fact.text === player.givenName,
+      );
+      if (!sharedName)
+        for (const row of scene.talk.lines)
+          expect(
+            (row.text.match(new RegExp(player.givenName, "g")) ?? []).length,
+            `${where}: ${row.text}`,
+          ).toBeLessThanOrEqual(1);
       // A promise settles it and is written on the reply by id.
       const settled = endsKeeping(scene.talk.tree, "promise")[0];
       expect(settled, `${where}: no path keeps a promise`).toBeTruthy();
