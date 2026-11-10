@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 pr: #8253
 after: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split
 blocked-on:
@@ -17,7 +17,7 @@ effort: medium
 root: rc2-done-from-records
 source: split from play-golden-path-m0-13-red-st-johnsbury in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at:
+claimed-at: 2026-11-10T23:01:06.727Z
 branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 ---
 
@@ -42,3 +42,5 @@ branch: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
 **Notes.** Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 22:49 UTC) on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth.
 
 Released (2026-11-10): Cause differs from code: turnover and regional are one row per live worker and level off after month 6 (St. Johnsbury VT, seed f915eb03); the heap growth is the regional fill in the first half year; measurements and reader map on PR #8253. Continue on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth and pull request #8253.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:01 UTC) on branch claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth.
