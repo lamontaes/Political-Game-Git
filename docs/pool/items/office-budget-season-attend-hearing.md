@@ -6,21 +6,38 @@ kind: feature
 priority: 2
 size: L
 status: blocked
+standard: 2
 claimed-by: claude/budget-hearing-agenda
 pr:
-blocked-on: office-the-budget-season
+blocked-on: office-budget-season-attend-hearing-part-1-agenda-placement, office-budget-season-attend-hearing-part-2-vote-at-meeting, office-budget-season-attend-hearing-part-3-player-at-hearing
 source: added with npm run pool -- add
 claimed-at: 2026-10-20T06:41:35.954Z
+after:
+lead: governing
+model: sonnet
+effort: medium
+root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
-**What.** Today the budget bill is drafted and voted in one call at the year's start (legislature.ts adopt path, budgets enacted or failed), so it never sits on a meeting agenda and a seated player with the every-meeting stop is never held at a budget meeting. Place the bill on the agenda of the body's meeting before the fiscal year starts (placeOnAgenda), vote it at that meeting through the same holdVote the other items use, and let the seated player speak (speakOnItem) or take it up; a computer-run body still votes it on the same day.
+**What.** On main a budget hearing exists (`holdCouncilBudgetHearing` in src/core2/modules/legislature.ts), but it and the budget vote run as direct calls on set days, so the budget bill never sits on a meeting agenda and a seated player with the every-meeting stop is never held at a budget meeting. Make the budget hearing a player choice in three parts: place the bill on the body's agenda before the fiscal year starts, vote it at that meeting through `holdVote`, and let a seated player speak. A computer-run body still votes it the same day.
+
+**Cause.** Found in code: `holdCouncilBudgetHearing` and `councilBudget` in src/core2/modules/legislature.ts (lines 940 and 996) draft, hear and vote the budget without `placeOnAgenda` (src/core2/modules/office-day.ts, line 330) or `holdVote`.
+
+**Fix.** Build the three parts in order; this item adds no code of its own.
+
+**Time box.** 2 hours for one Sonnet session, the closing check once the three parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Replace, never layer: the one-call draft-and-vote path is deleted; No dice; One rule, all 56 places: the meeting day comes from the body's own rule; No hand-written player text: hearing wording waits on words-budget-hearing-speakers.
 
-**Done when.** In a drawn place and seed (named in the PR body) a seated player holding the every-meeting stop is stopped at the meeting that votes the budget, speaks on it, and the adopted budget id and the kept act id are named; office-day-budget-season.test.ts still passes. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Done when.** A second session, not the builder, plays a drawn place and seed (named), with a seated player holding the every-meeting stop, and sees them stopped at the meeting that votes the budget, speak on it, and the adopted budget id and the kept act id named; src/core2/office-day-budget-season.test.ts still passes.
+
+**Waits on.** Its three parts: office-budget-season-attend-hearing-part-1-agenda-placement, office-budget-season-attend-hearing-part-2-vote-at-meeting and office-budget-season-attend-hearing-part-3-player-at-hearing.
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/budgets.ts, src/core2/modules/office-day.ts
 
 **Notes.** TODO
 
 Oct 25 audit: blocked-on now names the item that carries PR #5533 (office-the-budget-season).
+
+**Notes (pool redo, Nov 10).** The brief's "blocked-on" for this item was office-the-budget-season; it now lists the parts, and part 1 carries the old gate as its `after:`.

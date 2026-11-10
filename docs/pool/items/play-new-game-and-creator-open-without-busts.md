@@ -6,21 +6,32 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 after:
 blocked-on:
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Not fixed (measured)")
+model: sonnet
+effort: medium
+root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
-**What.** Measured by the audit on Nov 9: "New game is two bare words in a box with no busts. The creator opens as one large Start a life box with no figure in it until a gender is picked." The audit's line gives no place or seed; these are the screens before a world exists, reached from the title on the way to its life in Blodgett Landing, New Hampshire. The owner said the same on Nov 8 at about 2:10 p.m. Eastern (v0.94.0): "this big ass box pops up. I don't know why this got bigger. And then now everything is for some reason in this one like big start a life thing... why is it all in one box?... why aren't the busts in?" Read in code on main, Nov 10: New game is `#front-new` in `src/bench/play.html` (line 123), two text buttons, Start a life and Advanced, with no picture. The creator is `#cr-screen` (line 221); its figure is two full-length pictures, everyday and work clothes (`#cr-portrait` and `#cr-portrait-work`, filled by `showLook` in `src/bench/play.mjs`, line 5851), which have no source until a look exists. Fix the class: every front screen that shows a person shows a bust from the one face part, from the first moment the screen opens, and New game shows its two choices as the approved render draws them.
+**What.** Measured by the Nov 9 audit: "New game is two bare words in a box with no busts. The creator opens as one large Start a life box with no figure in it until a gender is picked." The audit's browser life was in Blodgett Landing, New Hampshire (no seed); these are the screens before a world exists. The owner said the same on Nov 8 (v0.94.0): "why aren't the busts in?" Fix the class: every front screen that shows a person shows a bust from the one face part, from the first moment the screen opens, and New game shows its two choices as the approved render draws them. If the bust art for men is still not in the pack, build with the round pack headshots the menus already crop, registered as a stopgap, never a full figure.
+
+**Cause.** Found in code: `#front-new` in src/bench/play.html (line 123) is two text buttons, Start a life and Advanced, with no picture; the creator `#cr-screen` (line 222) draws full-length `#cr-portrait` and `#cr-portrait-work` (lines 226 and 232), filled by `showLook` in src/bench/play.mjs (line 5851) and empty until a look exists. Seen by the Nov 9 audit and by the owner on Nov 8.
+
+**Fix.** Show a bust from the one face part from the first frame on New game and the creator, matching the approved front mocks (docs/mocks/2026-11-08-front, fr-new and fr-creator); delete the full-length pictures and their styles; use the round pack headshots as a registered stopgap if the men's busts are not ready. Leave the creator's color arrows as they are (arrows on single-value steppers stay).
 
 **Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Replace, never layer: the two full-length creator pictures and their styles are deleted in the same change that puts the bust in, and the PR body counts what was removed. Owner, Nov 7, about 4:50 p.m. (docs/mocks/2026-11-07-approved/RULINGS-nov5.md, item 50): "No, remember, we're going to keep the busts because that's easiest to do... The full body, we keep coming with problems with that." Owner, Nov 8, about 1:35 a.m.: the front mocks are conditionally approved (docs/mocks/2026-11-08-front, `fr-new` and `fr-creator`: "One screen, a bust only"). The screen-to-mock skill applies: the approved render and the after screenshot go side by side in the PR body.
 
-**Done when.** A different session starts the bench (`npm run bench`), opens the title, clicks New game and takes a screenshot at 1440×900; then clicks Start a life and takes a second screenshot before touching any control. The New game screenshot must match `docs/mocks/2026-11-08-front/renders/fr-new.jpg` in what it holds (the two choices with their busts, no empty box around two words). The creator screenshot must show a bust in the figure column from the first frame, and must not show a full-length figure or an empty figure column. The session then picks each gender in turn and confirms the bust changes and no second figure appears, and starts the life in a drawn place (place and seed named in the proof) to confirm the creator still begins a game. The same two screenshots are taken once more on the way into Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro. The owner plays it: he clicks New game and sees faces on both choices, and the creator shows his character's bust the moment it opens.
+**Done when.** A second session starts the bench (`npm run bench`), opens the title, clicks New game and takes a screenshot at 1440×900; then clicks Start a life and takes a second screenshot before touching any control. The New game screenshot must match `docs/mocks/2026-11-08-front/renders/fr-new.jpg` in what it holds (the two choices with their busts, no empty box around two words). The creator screenshot must show a bust in the figure column from the first frame, and must not show a full-length figure or an empty figure column. The session then picks each gender in turn and confirms the bust changes and no second figure appears, and starts the life in a drawn place (place and seed named in the proof) to confirm the creator still begins a game. The same two screenshots are taken once more on the way into Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro. The owner plays it: he clicks New game and sees faces on both choices, and the creator shows his character's bust the moment it opens.
+
+**Waits on.** The owner's decision on how busts are shown (docs/coordination/OWNER-DECISIONS.md, Nov 10, "Staging waits for busts": "I haven't decided how they're going to display yet"). The approved front mocks (docs/mocks/2026-11-08-front, fr-new and fr-creator) show where a bust goes; build once he has said how it is drawn. Men's bust art may force a registered stopgap.
 
 **Files.** src/bench/play.html, src/bench/play.mjs, src/bench/play.css, src/bench/ui/strips.mjs, src/bench/ui/headshot.mjs
 

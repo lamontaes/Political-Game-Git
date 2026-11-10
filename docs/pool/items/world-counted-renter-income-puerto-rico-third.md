@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -32,3 +32,7 @@ Why it can't merge: about 40 percent of renter households then have no earner an
 Order of work: first give counted households the transfers the full tier would receive (Social Security for retired and disabled members, cash assistance through the law in force) as income that householdIncome reads. Then apply the branch's whole workers.
 
 Drawn places measured with the branch, against the place's own ACS figure, else its state's: Desert Edge CA (0618986) 73.8 against CA 33.1 (83.4 before); Chalan Piao MP 13.3 against the national 30.9 (8.9 before; the island areas have no ACS); Middlebury VT (5044275) 81.4 against the place's 32.7; Spelter WV (5475796) 22.9 against WV 28.4; Gilbertsville KY (2130880) 110 against the place's top-coded 50+. Claim released.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into world-counted-households-transfer-income. Its own Oct 21 notes name the same defect and fix (counted households receive no transfers, so a household with no earner has no income) and put it first in the order of work. The kept item should take the ACS figures it fetched (B19055, B19065, B19067, B25071) and the Puerto Rico place 7237336 repro as evidence. Stale names in this item: `unplacedWorkerIds` and the research files rent-burden-places-acs-2024-5yr.json and data/research/housing/rent-burden-acs-2024.json are not on main (they lived on branch claude/pr-renter-income).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `world-counted-households-transfer-income`, which carries this item's remaining work.

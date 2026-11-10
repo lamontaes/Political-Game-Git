@@ -6,20 +6,35 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5808
+after:
 blocked-on:
+model: sonnet
+effort: medium
+root: rc5-full-detail-every-day
+lead: director
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** src/director/stories-from-engines.test.ts times out at its 30-minute limit on main (Coventry, Vermont, seed 0fc1c044eef41a1c22a597a9d1846533367bca84). With all 1,720 people watched, the first 30 days took about 8 seconds on #5336's branch before it merged main (about 50 seconds for a year) and 834 seconds on plain origin/main with the same script. Something main added since makes watching everyone scan far more per day.
+**What.** With all 1,720 people watched in Coventry, Vermont (seed 0fc1c044eef41a1c22a597a9d1846533367bca84), the first 30 days took about 8 seconds on #5336's branch before it merged main (about 50 seconds for a year) and 834 seconds on plain origin/main with the same script, so something main added since makes watching everyone scan far more per day. The test that timed it, src/director/stories-from-engines.test.ts, no longer exists, so the repro cannot be run as written. The scan that makes watching everyone slow was never named, and #5808's cache and rescore slice never got a bounded acceptance table.
 
-**Rules.** Speed: a town's game year must run in under two minutes, and no change may make a year more than 20 percent slower than its base; never scan the whole world or history every day; use indexes or act on the day something changed. Measure one process at a time on the same machine.
+**Cause.** Needs cause. Looked at: the item, its send-back, and src/director (no stories-from-engines test; journal-life-stories.test.ts and journal-work-stories.test.ts exist). The scan that makes watching everyone slow was never named.
 
-**Done when.** On main, the Coventry, Vermont seed above runs its first 30 days with every person watched in under 15 seconds, measured before and after on the same machine; the slow function is named by profile in the PR body; stories-from-engines.test.ts passes within its limit. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** None until the cause is found.
 
-**Files.** src/director/, src/core2/
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base, measured before and after on the same machine, one process at a time. Never scan the whole world or history every day; use indexes or act on the day something changed.
+
+**Done when.** A second session, not the builder, plays Coventry, Vermont (seed 0fc1c044eef41a1c22a597a9d1846533367bca84), or another drawn place, in the played world with every person watched for 30 days, takes a CPU profile, and names the slow function by file and line, with seconds before and after; this item is then rewritten with Found in code and a Fix, and gives the bounded 30-day time to beat.
+
+**Waits on.** Nothing.
+
+**Files.** src/director, src/core2/calendar.ts
 
 **Notes.** TODO
 

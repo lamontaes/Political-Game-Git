@@ -11,13 +11,28 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: laws-effects
+checked: fable 2026-11-10
 ---
 
-**What.** Weighed for every adult 55 or older in Haledon, New Jersey (place key 3429070, seed fc8bf1311d0f) as if at death, the will's age term (src/core2/estates.ts, willOf) puts all 858 over the line with temperament off, against 37.4% with a will among Swiss adults 55+ (Ryser et al. 2026) and about half of older Americans. The trust's wealth term (trustOf, a 5 million dollar midpoint) keeps 98% of the 832 with savings far below it. With the rates this far from life, the trait weights cannot reach the studies' odds (1.42 and 1.34 between the thirds).
+**What.** Weighed for every adult 55 or older in Haledon, New Jersey, the will's age term puts all 858 over the line with temperament off, against 37.4 percent with a will among Swiss adults 55+ (Ryser et al. 2026) and about half of older Americans. The trust's wealth term keeps 98 percent of the 832 with savings far below it. With the rates this far from life, the trait weights cannot reach the studies' odds (1.42 and 1.34 between the thirds). Research is gathered in the Notes; the build needs net worth on record first.
 
-**Rules.** Research before building: rates by age and by wealth from fetched surveys (for example Caring.com or AARP will surveys, the Federal Reserve's SCF on trusts), quoted. Estimate, never UNKNOWN. No dice: a will stays a weighed choice. One rule, all 56 places.
+**Cause.** Found in code: src/core2/estates.ts willOf (line 191) and trustOf (line 233): the age term puts all 858 adults 55+ over the line in Haledon, New Jersey (3429070, seed fc8bf1311d0f).
 
-**Done when.** willAgeMidpointYears, willAgeWeight, trustWealthMidpointMinor and trustWealthWeight are SOURCED or ESTIMATED with their surveys; over a drawn town's adults 55+ the shares with a will and a trust are within the surveys' bands; and estates.will and estates.trust are fitted with weights reaching net odds from 1.2 to 3 between the thirds, or keep gap rows with the numbers.
+**Fix.** Once a person's net worth is on record, fit the will age term, a wealth term and the trait weight to Pew's age bands, the Center for Retirement Research wealth quarters and the 1.42 odds ratio, and fit the trust the same way; keep gap rows with the numbers where they cannot be reached.
+
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Research before building: rates by age and by wealth from fetched surveys, quoted. Estimate, never UNKNOWN. No dice: a will stays a weighed choice. One rule, all 56 places.
+
+**Done when.** A second session runs a played world (buildBenchWorld) in Haledon, New Jersey (seed fc8bf1311d0f) and a second drawn place named with its seed, and sees the share of adults 55+ with a will and a trust rise with age and wealth and not sit at all or none, reported beside the surveys' figures; willAgeMidpointYears, willAgeWeight, trustWealthMidpointMinor and trustWealthWeight are SOURCED or ESTIMATED with their surveys, and estates.will and estates.trust are fitted with weights, or keep gap rows with the numbers.
+
+**Waits on.** people-estate-wealth-top-tail (net worth must be on a person's record).
 
 **Files.** src/core2/estates.ts, src/core2/data/parameters.json, data/content/trait-decision-gaps.json
 

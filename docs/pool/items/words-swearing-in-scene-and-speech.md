@@ -6,7 +6,7 @@ lead: words
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -28,3 +28,7 @@ Built on branch words/swearing-in (helper, Oct 29): type `swearing-in` (src/dire
 Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/swearing-in, head 917b9d1bd6, fully merged (#6840). Next step: check the done-when against main (the took-office record opening the scene, the address for an executive office, the shot in docs/play-first/shots) and set it done or finish what is missing.
 
 **Notes.** Lane 3, Nov 4 UTC: already built on main. The `swearing-in` situation fires on `cause:event:took-office` (selfNamed), with `swearing-in.ts`, `inaugural-address.ts` and the fills `oath-giver` and `sworn-colleagues`. `src/director/swearing-in-scene.test.ts` ("taking office is a swearing-in scene: the oath on the record, and an address where the office gives one") passes on main. Still owed against the done-when: the bench screenshot in docs/play-first/shots. Nothing else to build.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The swearing-in situation fires on took-office (src/director/data/situation-types.json line 6655), src/director/swearing-in.ts exists, and src/director/swearing-in-scene.test.ts proves the oath and the executive address. The only thing owed was a screenshot, which the acceptance rule (a second session sees it in the game) replaces.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

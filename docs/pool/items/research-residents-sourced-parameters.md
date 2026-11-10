@@ -11,19 +11,32 @@ pr: #5690
 blocked-on: researcher: per-place or calibration sourcing, each row cited; first row's replacement: Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents. (parameter
 source: "collapsed Oct 19, 2026 from people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data"
 claimed-at:
+standard: 2
+model: sonnet
+effort: medium
+root: none
+lead: researcher
+after:
+checked: fable 2026-11-10
 ---
 
-**What.** Source the numbers behind residents' cadence, district placement and employment. Each row below is a registered stopgap whose replacement waits on sourced or estimated data, collapsed here from 3 pool item(s) on Oct 19, 2026 so one researcher takes the engine family at once. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder (name the pool item in the PR).
+**What.** Source the numbers behind residents' employment. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Only the employment-proxy row remains here. The cadence and district-placement rows moved to research-residents-cadence-sourced and research-residents-district-placement-sourced and are left out of the list below, and research-residents-employment-island-areas holds the island areas' own employment-by-age tables. The earlier pull request delivered only the county observations (src/core2/data/resident-employment-counties.json). The employment proxy uses national CPS age ratios where county ACS cells are missing or suppressed.
 
 - `SG-P8-resident-employment-proxy` in src/core2/data/resident-employment.json: Uses national pre-opening CPS age ratios and a tunable local scale when actual county ACS cells are unavailable. Replacement: Valid county B23001 civilian employed/resident-age observations, suppression/MOE handling and territorial equivalents. (parameter rows: src/core2/data/parameters.json:openingMissingCountyEmploymentScale)
-- `SG-CORE-residents-cadence` in src/core2/residents.ts: The wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays; count workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). Replacement: Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS.
-- `SG-CORE-district-placement` in src/core2/modules/residents.ts: A town split between state legislative districts places its counted households into the districts by income order, filling each district in proportion to its Census population in the town, so each district holds a slice of the town's income ladder. Replacement: Each district's own Census tables (ACS by state legislative district: income, tenure, age) and its election results, so households are placed by the district's real mix.
+
+**Cause.** Design: each stopgap row named below is still open in its family file under src/core2/data/stopgaps/ and waits on sourced data. The rule is AGENTS.md "Placeholders" (every shortcut registered, every number tagged SOURCED, ESTIMATED or TUNABLE), and the research is in docs/research/pool-feeder-oct20/research-residents-sourced-parameters.md.
+
+**Fix.** Source territorial and suppressed-cell equivalents for ACS B23001 and replace openingMissingCountyEmploymentScale, or keep it ESTIMATED with its spread.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 
-**Done when.** Each listed row is SOURCED or ESTIMATED in its parameter table with a citation (publisher, year, URL) and a spread (low, high, unit, citation); each stopgap row above is resolved in src/core2/data/stopgaps.json with the source named where its figure is now SOURCED, and where a figure stays ESTIMATED or the row needs a mechanic the research does not build, the row stays open with its `replacement` naming the research file, the estimate's source and spread, and the figure or builder item that would close it; the research-data-reader guard (tests/guards/research-data-has-reader.test.ts) is green; the tripwire and calibration-guard tests pass; and a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) reports each band and where the town landed.
+**Done when.** A second session reads the parameter tables for the territorial and suppressed-cell equivalents for B23001 and finds each SOURCED or ESTIMATED with a citation (publisher, year, URL) and a spread (low, high, unit, citation). In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR) it sees the engine read each new value by record id, with where the town landed reported next to the real figure; the real figure is reported only and is not a pass mark. Each stopgap row this item takes is resolved in its family file under src/core2/data/stopgaps/ with the source named, or stays open with its replacement naming the research file, the estimate's source and spread, and the item that would close it. tests/guards/research-data-has-reader.test.ts and the tripwire and calibration-guard tests pass.
 
-**Files.** src/core2/data/resident-employment.json, src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/data/parameters.json, src/core2/data/stopgaps.json, data/research/people/
+**Waits on.** Nothing.
+
+**Files.** src/core2/data/resident-employment.json, src/core2/modules/residents.ts, src/core2/residents.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/p8.json, data/research/people/
 
 **Notes.** Folded from: people-stopgap-resident-employment-missing-local-observation, people-stopgap-residents-aggregate-cadence, people-stopgap-residents-assumed-data. Rows that are not numbers (missing mechanics in law reach, for example) stay registered; this item sources what they will read.
 

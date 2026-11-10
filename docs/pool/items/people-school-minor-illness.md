@@ -11,15 +11,30 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+standard: 2
+model: opus
+effort: medium
+root: none
+lead: lives
+checked: fable 2026-11-10
 ---
 
-**What.** Played towns show children attending 99 percent of school days or more (Monroe, Oregon 99.8 percent, Guam 99.3 percent) against NCES average daily non-attendance of 6.5 to 10 percent, because the child's reason to stay home reads careNeedOf, which is zero except for a serious onset or a held chronic condition. The health module has no passing illness (colds, flu, injury) that raises a person's care need for days. Add short episodes to the health module from the person's age, season and household (a sick sibling) so a child's care need rises for a few days, read by school and work absence alike.
+**What.** Played towns show children attending 99 percent of school days or more (Monroe, Oregon 99.8 percent, Guam 99.3 percent) against NCES average daily non-attendance of 6.5 to 10 percent, because a child's reason to stay home reads the care need, which is zero except for a serious onset or a held chronic condition. The health module has no passing illness (colds, flu, injury) that raises a person's care need for days. Add short episodes from the person's age, season and household (a sick sibling), read by school and work absence alike, calibrated to the sourced NHIS illness absence, not NCES's total. A household-circumstance term (merged from people-school-attendance-circumstances) follows as a second step.
 
-**Rules.** No dice: an episode starts from recorded causes (age, season, a sick household member, immunity from earlier episodes), never a monthly chance on one person; real incidence checks totals. One model, two tiers: counted children carry the same episodes times their count.
+**Cause.** Found in code: src/core2/modules/school.ts schoolDay (the stay-home choice, STAY_HOME) reads the child's need, and careNeedOf in src/core2/modules/health.ts (line 1200) is zero except for a serious onset or held chronic condition, so no passing illness keeps a child home; Monroe, Oregon 99.8 percent attended.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a place drawn from all 56, seed named), the school-age share of days attended falls between 90 and 93.5 percent pooled over at least three drawn places, shown by school attendance records and the episodes that kept children home by record id, in a test beside src/core2/school.test.ts.
+**Fix.** Add short illness episodes from age, season and a sick household member in health.ts, read by school and work absence, calibrated to NHIS (mean 3.24 days missed a year, about 15 percent missing 6 or more) and not to NCES's 6.5 to 10 percent; then add a household-circumstance term. File the remaining gap to NCES as its own item.
 
-**Files.** src/core2/modules/health.ts,src/core2/modules/school.ts,src/core2/data/parameters.json
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** No dice: an episode starts from recorded causes (age, season, a sick household member, immunity from earlier episodes), never a monthly chance on one person; real incidence checks totals. One model, two tiers: counted children carry the same episodes times their count. Research before building: the NHIS figure (Berendes et al., MMWR 2020;68(53):1201-1205) is quoted from the page.
+
+**Done when.** A second session runs a one-year played world (buildBenchWorld, a place drawn from all 56, seed named) in at least three drawn places and sees school-age children stay home for passing illness episodes, by episode and school attendance record ids, with the year's illness absence reported beside the NHIS figure (mean 3.24 days) in a test beside src/core2/school.test.ts.
+
+**Waits on.** Nothing. Whether to build it is not a question for the owner: a mechanic real life has that the simulation needs is built from research as a background simulation (owner, Oct 24, "Simulate it, don't ask", AGENTS.md). It adds no step to the player's life; an absence shows only as a record.
+
+**Files.** src/core2/modules/health.ts, src/core2/modules/school.ts, src/core2/data/parameters.json, src/core2/school.test.ts
 
 **Notes.** TODO
 

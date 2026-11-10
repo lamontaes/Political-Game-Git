@@ -4,20 +4,35 @@ title: "Standing payments live in two layers, finance contracts and accounts obl
 area: core
 kind: cleanup
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
-blocked-on:
+after:
+blocked-on: core-finance-contracts-vs-obligations-part-1-payee-account, core-finance-contracts-vs-obligations-part-2-retirement-claims, core-finance-contracts-vs-obligations-part-3-group-b-estates-budgets, core-finance-contracts-vs-obligations-part-4-delete-obligation-code
 source: found by the world-accounts-api proof (Oct 19)
 claimed-at:
+lead: money
+standard: 2
+model: sonnet
+effort: low
+root: none
+checked: fable 2026-11-10
 ---
 
-**What.** Housing leases, bills and tuition run as `finance.contracts` rows with `arrearsMinor` (src/core2/finance-state.ts), while retirement claims and group B law reach use `accounts.addObligation` with its own arrears (src/core2/accounts.ts). The two do the same job with two sets of rules for due dates, partial payment and arrears. Replace one with the other so a standing payment has one layer, one arrears record and one place the engines read; the old layer's code, rows and tests are deleted in the same change.
+**What.** Housing leases, bills and tuition run as `finance.contracts` rows with `arrearsMinor` (src/core2/finance-state.ts), while retirement claims and group B law reach use `accounts.addObligation` (group A has already moved) (group A has already moved) with its own arrears (src/core2/accounts.ts). The two do the same job with two sets of rules for due dates, partial payment and arrears. Replace one with the other so a standing payment has one layer, one arrears record and one place the engines read; the old layer's code, rows and tests are deleted in the same change.
+
+**Cause.** Found in code: housing leases, bills and tuition run as finance contracts with `arrearsMinor` (src/core2/finance-state.ts, `admitFinanceContract` at line 464), while src/core2/accounts.ts `addObligation` holds the same job with its own arrears; its callers are src/core2/modules/retirement-claims.ts (lines 236 and 401) and src/core2/law-reach/group-b-money.ts (line 420), with reads in src/core2/estates.ts and src/core2/budgets-treasury.ts.
+
+**Fix.** Move the obligation callers onto finance contracts in the order the Notes give (retirement claims need a recorded award plus descriptor; group B fund payees need a payee account) and delete the accounts obligation code. Four parts, each its own item.
+
+**Time box.** 2 hours for one Sonnet session, the closing check after the four parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Replace, never layer: the layer that loses is deleted, not kept beside the winner. Wire to the world: every household's rent and bill still posts the same dollars on the journal, shown in a played year. Speed: a year must stay within 20 percent of its base, measured on the same machine.
 
-**Done when.** A one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, a seed the builder did not choose) shows rent, a bill and a retirement claim each posted from the one layer by journal record id, a missed rent accruing arrears that housing reads when it files an eviction, the old layer gone from src/core2, and `npm run speed:year` within 20 percent of base. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session, in a one-year run of the played world (`buildBenchWorld`, a drawn place from all 56, a seed the builder did not choose), sees rent, a bill and a retirement claim each posted from the one layer by journal record id, a missed rent accruing arrears that housing reads when it files an eviction, and the old layer gone from src/core2. `npm run speed:year` is within 20 percent of base.
+
+**Waits on.** Its four parts: core-finance-contracts-vs-obligations-part-1-payee-account, -part-2-retirement-claims, -part-3-group-b-estates-budgets and -part-4-delete-obligation-code.
 
 **Files.** src/core2/finance-state.ts, src/core2/accounts.ts, src/core2/modules/housing.ts, src/core2/housing-occupancy.ts
 
