@@ -18,6 +18,7 @@ standard: 2
 model: opus
 effort: high
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Once the weight is read everywhere, delete the `Math.min(target, real)` cap and the sample-only path so every town opens at its Census size, and measure a year in the largest town and in a random town, one process at a time. The cap is in `buildPopulation` (src/core2/population.ts, line 575) with `targetPopulation` set to 10,000 in src/core2/data/parameters.json. A town is generated one household and one person record at a time, so a city of millions cannot open by raising the target; each counted household record carries a weight and every reader multiplies by it.
@@ -45,3 +46,5 @@ Sent back 2026-10-23 from PR #5295 (branch claude/uncap): Normal main integratio
 Oct 23 (claude/sleepy-carson-f8omzd, after the PR 5295 send-back): the conflict is resolved and the opening at Census scale is split out as core-census-opens-at-census-scale, which PR 5295 now carries. Measured on the 4-core container, one process at a time: Washington, D.C. models 688,313 of its 693,645 (clean main 10,000) and plays its year in 176.6 s against main's 213.6 s; New York, the largest town, plays its year in 371.7 s against main's 335.2 s (10.9 percent slower). The two-minute line cannot be met by that PR while main's own New York year is 335.2 s, so this item waits on core-speed-year-over-limit-dense-town. The cap line is not met as written: `Math.min(target, real)` now sets the sample size, and the town reaches its Census size through the counted households' weight; the CTO decides whether that closes it.
 
 Oct 25 audit: From the dropped core-town-size-census: it also waited on world-census-weight-owner-draws; check that item before closing.
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. `buildBenchWorld` opens a town at its real Census size: the sample is the people generated and each counted household stands for as many real households as the Census count is over the sample (src/bench/world.ts lines 420 to 424, `censusScale`). `Math.min(target, real)` in src/core2/population.ts (line 575) is the size of that sample, not a cap on the town, and deleting it would generate every resident as a record, against the two-level population. core-opening-counts-from-census and world-census-weight-owner-draws, which this item says to check first, were both closed as done. The year's speed in the largest town is held by the speed bar's own items.

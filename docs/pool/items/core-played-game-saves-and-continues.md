@@ -11,11 +11,12 @@ claimed-by:
 pr:
 after:
 blocked-on: core-played-game-saves-and-continues-part-1-bench-saves-life, core-played-game-saves-and-continues-part-2-continue-saved-games, core-played-game-saves-and-continues-part-3-desktop-persists-save, core-played-game-saves-and-continues-part-4-load-time-flat
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: none
 lead: play-first
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Continue on the title screen is only the server's current life in memory (src/bench/handler.ts, /api/title: 'continue (the server's current life)'), and nothing in src/bench or the desktop host calls saveGame or loadGame from src/core2/saves.ts. Quitting the app or restarting the bench loses the life. The owner's path 6 is play two months, quit, reopen, and Continue returns the same date and people. A save is also versioned so an old save loads and plays after an update (the clause taken from core-m7-02-saves-that-last). It is split into four parts: the bench writes the save, the title screen continues it, the desktop host persists it, and load time stays flat.

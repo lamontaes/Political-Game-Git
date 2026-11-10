@@ -17,13 +17,14 @@ root: none
 source: Oct 25 pool audit, on-screen pass (from traits-end-to-end-proof)
 lead: play-first
 milestone: play-first
+checked: fable 2026-11-10
 ---
 
 **What.** The traits work makes two people in the same spot choose differently for recorded reasons, and traits-end-to-end-proof shows it in a test. The player sees choices happen (a neighbor quits, a cousin runs) but never why. Add one sentence to the card of a person who made a recorded decision, naming the decision and its leading reason, worded by the English engine from the decision record, so people read as people. When the person has no recorded decision, the card says why there is none in plain words.
 
 **Cause.** Design: docs/play-first/LAW.md section 11 (the world on screen makes sense); `card.ts` (src/bench/card.ts) reads no decision record today. AGENTS.md ("Save why reasons only for the player and the people they deal with") limits it to those people. The decision record with reasons comes from traits-end-to-end-proof, which is open.
 
-**Fix.** Add one English-engine sentence to the card of a person with a recorded decision, naming it and its leading reason from the decision record, and say why when there is none. Build against what the engine gives today; where the engine side is thin the card says so in plain words.
+**Fix.** Add one English-engine sentence to the card of a person with a recorded decision, naming it and its leading reason from the decision record (a `person.acted` or `person.weighed` row in `core.durableLog` whose `decision` holds `selectedReasons`; src/core2/decision-detail.ts says how long each is kept and for whom), and say why when there is none. Build against what the engine gives today; where the engine side is thin the card says so in plain words.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -31,7 +32,7 @@ milestone: play-first
 
 **Done when.** A second session (not the builder) plays a year in a drawn place on the bench (place and seed named) and clicks a person with a recorded decision: the card shows one sentence naming that decision and its leading reason, matching the decision record id in a test, shown by a screenshot at 1440x900 with the place and seed named. A person with no recorded decision shows the plain reason. The owner sees it on a person card in his own game without opening dev mode.
 
-**Waits on.** traits-end-to-end-proof (the decision record with reasons).
+**Waits on.** Nothing. (traits-end-to-end-proof, which it once waited on, is done on main.)
 
 **Files.** src/bench/card.ts, src/bench/words.ts
 

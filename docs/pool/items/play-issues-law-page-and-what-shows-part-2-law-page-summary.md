@@ -24,7 +24,7 @@ checked: fable 2026-11-10
 
 **Cause.** Found in code: `lawPage` in src/bench/play.mjs (line 5059) shows the in-force rows, the statute row, the measure, what is coming, what changed and the votes but no plain-words summary of what the law does; the law rows come from `governmentView` in src/bench/government.ts.
 
-**Fix.** Add to `lawPage` a plain-words summary of what the law does (from the English engine's policy words for the law's series), its level, its effective date and how it passed (the enacting measure and its vote, by record id), reading the law row and the enacting bill; no summary typed in the screen.
+**Fix.** Add to `lawPage` a plain-words summary of what the law does (from the English engine's policy words for the law's series), its level, its effective date and how it passed (the enacting measure and its vote, by record id), reading the law row and the enacting bill; no summary typed in the screen. Also, first: part 1 (pull request 8181) built the Subject filter on Issues as a select (the filters in `issues()` in src/bench/play.mjs, near line 5128). The owner's menu look (Nov 5; docs/mocks/2026-11-07-approved/MENU-LOOK.md and RULINGS-nov5.md) has filters as lit toggle buttons, with no checkboxes and no selects: make Subject toggle buttons like Level and In force, with the shared controls (screen-to-mock skill).
 
 **Time box.** 4 hours for one Sonnet session; if not done, push what exists, open the draft PR, write the handoff.
 
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **You will see.** A law's page tells you what it does, who has it and how it passed.
 
 **Screenshot.** One law's page in a drawn place.
+
+**Notes (CTO, Nov 10, 18:59Z, carried here by Fable).** "Subject is a select. The owner's menu look says filters are lit toggle buttons, with no checkboxes. Make Subject toggle buttons like Level and In force in the next part, and set the screenshot beside the approved mock before calling it seen." The second session's screenshot of Issues is set beside the approved mock (docs/mocks/2026-11-08-play/) in the pull request before this part is called seen.
