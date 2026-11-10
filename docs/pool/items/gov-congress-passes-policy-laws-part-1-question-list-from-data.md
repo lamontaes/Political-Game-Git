@@ -19,7 +19,7 @@ source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 202
 checked: fable 2026-11-10
 ---
 
-**What.** Make Congress read one source of federal law and file bills on a question list from `data/research/campaigns/federal-questions-2026.json` (merged as #6887) through the one legislature engine on its session calendar (`congress-sessions.json`). In the Nov 9 played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af), Congress introduced five bills and the Senate none; the House and Senate should both introduce bills on the questions the data lists. Only a question with a standing answer, members' stances and an effect reader is admitted, and the stopgap call is removed when the list covers them.
+**What.** Make Congress read one source of federal law and file bills on a question list from `data/research/campaigns/federal-questions-2026.json` (merged as #6887) through the one legislature engine on its session calendar (`congress-sessions.json`). In the Nov 9 played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af), Congress introduced five bills and the Senate none; the House and Senate should both introduce bills on the questions the data lists. Only a question with a standing answer, members' stances and an effect reader is admitted, and the stopgap call is removed when the list covers them. Feeds: gov-congress-passes-policy-laws.
 
 **Cause.** Found in code: `src/core2/modules/world-legislating.ts` registers `SG-GOV-federal-proposal-coverage` at line 1240 when it proposes a federal bill, and the federal question list is not read from the C2 research data. Plan: `docs/reports/world-governing-plan-2026-10-29.md` unit C1.
 
