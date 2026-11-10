@@ -1,5 +1,6 @@
 name: Pool done on merge
-# A merged pull request flips its pool item to done on main, so no merger step can be skipped.
+# A merged pull request flips its pool item to merged on main, so no merger step can be skipped.
+# Merged is not done: a second session makes it done with `pool seen` (owner, Nov 3).
 on:
   pull_request:
     types: [closed]
@@ -14,7 +15,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   flip:
-    # Only merges into main finish an item; a fixer merged into another PR's branch does not.
+    # Only merges into main flip an item; a fixer merged into another PR's branch does not.
     if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -32,7 +33,7 @@ jobs:
           node-version: "24"
           cache: npm
       - run: npm ci
-      - name: Flip the pool item to done
+      - name: Flip the pool item to merged
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
           PR_BODY: ${{ github.event.pull_request.body }}
