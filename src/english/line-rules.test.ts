@@ -1,6 +1,9 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
 import { describe, expect, it } from "vitest";
 import type { PartGradeLedger } from "./english-grades";
 import {
+  RULE_JUDGES,
   gradedGood,
   ruleFlags,
   runRules,
@@ -8,6 +11,7 @@ import {
   textBreaksRule,
   wholeLine,
   type LineRule,
+  type LineRulesFile,
   type RulePiece,
 } from "./line-rules";
 
@@ -29,6 +33,7 @@ const piece = (
 const rule = (over: Partial<LineRule> & Pick<LineRule, "test">): LineRule => ({
   id: "r1",
   says: "says",
+  judges: "line",
   from: [{ date: "2026-10-15", words: "his words" }],
   status: "enforced",
   ...over,
@@ -205,5 +210,37 @@ describe("the run", () => {
     ]);
     expect(spotsOf(one)).not.toEqual(spotsOf(two));
     expect(spotsOf(piece("c", "z", []))).toEqual([]);
+  });
+});
+
+const ROOT = path.resolve(__dirname, "../..");
+const readJson = <T>(file: string): T =>
+  JSON.parse(readFileSync(path.join(ROOT, file), "utf8")) as T;
+
+describe("every rule says what it judges", () => {
+  const { rules } = readJson<LineRulesFile>("data/english/line-rules.json");
+
+  it("each rule judges a line, a set, an exchange or a line in its context", () => {
+    const wrong = rules
+      .filter((rule) => !RULE_JUDGES.includes(rule.judges))
+      .map((rule) => `${rule.id}: judges is ${String(rule.judges)}`);
+    expect(wrong).toEqual([]);
+  });
+
+  it("a rule on a set or an exchange whose detector reads one line says so, and no other rule does", () => {
+    const wrong = rules.flatMap((rule) => {
+      const readsOneLine = ["phrases", "patterns", "sentences"].includes(
+        rule.test.kind,
+      );
+      const whole = rule.judges === "set" || rule.judges === "exchange";
+      if (whole && readsOneLine && rule.detectorReads !== "line")
+        return [
+          `${rule.id} judges a ${rule.judges} but its detector reads a line; set detectorReads`,
+        ];
+      if (rule.detectorReads && !(whole && readsOneLine))
+        return [`${rule.id} has detectorReads but no mismatch`];
+      return [];
+    });
+    expect(wrong).toEqual([]);
   });
 });

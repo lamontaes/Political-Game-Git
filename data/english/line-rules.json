@@ -5,6 +5,7 @@
     {
       "id": "no-x-is-home",
       "says": "A line never says that someone is home or at a place (\"{name} is home\", \"{name} is at the house\"); nothing replaces it.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-28",
@@ -34,6 +35,8 @@
     {
       "id": "no-talk-to-you-soon",
       "says": "Nobody closes with \"Talk to you soon\" after a question was answered.",
+      "judges": "exchange",
+      "detectorReads": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -55,6 +58,7 @@
     {
       "id": "no-must-for-have-to",
       "says": "In speech, say \"have to\" where Americans do; \"must\" stays only in \"must have\" (a guess).",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -91,6 +95,7 @@
     {
       "id": "no-thats-settled",
       "says": "Nobody says \"That's settled\" or \"It's settled\"; it is a little dev talky.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -121,6 +126,7 @@
     {
       "id": "no-insider-words",
       "says": "No election-insider, developer or office-chart words in speech; say canvassing or door knocking, not \"the doors\" or \"gaps\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -188,6 +194,7 @@
     {
       "id": "no-day-or-place-in-narration",
       "says": "Narration never names the day, the date, the time or the place; the screen already shows them.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
@@ -215,6 +222,7 @@
     {
       "id": "no-day-or-place-in-scene-words",
       "says": "Scene words never name the day, the date, the time or the place; the screen already shows them.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
@@ -239,6 +247,7 @@
     {
       "id": "no-year-in-speech",
       "says": "Nobody says a year or a date with its year aloud; a date in speech is said as people say it.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -278,6 +287,7 @@
     {
       "id": "no-quiet-weekday",
       "says": "The day of the week is not small talk (\"a quiet {weekday}\").",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
@@ -306,6 +316,8 @@
     {
       "id": "no-bare-yes-or-no-reply",
       "says": "A bare yes or no is never a whole reply, and a yes or no never ends a talk; the reply says what it agrees to or refuses.",
+      "judges": "exchange",
+      "detectorReads": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -336,6 +348,7 @@
     {
       "id": "no-placing-narration",
       "says": "No line says only where the player is or who is with them (\"You're in {place}\", \"{person} is with you\"); the screen shows both.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-24",
@@ -405,6 +418,7 @@
     {
       "id": "names-something-specific",
       "says": "A line names something specific from its situation (a person, place, thing, amount or day), not a general sentiment.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -654,6 +668,7 @@
     {
       "id": "scene-opens-with-when-where-who",
       "says": "A scene opens with narration naming the day, the place and the person: \"First thing on June 7th. You head to the clerk's office and speak to Maria Patton.\"",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -785,6 +800,7 @@
     {
       "id": "question-names-its-subject",
       "says": "A question names what it asks about; \"What do you think?\" alone fails.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -802,6 +818,7 @@
     {
       "id": "no-pointing-at-the-unnamed",
       "says": "A line never points at \"this\", \"that\" or \"it\" when nothing in the line or the scene has named it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -930,6 +947,7 @@
     {
       "id": "no-filler",
       "says": "No filler: no \"Well,\" \"Look,\" \"So,\" opening and no \"you know\" or \"I mean\" padding a line that has nothing else to say.",
+      "judges": "line",
       "from": [
         {
           "date": "undated",
@@ -948,6 +966,7 @@
     {
       "id": "no-stock-phrases",
       "says": "No stock phrase a script reaches for when there is nothing to say (\"moving forward\", \"at the end of the day\", \"I hear you\").",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-16",
@@ -966,6 +985,7 @@
     {
       "id": "no-explaining",
       "says": "No line explains its own subtext or tells the player what to feel.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-08",
@@ -996,6 +1016,7 @@
     {
       "id": "no-quick-resolution",
       "says": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-16",
@@ -1037,6 +1058,7 @@
     {
       "id": "evasion-points-somewhere",
       "says": "An evasion points to a later time or the public record, not a bare refusal.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -1108,6 +1130,7 @@
     {
       "id": "commitment-names-who-what-why",
       "says": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -1144,6 +1167,7 @@
     {
       "id": "stake-is-named",
       "says": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -1249,6 +1273,7 @@
     {
       "id": "reply-follows-the-line-before",
       "says": "A reply answers or follows the line right before it.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -1870,6 +1895,7 @@
     {
       "id": "introduced-before-addressed",
       "says": "Every person, outlet, office or thing is named to the player before a line addresses it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -1963,6 +1989,7 @@
     {
       "id": "tense-of-the-record",
       "says": "A line speaks in the tense the record is in: no talking about a vote as done before it happens.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-16",
@@ -2040,6 +2067,7 @@
     {
       "id": "fits-speaker-and-tie",
       "says": "A line fits its speaker's role, age and relationship to the listener, and a speaker is recognizable without the name attached.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -2306,6 +2334,7 @@
     {
       "id": "pressure-sounds-like-politics",
       "says": "Threats and pressure sound like politics (memory, friends, how it works), never a generic warning.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-16",
@@ -2375,6 +2404,7 @@
     {
       "id": "ending-lands",
       "says": "A scene ends on a beat that lands, not a pleasantry, and never while a grievance or a count is still open.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -2513,6 +2543,7 @@
     {
       "id": "why-me-is-answered",
       "says": "When a request is made of the player, a clarifying \"Why me?\" reply exists and the other person answers it.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-16",
@@ -2549,6 +2580,7 @@
     {
       "id": "vary-the-shape",
       "says": "No one shape repeats across scenes: vary who speaks first, how long, and where the narrator breaks in; a line said once is not said again by the same person soon.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-15",
@@ -2772,6 +2804,7 @@
     {
       "id": "speech-is-not-a-list",
       "says": "A speech is not a list of figures: it takes a stance, reads as speech, and fits the speaker and the moment.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -2896,6 +2929,7 @@
     {
       "id": "concrete-image-over-generic",
       "says": "Prefer wit or a concrete image over a generic statement when the voice allows it.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -2972,6 +3006,7 @@
     {
       "id": "trade-not-bribe",
       "says": "A trade or offer reads as a bribe only when it is one; build the trade from the district's interests.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-19",
@@ -2991,6 +3026,7 @@
     {
       "id": "variants-differ-in-what-they-say",
       "says": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-15",
@@ -3054,6 +3090,7 @@
     {
       "id": "most-specific-line-wins",
       "says": "The most specific matching line wins: a line tied to the speaker's trait and the situation outranks a generic one.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-19",
@@ -3079,6 +3116,7 @@
     {
       "id": "no-dangling-fragments",
       "says": "No line is a dangling fragment (\"All right. Yes.\", \"You've made your case.\" on its own): a reply says what it agrees to or refuses.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -3114,6 +3152,7 @@
     {
       "id": "every-line-gives-its-context",
       "says": "Every line gives its context: the listener knows why it matters to the speaker, a line never leans on an \"it\" or \"they\" the scene has not set up, and a moment's setup makes sense from the player's side.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-27",
@@ -3232,6 +3271,7 @@
     {
       "id": "no-figures-people-would-not-know",
       "says": "People in conversation don't quote figures they wouldn't know (a race's cost, months of savings, a percent); they ask the plain question: \"Can we even afford this?\"",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-28",
@@ -3263,6 +3303,7 @@
     {
       "id": "alright-in-dialogue",
       "says": "In dialogue, write \"Alright\", not \"All right\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -3281,6 +3322,7 @@
     {
       "id": "never-offer-what-the-player-cannot-do",
       "says": "Never offer the player what they cannot do: no ballot, vote or filing line when the player cannot vote or file.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-09",
@@ -3302,6 +3344,7 @@
     {
       "id": "look-up-how-real-people-say-it",
       "says": "Before writing a line, look up how real people say that thing in that situation (transcripts, interviews, oral histories) and write from that, not from a guess.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-16",
@@ -3367,6 +3410,7 @@
     {
       "id": "no-offer-tags",
       "says": "An offer is not closed with a tag line: not \"That's real.\", \"That's what's on the table.\" or \"That's what I've got.\"",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -3401,6 +3445,7 @@
     {
       "id": "no-this-town",
       "says": "A line that could name the place names it (Lexington, the United States) instead of saying \"this town\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -3418,6 +3463,7 @@
     {
       "id": "no-developer-words",
       "says": "No developer words in text the player reads: not \"office replied\", \"bond loyalty\", \"filled on ballot\", \"What the race turns on\", \"Serving when your story began\", \"Views fit close\" or \"Neither, much\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -3519,6 +3565,7 @@
     {
       "id": "no-out-of-world-words",
       "says": "The player is in the world: no \"fictional\", \"this world\" or \"not a preference\" in text they read.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-09-29",
@@ -3550,6 +3597,7 @@
     {
       "id": "no-thank-you-so-much",
       "says": "In a speech, \"Thank you very much\", not \"Thank you so much\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -3571,6 +3619,7 @@
     {
       "id": "no-bill-code-as-headline-subject",
       "says": "A headline never has a bill code for its subject (\"HR1 clears the health committee\"); it names the bill.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-08",
@@ -3596,6 +3645,7 @@
     {
       "id": "rejected-by-voice",
       "says": "These whole lines were rejected by voice and do not come back.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -3902,6 +3952,7 @@
     {
       "id": "journal-work-line-tells-a-story-in-ten-words",
       "says": "A journal line about finding work again is told as a small story, never as the bare \"After ... out of work\" statement.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-09",
@@ -3935,6 +3986,7 @@
     {
       "id": "journal-names-no-feeling",
       "says": "The journal never names a feeling; tension and mood show through ordinary concrete behavior and dialogue, and a feeling is never invented to make a sentence work.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-10",
@@ -3960,6 +4012,7 @@
     {
       "id": "many-versions-of-each-scene",
       "says": "Each kind of scene has many versions, not a handful, so a play-through does not meet the same one twice.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-11-08",
@@ -3975,6 +4028,7 @@
     {
       "id": "player-never-says-unchosen",
       "says": "A line is never put in the player's mouth that they did not choose; a choice is worded as the player's actual reply.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-11-01",
@@ -3990,6 +4044,7 @@
     {
       "id": "body-named-as-place-names-it",
       "says": "A body is named as the place names it (council, trustees, selectboard), and a line to the player never calls it something the place does not have.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-01",
@@ -4005,6 +4060,7 @@
     {
       "id": "news-reads-as-a-story",
       "says": "A news item is a story: a headline, a lede and a body that tell what happened; a headline repeated as the body, or a list of fields, fails.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-01",
@@ -4040,6 +4096,7 @@
     {
       "id": "person-history-tells-a-story",
       "says": "A person's history is told as a story with text under the name, not as a bare office or a list of facts.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-01",
@@ -4055,6 +4112,7 @@
     {
       "id": "narration-assumes-no-reason",
       "says": "Narration never gives the player a reason or a history they were not given (why they came, what forms they carry).",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-01",
@@ -4070,6 +4128,7 @@
     {
       "id": "traits-read-as-plain-sentences",
       "says": "A trait reads as a plain description of what a person is like, in words a person would use; a trait name with a value (\"Neither, much\") fails.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-27",
@@ -4090,6 +4149,7 @@
     {
       "id": "reply-second-move-follows-the-first",
       "says": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-14",
@@ -4115,6 +4175,7 @@
     {
       "id": "many-variants-of-the-same-meaning",
       "says": "Every meaning has many variants, so a player never sees the same line twice.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-14",
@@ -4130,6 +4191,7 @@
     {
       "id": "never-met-is-never-the-only-line",
       "says": "What a card or a line says about a public figure the player has not met is more than \"you have never met\"; it says what the public knows.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-14",
@@ -4145,6 +4207,7 @@
     {
       "id": "journal-entry-has-story-around-it",
       "says": "A journal entry is part of a story, not a lone event: the journal reads as a memoir from birth, with the people and the cause around each entry.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-14",
@@ -4165,6 +4228,7 @@
     {
       "id": "journal-line-carries-its-subject",
       "says": "A journal line carries its subject: the office (\"My father was elected mayor\"), the name (\"My daughter Jane was born\"), and \"a turning point\" only when the record shows one.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -4190,6 +4254,7 @@
     {
       "id": "bill-reads-as-a-real-bill",
       "says": "A bill, a section and an ordinance read as the real form does for that body (numbering, title, sections, enacting words); the player edits only the terms.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-14",
@@ -4215,6 +4280,7 @@
     {
       "id": "bill-called-by-what-people-call-it",
       "says": "A bill is called by a real name, the name people give it, or what it does; never by a description from the catalog or the catalog's policy name.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-14",
@@ -4235,6 +4301,7 @@
     {
       "id": "business-names-sound-real",
       "says": "Private businesses get generated names that sound real, from the town's own family names and streets; no \"general store\", no national chains, no real brands.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-14",
@@ -4255,6 +4322,7 @@
     {
       "id": "speech-has-a-core",
       "says": "A speech is short openers and closers around longer, meatier choices on different subjects, played in steps; a four-line rally or one block is not a speech.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-15",
@@ -4280,6 +4348,7 @@
     {
       "id": "lie-names-another-place",
       "says": "A lie about where you are from names another place; it is never \"Not here.\"",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -4295,6 +4364,7 @@
     {
       "id": "no-do-you-remember-the-school",
       "says": "No opener asks \"Do you remember <school>?\" unless something recorded happened to the school or decades have passed and the record shows it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -4310,6 +4380,7 @@
     {
       "id": "request-needs-its-ground",
       "says": "A request has its ground in the record: the party asks someone to run only with inroads on record, a donor who leans on you gave a large share, and \"I'll take the meeting\" follows a meeting that was asked for.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -4325,6 +4396,7 @@
     {
       "id": "later-replies-move-the-talk-on",
       "says": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-16",
@@ -4340,6 +4412,7 @@
     {
       "id": "replies-may-be-long-and-substantive",
       "says": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-16",
@@ -4355,6 +4428,7 @@
     {
       "id": "escalation-can-be-answered-in-kind",
       "says": "When the other person escalates, the player can escalate back, not only calm down or leave.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-16",
@@ -4370,6 +4444,7 @@
     {
       "id": "office-named-as-people-say-it",
       "says": "An office is named as people say it (\"the finance secretary\"), never as a chart (\"Budget Director / Finance Secretary\").",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -4385,6 +4460,7 @@
     {
       "id": "promise-only-what-the-speaker-can-do",
       "says": "A line promises only what the speaker can do (\"I'll call you\" to a stranger in a grocery store fails).",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-19",
@@ -4400,6 +4476,7 @@
     {
       "id": "pronoun-fits-the-person",
       "says": "A line uses the pronoun the person goes by or avoids it (\"like they've done a hundred times\" for one man reads wrong).",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-19",
@@ -4415,6 +4492,7 @@
     {
       "id": "speech-craft-is-earned",
       "says": "Call and response, threes and literary turns belong to speakers with the skill and to public-address registers; a first-time candidate does not speak like a polished president.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-19",
@@ -4436,6 +4514,7 @@
     {
       "id": "regional-speech-is-word-choice-only",
       "says": "Regional speech is word choice only (pop or soda, y'all, you guys); no spelled-out accents.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-09-28",
@@ -4451,6 +4530,7 @@
     {
       "id": "swearing-follows-personality",
       "says": "Swearing in private follows personality: crude characters swear freely in private, others rarely or never.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-09-28",
@@ -4466,6 +4546,7 @@
     {
       "id": "brings-up-only-what-they-read-or-took-part-in",
       "says": "A character brings up a public matter only if they read it (in the news) or took part in it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-09-26",
@@ -4481,6 +4562,7 @@
     {
       "id": "narration-person",
       "says": "Scene narration is second person (\"you\"); the journal is first person (\"I\").",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-09-26",
@@ -4496,6 +4578,7 @@
     {
       "id": "childhood-lines-claim-no-outcomes",
       "says": "Growing-up \"Remembered as\" lines do not claim outcomes the record does not hold.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-09-23",
@@ -4511,6 +4594,7 @@
     {
       "id": "no-literary-phrasing",
       "says": "No literary phrasing, metaphor, epigrams or visibly composed texture; ordinary political, civic, family, school, work and institutional words.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-09-07",
@@ -4527,6 +4611,7 @@
     {
       "id": "news-comes-from-a-record",
       "says": "A news story comes from a record; if nothing happened the paper does not invent it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-09-29",
@@ -4547,6 +4632,7 @@
     {
       "id": "the-word-lie-never-appears",
       "says": "The word \"Lie\" never appears on the conversation screen; a lie shows as the scales.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-02",
@@ -4562,6 +4648,7 @@
     {
       "id": "address-is-national-not-about-the-player",
       "says": "An address is a national speech like a real inaugural: it does not name the player's state or home town, and does not speak as if the President came from the player's place.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-27",
