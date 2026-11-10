@@ -124,7 +124,7 @@
     "heard-work": ["their-work"],
     "shared-work": ["their-work"],
     "other-work": ["their-tenure"],
-    "home": ["home"],
+    "home": ["home", "their-work", "mutual"],
     "family": ["their-family"],
     "address": ["address"]
   },
