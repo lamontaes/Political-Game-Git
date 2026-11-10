@@ -5,13 +5,14 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: story/race-told-turnout
-pr: 8149
+pr: #8149
 blocked-on:
 lead: words
 source: coordinator, Nov 10 (the only answer to "Who turned out for {candidate}?" was "{candidate} got the most votes. That's all I know for sure.")
 claimed-at: 2026-11-10T15:00:00.000Z
+merged-at: 2026-11-10T18:36:37.156Z
 ---
 
 **What.** The race-told scene reads three facts from the voting engine's result row for the race (`result:<contest>`): `vote-share` (the winner's share of the ballots cast), `turnout` (the share of the people eligible who voted) and `best-place` (the place that gave the winner the biggest share of its ballots, where the race kept place results), each cited to the result row and the place row. Six answer pieces use them; the two "got the most votes, that's all I know" pieces are held back (`excludesFacts: vote-share`) when a share exists, and stay for a race with no totals.
