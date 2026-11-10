@@ -125,6 +125,16 @@ Checked against main at 5053b8de by the session on branch `claude/stopgap-triage
 - SG-GOV-spending-vote-state-county: src/core2/modules/budgets.ts:1338-1372 `receiptsFactor` (state and county only, same factor on every line) used by `legislatedBudget` (budgets.ts:1374-1396). Item docs/pool/items/gov-budget-spending-voted-from-revenue.md Notes (Nov 9) record the shipped first step and the town mismatch filed as gov-town-plan-vs-payers.
 - SG-GOV-territory-municipal-mix: scripts/research/export-public-budget-bases.py:269-306 `puerto_rico_municipio_row` (78 municipios' total over residents, spending from states' city mix without schools; no per-municipio rows; no other territory). The register marker list is empty; the marker is in this script and in data (`stopgapId` field in the row).
 
+## Reuse check (owner, Nov 10: one money system)
+
+Every closing that touches money changes an engine that already exists; none needs a second payment, tax or ledger path. None of the five new items moves money.
+
+- SG-GOV-REACH-B-medicaid-federal-leg: change `payMedicaidCare` (`src/core2/law-reach/group-b-money.ts:880-912`), which already pays the federal leg through `accounts.transfer`, and the state's aid read where the budget engine pays it; the federal share is read from the existing `medicaid-match` parameter (as `src/core2/modules/outside-budgets.ts:136` already does for other states).
+- SG-GOV-reserve-sweep: narrow `sweepReserves` (`src/core2/budgets-treasury.ts:1631`) to the rainy-day cap; the flow is already registered in `outside-flows.json`.
+- SG-GOV-rent-help-population-share: change `townShare` (`src/core2/housing-assistance.ts:49-55`), the one reader of the town's share of a government's rent-help line; the payment itself stays the existing assistance payer.
+- SG-GOV-outside-donor-month-income: reuse `giftBudget` and `donationAnswer` (`src/core2/modules/campaigns.ts`, named donors) for outside donors; no new giving rule.
+- SG-GOV-spending-vote-state-county: change `receiptsFactor` and `legislatedBudget` (`src/core2/modules/budgets.ts:1338-1396`), the existing budget vote.
+
 ## Things the lead should look at
 
 1. `gov-budget-spending-voted-from-revenue` is `done` (PR #7919), but its Done when says the reserve sweep is removed or narrowed to the reserve above the law's rainy-day cap. The sweep still sends everything above 1.2 months of spending to the outside account and reads no cap (`src/core2/budgets-treasury.ts:1648-1656`). Either reopen that item or file the rest as new.
