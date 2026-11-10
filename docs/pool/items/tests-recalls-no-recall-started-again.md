@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/recalls.test.ts fails two of six cases on clean main with GOLDEN_PATH_SEED=1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da: "no recall started in US-WA 5327960, US-KS 2029600, US-MT 3060450, US-WA 5322115, US-FL 1253850, US-ND 3813020". The same failure was fixed once under tests-recall-ordinance-no-recall-started (done), so something since has made recalls rarer or the draw narrower. Other seeds pass. It reproduced on main at d3ee6986bc and on the wire-office row 42 branch with the same seed. Guards: the recalls test on main (a recall starts in a drawn place).
+**What.** src/core2/recalls.test.ts fails two of six cases on clean main with GOLDEN_PATH_SEED=1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da: "no recall started in US-WA 5327960, US-KS 2029600, US-MT 3060450, US-WA 5322115, US-FL 1253850, US-ND 3813020". The same failure was fixed once under tests-recall-ordinance-no-recall-started (done), so something since has made recalls rarer or the draw narrower. Other seeds pass. It reproduced on main at d3ee6986bc and on the wire-office row 42 branch with the same seed. Guards: a recall petition still starts against an official the player can read about in the paper.
 
 **Cause.** Needs cause. Looked at src/core2/recalls.test.ts and src/core2/modules/recalls.ts: why no voter group reached the petition threshold in these six places was not traced. Measured: GOLDEN_PATH_SEED=1b251a8aaa0f7710143adc4ff3cd45fa37ae0151be5cce350c171993b62555da fails 2 of 6 cases on main d3ee6986bc.
 
