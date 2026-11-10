@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth
-pr:
+pr: #8253
 after: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split
 blocked-on:
 lead: play-first
