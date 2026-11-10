@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/pool-words-scene-web-legislating
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-11-10T23:56:18.620Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
@@ -51,3 +51,5 @@ Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier 
 Released (2026-11-10): Needs bank lines under data/english/parts, which only the Story session writes; nothing a builder can play. Continue on branch claude/pool-words-scene-web-legislating.
 
 Claimed by next for sonnet-2698 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:55 UTC) on branch claude/pool-words-scene-web-legislating.
+
+Released (2026-11-10): Mostly Story-session lines under data/english/parts; the buildable remainder (episode packets, producer items) is larger than I can finish in this session. Continue on branch claude/pool-words-scene-web-legislating.
