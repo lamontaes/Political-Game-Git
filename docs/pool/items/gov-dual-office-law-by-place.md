@@ -4,7 +4,7 @@ title: "Which two offices one person may hold at once is read from each place's 
 area: gov
 kind: research
 priority: 3
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,8 +14,9 @@ after:
 lead: governing
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** Which two offices one person may hold at once is one estimate, not each place's law. The reader treats any two elected mandates as incompatible because no per-place dual-office compilation exists. Compile each of the 56 places' constitutional and statutory dual-office prohibitions and exceptions (for example a state legislator who may also sit on a local school board), cite each by section, and replace the estimated pairs in the same reader. Places whose law is not found keep the conservative rule with a spread note. The work is four parts.
@@ -24,7 +25,7 @@ root: rc9-place-facts-one-default
 
 **Fix.** Land the three data parts (states A to F; G to N; O to Z, D.C. and territories), then the played-world proof. Each cited row replaces the estimate in `incompatibility.json`; the reader stays one function. Resolve the stopgap row when all 56 are cited or noted conservative.
 
-**Time box.** 2 hours for one sonnet session to hand out the parts and check them in; each part carries its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Research before building: each prohibition is cited by statute or constitution section with its retrieval date. One rule, all 56 places: the pairs live in data per place, never in logic. Estimate, never UNKNOWN: a place whose law is not found keeps the conservative rule marked ESTIMATED with the reason.
 
