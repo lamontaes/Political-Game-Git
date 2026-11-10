@@ -76,9 +76,7 @@ try {
   assert.ok(read.strips >= 1, "the card shows nothing about the person's life");
   // The life story the card is sent is drawn (restored after the rebuild, owner's playtest Nov 8).
   if (card.history?.length) {
-    const story = await page
-      .locator("#person .timeline .timeline-text")
-      .count();
+    const story = await page.locator("#person .secbody [data-record]").count();
     assert.ok(story > 0, "the card is sent a life story and does not draw it");
   }
   // "Last talked" is never shown (owner, Oct 27, 5 PM).

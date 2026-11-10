@@ -1,0 +1,296 @@
+{
+  "about": "Which records a person remembers, and as what (design: docs/design/life-record.md). `events` are records made in play; a person named by one keeps it on their own list (src/core2/person-life.ts). `past` are the facts a person is built with and `history` the records of the simulated past; the reader joins all three into one life. `life` is the kind of event, `what` the event within it. `who` says which of the people a record names remember it: `named` (each of them), `not` with a fact (each but the one that fact names), or `kin-of-named` (the family of the person named, for a death). `facts` are the record's own fields kept as what the event changed. `keeps` orders the kinds from the last a person lets go of to the first, for when a list is over its cap.",
+  "keeps": [
+    "loss",
+    "child",
+    "partner",
+    "law",
+    "health",
+    "politics",
+    "business",
+    "home",
+    "school",
+    "work",
+    "move"
+  ],
+  "events": [
+    {
+      "record": "work.job-lost",
+      "life": "work",
+      "what": "job-lost",
+      "who": "named",
+      "facts": ["organizationId", "decidedBy"]
+    },
+    {
+      "record": "person.moved-away",
+      "life": "move",
+      "what": "moved-away",
+      "who": "named",
+      "facts": [],
+      "topicAs": "toPlaceId"
+    },
+    {
+      "record": "housing.moved",
+      "life": "move",
+      "what": "moved-home",
+      "who": "named",
+      "facts": ["leaseId", "projectId"]
+    },
+    {
+      "record": "family.partnered",
+      "life": "partner",
+      "what": "partnered",
+      "who": "named",
+      "facts": ["linkId"]
+    },
+    {
+      "record": "family.moved-in",
+      "life": "partner",
+      "what": "moved-in",
+      "who": "named",
+      "facts": ["linkId"]
+    },
+    {
+      "record": "family.engaged",
+      "life": "partner",
+      "what": "engaged",
+      "who": "named",
+      "facts": ["linkId"]
+    },
+    {
+      "record": "family.married",
+      "life": "partner",
+      "what": "married",
+      "who": "named",
+      "facts": ["linkId", "union"]
+    },
+    {
+      "record": "family.separated",
+      "life": "partner",
+      "what": "separated",
+      "who": "named",
+      "facts": ["linkId", "ended"]
+    },
+    {
+      "record": "person-birth",
+      "life": "child",
+      "what": "born",
+      "who": "not",
+      "notFact": "childId",
+      "facts": ["childId"]
+    },
+    {
+      "record": "life.death",
+      "life": "loss",
+      "what": "died",
+      "who": "kin-of-named",
+      "facts": ["causeOfDeath"]
+    },
+    {
+      "record": "health.serious-illness",
+      "life": "health",
+      "what": "serious-illness",
+      "who": "named",
+      "facts": ["condition"],
+      "topicAs": "condition"
+    },
+    {
+      "record": "crime.victimized",
+      "life": "law",
+      "what": "victim",
+      "who": "named",
+      "facts": ["type"]
+    },
+    {
+      "record": "justice.accused",
+      "life": "law",
+      "what": "accused",
+      "who": "named",
+      "facts": ["offense", "caseId"]
+    },
+    {
+      "record": "justice.charged",
+      "life": "law",
+      "what": "charged",
+      "who": "named",
+      "facts": ["offense", "caseId"]
+    },
+    {
+      "record": "justice.convicted",
+      "life": "law",
+      "what": "convicted",
+      "who": "named",
+      "facts": ["offense", "caseId", "plea", "fineMinor", "custodyMonths"]
+    },
+    {
+      "record": "justice.imprisoned",
+      "life": "law",
+      "what": "imprisoned",
+      "who": "named",
+      "facts": ["caseId", "custodyMonths", "releaseDate"]
+    },
+    {
+      "record": "justice.released",
+      "life": "law",
+      "what": "released",
+      "who": "named",
+      "facts": ["caseId"]
+    },
+    {
+      "record": "school.finished",
+      "life": "school",
+      "what": "finished",
+      "who": "named",
+      "facts": ["schoolId", "passed"]
+    },
+    {
+      "record": "candidate-filed",
+      "life": "politics",
+      "what": "filed",
+      "who": "named",
+      "facts": ["office", "contestId", "electionDate"]
+    },
+    {
+      "record": "election-result",
+      "life": "politics",
+      "what": "won",
+      "who": "named",
+      "onlyFact": "winnerId",
+      "facts": ["office", "contestId"]
+    },
+    {
+      "record": "took-office",
+      "life": "politics",
+      "what": "took-office",
+      "who": "named",
+      "facts": ["office", "officeId"]
+    },
+    {
+      "record": "seat-vacated",
+      "life": "politics",
+      "what": "left-office",
+      "who": "named",
+      "facts": ["office", "officeId", "reason"]
+    },
+    {
+      "record": "organization.founded",
+      "life": "business",
+      "what": "founded",
+      "who": "named",
+      "facts": [],
+      "topicAs": "organizationId"
+    },
+    {
+      "record": "business.closed",
+      "life": "business",
+      "what": "closed",
+      "who": "named",
+      "facts": ["organizationId"],
+      "topicAs": "organizationId"
+    },
+    {
+      "record": "housing.purchase",
+      "life": "home",
+      "what": "bought",
+      "who": "named",
+      "facts": ["priceMinor", "homeId"]
+    },
+    {
+      "record": "housing.eviction",
+      "life": "home",
+      "what": "evicted",
+      "who": "named",
+      "facts": ["leaseId"]
+    },
+    {
+      "record": "disaster.home-damaged",
+      "life": "home",
+      "what": "damaged",
+      "who": "named",
+      "facts": ["homeKind", "valueMinor", "aidMinor"]
+    }
+  ],
+  "past": [
+    {
+      "kindPrefix": "person:birth",
+      "life": "born",
+      "what": "born"
+    },
+    {
+      "kindPrefix": "birth-date",
+      "life": "born",
+      "what": "born"
+    },
+    {
+      "kindPrefix": "family:partner",
+      "life": "partner",
+      "what": "partnered",
+      "withFact": "otherPersonId"
+    },
+    {
+      "kindPrefix": "family:former-partner",
+      "life": "partner",
+      "what": "separated",
+      "withFact": "otherPersonId"
+    },
+    {
+      "kindPrefix": "family:child",
+      "life": "child",
+      "what": "born",
+      "withFact": "otherPersonId"
+    },
+    {
+      "kindPrefix": "family:parent-died",
+      "life": "loss",
+      "what": "died",
+      "withFact": "otherPersonId"
+    },
+    {
+      "kindPrefix": "profile:education",
+      "life": "school",
+      "what": "finished"
+    },
+    {
+      "kindPrefix": "campaign:elected",
+      "life": "politics",
+      "what": "won"
+    },
+    {
+      "kindPrefix": "career:prior-office",
+      "life": "politics",
+      "what": "took-office"
+    }
+  ],
+  "history": [
+    {
+      "kind": "person.work-spell",
+      "life": "work",
+      "what": "job-started"
+    },
+    {
+      "kind": "person.out-of-work",
+      "life": "work",
+      "what": "job-ended"
+    },
+    {
+      "kind": "school.started",
+      "life": "school",
+      "what": "started"
+    },
+    {
+      "kind": "person.moved-in",
+      "life": "move",
+      "what": "moved-in"
+    },
+    {
+      "kind": "family.partnered",
+      "life": "partner",
+      "what": "partnered"
+    },
+    {
+      "kind": "office.seat-reached",
+      "life": "politics",
+      "what": "took-office"
+    }
+  ]
+}
