@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** people-protected-traits-on-record-part-1-race-on-record.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/types.ts, src/core2/law-wiring-rights-env.test.ts
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of world-hiring-bias-reasons. Both record a hiring decision's reasons from the decision-maker's traits and views against the applicant's record, in the hire loop of src/core2/modules/jobs.ts. The kept item has the sourced attitude table behind it and now waits on part 1 of this family for the race record.

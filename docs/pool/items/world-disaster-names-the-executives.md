@@ -17,6 +17,7 @@ root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27; probes of governors' and mayors' played years in Prospect and Hindman, Kentucky, Graball, Tennessee and Bismarck, North Dakota
 lead: laws-effects
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The hazard record for a declared disaster is written with no people on it (personIds empty), and in the probed years it appeared one to four times a year (four in Prospect and Hindman, Kentucky) without any executive's moments changing. Name the sitting mayor of an affected town, the county executive of an affected county and the governor of the state in personIds, and carry the disaster number and title in the facts it already has, so a first-hours scene can find its executive and its place. Until then an executive's first hours of a disaster cannot be a scene.

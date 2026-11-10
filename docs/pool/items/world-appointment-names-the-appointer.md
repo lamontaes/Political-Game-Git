@@ -17,6 +17,7 @@ root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27; probe of a mayor's played year in Woodway, Texas
 lead: m0-m2
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The official-appointed record names only the person appointed in personIds; the appointer is a fact (appointedBy) and no one's record. In Woodway, Texas a mayor's year held a replacement city attorney named on January 15, 2026, and the mayor's moments held nothing from it, so no scene could bring the person who was next in line, or the one who wanted the post, to the mayor who chose. Name the appointer in personIds when a town post or a cabinet post is filled, and keep the ranked candidates the appointer weighed in the record's facts (reasons already rank them in the appointment row). Add the director moment that the appointer then has.
