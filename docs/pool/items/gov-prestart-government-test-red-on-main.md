@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: cto
 source: Fable, Nov 10, 2026, found by a helper building the life record's second step and rerun on clean main
 ---
 
