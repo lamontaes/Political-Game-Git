@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: story/scenes-next
-pr: 8082
+pr: #8082
 blocked-on:
 lead: words
 source: CTO brief, Nov 9 (batch 4 saw generic talk at a new baby); one drawn year of Ophir, Colorado (seed nx1) tallied by scene kind
