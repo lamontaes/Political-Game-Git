@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: fable
 source: Fable, Nov 10, 2026, while building the country tier (design: docs/design/country-tier.md; pull request #8116)
 ---
 
