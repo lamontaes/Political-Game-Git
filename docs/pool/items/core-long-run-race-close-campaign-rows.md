@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** The campaigns engine keeps every gift, endorsement, poll and stepped-up row of every race forever, though every reader in play reads them only while the race is open or reads the player's own race. They grow with every election in every place the world plays. The campaign row keeps raisedMinor, and the campaign-endorsed and campaign-stepped-up events carry what news reads.

@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: design-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** The relationship engine counts closeness as hours together over hours plus a half-closeness point (Hall 2019), and a friendship takes about 60 hours. The player's day gives acquaintances almost none: a year with the player watched moved no acquaintance's tie more than 0.006, and sixty daily talks with one acquaintance moved it from 0.025 to 0.043, because a talk is minutes. The director turns a tie once its growth adds up, and 60 hours together makes the becoming-friends scene play, but nothing in ordinary play gives the player those hours. Credit shared hours from the records that put two people in one place.

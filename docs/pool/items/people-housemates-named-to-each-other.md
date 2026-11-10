@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** In a drawn bench world many full housemates are neither kin on record nor in each other's knownIds, so a scene or journal cannot name them: the family filing talk at home and the journal line for a strained ending both skip them. People who live together know each other's names, and relatives in one household carry the family fact that says how they are related. Fix the opening so every full housemate pair is either kin on record or known by name.

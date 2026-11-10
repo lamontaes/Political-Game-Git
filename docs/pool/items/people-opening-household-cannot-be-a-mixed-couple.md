@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: high
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** The owner said on November 8: "I'm Mexican and my son is white." The crew's check that day found no origin record at all. One is on main now, and it overcorrects. A household shares one origin, drawn once by the household's id, and a newborn takes one parent's origin, so a mixed couple cannot exist at the opening, in any household in any place, and a child of two origins is never both. No record explains a sibling's different surname either: nothing says a mother kept her name, a parent remarried or a child came from an earlier partner. Each adult's origin should be their own, couples should form across origins at the rate real couples do in that place, a child's origin and looks should come from both parents, and a surname that differs inside a family should follow from a recorded event in the family's past.

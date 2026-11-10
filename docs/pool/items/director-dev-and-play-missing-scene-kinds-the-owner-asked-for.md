@@ -11,11 +11,12 @@ claimed-by:
 pr:
 after:
 blocked-on: director-dev-and-play-missing-scene-kinds-the-owner-asked-for-part-1-task-force, director-dev-and-play-missing-scene-kinds-the-owner-asked-for-part-2-start-movement, director-dev-and-play-missing-scene-kinds-the-owner-asked-for-part-3-hard-meeting, director-dev-and-play-missing-scene-kinds-the-owner-asked-for-part-4-campaign-trail-stop, director-dev-and-play-missing-scene-kinds-the-owner-asked-for-part-5-large-debate-field
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: rc7-player-cannot-drive
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root causes 6 and 7)
+checked: fable 2026-11-10
 ---
 
 **What.** On Nov 8 the owner named things a politician does that the player should be able to do, and five of them have no kind of scene: starting a movement, forming a task force, calling a hard meeting, a campaign trail around the state and a 15-person debate. On Nov 10's main (commit 8ac2262853) `src/director/data/situation-types.json` holds 103 kinds and none of the five. The engines under three of them already keep records nothing stages: a study committee is a row in the body engine, a resident in a crowd can found a standing group, and a debate is a sitting the player takes part in. Each kind is built as a scene through the engine that exists, one per PR, reachable in play by the office or campaign that would really do it and causable from dev mode by running that same game code.
@@ -24,7 +25,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 
 **Fix.** Build each kind as a scene in its own part: a cause record, a cast from the world, a purpose with four replies, and an ending another engine reads. The five parts are listed in Waits on. This item closes when all five are merged and a second session has done the acceptance below.
 
-**Time box.** 2 hours for one Opus session for the closing acceptance run after the five parts merge; each part carries its own time box.
+**Time box.** 2 hours for one Sonnet session for the closing check once the five parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** This is a game, not a spreadsheet: each of the five is here because the owner asked for it by name on Nov 8, and none adds a step the player must take. Wire to the world: each scene's cause is a record an engine already keeps or a registered stopgap naming the engine that should, and each ending moves a bill, a group, a race or a tie that another engine reads. No dice: who joins, who carries, who shows up and how many file follow their records and reasons, never a roll. One rule, all 56 places: which executive may form a task force, and how a statewide race travels, are read from the place's data. Owner, Nov 8, 2026: "can you start a movement?"; "Starting committees and task forces to research things? Having a contentious meeting with a secretary or a legislator or an executive"; "campaigning around the state"; "there's 15 people at the debates. Maybe sometimes, there's just 2 or 3". The night Coordinator's call on task forces (docs/coordination/OWNER-DECISIONS.md, Nov 8 to 9, 2026; the owner may overrule): "a record in the one body engine. One is formed when a body refers a split bill to study, or by an executive's order... Story writes the scenes on top."
 

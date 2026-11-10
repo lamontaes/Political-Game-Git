@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc5-full-detail-every-day
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 7, "Relationships are never removed")
+checked: fable 2026-11-10
 ---
 
 **What.** The game keeps a record for every tie between two people and never lets one go. The code says so itself: "Ties are only ever added here, never removed" (`src/core2/state.ts`, line 1321). Measured in Woods Cross, Utah (seed f61d987b2e0e): the count of relationship records went from 10,747 after one year to 23,158 and then 35,975. A person who met someone once at a door keeps that tie for the life of the save, so memory, the save and every pass over a person's ties grow with history. The owner's rulings of November 5 and 8 say relationship records fold. Fix it for every person in every place: a tie that play no longer reads (nobody in focus, no contact inside the window its readers use, no family or household bond) folds into a short summary on each person, or is dropped where no reader needs even that, and the kept copy that the people engine reads is dropped with it.

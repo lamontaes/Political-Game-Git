@@ -17,6 +17,7 @@ effort: low
 root: design-words-machine
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Four lines the owner graded good sit in data/english/parts/legislation.json under the stopgap SG-WORDS-legislation-no-reader: "This Act may be cited as the {act}.", "This title may be cited as the {act}.", "To provide for {purpose}, and for other purposes." and "{provision} is repealed.". The bill text words a bill's title as "An ordinance to ..." or "A bill for an act to ..." and says never the federal short-title form for a local measure, so nothing reads them. Add a short-title, a long-title and a repeal-clause form to the bill-sections schema, taken from these pieces, so a federal bill reads them as written and a local bill reads the local form.

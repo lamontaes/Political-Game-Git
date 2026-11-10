@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc1-world-outside-town
 source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Give each federal-only question (the 20 `us-federal-positions` questions and 5 `us-tax-terms:federal` terms in `data/research/powers-catalog/question-powers.json`) a recorded standing answer in `src/core2/data/legislature/federal-answers.json`, which lists only 2 today, and make members of Congress and the President hold a stance on each from party, district and traits. This is part 2 of three. Today the President's `ownStance` is exactly 0 on every federal question in five drawn worlds (Oct 27), so the opening address has no Congress ask in 12 of 12 drawn places; a stance on each question brings the Congress section back with no director code.

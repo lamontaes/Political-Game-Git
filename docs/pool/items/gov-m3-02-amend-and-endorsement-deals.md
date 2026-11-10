@@ -16,6 +16,7 @@ effort: medium
 root: rc7-player-cannot-drive
 source: governing lead Oct 29
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** M3-02's test sentence says each deal changes real terms: bill text, support, favors and endorsements. `offerDeal` in src/core2/modules/legislature.ts has three kinds (amend, back-their-item and favor), and only back-their-item (legislature.test.ts) and favor (src/bench/office-deals.test.ts) are tested; an accepted amend rewrites the bill's section for every member, but no test offers one, and the office panel's deal control lists none, favor and back-their-item only. There is no endorsement deal at all, though the campaigns engine already weighs an endorsement ask (`askForEndorsement`). Add the endorsement as a deal kind that reads the campaigns engine's own endorsement record, offer amend from the player's office panel, and test both.
