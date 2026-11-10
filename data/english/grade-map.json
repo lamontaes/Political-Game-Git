@@ -4681,6 +4681,14 @@
     "journal.memoir-age-line.i-was-only-age": 0.815,
     "journal.memoir-became.he-later-became-office": 0.867,
     "journal.memoir-became.name-became-office": 0.921,
+    "journal.memoir-birth-age.i-was-age-then-then": 0.815,
+    "journal.memoir-birth-age.i-was-age-then-when-it-happened": 0.81,
+    "journal.memoir-birth-first.firstborn-was-my-first-child": 0.906,
+    "journal.memoir-birth-first.firstborn-was-our-first": 0.999,
+    "journal.memoir-death-age.name-was-death-age": 1.023,
+    "journal.memoir-death-age.name-was-death-age-years-old": 0.989,
+    "journal.memoir-death-illness.name-had-been-after-illness": 0.989,
+    "journal.memoir-death-illness.name-had-been-after-illness-for-some-time": 0.989,
     "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election": 0.845,
     "journal.memoir-first-pay.i-earned-wage-an-hour": 0.815,
     "journal.memoir-hard.it-was-a-difficult-time": 0.865,
@@ -4720,9 +4728,15 @@
     "journal.memoir-meant-friend.that-made-me-glad": 0.81,
     "journal.memoir-meant-rival.i-had-my-doubts-about-that": 0.81,
     "journal.memoir-meant-rival.we-never-did-see-eye-to-eye": 0.912,
+    "journal.memoir-moved-age.i-was-age-then-at-the-time": 0.815,
+    "journal.memoir-moved-age.i-was-age-then-that-year": 0.81,
+    "journal.memoir-moved-from.i-came-here-from-moved-from": 0.815,
+    "journal.memoir-moved-from.i-had-been-living-in-moved-from-before-that": 0.81,
     "journal.memoir-moved-held.i-had-worked-at-employer-for-held": 0.815,
     "journal.memoir-moved-pay.it-paid-wage-an-hour-down-from-paid-less-than": 0.865,
     "journal.memoir-moved-pay.it-paid-wage-an-hour-up-from-paid-more-than": 0.865,
+    "journal.memoir-moved-with.moved-with-came-too": 0.962,
+    "journal.memoir-moved-with.moved-with-came-with-me": 0.843,
     "journal.memoir-remember.i-knew-name-from-school": 0.818,
     "journal.memoir-remember.i-worked-with-name": 0.879,
     "journal.memoir-remember.name-and-i-were-good-friends": 0.906,
@@ -4735,6 +4749,12 @@
     "journal.memoir-revise.i-thought-little-of-name-then": 0.879,
     "journal.memoir-revise.it-began-with-name-though-i-did-not-see-it-then": 0.901,
     "journal.memoir-revise.name-mattered-more-than-i-knew": 0.906,
+    "journal.memoir-school-age.i-was-age-then-that-day": 0.81,
+    "journal.memoir-school-age.i-was-age-then-when-it-ended": 0.81,
+    "journal.memoir-school-for.i-had-been-at-school-for-school-for": 0.765,
+    "journal.memoir-school-for.that-ended-school-for-at-school": 0.804,
+    "journal.memoir-together-for.it-has-been-together-since-then": 0.865,
+    "journal.memoir-together-for.we-have-been-together-together": 0.912,
     "journal.memoir-when-age.when-i-was-age": 0.836,
     "journal.memoir-when-age.when-i-was-age-years-old": 0.836,
     "journal.memoir-young.as-a-child": 0.922,
@@ -9995,6 +10015,7 @@
     "scene-talk.narrate-narrate.name-has-questions-ready": 1.355,
     "scene-talk.narrate-narrate.name-has-read-something-and-can-t-leave-it-alone": 1.312,
     "scene-talk.narrate-narrate.name-has-read-the-agenda-bill-isn-t-on-it-and-now-name-is-in-your-door": 1.32,
+    "scene-talk.narrate-narrate.name-has-read-who-filed-for-office-before-you": 1.28,
     "scene-talk.narrate-narrate.name-has-the-bank-statement-out-on-the-kitchen-table-the-savings-cover-cushion-o": 1.084,
     "scene-talk.narrate-narrate.name-has-the-date-and-the-format-in-hand": 1.357,
     "scene-talk.narrate-narrate.name-has-the-local-paper-folded-under-an-arm-open-to-the-story-on-bill": 1.302,
@@ -14290,6 +14311,7 @@
     "scene-talk.state-tell.a-story-says-the-change-on-story-has-taken-effect-did-you-see-it": 1.195,
     "scene-talk.state-tell.after-losing-the-place-i-m-going-to-destination-i-didn-t-want-to-leave": 1.122,
     "scene-talk.state-tell.after-what-happened-i-need-somewhere-new-it-s-destination-i-wanted-you": 1.115,
+    "scene-talk.state-tell.before-you-filed-rivals-put-in-for-office": 1.301,
     "scene-talk.state-tell.bill-is-law-now-and-it-costs-us-cost-a-month": 1.173,
     "scene-talk.state-tell.bill-is-law-now-nobody-asked-people-like-me": 1.236,
     "scene-talk.state-tell.can-i-tell-you-about-a-story-i-read-it-s-about-story": 1.107,
@@ -14372,6 +14394,7 @@
     "scene-talk.state-tell.outlet-had-a-story-on-story-did-you-read-it": 1.145,
     "scene-talk.state-tell.outlet-ran-a-story-on-the-change-on-story-taking-effect-i": 1.134,
     "scene-talk.state-tell.outlet-says-the-change-on-story-is-in-did-you-catch-that": 1.194,
+    "scene-talk.state-tell.rivals-already-filed-for-office-that-s-who-you-re-up-against": 1.266,
     "scene-talk.state-tell.second-time-around-you-know-the-drill-sign-here-and-here-and-date-it": 1.306,
     "scene-talk.state-tell.since-we-lost-them-this-place-hasn-t-felt-the-same-i-m-moving-to-desti": 1.099,
     "scene-talk.state-tell.so-it-s-destination-i-m-going-first-and-i-wanted-to-see-you-before-i-d": 1.267,
@@ -14405,6 +14428,7 @@
     "scene-talk.state-tell.with-the-job-gone-nothing-s-keeping-me-here-i-m-moving-to-destination": 1.104,
     "scene-talk.state-tell.you-ll-need-signatures-signatures-from-voters-here-back-on-my-desk-by-due-have-y": 1.278,
     "scene-talk.state-tell.you-need-one-signature-from-a-voter-here-back-to-me-by-due-have-you-ever-run-a-c": 1.319,
+    "scene-talk.state-tell.you-re-not-first-in-rivals-filed-for-office-ahead-of-you": 1.297,
     "scene-talk.state-tell.you-re-not-running-alone-anymore-opponent-filed": 1.347,
     "scene-talk.state-tell.you-re-not-the-first-for-office-opponent-filed-when": 1.3,
     "scene-talk.state-tell.you-won-t-like-this-winner-won-the-office-race": 1.233,
@@ -14833,10 +14857,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11554,
-    "reached": 11554,
-    "near": 10507,
-    "weighted": 11551,
+    "pieces": 11578,
+    "reached": 11578,
+    "near": 10531,
+    "weighted": 11575,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14884,9 +14908,9 @@
         "near": 3
       },
       "journal": {
-        "pieces": 328,
-        "reached": 328,
-        "near": 328
+        "pieces": 348,
+        "reached": 348,
+        "near": 348
       },
       "legislation": {
         "pieces": 4,
@@ -14929,9 +14953,9 @@
         "near": 84
       },
       "scene-talk": {
-        "pieces": 7636,
-        "reached": 7636,
-        "near": 7636
+        "pieces": 7640,
+        "reached": 7640,
+        "near": 7640
       },
       "scene-words": {
         "pieces": 291,

@@ -5,6 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
   MACRO_MODULE,
+  countryOutlook,
   countryStates,
   linkCreditLineToPrime,
   macroCoreData,
@@ -180,6 +181,91 @@ describe("national economy", () => {
       Number(latest.unemploymentPct),
       `${where} ${latest.month}`,
     ).toBeCloseTo((100 * seekers) / (workers + seekers), 6);
+  });
+  it("however many openings there are, some people are still looking: no state reaches zero out of work", () => {
+    // The second session's check in Broadland, South Dakota (Nov 10, 2026) read a state at
+    // 0.0% out of work a year in; left alone, three territories reached zero within three
+    // years, because every seeker was hired in a month once openings outnumbered them.
+    const seed = `seekers-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2025-01-20", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2025-01-21");
+    const years = 5;
+    const outlook = countryOutlook(api, years * 12);
+    let lowest = { pct: 100, usps: "", month: "" };
+    for (const [usps, points] of Object.entries(outlook.states))
+      for (const point of points)
+        if (point.unemploymentPct < lowest.pct)
+          lowest = { pct: point.unemploymentPct, usps, month: point.month };
+    const where = `seed ${seed}: ${lowest.usps} at ${lowest.month}`;
+    process.stderr.write(
+      `${where}: the lowest share out of work at any year's end in ${years} years is ${lowest.pct.toFixed(3)}%\n`,
+    );
+    // More than one seeker in ten thousand people in the labor force.
+    expect(lowest.pct, where).toBeGreaterThan(0.01);
+  });
+  it("the outlook is the months the game then lives, and it writes nothing", () => {
+    const seed = `outlook-${Math.random().toString(36).slice(2, 10)}`;
+    const core = createCore(opening("2025-01-20", seed), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2025-01-21");
+    const where = `seed ${seed}`;
+    const kept = () => JSON.stringify(api.moduleState("macro").snapshot());
+    const before = kept();
+    const years = 3;
+    const outlook = countryOutlook(api, years * 12);
+    // Read-only: the same tables, the same day.
+    expect(kept(), where).toBe(before);
+    expect(core.date, where).toBe("2025-01-21");
+    expect(outlook.nation, where).toHaveLength(years + 1);
+    expect(Object.keys(outlook.states), where).toHaveLength(56);
+    expect(outlook.monthsWithProblems, where).toBe(0);
+    expect(outlook.moneyDrift, where).toBeLessThan(1e-9);
+    // With nothing else changing, the world then plays the same months.
+    advanceCore(core, "2028-01-31");
+    const lived = new Map(
+      (
+        api
+          .moduleState("macro")
+          .table("months")
+          .rows() as unknown as MacroMonth[]
+      ).map((row) => [row.month, row]),
+    );
+    for (const point of outlook.nation) {
+      const row = lived.get(point.month)!;
+      expect(row, `${where} ${point.month}`).toBeDefined();
+      expect(point.unemploymentPct, `${where} ${point.month}`).toBeCloseTo(
+        row.unemploymentPct,
+        6,
+      );
+      expect(point.inflationPct, `${where} ${point.month}`).toBeCloseTo(
+        row.inflationPct,
+        6,
+      );
+      expect(point.hourlyPay, `${where} ${point.month}`).toBeCloseTo(
+        row.hourlyEarnings,
+        6,
+      );
+    }
+    // Each state's last point is the state as the tier then keeps it.
+    const last = outlook.nation.at(-1)!.month;
+    expect(last, where).toBe("2028-01");
+    for (const state of countryStates(api)) {
+      const point = outlook.states[state.usps]!.at(-1)!;
+      let people = state.children;
+      for (const cell of state.cells) people += cell.people;
+      expect(point.people, `${where} ${state.usps}`).toBeCloseTo(people, 3);
+      expect(point.budgetYear, `${where} ${state.usps}`).toBeCloseTo(
+        state.ledger.budgetYear,
+        0,
+      );
+    }
   });
   it("a higher policy rate raises the long rates the bank quotes, with no draws", () => {
     const start = historyMonths("2026-10-01", "seed-a", p).at(-1)!;
