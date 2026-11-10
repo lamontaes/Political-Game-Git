@@ -1617,12 +1617,17 @@
     },
     {
       "key": "rescue",
+      "note": "A housemate got the player help when a serious illness began (rescue.ts's health.rescued, written from the health engine's onset record): the grown person in the home closest to the player called for help and stayed, and the rest of the household saw it. Afterward that person asks the player for something: a ride to the doctor, a visit to one, to stay close for a few days, a promise to say the moment they feel sick again, leave to tell the family, a word with a child who was in the room. Who got help, whether they are the player's partner, whether a child was in the room and whether other grown people saw it are said only when a record gives them; the illness itself, its kind and how bad it was are never named. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie.",
+      "purpose": "rescue-ask",
+      "asker": "rescuer",
+      "asked": "in-danger",
+      "stakes": ["relative"],
       "roles": [
         {
           "key": "rescuer",
           "fill": "present",
           "count": "one",
-          "moves": ["offer", "comfort", "tell"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["take-risk", "help-others"],
           "bearing": "steady"
         },
@@ -1630,7 +1635,7 @@
           "key": "in-danger",
           "fill": "subject",
           "count": "one",
-          "moves": ["request", "thank", "tell"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["play-safe"],
           "bearing": "anxious"
         },
@@ -1664,7 +1669,68 @@
       "tag": {
         "key": "threat",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
+      }
+    },
+    {
+      "key": "prison-visit",
+      "note": "The player visits someone they know whom the justice engine holds: a prison term handed down (justice.imprisoned) or a person held for want of bail (justice.held-before-trial). The person inside asks the visitor for something real: money on their account, a child looked after, a lawyer called, a word taken to the family. How long the sentence is, the day they get out and the bail are said only when the record gives them. What the visitor agrees to or promises is kept on the reply record (a promise); a visit that ends on a refusal pressed strains the tie.",
+      "purpose": "prison-visit",
+      "asker": "inside",
+      "asked": "visitor",
+      "stakes": ["relative", "money", "years"],
+      "roles": [
+        {
+          "key": "inside",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "answer", "accept", "thank", "press"],
+          "wants": ["engage", "commit"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "visitor",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["help-others", "engage"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:held-known-visit"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.held-before-trial",
+          "bind": {
+            "visitor": "subject",
+            "inside": "counterpart"
+          },
+          "opener": "inside",
+          "setting": ["venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:imprisoned-known-visit"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.imprisoned",
+          "bind": {
+            "visitor": "subject",
+            "inside": "counterpart"
+          },
+          "opener": "inside",
+          "setting": ["venue"]
+        }
+      ],
+      "tag": {
+        "key": "prison-visit",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words"]
       }
     },
     {
