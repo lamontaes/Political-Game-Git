@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/pool-words-scene-web-meeting-people-and-places
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-11-10T23:53:31.248Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
@@ -45,3 +45,5 @@ branch: claude/pool-words-scene-web-meeting-people-and-places
 **Notes.** Split from `words-scene-web-from-lives` by the words lead on Oct 27. Method per row: `scenes-from-life`. Producers belong to the director engineer (`lead: director` items); this item owns the packets and the lines.
 
 Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:53 UTC) on branch claude/pool-words-scene-web-meeting-people-and-places.
+
+Released (2026-11-10): words item: needs lines under data/english/parts, which only Story writes. Continue on branch claude/pool-words-scene-web-meeting-people-and-places.
