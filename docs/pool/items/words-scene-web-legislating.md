@@ -5,14 +5,14 @@ area: words
 kind: feature
 priority: 1
 size: M
-status: claimed
-claimed-by: claude/pool-words-scene-web-legislating
+status: open
+claimed-by:
 pr:
 blocked-on:
 source: "words-and-scenes lead, Oct 27: split of words-scene-web-from-lives (owner, Oct 27: scenes and their variants from hundreds of real lives)"
 lead: words
 milestone: play-first
-claimed-at: 2026-11-10T23:53:21.329Z
+claimed-at:
 after:
 standard: 2
 model: sonnet
@@ -47,3 +47,5 @@ branch: claude/pool-words-scene-web-legislating
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-legislating`; last push Oct 27, 14:11 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
 
 Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:53 UTC) on branch claude/pool-words-scene-web-legislating.
+
+Released (2026-11-10): Needs bank lines under data/english/parts, which only the Story session writes; nothing a builder can play. Continue on branch claude/pool-words-scene-web-legislating.
