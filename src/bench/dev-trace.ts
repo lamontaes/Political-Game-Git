@@ -1110,10 +1110,10 @@ export function traceNode(
     for (const part of lookup.parts(id)) {
       const field = named.get(part.id);
       // In a kept record's id, a person, a household, an organization, an
-      // account or a place is who or where it is about, unless a field says
-      // more. An id no store keeps is nothing but the records it names.
+      // account or a place is who or where it is about, never what caused it.
+      // An id no store keeps is nothing but the records it names.
       const about =
-        !composed && (field ? field.about : ENTITIES.has(part.found.engine));
+        !composed && (ENTITIES.has(part.found.engine) || field?.about === true);
       children.push({
         id: part.id,
         kind: "record",
@@ -1126,8 +1126,10 @@ export function traceNode(
         id: childId,
         kind: "record",
         via: `${found.engine}.${path}`,
-        // A place is where, whatever field names it.
-        ...(about || lookup.stored(childId)?.engine === PLACE_ENGINE
+        // A person, a household, an organization, an account or a place is
+        // who or where, whatever field names it: following one never ends at
+        // a decision, a law or a dated cause.
+        ...(about || ENTITIES.has(lookup.stored(childId)?.engine ?? "")
           ? { about: true as const }
           : {}),
       });
