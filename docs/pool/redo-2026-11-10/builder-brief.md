@@ -6,7 +6,7 @@ You are a builder for the political life-sim in lamontaes/Political-Game-Git. Yo
 
 Your item: `__ID__`
 Your branch: `__BRANCH__` (create it from main: `git fetch origin main && git checkout -B __BRANCH__ origin/main`)
-The item's text is not on main yet. Read it with: `git fetch origin claude/fable-pool-redo && git show origin/claude/fable-pool-redo:docs/pool/items/__ID__.md`. Read any other item it names the same way.
+The item is on main: read `docs/pool/items/__ID__.md`, and any other item it names, there. If your message names a branch that holds a newer copy of the item, read that copy instead (`git fetch origin <branch> && git show origin/<branch>:docs/pool/items/__ID__.md`).
 
 Read first, on main: AGENTS.md (all of "Standing owner rules" and "Process"), then the skills the item's Rules name (under `.agents/skills/`). You are in a cloud environment: run `npm install` once (never `npm ci`), and run every npm, npx or node command with `export OCD_STORAGE_OVERRIDE="cloud session, owner approved Oct 14"`.
 

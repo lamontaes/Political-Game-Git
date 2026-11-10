@@ -16,13 +16,14 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from nation-president-orders-by-series in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The played President has no screen over federal orders (stopgap SG-NATION-federal-axis-proxy); `presidentialOrders` in src/core2/office-day-federal-president.ts lists the orderable set but nothing lets the player choose one. Let the played President issue an order through the same `issueFederalOrder` path the unplayed one uses. src/bench is the play-first lane's, so the screen half goes to the lane with a Needs from others line. This is part 3 of nation-president-orders-by-series.
 
 **Cause.** Found in code: `presidentialOrders` (line 974) in src/core2/office-day-federal-president.ts returns the orderable set but the played President's Your office has no control over it.
 
-**Fix.** Expose the orderable set and each order's authority and the President's view through the office-day state, issue through `issueFederalOrder`, and send the screen to the play-first lane.
+**Fix.** Expose the orderable set and each order's authority and the President's view through the office-day state, issue through `issueFederalOrder`, and add the control to the Your office screen in src/bench. The play-first lane owns src/bench: follow docs/play-first/LAW.md, the screen-to-mock skill and the shared controls, and ask for the Words session's review of any new label.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

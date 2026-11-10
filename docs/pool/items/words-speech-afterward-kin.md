@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** #6136 stages the speech-afterward scene for every listener a candidate's in-person speech moved, and the candidate asks each one for their vote. In Huntley, Wyoming the candidate's own partner is among them and hears "I meant every word up there. Can I count on your vote?" with the lead "Your partner comes your way as the room empties." A partner, parent or child would hear something kin say, such as asking how it went, with replies that still move their view.
@@ -30,7 +31,7 @@ root: rc3-thin-life-record
 
 **Done when.** A second session, not the builder, runs a played-world test in a drawn place (seed named) that finds a candidate whose household member heard their speech in person, and sees that scene's ask and replies come from kin lines tagged by the family record's relation, cited by record id, while a stranger's scene keeps the ask-support lines.
 
-**Waits on.** words-scene-for-unstaged-big-moments (the item in `after:`; proposed dropped as done).
+**Waits on.** Nothing. (words-scene-for-unstaged-big-moments, which it once waited on, is built on main.)
 
 **Files.** data/english/parts/scene-talk.json, src/director/purpose-scene.ts, src/director/data/purpose-arcs.json
 
