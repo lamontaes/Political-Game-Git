@@ -23,6 +23,16 @@ try {
   await page.locator("#sheet-close").click();
   await page.locator("#dock button").nth(2).click();
   await page.locator('[data-testid="dev-outlook"]').waitFor();
+  // On a new game's first day the economy has not opened: the section says so in words.
+  await page.locator('[data-testid="dev-outlook"]').click();
+  await page.locator(".dev-outlook").getByText("Run one day").waitFor();
+  console.log(await page.locator(".dev-outlook").innerText());
+  await page.evaluate(async () => {
+    await fetch("/api/dev/run-until", {
+      method: "POST",
+      body: JSON.stringify({ days: 1, cap: 2 }),
+    });
+  });
   const dateBefore = await page.evaluate(
     async () => (await (await fetch("/api/dev/state")).json()).date,
   );

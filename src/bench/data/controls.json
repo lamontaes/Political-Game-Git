@@ -368,6 +368,7 @@
       "explanation": "Runs every state and the nation twenty years ahead under the laws already passed. Your town and the date do not move.",
       "button": "Show 20 years",
       "took": "Took {n} seconds",
+      "notYet": "The economy opens on the first day. Run one day, then show it again.",
       "possible": "Every count stayed possible.",
       "impossible": "Some counts could not be: {n} months.",
       "today": "Today",

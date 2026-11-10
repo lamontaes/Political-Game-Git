@@ -41,6 +41,10 @@ function outlookSection(labels) {
       });
       const value = await response.json();
       if (!response.ok) throw new Error(value.error);
+      if (!value.opened) {
+        took.textContent = out.notYet;
+        return;
+      }
       took.textContent = out.took.replace("{n}", value.seconds.toFixed(1));
       verdict.textContent = value.couldBe
         ? out.possible

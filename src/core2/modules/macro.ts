@@ -835,6 +835,11 @@ const OUTLOOK_PROBLEMS_KEPT = 8;
  * vote by in play. Read-only: it writes no record and moves no date, so it is what the tier
  * would do, not what the town will (the town's own people are not in it).
  */
+/** Whether the national economy has opened: it opens on the game's first day, and there is no outlook before it. */
+export function countryOpened(api: CoreAPI): boolean {
+  return readState(api) !== undefined;
+}
+
 export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {
   const p = params(api),
     core = api.state as CoreState;

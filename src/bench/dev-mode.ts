@@ -78,7 +78,11 @@ import {
 } from "../core2/modules/campaigns";
 import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
-import { countryOutlook, nationalPanel } from "../core2/modules/macro";
+import {
+  countryOpened,
+  countryOutlook,
+  nationalPanel,
+} from "../core2/modules/macro";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
 import type { EntityId } from "../core2/kernel/brands";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
@@ -1730,6 +1734,8 @@ export class DevMode {
     const years = input.years ?? 20;
     if (!Number.isInteger(years) || years < 1 || years > 40)
       throw new Error("The outlook runs from 1 to 40 whole years.");
+    // The economy opens on the game's first day; before it there is nothing to run ahead.
+    if (!countryOpened(this.api)) return { opened: false as const };
     const started = Date.now();
     const result = countryOutlook(this.api, years * 12);
     const seconds = (Date.now() - started) / 1000;
@@ -1741,6 +1747,7 @@ export class DevMode {
     const usps = place?.stateJurisdictionKey?.slice("US-".length);
     const own = usps ? result.states[usps] : undefined;
     return {
+      opened: true as const,
       seconds,
       from: result.from,
       to: result.nation.at(-1)!.month,

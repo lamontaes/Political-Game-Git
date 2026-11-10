@@ -25,13 +25,18 @@ const dev = new DevMode(
 const where = `${world.place.displayName} (seed ${seed})`;
 
 describe(`the country in 20 years: ${where}`, () => {
-  // The national economy opens with the world's first days.
+  // The national economy opens with the world's first days: before that the outlook says so.
+  const early = dev.outlook({});
+  it("says the economy has not opened on a new world's first day", () => {
+    expect(early.opened, where).toBe(false);
+  });
   dev.advance(
     new Date(Date.parse(`${core.date}T00:00:00Z`) + 3 * 864e5)
       .toISOString()
       .slice(0, 10),
   );
   const first = dev.outlook({});
+  if (!first.opened) throw new Error(`${where}: the economy did not open`);
   process.stderr.write(
     `${where}: outlook ${first.years} years in ${first.seconds.toFixed(1)} s, state ${first.state}\n`,
   );
@@ -59,6 +64,7 @@ describe(`the country in 20 years: ${where}`, () => {
   it("a law change moves it: no income tax, and unemployment at year 1 differs", () => {
     dev.setLaw({ level: "federal", series: "income-tax", value: 0 });
     const again = dev.outlook({});
+    if (!again.opened) throw new Error(`${where}: the economy closed`);
     expect(again.nation[1]!.unemploymentPct, where).not.toBe(
       first.nation[1]!.unemploymentPct,
     );
