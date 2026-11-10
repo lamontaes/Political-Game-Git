@@ -814,12 +814,17 @@
     },
     {
       "key": "becoming-friends",
+      "note": "A tie that grew over time together (the relationship engine's contact tie, turned from an acquaintance to a friend). The other asks the player for something that tests the tie: to come along somewhere or to do them a favor. What the two share is said only when a record gives it: the employer both work for (the jobs engine), the school they were both at in one school year or their children share (the school engine), the party both belong to (the parties engine), the town the other lives in. What the player agrees to or promises is kept on the reply record (a promise); a no that is pressed strains the tie.",
+      "purpose": "friend-ask",
+      "asker": "other-friend",
+      "asked": "friend",
+      "stakes": ["friend", "favor"],
       "roles": [
         {
           "key": "friend",
           "fill": "subject",
           "count": "one",
-          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
           "wants": ["engage", "trust"],
           "bearing": "warm"
         },
@@ -827,7 +832,7 @@
           "key": "other-friend",
           "fill": "counterpart",
           "count": "one",
-          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "trust"],
           "bearing": "warm"
         }
@@ -843,13 +848,14 @@
           "bind": {
             "friend": "subject",
             "other-friend": "counterpart"
-          }
+          },
+          "opener": "other-friend"
         }
       ],
       "tag": {
         "key": "routine",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       },
       "yieldsTo": ["reconciliation"]
     },
@@ -1133,30 +1139,27 @@
     },
     {
       "key": "first-meeting",
+      "note": "A new hire at the player's employer (the jobs engine's new job record) comes over to introduce themselves and asks the player something grounded in what the two share: how things run at the employer, the job if it is the same, the school they were both at in one year or their children share, the party both belong to, the town the newcomer drives in from. What the player agrees to or promises is kept on the reply record (a promise); a put-off that is pressed strains the tie.",
+      "purpose": "introduction",
+      "asker": "newcomer",
+      "asked": "met",
+      "stakes": ["job", "friend"],
       "roles": [
         {
           "key": "newcomer",
-          "fill": "subject",
+          "fill": "counterpart",
           "count": "one",
-          "moves": ["tell", "offer", "thank"],
+          "moves": ["request", "answer", "accept", "thank", "press"],
           "wants": ["engage", "change"],
           "bearing": "curious"
         },
         {
           "key": "met",
-          "fill": "counterpart",
+          "fill": "subject",
           "count": "one",
-          "moves": ["tell", "offer", "thank"],
+          "moves": ["agree", "promise", "ask", "deflect", "leave"],
           "wants": ["engage"],
-          "bearing": "curious"
-        },
-        {
-          "key": "introducer",
-          "fill": "present",
-          "count": "one",
-          "moves": ["tell", "offer"],
-          "wants": ["help-others", "engage"],
-          "bearing": "warm"
+          "bearing": "calm"
         }
       ],
       "setting": ["public", "venue"],
@@ -1170,19 +1173,17 @@
           "causeRecord": "job",
           "bind": {
             "newcomer": "counterpart",
-            "met": "subject",
-            "introducer": "present"
+            "met": "subject"
           },
-          "opener": "introducer",
-          "setting": ["workplace"],
-          "opening": "tell"
+          "opener": "newcomer",
+          "setting": ["workplace"]
         }
       ],
       "awaiting": ["record:new-neighbor"],
       "tag": {
         "key": "arrival",
         "endpoint": "personal",
-        "registers": ["conversation", "scene-words", "journal"]
+        "registers": ["scene-talk", "scene-words", "journal"]
       }
     },
     {
