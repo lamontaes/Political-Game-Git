@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr:
+pr: 8271
 blocked-on:
 lead: words
 source: CTO, Nov 10 5:48 p.m. (step 2), once the verdict store (#8206) was on main; heard counts from three drawn places (Englewood, Colorado; Aunu'u, American Samoa; Brooksville, Mississippi)
