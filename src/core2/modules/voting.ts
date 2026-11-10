@@ -20,6 +20,7 @@
  * electors for the presidency. Every count, here or there, is kept by one
  * writer (`keepCount`) and seated by the one term writer (`seatWinner`).
  */
+import { bookkeeping } from "../bookkeeping";
 import { ageInYears } from "../kernel/dates";
 import senateClasses from "../../../data/research/offices/senate-classes-2026.json" with { type: "json" };
 import contingentData from "../data/elections/contingent-election.json" with { type: "json" };
@@ -3183,6 +3184,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       countedVotes[backed] =
         (countedVotes[backed] ?? 0) + t.propensity * weight;
   }
+  if (!bookkeeping()) dropOldCountedBallots(api);
   table(api, "countedBallots").put({
     id: `counted:${contestId}`,
     contestId,
@@ -4045,6 +4047,29 @@ export function ballotOf(
     (table(api, "ballots").get(`ballot:${contestId}:${voterId}`) as unknown as
       BallotRow | undefined) ?? null
   );
+}
+
+/**
+ * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a race's
+ * counted ballots (every counted voter's turnout, split and reasons) are
+ * read only by the "why did this resident vote so" lookups (`countedBallotOf`,
+ * `countedBallotsOf`); the race's result, returns and the named voters'
+ * ballots stay. In play, when a new race's counted ballots are kept, those
+ * of races more than countedBallotRetentionDays past go. Kept, they were
+ * 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026). With
+ * bookkeeping on (tests, proofs) every row stays.
+ */
+export function dropOldCountedBallots(api: CoreAPI): void {
+  const rows = table(api, "countedBallots");
+  const cutoff = new Date(`${api.state.date}T00:00:00Z`);
+  cutoff.setUTCDate(
+    cutoff.getUTCDate() - api.parameter("countedBallotRetentionDays"),
+  );
+  const before = cutoff.toISOString().slice(0, 10);
+  for (const row of [
+    ...(rows.rows() as unknown as { id: string; date: string }[]),
+  ])
+    if (row.date < before) rows.remove(row.id);
 }
 
 function countedRow(

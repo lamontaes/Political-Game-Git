@@ -8453,5 +8453,17 @@
       "unit": "days",
       "citation": "One year (an annual address on the same day) to three (a race decided and contested); checked against the records proof of a two-year Montpelier run."
     }
+  },
+  "countedBallotRetentionDays": {
+    "value": 60,
+    "tag": "TUNABLE",
+    "role": "coefficient",
+    "citation": "Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): how long after its election a race's counted ballots (each counted voter's turnout, split and reasons) are kept for the why-lookups; the result, returns and named ballots stay (voting.ts dropOldCountedBallots). Kept forever they were 80 MB in 45 rows at Montpelier, Vermont, year 4 (Nov 9, 2026).",
+    "spread": {
+      "low": 30,
+      "high": 400,
+      "unit": "days",
+      "citation": "A month (a canvass and recount) to a year and a month; checked against the records proof of a two-year Montpelier run."
+    }
   }
 }
