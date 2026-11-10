@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/counted-appeal-reuse
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-10T01:16:07.118Z
 ---
 
 **What.** An election year allocates about 77 GB (Gunnison UT, key 4932660, seed n8f6, year 4, sampled), and garbage collection is 13 s of it. The largest source is countPlaces, which counts other places' races from the town's sample: each sample voter's appeal record (7.6 GB), a sort of it in countedChoice (5.2 GB) and its entries and values lists (2 GB). Refill one appeal record per count, read first place and the stakes in one pass with no list, and sum housing's counted residents by place once per change to the counts instead of walking every household for every place built in.
