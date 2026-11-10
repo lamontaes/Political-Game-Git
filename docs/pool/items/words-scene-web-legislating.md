@@ -15,7 +15,7 @@ milestone: play-first
 claimed-at:
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the legislating domain, one row per cause that fires it. This domain covers legislating at council, county, state and Congress: a floor vote, a hearing, a vote asked or confirmed, a bill carried, a section bargained. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's legislating requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the legislating domain, one row per cause that fires it. This domain covers legislating at council, county, state and Congress: a floor vote, a hearing, a vote asked or confirmed, a bill carried, a section bargained. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's legislating requests with no type are listed under Missing in the report and become rows here. Seen: the floor vote, hearing, ask and bill scenes the player plays (play-first lane).
 
 **Rules.** Serves `scenes-from-life`: every row cites at least one episode packet from a real life, and no real name or line ships. Serves `scene-standard`: roles cast from the world, lines vary by trait and tie, and a scene writes something back. One rule, all 56 places: each played year is a drawn place with its seed named.
 

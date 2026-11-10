@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/english/parts/, src/director/
 
 **Notes.** Split from people-unplanned-pregnancy-decision (PR for claude/political-game-pool-yucp92-bg).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A background person's unplanned pregnancy and decision told in a talk; the owner ruled Oct 20 that nothing new is shown, and no scene the player plays reads it.

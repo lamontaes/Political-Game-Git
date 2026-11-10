@@ -13,7 +13,7 @@ lead: words
 source: added with npm run pool -- add
 ---
 
-**What.** Every purpose arc's endings carry keeps (for example favor-owed, trust-lost, bribe-taken), but src/director/scene-talk.ts only reads keeps into the ending's label; the only record a scene writes in play is scene.reply (purpose-scene.ts replyInScene). So a scene's outcome is not yet a read for any other engine. Found Oct 27 by Helper E building bribe-offer.
+**What.** Every purpose arc's endings carry keeps (for example favor-owed, trust-lost, bribe-taken), but src/director/scene-talk.ts only reads keeps into the ending's label; the only record a scene writes in play is scene.reply (purpose-scene.ts replyInScene). So a scene's outcome is not yet a read for any other engine. Found Oct 27 by Helper E building bribe-offer. Seen: a scene's ending (a favor owed, trust lost) changes what that person later does and says to the player.
 
 **Rules.** No consequence, no scene (scene-standard rule 1). An effect is a read, not a record: the writer calls an existing engine writer (relationship, promise, crime row) and never invents a parallel table. No dice.
 

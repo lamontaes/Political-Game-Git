@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** At a state counter the counter narration names the filing office's title as the person's post: "Michael Medina, the Pennsylvania Department of State, sets down a stack of mail." (Meadowood, Pennsylvania, seed 16db857d2df58192fb23:0). The clerk row's title for a state counter is the agency, not a person's job. Found while building words-clerk-visit-narration-real; on main before it too.
+**What.** At a state counter the counter narration names the filing office's title as the person's post: "Michael Medina, the Pennsylvania Department of State, sets down a stack of mail." (Meadowood, Pennsylvania, seed 16db857d2df58192fb23:0). The clerk row's title for a state counter is the agency, not a person's job. Found while building words-clerk-visit-narration-real; on main before it too. Seen: the filing-counter narration at a state counter, which names the agency as a person's post today.
 
 **Rules.** Scene standard: narration says only what the records support. No hand-written player text: the post comes from the record of the person's own job (their appointment or term), never from the counter's agency name.
 

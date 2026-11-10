@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/english/parts/conversation.json, scripts/english-corpus/, src/director/conversation.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Five bank pieces worded 'since {month year}' would be rewritten for a tenure under two years; nobody says the month they started, and a talk simply does not offer that answer, so the player sees nothing missing.

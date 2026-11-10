@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** In Orocovis, Puerto Rico (7257290; ARCHIVE_WORDS_SEED=1b28ca4702cab43d, draw 0 of archive-budget-words) the municipio's adopted budget row budget:county:72107:2024 has revenue 0 and spending 0, and the archive prints it as news: 'Orocovis Municipio adopts its budget. Orocovis Municipio adopted its budget for 2024.' with no sum. archive-words.test.ts ('words an adopted budget by its largest spending line') fails on main at that seed. Either the budgets engine writes a municipio budget with no lines, or the archive keeps a budget with nothing in it.
+**What.** In Orocovis, Puerto Rico (7257290; ARCHIVE_WORDS_SEED=1b28ca4702cab43d, draw 0 of archive-budget-words) the municipio's adopted budget row budget:county:72107:2024 has revenue 0 and spending 0, and the archive prints it as news: 'Orocovis Municipio adopts its budget. Orocovis Municipio adopted its budget for 2024.' with no sum. archive-words.test.ts ('words an adopted budget by its largest spending line') fails on main at that seed. Either the budgets engine writes a municipio budget with no lines, or the archive keeps a budget with nothing in it. Seen: the paper's budget story, which prints no money in this municipio.
 
 **Rules.** One rule, all 56 places: a territory's municipio budget is read like any county's, from data. Estimate, never UNKNOWN: a budget the data lacks starts from a sourced average with a spread, never $0. No hand-written player text: the paper's words come from the banks. An effect is a read: a budget nobody funds is not news.
 

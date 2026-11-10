@@ -14,7 +14,7 @@ lead: director
 claimed-at: 
 ---
 
-**What.** A scene researcher's item for the director engineer. When the executive makes an appointment, the person ranked second among the five the executive weighed comes to them the day it is recorded and asks how it came out. The executive answers one of four ways: tell the reason, offer the next post, close the door, or ask what the visitor would have done. The scene says only that the visitor was weighed, since the records rank who was weighed and hold no application.
+**What.** A scene researcher's item for the director engineer. When the executive makes an appointment, the person ranked second among the five the executive weighed comes to them the day it is recorded and asks how it came out. The executive answers one of four ways: tell the reason, offer the next post, close the door, or ask what the visitor would have done. The scene says only that the visitor was weighed, since the records rank who was weighed and hold no application. Seen: the runner-up walks in after an appointment and asks how it came out, with four replies.
 
 **Rules.** No dice: who comes is the second-ranked candidate in the appointment row's recorded reasons, and what they say follows their traits and their tie to the executive, never a roll. Wire to the world: the appointment row, its qualification records and the tie are read by the director, and the scene cites each by record id. No hand-written player text in code: every word is a bank piece worded by the English engine.
 

@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Confirmer replay of Lane 3 path 4 on main 516a0f9070 (includes #7267, everyday talk on one engine): New Game in Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5), the player answering each talk with its first reply, played week by week from January 2025 to November 2026. The page threw three errors from /api/talk/say: 'Not an offered line: 4:ack:right.conversation.greet-answer-fine.all-right' twice and 'Not an offered line: 2:well' (src/director/conversation.ts:2966, say()). The same script and town ran with no page errors before #7267 (main 21830c5ce8). The replies were on screen when pressed; whether a press during the next line's load causes it is not known.
+**What.** Confirmer replay of Lane 3 path 4 on main 516a0f9070 (includes #7267, everyday talk on one engine): New Game in Murray, Nebraska (3133425, replay 1d3f0e18ca4ba7e5), the player answering each talk with its first reply, played week by week from January 2025 to November 2026. The page threw three errors from /api/talk/say: 'Not an offered line: 4:ack:right.conversation.greet-answer-fine.all-right' twice and 'Not an offered line: 2:well' (src/director/conversation.ts:2966, say()). The same script and town ran with no page errors before #7267 (main 21830c5ce8). The replies were on screen when pressed; whether a press during the next line's load causes it is not known. Seen: a reply the screen offers in a talk is accepted, not thrown as an error (a crash on main).
 
 **Rules.** One engine per mechanic: the reply the screen shows is the one the conversation engine accepts. Never hide the error or drop the player's answer silently.
 

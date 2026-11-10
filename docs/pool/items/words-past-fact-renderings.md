@@ -13,7 +13,7 @@ source: "split from core-needs-opus-core-23; docs/coordination/OPUS-CORE.md"
 claimed-at:
 ---
 
-**What.** The past module writes three kinds of dated facts the English engine has no words for: `household:*` past facts on a person (livelihood, moves), the `public:*` knowledge of a public figure (party, service, positions, reputation) and the `archive:*` news stories from the year before day one. Today the person card shows the public knowledge as record fields (party, since, votes) and the past as record summaries; the player should read sentences. Author the pieces to the calibrated patterns, wire them through the English engine, and have the card, the journal and the news read them.
+**What.** The past module writes three kinds of dated facts the English engine has no words for: `household:*` past facts on a person (livelihood, moves), the `public:*` knowledge of a public figure (party, service, positions, reputation) and the `archive:*` news stories from the year before day one. Today the person card shows the public knowledge as record fields (party, since, votes) and the past as record summaries; the player should read sentences. Author the pieces to the calibrated patterns, wire them through the English engine, and have the card, the journal and the news read them. Seen: the person card, where the past and public knowledge read as sentences, not record fields.
 
 **Rules.** No hand-written player text: the pieces live in `data/english/parts/`, authored to patterns, graded in a words batch. An effect is a read: a rendering counts once a card, journal line or news story shows it. Ask why: each sentence cites the past record it came from.
 

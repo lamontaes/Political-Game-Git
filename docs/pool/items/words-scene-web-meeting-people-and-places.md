@@ -15,7 +15,7 @@ milestone: play-first
 claimed-at:
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the meeting people and places domain, one row per cause that fires it. This domain covers the people and places a life runs into: a first meeting, a friendship, an argument, a reunion, a cause that asks you to join. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's meeting people and places requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the meeting people and places domain, one row per cause that fires it. This domain covers the people and places a life runs into: a first meeting, a friendship, an argument, a reunion, a cause that asks you to join. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's meeting people and places requests with no type are listed under Missing in the report and become rows here. Seen: the first-meeting, friendship, argument and reunion scenes the player plays (play-first lane).
 
 **Rules.** Serves `scenes-from-life`: every row cites at least one episode packet from a real life, and no real name or line ships. Serves `scene-standard`: roles cast from the world, lines vary by trait and tie, and a scene writes something back. One rule, all 56 places: each played year is a drawn place with its seed named.
 

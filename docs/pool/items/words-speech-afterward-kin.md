@@ -13,7 +13,7 @@ after: words-scene-for-unstaged-big-moments
 source: added with npm run pool -- add
 ---
 
-**What.** #6136 stages the speech-afterward scene for every listener a candidate's in-person speech moved, and the candidate asks each one for their vote. In Huntley, Wyoming the candidate's own partner is among them and hears "I meant every word up there. Can I count on your vote?" with the lead "Your partner comes your way as the room empties." A partner, parent or child would hear something kin say, such as asking how it went, with replies that still move their view.
+**What.** #6136 stages the speech-afterward scene for every listener a candidate's in-person speech moved, and the candidate asks each one for their vote. In Huntley, Wyoming the candidate's own partner is among them and hears "I meant every word up there. Can I count on your vote?" with the lead "Your partner comes your way as the room empties." A partner, parent or child would hear something kin say, such as asking how it went, with replies that still move their view. Seen: after the speech the candidate's partner or parent hears something kin say, not a stranger's ask for a vote.
 
 **Rules.** Words engine: the director passes the listener's relation to the candidate from the family record, and the English engine picks kin lines by it; no words in the director. Wire to the world: the reply still keeps or breaks the vote promise the ask-support purpose records. One rule, all 56 places.
 

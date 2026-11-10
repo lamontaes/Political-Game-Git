@@ -13,7 +13,7 @@ after: core-evicted-counted-stays-counted
 source: added with npm run pool -- add
 ---
 
-**What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), a household evicted while counted holds its housing case and status row but no director moment labeled feeling:event:housing.eviction. When the player later meets one of its people and they are filled in, nothing they say brings up the eviction or where they are staying. The gap is registered as SG-WORDS-eviction-moment-at-fill-in, with its marker in src/director/conversation.ts.
+**What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), a household evicted while counted holds its housing case and status row but no director moment labeled feeling:event:housing.eviction. When the player later meets one of its people and they are filled in, nothing they say brings up the eviction or where they are staying. The gap is registered as SG-WORDS-eviction-moment-at-fill-in, with its marker in src/director/conversation.ts. Seen: meeting a person who was evicted, they bring up the eviction and where they are staying.
 
 **Rules.** Wire to the world: the person's own records (the eviction case's removedAt and its event id event:housing.eviction:<caseId>) give the moment at fill-in, so the director tells what happened to them. Ask why: the line cites the case record, not a typed reason.
 

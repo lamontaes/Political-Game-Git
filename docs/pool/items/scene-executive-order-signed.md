@@ -6,15 +6,15 @@ kind: feature
 priority: 3
 size: M
 status: open
-claimed-by: 
+claimed-by:
 pr:
 blocked-on:
 source: scene researcher Helper D, Oct 27; scenes-from-life episode executive-order-voting-rights (a governor restoring the vote by order, a supporter at the signing)
 lead: director
-claimed-at: 
+claimed-at:
 ---
 
-**What.** A scene researcher's item for the director engineer. On the day a governor issues an executive order, the governor's aide sets it on the desk and a resident the order reaches comes into the room and says what it means to them. The governor answers one of four ways: promise to ask the legislature to write it into law, own the order, warn that it lasts only as long as the governor holds the office, or ask what else they need. A governor's revocation of an earlier order is the mirror, with the same resident asking what happens to them. The resident is filled in from the state's counted adults the order reaches, as the two-level population rule has it.
+**What.** A scene researcher's item for the director engineer. On the day a governor issues an executive order, the governor's aide sets it on the desk and a resident the order reaches comes into the room and says what it means to them. The governor answers one of four ways: promise to ask the legislature to write it into law, own the order, warn that it lasts only as long as the governor holds the office, or ask what else they need. A governor's revocation of an earlier order is the mirror, with the same resident asking what happens to them. The resident is filled in from the state's counted adults the order reaches, as the two-level population rule has it. Seen: when a governor signs an order a resident it reaches comes in and says what it means to them, with four replies.
 
 **Rules.** No dice: whether an order is issued follows the governor's powers, views and law in force already, and what the resident says follows their traits, never a roll. Wire to the world: the order's law row, the state's felony-disenfranchisement share and the filled-in person's record are read by the director, and the scene cites each by record id. One model, two tiers: the resident is the counted group's rule made one person, matching the state's share, never a separate simulation.
 

@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Personality should shape how a person talks, and the English engine reads one trait today, for a line's register (src/director/ledger.ts:730). The trait-shaped outcome outcome.speech-style in data/content/trait-outcomes.json is graded read only in part, and its row says the Words line lists the trait reads speech needs. List those reads (for example how long, how warm and how direct a speaker's lines run), make the engine read the speaker's recorded traits for each when it picks a piece, and name the record each read came from.
+**What.** Personality should shape how a person talks, and the English engine reads one trait today, for a line's register (src/director/ledger.ts:730). The trait-shaped outcome outcome.speech-style in data/content/trait-outcomes.json is graded read only in part, and its row says the Words line lists the trait reads speech needs. List those reads (for example how long, how warm and how direct a speaker's lines run), make the engine read the speaker's recorded traits for each when it picks a piece, and name the record each read came from. Seen: how long, how warm and how direct a person talks follows who they are, in talks and scenes.
 
 **Rules.** No hand-written player text: the reads choose among graded bank pieces, never write words. No dice: the speaker's traits pick the piece, never a roll. Research before building: a size that is not the engine's own choice cites its study.
 

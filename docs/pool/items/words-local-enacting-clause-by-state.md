@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded hold.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A town's ordinance opening with the clause its state's statute gives would add only exact wording of the opening line of a bill; no player compares it to a statute, and the one national clause already reads fine.

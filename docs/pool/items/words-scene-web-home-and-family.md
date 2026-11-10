@@ -14,7 +14,7 @@ lead: words
 milestone: play-first
 ---
 
-**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the home and family domain, one row per cause that fires it. This domain covers household records: a filing, a win or loss, a birth, a death, a job lost, an eviction, someone leaving or coming home. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's home and family requests with no type are listed under Missing in the report and become rows here.
+**What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the home and family domain, one row per cause that fires it. This domain covers household records: a filing, a win or loss, a birth, a death, a job lost, an eviction, someone leaving or coming home. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's home and family requests with no type are listed under Missing in the report and become rows here. Seen: the home and family scenes the player plays (play-first lane).
 
 **Rules.** Serves `scenes-from-life`: every row cites at least one episode packet from a real life, and no real name or line ships. Serves `scene-standard`: roles cast from the world, lines vary by trait and tie, and a scene writes something back. One rule, all 56 places: each played year is a drawn place with its seed named.
 
