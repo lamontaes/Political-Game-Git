@@ -5,9 +5,9 @@ area: people
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fable-back-to-the-counts
-pr:
+pr: #8137
 blocked-on:
 lead: cto
 source: Fable, Nov 10, 2026, measured on main and on the country tier branch while probing the fast clock

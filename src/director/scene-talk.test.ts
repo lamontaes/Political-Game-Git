@@ -338,5 +338,6 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
       }
     }
     expect(parted).toBeGreaterThan(0);
-  });
+    // Two trees for every purpose: about 35 seconds on a busy machine.
+  }, 120_000);
 });
