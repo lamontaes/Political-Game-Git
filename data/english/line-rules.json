@@ -1755,7 +1755,7 @@
           "via": "OWNER-DECISIONS.md, Oct 27, afternoon, \"Scenes have depth or they do not fire\""
         }
       ],
-      "note": "Seen on main on Nov 10: \"Where are you from?\" offered \"I'm from Grandville. And you?\", \"I grew up here.\", \"I'm from Grandville.\" and \"Here in Grandville.\" The groups are in src/director/data/reply-meanings.json. The rule reads the sets the composers offer (scenes with a purpose composed in a drawn world, everyday talk by the answers a subject can give), lists each flagged spot with its replies, and queues every piece in a flagged set for a rewrite; the lines keep playing, since a short set needs another reply, not one fewer.",
+      "note": "Seen on main on Nov 10: \"Where are you from?\" offered \"I'm from Grandville. And you?\", \"I grew up here.\", \"I'm from Grandville.\" and \"Here in Grandville.\" The groups are in src/director/data/reply-meanings.json. The rule reads the sets the composers offer (scenes with a purpose composed in a drawn world, everyday talk by the answers a subject can give) and lists each flagged spot with its replies. A short set is a gap in a spot, not lines to rewrite: the spot is written under `gaps` in data/english/pulled.json, and no line is pulled or queued.",
       "status": "enforced",
       "test": {
         "kind": "place",

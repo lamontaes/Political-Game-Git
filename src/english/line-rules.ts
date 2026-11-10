@@ -233,6 +233,13 @@ export function spotsOf(piece: RulePiece): string[] {
   return [...spots];
 }
 
+/** A spot whose set of replies is short of four different answers. */
+export interface SpotGap {
+  readonly groups: readonly string[];
+  readonly replies: number;
+  readonly problems: readonly string[];
+}
+
 export interface RuleCount {
   /** Pieces that break the rule (any status, held or not, good or not). */
   readonly flagged: number;
@@ -259,6 +266,9 @@ export interface RunTotals {
   readonly spotsLeftWithOnlyWaiting: number;
   /** Spots that had a playable line before the run and have none after it. Always 0. */
   readonly spotsMadeSilent: number;
+  /** Spots whose sets of replies the choices rule read, and how many offer fewer than four different answers. */
+  readonly replySpotsRead: number;
+  readonly replySpotsShort: number;
 }
 
 /** What the place rules' own readers found, for the run to carry (`scripts/words/run-rules.ts` builds them). */
@@ -282,14 +292,11 @@ export interface RunResult {
     readonly rule: string;
   }[];
   /**
-   * Lines he graded good that sit in a set of replies the choices rule flags:
-   * kept in play and off the rewrite queue. The set is short, not the line
-   * wrong, so this is not a conflict; the report lists them for him.
+   * Spots whose set of replies is short of four different answers (the choices
+   * rule), by spot id. Not lines to rewrite: the spot needs another reply of a
+   * group it lacks.
    */
-  readonly keptInFlaggedSets: readonly {
-    readonly key: string;
-    readonly rule: string;
-  }[];
+  readonly gaps: Readonly<Record<string, SpotGap>>;
   readonly perRule: Readonly<Record<string, RuleCount>>;
   readonly totals: RunTotals;
 }
@@ -326,7 +333,6 @@ export function runRules(
   const queued = new Map<string, string[]>();
   const sampled = new Map<string, string[]>();
   const conflicts: { key: string; rule: string }[] = [];
-  const keptInFlaggedSets: { key: string; rule: string }[] = [];
   const perRule = new Map<
     string,
     { flagged: number; pulled: number; waiting: number; examples: string[] }
@@ -379,24 +385,21 @@ export function runRules(
         }
       }
   }
-  // The choices rule reads sets, not lines: every piece in a set that holds
-  // two replies of one meaning group, or fewer than four groups, waits for a
-  // rewrite and keeps playing (what a short set needs is another reply, so
-  // pulling one would leave it shorter). A piece he graded good is reported,
-  // never queued.
+  // The choices rule reads sets, not lines. A short set is a gap in a spot
+  // (it needs another reply of a group it lacks), so nothing is pulled or
+  // queued: the flagged spots are their own list.
   const choices = places[CHOICES_RULE];
-  const choicesRule = enforced.find((rule) => rule.id === CHOICES_RULE);
-  if (choices && choicesRule)
-    for (const key of Object.keys(choices.pieces)) {
-      if (!good.has(key) && !held.has(key)) {
-        const list = queued.get(key) ?? [];
-        list.push(CHOICES_RULE);
-        queued.set(key, list);
-      }
+  const gaps: Record<string, SpotGap> = {};
+  if (choices && enforced.some((rule) => rule.id === CHOICES_RULE))
+    for (const flag of choices.flagged) {
+      gaps[flag.spot] = {
+        groups: [...new Set(flag.replies.map((reply) => reply.group))].sort(),
+        replies: flag.replies.length,
+        problems: flag.problems,
+      };
       const row = count(CHOICES_RULE);
       row.flagged += 1;
-      row.examples.push(key);
-      if (good.has(key)) keptInFlaggedSets.push({ key, rule: CHOICES_RULE });
+      row.examples.push(flag.spot);
     }
   // Spots: who can say what, and which of them is safe (plays, breaks nothing).
   const spotPieces = new Map<string, RulePiece[]>();
@@ -455,8 +458,8 @@ export function runRules(
     conflicts: conflicts.sort((a, b) =>
       a.key === b.key ? (a.rule < b.rule ? -1 : 1) : a.key < b.key ? -1 : 1,
     ),
-    keptInFlaggedSets: keptInFlaggedSets.sort((a, b) =>
-      a.key < b.key ? -1 : a.key > b.key ? 1 : 0,
+    gaps: Object.fromEntries(
+      Object.entries(gaps).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
     ),
     perRule: Object.fromEntries(
       [...perRule].map(([id, row]) => [
@@ -488,6 +491,8 @@ export function runRules(
       spotsWithOneLine: oneLine,
       spotsLeftWithOnlyWaiting: onlyWaiting,
       spotsMadeSilent: silent,
+      replySpotsRead: choices?.spots ?? 0,
+      replySpotsShort: Object.keys(gaps).length,
     },
   };
 }
@@ -500,6 +505,8 @@ export interface PulledFile {
   readonly sample: Readonly<Record<string, readonly string[]>>;
   /** Lines after which no reply that fits follows: a new reply is needed (`spot` is `purpose/move`). */
   readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
+  /** Spots that offer fewer than four different answers, by spot id: the groups they offer now. */
+  readonly gaps: Readonly<Record<string, SpotGap>>;
 }
 
 export function pulledFileOf(result: RunResult): PulledFile {
@@ -509,5 +516,6 @@ export function pulledFileOf(result: RunResult): PulledFile {
     waiting: result.waiting,
     sample: result.sample,
     noReplyFollows: result.noReplyFollows,
+    gaps: result.gaps,
   };
 }

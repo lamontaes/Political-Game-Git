@@ -284,7 +284,9 @@ describe("four replies are four different answers", () => {
   // said four ways.
   // While home-new is a registered gap (its new replies are written on the
   // Story session's branch), the repro is expected to fail; `fails` turns red
-  // the day it passes, which is the day to drop this switch.
+  // the day it passes, which is the day to drop this switch. Pull request
+  // 8162 (Story's home-new replies) is the one that turns it red: whoever
+  // merges second drops the switch.
   (GAPS.everyday.includes("home-new") ? it.fails : it)(
     "REPRO Grandville, Michigan (world seed c163aaf0-16e5-460f-872e-56f2b65d2412): when someone asks where the player is from, the four replies are four different answers",
     { timeout: 900_000 },

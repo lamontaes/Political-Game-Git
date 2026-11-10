@@ -161,7 +161,7 @@ export function reportOf(
       const c = row.choices;
       lines.push(
         "",
-        `Spots read: ${c.spots}. Offering four replies of four groups: ${c.fourOfFour}. Flagged: ${c.flagged.length}, with ${Object.keys(c.pieces).length} lines queued for a rewrite.`,
+        `Spots read: ${c.spots}. Offering four replies of four groups: ${c.fourOfFour}. Flagged: ${c.flagged.length}. A short set needs another reply of a group it lacks; no line is queued.`,
         ...c.flagged.map(
           (flag) =>
             `- ${flag.spot} (${flag.problems.join("; ")}): ${flag.replies.map((reply) => `"${short(reply.text, 40)}" [${reply.group}]`).join(", ")}`,
@@ -183,15 +183,7 @@ export function reportOf(
     `- Playable before the rules: ${t.playableBefore}. After: ${t.playableAfter}.`,
     `- Pulled: ${t.pulled}. Waiting for a rewrite: ${t.waiting}. Flagged by a sample rule: ${t.sample}.`,
     `- Spots: ${t.spots}. Spots with one line: ${t.spotsWithOneLine}. Spots left with only waiting lines: ${t.spotsLeftWithOnlyWaiting}. Spots made silent: ${t.spotsMadeSilent}.`,
-    "",
-    "## Lines he graded good in a flagged set of replies (kept in play, not queued)",
-    "",
-    ...(result.keptInFlaggedSets.length
-      ? result.keptInFlaggedSets.map(
-          (row) =>
-            `- ${row.rule}: ${row.key}: ${short(text.get(row.key) ?? "")}`,
-        )
-      : ["None."]),
+    `- Spots that offer fewer than four different answers: ${t.replySpotsShort} of ${t.replySpotsRead} read.`,
     "",
     "## Conflicts (an enforced rule flags a line he graded good)",
     "",

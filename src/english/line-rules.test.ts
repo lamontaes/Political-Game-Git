@@ -8,6 +8,7 @@ import {
 import {
   CHOICES_RULE,
   gradedGood,
+  pulledFileOf,
   ruleFlags,
   runRules,
   spotsOf,
@@ -265,21 +266,12 @@ describe("four-replies-are-four-answers: the rule that reads a whole set of repl
       ],
       ["scene: owed-apology after press", ["fewer than four meaning groups"]],
     ]);
-    // Each flagged set is listed with its replies, and every piece in it is queued.
+    // Each flagged set is listed with its replies.
     expect(report.flagged[0]!.replies.map((row) => row.move)).toEqual([
       "turn",
       "always",
       "plain",
       "brief",
-    ]);
-    expect(Object.keys(report.pieces)).toEqual([
-      "p-always",
-      "p-brief",
-      "p-plain",
-      "p-turn",
-      "r-apologize",
-      "r-confront",
-      "r-tell",
     ]);
   });
 
@@ -304,22 +296,32 @@ describe("four-replies-are-four-answers: the rule that reads a whole set of repl
     piece(key, `The ${key} line.`, [{ subject: key, role: "answer" }]),
   );
 
-  it("queues every piece of a flagged set for a rewrite and keeps them all playing", () => {
+  it("lists a short set as a gap in its spot: nothing is pulled, queued or counted as waiting", () => {
     const run = runRules([choicesRule], bankPieces, NO_GRADES, {
       [CHOICES_RULE]: choicesReport([oneAnswerFourWays, fourAnswers], 4),
     });
     expect(run.pulled).toEqual({});
-    expect(run.waiting).toEqual({
-      "p-always": [CHOICES_RULE],
-      "p-brief": [CHOICES_RULE],
-      "p-plain": [CHOICES_RULE],
-      "p-turn": [CHOICES_RULE],
+    expect(run.waiting).toEqual({});
+    expect(run.totals.waiting).toBe(0);
+    expect(run.totals.spotsLeftWithOnlyWaiting).toBe(0);
+    expect(run.gaps).toEqual({
+      "everyday talk: home-new": {
+        groups: ["answers", "turns-back"],
+        replies: 4,
+        problems: [
+          "two replies of one meaning group",
+          "fewer than four meaning groups",
+        ],
+      },
     });
+    expect(run.totals.replySpotsRead).toBe(2);
+    expect(run.totals.replySpotsShort).toBe(1);
+    expect(pulledFileOf(run).gaps).toEqual(run.gaps);
     expect(run.perRule[CHOICES_RULE]!.choices!.flagged).toHaveLength(1);
     expect(run.totals.playableAfter).toBe(run.totals.playableBefore);
   });
 
-  it("never queues a piece he graded good: it reports it as kept in a flagged set instead", () => {
+  it("touches no line he graded good: gaps name spots, never lines", () => {
     const ledger: PartGradeLedger = {
       ...NO_GRADES,
       parts: {
@@ -336,12 +338,9 @@ describe("four-replies-are-four-answers: the rule that reads a whole set of repl
     const run = runRules([choicesRule], bankPieces, ledger, {
       [CHOICES_RULE]: choicesReport([oneAnswerFourWays], 4),
     });
-    // The set is short, not the line wrong: kept in play and listed for him.
     expect(run.conflicts).toEqual([]);
-    expect(run.keptInFlaggedSets).toEqual([
-      { key: "p-plain", rule: CHOICES_RULE },
-    ]);
-    expect(Object.keys(run.waiting)).toEqual(["p-always", "p-brief", "p-turn"]);
+    expect(run.waiting).toEqual({});
+    expect(JSON.stringify(run.gaps)).not.toContain("p-plain");
   });
 
   it("flags nothing when no set is read", () => {

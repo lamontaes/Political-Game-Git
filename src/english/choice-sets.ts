@@ -33,8 +33,6 @@ export interface ChoicesReport {
   /** Spots that offer four replies of four groups. */
   readonly fourOfFour: number;
   readonly flagged: readonly ChoiceFlag[];
-  /** Every piece in a flagged set, with the spots that flag it: the lines to queue for a rewrite. */
-  readonly pieces: Readonly<Record<string, readonly string[]>>;
 }
 
 /**
@@ -48,7 +46,6 @@ export function choicesReport(
   wanted: number,
 ): ChoicesReport {
   const flagged: ChoiceFlag[] = [];
-  const pieces = new Map<string, string[]>();
   for (const spot of [...spots].sort((a, b) => a.id.localeCompare(b.id))) {
     const groups = spot.replies.map((reply) => reply.group);
     const distinct = new Set(groups);
@@ -58,19 +55,10 @@ export function choicesReport(
     if (distinct.size < wanted) problems.push("fewer than four meaning groups");
     if (!problems.length) continue;
     flagged.push({ spot: spot.id, problems, replies: spot.replies });
-    for (const reply of spot.replies)
-      for (const key of reply.pieces) {
-        const list = pieces.get(key) ?? [];
-        if (!list.includes(spot.id)) list.push(spot.id);
-        pieces.set(key, list);
-      }
   }
   return {
     spots: spots.length,
     fourOfFour: spots.length - flagged.length,
     flagged,
-    pieces: Object.fromEntries(
-      [...pieces].sort(([a], [b]) => a.localeCompare(b)),
-    ),
   };
 }
