@@ -1,9 +1,7 @@
 {
   "schema": "english-rulings-read/1",
   "about": "The owner's rulings about words, lines, replies, scenes, narration, the journal, speeches and news text that live outside his grade notes: OWNER-DECISIONS.md, the playtest blocks, prior-rulings and play-first LAW.md. One row per ruling: the id, where it comes from, its date, his words copied exactly from the source file, and the rule it is attached to in line-rules.json (or, in notARule, why it is not a rule). Read by the run's report (npm run words:rules) and checked by src/english/line-rules.test.ts.",
-  "pendingRules": {
-    "four-replies-are-four-answers": "Another session is building this rule; these rulings are attached to its id by name and nothing is added to line-rules.json for it here."
-  },
+  "pendingRules": {},
   "rulings": [
     {
       "id": "rr-001",

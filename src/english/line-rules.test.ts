@@ -3,8 +3,15 @@ import path from "node:path";
 import { describe, expect, it } from "vitest";
 import type { PartGradeLedger } from "./english-grades";
 import {
+  choicesReport,
+  type ChoiceReply,
+  type ChoiceSpot,
+} from "./choice-sets";
+import {
+  CHOICES_RULE,
   RULE_JUDGES,
   gradedGood,
+  pulledFileOf,
   ruleFlags,
   runRules,
   spotsOf,
@@ -217,6 +224,174 @@ describe("the run", () => {
     ]);
     expect(spotsOf(one)).not.toEqual(spotsOf(two));
     expect(spotsOf(piece("c", "z", []))).toEqual([]);
+  });
+});
+
+describe("four-replies-are-four-answers: the rule that reads a whole set of replies", () => {
+  const reply = (move: string, group: string, key: string): ChoiceReply => ({
+    move,
+    group,
+    pieces: [key],
+    text: `The ${move} line.`,
+  });
+  // Seen on main on Nov 10: "Where are you from?" offered "I'm from
+  // Grandville. And you?", "I grew up here.", "I'm from Grandville." and "Here
+  // in Grandville." (turns it back, then three wordings of one answer).
+  const oneAnswerFourWays: ChoiceSpot = {
+    id: "everyday talk: home-new",
+    replies: [
+      reply("turn", "turns-back", "p-turn"),
+      reply("always", "answers", "p-always"),
+      reply("plain", "answers", "p-plain"),
+      reply("brief", "answers", "p-brief"),
+    ],
+  };
+  const fourAnswers: ChoiceSpot = {
+    id: "everyday talk: fine",
+    replies: [
+      reply("turn", "turns-back", "q-turn"),
+      reply("plain", "answers", "q-plain"),
+      reply("detail", "adds", "q-detail"),
+      reply("change", "deflects", "q-change"),
+    ],
+  };
+  const threeAnswers: ChoiceSpot = {
+    id: "scene: owed-apology after press",
+    replies: [
+      reply("apologize", "apologizes", "r-apologize"),
+      reply("tell", "tells", "r-tell"),
+      reply("confront", "confronts", "r-confront"),
+    ],
+  };
+
+  it("flags a set that holds two replies of one meaning group, and one with fewer than four groups", () => {
+    const report = choicesReport(
+      [oneAnswerFourWays, fourAnswers, threeAnswers],
+      4,
+    );
+    expect(report.spots).toBe(3);
+    expect(report.fourOfFour).toBe(1);
+    expect(report.flagged.map((row) => [row.spot, row.problems])).toEqual([
+      [
+        "everyday talk: home-new",
+        ["two replies of one meaning group", "fewer than four meaning groups"],
+      ],
+      ["scene: owed-apology after press", ["fewer than four meaning groups"]],
+    ]);
+    // Each flagged set is listed with its replies.
+    expect(report.flagged[0]!.replies.map((row) => row.move)).toEqual([
+      "turn",
+      "always",
+      "plain",
+      "brief",
+    ]);
+  });
+
+  it("is the same whatever order the spots come in", () => {
+    const spots = [oneAnswerFourWays, fourAnswers, threeAnswers];
+    expect(choicesReport(spots, 4)).toEqual(
+      choicesReport([...spots].reverse(), 4),
+    );
+  });
+
+  const choicesRule = rule({
+    id: CHOICES_RULE,
+    test: { kind: "place", reads: "src/director/data/reply-meanings.json" },
+  });
+  const bankPieces = [
+    "p-turn",
+    "p-always",
+    "p-plain",
+    "p-brief",
+    "q-plain",
+  ].map((key) =>
+    piece(key, `The ${key} line.`, [{ subject: key, role: "answer" }]),
+  );
+
+  it("lists a short set as a gap in its spot: nothing is pulled, queued or counted as waiting", () => {
+    const run = runRules([choicesRule], bankPieces, NO_GRADES, {
+      [CHOICES_RULE]: choicesReport([oneAnswerFourWays, fourAnswers], 4),
+    });
+    expect(run.pulled).toEqual({});
+    expect(run.waiting).toEqual({});
+    expect(run.totals.waiting).toBe(0);
+    expect(run.totals.spotsLeftWithOnlyWaiting).toBe(0);
+    expect(run.gaps).toEqual({
+      "everyday talk: home-new": {
+        offers: ["answers", "turns-back"],
+        needs: 2,
+        missing: [],
+        problems: [
+          "two replies of one meaning group",
+          "fewer than four meaning groups",
+        ],
+      },
+    });
+    expect(run.totals.replySpotsRead).toBe(2);
+    expect(run.totals.replySpotsShort).toBe(1);
+    expect(pulledFileOf(run).gaps).toEqual(run.gaps);
+    expect(run.perRule[CHOICES_RULE]!.choices!.flagged).toHaveLength(1);
+    expect(run.totals.playableAfter).toBe(run.totals.playableBefore);
+  });
+
+  it("touches no line he graded good: gaps name spots, never lines", () => {
+    const ledger: PartGradeLedger = {
+      ...NO_GRADES,
+      parts: {
+        "p-plain": {
+          good: 1,
+          bad: 0,
+          fix: 0,
+          sharedGood: 0,
+          sharedBad: 0,
+          sharedFix: 0,
+        },
+      },
+    };
+    const run = runRules([choicesRule], bankPieces, ledger, {
+      [CHOICES_RULE]: choicesReport([oneAnswerFourWays], 4),
+    });
+    expect(run.conflicts).toEqual([]);
+    expect(run.waiting).toEqual({});
+    expect(JSON.stringify(run.gaps)).not.toContain("p-plain");
+  });
+
+  it("lists a spot with three meanings with the one it is missing, never a spot with four, and puts no line in waiting", () => {
+    // The scene allows a "deflect" move here, but no line is written for it
+    // after this asker line: that is the meaning the spot is missing.
+    const three: ChoiceSpot = {
+      ...threeAnswers,
+      allowed: ["apologizes", "tells", "confronts", "deflects"],
+    };
+    const four: ChoiceSpot = {
+      ...fourAnswers,
+      allowed: ["turns-back", "answers", "adds", "deflects", "refuses"],
+    };
+    const fill = ["adds", "turns-back", "deflects", "refuses"];
+    const pieces = ["r-apologize", "r-tell", "r-confront", "q-plain"].map(
+      (key) => piece(key, `The ${key} line.`),
+    );
+    const run = runRules([choicesRule], pieces, NO_GRADES, {
+      [CHOICES_RULE]: choicesReport([three, four], 4, fill),
+    });
+    expect(Object.keys(run.gaps)).toEqual(["scene: owed-apology after press"]);
+    const gap = run.gaps["scene: owed-apology after press"]!;
+    expect(gap.offers).toEqual(["apologizes", "confronts", "tells"]);
+    expect(gap.needs).toBe(1);
+    // Its own unwritten move first, then the groups a new move fills with.
+    expect(gap.missing).toEqual(["deflects", "adds", "turns-back", "refuses"]);
+    expect(gap.missing[0]).toBe("deflects");
+    expect(run.waiting).toEqual({});
+    expect(run.pulled).toEqual({});
+    expect(run.totals.waiting).toBe(0);
+    expect(pulledFileOf(run).waiting).toEqual({});
+    expect(pulledFileOf(run).gaps).toEqual(run.gaps);
+  });
+
+  it("flags nothing when no set is read", () => {
+    const run = runRules([choicesRule], bankPieces, NO_GRADES);
+    expect(run.waiting).toEqual({});
+    expect(run.conflicts).toEqual([]);
   });
 });
 

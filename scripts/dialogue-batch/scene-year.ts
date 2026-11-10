@@ -28,6 +28,11 @@ import { composeScene } from "../../src/director/scene";
 import { purposeScene } from "../../src/director/purpose-scene";
 import type { TreeNode } from "../../src/director/scene-talk";
 import { reachReport } from "../../src/director/reach";
+import { DEFAULT_DIRECTOR_DATA } from "../../src/director/ledger";
+import {
+  everydayMeaning,
+  sceneMeaning,
+} from "../../src/director/reply-meanings";
 import { SITUATION_LIBRARY } from "../../src/director/scheduling";
 import { addDays, ageOnDate, makeIsoDate } from "../../src/core2/kernel/dates";
 import { drawPlace } from "../core2-year/place";
@@ -85,6 +90,28 @@ const report = {
   moments: [] as unknown[],
   /** Every situation type: the scenes it fired from a cause record, or why not. */
   reach: [] as ReturnType<typeof reachReport>,
+  /**
+   * Every set of replies the year offered (each node of a scene's tree, the
+   * lie and a tagged option aside, and each turn of a talk), and how many of
+   * them are four different answers (meaning groups, reply-meanings.json).
+   */
+  replySets: {
+    scenes: { four: 0, all: 0 },
+    talks: { four: 0, all: 0 },
+    short: [] as { where: string; replies: string[]; groups: string[] }[],
+  },
+};
+const wanted = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
+const tally = (
+  kind: "scenes" | "talks",
+  where: string,
+  replies: string[],
+  groups: string[],
+) => {
+  const row = report.replySets[kind];
+  row.all += 1;
+  if (new Set(groups).size >= wanted) row.four += 1;
+  else report.replySets.short.push({ where, replies, groups });
 };
 // Watched as the bench watches a chosen resident: the player and their
 // household (src/bench/player.ts, select).
@@ -148,6 +175,16 @@ for (let day = 0; day < days; day += 1) {
             ];
             const unanswered: string[] = [];
             const walk = (node: TreeNode) => {
+              const set = node.replies
+                .map((reply) => reply.line)
+                .filter((line) => line.move !== "lie" && !line.tag);
+              if (set.length)
+                tally(
+                  "scenes",
+                  `${core.date} ${purpose.scene.typeKey} after ${node.lines.at(-1)?.move ?? "state"}`,
+                  set.map((line) => line.text),
+                  set.map((line) => sceneMeaning(line.move)),
+                );
               for (const l of node.lines)
                 lines.push({ role: "asker", text: l.text });
               if (node.end?.close)
@@ -181,6 +218,12 @@ for (let day = 0; day < days; day += 1) {
     for (let turn = 0; talk && turn < 8 && talk.choices.length; turn += 1) {
       offered.push(talk.choices.map((choice) => choice.text));
       const kind = talk.lines.at(-1)?.kind ?? "";
+      tally(
+        "talks",
+        `${core.date} talk with ${nameOf(core, talk.otherId)}: ${kind}`,
+        talk.choices.map((choice) => choice.text),
+        talk.choices.map((choice) => everydayMeaning(kind, choice.move)),
+      );
       const asks = CONVERSATION_DATA.tells?.[kind] ?? {};
       const pick =
         talk.choices.find((choice) => asks[choice.move]) ?? talk.choices[0]!;
@@ -234,6 +277,12 @@ report.reach = reachReport(
 );
 const summary = `${report.scenes.length} scenes in ${days} days (${report.quietDays} quiet days) for ${report.player} in ${place.name} (seed ${seed}, household ${household?.id})`;
 console.log(summary);
+{
+  const { scenes, talks, short } = report.replySets;
+  console.log(
+    `reply sets offering ${wanted} different answers: ${scenes.four + talks.four} of ${scenes.all + talks.all} (scene nodes ${scenes.four} of ${scenes.all}; talk turns ${talks.four} of ${talks.all}); short: ${short.length}`,
+  );
+}
 console.log(
   `moments: ${report.moments.length}; by label: ${JSON.stringify(
     (report.moments as { label: string }[]).reduce<Record<string, number>>(

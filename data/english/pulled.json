@@ -60,7 +60,9 @@
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
       "conflict-accuse.hearsay/deny",
-      "conflict-accuse.taken/deny"
+      "conflict-accuse.taken/deny",
+      "conflict-accuse.witness/deny",
+      "conflict-accuse/deny"
     ],
     "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first": [
       "conflict-accuse.hearsay/tell"
@@ -69,6 +71,9 @@
       "conflict-accuse.hearsay/tell"
     ],
     "scene-talk.follow-confront.i-will": [
+      "conflict-accuse.friend/deny",
+      "conflict-accuse.friend/leave",
+      "conflict-accuse.friend/tell",
       "conflict-accuse.hearsay/deny",
       "conflict-accuse.hearsay/leave",
       "conflict-accuse.hearsay/tell",
@@ -115,5 +120,2967 @@
     "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it": [
       "conflict-accuse.witness/ask"
     ]
+  },
+  "gaps": {
+    "everyday talk: acquittal": {
+      "offers": ["deflects", "refuses", "tells"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "changes-subject"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: asked-kin": {
+      "offers": ["acknowledges", "answers", "asks"],
+      "needs": 1,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: eviction-where-reply": {
+      "offers": ["acknowledges", "comforts", "helps"],
+      "needs": 1,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: family": {
+      "offers": ["answers", "tells", "thanks"],
+      "needs": 1,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: home-new": {
+      "offers": ["answers", "turns-back"],
+      "needs": 2,
+      "missing": ["adds", "deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: home-reply": {
+      "offers": ["acknowledges", "adds", "agrees"],
+      "needs": 1,
+      "missing": ["turns-back", "deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: interview-question": {
+      "offers": ["adds", "answers", "turns-back"],
+      "needs": 1,
+      "missing": ["deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: job-hope-reply": {
+      "offers": ["acknowledges", "helps", "hopes"],
+      "needs": 1,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: job-new-told-reply": {
+      "offers": ["acknowledges", "tells", "thanks"],
+      "needs": 1,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: news": {
+      "offers": ["answers", "opines", "reacts"],
+      "needs": 1,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: other-work": {
+      "offers": ["acknowledges", "adds", "asks"],
+      "needs": 1,
+      "missing": ["turns-back", "deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: own-work-new": {
+      "offers": ["adds", "answers", "turns-back"],
+      "needs": 1,
+      "missing": ["deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: school": {
+      "offers": ["answers"],
+      "needs": 3,
+      "missing": [
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: shared-work": {
+      "offers": ["acknowledges", "answers", "turns-back"],
+      "needs": 1,
+      "missing": ["adds", "deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "everyday talk: tenure-reply": {
+      "offers": ["acknowledges", "adds", "reacts"],
+      "needs": 1,
+      "missing": ["turns-back", "deflects", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: * after answer": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: * after ask": {
+      "offers": ["answers"],
+      "needs": 3,
+      "missing": [
+        "asks",
+        "deflects",
+        "leaves",
+        "refuses",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ally-return after answer": {
+      "offers": ["agrees", "bargains", "leaves"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: appointment-offer after press": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-signature after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-support after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-support after press": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-support after state": {
+      "offers": ["agrees", "deflects", "refuses"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "changes-subject"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-to-run after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote after bargain": {
+      "offers": ["agrees", "bargains", "deflects"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote after plea": {
+      "offers": ["bargains"],
+      "needs": 3,
+      "missing": [
+        "agrees",
+        "answers",
+        "deflects",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote after press": {
+      "offers": ["bargains", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "answers",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote.friend after plea": {
+      "offers": ["agrees", "bargains", "refuses"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote.trade after plea": {
+      "offers": ["agrees", "bargains", "refuses"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote.watched after plea": {
+      "offers": ["agrees", "bargains", "refuses"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: ask-vote.whip after plea": {
+      "offers": ["agrees", "bargains", "refuses"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: betrayal-explain after answer": {
+      "offers": ["bargains", "comforts", "confronts"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: breakup-tell after answer": {
+      "offers": ["agrees", "apologizes", "confronts"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: breakup-tell after plea": {
+      "offers": ["agrees", "confronts"],
+      "needs": 2,
+      "missing": [
+        "apologizes",
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-offer.again after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-offer.large after bargain": {
+      "offers": ["agrees", "confronts", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-offer.large after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-offer.small after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.again after plea": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.again after press": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.begging after plea": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "comforts",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.open after press": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.open after warn": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.veiled after plea": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "deflects",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: bribe-pressed.veiled after press": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "deflects",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: care-visit after answer": {
+      "offers": ["agrees", "comforts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: care-visit after press": {
+      "offers": ["agrees", "deflects"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "comforts",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: carry-bill after answer": {
+      "offers": ["disagrees", "promises", "thanks"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "asks",
+        "bargains",
+        "confronts",
+        "deflects",
+        "leaves",
+        "offers",
+        "presses",
+        "refuses",
+        "requests",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: carry-bill after ask": {
+      "offers": ["asks", "offers", "requests"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "bargains",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "presses",
+        "refuses",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: carry-bill after deflect": {
+      "offers": ["agrees", "confronts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "apologizes",
+        "asks",
+        "bargains",
+        "deflects",
+        "disagrees",
+        "offers",
+        "presses",
+        "refuses",
+        "requests",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: carry-bill after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "apologizes",
+        "asks",
+        "bargains",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "offers",
+        "presses",
+        "requests",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: celebration-ask after answer": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: concession-call after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: concession-call after press": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: concession-taken after press": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "confronts",
+        "congratulates",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: confirm-vote after plea": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "bargains",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse after ask": {
+      "offers": ["tells"],
+      "needs": 3,
+      "missing": [
+        "answers",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "offers",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse after press": {
+      "offers": ["leaves", "offers", "tells"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "disagrees",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.friend after answer": {
+      "offers": ["apologizes", "disagrees", "tells"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.friend after ask": {
+      "offers": ["tells"],
+      "needs": 3,
+      "missing": [
+        "answers",
+        "apologizes",
+        "asks",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.friend after press": {
+      "offers": ["apologizes", "tells"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "disagrees",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.hearsay after answer": {
+      "offers": ["disagrees", "leaves", "tells"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "confronts",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.hearsay after ask": {
+      "offers": ["tells"],
+      "needs": 3,
+      "missing": [
+        "answers",
+        "asks",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.hearsay after confront": {
+      "offers": ["confronts", "disagrees", "leaves"],
+      "needs": 1,
+      "missing": [
+        "admits",
+        "apologizes",
+        "asks",
+        "boasts",
+        "deflects",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.hearsay after press": {
+      "offers": ["confronts", "leaves", "tells"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "disagrees",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.taken after ask": {
+      "offers": ["disagrees", "tells"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "apologizes",
+        "deflects",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.taken after press": {
+      "offers": ["apologizes", "tells"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "disagrees",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.witness after ask": {
+      "offers": ["leaves"],
+      "needs": 3,
+      "missing": [
+        "answers",
+        "apologizes",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "refuses",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.witness after confront": {
+      "offers": ["confronts", "disagrees", "leaves"],
+      "needs": 1,
+      "missing": [
+        "admits",
+        "apologizes",
+        "boasts",
+        "deflects",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: conflict-accuse.witness after press": {
+      "offers": ["confronts", "leaves", "tells"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "bargains",
+        "disagrees",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: constituent-help after plea": {
+      "offers": ["offers", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "asks",
+        "bargains",
+        "leaves",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: constituent-help after press": {
+      "offers": ["apologizes", "leaves", "promises"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "offers",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: constituent-help.eviction after plea": {
+      "offers": ["offers", "promises"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: constituent-help.lost-job after plea": {
+      "offers": ["offers", "promises"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: constituent-help.short-pay after plea": {
+      "offers": ["offers", "promises"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: constituent-help.sick after plea": {
+      "offers": ["offers", "promises"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: cut-argument after plea": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: cut-argument after press": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: desk-bill after answer": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: desk-bill after press": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: desk-visit after plea": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: desk-visit after press": {
+      "offers": ["leaves", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: diploma-home after ask": {
+      "offers": ["answers", "promises", "tells"],
+      "needs": 1,
+      "missing": [
+        "apologizes",
+        "boasts",
+        "deflects",
+        "leaves",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: diploma-home after confront": {
+      "offers": ["apologizes", "boasts", "thanks"],
+      "needs": 1,
+      "missing": [
+        "admits",
+        "answers",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "promises",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: diploma-home after promise": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "boasts",
+        "presses",
+        "promises",
+        "requests",
+        "tells",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: donor-ask.friend after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "apologizes",
+        "bargains",
+        "offers",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: donor-ask.small after press": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "deflects",
+        "offers",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-absence after comfort": {
+      "offers": ["deflects", "promises"],
+      "needs": 2,
+      "missing": [
+        "apologizes",
+        "comforts",
+        "confronts",
+        "leaves",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-absence after plea": {
+      "offers": ["deflects", "leaves"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "apologizes",
+        "bargains",
+        "comforts",
+        "confronts",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-absence after press": {
+      "offers": ["apologizes", "leaves"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "bargains",
+        "comforts",
+        "confronts",
+        "deflects",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-filing after ask": {
+      "offers": ["tells"],
+      "needs": 3,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "comforts",
+        "deflects",
+        "leaves",
+        "promises",
+        "refuses",
+        "requests",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-filing after promise": {
+      "offers": ["agrees", "leaves", "thanks"],
+      "needs": 1,
+      "missing": [
+        "apologizes",
+        "comforts",
+        "deflects",
+        "presses",
+        "promises",
+        "requests",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-loss after comfort": {
+      "offers": ["promises", "tells"],
+      "needs": 2,
+      "missing": [
+        "confronts",
+        "deflects",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-loss after plea": {
+      "offers": ["deflects", "tells", "thanks"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "leaves",
+        "promises",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-win after ask": {
+      "offers": ["promises", "tells"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "apologizes",
+        "boasts",
+        "deflects",
+        "leaves",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-win after confront": {
+      "offers": ["apologizes", "thanks"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "answers",
+        "boasts",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "promises",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-win after press": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "bargains",
+        "boasts",
+        "promises",
+        "refuses",
+        "tells",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: family-win after promise": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "boasts",
+        "presses",
+        "promises",
+        "requests",
+        "tells",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: favor-job after answer": {
+      "offers": ["offers", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: favor-job after press": {
+      "offers": ["promises", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "leaves",
+        "offers",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: filing-petition after refuse": {
+      "offers": ["agrees", "leaves"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "confronts",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: first-date after answer": {
+      "offers": ["promises", "tells"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: first-date after ask": {
+      "offers": ["deflects", "tells"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "asks",
+        "leaves",
+        "promises",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: first-day-ropes after answer": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "apologizes",
+        "asks",
+        "confronts",
+        "disagrees",
+        "promises",
+        "tells",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: first-day-ropes after confront": {
+      "offers": ["apologizes", "confronts"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "answers",
+        "asks",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: first-day-ropes after warn": {
+      "offers": ["asks", "leaves"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "apologizes",
+        "confronts",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: floor-debate after answer": {
+      "offers": ["agrees", "disagrees", "leaves"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: floor-debate after press": {
+      "offers": ["agrees", "disagrees", "leaves"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: floor-switch after plea": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "confronts",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: floor-switch after press": {
+      "offers": ["deflects", "refuses"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "confronts",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: friend-ask after answer": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: funeral-cause after answer": {
+      "offers": ["leaves", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: gathering-ask after answer": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: hearing-ask after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "bargains",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: hearing-push after plea": {
+      "offers": ["bargains", "leaves"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "deflects",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: hearing-testify after ask": {
+      "offers": ["answers", "leaves", "requests"],
+      "needs": 1,
+      "missing": [
+        "apologizes",
+        "asks",
+        "confronts",
+        "deflects",
+        "refuses",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: hearing-testify after promise": {
+      "offers": ["agrees", "presses"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "apologizes",
+        "asks",
+        "confronts",
+        "leaves",
+        "requests",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: hearing-testify after warn": {
+      "offers": ["apologizes", "leaves"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "asks",
+        "confronts",
+        "requests",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: home-damaged after answer": {
+      "offers": ["deflects", "promises"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "offers",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: homecoming after answer": {
+      "offers": ["agrees", "deflects", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: housemate-arrives after answer": {
+      "offers": ["agrees", "leaves", "thanks"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "disagrees",
+        "offers",
+        "promises",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: housemate-arrives after plea": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "offers",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: housemate-arrives after promise": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "offers",
+        "presses",
+        "refuses",
+        "requests",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: introduction after answer": {
+      "offers": ["agrees", "deflects", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: invite-debate after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: invite-interview after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: job-offer after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: join-cause after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: join-cause after press": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: last-day-farewell after answer": {
+      "offers": ["leaves", "promises", "tells"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: last-day-farewell after press": {
+      "offers": ["leaves", "tells"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "deflects",
+        "promises",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: law-reaches after press": {
+      "offers": ["leaves", "promises", "tells"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "confronts",
+        "deflects",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: law-reaches after state": {
+      "offers": ["deflects", "promises", "tells"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: layoff-terms after answer": {
+      "offers": ["bargains", "confronts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "asks",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: layoff-terms after promise": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "confronts",
+        "presses",
+        "requests",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: letter-ask after answer": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: mentor-advice after answer": {
+      "offers": ["disagrees", "tells", "thanks"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "asks",
+        "leaves",
+        "promises",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: mentor-advice after ask": {
+      "offers": ["answers", "leaves"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "refuses",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: mentor-advice after promise": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "answers",
+        "asks",
+        "disagrees",
+        "presses",
+        "requests",
+        "tells",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: morning-after after press": {
+      "offers": ["leaves", "promises", "tells"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "deflects",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: moving-goodbye after answer": {
+      "offers": ["comforts", "promises", "thanks"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: neighbor-argument after answer": {
+      "offers": ["confronts", "leaves", "tells"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "offers",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: new-baby after answer": {
+      "offers": ["leaves", "requests", "tells"],
+      "needs": 1,
+      "missing": [
+        "admits",
+        "asks",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: new-baby after comfort": {
+      "offers": ["leaves", "requests", "thanks"],
+      "needs": 1,
+      "missing": [
+        "admits",
+        "asks",
+        "deflects",
+        "promises",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: no-diploma-home after ask": {
+      "offers": ["answers", "promises"],
+      "needs": 2,
+      "missing": [
+        "apologizes",
+        "deflects",
+        "leaves",
+        "refuses",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: no-diploma-home after comfort": {
+      "offers": ["leaves", "thanks"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "apologizes",
+        "deflects",
+        "promises",
+        "refuses",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: no-diploma-home after press": {
+      "offers": ["leaves", "promises"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "answers",
+        "apologizes",
+        "bargains",
+        "refuses",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: notice-home after answer": {
+      "offers": ["deflects", "offers", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: offer-help after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: offer-to-run after answer": {
+      "offers": ["agrees", "leaves", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "deflects",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology after confront": {
+      "offers": ["confronts", "leaves"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "apologizes",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology after disagree": {
+      "offers": ["apologizes", "confronts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "deflects",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology after press": {
+      "offers": ["apologizes", "confronts", "tells"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "deflects",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology.close after answer": {
+      "offers": ["apologizes", "deflects", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology.close after press": {
+      "offers": ["apologizes", "leaves"],
+      "needs": 2,
+      "missing": [
+        "agrees",
+        "asks",
+        "bargains",
+        "deflects",
+        "promises",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology.money after confront": {
+      "offers": ["confronts", "leaves"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "apologizes",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "promises",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology.pressed after confront": {
+      "offers": ["apologizes", "confronts"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "promises",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: owed-apology.repeat after confront": {
+      "offers": ["apologizes", "confronts"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "promises",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: poll-problem after apologize": {
+      "offers": ["agrees", "leaves", "requests"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "confronts",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: poll-problem after offer": {
+      "offers": ["agrees", "requests"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "confronts",
+        "leaves",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: press-comment after answer": {
+      "offers": ["answers", "boasts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: press-comment after ask": {
+      "offers": ["answers"],
+      "needs": 3,
+      "missing": [
+        "boasts",
+        "confronts",
+        "deflects",
+        "leaves",
+        "refuses",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: press-comment.hostile after ask": {
+      "offers": ["answers", "confronts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "deflects",
+        "refuses",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: press-comment.hostile after state": {
+      "offers": ["answers", "confronts", "refuses"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "deflects", "changes-subject"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: press-comment.scandal after answer": {
+      "offers": ["answers", "leaves"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: prison-visit after answer": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: proposal-ask after answer": {
+      "offers": ["agrees", "deflects", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: proposal-ask after plea": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: protest-warning after answer": {
+      "offers": ["agrees", "offers", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: protest-warning after disagree": {
+      "offers": ["agrees", "offers", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "confronts",
+        "deflects",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: protest-warning after press": {
+      "offers": ["agrees", "offers", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "bargains",
+        "leaves",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: race-told after answer": {
+      "offers": ["comforts", "deflects", "leaves"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "promises",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: rally-volunteer after state": {
+      "offers": ["promises", "refuses", "requests"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "deflects", "changes-subject"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: recall-confront after answer": {
+      "offers": ["confronts", "leaves", "tells"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "offers",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: recall-confront after confront": {
+      "offers": ["confronts", "tells"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "apologizes",
+        "asks",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "offers",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: rescue-ask after answer": {
+      "offers": ["agrees", "promises", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: rescue-ask after press": {
+      "offers": ["agrees", "promises"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: reunion-ask after answer": {
+      "offers": ["agrees", "deflects", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "leaves",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: rival-filed after answer": {
+      "offers": ["deflects", "leaves", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: rival-word after answer": {
+      "offers": ["deflects", "leaves", "promises"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "disagrees",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: scandal-comment after answer": {
+      "offers": ["admits", "disagrees", "leaves"],
+      "needs": 1,
+      "missing": [
+        "answers",
+        "asks",
+        "confronts",
+        "deflects",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: scandal-comment after ask": {
+      "offers": ["answers", "refuses"],
+      "needs": 2,
+      "missing": [
+        "admits",
+        "confronts",
+        "deflects",
+        "disagrees",
+        "leaves",
+        "tells",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: scandal-comment after press": {
+      "offers": ["admits", "disagrees", "refuses"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "answers",
+        "bargains",
+        "confronts",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: section-bargain after plea": {
+      "offers": ["agrees", "refuses"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "bargains",
+        "deflects",
+        "leaves",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: signing-ask after warn": {
+      "offers": ["agrees", "confronts"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "bargains",
+        "leaves",
+        "refuses",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: staff-news after answer": {
+      "offers": ["agrees", "asks", "confronts"],
+      "needs": 1,
+      "missing": [
+        "deflects",
+        "disagrees",
+        "leaves",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: staff-news after apologize": {
+      "offers": ["agrees", "promises"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "confronts",
+        "deflects",
+        "leaves",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: staff-news after offer": {
+      "offers": ["agrees", "deflects", "refuses"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "confronts",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: staff-news after press": {
+      "offers": ["agrees", "asks"],
+      "needs": 2,
+      "missing": [
+        "bargains",
+        "confronts",
+        "deflects",
+        "leaves",
+        "promises",
+        "refuses",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: story-read after answer": {
+      "offers": ["agrees", "deflects", "disagrees"],
+      "needs": 1,
+      "missing": [
+        "asks",
+        "leaves",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: swearing-in after answer": {
+      "offers": ["agrees", "promises"],
+      "needs": 2,
+      "missing": [
+        "asks",
+        "comforts",
+        "deflects",
+        "disagrees",
+        "offers",
+        "tells",
+        "thanks",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: testimony-heard after plea": {
+      "offers": ["answers", "leaves", "offers"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "deflects",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: testimony-heard after state": {
+      "offers": ["answers", "deflects", "offers"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: town-hall-question after plea": {
+      "offers": ["answers", "leaves", "offers"],
+      "needs": 1,
+      "missing": [
+        "agrees",
+        "bargains",
+        "deflects",
+        "refuses",
+        "adds",
+        "turns-back",
+        "changes-subject"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: town-hall-question after state": {
+      "offers": ["answers", "deflects", "offers"],
+      "needs": 1,
+      "missing": ["adds", "turns-back", "changes-subject", "refuses"],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: veto-call after confront": {
+      "offers": ["bargains", "confronts", "leaves"],
+      "needs": 1,
+      "missing": [
+        "admits",
+        "agrees",
+        "apologizes",
+        "asks",
+        "boasts",
+        "deflects",
+        "disagrees",
+        "adds",
+        "turns-back",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: victory-night after answer": {
+      "offers": ["answers", "leaves", "tells"],
+      "needs": 1,
+      "missing": [
+        "apologizes",
+        "asks",
+        "boasts",
+        "disagrees",
+        "promises",
+        "thanks",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    },
+    "scene: victory-night after warn": {
+      "offers": ["apologizes", "boasts"],
+      "needs": 2,
+      "missing": [
+        "answers",
+        "asks",
+        "leaves",
+        "tells",
+        "adds",
+        "turns-back",
+        "deflects",
+        "changes-subject",
+        "refuses"
+      ],
+      "problems": ["fewer than four meaning groups"]
+    }
   }
 }

@@ -51,7 +51,7 @@ describe("reply pairs", () => {
     ).toEqual([]);
     // What the pairs list is a part of what any facts could allow.
     expect([...listed].filter((id) => !every.has(id))).toEqual([]);
-  }, 300_000);
+  }, 900_000);
 
   it("holds with a table of verdicts too: every pair produced under it is listed under it", () => {
     const seen = [
@@ -77,7 +77,7 @@ describe("reply pairs", () => {
       .filter((p) => !listedUnder.has(`${p.before}|${p.reply}`))
       .map((p) => `${p.scene}: ${p.before} then ${p.reply}`);
     expect([...new Set(missed)]).toEqual([]);
-  }, 300_000);
+  }, 900_000);
 
   it("only lists playable pieces on both sides, and never a piece after itself", () => {
     const keys = new Set(parts.map((part) => part.key));

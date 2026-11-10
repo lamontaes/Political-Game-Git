@@ -10,5 +10,17 @@
     "addedAt": "2026-10-26",
     "replacement": "Resolved: a relative two people share is asked after as they call them, by the kin address in src/director/data/journal-rows.json (Dad, Mom, Grandma, Grandpa) or a shared sibling's first name, through the conversation bank's family lines (pool item words-family-talk-kin-address).",
     "status": "resolved"
+  },
+  {
+    "id": "SG-DIRECTOR-reply-groups-gaps",
+    "kind": "missing-engine",
+    "file": "src/director/reply-meanings.ts",
+    "line": 11,
+    "whatItFakes": "Some spots offer fewer than four replies of four different meaning groups and play with what they have, never padded with a second wording of an answer already offered. The gaps are listed by scene purpose and by everyday subject in src/director/data/reply-gaps.json, and `npm run words:rules` writes each flagged spot under `gaps` in data/english/pulled.json with the groups it offers, how many more it needs and the groups it is missing (no line is queued or pulled for it).",
+    "why": "The arcs list three moves at many nodes and the banks hold no piece for the fourth move of a group at those scenes and in those everyday subjects, so the composers can only offer what the bank can word; the new replies are the Story session's to write.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Bank pieces (and arc moves) for each listed gap, written to the scene standard; the entry leaves the gap list when its spot offers four groups.",
+    "status": "open"
   }
 ]

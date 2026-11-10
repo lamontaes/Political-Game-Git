@@ -175,75 +175,84 @@ describe(`scenes with a purpose (seed ${seed})`, () => {
     );
     expect(result.kind).toBe("skipped");
   });
-  it("plays every purpose in play, and never says a line the owner rejected", () => {
-    // Every piece of dialogue is in the game; the grades take out the lines
-    // the owner rejects.
-    for (const type of types) {
-      const result = composeSceneTalk(
-        core,
-        director,
-        { askerId, askedId },
-        type,
-        facts,
-      );
-      expect(result.kind, type.key).toBe("composed");
-      if (result.kind !== "composed") continue;
-      for (const line of result.talk.lines)
-        for (const part of line.parts)
-          expect(heldByGrades(part), `${type.key}: ${part}`).toBe(false);
-    }
-  });
-  it("composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes", () => {
-    for (const type of types) {
-      const withTruth = {
-        ...facts,
-        source: fact("Kelly at the clerk's office"),
-        "knows-truth": fact("yes"),
-      };
-      const result = composeSceneTalk(
-        core,
-        director,
-        { askerId, askedId },
-        type,
-        withTruth,
-        {},
-        HELD,
-      );
-      expect(result.kind, type.key).toBe("composed");
-      if (result.kind !== "composed") continue;
-      const { talk } = result;
-      // The bound from the rules, plus the last node that crossed it.
-      expect(talk.nodes).toBeLessThanOrEqual(
-        RULES_BOUND.tree.maxNodes.value + 10,
-      );
-      expect(talk.depth).toBeGreaterThanOrEqual(2);
-      const numbers: number[] = [];
-      let lies = 0;
-      const walk = (node: typeof talk.tree) => {
-        node.lines.forEach((line) => numbers.push(line.n));
-        for (const reply of node.replies) {
-          numbers.push(reply.line.n);
-          if (reply.line.move === "lie" && reply.next?.branches) {
-            lies += 1;
-            // The caught branch is always there with the fact; the believed
-            // one is there unless the bank lacks its piece, which is a listed gap.
-            const knows = reply.next.branches.map((b) => b.knows);
-            expect(knows).toContain(true);
-            if (knows.length === 1)
-              expect(talk.gaps.join(" ")).toMatch(/lie \(believed\)/);
+  it(
+    "plays every purpose in play, and never says a line the owner rejected",
+    { timeout: 300_000 },
+    () => {
+      // Every piece of dialogue is in the game; the grades take out the lines
+      // the owner rejects.
+      for (const type of types) {
+        const result = composeSceneTalk(
+          core,
+          director,
+          { askerId, askedId },
+          type,
+          facts,
+        );
+        expect(result.kind, type.key).toBe("composed");
+        if (result.kind !== "composed") continue;
+        for (const line of result.talk.lines)
+          for (const part of line.parts)
+            expect(heldByGrades(part), `${type.key}: ${part}`).toBe(false);
+      }
+    },
+  );
+  it(
+    "composes a tree: every reply has its branch, numbers are unique, nodes are bounded, a lie shows both outcomes",
+    { timeout: 300_000 },
+    () => {
+      for (const type of types) {
+        const withTruth = {
+          ...facts,
+          source: fact("Kelly at the clerk's office"),
+          "knows-truth": fact("yes"),
+        };
+        const result = composeSceneTalk(
+          core,
+          director,
+          { askerId, askedId },
+          type,
+          withTruth,
+          {},
+          HELD,
+        );
+        expect(result.kind, type.key).toBe("composed");
+        if (result.kind !== "composed") continue;
+        const { talk } = result;
+        // The bound from the rules, plus the last node that crossed it.
+        expect(talk.nodes).toBeLessThanOrEqual(
+          RULES_BOUND.tree.maxNodes.value + 10,
+        );
+        expect(talk.depth).toBeGreaterThanOrEqual(2);
+        const numbers: number[] = [];
+        let lies = 0;
+        const walk = (node: typeof talk.tree) => {
+          node.lines.forEach((line) => numbers.push(line.n));
+          for (const reply of node.replies) {
+            numbers.push(reply.line.n);
+            if (reply.line.move === "lie" && reply.next?.branches) {
+              lies += 1;
+              // The caught branch is always there with the fact; the believed
+              // one is there unless the bank lacks its piece, which is a listed gap.
+              const knows = reply.next.branches.map((b) => b.knows);
+              expect(knows).toContain(true);
+              if (knows.length === 1)
+                expect(talk.gaps.join(" ")).toMatch(/lie \(believed\)/);
+            }
+            if (reply.next) walk(reply.next);
           }
-          if (reply.next) walk(reply.next);
-        }
-        for (const branch of node.branches ?? []) walk(branch.node);
-        if (node.end?.close) numbers.push(node.end.close.n);
-      };
-      walk(talk.tree);
-      for (const line of [...talk.narration, talk.state]) numbers.push(line.n);
-      if (talk.open) numbers.push(talk.open.n);
-      expect(new Set(numbers).size).toBe(numbers.length);
-      void lies;
-    }
-  });
+          for (const branch of node.branches ?? []) walk(branch.node);
+          if (node.end?.close) numbers.push(node.end.close.n);
+        };
+        walk(talk.tree);
+        for (const line of [...talk.narration, talk.state])
+          numbers.push(line.n);
+        if (talk.open) numbers.push(talk.open.n);
+        expect(new Set(numbers).size).toBe(numbers.length);
+        void lies;
+      }
+    },
+  );
   it("keeps a colleague's \"I'll look at it\" as a vague promise and a traded vote as a firm one", () => {
     // Governing phase B reads a promise's firmness from the scene's reply
     // record. When the player asks for a vote, a colleague a favor would

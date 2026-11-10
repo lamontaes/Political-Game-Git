@@ -18,6 +18,7 @@
  * Pure: no files, no world. `scripts/words/run-rules.ts` reads the banks.
  */
 import { heldByGrades, type PartGradeLedger } from "./english-grades";
+import type { ChoicesReport } from "./choice-sets";
 import type { ReplyFollowsReport } from "./reply-pairs";
 
 /**
@@ -255,6 +256,19 @@ export function spotsOf(piece: RulePiece): string[] {
   return [...spots];
 }
 
+/**
+ * A spot whose set of replies is short of four different answers: the groups
+ * it offers, how many more it needs, and the groups it is missing (those its
+ * own moves allow with no line written here first, then the groups a new move
+ * fills a gap with). The writer's list: a spot, never a line.
+ */
+export interface SpotGap {
+  readonly offers: readonly string[];
+  readonly needs: number;
+  readonly missing: readonly string[];
+  readonly problems: readonly string[];
+}
+
 export interface RuleCount {
   /** Pieces that break the rule (any status, held or not, good or not). */
   readonly flagged: number;
@@ -263,6 +277,8 @@ export interface RuleCount {
   readonly examples: readonly string[];
   /** What a place rule reports about its judged verdicts (`reply-follows-the-line-before`). */
   readonly report?: ReplyFollowsReport;
+  /** What the choices rule reports about the sets of replies spots offer (`four-replies-are-four-answers`). */
+  readonly choices?: ChoicesReport;
 }
 
 export interface RunTotals {
@@ -279,12 +295,19 @@ export interface RunTotals {
   readonly spotsLeftWithOnlyWaiting: number;
   /** Spots that had a playable line before the run and have none after it. Always 0. */
   readonly spotsMadeSilent: number;
+  /** Spots whose sets of replies the choices rule read, and how many offer fewer than four different answers. */
+  readonly replySpotsRead: number;
+  readonly replySpotsShort: number;
 }
 
 /** What the place rules' own readers found, for the run to carry (`scripts/words/run-rules.ts` builds them). */
 export interface PlaceReports {
   readonly "reply-follows-the-line-before"?: ReplyFollowsReport;
+  readonly "four-replies-are-four-answers"?: ChoicesReport;
 }
+
+/** The place rule that reads the whole set of replies a spot offers together. */
+export const CHOICES_RULE = "four-replies-are-four-answers";
 
 export interface RunResult {
   readonly pulled: Readonly<Record<string, readonly string[]>>;
@@ -297,6 +320,12 @@ export interface RunResult {
     readonly key: string;
     readonly rule: string;
   }[];
+  /**
+   * Spots whose set of replies is short of four different answers (the choices
+   * rule), by spot id. Not lines to rewrite: the spot needs another reply of a
+   * group it lacks.
+   */
+  readonly gaps: Readonly<Record<string, SpotGap>>;
   readonly perRule: Readonly<Record<string, RuleCount>>;
   readonly totals: RunTotals;
 }
@@ -385,6 +414,23 @@ export function runRules(
         }
       }
   }
+  // The choices rule reads sets, not lines. A short set is a gap in a spot
+  // (it needs another reply of a group it lacks), so nothing is pulled or
+  // queued: the flagged spots are their own list.
+  const choices = places[CHOICES_RULE];
+  const gaps: Record<string, SpotGap> = {};
+  if (choices && enforced.some((rule) => rule.id === CHOICES_RULE))
+    for (const flag of choices.flagged) {
+      gaps[flag.spot] = {
+        offers: [...new Set(flag.replies.map((reply) => reply.group))].sort(),
+        needs: flag.needs,
+        missing: flag.missing,
+        problems: flag.problems,
+      };
+      const row = count(CHOICES_RULE);
+      row.flagged += 1;
+      row.examples.push(flag.spot);
+    }
   // Spots: who can say what, and which of them is safe (plays, breaks nothing).
   const spotPieces = new Map<string, RulePiece[]>();
   for (const piece of pieces)
@@ -442,14 +488,21 @@ export function runRules(
     conflicts: conflicts.sort((a, b) =>
       a.key === b.key ? (a.rule < b.rule ? -1 : 1) : a.key < b.key ? -1 : 1,
     ),
+    gaps: Object.fromEntries(
+      Object.entries(gaps).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0)),
+    ),
     perRule: Object.fromEntries(
       [...perRule].map(([id, row]) => [
         id,
         {
           ...row,
           examples: row.examples.sort().slice(0, 5),
-          ...(places[id as keyof PlaceReports]
-            ? { report: places[id as keyof PlaceReports] }
+          ...(id === "reply-follows-the-line-before" &&
+          places["reply-follows-the-line-before"]
+            ? { report: places["reply-follows-the-line-before"] }
+            : {}),
+          ...(id === CHOICES_RULE && places[CHOICES_RULE]
+            ? { choices: places[CHOICES_RULE] }
             : {}),
         },
       ]),
@@ -468,6 +521,8 @@ export function runRules(
       spotsWithOneLine: oneLine,
       spotsLeftWithOnlyWaiting: onlyWaiting,
       spotsMadeSilent: silent,
+      replySpotsRead: choices?.spots ?? 0,
+      replySpotsShort: Object.keys(gaps).length,
     },
   };
 }
@@ -480,6 +535,8 @@ export interface PulledFile {
   readonly sample: Readonly<Record<string, readonly string[]>>;
   /** Lines after which no reply that fits follows: a new reply is needed (`spot` is `purpose/move`). */
   readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
+  /** Spots that offer fewer than four different answers, by spot id: the groups they offer, how many more they need and the groups they are missing. Read by the writer (Story), never by play. */
+  readonly gaps: Readonly<Record<string, SpotGap>>;
 }
 
 export function pulledFileOf(result: RunResult): PulledFile {
@@ -489,5 +546,6 @@ export function pulledFileOf(result: RunResult): PulledFile {
     waiting: result.waiting,
     sample: result.sample,
     noReplyFollows: result.noReplyFollows,
+    gaps: result.gaps,
   };
 }

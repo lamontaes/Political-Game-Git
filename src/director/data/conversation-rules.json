@@ -120,9 +120,10 @@
     }
   },
   "follows": {
-    "own-work": ["their-work"],
-    "heard-work": ["their-work"],
-    "shared-work": ["their-work"],
+    "own-work": ["their-work", "home"],
+    "heard-work": ["their-work", "home"],
+    "shared-work": ["their-work", "mutual"],
+    "shared-school": ["their-work"],
     "other-work": ["their-tenure"],
     "home": ["home"],
     "family": ["their-family"],

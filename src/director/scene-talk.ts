@@ -29,6 +29,8 @@ import { P } from "../core2/parameters";
 import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
+import directorFile from "./data/director.json" with { type: "json" };
+import { sceneMeaning } from "./reply-meanings";
 import { variantArc, variantFamilies } from "./arc-variant";
 import type { ReplyFollowsTable } from "../english/reply-follows";
 import situationFile from "./data/situation-types.json" with { type: "json" };
@@ -443,6 +445,39 @@ export function answerInTalk(
     pieceKey: best.line.pieceKey,
     closes: !!arc.closes?.includes(input.replyMove),
   };
+}
+
+/** The replies a turn offers: four, the lie and a tagged option aside (director.json `directorChoicesPerTurn`, owner Oct 14). */
+const choicesPerTurn = (
+  directorFile as unknown as {
+    parameters: { directorChoicesPerTurn: { value: number } };
+  }
+).parameters.directorChoicesPerTurn.value;
+
+/**
+ * The moves that may stand in for a listed one that has no wording here, or
+ * fill a node whose arc lists fewer than four: the shared answers to this
+ * asker move, then every reply the arc offers elsewhere, the way out last.
+ * Never the lie, and never a move the node lists already.
+ */
+function standIns(
+  arc: PurposeArc,
+  askerMove: string,
+  listed: readonly string[],
+): string[] {
+  const shared = ARCS.again[askerMove];
+  const own = [
+    ...arc.replies,
+    ...Object.values(arc.again ?? {}).flat(),
+    ...(arc.continue ?? []).flatMap((row) => row.replies),
+  ];
+  const moves = [
+    ...new Set([...(Array.isArray(shared) ? shared : []), ...own]),
+  ].filter((move) => move !== "lie" && !listed.includes(move));
+  return [
+    ...moves.filter((move) => move !== "leave"),
+    ...moves.filter((move) => move === "leave"),
+  ];
 }
 
 /** Where the exchange stands as a branch grows. */
@@ -1435,9 +1470,28 @@ export function composeSceneTalk(
     // two replies of one move.
     // A move may come back with a different line; a line offered once on
     // this path is never offered again.
-    const fresh = [...new Set(moves)];
+    const listed = [...new Set(moves)];
     const seen = new Set([...path.said, ...path.offeredPieces]);
-    const offered = fresh.slice(zero, maxReplies).flatMap((move) => {
+    const offered: SceneTalkLine[] = [];
+    // Four replies are four different answers (owner, Oct 27): one reply of
+    // each meaning group (reply-meanings.json), never a second wording of an
+    // answer already offered. The lie, the fifth reply, is its own group.
+    const groups = new Set<string>();
+    // A stand-in is a piece written for this asker's move: one written to open
+    // the scene ("Good evening, members...") never answers a later line.
+    const writtenAfter = new Set(
+      sceneMovesWritten({
+        step: "reply",
+        role: "asked",
+        purpose,
+        ...(family ? { family } : {}),
+        after: path.askerMove,
+      }),
+    );
+    const consider = (move: string, listedMove: boolean) => {
+      const group = sceneMeaning(move);
+      if (groups.has(group)) return;
+      if (!listedMove && !writtenAfter.has(move)) return;
       const reply = render(
         {
           step: "reply",
@@ -1453,16 +1507,62 @@ export function composeSceneTalk(
         seen,
       );
       if (!reply) {
-        gap("reply", move, path.askerMove);
-        return [];
+        if (listedMove) gap("reply", move, path.askerMove);
+        return;
       }
       // A line already offered or said on this path is not offered again.
-      if (seen.has(reply.parts[zero] ?? "")) return [];
+      if (seen.has(reply.parts[zero] ?? "")) return;
+      // A stand-in is offered only where the asker can answer it; a reply
+      // nobody answers would end the scene on the player's line.
+      if (
+        !listedMove &&
+        !candidatesFor(arc, move).some((candidate) =>
+          render(
+            {
+              step: "follow",
+              move: candidate,
+              role: "asker",
+              ...base,
+              after: move,
+              ...(reply.parts[zero] ? { afterPiece: reply.parts[zero] } : {}),
+            },
+            cast.askerId,
+            askerTraits,
+            `${path.id}:standin:${move}:${candidate}`,
+            path.said,
+          ),
+        )
+      )
+        return;
       reply.round = round;
-      return [reply];
-    });
+      groups.add(group);
+      offered.push(reply);
+    };
+    for (const move of listed.slice(zero, maxReplies)) consider(move, true);
+    // Where a listed move has no wording for this scene, or the arc lists
+    // fewer than four, the next move of a group not yet offered stands in,
+    // from the moves this scene allows: the answers that follow this asker
+    // move everywhere, then the arc's own replies, the way out last. A node
+    // that still has fewer than four groups is a gap in the banks, shown as
+    // it is.
+    const spoken = () => offered.filter((row) => row.move !== "lie").length;
+    // (A scene where the player does the asking has its own flow of asks and
+    // answers, which a stand-in would cut short.)
+    for (const move of arc.asks ? [] : standIns(arc, path.askerMove, listed)) {
+      if (spoken() >= choicesPerTurn) break;
+      consider(move, false);
+    }
+    // A node that lists more than four (the lie aside): the four the player's
+    // traits lean toward stay, in the listed order, and the way out always
+    // stays.
+    while (spoken() > choicesPerTurn) {
+      const weakest = offered
+        .filter((row) => row.move !== "lie" && row.move !== "leave")
+        .reduce((low, row) => (lean(row) <= lean(low) ? row : low));
+      offered.splice(offered.lastIndexOf(weakest), one);
+    }
     // One extra option from the player's own life, where a piece fits.
-    for (const move of fresh) {
+    for (const move of listed) {
       if (offered.length >= maxReplies + one) break;
       const extra = render(
         {
@@ -1825,31 +1925,38 @@ export function talkScenes(): {
  */
 export function talkFlow(scene: { purpose: string; key: string }): {
   next(step: string, move: string): ReadonlySet<string> | undefined;
+  /** The replies the player's character may make after an asker line of this move (the words run's gaps read it). */
+  repliesAfter(move: string): readonly string[];
 } {
   const arc = (
     scene.purpose === "*"
       ? ARCS.keys?.[scene.key]
       : (ARCS.purposes[scene.purpose] ?? variantArc(scene.purpose))
   ) as PurposeArc | undefined;
-  if (!arc) return { next: () => undefined };
+  if (!arc) return { next: () => undefined, repliesAfter: () => [] };
   const lie = ARCS.lie;
   const asks = arc.asks;
   const askMoves = asks ? [asks.yes, asks.carried, asks.no] : [];
   const againMoves = asks ? asks.again.map((row) => row.move) : [];
   /** The replies the player's character may make after an asker line of this move. */
-  const repliesAfter = (move: string): string[] => [
-    ...(move === arc.state ? arc.replies : []),
-    ...(arc.again?.[move] ?? ARCS.again[move] ?? []),
-    ...(arc.repeatable?.[move] ?? []),
-    ...(arc.continue ?? [])
-      .filter((row) => row.asker === move)
-      .flatMap((row) => row.replies),
-    ...(lie && move === lie.caught.move ? lie.caught.replies : []),
-    ...(asks && move === arc.state ? askMoves : []),
-    ...(asks && (move === asks.thanks || againMoves.includes(move))
-      ? [...asks.relent, asks.no]
-      : []),
-  ];
+  const repliesAfter = (move: string): string[] => {
+    const listed = [
+      ...(move === arc.state ? arc.replies : []),
+      ...(arc.again?.[move] ?? ARCS.again[move] ?? []),
+      ...(arc.repeatable?.[move] ?? []),
+      ...(arc.continue ?? [])
+        .filter((row) => row.asker === move)
+        .flatMap((row) => row.replies),
+      ...(lie && move === lie.caught.move ? lie.caught.replies : []),
+      ...(asks && move === arc.state ? askMoves : []),
+      ...(asks && (move === asks.thanks || againMoves.includes(move))
+        ? [...asks.relent, asks.no]
+        : []),
+    ];
+    // A node short of four meaning groups is filled from the moves the scene
+    // allows (`standIns`), so those may follow too.
+    return [...listed, ...standIns(arc, move, listed)];
+  };
   /** The asker's answers to a reply of this move. */
   const answersTo = (move: string): string[] => {
     const moves = candidatesFor(arc, move);
@@ -1874,6 +1981,7 @@ export function talkFlow(scene: { purpose: string; key: string }): {
       )
       .map((row) => row.move);
   return {
+    repliesAfter,
     next(step, move) {
       if (step === "open") return new Set(autoAfter(step, move));
       if (step === "auto") return new Set(answersTo(move));

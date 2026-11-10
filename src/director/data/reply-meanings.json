@@ -1,0 +1,330 @@
+{
+  "about": "What each reply move DOES, so that 'four different answers' is something a test can read (owner, Oct 27, 4 PM Eastern: \"four replies are four different answers, never one reworded\"; Oct 14, afternoon: \"Four dynamic choices, always\"; Oct 15, evening: \"The four replies each move the talk somewhere\"). A turn offers one reply per group, never two wordings of one answer. Moves only: no sentence is here. `everyday` is by the bank subject a reply answers, then its choice (data/english/parts/conversation.json); `scene` is by the move name a scene with a purpose offers (purpose-arcs.json, data/english/parts/scene-talk.json). A move with no group fails tests/director-reply-meanings.test.ts.",
+  "groups": {
+    "answers": "Answers the question plainly and nothing more.",
+    "adds": "Answers and adds a fact from the player's own record (how long, where, since when).",
+    "turns-back": "Turns the question back on the other person.",
+    "deflects": "Puts the question off, or leaves it unanswered without refusing.",
+    "agrees": "Agrees, accepts or says the same.",
+    "refuses": "Declines to answer or to do it.",
+    "disagrees": "Says it is not so, or sees it differently.",
+    "asks": "Asks for more or for a reason.",
+    "acknowledges": "Takes the line in and lets the other person carry on.",
+    "reacts": "Reacts to what was said (surprise, a first feeling).",
+    "comforts": "Offers sympathy or reassurance.",
+    "hopes": "Says what the player hopes or expects will happen.",
+    "helps": "Asks how to help, or says the player will help.",
+    "promises": "Promises to stand by or to do it.",
+    "offers": "Puts something on the table (a job, money, a hand).",
+    "requests": "Asks the other person for something.",
+    "presses": "Pushes again for what the player wants.",
+    "thanks": "Thanks the other person.",
+    "congratulates": "Congratulates the other person.",
+    "tells": "Tells something that happened.",
+    "opines": "Gives a view of the matter.",
+    "admits": "Admits to it.",
+    "apologizes": "Says sorry.",
+    "confronts": "Pushes back, blames or warns.",
+    "bargains": "Offers a trade or a condition.",
+    "boasts": "Plays up the player's own standing.",
+    "lies": "Says what is not so.",
+    "leaves": "Ends the talk by going.",
+    "changes-subject": "Moves the talk to something else, with a short answer or none."
+  },
+  "fill": {
+    "about": "The groups a new move fills a short set with when the spot's own moves cannot reach four (the words-engine skill: \"Fill a gap with a new move (a reply that adds a fact from the player's own record, turns it back, deflects, declines)\"; the item's Notes, Nov 10: home-new \"has no move that adds a detail from the player's record, deflects, or changes the subject\"; #8174 wrote a change-the-subject answer for own-work and mutual). Read by the words run (`npm run words:rules`), which names them, after the spot's own unwritten moves, as the groups a gap in data/english/pulled.json is missing. Never read by play.",
+    "groups": ["adds", "turns-back", "deflects", "changes-subject", "refuses"]
+  },
+  "everyday": {
+    "greet": {
+      "fine": "answers"
+    },
+    "farewell": {
+      "bye": "leaves"
+    },
+    "own-work": {
+      "brief": "answers",
+      "plain": "answers",
+      "since": "adds",
+      "detail": "adds",
+      "turn": "turns-back",
+      "deflect": "deflects",
+      "change": "changes-subject"
+    },
+    "own-work-new": {
+      "plain": "answers",
+      "brief": "answers",
+      "since": "adds",
+      "turn": "turns-back"
+    },
+    "heard-work": {
+      "turn": "turns-back",
+      "since": "adds",
+      "yes": "answers",
+      "brief": "acknowledges"
+    },
+    "shared-work": {
+      "plain": "answers",
+      "brief": "acknowledges",
+      "turn": "turns-back"
+    },
+    "other-work": {
+      "ack": "acknowledges",
+      "ack-none": "acknowledges",
+      "tenure": "asks",
+      "brief": "asks",
+      "own": "adds"
+    },
+    "home": {
+      "turn": "turns-back",
+      "years": "adds",
+      "always": "answers",
+      "brief": "answers"
+    },
+    "home-new": {
+      "turn": "turns-back",
+      "always": "answers",
+      "plain": "answers",
+      "brief": "answers"
+    },
+    "home-reply": {
+      "brief": "acknowledges",
+      "ack": "acknowledges",
+      "same": "agrees",
+      "own": "adds"
+    },
+    "tenure-reply": {
+      "brief": "acknowledges",
+      "turn": "reacts",
+      "ack": "reacts",
+      "own": "adds"
+    },
+    "mutual": {
+      "ack": "acknowledges",
+      "brief": "acknowledges",
+      "turn": "turns-back",
+      "mine-saw": "adds",
+      "mine-not": "agrees",
+      "care": "requests",
+      "deflect": "deflects",
+      "change": "changes-subject"
+    },
+    "asked-mutual": {
+      "turn": "turns-back",
+      "saw": "adds",
+      "not": "answers",
+      "brief": "answers"
+    },
+    "asked-kin": {
+      "no": "answers",
+      "not-yet": "answers",
+      "brief": "asks",
+      "name": "asks"
+    },
+    "kin": {
+      "is": "answers",
+      "brief": "agrees",
+      "turn": "deflects"
+    },
+    "school": {
+      "fine": "answers",
+      "at": "answers",
+      "done": "answers"
+    },
+    "shared-school": {
+      "years": "adds",
+      "plain": "answers",
+      "turn": "turns-back",
+      "brief": "reacts"
+    },
+    "news": {
+      "react": "reacts",
+      "no": "answers",
+      "yes": "answers",
+      "opinion": "opines"
+    },
+    "family": {
+      "ill": "tells",
+      "gone": "tells",
+      "well": "answers",
+      "thanks": "thanks",
+      "moved": "tells",
+      "job": "tells",
+      "baby": "tells"
+    },
+    "job-new-reply": {
+      "congratulate": "congratulates",
+      "ask": "asks",
+      "brief": "reacts"
+    },
+    "job-new-detail-reply": {
+      "congratulate": "congratulates",
+      "hope": "hopes",
+      "brief": "reacts"
+    },
+    "job-new-told-reply": {
+      "thank": "thanks",
+      "tell": "tells"
+    },
+    "job-lost-reply": {
+      "ask": "asks",
+      "comfort": "comforts",
+      "brief": "reacts"
+    },
+    "job-cause-reply": {
+      "comfort": "comforts",
+      "ask": "asks",
+      "brief": "reacts"
+    },
+    "job-hope-reply": {
+      "hope": "hopes",
+      "help": "helps",
+      "brief": "acknowledges"
+    },
+    "eviction-reply": {
+      "ask": "asks",
+      "comfort": "comforts",
+      "help": "helps",
+      "where": "asks",
+      "reassure": "hopes",
+      "brief": "reacts"
+    },
+    "eviction-cause-reply": {
+      "comfort": "comforts",
+      "where": "asks",
+      "brief": "reacts"
+    },
+    "eviction-where-reply": {
+      "help": "helps",
+      "comfort": "comforts",
+      "ok": "acknowledges"
+    },
+    "victimization-reply": {
+      "ask": "asks",
+      "comfort": "comforts",
+      "help": "helps"
+    },
+    "prison-news-reply": {
+      "ask": "asks",
+      "comfort": "comforts",
+      "promise": "promises"
+    },
+    "death-news-reply": {
+      "help": "helps",
+      "condole": "comforts",
+      "brief": "reacts"
+    },
+    "illness-news-reply": {
+      "help": "helps",
+      "comfort": "comforts",
+      "ask": "asks"
+    },
+    "charge": {
+      "confess": "admits",
+      "deflect": "deflects",
+      "refuse": "refuses",
+      "tell": "tells"
+    },
+    "charge-reply": {
+      "ask": "asks",
+      "comfort": "comforts",
+      "promise": "promises",
+      "blame": "confronts"
+    },
+    "conviction": {
+      "refuse": "refuses",
+      "tell": "tells",
+      "apologize": "apologizes",
+      "confess": "admits"
+    },
+    "conviction-reply": {
+      "ask": "asks",
+      "comfort": "comforts",
+      "promise": "promises",
+      "blame": "confronts"
+    },
+    "acquittal": {
+      "tell": "tells",
+      "refuse": "refuses",
+      "deflect": "deflects"
+    },
+    "acquittal-reply": {
+      "congratulate": "congratulates",
+      "ask": "asks",
+      "comfort": "comforts",
+      "blame": "confronts"
+    },
+    "address": {
+      "agree": "agrees",
+      "doubt": "disagrees",
+      "hope": "hopes",
+      "turn": "turns-back",
+      "plain": "answers",
+      "missed": "answers"
+    },
+    "address-view": {
+      "agree": "agrees",
+      "disagree": "disagrees",
+      "wait": "deflects",
+      "local": "opines"
+    },
+    "quiet": {
+      "tired": "tells",
+      "fine": "answers",
+      "talk": "requests",
+      "miss": "comforts",
+      "alone": "refuses"
+    },
+    "interview-question": {
+      "plain": "answers",
+      "brief": "answers",
+      "further": "adds",
+      "turn": "turns-back"
+    },
+    "own-view": {
+      "agree": "agrees",
+      "disagree": "disagrees",
+      "hear": "acknowledges",
+      "private": "refuses"
+    },
+    "ack": {
+      "right": "acknowledges"
+    }
+  },
+  "scene": {
+    "answer": "answers",
+    "tell": "tells",
+    "ask": "asks",
+    "request": "requests",
+    "press": "presses",
+    "agree": "agrees",
+    "accept": "agrees",
+    "accept-terms": "agrees",
+    "relent": "agrees",
+    "refuse": "refuses",
+    "decline": "refuses",
+    "withdraw": "refuses",
+    "deflect": "deflects",
+    "stall": "deflects",
+    "disagree": "disagrees",
+    "deny": "disagrees",
+    "confront": "confronts",
+    "blame": "confronts",
+    "threaten": "confronts",
+    "warn": "confronts",
+    "bargain": "bargains",
+    "thank": "thanks",
+    "congratulate": "congratulates",
+    "comfort": "comforts",
+    "promise": "promises",
+    "offer": "offers",
+    "confess": "admits",
+    "apologize": "apologizes",
+    "boast": "boasts",
+    "lie": "lies",
+    "leave": "leaves",
+    "react": "reacts",
+    "pick-office": "answers",
+    "take-papers": "answers"
+  }
+}

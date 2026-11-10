@@ -21,6 +21,7 @@ import {
   type ReplyFollowsReport,
 } from "../../src/english/reply-pairs";
 import { REPLY_FOLLOWS } from "../../src/english/reply-follows";
+import { choiceSetsReport } from "./choice-sets";
 import { playableParts } from "./reply-pairs";
 import { readVerdicts } from "./reply-verdicts";
 import type { PartGradeLedger } from "../../src/english/english-grades";
@@ -151,6 +152,7 @@ export function freshRun(): {
   const pieces = readBankPieces();
   const result = runRules(rules, pieces, readLedger(), {
     "reply-follows-the-line-before": replyFollowsReport(),
+    "four-replies-are-four-answers": choiceSetsReport(),
   } satisfies PlaceReports);
   return { result, pulledFile: pulledFileOf(result), rules, pieces };
 }
@@ -237,6 +239,17 @@ export function reportOf(
           .map(([key, spots]) => `- ${key}: ${spots.join(", ")}`),
       );
     }
+    if (row.choices) {
+      const c = row.choices;
+      lines.push(
+        "",
+        `Spots read: ${c.spots}. Offering four replies of four groups: ${c.fourOfFour}. Flagged: ${c.flagged.length}. A short set needs another reply of a group it lacks; no line is queued.`,
+        ...c.flagged.map(
+          (flag) =>
+            `- ${flag.spot} (${flag.problems.join("; ")}; needs ${flag.needs} more, missing ${flag.missing.join(", ") || "none named"}): ${flag.replies.map((reply) => `"${short(reply.text, 40)}" [${reply.group}]`).join(", ")}`,
+        ),
+      );
+    }
     if (row.examples.length)
       lines.push(
         "",
@@ -252,6 +265,7 @@ export function reportOf(
     `- Playable before the rules: ${t.playableBefore}. After: ${t.playableAfter}.`,
     `- Pulled: ${t.pulled}. Waiting for a rewrite: ${t.waiting}. Flagged by a sample rule: ${t.sample}.`,
     `- Spots: ${t.spots}. Spots with one line: ${t.spotsWithOneLine}. Spots left with only waiting lines: ${t.spotsLeftWithOnlyWaiting}. Spots made silent: ${t.spotsMadeSilent}.`,
+    `- Spots that offer fewer than four different answers: ${t.replySpotsShort} of ${t.replySpotsRead} read.`,
     "",
     "## Conflicts (an enforced rule flags a line he graded good)",
     "",
