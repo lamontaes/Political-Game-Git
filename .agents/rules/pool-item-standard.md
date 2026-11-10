@@ -41,8 +41,8 @@ Beyond the usual ones, an item at the standard carries:
 
 - `haiku`: finding and listing (a search, a count, an inventory with no judgment in it).
 - `sonnet`: a scoped build against a written fix, with its test.
-- `opus`: a build that needs a design choice inside one engine.
-- `fable`: work across engines, or finding a root cause.
+- `opus`: a build that needs a design choice inside one engine, or finding a cause inside one engine. A cause an Opus session finds is checked by a second session before anything is built on it.
+- `fable`: a design across engines that no written fix covers yet. Such an item is split until only the design step itself needs it (owner, Nov 10: every assignment works without Fable).
 
 Effort is proportional to the task: `low` for a mechanical change, `medium` for a normal build, `high` for a fix whose cause took a design read to see.
 
