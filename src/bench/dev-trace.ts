@@ -468,7 +468,7 @@ function foldedReceipt(core: CoreState, id: string): FoundRecord | undefined {
   if (!match || Number(match[2]) >= journal.nextSequence) return undefined;
   if (id.slice(8, 18) > core.date) return undefined;
   const year = Number(match[1]);
-  const totals = [];
+  const totals: unknown[] = [];
   for (const rows of journal.foldedByOwner.values())
     for (const row of rows.values())
       if (row.year === year && totals.length < MAX_CHILDREN) totals.push(row);
@@ -551,11 +551,12 @@ class Lookup {
       }
     }
     if (!best) return undefined;
-    const others = all.filter((engine) => engine !== best.engine);
+    const { engine, kind, record } = best;
+    const others = all.filter((other) => other !== engine);
     return {
-      engine: best.engine,
-      kind: best.kind,
-      record: best.record,
+      engine,
+      kind,
+      record,
       ...(others.length ? { alsoIn: others } : {}),
     };
   }
@@ -955,14 +956,14 @@ function answerOf(
   for (const child of children) {
     if (child.kind !== "record" || child.effect || child.about) continue;
     if (child.id === deciderId) continue;
+    // A source the resolver vouches for may sit in a row no store keeps by this id.
     const record = lookup.record(child.id);
-    if (record)
-      causes.push({
-        id: child.id,
-        engine: record.engine,
-        kind: record.kind,
-        via: child.via,
-      });
+    causes.push({
+      id: child.id,
+      engine: record?.engine ?? "saved-trace",
+      kind: record?.kind ?? "record",
+      via: child.via,
+    });
   }
   const behind = causes.length ? { causes } : {};
   if (kept.length) return { answer: "decided", kept, ...behind };
@@ -1052,11 +1053,14 @@ export function traceNode(
   if (found) {
     // A director moment names the record that caused it.
     if (found.engine === MOMENT_ENGINE) {
-      const causeId = (found.record as { causeId: string }).causeId;
+      const moment = found.record as { causeId: string; personId: string };
       children.push({
-        id: causeId,
-        kind: lookup.record(causeId) ? "record" : "missing",
+        id: moment.causeId,
+        kind: lookup.record(moment.causeId) ? "record" : "missing",
         via: "director.moment.causeId",
+        // A moment from the recorded past cites its own person's record and
+        // names the fact inside it (`causeFactId`, among the named ids below).
+        ...(moment.causeId === moment.personId ? { about: true as const } : {}),
       });
     }
     children.push(...reverseLinks(core, id, found));
@@ -1112,7 +1116,7 @@ export function traceNode(
     ...(found?.alsoIn ? { alsoIn: found.alsoIn } : {}),
     resolver,
     ...answerOf(lookup, found, resolver, shown),
-    why: whyPanels(core, id, found),
+    why: whyPanels(core, id, found?.record ? found : undefined),
     children: shown,
   };
 }
