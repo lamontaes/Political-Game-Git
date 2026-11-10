@@ -10703,32 +10703,6 @@
       }
     },
     {
-      "key": "journal.memoir-death-illness.name-had-been-after-illness-for-some-time",
-      "move": "memoir-death-illness",
-      "kind": "spoken",
-      "text": "{name} had been {after_illness} for some time.",
-      "uses": [
-        {
-          "move": "memoir-death-illness",
-          "subject": "memoir",
-          "role": "death-illness",
-          "choice": "death-illness",
-          "journal": [
-            {
-              "kindPrefix": "memoir:",
-              "field": "deathIllness"
-            }
-          ]
-        }
-      ],
-      "origin": "authored",
-      "author": "Words, scenes and the director (journal stories of life events)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "tell"
-      }
-    },
-    {
       "key": "journal.memoir-school-for.i-had-been-at-school-for-school-for",
       "move": "memoir-school-for",
       "kind": "spoken",

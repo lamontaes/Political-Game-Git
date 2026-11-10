@@ -93,6 +93,8 @@ it(`a death in the family is told as a small story from the death record (seed $
       core.focusPersonIds.add(id);
       director.watch(core, id);
       const api = coreAPI(core);
+      // The health engine begins its records on its first day.
+      advanceCore(core, addDays(makeIsoDate(core.date), 1));
       const player = core.people.get(id)!;
       // The oldest living relative: a husk (the wider population) is filled in
       // first, as the health engine does when a husk's illness falls due.

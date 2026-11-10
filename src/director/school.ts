@@ -72,6 +72,22 @@ export function schoolFinished(
 }
 
 /**
+ * The graduation results the school engine has written for a person (a
+ * school year's end, passed or not), oldest first, each cited by its own id.
+ */
+export function graduationResults(
+  core: Readonly<CoreState>,
+  personId: PersonId,
+): { id: string; date: string; passed: boolean }[] {
+  const results = school(core)?.table("results");
+  if (!results) return [];
+  return (results.query("byPerson", [personId]) as unknown as ResultRow[])
+    .filter((row) => row.measure === GRADUATION)
+    .map((row) => ({ id: row.id, date: row.date, passed: row.passed }))
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+}
+
+/**
  * One graduation result by its id, as the school engine wrote it: whether
  * the senior passed and the school they attended. The Journal tells the
  * school year's end from it.
