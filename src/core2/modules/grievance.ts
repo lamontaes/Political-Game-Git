@@ -19,8 +19,12 @@
  * again from the same landlord (the housing engine's `housing.status-changed`
  * to housed, with the lease it signed).
  *
- * One model, two tiers: a counted worker or household is named by its record
- * id as a full one is, and the grievance stands for the people the cause
+ * Detail only where the player can see it (owner, Nov 10, through the CTO:
+ * "it has to perform like a game"): a grievance row is written only where at
+ * least one party is a full person (the people a scene, a card or the trace
+ * can show). A dispute among the counted population writes no row: it adds
+ * to one count per place, month and cause, on the event as it fires. By the
+ * same rule for both tiers, a row and a count stand for the people the cause
  * record stood for (`heads`, the job change's own count).
  */
 import { registerModule } from "../state";
@@ -70,6 +74,43 @@ export function grievancesOpen(api: CoreAPI): GrievanceRow[] {
   return table(api).query("byOpen", [true]) as unknown as GrievanceRow[];
 }
 
+/** One count per place, month and cause of the disputes among counted people. */
+export interface GrievanceCountRow {
+  /** The place, the month (`YYYY-MM`) and the cause. */
+  readonly id: string;
+  readonly placeId: string;
+  readonly month: string;
+  readonly kind: GrievanceRow["kind"];
+  /** The people the month's disputes stood for. */
+  readonly count: number;
+}
+
+/** Whether an id names a full person (not a husk, not counted). */
+function isFull(c: CoreState, id: string): boolean {
+  const person = c.people.get(id);
+  return !!person && person.tier !== "husk";
+}
+
+/** A dispute among counted people: added to its place's count for the month. */
+function tally(
+  api: CoreAPI,
+  placeId: string,
+  kind: GrievanceRow["kind"],
+  heads: number,
+): void {
+  const month = api.state.date.slice(0, 7);
+  const counts = api.moduleState(GRIEVANCE_MODULE_ID).table("counts");
+  const id = `${placeId}:${month}:${kind}`;
+  const last = counts.get(id) as unknown as GrievanceCountRow | undefined;
+  counts.put({
+    id,
+    placeId,
+    month,
+    kind,
+    count: (last?.count ?? 0) + heads,
+  } as unknown as ModuleRow);
+}
+
 /** Whether an id names a person the world keeps (full, husk or counted). */
 function isPerson(c: CoreState, id: string | undefined): id is string {
   return (
@@ -104,6 +145,9 @@ function fromLayoff(api: CoreAPI, event: CoreEventInput): void {
     .moduleState(JOBS_MODULE_ID)
     .table("changes")
     .get(causeId) as unknown as { heads?: number } | undefined;
+  const heads = change?.heads ?? api.parameter("one");
+  if (!isFull(c, aggrievedId) && !isFull(c, againstId))
+    return tally(api, event.placeId, "layoff", heads);
   write(api, {
     id: `grievance:${event.id}`,
     kind: "layoff",
@@ -114,7 +158,7 @@ function fromLayoff(api: CoreAPI, event: CoreEventInput): void {
     causeEventId: event.id,
     householdId: null,
     date: event.date,
-    heads: change?.heads ?? api.parameter("one"),
+    heads,
     open: true,
   });
 }
@@ -140,6 +184,8 @@ function fromEviction(api: CoreAPI, event: CoreEventInput): void {
   // stopgapId: SG-WORLD-grievance-ownerless-landlord
   const owner = ownerOf(api, landlordId);
   if (!owner) api.stopgap("SG-WORLD-grievance-ownerless-landlord");
+  if (!isFull(c, head.id) && !(owner && isFull(c, owner)))
+    return tally(api, event.placeId, "eviction", api.parameter("one"));
   const householdId =
     facts["counted-household"] ??
     c.people.get(head.id)?.householdId ??
@@ -233,6 +279,7 @@ export const GRIEVANCE_MODULE: CoreModule = {
           byHousehold: { fields: ["householdId"] },
         },
       },
+      counts: {},
     },
   },
   eventKinds: [JOB_LOST, EVICTION, HOUSING_STATUS_EVENT],

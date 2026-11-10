@@ -7,7 +7,11 @@ import { gameStartDate } from "../game-start";
 import { advanceCore } from "../life";
 import { coreAPI, registerModule } from "../state";
 import { residentFacts } from "./residents";
-import { GRIEVANCE_MODULE_ID, type GrievanceRow } from "./grievance";
+import {
+  GRIEVANCE_MODULE_ID,
+  type GrievanceCountRow,
+  type GrievanceRow,
+} from "./grievance";
 import { JOBS_MODULE_ID } from "./jobs";
 import type { CoreState } from "../types";
 
@@ -37,6 +41,8 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
   // Who each layoff and eviction named, as the world held them that day (a
   // person can die or move away later in the year).
   const knownAt = new Map<string, Set<string>>();
+  // Which of them were full people that day (not a husk, not counted).
+  const fullAt = new Map<string, Set<string>>();
   registerModule(core, {
     id: "test-grievance-tap",
     eventKinds: ["work.job-lost", "housing.eviction"],
@@ -51,6 +57,15 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
         facts.decidedBy,
       ].filter((id): id is string => !!id && known(core, id));
       knownAt.set(event.id, new Set(ids));
+      fullAt.set(
+        event.id,
+        new Set(
+          ids.filter(
+            (id) =>
+              !!core.people.get(id) && core.people.get(id)!.tier !== "husk",
+          ),
+        ),
+      );
     },
   });
   advanceCore(core, `${Number(start.slice(0, 4)) + 1}${start.slice(4)}`);
@@ -81,19 +96,45 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
       row.decidedBy !== row.personId
     );
   });
+  const counts = api
+    .moduleState(GRIEVANCE_MODULE_ID)
+    .table("counts")
+    .rows() as unknown as GrievanceCountRow[];
+  const counted = (kind: GrievanceCountRow["kind"]) =>
+    counts
+      .filter((row) => row.kind === kind)
+      .reduce((sum, row) => sum + row.count, 0);
+  // A layoff with a full person on either side is a row; one among counted
+  // people adds the people its change stood for to the month's count.
+  const fullLayoff = (row: (typeof laidOff)[number]) => {
+    const full = fullAt.get(`event:work.job-lost:${row.date}:${row.jobId}`)!;
+    return full.has(row.personId) || full.has(row.decidedBy);
+  };
+  const countedHeads = laidOff
+    .filter((row) => !fullLayoff(row))
+    .reduce(
+      (sum, row) =>
+        sum +
+        ((changes.get(row.id) as unknown as { heads: number }).heads ?? 1),
+      0,
+    );
   const removed = (cases.rows() as unknown as { stage?: string }[]).filter(
     (row) => row.stage === "removed",
   );
   process.stdout.write(
-    `GRIEVANCE ${where}: ${layoffs.length} from layoffs (${laidOff.length} layoffs decided by a person), ${evictions.length} from evictions (${removed.length} households removed), ${rows.filter((row) => !row.open).length} ended\n`,
+    `GRIEVANCE ${where}: ${laidOff.length} layoffs decided by a person: ${layoffs.length} rows, ${counted("layoff")} counted people in ${counts.filter((row) => row.kind === "layoff").length} counts; ${removed.length} households removed: ${evictions.length} rows, ${counted("eviction")} counted in ${counts.filter((row) => row.kind === "eviction").length} counts; ${rows.filter((row) => !row.open).length} rows ended\n`,
   );
-  // Every layoff decided by a person and every removal leaves one grievance.
-  expect(layoffs.length, `${where}: layoff grievances`).toBe(laidOff.length);
-  expect(evictions.length, `${where}: eviction grievances`).toBe(
-    removed.length,
+  // Every layoff decided by a person and every removal is a row or counted.
+  expect(layoffs.length, `${where}: layoff rows`).toBe(
+    laidOff.filter(fullLayoff).length,
   );
+  expect(counted("layoff"), `${where}: layoff counts`).toBe(countedHeads);
   expect(
-    rows.length,
+    evictions.length + counted("eviction"),
+    `${where}: eviction rows and counts`,
+  ).toBe(removed.length);
+  expect(
+    laidOff.length + removed.length,
     `${where}: no layoff or eviction in a year`,
   ).toBeGreaterThan(0);
   for (const row of rows) {
@@ -101,6 +142,12 @@ it(`a layoff or an eviction writes a grievance between two named people (seed ${
     const named = knownAt.get(row.causeEventId);
     expect(named, `${at}: cause event`).toBeDefined();
     expect(named!.has(row.aggrievedId), `${at}: aggrieved`).toBe(true);
+    // A row has a full person on at least one side.
+    const full = fullAt.get(row.causeEventId)!;
+    expect(
+      full.has(row.aggrievedId) || full.has(row.againstId),
+      `${at}: a full person`,
+    ).toBe(true);
     expect(row.aggrievedId, at).not.toBe(row.againstId);
     expect(row.heads, at).toBeGreaterThan(0);
     if (row.kind === "layoff") {
