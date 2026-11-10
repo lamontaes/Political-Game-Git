@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: story/words-rejected-nov8-scene-still-plays
+pr: 8170
 after:
 blocked-on:
 lead: words
