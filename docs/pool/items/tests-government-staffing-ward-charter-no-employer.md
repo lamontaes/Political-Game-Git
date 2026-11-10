@@ -19,7 +19,7 @@ root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/law-wiring-government.test.ts fails on seed 446eaae155bdacc270446225a696c32454dda4b0 at its fifth attempt, the ward-charter fallback place 3050200: administration staffing applied to an employer, expected more than 0 and got 0. The first four drawn places had at-large councils, so the test fell back to a charter town with ward seats. Whether the town has no administration employer to staff, or the staffing reach misses one it has, is not yet known. Guards: main stays green: the government law test fails in a ward-charter town.
+**What.** src/core2/law-wiring-government.test.ts fails on seed 446eaae155bdacc270446225a696c32454dda4b0 at its fifth attempt, the ward-charter fallback place 3050200: administration staffing applied to an employer, expected more than 0 and got 0. The first four drawn places had at-large councils, so the test fell back to a charter town with ward seats. Whether the town has no administration employer to staff, or the staffing reach misses one it has, is not yet known. Guards: a raised administration staffing line pays an employer in a ward-charter town, on the budget the player reads.
 
 **Cause.** Needs cause. Looked at src/core2/law-wiring-government.test.ts and the staffing reach in src/core2/law-reach/group-a-staffing.ts: whether place 3050200 holds an administration employer that the reach misses, or none at all, was not read. Measured: seed 446eaae155bdacc270446225a696c32454dda4b0, ward-charter place 3050200.
 
