@@ -5,13 +5,13 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-b4-election-tests-wait
 pr:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-10T19:57:32.500Z
 after:
 lead: wire-elections
 model: sonnet
