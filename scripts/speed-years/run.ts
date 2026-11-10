@@ -36,7 +36,12 @@ import { addDays, makeIsoDate } from "../../src/core2/kernel/dates";
 import { advanceCore } from "../../src/core2/life";
 import { corePlaceByKey } from "../../src/core2/place-lookup";
 import { drawPlace } from "../core2-year/place";
-import { compareYears, type SpeedReceipt, type YearTiming } from "./compare";
+import {
+  compareYears,
+  recordsKept,
+  type SpeedReceipt,
+  type YearTiming,
+} from "./compare";
 
 const args = process.argv.slice(2);
 const option = (name: string, fallback: string) => {
@@ -124,7 +129,7 @@ for (let year = 1; year <= years; year += 1) {
     date: world.core.date,
     heapMiB: mib(process.memoryUsage().heapUsed),
     rssMiB: mib(process.memoryUsage().rss),
-    records: kept.reduce((sum, [, table]) => sum + table.rows, 0),
+    records: recordsKept(proof.tables),
   });
   const row = rows.at(-1)!;
   console.log(
