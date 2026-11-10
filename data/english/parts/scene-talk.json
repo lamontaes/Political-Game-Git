@@ -201748,6 +201748,1488 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, one-line spots 1)",
       "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-promise.i-ll-keep-it-open-until-deadline",
+      "text": "I'll keep it open until {deadline}.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-promise.i-can-hold-the-job-until-deadline",
+      "text": "I can hold the job until {deadline}.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-thank.welcome-aboard-paperwork-and-your-schedule-come-on-your-first-day",
+      "text": "Welcome aboard. Paperwork and your schedule come on your first day.",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "thank",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-thank.glad-you-re-joining-us-we-ll-do-paperwork-your-first-day",
+      "text": "Glad you're joining us. We'll do paperwork your first day.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-press.the-offer-stands-until-deadline",
+      "text": "The offer stands until {deadline}.",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "job-offer",
+          "key": "favor-asked",
+          "step": "close",
+          "move": "press",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-press.you-have-until-deadline-to-decide",
+      "text": "You have until {deadline} to decide.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-press.think-it-over-we-meet-every-week",
+      "text": "Think it over. We meet every week.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "outcome": "open"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.close-press.no-rush-we-meet-every-week",
+      "text": "No rush. We meet every week.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "key": "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
+      "text": "Is that a promise? I'd like to tell the family you'll do it.",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "promise"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "key": "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+      "text": "Can I tell the family you'll do it, {first}?",
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "key": "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them",
+      "text": "That's fair. I'll reach out to them.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "loss"
+      },
+      "key": "scene-talk.reply-agree.you-re-right-i-ll-contact-them",
+      "text": "You're right. I'll contact them.",
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-leave",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "key": "scene-talk.reply-leave.i-d-rather-not-argue-i-ll-reach-out-when-i-m-ready",
+      "text": "I'd rather not argue. I'll reach out when I'm ready.",
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-leave",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "tag": {
+        "move": "leave",
+        "key": "loss"
+      },
+      "key": "scene-talk.reply-leave.let-s-not-argue-i-ll-contact-them-when-i-can",
+      "text": "Let's not argue. I'll contact them when I can.",
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "key": "scene-talk.reply-promise.i-will-i-just-need-to-work-out-what-to-say",
+      "text": "I will. I just need to work out what to say.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "press"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "key": "scene-talk.reply-promise.you-have-my-word-i-need-the-right-words-first",
+      "text": "You have my word. I need the right words first.",
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "key": "scene-talk.close-promise.i-ll-let-the-family-know-how-it-goes-thank-you",
+      "text": "I'll let the family know how it goes. Thank you.",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "loss"
+      },
+      "key": "scene-talk.close-promise.the-family-will-hear-how-it-goes-i-m-grateful",
+      "text": "The family will hear how it goes. I'm grateful.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-leave",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      },
+      "key": "scene-talk.reply-leave.i-need-to-sit-down-for-a-while",
+      "text": "I need to sit down for a while.",
+      "bearing": "tired",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-leave",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "tag": {
+        "move": "leave",
+        "key": "diploma"
+      },
+      "key": "scene-talk.reply-leave.i-ll-go-rest-for-a-bit",
+      "text": "I'll go rest for a bit.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      },
+      "key": "scene-talk.reply-thank.i-mean-it-thank-you",
+      "text": "I mean it. Thank you.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "thank",
+          "role": "asked",
+          "purpose": "diploma-home",
+          "key": "diploma",
+          "after": "promise"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "diploma"
+      },
+      "key": "scene-talk.reply-thank.thank-you-that-means-a-lot",
+      "text": "Thank you. That means a lot.",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-accept",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "key": "scene-talk.close-accept.okay-i-won-t-keep-you",
+      "text": "Okay. I won't keep you.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-accept",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss"
+        }
+      ],
+      "tag": {
+        "move": "accept",
+        "key": "loss"
+      },
+      "key": "scene-talk.close-accept.okay-go-on-with-your-day",
+      "text": "Okay. Go on with your day.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      },
+      "key": "scene-talk.close-promise.we-ll-mark-it-somehow-i-mean-it",
+      "text": "We'll mark it somehow. I mean it.",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "diploma-home",
+          "key": "diploma"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "diploma"
+      },
+      "key": "scene-talk.close-promise.we-ll-do-something-to-celebrate-i-promise",
+      "text": "We'll do something to celebrate. I promise.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      },
+      "key": "scene-talk.close-promise.i-ll-hold-you-to-that-so-don-t-forget",
+      "text": "I'll hold you to that, so don't forget.",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "school-goodbye"
+      },
+      "key": "scene-talk.close-promise.then-i-ll-expect-it-don-t-forget",
+      "text": "Then I'll expect it. Don't forget.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "key": "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way",
+      "text": "I hear you, but this matters to the family. What's in the way?",
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "gathering-ask",
+          "key": "loss",
+          "after": "decline"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "loss"
+      },
+      "key": "scene-talk.follow-press.it-matters-to-all-of-us-what-s-getting-in-the-way",
+      "text": "It matters to all of us. What's getting in the way?",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      },
+      "key": "scene-talk.close-promise.call-us-if-you-need-anything-we-re-here",
+      "text": "Call us if you need anything. We're here.",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-promise",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "purpose": "rival-filed",
+          "key": "news-received",
+          "step": "close",
+          "move": "promise",
+          "role": "asker"
+        }
+      ],
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      },
+      "key": "scene-talk.close-promise.we-re-here-for-whatever-you-need",
+      "text": "We're here for whatever you need.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      },
+      "key": "scene-talk.close-thank.this-meant-a-lot-thank-you",
+      "text": "This meant a lot. Thank you.",
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "close-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "last-day-farewell",
+          "key": "school-goodbye"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "school-goodbye"
+      },
+      "key": "scene-talk.close-thank.thank-you-for-everything-really",
+      "text": "Thank you for everything. Really.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-accept",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-decline.i-d-rather-not-be-seen-at-it"
+        }
+      ],
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-accept.okay-the-offer-is-still-open",
+      "text": "Okay. The offer is still open.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-accept",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-decline.i-d-rather-not-be-seen-at-it"
+        }
+      ],
+      "tag": {
+        "move": "accept",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-accept.i-understand-it-s-yours-if-you-change-your-mind",
+      "text": "I understand. It's yours if you change your mind.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-answer",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-s-going-to-be-there"
+        }
+      ],
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors",
+      "text": "About twenty of us, mostly neighbors.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-answer",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-ask.who-s-going-to-be-there"
+        }
+      ],
+      "tag": {
+        "move": "answer",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here",
+      "text": "Twenty or so, mostly folks from around here.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-decline.i-m-glad-somebody-s-doing-it-it-s-not-my-fight"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-press.once-it-passes-it-touches-everyone",
+      "text": "Once it passes, it touches everyone.",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-decline.i-m-glad-somebody-s-doing-it-it-s-not-my-fight"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-press.when-it-passes-it-s-everybody-s-problem",
+      "text": "When it passes, it's everybody's problem.",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-press.two-pages-and-i-have-them-right-here",
+      "text": "Two pages, and I have them right here.",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.send-me-what-you-have-in-writing-first"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look",
+      "text": "It's only two pages. Here, take a look.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.i-already-know-where-i-stand-on-that"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-press.then-say-that-to-us-in-person",
+      "text": "Then say that to us in person.",
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-press",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-deflect.i-already-know-where-i-stand-on-that"
+        }
+      ],
+      "tag": {
+        "move": "press",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-press.then-come-tell-us-yourself",
+      "text": "Then come tell us yourself.",
+      "bearing": "firm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-agree.i-ll-come-and-listen"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-thank.seven-o-clock-that-s-all-we-ask",
+      "text": "Seven o'clock. That's all we ask.",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-agree.i-ll-come-and-listen"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-thank.just-come-at-seven-o-clock",
+      "text": "Just come at seven o'clock.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-agree.i-ll-stand-with-you-tell-me-when"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-thank.first-monday-of-next-month-thanks",
+      "text": "First Monday of next month. Thanks.",
+      "bearing": "glad",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "follow-thank",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.reply-agree.i-ll-stand-with-you-tell-me-when"
+        }
+      ],
+      "tag": {
+        "move": "thank",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.follow-thank.next-month-s-first-monday-i-appreciate-it",
+      "text": "Next month's first Monday. I appreciate it.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.then-come-say-so-to-our-faces"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.that-s-fair-i-will",
+      "text": "That's fair. I will.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.then-come-say-so-to-our-faces"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.fair-point-i-ll-be-there",
+      "text": "Fair point. I'll be there.",
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.give-them-here-i-ll-read-them-now",
+      "text": "Give them here. I'll read them now.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.it-s-two-pages-i-brought-them-with-me"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.let-me-see-them-i-ll-read-them-now",
+      "text": "Let me see them. I'll read them now.",
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.state-request.we-re-meeting-about-cause-at-the-library-next-week-i-d-like-you-to-hea"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.i-ll-come-and-hear-it-out",
+      "text": "I'll come and hear it out.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.state-request.we-re-meeting-about-cause-at-the-library-next-week-i-d-like-you-to-hea"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.okay-i-ll-come-and-listen",
+      "text": "Okay. I'll come and listen.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.i-m-with-you-tell-me-when",
+      "text": "I'm with you. Tell me when.",
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.state-request.we-re-trying-to-get-cause-in-front-of-the-council-it-goes-farther-with"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.count-me-in-tell-me-when",
+      "text": "Count me in. Tell me when.",
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.it-s-everyone-s-fight-once-it-passes"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.maybe-you-re-right-i-m-in",
+      "text": "Maybe you're right. I'm in.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-press.it-s-everyone-s-fight-once-it-passes"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.maybe-so-put-me-down",
+      "text": "Maybe so. Put me down.",
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.twenty-or-so-of-us-mostly-neighbors"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.okay-then-i-ll-be-there",
+      "text": "Okay, then I'll be there.",
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "reply-agree",
+      "kind": "spoken",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "join-cause",
+          "key": "favor-asked",
+          "after": "scene-talk.follow-answer.twenty-or-so-of-us-mostly-neighbors"
+        }
+      ],
+      "tag": {
+        "move": "agree",
+        "key": "favor-asked"
+      },
+      "key": "scene-talk.reply-agree.then-count-on-me",
+      "text": "Then count on me.",
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 2)",
+      "date": "2026-11-10"
     }
   ]
 }
