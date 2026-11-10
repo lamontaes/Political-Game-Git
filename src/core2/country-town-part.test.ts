@@ -24,9 +24,9 @@ import {
   residentsRuntime,
 } from "./modules/residents";
 import { isDemoted } from "./counted-groups";
-import { corePlaceByJurisdictionId } from "./place-lookup";
+import { placeStateKey } from "./place-map";
 import { coreAPI } from "./state";
-import type { CoreState, EntityId } from "./types";
+import type { CoreState } from "./types";
 
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const say = (line: string) => process.stdout.write(`${line}\n`);
@@ -75,11 +75,7 @@ it("counts the town inside its state once, and its state's jobs follow the town'
     const places = new Set(
       residentsRuntime(open)!
         .input.accounts.map((row) => row.placeId)
-        .filter(
-          (id) =>
-            corePlaceByJurisdictionId(id as EntityId)?.stateJurisdictionKey ===
-            key,
-        ),
+        .filter((id) => placeStateKey(id) === key),
     );
     expect(
       places.size,

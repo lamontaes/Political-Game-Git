@@ -559,7 +559,7 @@ function countryStatePanels(core: CoreState, key: string): WhyPanel[] {
   const rows = (of: "people" | "jobs"): WhyRow[] => [
     { label: "the state", value: whole(parts.total[of]), id: parts.stateId },
     {
-      label: "held in full (town and county)",
+      label: "held in full (the played places)",
       value: whole(parts.part[of]),
       ...(parts.partId ? { id: parts.partId } : {}),
     },

@@ -61,7 +61,7 @@ import {
 } from "../country-model";
 import employerSectors from "../data/country/employer-sectors.json" with { type: "json" };
 import { classifyBusiness } from "../business-books";
-import { corePlaceByJurisdictionId } from "../place-lookup";
+import { placeStateKey } from "../place-map";
 import { stopgap } from "../stopgaps";
 import { residentsPart, residentsRuntime } from "./residents";
 import { countryOpening } from "../country-opening";
@@ -81,14 +81,7 @@ import {
   regionalShocksStarting,
   stepRegional,
 } from "./regional";
-import type {
-  CoreAPI,
-  CoreData,
-  CoreInput,
-  CoreState,
-  EntityId,
-  Source,
-} from "../types";
+import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 
 /** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
 export const CUSTOM_ECONOMY_KEY = "customEconomy";
@@ -331,9 +324,7 @@ function townPartCounts(
   >();
   const byState = new Map<string, string[]>();
   for (const row of residentsRuntime(core)?.input.accounts ?? []) {
-    const key = corePlaceByJurisdictionId(
-      row.placeId as EntityId,
-    )?.stateJurisdictionKey;
+    const key = placeStateKey(row.placeId);
     if (key) byState.set(key, [...(byState.get(key) ?? []), row.placeId]);
   }
   const p = params(api);
