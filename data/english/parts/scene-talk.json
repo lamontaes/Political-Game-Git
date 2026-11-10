@@ -200501,7 +200501,7 @@
       "key": "scene-talk.narrate-narrate.you-have-been-charged-the-case-is-to-end-in-a-plea-and-name-wants-to-talk-it-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You have been charged, the case is to end in a plea, and {name} wants to talk it over.",
+      "text": "You've been charged and have agreed to a plea. {name} wants to talk it over.",
       "uses": [
         {
           "subject": "scene",
@@ -200525,7 +200525,7 @@
       "key": "scene-talk.narrate-narrate.you-have-been-charged-with-a-trial-on-trial-day-and-name-wants-to-talk-it-over",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You have been charged, with a trial on {trial-day}, and {name} wants to talk it over.",
+      "text": "Your trial is set for {trial-day}, and {name} wants to talk it over.",
       "uses": [
         {
           "subject": "scene",
@@ -200549,7 +200549,7 @@
       "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-charge-against-you-and-child-is-in-your-household",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} wants to talk about the charge against you, and {child} is in your household.",
+      "text": "{name} wants to talk about the charge against you, and what it means for {child}.",
       "uses": [
         {
           "subject": "scene",
@@ -200596,7 +200596,7 @@
       "key": "scene-talk.narrate-narrate.name-has-been-charged-and-the-case-is-to-end-in-a-plea",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has been charged, and the case is to end in a plea.",
+      "text": "{name} has been charged and has agreed to a plea.",
       "uses": [
         {
           "subject": "scene",
@@ -200620,7 +200620,7 @@
       "key": "scene-talk.narrate-narrate.name-has-been-charged-with-a-trial-on-trial-day",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has been charged, with a trial on {trial-day}.",
+      "text": "{name} has been charged, and the trial is set for {trial-day}.",
       "uses": [
         {
           "subject": "scene",
@@ -200644,7 +200644,7 @@
       "key": "scene-talk.narrate-narrate.name-has-been-charged-and-child-lives-in-their-household",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has been charged, and {child} lives in their household.",
+      "text": "{name} has been charged and wants to talk about what it means for {child}.",
       "uses": [
         {
           "subject": "scene",
@@ -201197,7 +201197,7 @@
       "key": "scene-talk.state-request.the-trial-is-trial-day-do-you-want-me-to-come-with-you",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The trial is {trial-day}. Do you want me to come with you?",
+      "text": "The trial is on {trial-day}. Do you want me to come with you?",
       "uses": [
         {
           "subject": "scene",
@@ -201368,7 +201368,7 @@
       "key": "scene-talk.state-request.i-m-told-the-case-ends-in-a-plea-what-would-you-do-in-my-place",
       "move": "state-request",
       "kind": "spoken",
-      "text": "I'm told the case ends in a plea. What would you do in my place?",
+      "text": "I've agreed to plead. Would you have done the same?",
       "uses": [
         {
           "subject": "scene",
@@ -201393,7 +201393,7 @@
       "key": "scene-talk.state-request.the-trial-is-trial-day-will-you-be-there",
       "move": "state-request",
       "kind": "spoken",
-      "text": "The trial is {trial-day}. Will you be there?",
+      "text": "The trial is on {trial-day}. Will you be there?",
       "uses": [
         {
           "subject": "scene",
@@ -201902,7 +201902,7 @@
       "key": "scene-talk.reply-agree.yes-do-that-first",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Yes, do that, {first}.",
+      "text": "Yes, do that.",
       "uses": [
         {
           "subject": "scene",
@@ -202243,7 +202243,7 @@
       "key": "scene-talk.reply-promise.i-ll-do-it-today-first",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'll do it today, {first}.",
+      "text": "I'll do it today.",
       "uses": [
         {
           "subject": "scene",
@@ -202429,7 +202429,7 @@
       "key": "scene-talk.follow-thank.then-i-ll-make-the-call-this-afternoon-first",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Then I'll make the call this afternoon, {first}.",
+      "text": "Then I'll make the call this afternoon.",
       "uses": [
         {
           "subject": "scene",
@@ -202973,7 +202973,7 @@
       "key": "scene-talk.close-promise.i-ll-call-you-tomorrow-first",
       "move": "close-promise",
       "kind": "spoken",
-      "text": "I'll call you tomorrow, {first}.",
+      "text": "I'll call you tomorrow.",
       "uses": [
         {
           "subject": "scene",
@@ -203133,7 +203133,7 @@
       "key": "scene-talk.close-accept.then-i-won-t-keep-you-first",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "Then I won't keep you, {first}.",
+      "text": "Then I won't keep you.",
       "uses": [
         {
           "subject": "scene",
