@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Show Congress enacting a policy law in a played year and reaching a resident. With parts 1 and 2 in place, bills on the federal questions pass both chambers through the 60-vote rule, reach the president's desk, are signed or vetoed, and an enacted law reaches a named person of the town through law-reach. The proof is a test in a played year that names the place and seed and the session, bill and law record ids.
