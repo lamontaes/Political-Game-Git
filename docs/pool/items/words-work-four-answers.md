@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: story/work-four-answers
+pr: 8164
 blocked-on:
 source: added by hand on the branch
 ---
