@@ -15,7 +15,7 @@ claimed-at:
 
 **What.** `src/core2/voter-groups.test.ts` ("voter groups are the counted electorate") fails at some drawn places because a voter row carries its household's weight and that weight is below 1: Valley City, North Dakota (key 3881180, seed d5a9ce3f642229fdc5611e1a85e2e1565f79688af5a1f55b560643f2d082a184) gave 0.414. A counted household stands for at least itself, so a weight under 1 means the town's Census scaling shrank a household instead of growing it. Find where the weight is set (the census weight model) and why it drops under 1 there, and fix the weight, not the test.
 
-**Rules.** Real data is calibration only, and one rule covers all places: every counted household stands for one or more real households.
+**Rules.** One model, two tiers (owner, Oct 14): a counted household is read by every engine with the same rule as a full one, times its weight, so every counted household stands for one or more real households. Research before building: real data calibrates the weights and never decides one household's outcome.
 
 **Done when.** The test passes at Valley City, North Dakota with the seed above, and a different session names the household record and its weight before and after.
 

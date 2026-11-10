@@ -5,9 +5,9 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: done
 claimed-by: story/purposes-return-reunion
-pr: 8060
+pr: #8060
 blocked-on:
 lead: words
 source: CTO brief, Nov 9 ("a purpose for every scene kind that lacks one")

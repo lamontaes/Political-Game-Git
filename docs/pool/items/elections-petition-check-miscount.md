@@ -17,7 +17,7 @@ claimed-at:
 
 **Rules.** No dice; one rule, all places; the test stays as strict as it is.
 
-**Done when.** Both places and seeds above pass, and a different session names the signature row ids the check used to skip and shows each now counted or struck.
+**Done when.** petition-filing.test.ts passes on both drawn places and run seeds above, and a different session names the signature row ids the check used to skip and shows each of them now counted or struck by the clerk's check.
 
 **Files.** src/core2/modules/elections.ts, src/core2/petition-filing.test.ts
 
