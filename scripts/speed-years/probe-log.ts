@@ -28,6 +28,19 @@ for (let y = 1; y <= Number(years); y++) {
     by.set(k, e);
   }
   console.log(`YEAR ${y} ${core.date} rows=${core.durableLog.size} jsonMB=${(total / 1e6).toFixed(1)}`);
+  // The largest kind, by who it names and by field.
+  const acts = [...core.durableLog.values()].filter((row: any) => row.kind === "person.acted");
+  const player = core.playerId;
+  const own = acts.filter((row: any) => row.decision?.actorId === player || row.personIds.includes(player));
+  const fields = new Map<string, number>();
+  for (const row of acts)
+    for (const [f, v] of Object.entries(row)) fields.set(f, (fields.get(f) ?? 0) + JSON.stringify(v ?? null).length);
+  const dfields = new Map<string, number>();
+  for (const row of acts)
+    for (const [f, v] of Object.entries((row as any).decision ?? {})) dfields.set(f, (dfields.get(f) ?? 0) + JSON.stringify(v ?? null).length);
+  const top = (m: Map<string, number>) => [...m].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([f, b]) => `${f}=${(b / 1e6).toFixed(1)}MB`).join(" ");
+  console.log(`  ACTS ${acts.length}, naming the player ${own.length}; fields ${top(fields)}`);
+  console.log(`  ACT DECISION fields ${top(dfields)}`);
   for (const [k, e] of [...by].sort((a, b) => b[1].bytes - a[1].bytes).slice(0, 25))
     console.log(`  ${(e.bytes / 1e6).toFixed(1)} MB ${e.rows} rows ${e.old} old  ${k}`);
 }
