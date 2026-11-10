@@ -16,6 +16,7 @@ effort: high
 root: rc6-scenes-repeat
 lead: director
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 4, root cause 6)
+checked: fable 2026-11-10
 ---
 
 **What.** A scene goes to whoever its cause record names or whoever heard of it, and nothing asks whether that person could be in that scene. In the audit's browser play (Blodgett Landing, New Hampshire, a 17-year-old, ten weeks, no seed kept) a legislator "comes down the aisle to find you", the mother who lives with the player "stops in at the house", and an aunt "has come to say goodbye" at a door the player knocks on. On Nov 10's main (8ac2262853) with the scene tool: in Ninnekah, Oklahoma (seed 3dac8ffb3f3c) the 17-year-old's father, who lives in his household, is met "on the street" and the narration says he "called your office"; in Tesuque, New Mexico (seed 8a5d1fba28fc) and Odessa, Washington (seed fd7e212758b7) the mother in the player's own household "is at your door" and "comes to the house".

@@ -17,6 +17,7 @@ after:
 model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** In the owner's Oct 26 playtest his H.R. 1 sat drafted for a year: a bill in a chamber that votes on its floor calendar was kept drafted and never given a floor date. Since then both halves have landed on main: the core half (laws-floor-takes-every-chamber-bill, done: `chamberBills` and `floorQueue` in src/core2/modules/world-legislating.ts take up every drafted bill of the session's chambers) and the screen half (play-legislature-floor-date-and-whip, done: `floorOf` in src/bench/legislature.ts returns the floor date and the whip count). What this item still owns is the finish line: every player bill in a state legislature or in Congress gets a floor date through the same calendar the members' bills use, reaches a recorded floor vote within the sitting, and the legislature screen shows the scheduled date, the whip count and the result; and the law matrix row of a law passed this way names the screen it shows on.

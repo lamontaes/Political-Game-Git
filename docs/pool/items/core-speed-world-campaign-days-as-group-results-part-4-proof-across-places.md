@@ -12,10 +12,11 @@ pr:
 after: core-speed-world-campaign-days-as-group-results-part-2-door-answers-counted-group, core-speed-world-campaign-days-as-group-results-part-3-asks-endorsements-by-group
 blocked-on:
 lead: speed
-model: opus
-effort: high
+model: sonnet
+effort: medium
 root: design-country-tier
 source: split from core-speed-world-campaign-days-as-group-results in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** After parts 1 to 3, prove the whole change: four-year runs of Gunnison, Utah (key 4932660, seed n8f6) and two other drawn places, the branch against its base in alternating pairs in both orders. Report year 4 seconds and the outcomes. This is part 4 of core-speed-world-campaign-days-as-group-results.
@@ -24,7 +25,7 @@ source: split from core-speed-world-campaign-days-as-group-results in the pool r
 
 **Fix.** Run `npm run speed:year` for the three places, alternating base and branch in both orders, and compare race winners, shares, turnout and stance spreads; write the table in the PR body.
 
-**Time box.** 3 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Level of detail (owner, Nov 9): the player's circle and focus and officials stay individual; the player's own campaign is untouched. One model, two tiers: a group is read by the rule a person is, times its count. No dice. Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base, measured before and after on the same machine, one process at a time.
 

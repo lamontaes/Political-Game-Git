@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: high
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** Measured by the Nov 9 audit in Blodgett Landing, New Hampshire (a random world, no seed), playing a 17-year-old girl the game named Ray Kent: the mother's card says she has served as commissioner since 2022, the journal says she is a sales representative, and at 8:30 p.m. the Travel screen places her at a supply company. Three screens tell a player three different things about what one woman does, because each reads a different record. Fix the class for every person: what someone does is one record that every screen reads the same way (an office and a job told together when she holds both), and where she is at an hour comes from the one record of where people are, which is her work spans at the clock's minute.
@@ -30,7 +31,7 @@ root: rc3-thin-life-record
 
 **Done when.** A second session starts the bench (`npm run bench`) with dev mode on and starts a new game in a drawn place (place and seed named in the proof). For each member of the player's household and for three officeholders opened from Government, it takes screenshots at 1440×900 of the person's card, of the Journal chapter that names them, and of Travel at two hours of the day (one inside and one outside their work hours), and reads the person's job, office term and work-span record ids in dev mode's person panel. For each person the three screens must agree with those records and with each other: a person who holds an office and a job is told with both on the card and in the journal; nobody is shown at a workplace outside the hours their work spans give; a term the card names exists in the offices table with those years. The proof is a table of person, record id, and what each screen said. The same check is then run on the player's mother in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro. The owner plays it: he opens his mother's card, his journal and Travel and they tell him the same thing about her.
 
-**Waits on.** Nothing.
+**Waits on.** core-life-record-part-1-the-journal-reads-the-life-list, which rewrites `householdMoments` in src/director/journal.ts; build this on top of it, not beside it.
 
 **Files.** src/bench/card.ts, src/director/journal.ts, src/bench/places.ts, src/bench/ui/travel-screen.mjs, src/bench/play.mjs, src/core2/work-spans-v1.ts
 

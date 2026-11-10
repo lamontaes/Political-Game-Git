@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc2-done-from-records
 source: governing lead, Nov 1 (phase B map)
+checked: fable 2026-11-10
 ---
 
 **What.** M3-01's six test files each hash GOLDEN_PATH_SEED into a place by their own draw and none reads GOLDEN_PATH_PLACE_KEY, so the golden-path runner's summary names a place the tests never played. Three of them (legislature-bill-form, legislature-sections, policy-authority) print nothing about the place, and several loop over up to ten draws until a place has what they need. To flip M3-01 to passing, every file must run in the runner's place first, redraw only with a printed reason, and print the place, seed and record ids it played.

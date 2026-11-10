@@ -17,6 +17,7 @@ lead: governing
 root: rc1-world-outside-town
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** `closeMonth` in `src/core2/modules/budgets.ts` still pays every treasury an even twelfth of its yearly revenue and every spending line an even twelfth from the outside account, registered as stopgap SG-GOV-outside-revenue-monthly and marked plug in `src/core2/data/outside-flows.json`. Once the five sibling items have replaced each revenue and spending family with real payers and payees, this item deletes the plug code, its outside-flows rows and the stopgap row. The dollar test must then reject any flow still matching a plug row.

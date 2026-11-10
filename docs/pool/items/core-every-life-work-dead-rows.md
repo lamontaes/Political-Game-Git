@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: low
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** The jobs engine's review of people living elsewhere (src/core2/jobs-elsewhere.ts, PR #7049) keeps one row per person in jobs.elsewhere and never removes it, so a dead person's row stays for good. Over a long save the table grows with the dead instead of holding only the living. The cause is that the review only reads people who are alive and never hears of a death, so nothing removes the row; the partnerships module drops its row on the life.death event, and the jobs engine should do the same.

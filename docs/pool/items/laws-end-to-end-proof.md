@@ -17,6 +17,7 @@ effort: high
 root: rc2-done-from-records
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The owner keeps hearing that laws work, "from negotiation to its effects," without seeing it. This item is the laws lead's acceptance: one played life in a drawn place where the player proposes a law, negotiates for it by trade or favor on the record, and the bill passes or fails by the members' own reads of their lives and districts. If it passes, the law in force changes, one named person's money or life changes because an engine read it, that person learns of it from news they received, their view or choice moves with that news as the cited reason, and the director's scene and the journal say so. M3-04's "an enacted ordinance reaches specific named people" still has no test where the ordinance passes by the body's vote in a played world and is then followed to a named person: the existing law tests enact their laws with `enactLaw`, not a vote. The units for learning on the day a story is heard and for the held bill keeping the chair's reasons are on main; this is the proof test.
@@ -31,7 +32,7 @@ claimed-at:
 
 **Done when.** A second session, not the builder, runs `src/core2/laws-end-to-end.test.ts`, which plays one year of `buildBenchWorld` with every module in a drawn place (place and seed named) and records by id: the player's bill, each negotiation offer and the favor or trade it recorded, each member's vote with its reasons, the law-in-force change, the `lawApplied` row, the journal entry or price that moved for one named person, the news item they received, the stance or choice that moved citing it, and the scene and journal line. A second drawn place where the bill fails shows the members' reasons. Then the same session plays the proof's pinned seed 4a4e3819bc34b9d1e26d8413 (Susupe, Northern Mariana Islands) on the bench in a real browser and puts screenshots of the resident's law-takes-effect scene and of the journal line naming the bottle deposit, with their record ids, in the PR body.
 
-**Waits on.** words-law-effect-learned-journal (the journal row and bank lines, which are the Words session's files).
+**Waits on.** Nothing. The journal row and bank lines it once waited for are on main (src/director/data/journal-rows.json has the `event:law.effect-learned` row; item words-law-effect-learned-journal was closed as built).
 
 **Files.** src/core2/laws-end-to-end.test.ts (new), src/bench/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md, docs/roadmap/features.json, data/english/parts/journal.json, data/english/parts/scene-words.json
 

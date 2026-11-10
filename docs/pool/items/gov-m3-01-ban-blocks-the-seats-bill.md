@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc2-done-from-records
 source: governing lead, Nov 1 (phase B map)
+checked: fable 2026-11-10
 ---
 
 **What.** M3-01 says a clear higher-level ban blocks a bill, but the player's own route is not proven: bill-paper.test.ts skips any draft that is not drafted, and the preemption case is tested only through draftBill in a small createLifeCore world (src/core2/legislature.test.ts:911-933). policy-authority.test.ts:117-180 does use buildBenchWorld and expects a blocked status with reason level-lacks-power, but it never goes through the seat. This unit extends those two tests so the ban is checked through seatView, seatAct and holdVote, the route the draft card uses.
@@ -30,7 +31,7 @@ source: governing lead, Nov 1 (phase B map)
 
 **Done when.** A second session, in a buildBenchWorld place drawn from the preempting places with its seed printed, finds the seat view marking the item not allowed with its reason key, seatAct leaving the bill blocked with the rule's reason by bill id, holdVote keeping it blocked, and no vote row for that bill; the same checks pass for a power the level lacks in src/core2/policy-authority.test.ts.
 
-**Waits on.** gov-m3-01-phase-in-by-dated-steps.
+**Waits on.** Nothing. (gov-m3-01-phase-in-by-dated-steps, which it followed, is done.)
 
 **Files.** src/core2/legislature.test.ts, src/core2/policy-authority.test.ts, src/bench/legislature.ts
 

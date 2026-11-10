@@ -16,6 +16,7 @@ after:
 model: opus
 effort: high
 root: rc2-done-from-records
+checked: fable 2026-11-10
 ---
 
 **What.** The golden path's step M0-02 (a chosen adult is played for a week; every act is the character's own pick or answers a stop) fails on clean main at 550ed6ad69 in Clinton, Tennessee with 'Error: The week did not finish.' The step advances a week and answers each stop; its guard gives up after 5,000 answers without the week completing. It fails the same way on the words machine's branch, which changes nothing in the player's week. The runner draws each step's place from the commit, so any pull request can draw this place and go red on an accepted step. Which stop repeats, and for whom, is not found.

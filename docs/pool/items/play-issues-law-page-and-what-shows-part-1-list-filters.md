@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/fable-b2-issues-filters
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: medium
 root: rc7-player-cannot-drive
 milestone: play-first
 source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on Politics, Issues: "I don't like how it's just laid out and a bunch of cards... Give me options for what shows." The CTO read "options for what shows" as controls for the list: by level, in force or not, and by subject. Redraw the Issues list from the shared parts, as Government was redrawn, with those three filters. The list is the long-list box with no arrows; the filters are controls from the shared set, not new ones.

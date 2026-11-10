@@ -9,7 +9,7 @@ status: open
 claimed-by:
 pr: #6111
 after:
-blocked-on: politics-issues-taxes-named-by-level
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -18,6 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Politics, then Issues in Anson, Texas on the v0.22.10 release read "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate shown under a local label, so a player choosing what to run on would believe the town taxes income at 37 percent. The fix is merged (commit 6029ce3efe and PR 6111, which name a rate's government from the budgets where no seat names it, in src/bench/government.ts). The item stayed open only for the owner's installed-build check, which the second-session rule replaces; the Texas no-income-tax row was never confirmed in a game.
@@ -32,7 +33,7 @@ claimed-at:
 
 **Done when.** A second session (not the builder) starts the bench in a drawn place in a state with no income tax (place and seed named) and in one with an income tax, opens Politics, then Issues, and takes a screenshot of each at 1440x900: the first shows no state or local income tax row, and in both every rate is labeled by the government that sets it, each traceable to its law record id. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
 
-**Waits on.** politics-issues-taxes-named-by-level (the item's `blocked-on:`); A second session's check in the running game (seen-in-game).
+**Waits on.** Nothing. What it was blocked on is done; what is left is a second session's check in the running game (skill seen-in-game).
 
 **Files.** src/core2/modules/laws.ts, src/core2/data/legislature/bill-catalog.json, src/core2/data/laws/starting-law.json, src/bench/government.ts, src/bench/play.mjs
 

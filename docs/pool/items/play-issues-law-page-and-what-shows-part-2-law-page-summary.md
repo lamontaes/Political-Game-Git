@@ -17,6 +17,7 @@ effort: medium
 root: rc7-player-cannot-drive
 milestone: play-first
 source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Owner, Nov 1: opening Child access prevention gave "In force: Territory law, No, since July 1, 2024" and no information about it. A law's page should say in plain words what it does, which level has it, when it took effect and how it passed (the measure and the vote), each from a record id. The page is the bill interface for the chosen place, as the owner answered: "I imagine clicking on it and the quote-unquote bill interface as it is in whatever place you're selecting.

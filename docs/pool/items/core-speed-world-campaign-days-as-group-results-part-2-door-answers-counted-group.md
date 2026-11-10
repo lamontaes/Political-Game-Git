@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-country-tier
 source: split from core-speed-world-campaign-days-as-group-results in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Most people who open a world campaign's door are counted residents, who already take the counted path, so the unwatched-full-person doors branch did not pay. Make a counted group's door answer one result per group and candidate, read from the group impression of part 1, instead of one answer per household. This is part 2 of core-speed-world-campaign-days-as-group-results.

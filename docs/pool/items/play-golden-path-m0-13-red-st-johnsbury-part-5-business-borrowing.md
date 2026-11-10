@@ -16,13 +16,14 @@ model: opus
 effort: high
 root: rc2-done-from-records
 source: split from play-golden-path-m0-13-red-st-johnsbury in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** In St. Johnsbury, Vermont, both new businesses borrowed more than nine times the founder's own cash (the largest $215,153), against the test's assertion that a new business's loan is at most nine times the founder's cash (the SBA rule the test cites). A new business's loan should be sized from the founder's cash and the lender's rule in the business and lending engines. Find where the loan is sized and why it exceeds the rule.
 
-**Cause.** Measured: GOLDEN_PATH_SEED=f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4 GOLDEN_PATH_PLACE_KEY=5062125 node --max-old-space-size=8192 --expose-gc --import tsx tests/golden-path/played-world.node-test.ts in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) failed on main 663a38fedf (Oct 28); both new businesses borrowed more than nine times the founder's cash, the largest $215,153; the sizing rule is not traced.
+**Cause.** Needs cause. Looked at: measured: GOLDEN_PATH_SEED=f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4 GOLDEN_PATH_PLACE_KEY=5062125 node --max-old-space-size=8192 --expose-gc --import tsx tests/golden-path/played-world.node-test.ts in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) failed on main 663a38fedf (Oct 28); both new businesses borrowed more than nine times the founder's cash, the largest $215,153; the sizing rule is not traced. Not yet known: where a new business's loan is sized. How to find it once part 1 has re-run the check: re-run (part 1 says whether it still fails), then find where a new business's loan is sized in the business module, and make it follow the lender's rule from the founder's cash (a parameter row tagged with its source), not a fixed multiple of the business's need.
 
-**Fix.** Re-run (part 1 says whether it still fails), then find where a new business's loan is sized in the business module, and make it follow the lender's rule from the founder's cash (a parameter row tagged with its source), not a fixed multiple of the business's need.
+**Fix.** None until the cause is found.
 
 **Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

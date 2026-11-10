@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: high
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** A player who wins an executive office cannot send a bill to the body that votes. Measured by the Nov 9 audit in Davenport, North Dakota (three seats taken through Advanced, Play as; no seed given): the council member's Your office screen has a Draft a bill list, a state legislator drafts from 152 policies, and the mayor's shows "Office: Mayor" and "Pay: $4,262.00 a year" and nothing else. The engine for an executive's bill already exists and the player's screen never calls it. Build the screen for the class: any single-seat executive whose office has a proposal right gets the same draft card, for the body that votes on their government's bills, and drafting goes through `proposeAsExecutive`, the way real mayors and governors send bills. The member asked decides as anyone asked would; the player sees who was asked and what they said, and follows the bill from there.

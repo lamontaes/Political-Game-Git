@@ -5,11 +5,11 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: open
 claimed-by:
 pr:
 after:
-blocked-on: play-stop-01-talk-says-nothing-a, play-stop-01-talk-says-nothing-b
+blocked-on:
 standard: 2
 model: sonnet
 effort: low
@@ -17,6 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
+checked: fable 2026-11-10
 ---
 
 **What.** On the v0.22.10 release the owner clicked his father at home and pressed Talk; he said "Talk to you soon." and the only buttons were Mark gap, Say nothing and Leave. A stranger at a campaign stop gave "Hi." and "Have a good day." though the game had opened that talk from a shared-cause moment. Both children of this item are done: a talk with nothing on record to say now returns no lines, so the bench marks a person talkable only when the conversation returns lines. The item is left only as the replay of its finish line by a second session, because one screen detail was still open when it was last read: the talk box passes `silent: true` and shows Say nothing even when nothing is left to say.
@@ -40,3 +41,5 @@ milestone: play-first
 **Screenshot.** The talk box in a drawn place, with the place and seed under it.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md, log 15:54, 15:55, 16:09; screenshots 14, 17, 59). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was words. Split Oct 24 into play-stop-01-talk-says-nothing-a and play-stop-01-talk-says-nothing-b, each four hours or less; the CTO sets this item done when the last part is done. Oct 29, Words and director: PR 6764 makes a talk with nothing on record to say return no lines at all, where it said a greeting and a goodbye (the owner's Oct 24 'hi, have a good day. That makes no sense'); on clean main five of the fifteen talks in conversation.test.ts are exactly that. The screen side is still open: renderTalk in src/bench/play.mjs opens the talk box for a talk with no lines and always shows Say nothing (talkControls({ silent: true, ... })), against the Oct 27 ruling 'when there's nothing left to say, don't allow there to be a say nothing.'
+
+**Notes (Fable's check, Nov 10).** Seen on Nov 10 by the second session that checked the words machine, on main at 756370e86b, in Rehoboth Beach, Delaware (place key 1060290), seed dc376939-ac22-45ce-836f-5027c4f0799f: a talk with Patrick McCarthy at home on Jan 23, 2026, a year into the game, opened with no line at all, only Continue and Mark gap. That is a failure of this item's finish line (a person with nothing to say is not offered for talk). It is filed as its own item, play-talk-opens-with-no-line-after-a-year.

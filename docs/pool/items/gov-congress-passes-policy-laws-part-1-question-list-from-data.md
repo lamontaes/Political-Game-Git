@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc1-world-outside-town
 source: split from gov-congress-passes-policy-laws in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Make Congress read one source of federal law and file bills on a question list from `data/research/campaigns/federal-questions-2026.json` (merged as #6887) through the one legislature engine on its session calendar (`congress-sessions.json`). In the Nov 9 played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af), Congress introduced five bills and the Senate none; the House and Senate should both introduce bills on the questions the data lists. Only a question with a standing answer, members' stances and an effect reader is admitted, and the stopgap call is removed when the list covers them.

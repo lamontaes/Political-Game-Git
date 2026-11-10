@@ -14,9 +14,10 @@ source: owner playtest of v0.73.0, Nov 1, 22:40 UTC (second batch)
 lead: play-first
 milestone: play-first
 after:
-model: opus
+model: sonnet
 effort: medium
 root: rc7-player-cannot-drive
+checked: fable 2026-11-10
 ---
 
 **What.** Owner, Nov 1 playtest of v0.73.0, on Politics, Issues: "I kind of see the vision here, though. I don't like how it's just laid out and a bunch of cards. Again, this doesn't look like a real game menu... But I click on it and then it gives me no information about it. Give me options for what shows." Opening Child access prevention showed only "In force: Territory law, No, since July 1, 2024". A law's page should say in plain words what it does, which level has it, who it reaches here, when and how it passed, and how people and parties feel about it, from the records, and the list should have controls for level, in force or not, and subject. The statute row on that page is part of this work: a citation opens the game's own display of that law, never a bare capital-letter row with nothing to click (the Nov 9 audit still saw "STATUTE 19 U.S.C. 1862" on a law's page). The item is split into four parts, built in order.
@@ -25,7 +26,7 @@ root: rc7-player-cannot-drive
 
 **Fix.** Done through four parts in order: filters on the Issues list (part 1), a law page that tells what it does, its level, date and how it passed (part 2), who it reaches here and the views on it (part 3), and the player's position control with the citation opening the game's own display of that law (part 4). Redraw Issues from the shared parts as Government was redrawn. This parent closes when the four parts are merged.
 
-**Time box.** 2 hours for one Opus session, only to confirm the parts landed and close this item; the build time is in the parts, each at most 4 hours.
+**Time box.** 2 hours for one Sonnet session, only to confirm once the four parts are done. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Screen to mock: Issues is redrawn the way Government was (Oct 29 menus ruling), from the shared parts. No hand-written player text: the law's explanation comes from the English engine and the law's record. An effect is a read, not a record: who it reaches reads the law engine's own reach records. Replace, never layer: the old law page rows are replaced by the new page, not kept beside it.
 

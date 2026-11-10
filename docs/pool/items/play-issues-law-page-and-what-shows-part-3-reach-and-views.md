@@ -17,6 +17,7 @@ effort: medium
 root: rc7-player-cannot-drive
 milestone: play-first
 source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A law's page should say who the law reaches here, in people and in the place's terms, and how people and parties feel about it, from the records. The law engine keeps reach rows (the card already reads them as `lawEffects`), and views keep stored stances for the questions the survey asks. The Nov 9 audit found that after a law passes, no screen shows the people it reached.
