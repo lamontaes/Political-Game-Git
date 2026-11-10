@@ -3,4 +3,4 @@ id: life-sentences-open-the-trace-in-dev-mode
 impact: none
 ---
 
-Not written yet: the builder replaces this line before the pull request is ready.
+Dev mode only: a sentence of a life story opens its record in the Trace; nothing changes for a player with dev mode off.
