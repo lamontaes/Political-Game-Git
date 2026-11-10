@@ -610,14 +610,23 @@ export function countedAppeal(
 export function countedChoice(
   appeal: Readonly<Record<string, { readonly total: number }>>,
 ): string | null {
-  const ranked = Object.entries(appeal).sort(
-    (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
-  );
-  if (ranked.length === 1)
-    return ranked[0]![1].total >= 0 ? ranked[0]![0] : null;
-  return ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total
-    ? ranked[0]![0]
-    : null;
+  // The first place and whether anyone ties it, in one pass: the ranking a
+  // sort gives without the sort (counted for every sample voter of every
+  // place, so it ran millions of times an election year).
+  const ids = Object.keys(appeal);
+  if (ids.length === 1) return appeal[ids[0]!]!.total >= 0 ? ids[0]! : null;
+  let best: string | null = null;
+  let top = -Infinity;
+  let tied = false;
+  for (const id of ids) {
+    const total = appeal[id]!.total;
+    if (total > top) {
+      top = total;
+      best = id;
+      tied = false;
+    } else if (total === top) tied = true;
+  }
+  return tied ? null : best;
 }
 
 /**
