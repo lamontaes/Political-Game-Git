@@ -55,6 +55,12 @@
     "scene-talk.follow-press.are-you-sure-you-re-all-right-first": [
       "alright-in-dialogue"
     ],
+    "scene-talk.follow-press.i-hear-you-but-this-matters-to-the-family-what-s-in-the-way": [
+      "no-stock-phrases"
+    ],
+    "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way": [
+      "no-stock-phrases"
+    ],
     "scene-talk.follow-press.people-will-read-a-no-comment-as-an-answer-you-know": [
       "no-filler"
     ],
