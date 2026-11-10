@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 claimed-by: story/words-rejected-nov8-scene-still-plays
-pr: 8170
+pr: #8170
 after:
 blocked-on:
 lead: words
@@ -18,6 +18,7 @@ effort: medium
 root: design-words-machine
 claimed-at: 2026-11-10T17:29:58.943Z
 checked: fable 2026-11-10
+merged-at: 2026-11-10T19:21:39.526Z
 ---
 
 **What.** The owner rejected a scene by voice on Nov 8 and it played unchanged the next day. Measured in the audit's browser play on main as of Nov 9 (Blodgett Landing, New Hampshire, a 17-year-old, no seed kept): the mother "stops in at the house" to say a county budget passed, then "Did you catch the President's speech?" "You and me both." "Then we agree on something for once." "I'll let you get back to it." Measured by the audit in the engine: none of the scene's lines is graded, so none is held, and they weigh more than a neutral line's 1.0: "Then we agree on something for once" carries 1.44, "That's what they're saying" 1.52, "I'll talk to you later" 1.34 and "I liked what the President had to say" 1.31. Checked by me on Nov 10's main (commit 8ac2262853): data/english/part-grades.json still has no entry for "Did you catch the President's speech?", "Did you watch the President's speech?", "I liked what the President had to say.", "You and me both.", "Then we agree on something for once." or "I'll let you get back to it."; data/english/grades/ holds three files and none is from Nov 8. The cause, read by the audit: only whole-line grade files put a line on the held list (`readGradedBatches` and `isSpanGradeFile`, scripts/dialogue-batch/apply-grades.ts, near line 504), and what the owner says while playing is written down nowhere as a grade. Fix it at that cause: record his Nov 8 spoken rejection as whole-line grades in a grade file, fold it, and the lines are held the same day. Then name the route every spoken playtest rejection takes from now on (the in-play grade control, src/bench/grade-line.ts, or a grade file written from the playtest log the same day), so the next one does not wait for a session to notice.
