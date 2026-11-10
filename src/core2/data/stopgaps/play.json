@@ -104,8 +104,8 @@
     "why": "The core's law-reach count across both tiers of the population is being built by OPUS-CORE and has not landed.",
     "addedBy": "OPUS-PLAY",
     "addedAt": "2026-10-14",
-    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach.",
-    "status": "open"
+    "replacement": "OPUS-CORE's law-reach count function, read by DevMode.reach. Resolved by Fable, November 10, 2026: lawReach in src/core2/law-reach/host.ts reads every store that records a law applied to someone (the applied table, both law-reach stores, the wage raises) across both tiers, with dollars, and DevMode.reach and scripts/dev-tests/law-run.ts both call it.",
+    "status": "resolved"
   },
   {
     "id": "SG-PLAY-dev-public-salary-floor",

@@ -3,7 +3,9 @@
  * level's body may draft, build the same generated world twice (control and
  * with the law), pass the bill through the real body, run past the lag and a
  * month, repeal it by a second bill, run again, and print one JSON line per
- * policy: what the law engine did, who was reached, what moved against the
+ * policy: what the law engine did, how the bill ended and whether a trade
+ * added a section to it, who the law reached (the core's one reader,
+ * `lawReach`: people, counted people and dollars), what moved against the
  * control. Usage:
  *   tsx scripts/dev-tests/law-run.ts <seed> <level> [idSubstring] [days]
  */
@@ -14,8 +16,10 @@ import { billCatalog, provisionFor } from "../../src/core2/bill-catalog";
 import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
 import {
-  bodyOf, chambersOf, draftBill, castMemberVote, holdVote, executiveDecision, members, memberKey, billOf,
+  bodyOf, chambersOf, draftBill, castMemberVote, castChairHearing, holdVote, executiveDecision, members, memberKey, billOf,
+  billEnding, sectionsAddedTo,
 } from "../../src/core2/modules/legislature";
+import { lawReach } from "../../src/core2/law-reach/host";
 import { lawChain, lawInForce, LAWS_MODULE_ID } from "../../src/core2/modules/laws";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { advanceCore } from "../../src/core2/life";
@@ -54,27 +58,22 @@ function diffKinds(a: Record<string, number>, b: Record<string, number>) {
   for (const k of new Set([...Object.keys(a), ...Object.keys(b)])) { const d = (a[k] ?? 0) - (b[k] ?? 0); if (d) out[k] = d; }
   return Object.fromEntries(Object.entries(out).sort((x, y) => Math.abs(y[1]) - Math.abs(x[1])).slice(0, 12));
 }
-function citing(core: CoreState, ...needles: string[]) {
-  const out: Record<string, number> = {};
-  for (const row of core.durableLog.values()) {
-    // A printed story's id is `printed:<outlet>:law-took-effect:<law row id>` and news.read cites the story id,
-    // so match the record's own id as well as its facts (a count of facts alone missed every story).
-    const s = JSON.stringify(row.facts ?? {});
-    if (needles.some((n) => n && (s.includes(n) || String(row.id).includes(n)))) out[row.kind] = (out[row.kind] ?? 0) + 1;
-  }
-  return out;
-}
 function pass(core: CoreState, bodyId: string, sponsor: string, policyId: string, op: string, amount?: number) {
   const api = coreAPI(core);
   const bill = draftBill(api, { bodyOfficeId: bodyId, sponsorId: sponsor,
     provisions: [provisionFor({ policyId, operation: op as never, ...(amount !== undefined ? { amount } : {}) })] });
-  for (const ch of chambersOf(api, bill)) for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
+  for (const ch of chambersOf(api, bill)) {
+    for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
+    // Each committee's chair is cast to hear it, as dev mode's "Chair hears it" does: a forced bill is not a test of the chair.
+    castChairHearing(api, bill.id, ch, true);
+  }
   // Dev force: the executive's signature is on the record before the vote, as dev mode's "sign" control writes it.
   executiveDecision(api, bill.id, true);
   let b = holdVote(api, bill.id);
   const trail = [b.status];
   if (b.status === "awaiting-signature") { b = executiveDecision(api, bill.id, true); trail.push(b.status); }
-  return { billId: bill.id, status: b.status, trail };
+  // How it ended in the legislature's own terms, and the sections a trade added (a rider: the run then measures it too).
+  return { billId: bill.id, status: b.status, trail, ending: billEnding(api, bill.id), addedSections: sectionsAddedTo(b) };
 }
 
 const control = build();
@@ -99,7 +98,7 @@ for (const p of policies) {
     const series = p.series ?? p.question ?? p.line;
     const before = series ? lawInForce(api, p.kind === "budget-line" ? `budget-line:${p.line}` : series).governing : null;
     const r = pass(core, seat.office.id, seat.holder!.personId!, p.id, op, amount);
-    rec.pass = r.trail; rec.billId = r.billId;
+    rec.pass = r.trail; rec.billId = r.billId; rec.ending = r.ending; rec.addedSections = r.addedSections;
     const after = series ? lawInForce(api, p.kind === "budget-line" ? `budget-line:${p.line}` : series).governing : null;
     rec.lawBefore = before && { id: before.id, level: before.level, value: before.value };
     rec.lawAfter = after && { id: after.id, level: after.level, value: after.value, eff: after.effectiveDate };
@@ -121,7 +120,8 @@ for (const p of policies) {
       rec.alive = t.alive - ctlAfterPass.alive; rec.employed = t.employed - ctlAfterPass.employed;
       rec.kindDiff = diffKinds(t.kinds, ctlAfterPass.kinds);
     }
-    rec.citing = citing(core, afterLag?.id ?? "", r.billId);
+    // Who the law reached: the one reader dev mode's bill card shows, without the list of names.
+    if (afterLag) { const { people, ...reach } = lawReach(api, afterLag.id); rec.reach = { ...reach, named: people.length }; }
     // repeal
     if (r.status === "enacted" && p.operations.some((o) => ["repeal", "lower", "restrict"].includes(o))) {
       const rop = p.operations.includes("repeal") ? "repeal" : p.operations.includes("lower") ? "lower" : "restrict";

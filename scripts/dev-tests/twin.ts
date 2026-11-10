@@ -11,7 +11,7 @@ import { gameStartDate } from "../../src/core2/game-start";
 import { billCatalog, provisionFor } from "../../src/core2/bill-catalog";
 import { coreAPI } from "../../src/core2/state";
 import { townSeats } from "../../src/core2/modules/offices";
-import { bodyOf, chambersOf, draftBill, castMemberVote, holdVote, executiveDecision, members, memberKey } from "../../src/core2/modules/legislature";
+import { bodyOf, chambersOf, draftBill, castMemberVote, castChairHearing, holdVote, executiveDecision, members, memberKey } from "../../src/core2/modules/legislature";
 import { setBookkeeping } from "../../src/core2/bookkeeping";
 import { setFastForward } from "../../src/core2/fast-forward";
 import { advanceCore } from "../../src/core2/life";
@@ -37,7 +37,7 @@ for (let attempt = 0; attempt < 10; attempt++) {
   op = p.operations.includes("enact") ? "enact" : "raise";
   amount = p.kind === "policy-question" ? undefined : Math.max(1, Math.round((p.inForce ?? 1) * 1.5 + 1));
   bill = draftBill(api, { bodyOfficeId: seat.office.id, sponsorId: seat.holder!.personId!, provisions: [provisionFor({ policyId: p.id, operation: op as never, ...(amount !== undefined ? { amount } : {}) })] });
-  for (const ch of chambersOf(api, bill)) for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes");
+  for (const ch of chambersOf(api, bill)) { for (const m of members(api, ch)) castMemberVote(api, bill.id, memberKey(m), "yes"); castChairHearing(api, bill.id, ch, true); }
   executiveDecision(api, bill.id, true);
   result = holdVote(api, bill.id);
   if (result.status === "enacted" || result.status === "overridden") break;
