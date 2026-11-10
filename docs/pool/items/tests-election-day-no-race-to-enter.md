@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/election-day.test.ts, src/core2/modules/elections.ts
 
 **Notes.** lead: Lane 1 (filing seams, agreement 1-4).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into tests-m2-07-drawn-place-without-race. Same cause: a test looks for a race the player can file for before filing opens in the drawn place. The kept item has the measured places and now carries this item's seed e253fc7f73075455, the eight places (Milbridge, South Barre, Tellico Village, Dixon, Tuckerton, Rose Hill, place 3722305 and Agana Heights) and the fix of using the clerk's list (playerContests) after advancing weeks until filing opens, in src/bench/election-day.test.ts.

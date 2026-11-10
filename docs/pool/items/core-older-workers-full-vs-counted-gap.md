@@ -6,20 +6,34 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+model: sonnet
+effort: medium
+root: design-one-model-two-tiers
+lead: m0-m2
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** In buildBenchWorld one year after the opening, Cedro, New Mexico (key 3513450, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248) has 203 of 231 full people aged 62 to 67 working, 88 percent, but only 11 of 115 counted people of that age, 10 percent; Pagai, American Samoa shows 200 of 209 and 4 of 18, and Columbus, Kentucky 182 of 197 and 0 of 38. Real participation is about 57 percent at 62 to 64 and 26 percent at 65 to 69 (BLS CPS 2019). One model, two tiers says a counted group works at the rate the same rule gives a full person, so one tier is wrong. Find where the opening seeds each tier's older workers and which one departs from the records, and fix it at the cause.
+**What.** The item's first measure (203 of 231 full people aged 62 to 67 working in Cedro, New Mexico against 11 of 115 counted) was shown unfair by three passes of notes: the full count is mostly officials and press staff of other places, and the counted count includes other places' people the opening never employs. In the town alone the tiers open within 9 points (full 8 of 12, counted 22 of 29). Two things remain. One, a filled-in worker must keep the job and pay their counted record held, and no test checks that for ages 62 to 67. Two, the opening's recorded work history employs nearly everyone aged 62 to 64 (16 of 16 in Cedro against an ACS target of 7) because the opening adds jobs up to a cohort target and never trims; whether records or the target win is an owner decision.
 
-**Rules.** One model, two tiers: the counted group is read by the same rule as a full person, times its count. Estimate, never UNKNOWN: the starting share comes from the real average by age with a per-world spread. No dice.
+**Cause.** Measured: Cedro, New Mexico (3513450, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248), residents of the town only: at the opening full 8 of 12 and counted 22 of 29 aged 62 to 67 work (within 9 points), against 16 of 16 recorded work for 62 to 64 versus an ACS target of 7 (src/core2/opening-employment.ts adds jobs up to a cohort target but never trims). Fill-in itself keeps the job: 10 of 13 carried their open counted job in Nicholson, Mississippi, and the other 3 had jobs the counted books had already ended.
 
-**Done when.** In a drawn place and seed named in the PR body, buildBenchWorld one year in shows the working share of people 62 to 67 within 8 points between full and counted people, and each within the BLS CPS band for the age, shown by job record ids, with a test that names the place and seed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** Add a test that fills in a counted worker aged 62 to 67 with a held job and asserts the full person holds the same job id and pay (src/core2/fill-in-tenure.test.ts covers tenure only). Register a stopgap of kind owner-decision for whether the opening trims recorded jobs for ages 62 to 64 to the BLS band, and build the simplest version (records win) until ruled.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/opening-employment.ts, src/core2/modules/residents.ts
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One model, two tiers: the counted group is read by the same rule as a full person, times its count, and a filled-in person must match what the records already say. Estimate, never UNKNOWN: the starting share comes from the real average by age with a per-world spread. No dice: who works follows the records, never a draw. Owner decisions are flagged, never waited on: build the records-win version and write the trimming question under OWNER DECISIONS NEEDED in the PR body.
+
+**Done when.** A second session, not the builder, runs the new test in a drawn place and a seed it chose (Cedro, New Mexico, seed 6688ecf3fa1f22a83b3c21db8f19f866d6b21ebfd85a86b0623a3a7221c5c248 stays as a named repro): a counted worker aged 62 to 67 with a held job is filled in and the full person holds the same job id and pay, shown by job record id. The registered owner-decision stopgap names the trimming question, and the working share of town residents aged 62 to 67 in each tier is reported as a figure beside the BLS CPS share, not as a pass or fail.
+
+**Waits on.** Nothing. The trimming question is an owner decision flagged in the PR body, not a wait.
+
+**Files.** src/core2/opening-employment.ts, src/core2/fill-in-tenure.test.ts, src/core2/modules/residents.ts, src/core2/modules/jobs.ts
 
 **Notes.** Found Oct 21 fitting jobsRetireWebWeight (web-calibrate-labor-participation). Measured with a one-year paired run: the weekly-minutes share of counted residents (countedResidents) against full people with an open job. The weekly-minutes measure may undercount counted workers whose commitments are not scheduled, so first check that the measure is fair.
 

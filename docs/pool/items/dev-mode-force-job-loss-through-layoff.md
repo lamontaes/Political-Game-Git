@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/jobs.ts, src/bench/dev-mode.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `DevMode.forceLayoff` (`src/bench/dev-mode.ts` line 1231) calls `layOffWorker` (`src/core2/modules/jobs.ts` line 4816), which ends a named worker's job through the business's own layoff with the `work.job-lost` event (line 1888), the state claim and the seeker row, as the file's own doc comment says.

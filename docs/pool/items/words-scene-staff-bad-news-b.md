@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/play.mjs, docs/play-first/screens/
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. A bench screenshot of a built scene is replaced by the acceptance rule in AGENTS.md ("Done means a second session saw it in the game") and the seen-in-game skill. Its only dependency, play-officeholder-hires-aide, is still open and carries the aide.

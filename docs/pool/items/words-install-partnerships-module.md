@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** TODO
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The item is an empty shell. partnershipsModule is imported (src/director/play-modules.ts line 17) and listed in the played world's module list (line 44); partnership work now lives in the people-partnership items (this item's blocked-on, people-partnership-forms, is still open and is not needed for the install).

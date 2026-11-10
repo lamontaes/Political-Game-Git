@@ -24,3 +24,5 @@ source: split from words-director-watches-officeholders by pool feeder Oct 20
 **Notes.** Oct 20 (pool feeder): spec written; civic-roles.ts already reads a speech's listeners (`retellingsOf`), and situation-types.json has no address type yet. Part 1 of 3 for words-director-watches-officeholders.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the graded-hold and ship lines with the scene; express as circumstance rows.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/director/data/situation-types.json` has an `address` kind (line 3538) with causes for president.address, governor.address, mayor.address and speech.heard (staff aide and audience roles), plus a took-office swearing-in kind that goes on to the address; `src/director/address-kind.ts` and `src/director/address-response.ts` exist. The item's `officeholder-records.ts` was never needed. Not replayed in a played year.

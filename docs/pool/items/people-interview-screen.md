@@ -27,3 +27,5 @@ claimed-at:
 Oct 25 audit: From the dropped gov-press-interview-conversation: branch claude/press-interview-conversation (PR #5602) holds src/director/press-interview.ts; finish there or take it over.
 
 Oct 25 audit: cleared the empty-shell block; the spec was written Oct 20.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The interview is now a staged scene: the header of src/director/interview-sitting.ts reads "owner, Oct 26-29: interviews are scenes" and the sitting publishes the interview through answerInterview. A separate interview screen would be a second engine for the same mechanic (AGENTS.md, one engine per mechanic); data/english/parts/interview.json does not exist and src/bench/play.mjs no longer holds interviewOutlet.

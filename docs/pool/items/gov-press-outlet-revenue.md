@@ -26,3 +26,5 @@ claimed-at:
 Sent back 2026-10-23 from PR #5099 (branch claude/press-outlet-revenue): The 45-day/helper-only revenue proof does not supply the required annual audience-change and named local advertising-payer chain; the broader stopgap remains open. Rechecked unchanged head 9678cefc3d; exact prior review: https://github.com/lamontaes/Political-Game-Git/pull/5099#issuecomment-6328540445; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5099 (branch claude/press-outlet-revenue): Current body lacks Done-when table and still describes old partial work; parent also requires a visible local shop ad, but adBuys UI reader remains open in play-paper-shows-local-ads; publish complete evidence/reader or bound completion item; finish on that branch, merge main into it first.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. SG-PEOPLE-press-outlet-revenue is resolved in src/core2/data/stopgaps/people.json; src/core2/press-money.ts prices subscriptions from readers' living cost and ads from local businesses' outside costs. The local-shop ad on screen belongs to play-paper-shows-local-ads.

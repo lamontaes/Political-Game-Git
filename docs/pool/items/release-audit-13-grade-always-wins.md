@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Item 13 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/design/words-machine.md (line 3) says the odds that made a disliked kind of line a little rarer are deleted and rules, not weights, judge lines (owner, Nov 9). The calibration weight that made one grade win (`pieceFactor` in src/english/calibration.ts, line 98) is being removed by that design, so a fix to it is moot.

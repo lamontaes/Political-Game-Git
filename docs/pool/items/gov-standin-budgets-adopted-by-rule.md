@@ -23,3 +23,5 @@ source: split from gov-standins-other (Oct 19, 2026); rows SG-GOV-budget-adopted
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (budget bill vote, #5376); the two other rows (outside-revenue-monthly, service-charges) belong to gov-outside-revenue-retire-plug.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-outside-revenue-retire-plug. SG-GOV-budget-adopted-by-rule is resolved (2026-11-08, budget bill vote); the other two rows it names, SG-GOV-outside-revenue-monthly and SG-GOV-service-charges-by-living-cost, are the work of the kept item.

@@ -10,13 +10,27 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+standard: 2
+model: sonnet
+effort: medium
+root: rc9-place-facts-one-default
+lead: governing
 ---
 
 **What.** In Orocovis, Puerto Rico (7257290; ARCHIVE_WORDS_SEED=1b28ca4702cab43d, draw 0 of archive-budget-words) the municipio's adopted budget row budget:county:72107:2024 has revenue 0 and spending 0, and the archive prints it as news: 'Orocovis Municipio adopts its budget. Orocovis Municipio adopted its budget for 2024.' with no sum. archive-words.test.ts ('words an adopted budget by its largest spending line') fails on main at that seed. Either the budgets engine writes a municipio budget with no lines, or the archive keeps a budget with nothing in it.
 
+**Cause.** Measured: seed 1b28ca4702cab43d (ARCHIVE_WORDS_SEED, draw 0 of archive-budget-words), Orocovis, Puerto Rico (7257290): the budget row budget:county:72107:2024 has revenue 0 and spending 0, and buildNewsArchive (src/core2/past-news.ts, the budgets loop at lines 126 to 150) archives every budgets row as budget-adopted with no check for an empty one; archive-words.test.ts "words an adopted budget by its largest spending line" fails there.
+
+**Fix.** Do not archive a budget row with no money, and find why the budgets engine wrote a municipio budget with no lines (an estimate from a sourced average, never $0).
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
 **Rules.** One rule, all 56 places: a territory's municipio budget is read like any county's, from data. Estimate, never UNKNOWN: a budget the data lacks starts from a sourced average with a spread, never $0. No hand-written player text: the paper's words come from the banks. An effect is a read: a budget nobody funds is not news.
 
-**Done when.** At ARCHIVE_WORDS_SEED=1b28ca4702cab43d, Orocovis, Puerto Rico's archived budget names a dollar sum read from its own row (or no budget story is archived for a row with no money, and the cause is named by file and line), and archive-words.test.ts passes there and on three fresh draws, each named with place and seed.
+**Done when.** A second session, not the builder, runs archive-words.test.ts at ARCHIVE_WORDS_SEED=1b28ca4702cab43d (Orocovis, Puerto Rico) and on three fresh draws (each named with place and seed) and sees it pass; Orocovis's archived budget names a dollar sum read from its own row, or no budget story is archived for a row with no money and the cause is named by file and line.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/past-news.ts, src/bench/archive-words.ts
 

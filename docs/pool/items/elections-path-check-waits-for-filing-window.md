@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/path-check.ts, src/bench/start-life.mjs
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/bench/path-check.ts` `stand()` (line 229) now lives on a week at a time until a race opens and logs "filing opened by" the date (line 250), which is this item's ask. `scripts/core2-year/incumbency-totals.ts` named in the item is not on main.

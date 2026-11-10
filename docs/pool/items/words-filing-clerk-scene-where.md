@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/purpose-scene.ts, src/bench/story.ts, src/core2/modules/filing-clerk.ts, src/director/purpose-scenes.test.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into words-director-one-path. Same repair as the filing part of that item (its part 1): the filing situation type stages a filing-clerk scene that purposeScene cannot word. On main the where fact is supplied by the bespoke visit (src/director/filing-visit.ts, spokenOffice(terms.filedWith)), so the scene plays at the counter, but the scheduled path is still the open duplicate. The kept part should take: the scheduled filing scene needs the where fact citing the filing office's record (filingClerkFor) and the clerk cast from it, shown before the household's scene (Deer Park, Washington, seed 393dad669a24a488:1; Kodiak Station, Alaska, seed 36a24250265aabef:3).

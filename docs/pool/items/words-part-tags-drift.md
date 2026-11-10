@@ -11,14 +11,27 @@ claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+standard: 2
+model: sonnet
+effort: low
+root: design-words-machine
 ---
 
 **What.** On main, node --import tsx scripts/english-corpus/tag-moves.ts --check reports 478 part tags that differ from the rules in scripts/english-corpus/moves.json, many of them moves with no rule at all (scene-talk state-tell-duty and the other filing-clerk moves among them). The reach table (src/english/grade-reach.ts) groups pieces by their tag's move, so a grade reaches the wrong family for those parts. The only check was the coverage-table test, which had not loaded on main for days and was deleted with the coverage report.
 
+**Cause.** Measured: `node --import tsx scripts/english-corpus/tag-moves.ts --check` on main reports 478 part tags that differ from the rules in scripts/english-corpus/moves.json (the item's own count; not re-run in the redo), many of them moves with no rule at all; nothing in package.json or the tests runs the check, so the reach table (src/english/grade-reach.ts) groups some pieces by a wrong move.
+
+**Fix.** Regenerate the tags with tag-moves.ts, add moves rules for the untagged moves, and run the check in a guard so drift fails.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
 **Rules.** Bank edits are never hand-merged: the tags are written by tag-moves.ts from the rules. A grade's reach changes only through the rules, named in the PR body.
 
-**Done when.** tag-moves.ts --check exits 0 on main, a test or guard runs it so drift fails CI, and the PR body names how many grade-reach groups changed with grade-reach.json regenerated.
+**Done when.** A second session, not the builder, runs `node --import tsx scripts/english-corpus/tag-moves.ts --check` on main and sees it exit 0 (the check reads the banks, so no place is involved), sees the guard fail when one tag is changed by hand, and finds the PR body naming how many grade-reach groups changed with data/english/grade-reach.json regenerated.
 
-**Files.** scripts/english-corpus/moves.json, scripts/english-corpus/tag-moves.ts, data/english/parts, data/english/grade-reach.json
+**Waits on.** Nothing. The words machine's grade-reach work (words-machine-rules-from-the-owners-notes) should read the same tags.
+
+**Files.** scripts/english-corpus/moves.json, scripts/english-corpus/tag-moves.ts, data/english/grade-reach.json, src/english/grade-reach.ts, tests/guards/english
 
 **Notes.** TODO

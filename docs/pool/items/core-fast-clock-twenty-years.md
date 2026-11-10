@@ -8,16 +8,29 @@ size: L
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
 lead: fable
 source: Fable, Nov 10, 2026, while building the country tier (design: docs/design/country-tier.md; umbrella item core-country-tier-first-slice)
+standard: 2
+model: fable
+effort: high
+root: design-country-tier
 ---
 
 **What.** Everything in the game steps day by day, so twenty years take 17 to 51 minutes where they finish at all. The owner asked on Nov 8 for a 20-year run in about five seconds, and said he is fine with it simulating everything as long as it makes sense in the end. The country tier already steps every state by the month in a few milliseconds. This item adds the second speed: when nobody is watching, the played town runs as results too (its monthly engines run; the daily loop, rival campaigns event by event, interviews and the press do not; elections are counted from the voters), and on return the day-by-day detail is rebuilt from the results. Dev mode's Run panel gets a 20 years control. The past before the start already runs this way (src/core2/pre-start.ts), so one coarse engine serves the past, other places and skipped years, and the campaign-stride switch (src/core2/fast-forward.ts) is deleted.
 
+**Cause.** Measured: Chumuckla, Florida (953 people; world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year: day by day 41.5 seconds, calendar only 14.6 seconds with no deaths and a failing resume, calendar plus one day a month 27.8 seconds. South Fork, Missouri (key 2968762): twenty years day by day take 1,799 seconds, and years 17 to 20 take about five times as long as years 1 to 4 (Notes). Design: docs/design/country-tier.md.
+
+**Fix.** Add the monthly second speed: when nobody is watching the town runs its monthly engines on counts, the player's household and circle stay people, and detail is rebuilt on return. Give dev mode's Run panel a 20 years control, and delete src/core2/fast-forward.ts.
+
+**Time box.** 20 hours for a Fable session, split by the claiming session into bounded parts first.
+
 **Rules.** Speed (owner, Oct 29 and Nov 8): a country's year under two minutes, and long runs must not slow down. Two-level population: nobody gets a full past until they are filled in, but the CTO's note of Nov 10 on the design holds: the life record keeps writing remembered events for the player and the people around them during a skip. Replace, never layer. This item is size L, so the session that claims it splits it first.
 
 **Done when.** A second session, on main in a drawn place with a seed nobody chose, presses 20 years in dev mode's Run panel: the game reaches the date twenty years on and says how long it took; the Metrics tab's country, state and town rows show no state with more jobs than adults and no negative count in any month; the player's journal and the person cards of three people around them hold dated entries from the skipped years; and playing one more week day by day works. The nightly twenty-year test on main passes in a drawn place named with its seed.
+
+**Waits on.** core-country-tier-town-joins-its-state.
 
 **Files.** src/core2/life.ts, src/core2/pre-start.ts, src/core2/fast-forward.ts, src/core2/modules/macro.ts, src/core2/country-model.ts, src/bench/dev-mode.ts, src/bench/ui/dev-run.mjs
 

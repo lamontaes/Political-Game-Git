@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/handler.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `openConversation` in src/director/conversation.ts (lines 2229 to 2233) now calls `bringItUp` only when there is no occasion ("const brought = occasion ? null : bringItUp(...)"), a household scene's opener uses the family-open move, and the bench's talk view in src/bench/handler.ts no longer carries `bringItUp`. Not replayed in a game.

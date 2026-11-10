@@ -35,3 +35,5 @@ Sent back 2026-10-17 from PR #4606 (branch claude/director-civic-producers-gover
 Oct 20 (pool feeder): spec written; the old blocked-on named the two parts still in review; the others are done, so this is the roll-up and closes with the reach report on main.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (roll-up complete).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. This was a roll-up whose note says it is done when its four named parts are; all six sub-items (director-civic-producers-electoral, -filing-stop, -government, -government-rest, -government-last, -household) are `status: done`. The types it lists (election result, sign-or-veto, hearing, filing, recall, scandal, layoff, eviction) no longer carry `awaitingProducer` in `src/director/data/situation-types.json`; only three rows still do (lines 1274, 2012 and 2266: school-started, next-step and election-day). The Oct 27 look-first audit also marked it already built. Not re-run in a played year.

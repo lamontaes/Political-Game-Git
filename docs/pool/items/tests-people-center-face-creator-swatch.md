@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/people-center-face.browser.mjs
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/bench/people-center-face.browser.mjs (line 39) already picks the creator's current row (`choose("shirt-color", "red")`) instead of the old clothes-color swatch, and src/bench/figure-colors.ts is gone (the creator rows are drawn by src/bench/ui/look-row.mjs). The item itself says one run in a drawn place would confirm it; that run is the only thing left, and it belongs to the second session that sees the item done.

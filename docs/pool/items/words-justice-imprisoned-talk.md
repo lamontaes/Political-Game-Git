@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-19). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into words-news-ask-gets-answer. The item is an empty shell. Its subject, talk after a relative's prison news (justice.imprisoned), is the same fix as words-news-ask-gets-answer, whose Fix adds the tell for the prison-news question ("For how long?") answered from the justice record. Nothing else to move.

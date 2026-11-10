@@ -10,17 +10,27 @@ claimed-by:
 pr:
 after:
 blocked-on:
+standard: 2
+model: sonnet
+effort: medium
+root: design-life-record
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P35, not fixed)
 ---
 
-**What.** The owner, Nov 8, about 2:20 p.m. Eastern (v0.94.0, Manchester, Connecticut; docs/coordination/playtest/2026-11-08-1-verbatim.md): "I go to journal. Again, it's just words. There's no illustration. There's no UI elements." What main does now, read in code on Nov 10, not measured: `journalScreen` in `src/bench/ui/strips.mjs` (line 423) draws the list of chapters and the chosen chapter's paragraphs and nothing else; the conditionally approved journal (`docs/mocks/2026-11-08-play/renders/pl-journal.jpg`) has a picture for the chapter. The Screens row note of Nov 9 in the playtest check says why it was not built: "not built, no source". A journal line keeps the ids of the moments it tells, but a scene already played cannot be fetched again to get its backdrop (checked there at Fort Wingate, New Mexico, seed dd6bca35-d61e-40b7-876c-008c3460e712: 1 chapter, 3 lines, 7 moment ids, none returns a scene). Fix the cause: when the journal writes a line from a scene, it keeps the place of that scene on the line's record, and a chapter shows the picture of the place its lead line happened in; a chapter with no place on record shows no picture slot at all.
+**What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut): "I go to journal. Again, it's just words. There's no illustration. There's no UI elements." The conditionally approved journal mock has a picture for the chapter and the game draws none. A journal line keeps the ids of the moments it tells, but a scene already played cannot be fetched again to get its backdrop (checked at Fort Wingate, New Mexico, seed dd6bca35-d61e-40b7-876c-008c3460e712: 1 chapter, 3 lines, 7 moment ids, none returns a scene). When the journal writes a line from a scene it should keep that scene's place on the line's record, and a chapter should show the picture of the place its lead line happened in; a chapter with no place on record shows no picture slot at all.
+
+**Cause.** Found in code: `journalScreen` in src/bench/ui/strips.mjs (line 423) draws the chapters and the chosen chapter's paragraphs only, and src/director/journal.ts keeps no scene place on a line, so there is nothing to ask for a backdrop. Measured at Fort Wingate, New Mexico, seed dd6bca35-d61e-40b7-876c-008c3460e712 (Nov 9, by the Screens row note).
+
+**Fix.** Write the place of the scene onto the journal line's record when the line is written (src/director/journal.ts), have the bench hand a chapter the backdrop of its lead line's place (src/bench/backdrop-places.ts), and draw that picture in `journalScreen` with no caption. A chapter with no place on record gets no picture slot. No new art is admitted: reuse the backdrops scenes already draw.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** An effect is a read, not a record: the chapter's picture is read from the record of the scene or place the chapter tells, kept when the line is written, never chosen by the screen from a stock list. No hand-written player text: the picture carries no caption, and nothing is typed under it. Owner, Nov 5, about 4 p.m. (docs/mocks/2026-11-07-approved/RULINGS-nov5.md, item 13): "I don't mind this rail on the left kind of acting as chapters for your story... just fill up the page. I do like this general format." OWNER-DECISIONS, Oct 14, morning: "The journal is a dramatized story, not a list of facts."
+**Rules.** An effect is a read, not a record: the chapter's picture is read from the place kept on the line when it was written, never chosen by the screen from a stock list. No hand-written player text: the picture carries no caption and nothing is typed under it. Owner, Oct 14 (OWNER-DECISIONS): "The journal is a dramatized story, not a list of facts."
 
-**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof), plays until at least two scenes have written journal lines, opens Journal and takes a screenshot at 1440×900 of each chapter. A chapter whose lead line came from a scene must show the picture of the place that scene happened in, and the proof names the journal line's record id, the place it kept and the picture's file. A chapter of the life before the game began shows a picture only when its records name a place that has one, and otherwise shows no empty frame. No picture may carry a caption. The page must have no bare half. The same check is then run in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro, and each screenshot is set beside `docs/mocks/2026-11-08-play/renders/pl-journal.jpg`. The owner plays it: he opens his journal and each chapter of his life has a picture of where it happened beside the words.
+**Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named), plays until at least two scenes have written journal lines, opens Journal and takes a screenshot at 1440x900 of each chapter. A chapter whose lead line came from a scene shows the picture of the place that scene happened in, and the proof names the journal line's record id, the place it kept and the picture's file. A chapter of the life before the game began shows a picture only when its records name a place that has one, and otherwise no empty frame. No picture carries a caption and the page has no bare half. The check is repeated in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/ui/strips.mjs, src/director/journal.ts, src/bench/play.mjs, src/bench/handler.ts, src/bench/backdrop-places.ts
 

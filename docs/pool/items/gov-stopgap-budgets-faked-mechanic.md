@@ -33,3 +33,5 @@ Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cle
 Oct 20: Switched from blocked to the automatic after: gate on world-commuters-in-opening, so it opens by itself the moment those items are done.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-outside-revenue-retire-plug. Of its three rows, SG-WORLD-withholding-outside-governments is resolved, SG-GOV-outside-revenue-monthly belongs to the kept item, and the nonresident local row is world-withholding-nonresident-local, which the item was split into and which stays open.

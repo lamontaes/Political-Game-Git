@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting. Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. It is replaced by the Advanced start: docs/coordination/OWNER-DECISIONS.md, Oct 26 ('Watch the World and the custom world become one dev mode... get rid of the opening questions'), built as play-dev-mode-one-advanced-start (done, src/bench/advanced.browser.mjs) and play-new-game-world-options (done). Any remaining unhonored setting is a new bounded item.

@@ -22,3 +22,5 @@ source: "docs/roadmap/later-specs-draft.md M6-02"
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. It is replaced by the owner's approved mocks and per-screen items: docs/mocks/2026-11-07-approved/RULINGS-nov5.md (item-by-item approvals) and docs/design/screens/principles-2026-10-27.md, with the screen-to-mock skill. This umbrella is blocked with 'Done when: each screen gets design approval' and no list a model can build.

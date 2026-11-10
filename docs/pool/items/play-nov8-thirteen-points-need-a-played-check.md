@@ -10,17 +10,27 @@ claimed-by:
 pr:
 after:
 blocked-on:
+standard: 2
+model: sonnet
+effort: medium
+root: rc2-done-from-records
 lead: play-first
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6 and "What I ran, and what I could not verify")
 ---
 
-**What.** The audit: "Of the 72 defects from your November 8 playtest, on main today: 24 fixed, 20 partly, 15 not fixed, 13 that only a running game can settle", and "I checked in the game only the ones named in pillar 6. My call: count all 13 as open until each is shown fixed on screen." The audit did not list the 13, and docs/coordination/playtest/2026-11-08-1-check.md has no such column, so the list below is a fresh reading of main on Nov 10 against that file: thirteen points where the code now carries a change aimed at the point, but the point is about how something looks, moves or plays, or its cause was never traced, so reading cannot close it. None was measured for this item. The job is one sitting in the running game that looks at each of the thirteen and marks it fixed with a screenshot, or files it as its own item with what was seen. Nothing is built here; a point found still broken becomes a new item named `play-nov8-<short-name>` with the screenshot.
+**What.** The audit counted 13 of the 72 defects from the owner's Nov 8 playtest as ones only a running game can settle, and said to count all 13 open until each is shown fixed on screen. The audit did not list them, so the Notes below carry a fresh reading of main on Nov 10: thirteen points where the code now carries a change aimed at the point, but the point is about how something looks, moves or plays, or its cause was never traced, so reading cannot close it. The job is one sitting in the running game that looks at each of the thirteen and marks it fixed with a screenshot, or files it as its own item with what was seen. Nothing is built here; a point found still broken becomes a new item named `play-nov8-<short-name>` with the screenshot.
+
+**Cause.** Design: docs/coordination/playtest/2026-11-08-1-check.md (the 72 points and their status) and the owner's Nov 3 ruling, AGENTS.md "How every session works" step 5: nothing is done until a second session replays its finish line on main. None of the thirteen was measured for this item; the Notes give each point's code and what to look at.
+
+**Fix.** Play the thirteen points in the running game on main, in a drawn place and in Manchester, Connecticut, and for each write fixed with a screenshot and record id, or file a `play-nov8-<name>` item. Build nothing in this item.
 
 **Time box.** 8 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Ask why: every point marked fixed carries a screenshot and the record id behind what the screen shows, and every point marked not fixed says what was seen and what was expected. Look before you ask: the owner's words for each point are quoted below with their time, so nothing here is asked of him again. The player-screen-text skill and the screen-to-mock skill say how a screen is checked (1440×900, a drawn place and seed, every string read); the "Checker" prompt in docs/pool/README.md says how a defect found in play is filed.
+**Rules.** Ask why: every point marked fixed carries a screenshot and the record id behind what the screen shows, and every point marked not fixed says what was seen and what was expected. Look before you ask: the owner's words for each point are quoted in the Notes, so nothing here is asked of him again. The player-screen-text and screen-to-mock skills say how a screen is checked (1440x900, a drawn place and seed, every string read).
 
-**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof) and works down the list under The thirteen below, taking a screenshot at 1440×900 for each point (a short run of screenshots for the two about movement), once in the drawn place and once in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro. The proof is a table of thirteen rows: the point, what the session did, what the screenshot shows, the record id behind it, and fixed or not fixed. Every row marked not fixed names the new pool item filed for it. The item is done when all thirteen rows are filled and no row says "could not reach"; a point that cannot be reached in play says why and what dev mode control was tried. The owner plays it: he gets one page that tells him, for each of these thirteen things he said, whether it is gone now, with a picture.
+**Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named) and works down the thirteen in the Notes, taking a screenshot at 1440x900 for each (a short run of screenshots for the two about movement), once in the drawn place and once in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro. The proof is a table of thirteen rows: the point, what the session did, what the screenshot shows, the record id behind it, and fixed or not fixed. Every row marked not fixed names the new pool item filed for it. No row says could not reach; a point that cannot be reached in play says why and what dev mode control was tried.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/play.mjs, src/bench/ui/dom.mjs, src/bench/play.css, src/bench/ui/roster-screen.mjs, src/core2/modules/world-legislating.ts, src/director/filing-visit.ts, src/bench/whole-figures.ts, src/director/purpose-scene.ts, docs/coordination/playtest/2026-11-08-1-check.md
 

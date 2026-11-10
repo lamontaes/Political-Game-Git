@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/news.browser.mjs, src/bench/ui/newspaper.mjs, src/bench/handler.ts
 
 **Notes.** Reproduce: start a bench, POST /api/newlife?seed=m1-news-2&date=2025-01-20, then run the script with BENCH_BROWSER pointing at a Chromium with --no-sandbox. news-paper.browser.mjs passes on the same bench in Kingston, Oklahoma.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-news-reader-lead-without-text-crashes. It is the same defect (the kept opening's lead story holds neither paragraphs nor a broadcast). Keep that item (it has the crash site and a three-place done-when); it should take this item's Kearny, New Jersey repro (seed m1-news-2, start 2025-01-20) and the fact that src/bench/news.browser.mjs no longer exists (replaced by src/bench/news-clicks.browser.mjs and src/bench/printed-news.browser.mjs). The pool redo has already folded both into the kept item.

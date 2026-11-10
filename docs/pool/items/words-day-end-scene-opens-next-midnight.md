@@ -6,19 +6,33 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+lead: words
+model: fable
+effort: high
+root: rc2-done-from-records
 source: added with npm run pool -- add
 ---
 
 **What.** When a record that stops the player's day is made during that day, the story director's stop lands at the next midnight, not at the hour of the record. In the bench, the We the People chair asked the player to run on Saturday, January 3, 2026, and the scene opened on the second Day click with the clock at Sunday, January 4, 12:00 AM and a night window, while its narration said "It's a Saturday in January." The director rates the player's moment when its record is made only when the player's clock frontier is on the core's date (rateNow in src/director/ledger.ts), and otherwise the day-end measure registers the stop at the next midnight. Seen in White Sulphur Springs, Montana (3080050), place seed e6253d7d132141ef79226210a85a474e90a1d2bb2d5ea41a69c63b9bfdb96035, moment person_f20a24acaa8c0691:2026-01-03:party-asked:contest:seat:US-MT:lower:078:0:2026-11-03:party:US-MT:we-the-people:person_f20a24acaa8c0691.
 
+**Cause.** Found in code: src/core2/player-stops-v1.ts registerModuleStopV1 (line 231) refuses a stop before the player's frontier; the core writes a day's records after the player clock has passed that day's midnight (all 371 records in Wiscon, Florida, seed director-circ-1 were written with the frontier at the next day 00:00, per the item's Notes), so rateNow in src/director/ledger.ts (line 1675) can only stage the scene at the next midnight. Seen in White Sulphur Springs, Montana (3080050).
+
+**Fix.** Choose one: run the world's day before the player walks it, or land the stop at the player's next waking moment; either way make the narration name the day the scene plays. Needs a short ruling on when the player's day begins; ask the CTO.
+
+**Time box.** 6 hours for one Fable session.
+
 **Rules.** Ask why: the stop's time comes from the record's own date and the player's clock, by record, never a fixed hour. One rule, all 56 places: the same timing applies to every scene that stops the day. No hand-written player text: the narration's day stays the record's day.
 
-**Done when.** In a played world (buildBenchWorld) in a drawn place and a seed the builder did not choose, a record that stops the player's day and is made during that day opens its scene on that day, with the bench clock showing that day, on the first Day click that plays it; a bench screenshot at 1440x900 with the place and seed under it shows the clock and the narration on the same day, and a test fails if the stop lands on the next day.
+**Done when.** A second session plays buildBenchWorld in a drawn place and seed it chose (named) and sees a record that stops the player's day, made during that day, open its scene on that day with the bench clock on that day at the first Day click that plays it; a bench screenshot at 1440x900 with the place and seed under it shows the clock and the narration on the same day, and a test fails if the stop lands on the next day.
 
-**Files.** src/director/ledger.ts, src/bench/player.ts
+**Waits on.** A ruling on when the player's day begins (play-stop-07-every-day-starts-at-midnight is dropped; ask the CTO).
+
+**Files.** src/director/ledger.ts, src/bench/player.ts, src/core2/player-stops-v1.ts
 
 **Notes.** TODO Playtest Oct 26 sitting 1 (installed v0.34.0): The filing-reaction scene opened Wed Jan 22, 12:00 AM saying "It is a Monday in January."
 

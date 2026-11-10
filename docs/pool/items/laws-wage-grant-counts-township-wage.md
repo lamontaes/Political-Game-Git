@@ -6,18 +6,31 @@ kind: bug
 priority: 3
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 lead: laws
+after:
+model: sonnet
+effort: low
+root: rc9-place-facts-one-default
 ---
 
 **What.** src/core2/law-reach/group-a-wages.ts:108 sets ownWage = governing?.level === 'city' || governing?.level === 'county'. The law-in-force rule (laws-in-force.ts:272, governing lead's governing/phase-in-dated-steps) now counts a township board's minimum-wage law as governing, as levelMayDecide already says a township legislates as a town does. So where a township's own wage governs, a raise under the state's local-wage authority grant is recorded as the floor's, not the grant's: the grant's reach misses the workers it raised. Seen by the governing lead in Richmond, Maine's Select Board (seed 998f152c4fa7583a).
 
+**Cause.** Found in code: src/core2/law-reach/group-a-wages.ts (line 108) sets `ownWage` to a city or county governing level only, omitting township, while `lawInForce` now counts a township board's minimum-wage law as governing (seen in Richmond, Maine's Select Board, seed 998f152c4fa7583a).
+
+**Fix.** Read the governing level through the same law-in-force levelMayDecide rule that counts a township as a town.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
 **Rules.** One rule, all 56 places: a township's own law is a place's own law by the same rule as a city's, from the level the law row carries, never a named place. An effect is a read: the grant's applied rows must name the workers its raise reached. One engine per mechanic: the reach reads the one law-in-force answer's governing level, not a list of its own.
 
-**Done when.** In a buildBenchWorld world drawn from all 56 where a township board governs (place and seed named), a state local-wage authority grant followed by the township's own wage law records the raised workers under the grant's applied row, by record id; a test in src/core2 proves it, and a city or county place still records them as before.
+**Done when.** A second session, not the builder, checks in a buildBenchWorld world drawn from all 56 where a township board governs (place and seed named): a state local-wage authority grant followed by the township's own wage law records the raised workers under the grant's applied row, by record id; a test in src/core2 proves it, and a city or county place still records them as before.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/law-reach/group-a-wages.ts
 

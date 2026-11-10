@@ -10,7 +10,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: "Traits lead restart, Oct 28 (CTO, on the owner's word: \"Same thing with the traits\")"
+source: 'Traits lead restart, Oct 28 (CTO, on the owner''s word: "Same thing with the traits")'
 claimed-at:
 ---
 
@@ -27,3 +27,5 @@ claimed-at:
 Oct 29, 02:40 UTC (traits lead): the done-when is met; for the CTO or a merger to set done (`npm run pool -- status traits-decisions-fire-in-play done --by=cto`). All three family PRs merged: work #6681 (two stale counted rows deleted; filing for unemployment fires and weighs the benefit), integrity #6684 (bribes taken, telling weighed, recalls fire where their cause happens), people #6688 (appointments weighed on a vacancy, including a cabinet member who died in play; falling out fires once a grudge names a counted owner). The matrix on main was rebuilt on #6688 with all three families: Hillsboro, Virginia (5137288, seed 7100e8c6f85d) runs 72 of 89. Across nine drawn election windows played with the three families together, 85 of 89 fire in at least one. The four that never did each have their route: press.tip has a gap row and `SG-P15-bribe-falling-out-rare` (it needs a telling that is made, not declined), and the three director reads went to Words as `words-player-trait-reads-fire`. Ballot measures fire only where the state has one on the 2026 list (`elections-measures-from-the-world`).
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/traits-fire-in-play` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its own Notes (Oct 29, 02:40 UTC) record the done-when met: family PRs #6681 (work), #6684 (integrity) and #6688 (people) merged, and across nine drawn election windows 85 of 89 decisions fire, the other four going to a gap row in data/content/trait-decision-gaps.json or to words-player-trait-reads-fire. Only the status flip was left to the CTO. (The stopgap file it cites moved to src/core2/data/stopgaps/, for example traits.json.)

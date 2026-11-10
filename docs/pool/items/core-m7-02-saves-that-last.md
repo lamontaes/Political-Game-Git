@@ -23,3 +23,5 @@ claimed-at:
 **Files.** see spec
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-played-game-saves-and-continues. This is a generic roadmap line ("a versioned save format; an old save loads and plays after an update") with no cause or fix, and the kept item asks for the same save and continue with concrete parts. The kept item now carries the clause that a save written under an older CORE_API_VERSION loads after an update (src/core2/saves.ts already records `coreApiVersion` and replays commands under a later version).

@@ -6,27 +6,38 @@ kind: bug
 priority: 1
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-issues-law-page-and-what-shows-part-1-list-filters, play-issues-law-page-and-what-shows-part-2-law-page-summary, play-issues-law-page-and-what-shows-part-3-reach-and-views, play-issues-law-page-and-what-shows-part-4-position-and-citation
 source: owner playtest of v0.73.0, Nov 1, 22:40 UTC (second batch)
 lead: play-first
 milestone: play-first
+after:
+model: opus
+effort: medium
+root: rc7-player-cannot-drive
 ---
 
-**What.** Owner, Nov 1 playtest of v0.73.0, on Politics, Issues: "I kind of see the vision here, though. I don't like how it's just laid out and a bunch of cards. Again, this doesn't look like a real game menu. I like the idea of being essentially what amounts to the game laws or the issues... But I click on it and then it gives me no information about it. Give me options for what shows." Opening Child access prevention shows only "In force: Territory law, No, since July 1, 2024". A law's page should say in plain words what it does, which level has it, who it reaches here, when and how it passed, and how people and parties feel about it, from the records. The CTO reads "options for what shows" as controls for the list (by level, in force or not, by subject), and the issue's possible positions on its page.
+**What.** Owner, Nov 1 playtest of v0.73.0, on Politics, Issues: "I kind of see the vision here, though. I don't like how it's just laid out and a bunch of cards. Again, this doesn't look like a real game menu... But I click on it and then it gives me no information about it. Give me options for what shows." Opening Child access prevention showed only "In force: Territory law, No, since July 1, 2024". A law's page should say in plain words what it does, which level has it, who it reaches here, when and how it passed, and how people and parties feel about it, from the records, and the list should have controls for level, in force or not, and subject. The statute row on that page is part of this work: a citation opens the game's own display of that law, never a bare capital-letter row with nothing to click (the Nov 9 audit still saw "STATUTE 19 U.S.C. 1862" on a law's page). The item is split into four parts, built in order.
 
-**Rules.** Screen to mock: Issues is redrawn the way Government was (Oct 29 menus ruling), from the shared parts, and its mock goes in the PR. No hand-written player text: the law's explanation comes from the English engine and the law's record. An effect is a read, not a record: who it reaches reads the law engine's own reach records.
+**Cause.** Design: owner, Nov 1 playtest answer ("I imagine clicking on it and the quote-unquote bill interface as it is in whatever place you're selecting...") recorded in this item's Notes, the approved law page in docs/mocks/2026-11-08-play/README.md (pl-issues_p), and the Nov 9 audit's root cause 7; `lawPage` in src/bench/play.mjs (line 5059) shows only what is in force, the statute row (`row(labels.statute, l.row.terms.cite)`, lines 5068 to 5070), the measure, what is coming, what changed and the votes, with no reach, summary, filters or position control.
 
-**Done when.** In a drawn place (named with seed), Issues shows a menu-style list with filters for level, in force and subject; opening a law shows its plain-words summary, level, date, how it passed, who it reaches here and views on it, each from a record id named in the PR; screenshots at 1440x900 before and after. The build follows the mock the owner approved through the CTO.
+**Fix.** Done through four parts in order: filters on the Issues list (part 1), a law page that tells what it does, its level, date and how it passed (part 2), who it reaches here and the views on it (part 3), and the player's position control with the citation opening the game's own display of that law (part 4). Redraw Issues from the shared parts as Government was redrawn. This parent closes when the four parts are merged.
 
-**Time box.** 4 hours; if not done, push what exists, open the draft PR, write the handoff.
+**Time box.** 2 hours for one Opus session, only to confirm the parts landed and close this item; the build time is in the parts, each at most 4 hours.
+
+**Rules.** Screen to mock: Issues is redrawn the way Government was (Oct 29 menus ruling), from the shared parts. No hand-written player text: the law's explanation comes from the English engine and the law's record. An effect is a read, not a record: who it reaches reads the law engine's own reach records. Replace, never layer: the old law page rows are replaced by the new page, not kept beside it.
+
+**Done when.** A second session, in a drawn place (named with its seed), opens Politics, Issues and finds a menu-style list with filters for level, in force and subject; opens a law and finds its plain-words summary, level, date, how it passed, who it reaches here and views on it, each from a record id, and a citation that opens the game's display of that law; chooses a position; screenshots at 1440x900 before and after. play-what-this-law-did-page and play-repeal-action-on-every-law-page build on this page.
+
+**Waits on.** The four parts, in order: play-issues-law-page-and-what-shows-part-1-list-filters, part-2-law-page-summary, part-3-reach-and-views, part-4-position-and-citation. play-what-this-law-did-page and play-repeal-action-on-every-law-page wait on this item.
+
+**Files.** src/bench/play.mjs, src/bench/government.ts, src/bench/play.css, src/bench/data/controls.json
 
 **You will see.** Clicking a law in Issues tells you what it does and who it affects, and you can choose which laws the list shows.
 
 **Screenshot.** Issues and one law's page, before and after.
-
-**Files.** src/bench/play.mjs, src/bench/government.ts, src/bench/play.css
 
 **Notes.** Filed by the CTO from the owner's v0.73.0 playtest, second batch (Nov 1, 22:40 UTC, five screenshots, a game in the U.S. Virgin Islands). Read: OWNER-DECISIONS (Oct 29 menus redesigned the way Government was; Oct 29 Political Process baseline; one history), the pool for twins.
 

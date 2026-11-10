@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director/scene-narration-once.test.ts,src/director/scene.ts,data/english
 
 **Notes.** Twin of `tests-journal-margin-and-narration-once-flaky-on-drawn-seeds` (found after filing); the evidence is in that item. CTO: drop this one. Filed by wire-people-and-director (Oct 28). Read: OWNER-DECISIONS (Oct 28), the engine map line 12; searched the pool for narration-once, lead, opener.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into tests-journal-margin-and-narration-once-flaky-on-drawn-seeds. Its own Notes call it a twin of that open item (lead director) and say 'CTO: drop this one'; that item exists. The kept item should take this evidence: seed 66ed52ba766be6d0873ae3c267b94d47255aa977 draws Keizer, Oregon, 22 scenes with an opener and none whose lead names them, and widening the watch to the household's known people still found none in 54 scenes (since #6585 an 18-year-old opens knowing family only, SG-WIRE-PEOPLE-SCHOOLMATES).

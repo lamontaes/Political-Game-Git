@@ -32,3 +32,5 @@ Sent back 2026-10-23 from PR #5184 (branch claude/presidential-orders): the body
 Sent back 2026-10-23 from PR #5184 (branch claude/presidential-orders): The new evidence table marks the player order action unbuilt; route the completed NPC-order mechanism to valid bounded acceptance while the player action, pardons and situation room remain open; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into office-presidential-pardons. presidentialOrders() in src/core2/office-day-federal-president.ts now returns federalOrderable(), SG-OFFICE-FED-presidential-orders is no longer a row in src/core2/data/stopgaps/office.json, the situation room is done (office-situation-room), and unplayed presidents issue orders through src/core2/modules/president-acts.ts. What is left is pardons (the kept item) and a played President's own order choice (stopgap SG-NATION-federal-axis-proxy in src/core2/data/stopgaps/nation.json), which the kept item should take.

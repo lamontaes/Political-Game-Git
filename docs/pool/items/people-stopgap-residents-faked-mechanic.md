@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** First row: A filled-in household keeps its share of the place's unplaced workers' pay (counted workers no employer's books hold) as its own flow, untaxed, until it returns to the counts. Released from idle draft #5076 by the CTO, Oct 26.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (row resolved).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. SG-CORE-filled-unplaced-income is status resolved in src/core2/data/stopgaps/core.json: a filled-in worker holds a job:commuter:<personId>:<start> job at the place's outside account with withholding (src/core2/modules/residents.ts, the job-id builder at line 3431; src/core2/unplaced-fill-in-job.test.ts). The item's own Notes already say built (look-first audit, Oct 27).

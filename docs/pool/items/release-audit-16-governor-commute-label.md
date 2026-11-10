@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Item 16 of docs/reports/merge-audit-2026-10-20.md, split from release-merge-audit-oct20-fixes. Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both halves are gone: the computer-governor item docs/pool/items/governor-clemency-computer-governors.md exists with status done, and the release note it would relabel is not in docs/release/changes (8 files, none about the commute; the shipped notes were consumed by Release 0.100.0 per docs/release/consumed-changes.json).

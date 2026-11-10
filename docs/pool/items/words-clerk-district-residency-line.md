@@ -26,3 +26,5 @@ claimed-at:
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: say district only where the place's records do (OD:411).
 
 Oct 29 (CTO, second account): PR #5066 closed as stale under the owner's standing approval; back to open. Branch `claude/dazzling-heisenberg-w2egp9` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Commit 18dc1ebd42 (Nov 8, the clerk says plainly why you can't file) puts the residency refusal in words: checkEligibility in src/core2/modules/elections.ts (line 1033) records the required and actual place by name, src/director/filing-visit.ts words it, and scripts/dev-tests/filing-residency.ts proves it. Caveat: it names the town or state, not a ward; the look-first audit (OD:411) said to say district only where the place's records do, so no ward line is needed.
