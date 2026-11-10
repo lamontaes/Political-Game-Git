@@ -193802,6 +193802,306 @@
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
       "tag": { "move": "react", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-come-in-from-hometown-to-meet-kid-and-stays-to-see-how-you-are",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has come in from {hometown} to meet {kid}, and stays to see how you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "hometown"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-brings-dinner-for-you-and-partner-and-sits-down-to-meet-kid",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} brings dinner for you and {partner} and sits down to meet {kid}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid", "partner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.open-greet.i-won-t-stay-long-first-i-just-wanted-to-see-kid-and-see-you",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I won't stay long, {first}. I just wanted to see {kid} and see you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.open-greet.take-your-time-first-i-m-not-here-to-tell-you-how-to-do-anything",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Take your time, {first}. I'm not here to tell you how to do anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.state-ask.how-are-you-feeling-first-and-how-is-partner-doing",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "How are you feeling, {first}, and how is {partner} doing?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["partner"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.state-ask.what-would-help-most-this-week-first-dishes-laundry-an-hour-of-sleep",
+      "move": "state-ask",
+      "kind": "spoken",
+      "text": "What would help most this week, {first}? Dishes, laundry, an hour of sleep?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "ask",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.reply-tell.partner-and-i-are-both-running-on-no-sleep-but-we-re-happy",
+      "move": "reply-tell",
+      "kind": "spoken",
+      "text": "{partner} and I are both running on no sleep, but we're happy.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "tell",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["partner"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "tell", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.reply-request.could-you-do-the-dishes-while-i-sit-with-kid-for-a-minute",
+      "move": "reply-request",
+      "kind": "spoken",
+      "text": "Could you do the dishes while I sit with {kid} for a minute?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "request",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.reply-confess.i-m-happy-and-i-m-terrified-and-i-didn-t-know-a-person-could-be-both",
+      "move": "reply-confess",
+      "kind": "spoken",
+      "text": "I'm happy and I'm terrified, and I didn't know a person could be both.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confess",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "confess", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.reply-ask.would-you-like-to-hold-kid-you-can-wash-your-hands-in-the-kitchen-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "Would you like to hold {kid}? You can wash your hands in the kitchen first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.follow-accept.done-sit-down-and-i-ll-take-care-of-the-rest",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Done. Sit down, and I'll take care of the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "request"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-d-love-to-show-me-how-to-hold-kid-and-i-ll-do-it-your-way",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I'd love to. Show me how to hold {kid}, and I'll do it your way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "requiresFacts": ["kid"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.follow-comfort.you-can-be-both-i-was-too",
+      "move": "follow-comfort",
+      "kind": "spoken",
+      "text": "You can be both. I was, too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "comfort",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "confess"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "comfort", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-keep-this-short-and-let-you-rest",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll keep this short and let you rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "new-baby",
+          "key": "honor",
+          "after": "tell"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, new-baby purpose)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "honor" }
     }
   ]
 }
