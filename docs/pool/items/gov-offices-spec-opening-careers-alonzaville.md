@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8244
 blocked-on:
 lead: cto
 standard: 2
@@ -17,6 +17,7 @@ root: rc9-place-facts-one-default
 source: Fable, Nov 10, 2026, from the golden-path run on pull request 8114 (job 129673752621), reproduced on clean main
 after:
 checked: fable 2026-11-10
+merged-at: 2026-11-10T22:06:32.828Z
 ---
 
 **What.** The accepted golden-path step M2-01 (`npx vitest run src/core2/offices.test.ts`) fails in Alonzaville, Virginia, place key 5101416, seed a71d8801349f11cab987e8af7e075c95c260bd0200384ee8a1d9569ca5012e70. The failing test is 'holders at the opening have careers of real length: terms begin before it and earlier terms are on the record', with 'AssertionError: 5101416: expected 0 to be greater than 0'. That message comes from one of the two counts near the end of the test (src/core2/offices.test.ts, about lines 229 and 230): `before`, the serving terms that began before the opening, or `withPast`, the serving holders with at least one earlier term on the record; in this place one of them is zero. The other five tests in the file pass there. The golden-path runner draws each step's place from the commit, so any pull request can draw this place and read as a regression (verdict 'Golden path: REGRESSION'). Reproduced on clean main at b5de07d397 on Nov 10 with: GOLDEN_PATH_SEED=a71d8801349f11cab987e8af7e075c95c260bd0200384ee8a1d9569ca5012e70 GOLDEN_PATH_PLACE_KEY=5101416 npx vitest run src/core2/offices.test.ts --testTimeout=300000.
