@@ -12,8 +12,8 @@ import {
   readGradedBatches,
   withKept,
   withVoiceGrades,
+  VOICE_VERDICT,
 } from "./apply-grades";
-import { VOICE_VERDICT } from "./grade-map";
 
 /**
  * The ledger counts every graded line once (owner, Nov 10: batch 2's grades

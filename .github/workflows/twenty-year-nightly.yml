@@ -1,0 +1,62 @@
+name: Twenty year nightly
+# One long game on main, in a place drawn fresh each night from all 56, played
+# to the end: seconds, heap after a collection and records kept for each year,
+# and the sense checks (more jobs than adults, a negative count, the country
+# tier's impossible counts). The table goes to the run summary and the JSON
+# lines are uploaded. A crash, a failed check or the time limit before the last
+# year fails the job, and its last line names the place, world seed and year.
+# Replay a red night with the place key and world seed from that line:
+#   npm run long-game -- --place <key> --world-seed <seed>
+# (heavy-runs skill). The nightly does not yet open a pool item for a red night
+# (the every-place nightly does not either); a later change must add that step.
+on:
+  schedule:
+    - cron: "17 2 * * *"
+  workflow_dispatch:
+    inputs:
+      seed:
+        description: Run seed (empty draws one)
+        default: ""
+      place:
+        description: Place key to replay (needs the world seed)
+        default: ""
+      world_seed:
+        description: World seed to replay (needs the place key)
+        default: ""
+      years:
+        description: Years to play
+        default: "20"
+permissions:
+  contents: read
+concurrency:
+  group: twenty-year-nightly
+  cancel-in-progress: false
+jobs:
+  twenty-years:
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Twenty years
+        env:
+          OCD_STORAGE_OVERRIDE: "cloud session, owner approved Oct 14"
+          SEED: ${{ github.event.inputs.seed }}
+          PLACE: ${{ github.event.inputs.place }}
+          WORLD_SEED: ${{ github.event.inputs.world_seed }}
+          YEARS: ${{ github.event.inputs.years || '20' }}
+        run: |
+          args=(--years "$YEARS" --max-minutes 330 --out "$RUNNER_TEMP/long-game.jsonl")
+          if [ -n "$SEED" ]; then args+=(--seed "$SEED"); fi
+          if [ -n "$PLACE" ]; then args+=(--place "$PLACE"); fi
+          if [ -n "$WORLD_SEED" ]; then args+=(--world-seed "$WORLD_SEED"); fi
+          npm run long-game -- "${args[@]}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: long-game
+          path: ${{ runner.temp }}/long-game.jsonl
