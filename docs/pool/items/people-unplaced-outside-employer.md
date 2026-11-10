@@ -5,7 +5,7 @@ area: people
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** Pull request #5076 carries the build. Closes SG-CORE-unplaced-workers-income's replacement path (the row is already resolved as a labeled estimate in the Oct 19 residents slice). Released from idle draft #5076 by the CTO, Oct 26.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (the stopgap it replaces was closed as a labeled estimate on Oct 20; filled-in commuters already hold jobs).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. It is the same work as core-commuter-job-fill-in (status done) and people-unplaced-fill-in-job (dropped): the stopgap it replaces, SG-CORE-unplaced-workers-income, is resolved as a labeled estimate (src/core2/data/stopgaps/core.json, resolvedAt 2026-10-20), and filled-in commuters hold job:commuter jobs (src/core2/modules/residents.ts, line 3431). Counted (unfilled) commuters stay on the place-level estimate flow by the Oct 20 closing, the counted tier of one model, two tiers.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -25,8 +25,8 @@ import {
   appointerWeighing,
   nominateAndConfirm,
   partySide,
-  senateSides,
 } from "./appointments";
+import { senateSides } from "./modules/elections";
 import { campaignParameter } from "./campaign-data";
 import { lawChain } from "./modules/laws";
 import { federalOrderable } from "./modules/executive";

@@ -8,17 +8,30 @@ size: M
 status: open
 claimed-by:
 pr: #5079
-blocked-on:
+blocked-on: core-light-opening-kin-households, core-light-opening-kin-only-kept, core-light-opening-kin-at-fill-in
 after: core-light-opening-kin-at-fill-in
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at:
+lead: m0-m2
+standard: 2
+model: opus
+effort: medium
+root: design-one-model-two-tiers
 ---
 
 **What.** `buildOpeningKin` and personality still run for every household at the opening (about half of the 12 s open). Take a `countedHouseholdIds`-style option decided before generation so counted households get only ages, household, job, cash and living cost, and build kin and past on demand at fill-in. The saving is meant to take a few seconds off the opening and keep a clicked counted person consistent with the records.
 
+**Cause.** Measured: Oct 18, a drawn opening (buildBenchWorld, twoLevel, seed hours-a) takes 29.8 seconds, `openingFamilies` 9.5 seconds of a 34-second profile; 23,973 of the 28,219 counted households are relatives' households placed in the county or state (this item's Notes).
+
+**Fix.** Do it through its three parts, in order: kin as an optional step, kin only for kept households, kin on demand at fill-in. Do not change aggregate population or inherited traits (an owner decision if needed).
+
+**Time box.** 2 hours for an Opus session, the closing check only; the build is in the three parts, each with its own time box.
+
 **Rules.** One model, two tiers: counted households are read by the engines with the same rules as full people. Speed: a town's game year runs in under two minutes.
 
-**Done when.** A drawn-place opening in buildBenchWorld (Vonore, seed hours-a, or another named) shows kin and personality records only for the player's circle, the open time before and after on one machine in the PR, and a clicked counted person filled in with kin by record id. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session, in a drawn-place opening in buildBenchWorld (Vonore, seed hours-a, or another named), sees kin and personality records only for the player's circle, the opening time before and after on one machine in the PR, and a clicked counted person filled in with kin by record id.
+
+**Waits on.** core-opening-counts-from-census and the three parts: core-light-opening-kin-households, core-light-opening-kin-only-kept and core-light-opening-kin-at-fill-in.
 
 **Files.** src/core2/population.ts, src/core2/opening-kin.ts, src/core2/state.ts
 

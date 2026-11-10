@@ -6,17 +6,31 @@ kind: bug
 priority: 1
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: words
+model: opus
+effort: high
+root: none
 ---
 
-**What.** src/director/conversation.test.ts 'never parts with a word the talk already said' fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say.
+**What.** src/director/conversation.test.ts "never parts with a word the talk already said" fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say. The Notes record that run alone, or paired with any one earlier test, it passes, and that in the full file every known person opens an empty talk, so earlier tests leave something behind.
+
+**Cause.** Needs cause. Looked at src/director/conversation.test.ts and openConversation in src/director/conversation.ts, which has no early return: the greeting found no line and no subject offered a choice for the first five known people on 2021-01-10. What the earlier tests leave in the shared core to empty the talks was not found.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours to find what in the earlier tests leaves openConversation empty.
 
 **Rules.** A talk with nothing on record says nothing (owner, Oct 24); fix the test's pick only when the engine is right (words-engine skill). Ask why: the PR names by record why the first known people open empty talks before the test or the engine changes.
 
-**Done when.** conversation.test.ts passes on main's fixed world; the PR names why the first known people opened empty talks (engine or test pick) by record. The test finds a person whose talk reaches a farewell within eight turns, with the seed conversation-test named.
+**Done when.** A second session runs src/director/conversation.test.ts as a whole file on main's fixed world (seed conversation-test) and sees it pass, with a person whose talk reaches a farewell within eight turns in the fixed world's place. The PR names, by record, why the first known people opened empty talks, whether engine or test pick.
+
+**Waits on.** Nothing.
 
 **Files.** src/director/conversation.ts, src/director/conversation.test.ts
 
@@ -25,6 +39,7 @@ source: added with npm run pool -- add
 **Notes.** Probe (Lane 3, Nov 4 UTC, main 9e2f7a46). The first five people the player knows, on 2021-01-10, are two housemates and three others in the same place, all alive, tier weekly. `openConversation` gives each 0 lines and 0 choices. `openConversation` has no early return, so the greeting (`words(..., "greet", "open", { statementsOnly: true })`) found no line and no subject offered a choice. Look at what `words()` reads for these speakers, and at the conversation bank since 9b34b8ec (talk after the address, Nov 1).
 
 **Notes.** Lane 3, Nov 4, three tries, none passed (ruling 6), so this goes back to the pool. Findings:
+
 - **Order:** the failure needs the whole file. Run alone, or paired with any one earlier test, it passes. In the full file every known person opens an empty talk (no greeting, no choices), so the effect builds up across the shared core.
 - **The farewell rule:** where talks do open, `endConversation` suppresses the goodbye after the other's own question was answered (from c039ba68). Answering every question therefore ends with no farewell, and letting a question go by in silence brings one ("I have to go.").
 - **Tried:** silence on every third turn; every known person instead of the first 25; a new day before the test.

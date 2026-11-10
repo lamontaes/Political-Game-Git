@@ -102,7 +102,10 @@
     "honoree": "The name of the housemate the occasion is for, from the occasion's record.",
     "new-employer": "The employer the guest started work at since the two last talked, from the job record.",
     "new-child": "The name of a child born in the guest's household since the two last talked, from the birth record.",
-    "spouse": "The name of the person the celebrant married, from the marriage record."
+    "spouse": "The name of the person the celebrant married, from the marriage record.",
+    "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
+    "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
+    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results."
   },
   "maxWords": 70,
   "parts": [
@@ -113344,8 +113347,7 @@
           "role": "asked",
           "requiresFacts": ["place"],
           "purpose": "morning-after",
-          "key": "honor",
-          "requiresFacts": ["place"]
+          "key": "honor"
         }
       ],
       "bearing": "braced",
@@ -125148,7 +125150,8 @@
           "purpose": "race-told",
           "key": "race-heard",
           "requiresFacts": ["winner", "winner-is-other"],
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["vote-share"]
         }
       ],
       "bearing": "calm",
@@ -125174,7 +125177,8 @@
           "purpose": "race-told",
           "key": "race-heard",
           "requiresFacts": ["bearer-won"],
-          "after": "ask"
+          "after": "ask",
+          "excludesFacts": ["vote-share"]
         }
       ],
       "bearing": "calm",
@@ -174670,6 +174674,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "warm",
@@ -174694,6 +174707,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "tender",
@@ -174718,6 +174740,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -174742,6 +174773,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "warm",
@@ -174766,6 +174806,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -174790,6 +174839,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "tender",
@@ -174814,6 +174872,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "anxious",
@@ -174838,6 +174905,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "guarded",
@@ -174862,6 +174938,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "guarded",
@@ -174886,6 +174971,15 @@
           "role": "asker",
           "purpose": "story-read",
           "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
         }
       ],
       "bearing": "calm",
@@ -174993,6 +175087,353 @@
       "tag": {
         "move": "accept",
         "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.okay-it-can-wait",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. It can wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.no-problem-the-paper-will-still-be-there-tomorrow",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "No problem. The paper will still be there tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.all-right-i-won-t-hold-you",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Okay. I won't hold you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.go-on-then-we-can-talk-when-you-ve-had-a-look-at-it",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Go on, then. We can talk when you've had a look at it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.fair-enough-that-s-all-i-wanted-to-say",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Fair enough. That's all I wanted to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        }
+      ],
+      "bearing": "steady",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.that-s-all-right-i-just-wanted-somebody-to-know",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "That's fine. I just wanted somebody to know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thanks-for-listening-it-helps-to-know-somebody-else-read-it",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks for listening. It helps to know somebody else read it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-for-taking-the-time-i-ll-let-you-get-back-to-your-day",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you for taking the time. I'll let you get back to your day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.read-it-when-you-get-a-minute-that-s-all-i-m-asking",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "Read it when you get a minute. That's all I'm asking.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-warn.i-ll-probably-bring-it-up-again-once-i-ve-read-more",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll probably bring it up again once I've read more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "warn",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-look-into-it-and-tell-you-what-i-find",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll look into it and tell you what I find.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "story-read"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.if-anything-more-comes-out-about-story-i-ll-let-you-know",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "If anything more comes out, I'll let you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "story-read",
+          "key": "story-read",
+          "after": "leave"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Director helper (pool item words-story-read-closers), civic-prose",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "story-read",
+        "after": "leave"
       }
     },
     {
@@ -195432,6 +195873,167 @@
       "tag": {
         "move": "accept",
         "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-drew-vote-share-percent-of-the-ballots-cast",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} drew {vote_share} percent of the ballots cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other", "vote-share"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-did-best-in-best-place-that-s-where-the-biggest-share-went",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} did best in {best_place}. That's where the biggest share went.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["winner", "winner-is-other", "best-place"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.about-turnout-percent-of-the-people-who-could-vote-did",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "About {turnout} percent of the people who could vote did.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["turnout"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.winner-took-vote-share-percent-and-best-place-gave-winner-the-most",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "{winner} took {vote_share} percent, and {best_place} gave {winner} the most.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": [
+            "winner",
+            "winner-is-other",
+            "vote-share",
+            "best-place"
+          ],
+          "after": "ask"
+        }
+      ],
+      "bearing": "curious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-got-vote-share-percent-of-the-ballots-cast",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I got {vote_share} percent of the ballots cast.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "vote-share"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.i-did-best-in-best-place",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I did best in {best_place}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "race-told",
+          "key": "race-heard",
+          "requiresFacts": ["bearer-won", "best-place"],
+          "after": "ask"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, race told turnout)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "race-heard"
       }
     },
     {

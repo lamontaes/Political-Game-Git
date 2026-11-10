@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5715
 blocked-on:
@@ -28,3 +28,7 @@ Sent back 2026-10-24 from PR #5715 (branch claude/traits-integrity): Six of sixt
 Sent back 2026-10-25 from PR #5715 (branch claude/traits-integrity): corrective head c1c006b6ce has a current-main conflict in data/content/trait-decision-gaps.json in addition to stopgaps.json; reconcile the trait-gap rows and preserve every stopgap ID before the family gate; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #5715 (branch claude/traits-integrity): Prior trait-gap conflicts repaired and all556stopgap IDs retained at main integration e188940d26, but the first Done-when row requires positive calls for every decision in both played years while the table still reports0/0 for taking/telling bribes, three recall decisions, tips, three justice decisions and appointments; complete those runtime witnesses or explicitly bound the pool scope without marking the full family done; finish on that branch, merge main into it first.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into traits-research-weights-21. This family wrapper has been open since Oct 24 on a dead PR; its calls-above-zero acceptance is met by traits-decisions-never-run (done) and traits-decisions-fire-in-play (#6681, #6684, #6688), and what is left is fitting weights to studies, which the kept item asks for (its part 3, integrity and government decisions, takes this item's decisions: justice, tips, recalls, constituent cases, staff, bribes). Bribes and recalls now fire (#6684); people-corruption-honest-pull-calibrated holds the bribe calibration.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `traits-research-weights-21`, which carries this item's remaining work.

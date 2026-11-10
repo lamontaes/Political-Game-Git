@@ -11,13 +11,27 @@ pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+standard: 2
+model: opus
+effort: medium
+root: design-one-model-two-tiers
+lead: lives
 ---
 
-**What.** A named adult's cause drive forms in play when they perceive an event with a role (respond and perceive in src/core2/modules/drives.ts): none exist at the opening, and after a played year about 4 percent of named adults hold one, at a mean strength near 0.8 (Garfield Heights, Ohio 112 of 2788; LaGrange, Georgia 179 of 2886; South Solon, Ohio 71 of 1996; seed cause1). Counted adults perceive no events, so no counted adult ever holds a cause and every reader of causes (candidacy, giving, groups) sees none in the counted tier. Have the events that form causes reach the counted groups they touch (a closure's counted workers, a law's counted reach) and record, per group, how many members formed a cause and how strong, by the same perception and response rule as a named person, times the count.
+**What.** A named adult's cause drive forms in play when they perceive an event with a role, but counted adults perceived no events, so no counted adult held a cause. Most of the work was split off and is done (job loss, illness, bereavement, speech and shared causes). What is left is law-effect causes reaching counted groups and the share check. With the children done, re-measure the counted share and close the remaining gap, so every reader of causes (candidacy, giving, groups) sees causes in the counted tier.
+
+**Cause.** Measured: Port Wentworth, Georgia (1362328), seed sh2, one year: named adults 215 of 547 hold a cause, counted 11 of 7,265 (the item, before the speech and shared-causes child landed).
+
+**Fix.** Re-measure the counted share now that the children are done, then make law effects reach counted groups as perceived events by the shared rule and close the gap.
+
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One model, two tiers: a counted group forms causes by the same rule as a full person, times its count, and a member filled in carries a consistent cause. No dice: who in a group forms one comes from the group's traits and the event, never a roll. Sliding scales and causes: the share rises with the event's reach and attention.
 
-**Done when.** In a one-year played world built with buildBenchWorld in a drawn place (seed named), counted groups hold cause records formed from named events by record id, their share per adult is within the named adults' share by a stated spread, a counted adult filled in carries one, and the candidacy engine reads it (people-counted-causes-for-candidacy). **On screen.** Nothing yet: it would show on Politics → Issues and Government, and nothing there reads it.
+**Done when.** A second session runs a one-year played world (buildBenchWorld) in Port Wentworth, Georgia (seed sh2) and one more drawn place named with its seed, and sees counted groups hold cause records formed from named events including a law's effect, by record id, with the counted share per adult reported beside the named adults' share, a counted adult filled in carrying one, and the candidacy engine reading it.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/drives.ts, src/core2/counted-groups.ts, src/core2/modules/residents.ts
 

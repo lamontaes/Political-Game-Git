@@ -7,19 +7,33 @@ priority: 3
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
+standard: 2
+lead: play-first
+model: sonnet
+effort: low
+root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/bench/data/controls.json, kind text"
 claimed-at:
 ---
 
-**What.** Replace or clear the 1 open text stopgap row(s) in src/bench/data/controls.json: SG-PLAY-act-control-names. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** The play screen names an act's choice button from a bench table of control names where the mined choice-names bank has no name for the act yet. This is the open text stopgap SG-PLAY-act-control-names. About two thirds of the 21 act keys in the table have no matching move in the bank. Add mined names for them to the bank, read them in the two places that use the table, and delete the table and resolve the stopgap.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Cause.** Found in code: `SG-PLAY-act-control-names` (status open) in src/core2/data/stopgaps/play.json, whose fake is the "actions" table in src/bench/data/controls.json, read as `controls.actions` in src/bench/play.mjs (lines 2536 and 4122). The act keys with no move of the same name in data/english/parts/choice-names.json on Nov 10 are organize-meeting, office-hours, town-hall, interview, meet-department-head, name-department-head, talk-to-colleague, cut-ribbon, vote, sign, veto, case, speak and state-of-the-city (sign and speak may be named by other tables).
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Fix.** Add mined names for those acts to the choice-names bank (Story writes the lines; one writer per bank file), read them in src/bench/play.mjs at lines 2536 and 4122 instead of `controls.actions`, delete the table, and mark the stopgap resolved. Never close the row by deleting it without the replacement.
 
-**Files.** src/bench/data/controls.json
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** No hand-written player text: the names come from the English engine's bank, mined and graded like any other piece. Replace, never layer: the table is deleted in the same change as the bank names arrive. Every stopgap is registered in its family file; resolve it there.
+
+**Done when.** A second session (not the builder) starts the bench in a drawn place (place and seed named), opens the screens that show an act's name (the journal of actions and the list at src/bench/play.mjs lines 2536 and 4122) with a screenshot at 1440x900 of each act kind the player can reach, and every name reads as a short imperative from the bank with no raw action id. The stopgap row is resolved in src/core2/data/stopgaps/play.json and a test fails if `controls.actions` returns.
+
+**Waits on.** Nothing.
+
+**Files.** src/bench/data/controls.json, src/core2/data/stopgaps/play.json, data/english/parts/choice-names.json, src/bench/play.mjs
 
 **Notes.** First row: Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (“Look afte Released from idle draft #5180 by the CTO, Oct 26.
 

@@ -6,20 +6,34 @@ kind: feature
 priority: 3
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #4587
+after:
 blocked-on:
+lead: governing
+model: opus
+effort: high
+root: none
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** An official can divert a budget line's money, recorded on the treasury's books. This work was sent back by the merger on 2026-10-16 and is open for any builder to finish. The reason it came back: merging main conflicts in src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json (code or data, left for the author); resolve and push. Finish it on the existing branch claude/gov-treasury-diversion, after merging main into it with a plain merge.
+**What.** An official can divert a budget line's money, recorded on the treasury's books. The work was built on branch claude/gov-treasury-diversion and sent back eight times between Oct 16 and Oct 23; it never merged, and its table has no reader on main. No design in the repository asks for it. Decide whether it is wanted before anyone builds on the old branch.
 
-**Rules.** Follow the standing rule "Replace, never layer" and the other standing rules in AGENTS.md; merge main into the branch with a plain merge and never force-push. A release declaration in docs/release/changes/ and a gate line at the top of the PR body stay required before the merger takes it again.
+**Cause.** Needs cause. Looked at docs/design/, docs/roadmap/political-process-baseline.md and the item's eight send-backs: nothing there describes an official diverting a budget line, nothing on the golden path reads a diversion, and the test file that proved it (src/core2/treasury-diversion.test.ts) exists only on the old branch. The corruption parameters it changed are in src/core2/data/corruption/parameters.json and the treasury close in src/core2/budgets-treasury.ts.
 
-**Done when.** The reason above is fixed on the branch, the changed-file tests pass in a drawn place and the branch merges cleanly with main, the PR body carries its gate line, and the merger can merge the pull request without sending it back again.
+**Fix.** None until the cause is found.
 
-**Files.** docs/pool/items/gov-treasury-diversion.md and the files that pull request #4587 changes on claude/gov-treasury-diversion
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Look before you ask: read OWNER-DECISIONS, the decision register, prior-rulings, LAW and the docs search before asking the owner whether diversion is wanted, and end the question with the reading line. An effect is a read, not a record: a diversion table that nothing reads is an unregistered placeholder. Replace, never layer: the old branch's table is removed if the feature is dropped.
+
+**Done when.** A second session, not the builder, either records the ruling that diversion is wanted or not wanted, citing the file that holds it, or, if wanted, sees an official's diversion in a drawn place of the played world (`buildBenchWorld`, place and seed named) move money from a named treasury line to the official by journal record id, read by an audit, news story or complaint by record id, with a test that does not skip.
+
+**Waits on.** A ruling that diversion is wanted.
+
+**Files.** src/core2/budgets-treasury.ts, src/core2/data/corruption/parameters.json, src/core2/modules/corruption.ts
 
 **Notes.** TODO
 

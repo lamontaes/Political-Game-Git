@@ -6,20 +6,34 @@ kind: bug
 priority: 2
 size: S
 status: blocked
+standard: 2
 claimed-by: claude/staff-no-office-witness
 pr:
+after:
 blocked-on: tests-staff-work-why-records-empty-on-main
+lead: governing
+model: sonnet
+effort: medium
+root: none
 source: added with npm run pool -- add
 claimed-at: 2026-10-26T02:56:19.248Z
 ---
 
 **What.** At seed196612b7b9cc3d9b7c955d1fdc5446b2, src/core2/staff.test.ts exhausts its bounded draws with no office could hire: KY2135362, OH3984308, OR4181300, NH3369940, WY5640120, IA1937200 and NJ3430420. The exact assertion and places reproduce on clean main d3b95c2b3e3ccf419c4fc19bdb08225b336af67a and on the timeout-only PR5837. Diagnose which seat, candidate or post-hire-work gate rejects each draw; this is not a timeout failure.
 
+**Cause.** Measured: GOLDEN_PATH_SEED=196612b7b9cc3d9b7c955d1fdc5446b2 npx vitest run src/core2/staff.test.ts (test 'no office could hire', failure line 298), and the fresh seed c3be1ee291b4f1dee38390afc7a1c5e25df002e784aa632d8b455f55c2af8da7. The Oct 26 Notes diagnose the named seed: four places lost both first aides to absence (fixed by #5769, office-week) and the remaining gates are the noRoom branch (staff.test.ts line 216: a budget line with no room in US-OR 4181300 and US-IA 1937200) and no 'known' candidate (US-NH 3369940).
+
+**Fix.** Rerun both seeds on main. If still red, name per drawn place the gate that rejected it (noRoom, no known candidate, no payday by the check date) and make the test keep drawing places until it finds one that can hire, naming the places passed over and why. Keep every staff, work and payroll assertion; no wider tolerance.
+
+**Time box.** 3 hours for one Sonnet session.
+
 **Rules.** One rule, all56 places and no dice: keep the drawn-place case and its existing work, quality, payroll and record assertions; no skipped assertions, wider tolerance or convenient seed substitution. Preserve the existing staff-aides-miss-every-scheduled-day claim and investigate any shared cause before changing it.
 
-**Done when.** The named seed passes the staff-work case at one worker without loosening its assertions, and an independent random draw passes. Name the gate that rejected each place and the positive staff/work/payroll record ids. If an engine changes, a drawn buildBenchWorld run demonstrates the corrected staff behavior with place and seed named. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session runs src/core2/staff.test.ts at one worker with seed 196612b7b9cc3d9b7c955d1fdc5446b2, seed c3be1ee291b4f1dee38390afc7a1c5e25df002e784aa632d8b455f55c2af8da7 and one seed it chose; each passes with no assertion loosened, the failure message or the report names the gate that rejected each passed-over place, and a hired aide's staff, work and payroll record ids are shown.
 
-**Files.** src/core2/staff.test.ts, src/core2/modules/staff.ts, src/core2/work-attendance.ts if that is the diagnosed cause
+**Waits on.** Nothing. (The item it was blocked on, tests-staff-work-why-records-empty-on-main, is done; the CTO may clear blocked-on.)
+
+**Files.** src/core2/staff.test.ts, src/core2/modules/staff.ts
 
 **Notes.** Found by the merger in the third independent PR5837 draw; ordinary clean-main failure reproduced with no timeout override. The same120-second comparison also fails identically. Related attendance report: staff-aides-miss-every-scheduled-day / PR5762; this report does not assume attendance is the cause.
 

@@ -10,17 +10,27 @@ claimed-by:
 pr:
 after:
 blocked-on:
+standard: 2
+model: sonnet
+effort: medium
+root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6: the 72 points of the Nov 8 playtest, point P16, partly fixed)
 ---
 
-**What.** The owner, Nov 8, about 2:20 p.m. Eastern (v0.94.0, Manchester, Connecticut; docs/coordination/playtest/2026-11-08-1-verbatim.md): "Okay, and then I go to the news again. See, if you notice, all like the things are changing, like the news outlets, and now it's something about New York bottle deposit. What is going on?" What main does now, read in code on Nov 10, not measured: `news()` in `src/bench/play.mjs` (line 3824) puts the stories into a map of outlets in the order the stories arrive, newest first (lines 3829 to 3838), and `newsBoard` in `src/bench/ui/news-board.mjs` opens on the first key of that map (line 20). So the tab in front is the outlet of the newest story, and it changes whenever another outlet prints something newer; the tabs change order with it. Nothing remembers which paper the player was reading. Fix the cause for every player in every place: News opens on the player's own local paper (the outlet their household's records say they follow, or the town's paper), the tabs keep one order, and the tab the player last chose stays chosen while the game is open.
+**What.** The owner, Nov 8, about 2:20 p.m. (v0.94.0, Manchester, Connecticut): "if you notice, all like the things are changing, like the news outlets, and now it's something about New York bottle deposit. What is going on?" News puts the stories into a map of outlets in the order they arrive, newest first, and opens on the first key, so the paper in front is the outlet of the newest story and the tabs reorder with it. Nothing remembers which paper the player was reading. News should open on the player's own local paper, keep the tabs in one order, and keep the tab the player last chose while the game is open.
+
+**Cause.** Found in code: `news` in src/bench/play.mjs (about line 3824) builds the outlets map in story order (lines 3829 to 3838) and `newsBoard` in src/bench/ui/news-board.mjs opens on `outlets.keys().next().value` (line 20). Read on Nov 10, not measured in the running game; whether the press engine keeps a record of which outlets a household follows was not traced.
+
+**Fix.** Open on the player's own local paper (the outlet the household's records say they follow, or else the town's outlet; the town's own paper first is the smallest version and is registered as a stopgap), keep one fixed tab order, and keep the tab the player chose while the game is open. A story about another state sits under the national or other-states paper, never in front of the local one.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** One rule, all 56 places: which paper opens first is read from the place's outlets and the household's news habits in the records, never from a named outlet or state. An effect is a read, not a record: the screen reads which outlets the player follows from the press engine's own record and keeps no list of its own. Owner, Sept (quoted in the playtest check, point P16): "kind of like Apple News". Owner, Nov 8, 2:10 p.m.: "There's news and then news again up top."
+**Rules.** One rule, all 56 places: which paper opens first is read from the place's outlets and the household's news habits in the records, never from a named outlet or state. An effect is a read, not a record: the screen reads which outlets the player follows from the press engine's record and keeps no list of its own. Every cut corner is a registered stopgap in the press family file under src/core2/data/stopgaps/.
 
-**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof) and takes a screenshot at 1440×900 of News on day one, then after each of four presses of Week. The tab in front must be the same outlet in all five screenshots, and the proof names that outlet's record id and why it is the player's (the household's follow record or the town's paper). The tabs must be in the same order in all five. The session then picks another tab, closes News, opens it again and confirms the picked tab is still in front. A story about another state must sit under the national or other-states paper, never in front of the local one. The same check is then run in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro. The owner plays it: he opens News and finds his town's paper in front every time.
+**Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named) and takes a screenshot at 1440x900 of News on day one and after each of four presses of Week. The tab in front is the same outlet in all five screenshots, the proof names that outlet's record id and why it is the player's, and the tabs are in the same order in all five. The session then picks another tab, closes News, opens it again and the picked tab is still in front. The check is repeated in Manchester, Connecticut, the owner's place on Nov 8 (no seed was kept), as the named repro.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/play.mjs, src/bench/ui/news-board.mjs, src/bench/nation-news.ts
 
