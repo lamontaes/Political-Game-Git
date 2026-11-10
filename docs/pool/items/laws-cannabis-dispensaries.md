@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Legal cannabis spending is split across the town's existing retail businesses because no dispensary is founded. Add a cannabis-dispensary business kind (a classification of enterprise:retail:cannabis with its margin, staffing and startup cost in the business-books data) that the business engine founds where the sales law is in force and the adult-use demand supports one, and make the seller list return only dispensaries for the cannabis rule. The business engine builds a market only from incumbents, so a kind with no incumbent never gets one: add the demand-without-incumbent entry for a licensed kind, then the first dispensary opens through the existing found path with an owner, staff and books, and its receipts go through the sales receipt so the tax in force collects. This item also takes the umbrella laws-cannabis-dispensaries-adult-use, whose only remaining step is resolving SG-GOV-REACH-A-cannabis-market.

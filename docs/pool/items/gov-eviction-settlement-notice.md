@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** This item continues a branch, claude/eviction-settlement-notice (PR #5390, sent back twice), whose purpose was that a tenant represented by a lawyer receives the settlement notice that reflects the recorded payment plan. The branch's files, `src/core2/housing-notices.ts` and `src/core2/eviction-notice.test.ts`, are not on main, and `src/core2/modules/housing.ts` has since changed (it now writes a case at stage `notice`, and a settlements table and lawyer hearing exist). Nothing on main or in a ruling says what the notice should be, so it is not buildable from this file.

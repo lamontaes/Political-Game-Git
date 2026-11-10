@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: split from world-jobs-counted-choices by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** Move the remaining callers of the summed-pull helper onto the shared chooser that counted workers already use. `strongestPulls` in src/core2/modules/jobs.ts is still called by src/core2/modules/business.ts (the counted owners' closing choice near line 808 and the founding choice near line 1982) and by src/core2/modules/credit.ts (counted businesses deciding to borrow near line 696). Give each the same offers a full owner weighs through the chooser, scored per counted group and counted at the group's weight, and delete the exported helper and its stopgap marker from jobs.ts. The ramp share business.ts passes today as a logistic score becomes the offer's own selection weight.

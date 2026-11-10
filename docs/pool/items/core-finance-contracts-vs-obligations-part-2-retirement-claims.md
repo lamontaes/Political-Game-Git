@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Retirement claims still use the accounts layer's obligation. Swapping them onto a finance contract failed at the first monthly payment, because a contract whose payer is an outside-flow owner must carry a descriptor tying it to a dated award fact on the person. So a retirement claim has to be written as a recorded private-award fact on the person first, and then admitted with that descriptor, the way the counted residents flow does through addResidentFlow. This part does that for both retirement claim callers.

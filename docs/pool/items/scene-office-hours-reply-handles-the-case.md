@@ -18,6 +18,7 @@ after:
 model: sonnet
 effort: medium
 root: design-director-on-core2
+checked: fable 2026-11-10
 ---
 
 **What.** The office-hours scene stages a resident with a case, but the official's reply writes only a scene.reply that no engine reads. Only the desk's decision calls handleCase (src/core2/office-day-state.ts, src/core2/office-day-acts.ts). So "I'll take it on", "Let me refer you" and "There's nothing I can do" change nothing for the resident. The packet docs/design/scenes/from-life/a-constituents-case.md (legislative casework guides and city council records, calibration only) shows what each answer does in real life: a call to the agency, a referral, a letter, or an honest no.

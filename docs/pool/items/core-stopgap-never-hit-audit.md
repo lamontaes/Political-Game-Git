@@ -17,6 +17,7 @@ root: design-guards
 lead: cto
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Of 264 open stopgap rows on Oct 20, a run of three drawn towns for two played years each (buildBenchWorld, core.stopgapHits) recorded 132 as hit. Eighty rows whose marker is in a .ts file never fired, among them SG-GOV-budget-adopted-by-rule, SG-GOV-campaign-pollster-seller, SG-GOV-staff-unpaid, SG-WORLD-housing-landlord, SG-WORLD-jobs-opening-seekers and SG-GOV-justice-prosecutor-stand-in. The blind spot (module-level `stopgap()` markers were never recorded) was fixed by #5452, so the list can now be taken. For each row that never fires, check whether the fake is still reachable; resolve the row where it is not and the replacement is built. The register is now the family files under src/core2/data/stopgaps/.

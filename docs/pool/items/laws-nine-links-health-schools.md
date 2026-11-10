@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Four laws of the health, assistance and schools family are still short of the nine wiring links, as the Oct 26 Notes narrow it: the budget lines healthAndHospitals, schools and higherEducation, which pay nothing under their own law id, and public-funds-for-private-schooling, which reached nobody in Prescott, Michigan. The rest of the family landed through the bounded item laws-nine-links-health-schools-eight (now dropped). A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The first job is to regrade the family on main and say which of the four still fail and why.

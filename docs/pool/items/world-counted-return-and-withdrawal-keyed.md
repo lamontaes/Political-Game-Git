@@ -17,6 +17,7 @@ effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Check that cash a household brings back to the counts and a counted bank withdrawal land in the household's own group account, and fix any path that does not. The reading of the code on main is that both already do: `countedFundOf` in src/core2/modules/residents.ts returns the household's group fund, and src/core2/modules/counted-demotion.ts (reason `residents.returned-to-counts.cash`, both the demotion and the late-pay sweep) transfers into it, while src/core2/credit-deposits.ts sets a counted household's customer account to its group fund before `withdrawSavings` runs. The fund accounts are owned by the place's residents account owner, so the Oct 19 tally that counted direct credits "into that account" may have included group funds. First, tally unkeyed money by reason key in a played year; then fix whatever source still reaches `sweepResidual` (src/core2/counted-money.ts) unkeyed and pay it into the household's group fund through `countedPayment` with the household.

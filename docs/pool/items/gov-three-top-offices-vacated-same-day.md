@@ -16,6 +16,7 @@ root: rc9-place-facts-one-default
 source: Red main fixer 2's #7057 (Every place nightly run 41316330982, run seed 67d5d83fdbecbe3c, Hayfield, Virginia, seed 88e63a259044)
 lead: governing
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** In the Every place nightly of Nov 1 (run seed 67d5d83fdbecbe3c), Hayfield, Virginia's Ballot check counted 5 seats, then 2 after #7057 made the check skip terms ended by a vacancy. Red main fixer 2 first wrote that the President's, Vice President's and governor's terms all ended by vacancy, then corrected it on #7057 after a straight two-year run: the President and Vice President serve to January 20, 2029 with no vacancy, and the governor's term ends January 3, 2027 by "accepted incompatible office", with the lieutenant governor succeeding, which fits a governor sworn into Congress that day. The drop from 5 checked seats to 2 is still unexplained. Read which seats the check counted and why three left the count, and confirm the governor's move names the office they accepted.

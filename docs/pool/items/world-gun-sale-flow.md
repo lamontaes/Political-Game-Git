@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** No handgun, and no other age-restricted good, is sold as a purchase flow from a seller's books in the economy, so the age laws read counts rather than a sale. Public safety models young adults' handgun purchases as law applications on groups (sale-refused-under-age), and the stopgap SG-GOV-REACH-A-handgun-age is already resolved on that basis; SG-GOV-REACH-A-age-verification concerns minors' accounts and is not closed by this item. Make age-restricted sales ordinary purchase flows from a seller's books to a buyer's account, so the sale reads the law in force and the buyer's own age at the moment it is made, and delete the counting code it replaces.

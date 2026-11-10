@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A landlord's tenant pick should weigh the landlord's own traits and views against an applicant's record and record the reasons, as the hire pick does. Today rentals have one town landlord organization and no person weighs an applicant. The reasons are saved on the decision so a refused or passed-over applicant can be explained.
@@ -30,6 +31,6 @@ source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2
 
 **Done when.** A second session plays a year of buildBenchWorld in a drawn place (seed named) and sees a tenant decision record its reasons citing the landlord's traits against an applicant's recorded race or sex, by decision record id.
 
-**Waits on.** people-protected-traits-on-record-part-1-race-on-record.
+**Waits on.** people-protected-traits-on-record-part-1-race-on-record, and world-housing-landlord-owners (which gives each rental a recorded owner who decides; this part adds the weighing of a tenant to that owner's decision and builds no second owner).
 
 **Files.** src/core2/modules/housing.ts, src/core2/types.ts, src/core2/law-wiring-rights-env.test.ts

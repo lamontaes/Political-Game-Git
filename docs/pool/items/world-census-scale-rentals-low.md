@@ -17,6 +17,7 @@ effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** In the census-weight economy test (seed e0b6b155233c130bd7bdad92b2923cab26347ad3b132618f600f7a7fe85a7694, Merrick, New York, Census 21,744) the rental stock less vacancies is 3.6 percent of the counted households. A real town of that kind may run higher, but the item's own notes say Merrick may really be 3.4 percent renters, which would make the premise wrong. The first job is to check the real ACS renter share for Merrick against the 3.6 percent, and then whether the rental stock is scaled by the Census count the way owned homes are.

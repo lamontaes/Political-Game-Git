@@ -16,11 +16,12 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** With Dev mode on, the Calendar carries a Watch panel: the town's pay by month since the first dev change, its metrics, the nation's figures, each budget, the price rules and the recent news, then the Golden path steps. Measured on screen by the Nov 9 audit in Ten Broeck, Kentucky (no seed given): the panel is black text on a black sheet, and its tables cannot be read. Watch is where a tester sees whether a law moved pay, prices or a budget month by month, so today that proof cannot be read from the screen. Fix the class: every dev table and record tree (Watch, Golden path, small-dollar loans, the person card's Records tree) is drawn with the one shared look for a table on a sheet, in the menu's colors, so its text passes the contrast check the game's panels already pass.
 
-**Cause.** Found in code: `devWatchSections` in src/bench/ui/dev-watch.mjs (line 36) builds bare `table` elements inside `div.scroll` boxes, all inside a `div.dev-only.dev-watch` that `calendar()` in src/bench/play.mjs appends to the Calendar sheet (call at line 3799); src/bench/play.css has no rule for `.dev-watch`, `th`, `td`, `.scroll` or `.kv`. Seen on screen in Ten Broeck, Kentucky (no seed).
+**Cause.** Found in code: `devWatchSections` in src/bench/ui/dev-watch.mjs (line 36) builds bare `table` elements inside `div.scroll` boxes, all inside a `div.dev-only.dev-watch` that `calendar()` in src/bench/play.mjs appends to the Calendar sheet (call at line 3805); src/bench/play.css has no rule for `.dev-watch`, `th`, `td`, `.scroll` or `.kv`. Seen on screen in Ten Broeck, Kentucky (no seed).
 
 **Fix.** Rebuild every dev table and record tree (Watch, Golden path, loans, the Records tree) from the one shared table look so text passes the 4.5 to 1 contrast the panels check already holds (src/bench/panels.browser.mjs), and delete the bare tables. Add no caption line under a table or heading.
 

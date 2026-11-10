@@ -16,6 +16,7 @@ lead: m0-m2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The M1-07 command (src/core2/tooling/m1-07-check.ts, PR #5893) passes in Napi Headquarters, New Mexico (place key 3551035, seed c7622b23bf5be89188acdc16fb35d2a78eb8d36d7e9f7ebe442d142558796aa6), but the spec says spending and taxes per resident are checked at every level. The check lists the federal level as not applicable because the repository held no cross-section for it, checks the county only together with the city, and holds a territory's taxes as not applicable. M1-07 stays false until every level reports its per-resident taxes and spending.

@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Loading the play page opened the Election Night sheet over the day whenever the player's town had any past result, even two months after the count (seen in White Sulphur Springs, Montana, 3080050, place seed e6253d7d132141ef79226210a85a474e90a1d2bb2d5ea41a69c63b9bfdb96035, on January 3, 2026, showing the November 4, 2025 results and hiding Day and Week until closed). The original cause (`seenResults` in the page) is gone, but the sheet can still reopen months after the count: the election-night route returns the newest night's race with no age limit and suppresses it only through a set the server keeps in memory. The sheet should open only on the night of a new count, and the watched mark should outlive a restart.

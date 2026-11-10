@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc9-place-facts-one-default
 source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Every tenth year the game counts its own people and apportions the U.S. House seats among the states from the count. This replaces the fixed seat counts a state holds today with a count the game keeps, and it comes from the stubs gov-redistricting-census-count and gov-redistricting-census-seats-read.

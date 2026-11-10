@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The counted-deaths-opening test failed in a small town: Wiley Ford, West Virginia (seed 277237f6cee1bc958164636cebb4861256472194c83f59c9a78c759bc359320d) saw 2 counted people die where 13.4 were expected, and the test passed on a rerun of the same seed. A run that differs between two runs of one seed means something in the opening or the deaths pass is not seeded. This item finds that and fixes it.

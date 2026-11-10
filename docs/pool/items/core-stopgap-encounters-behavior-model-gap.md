@@ -17,6 +17,8 @@ root: none
 lead: lives
 source: "src/core2/data/stopgaps.json, src/core2/data/encounters.json, kind behavior-model-gap"
 claimed-at:
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** Replace the stopgap row SG-P15-encounters (rows in src/core2/data/stopgaps/p15.json, data in src/core2/data/encounters.json). New people are met today only on a visit (the host's household) and on joining a group (its other members), and the first tie holds the act's hours; meetings at an organized meeting, neighbors and new coworkers wait for attendance and jobs. The town-hall slice (PRs #5261 and #5265) was sent back because its test did not require an attendee previously unknown to the host, so its met-fact and first-tie assertions could all be skipped. What remains is public-comment and council meetings, neighbors and new coworkers producing met facts and first-tie hours.

@@ -5,18 +5,20 @@ area: core
 kind: research
 priority: 1
 size: M
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-carcass-audit-everything-not-engine-view-or-guard
 pr:
 after:
 blocked-on:
 source: added with npm run pool -- add
-claimed-at:
+claimed-at: 2026-11-10T21:03:44.718Z
 lead: cto
 standard: 2
 model: haiku
 effort: medium
 root: none
+checked: fable 2026-11-10
+branch: claude/pool-carcass-audit-everything-not-engine-view-or-guard
 ---
 
 **What.** Read-only. The owner (Oct 28): once the trim is done we should be left with the carcass of the game; if bloat, test files, unused scripts, research or data sit there, get it out the same way. The old-core half is moot (src/simulation was deleted in #6659). What is left is to list, with the proof nothing reads each: the scripts under scripts/ that nothing in package.json, .github, docs or other scripts references (a first count found 65 of 384, some of them tests a runner may glob); tests whose subject was deleted; data files under data/ and src/core2/data that no engine, guard or script reads (data is 1.1 GB); and docs/reports and docs/research files that no engine, guard, skill or report reads (290 MB and 657 files). Output: docs/reports/carcass-2026-10-28.md with one row per file (path, size, who would read it, proof none does) and a per-kind guard proposal (extend research-data-has-reader to data and scripts). The list is handed to the trim session by a Needs line in the channel and a PR comment on the trim's newest PR; the trim deletes.
@@ -38,3 +40,5 @@ root: none
 **Notes.** Filed by the CTO on the owner's go (Oct 28). engine: none (audit). guard: research-data-has-reader (to extend). Read: the duplicates report, the engine map, the retroactive audit, dead-code keeps. Starts now.
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `claude/carcass-audit` is kept; claiming this item takes it over.
+
+Claimed by next for pool-check (2026-11-10 21:01 UTC) on branch claude/pool-carcass-audit-everything-not-engine-view-or-guard.

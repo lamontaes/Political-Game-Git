@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** The justice engine hears only officials' bribery cases, so no defendant, complainant or weapon exists for five laws to act on. Add one incident record type that arises from causes already in the world: a police stop from the town's patrol hours and crime outcomes, a fight from two people's recorded grievance, and a carried weapon from a household's recorded firearm ownership. Each record names the people involved, the place, the date and the cause record that earned it, and nothing is drawn by a percentage roll. The patrol-hours record and the recorded grievance do not exist yet (world-police-patrol-and-grievance-causes, blocked).

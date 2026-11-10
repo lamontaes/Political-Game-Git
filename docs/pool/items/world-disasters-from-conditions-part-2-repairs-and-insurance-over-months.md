@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc1-world-outside-town
 source: split from world-disasters-from-conditions in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Damage to named homes and businesses (part 1) must turn into money over time: repair bills paid to builders and trades, and insurance paying out to the insured, month by month, not in one lump. Each payment is a journal entry between a named payer and payee, and the households and businesses damaged pay and receive according to their own records.

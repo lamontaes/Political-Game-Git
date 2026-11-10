@@ -18,6 +18,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Change the contract award so the four TUNABLE weights set bands and the members' reads decide. Today `award()` scores each firm as one weighted sum of price, capacity and closeness to the owner, and the trait lean only slides the price and tie weights, so the formula decides. Reviewed Oct 20 over four drawn towns, 400 played days each, 106 awards (all with two or more bids): the cheapest bidder won 67, the largest won 72, and the members split between firms in only 11. In the other 95 every member ranked the same firm first, because price and workforce are the same for every member and only the tie to the owner differs, and a member rarely knows a business owner. The officials have too little to read.

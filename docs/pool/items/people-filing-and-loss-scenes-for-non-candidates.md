@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc6-scenes-repeat
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** The director once staged a filing scene and a race-lost scene around listeners tied to a candidate, as if they had filed or lost a race they never entered, and staged hearing scenes around people who never spoke. A participant scene (a filing, a race lost, a public hearing) must be staged only around a person its cause record names. The item was written against October code, its pull request was closed and the director has moved since, so the defect has to be re-measured in a played world before anything is built.
@@ -44,3 +45,7 @@ Sent back 2026-10-20 from PR #5056 (branch claude/scene-subject-named): Main and
 Sent back 2026-10-21 from PR #5056 (branch claude/scene-subject-named): The separate positive filing, race-lost and hearing checks and patch declarations address the earlier return. The pool item still has TODO in What, Rules, Done when and Files, and the body has no Done when evidence table. Write the concrete bounded filing/concession acceptance, then map each named scene/record-person check and drawn-world proof to it in the required table. This remains a fixer based on open parent #5055; no pool item should be completed for that branch merge. No local gate pass is claimed here.; finish on that branch, merge main into it first.
 
 Oct 29 (CTO): #5056 closed because no session carries it (it conflicts with main in src/director/data/situation-types.json); its branch is kept. The words session owns the director, so this is its item to take or drop.
+
+**Notes (Fable, Nov 10, proposed for the CTO).** Proposed: drop as built. `causeMatches` in src/director/scheduling.ts (lines 317 to 355) refuses a cause whose record does not name the moment's person: the types filing and race-lost carry `selfNamed: true`, race-lost also needs the record's winner to be someone else, and public-hearing carries `causeNames: subject`. The filing event names only the filer (src/core2/modules/elections.ts line 1269) and an election result names its filers (src/core2/modules/voting.ts line 3288). The tests src/director/own-filing-scenes.test.ts and src/director/cause-names.test.ts hold it.
+
+**Notes (CTO, Nov 10).** Closed on Fable's proposal: already built: the director refuses a filing or race-lost scene for a person the cause record does not name, and two tests hold it (Fable, #8209).

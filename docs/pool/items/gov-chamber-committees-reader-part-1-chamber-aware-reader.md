@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc9-place-facts-one-default
 source: split from gov-chamber-committees-reader in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Make the committee reader chamber-aware. `committeeForSection`, `COMMITTEES` and `committeeTopics` in `src/core2/legislature-committees.ts` take the chamber (its jurisdiction key and kind) and read that chamber's own list from a new `chamber-committees.json` (committee id, display name key, the catalog topics, law series and budget lines it hears), and fall back to the nine in `committees.json` for a chamber with no row. Pass the chamber through `committeeFor` in `src/core2/modules/legislature.ts` and the seating loop in `src/core2/modules/leadership.ts` (its cap, `COMMITTEES.length`, becomes the chamber's own count). The file starts with no real rows; the test seeds two.

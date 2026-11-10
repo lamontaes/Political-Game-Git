@@ -4,7 +4,7 @@ title: "No business ever opens a second location, and town foundings swing from 
 area: world
 kind: bug
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -13,9 +13,10 @@ blocked-on: business-never-adds-location-part-1-counted-founding-room, business-
 source: added with npm run pool -- add
 lead: jobs
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** In Cochituate, Massachusetts (key 2514570, seed 93a558a5898ee167fd5c49b69a4183c546da870c3754f7688faeb29392d6d4dc), three played years held 11 foundings and none was a location of an existing business (no founding row names a parent). Openings per year were 3, 1 and 7 against the state's BDS entry range of 8.4% to 11.0% of 30 to 40 businesses. Roadmap M1-08's check fails on both. The founding decision is in business.ts foundings/found; why parents never expand is not yet known.
@@ -24,7 +25,7 @@ root: none
 
 **Fix.** Three parts, each its own item. (1) The counted founding weighs market room as the full-person branch does, calibrated through the baseline (TUNABLE), no cap. (2) One founding no longer ends the month's evaluation of the other markets. (3) Expansion gets a cause that exists in a steady town (demand growing past capacity). Real BDS entry and exit rates check the totals only; nothing is pulled to them.
 
-**Time box.** 2 hours for an Opus session, the closing check only; the build is in the three parts, each with its own time box.
+**Time box.** 2 hours for one Sonnet session, the closing check after the three parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** No dice: a business adds a location because its own books, market room and owner decide it, never a yearly chance; real BDS rates check the totals only.
 

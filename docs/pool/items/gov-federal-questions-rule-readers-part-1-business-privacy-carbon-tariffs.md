@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: split from gov-federal-questions-rule-readers in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Write the effect reader for national data privacy, power plant carbon and tariffs: the enacted law row changes what a business, a court, an official or a household may do, and a named engine reads it at its decision. Add a row to `src/core2/data/laws/reach-group-a.json` or a module hook, use the powers catalog for who is bound, and remove the question from `SG-LAWS-federal-position-no-reader` in `src/core2/data/stopgaps/laws.json` once it is read.

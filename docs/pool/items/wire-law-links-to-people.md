@@ -12,11 +12,12 @@ pr: #6760
 after:
 blocked-on: wire-law-links-to-people-part-1-partly-wired-laws,wire-law-links-to-people-part-2-effects-families-2-to-5,wire-law-links-to-people-part-3-effects-families-6-to-9,wire-law-links-to-people-part-4-loan-cap-and-research-sizes
 lead: laws-effects
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The effect web (docs/reports/effect-web-matrix-2026-10-20.json, scripts/outcome-web/effect-matrix.ts) was counted at 244 links on Oct 20; the law matrix (docs/reports/law-wiring-matrix.json, scripts/law-wiring/matrix.ts) now reads 178 laws, 147 wired, 31 partly, and 246 research links, 175 reaching. One PR per link or law, the oldest stopgap first: the law in force changes, the engine that pays or decides reads it, a named person's money or view moves, proven by scripts/law-wiring/check.ts in two drawn places. Each PR regenerates the matrix. No new mechanic: a link whose reader does not exist is a stopgap naming the engine. Time box: 8 hours.

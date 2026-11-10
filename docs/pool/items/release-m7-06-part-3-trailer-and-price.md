@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone: M7
 source: split from release-m7-06-steam in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Prepare a trailer shot list and a price proposal for the owner to sign off. Both are owner decisions: build the simplest proposal and flag it.

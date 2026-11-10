@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The link eviction-to-hospital-visits (Collinson et al. 2024, QJE: +0.188 nonpregnancy hospital visits per covered tenant over quarters 1 to 4, 95 percent interval 0.00376 to 0.37224; quarters 5 to 8 -0.113, interval -0.39132 to 0.16532) has no size the web can apply, because the study's unit is visits per covered tenant for marginal filed-case tenants. No engine produces a health.hospital-visits measure either. The health engine keeps conditions and the coverage engine prices bills per member, so a per-person care-use record is a new mechanic in the health line. Adapt the study unit to the evicted household's members, keep a hospital-visits record in the health engine, and show an evicted household with more visits than a twin world.

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Nothing is known about this item: it was released from an idle draft with the title "x" and no text. By its name it concerns a wage that is overpaid when counted households are read with their weight. Until someone can say which wage, in which place, by how much, it cannot be built.
@@ -38,3 +39,5 @@ root: none
 **Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-76ksvw` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): An empty item, proposed drop: its title is "x", every section was TODO when it was released from an idle draft, and nothing names what is overpaid or where.

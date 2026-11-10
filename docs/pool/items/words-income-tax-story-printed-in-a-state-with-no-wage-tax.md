@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** On day one of a played life in Blodgett Landing, New Hampshire (a random world; the audit gives no seed), one of the News briefs read "Income tax rate took effect on January 1, 2025." New Hampshire taxes no wages, so the paper told a reader about a tax their state does not have. That was measured on the screen. Read in the code on main: the day-one paper is built from a story for every law in the starting data, whatever the row says, and a brief with nothing else to tell prints the law's catalog name and its date. The state's own starting row for the income tax has a rate of 0 and is marked as no tax system, and the federal income tax has a row dated the same day; the audit did not say which of the two the brief was told from. Fix it at the cause for every law and all 56 places: a starting row that records that a place has no such tax or program is never told as a law taking effect, and a brief told from another level's row says whose law it is (the federal income tax, the state's sales tax), from the row's own level and place.

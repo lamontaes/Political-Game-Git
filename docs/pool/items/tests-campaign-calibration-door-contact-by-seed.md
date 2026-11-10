@@ -16,6 +16,7 @@ after:
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/campaign-calibration.test.ts fails on clean main with GOLDEN_PATH_SEED=1d1bfd25a7a60284200718c358723856d38a8a095fbcb9186f82fe2fd0360a0b in the West Virginia place 5431732: twelve hours of the player's doors (about 180 knocked) met 0.494 of the doors knocked, against the test's ceiling of 0.45. Either that town answers its door more than the field rate allows for a real reason the records give (its households' hours at home, its age mix), or a door counts a meeting it should not (a household reached twice, or a filled-in person counted as met when no one answered). Find which by record before touching the band.

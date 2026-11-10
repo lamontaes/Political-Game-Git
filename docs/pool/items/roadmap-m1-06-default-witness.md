@@ -5,10 +5,10 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: blocked
+status: open
 claimed-by:
 pr: #6032
-blocked-on: roadmap-m1-06-mortgage-and-line-clauses
+blocked-on:
 after: roadmap-m1-economy-commands
 source: added with npm run pool -- add
 claimed-at:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 lead: m0-m2
+checked: fable 2026-11-10
 ---
 
 **What.** The M1-06 command passed in Bruceville, Indiana (place key 1808578, seed 0aaca669c442e4369ff7e0d87575e2330a37bd2cb8947166068aa786f1cd7637): 19 personal loans and 59 payments balanced on the journal, but no payment fell short, so the clauses on what a default does to the borrower and lender ran on nothing. Payments now fall short in every place measured (St. Paul, Texas 3; Thendara, New York 11; Four Mile Road, Alaska 43 with 6 charge-offs), so Bruceville's empty year is stale, and clause 6 was added to the check. The flag stays false until a played year shows a default with its consequences, and until the mortgage and credit-line clauses pass too.
@@ -31,7 +32,7 @@ lead: m0-m2
 
 **Done when.** A second session runs the M1-06 command in the runner's drawn place, or the first of up to five drawn places named with seeds where a payment falls short, and sees a missed payment and its consequences by record id (the borrower's credit, the lender's books, the next collection bill), failing when a missed payment changes nothing; docs/roadmap/features.json reads passes: true for M1-06, with a bench screenshot.
 
-**Waits on.** roadmap-m1-06-mortgage-and-line-clauses (M1-06 cannot read passing until its mortgage and credit-line clauses pass).
+**Waits on.** Nothing for the witness clause: build it now. Only the last step, flipping M1-06 to passing, waits on roadmap-m1-06-mortgage-and-line-clauses; if that has not merged, leave the flip to it and say so.
 
 **Files.** src/core2/tooling/m1-06-check.ts, docs/roadmap/features.json
 

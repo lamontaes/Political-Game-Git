@@ -16,13 +16,14 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The town's size and moves show on Who you are, but News prints nothing when someone the player knows moves away. The news engine keeps no story for a move: the move is recorded as person.moved-away and read by people, offices, jobs and parties, never by news or press. A line built in the bench would be a view inventing news, which breaks one engine per mechanic. The press should record a known person's move as a story, and News then prints it like any other story with no bench change.
 
 **Cause.** Found in code: `person.moved-away` (MOVED_AWAY_EVENT, re-exported from src/core2/modules/people.ts) is read by src/core2/modules/people.ts, moves.ts, renewal.ts, offices.ts, jobs.ts and parties.ts but not by src/core2/modules/news.ts or src/core2/modules/press.ts, and `wireItem` in src/core2/press-topics.ts (line 111) has no case for it. The old branch play-first/play-town-moves-on-screen has a `wordMovedAway` draft for reference.
 
-**Fix.** Have the press turn a known person's move into a wire item in `wireItem`, worded from the English engine's news bank (data/english/parts/news.json), citing the moved-away record by id, so News prints it with no bench change. A person is "known" by the same rule the press already uses for other people stories.
+**Fix.** Have the press turn a known person's move into a wire item in `wireItem`, worded from the English engine's news bank (data/english/parts/news.json), citing the moved-away record by id, so News prints it with no bench change. The builder adds the wire item, the facts it carries (who moved, from where, the record id) and the test; the news pieces themselves in data/english/parts/news.json are Story's under the Nov 10 split of words work, so name the pieces needed in the pull request body for Story. A person is "known" by the same rule the press already uses for other people stories.
 
 **Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

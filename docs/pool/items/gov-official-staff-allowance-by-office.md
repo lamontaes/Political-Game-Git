@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** An official weighs hiring an aide against the government's whole pay room (src/core2/modules/staff.ts, budgetLean), which nearly every town has years of, so the budget term saturates at its cap and nearly every local official of every town hires an aide within months: 28 of 28 in Modoc, South Carolina (place key 4547050, seed 40e3475febc7) and 36 of 36 in Stockbridge, Georgia (1373704, seed bde29897f271) in a played year. Real staff allowances vary by office and place: big-city council members and state legislators have staff budgets, most small-town council members have none. With every office able to afford an aide, the hire decision's case is the same for every official, so temperament turns nobody (net odds 1.00 between the thirds in both places) or, at a larger weight, becomes a trait bar.

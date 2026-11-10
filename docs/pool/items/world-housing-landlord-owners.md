@@ -17,6 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Every town rental is paid to one ownerless business, `organization:landlord:<place>` (housing.ts `withHousing`), and `review` serves notice on the late leases by `landlordPulls`: a summed logistic of months owed and months late, carried month to month. Give each rental a real owner, a resident (or a household) recorded in the business module's `owners` table, and make the notice a choice by that owner from their own traits, cash and the tenant's history, as `credit.ts` does for a business owner (`chooseAct` between waiting and acting, with the reasons recorded). The landlord's payout then goes to its owners, and an owner who is short of cash weighs the arrears differently from one who is not.

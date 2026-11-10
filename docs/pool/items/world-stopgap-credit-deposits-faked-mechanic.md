@@ -17,6 +17,8 @@ root: none
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/credit-deposits.ts, kind faked-mechanic"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** Savings and withdrawals are reviewed monthly with a three-month wallet reserve, so extraordinary payments and estate settlement never ask the bank for a withdrawal directly. A payment the wallet cannot cover should ask the bank for a withdrawal that moves a real dollar, with the reserve following the household's own spending. The estate-only slice was sent back, and a big payment still never asks the bank. The row stays open until the real mechanic replaces the fake, and this item replaces it and clears the row.

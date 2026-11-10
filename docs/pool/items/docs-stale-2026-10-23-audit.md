@@ -4,7 +4,7 @@ title: "Oct 23 doc audit: archive 49 dead docs, fix 13, stamp 46, add the freshn
 area: docs
 kind: cleanup
 priority: 1
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -13,10 +13,11 @@ after:
 blocked-on: docs-stale-2026-10-23-audit-part-1-archive-ended-files, docs-stale-2026-10-23-audit-part-2-repair-pointers, docs-stale-2026-10-23-audit-part-3-freshness-check
 lead: cto
 model: sonnet
-effort: medium
+effort: low
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** On Oct 23 the owner said to stop the stale docs. The live tree still carries ended per-session status files in docs/coordination (BOARD.md, SESSION-A.md, SESSION-B.md, SESSION-C.md, SESSION-D.md, HANDOFF-2026-10-12.md, OPUS-CORE.md, OPUS-GOV.md, OPUS-PEOPLE.md, OPUS-PLAY.md and others), work orders, M0 packages, a long PROGRESS file and old-engine reports, and nothing checks a doc's freshness. The first attempt (PR #5844) archived 49 files under docs/archive/2026-10-23/ but was sent back and never merged. This item redoes it in three parts: archive the ended files with their originals deleted, repair every live pointer, and optionally add a freshness check.

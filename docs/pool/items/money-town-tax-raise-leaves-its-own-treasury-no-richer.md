@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** A property tax raise collects money that never reaches the government that raised it. Measured in Denver, Missouri (the audit gives no seed), by the payments' own labels, 90 days after a raise from 0.817% to 2% and against a twin world with no raise. The county tax collector took in about $385,000 more in property tax: about $380,000 from people and about $5,000 from other accounts. After 90 days it still held $192,000 and had passed the other $193,000 on to governments. A step the game calls a reserve sweep then moved all but about $800 of that $193,000 out again, to the account that stands for everything outside the game's books. The $800 stayed with the Missouri treasury. So the village's and the county's own treasuries ended with nothing more, and the collector was still holding $192,000 it had not paid out. Fix it at the cause, for every government that levies a tax: what a tax collects is passed on to the government whose law levied it, on the schedule the collector pays, and that government's treasury keeps or spends it by its own budget, so a raise shows up as money the body can spend.

@@ -16,6 +16,7 @@ effort: medium
 root: design-story-director
 lead: director
 source: director lead, #6263 CI, Oct 27
+checked: fable 2026-11-10
 ---
 
 **What.** `src/director/circumstance.test.ts` asserts only the families every drawn year carries, because four rows fire once or never in a year of one town. On seeds adf2b240b2d518b4f73a5c107884f60b75c71249 and 28a43cad632afa618a63b16b1fc951c92738e133 over five worlds each, price-moved-street and rent-news-street fired 0 times. death-known-street fired 4 and then 0 times, rival-message 0 and then 1, and new-coworker 4 and then 7. Asserting them made the test pass or fail by the draw, and playing more worlds to find them ran past CI's 45-minute unit job.

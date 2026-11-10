@@ -4,7 +4,7 @@ title: "Redistricting after each census, drawn by whoever the state's law says, 
 area: gov
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 claimed-by:
 pr:
@@ -12,12 +12,13 @@ blocked-on: gov-redistricting-engine-part-1-census-count-and-seats,gov-redistric
 after: gov-redistricting-who-draws
 milestone:
 standard: 2
-model: opus
-effort: high
+model: sonnet
+effort: low
 lead: governing
 root: rc9-place-facts-one-default
 source: "split from laws-family-government-operations; stopgap SG-GOV-REACH-A-redistricting; owner D-6 (approved) and Sept 28 #8"
 claimed-at: 2026-10-19T23:51:06.707Z
+checked: fable 2026-11-10
 ---
 
 **What.** After a census the game recounts its people, seats shift between states, and the maps are redrawn: council wards, state legislative districts and U.S. House districts, by whoever the state's law names (legislature, independent commission, council). The independent-redistricting law decides who holds the pen. Neighborhood makeup comes from Census place data and is used the way courts use it under the Voting Rights Act; it is never a label on a person.
@@ -26,7 +27,7 @@ claimed-at: 2026-10-19T23:51:06.707Z
 
 **Fix.** After the golden path, recount people after a census, shift seats between states, and redraw wards, legislative and House districts by whoever the state's law names, using Census place makeup as courts do under the Voting Rights Act, with no race or language field on any person. The work is split into four parts (named in Waits on); this item is done when all four are merged.
 
-**Time box.** 2 hours for one Opus session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop. The build itself is in the four parts; this item's time is for checking them together.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** The Political Process baseline and golden path come first: this is not needed for early access play, so check `docs/roadmap/political-process-baseline.md` before building. No dice. One rule, all 56 places. No race or language field on any person. An effect is a read, not a record.
 

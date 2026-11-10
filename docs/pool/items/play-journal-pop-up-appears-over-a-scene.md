@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** Measured by the Nov 9 audit in Blodgett Landing, New Hampshire (a random world, no seed): "'Pop-ups wait until a scene ends.' A journal pop-up appeared over the President's address." It was the journal's third paragraph, which popped up during the address. The news pop-up was fixed for the opening (`showNewsSurface` now runs after `showStory` returns in `startLife`), but the journal's pop-up was not. Fix the cause in the one toast part, for every pop-up and every scene: when a scene opens, every pop-up on screen is taken down and waits, and shows again when the scene ends.

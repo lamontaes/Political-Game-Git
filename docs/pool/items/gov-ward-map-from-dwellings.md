@@ -18,6 +18,7 @@ root: rc9-place-facts-one-default
 milestone:
 source: "stopgap SG-GOV-ward-map, added by gov-council-election-method"
 claimed-at: 2026-10-19T19:07:44.446Z
+checked: fable 2026-11-10
 ---
 
 **What.** A council seat chosen by part of town counts the voters of its part. Today the part of town is a run of households in the town's recorded order, cut to near equal adults, because the world holds no street map. Draw the parts from the town's dwellings (the council or a commission draws them to near equal population, as the charter says) and place each household and each sitting member by their dwelling. The old drawing rules file is gone with the old core, so the rules are written fresh: a council draws near equal population keeping each sitting member in their own part, a commission draws equal parts, and the courts' allowed deviation comes from the data.

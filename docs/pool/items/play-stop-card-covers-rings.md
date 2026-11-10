@@ -17,6 +17,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 after: play-stop-12-status-card-covers-menu-after-canvass
+checked: fable 2026-11-10
 ---
 
 **What.** When a stop is pending (for example Shift ends with Continue), the card panel was seen growing over the six ring icons, so a pointer click on the Politics ring landed on the card instead and the player had to press Continue before any ring worked (the PR 5533 browser run). The layout has been reworked since: the rings and the card are hidden while a talk, meeting or desk is open, so whether a pending stop still covers the rings is unknown. This item also absorbs play-story-replies-covered-by-player-card: the filing story's reply row must be clear of the player card at 1440x900 and 1024x768 after a campaign outing, reachable by pointer and keyboard (Cacao, Puerto Rico, seed b32f52ab-ec06-46ae-8e53-7482696bb81a).
@@ -31,7 +32,7 @@ after: play-stop-12-status-card-covers-menu-after-canvass
 
 **Done when.** A second session (not the builder) starts the bench in a drawn place (place and seed named), makes a stop pending (a Shift that ends with Continue, and a campaign outing that stops for a filing story), and with a real pointer clicks each of the six rings and each filing-story reply at 1440x900 and 1024x768, with Tab and Enter or Space for the replies: every ring opens with one click, every reply is clear of the player card and activates, with screenshots inspected and no console errors. If nothing overlaps, the session writes where the cause was found, or that it is gone, and the item is rewritten or dropped.
 
-**Waits on.** play-stop-12-status-card-covers-menu-after-canvass (the item's `after:`).
+**Waits on.** Nothing. (play-stop-12-status-card-covers-menu-after-canvass, which it once waited on, is done.)
 
 **Files.** src/bench/play.css, src/bench/play.mjs, src/bench/play.html, src/bench/clock.browser.mjs
 

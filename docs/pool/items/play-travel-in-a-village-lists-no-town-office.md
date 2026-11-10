@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Not fixed (measured)")
+checked: fable 2026-11-10
 ---
 
 **What.** The audit measured on Nov 9: "Travel in a village of 128 people lists three markets and three kitchens and no town office." (Its browser life was in Blodgett Landing, New Hampshire; the line names no seed.) The owner said on Nov 8, about 2:10 p.m.: "I go to travel. Everything's a market or a post office. I don't even know how I'm supposed to be able to run for office." Travel lists where the player, the household and people they know work, then fills with up to nine public places by staff size, and its own comment leaves the town office out on purpose (owner, Oct 26). What the screen gets wrong, in every small place, is that nothing on it tells a player where politics happens. The place where the player has political business should be listed when the records show that business, and every card should say why it is listed.

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The disasters engine reads FEMA's damage figures for the town the world opened in, whose name it fixes when it first runs (the runtime function in src/core2/modules/disasters.ts, line 116), but pays the household assistance and charges the repairs to the residents of the town where the player lives on the declaration day (the begin function, line 447, and line 576). When the player has moved, the new town's households receive the assistance and pay for repairs to homes in the old one, and the old town's builders get nothing. Measured in Guthrie, Oklahoma (place 4031700, seed 35f504a41ec4764f52666b6c5ccd1992aa077e83, salt stories-from-engines) with the player moved to another town of the world on the eve of disaster 4866: 42 damaged homes recorded under Guthrie, and no repair paid to Guthrie's 3 open builders.

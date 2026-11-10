@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 1
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The employer's hire pick weighs experience, reliability and referral and reads no protected trait, so nobody is ever passed over. An employer's pass-over should come from the owner's or hiring manager's own traits and views read against the applicant's record, with the reasons recorded (OWNER-DECISIONS.md, "Employer passing over an applicant"). This takes the employer pass-over of the merged owner-employer-bias-source.
@@ -33,3 +34,7 @@ source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2
 **Waits on.** people-protected-traits-on-record-part-1-race-on-record.
 
 **Files.** src/core2/modules/jobs.ts, src/core2/types.ts, src/core2/law-wiring-rights-env.test.ts
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of world-hiring-bias-reasons. Both record a hiring decision's reasons from the decision-maker's traits and views against the applicant's record, in the hire loop of src/core2/modules/jobs.ts. The kept item has the sourced attitude table behind it and now waits on part 1 of this family for the race record.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): The same work as world-hiring-bias-reasons, which records each hire and pass-over's reasons from the owner's recorded attitude and builds on a sourced table (world-employer-attitude-table).

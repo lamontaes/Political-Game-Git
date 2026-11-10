@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The rental match in src/core2/housing-occupancy.ts matches completed rentals to rent-saving tenants, recovered homeless households and unassigned households by rent, income and cash only. Add the two missing reads: the commute from the dwelling to the household's recorded job locations, and whether the dwelling's capacity fits the household's size, with the same decision rule for both tiers. This closes SG-WORLD-new-rental-move-coverage once dwelling capacity is recorded.

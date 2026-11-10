@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from core-stopgap-parameters-uncalibrated-tunable in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Source or calibrate the values behind these open stopgap rows: SG-P15-params-uncalibrated (kin and temperament generation coefficients, parameters.json line 1442) and SG-P10-params-uncalibrated (drive, perception, response and event-severity coefficients, line 4733). For each, find the real figure or the check it must reproduce in total, tag the value SOURCED, ESTIMATED or TUNABLE with its spread in src/core2/data/parameters.json, and resolve the row naming the engine that reads it. This is part 5 of core-stopgap-parameters-uncalibrated-tunable.

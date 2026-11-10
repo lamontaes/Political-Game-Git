@@ -4,7 +4,7 @@ title: "Homes are almost never bought or sold in a played year: 0 or 1 sale amon
 area: world
 kind: feature
 priority: 2
-size: L
+size: S
 status: blocked
 standard: 2
 claimed-by: claude/home-turnover-split
@@ -12,11 +12,12 @@ pr: #5034
 blocked-on: world-home-turnover-part-1-measure-sales-now, world-home-turnover-part-2-year-report-vs-nar-census, world-buyer-pays-the-selling-household, world-counted-renters-buy, world-home-sales-set-the-town-price
 after:
 lead: laws-effects
-model: opus
-effort: high
+model: sonnet
+effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at: 2026-10-18T02:28:04.005Z
+checked: fable 2026-11-10
 ---
 
 **What.** In a played year (`buildBenchWorld`, every module installed, Oct 17) West Hammond, New Mexico wrote 0 home sales and 0 purchases among 860 full households with homes (427 mortgages), and Epping, New Hampshire wrote 1 sale and 0 purchases among 1,226 (506 mortgages). The housing module's `sales` table was declared and never written, and the same year held 1 to 2 eviction cases and 5 foreclosures. In a real town about 5 percent of owner-occupied homes change hands each year (NAR existing-home sales against the Census's owner-occupied stock), and a share of renters becomes owners each year. A town's owners never selling and its renters never buying also keeps `housing.purchase` news, home prices, mortgage originations and the moving economy frozen for everyone but the player. Since Oct 17, sales for owners who leave town or die are written (src/core2/housing-sale.ts); buyers taking those homes and the town price reading them are the other pieces.

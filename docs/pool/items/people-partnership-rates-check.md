@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Full people now partner, separate and (once built) leave home in play, so a played year's totals can be checked against real rates. Run a year of the played world in six drawn places and count, per thousand residents of the right age band, young adults leaving a parent's home, new partnerships and separations. Compare them with the ACS share of 25 to 34 year olds living with a parent, the CDC marriage and divorce rates per thousand, and the ACS marital events in the last year (B12503, B13010), and tune only the weights that lie outside them.

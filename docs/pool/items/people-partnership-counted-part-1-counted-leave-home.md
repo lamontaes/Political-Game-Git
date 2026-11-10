@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-partnership-counted in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A counted group's young adults never leave a parent's home, so the town's counted households keep their opening shape. Full people leave by weighing work, pay and the rents on offer (people-leave-parents-home). Give the counted tier the same weighing times its count, with a counted-store call that moves one member of a counted household into a new household record of its own (the weight and the household's cash share follow), the counterpart of changeHouseholdV1 for full people.
