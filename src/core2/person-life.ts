@@ -268,10 +268,20 @@ export function lifeOf(
   const inThePast = new Set(
     out.filter((event) => event.from === "past").map(withKey),
   );
+  // A partnership or a birth made in play is written twice by its engine: as
+  // a fact on the person (dated that day) and as the record they remember.
+  // The remembered record is the one told; the fact of the same day is its twin.
+  const inPlay = new Set(
+    out
+      .filter((event) => event.from === "played")
+      .map((event) => `${event.date}|${withKey(event)}`),
+  );
   const told = new Set<string>();
   const once: LifeEvent[] = [];
   for (const event of out) {
     if (event.from === "built" && inThePast.has(withKey(event))) continue;
+    if (event.from === "built" && inPlay.has(`${event.date}|${withKey(event)}`))
+      continue;
     const key = `${event.date}|${withKey(event)}`;
     if (told.has(key)) continue;
     told.add(key);
