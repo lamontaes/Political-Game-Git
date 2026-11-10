@@ -1752,6 +1752,67 @@
       }
     },
     {
+      "key": "prison-visit",
+      "note": "The player visits someone they know whom the justice engine holds: a prison term handed down (justice.imprisoned) or a person held for want of bail (justice.held-before-trial). The person inside asks the visitor for something real: money on their account, a child looked after, a lawyer called, a word taken to the family. How long the sentence is, the day they get out and the bail are said only when the record gives them. What the visitor agrees to or promises is kept on the reply record (a promise); a visit that ends on a refusal pressed strains the tie.",
+      "purpose": "prison-visit",
+      "asker": "inside",
+      "asked": "visitor",
+      "stakes": ["relative", "money", "years"],
+      "roles": [
+        {
+          "key": "inside",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "answer", "accept", "thank", "press"],
+          "wants": ["engage", "commit"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "visitor",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "promise", "ask", "decline", "leave"],
+          "wants": ["help-others", "engage"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "circumstance:held-known-visit"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.held-before-trial",
+          "bind": {
+            "visitor": "subject",
+            "inside": "counterpart"
+          },
+          "opener": "inside",
+          "setting": ["venue"]
+        },
+        {
+          "match": {
+            "label": "circumstance:imprisoned-known-visit"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "justice.imprisoned",
+          "bind": {
+            "visitor": "subject",
+            "inside": "counterpart"
+          },
+          "opener": "inside",
+          "setting": ["venue"]
+        }
+      ],
+      "tag": {
+        "key": "prison-visit",
+        "endpoint": "personal",
+        "registers": ["scene-talk", "scene-words"]
+      }
+    },
+    {
       "key": "visit",
       "occasion": "visit",
       "roles": [
