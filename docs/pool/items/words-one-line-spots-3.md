@@ -5,12 +5,13 @@ area: words
 kind: feature
 priority: 2
 size: M
-status: in-pr
+status: merged
 claimed-by:
-pr: 8225
+pr: #8225
 blocked-on:
 lead: words
 source: third rerun of scripts/words/one-line-spots.ts after words-one-line-spots-2 (Brewster, Massachusetts; Weekapaug, Rhode Island; Castle Hill, California)
+merged-at: 2026-11-10T21:48:49.985Z
 ---
 
 **What.** The thirty most-played spots that still held a single line after batch 2 (the letter-ask close "I'll write again soon, {first}. Take care of yourself." heard 43 times, then the letter-ask follow-up and the school last-day farewell replies) now hold two or three lines each. Each of 61 new pieces sits in the same spot as the line it varies (same subject, step, move, role, purpose, key and after), says the same fact in other words and carries a bearing where the original does. The existing lines stay.

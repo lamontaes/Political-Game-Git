@@ -281,6 +281,7 @@
         "src/core2/views-keys.ts",
         "src/core2/hearer-groups.ts",
         "src/core2/household-cost.ts",
+        "src/core2/housing-status-event.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/closeness.ts",
         "src/core2/trait-decisions.ts",
