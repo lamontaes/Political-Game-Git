@@ -5,11 +5,17 @@
     {
       "id": "no-x-is-home",
       "says": "A line never says that someone is home or at a place (\"{name} is home\", \"{name} is at the house\"); nothing replaces it.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-28",
           "words": "\"You filed for Trustee, and the race has nine months left to run. Megan Peck is home.\" is useless narration. Remove every \"X is home\" and \"X is at place\" line. Do not replace them.",
           "via": "CTO log paraphrase"
+        },
+        {
+          "date": "2026-10-06",
+          "words": "journal lines in the first person as story chapters from the record, never 'You are at home.'",
+          "via": "words.md"
         }
       ],
       "status": "enforced",
@@ -29,6 +35,8 @@
     {
       "id": "no-talk-to-you-soon",
       "says": "Nobody closes with \"Talk to you soon\" after a question was answered.",
+      "judges": "exchange",
+      "detectorReads": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -50,10 +58,16 @@
     {
       "id": "no-must-for-have-to",
       "says": "In speech, say \"have to\" where Americans do; \"must\" stays only in \"must have\" (a guess).",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
           "words": "Saying I must lock up. No, that's not. That doesn't. I mean, Americans say must, but not in that way."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "People say \"have to\", not \"must\", about what a law makes them do",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "enforced",
@@ -81,6 +95,7 @@
     {
       "id": "no-thats-settled",
       "says": "Nobody says \"That's settled\" or \"It's settled\"; it is a little dev talky.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -111,6 +126,7 @@
     {
       "id": "no-insider-words",
       "says": "No election-insider, developer or office-chart words in speech; say canvassing or door knocking, not \"the doors\" or \"gaps\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -147,6 +163,11 @@
         {
           "date": "2026-09-07",
           "words": "Prefer ordinary political, civic, family, school, work and institutional words."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Plain words, no trade or dev language.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "enforced",
@@ -173,6 +194,7 @@
     {
       "id": "no-day-or-place-in-narration",
       "says": "Narration never names the day, the date, the time or the place; the screen already shows them.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
@@ -200,6 +222,7 @@
     {
       "id": "no-day-or-place-in-scene-words",
       "says": "Scene words never name the day, the date, the time or the place; the screen already shows them.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
@@ -224,6 +247,7 @@
     {
       "id": "no-year-in-speech",
       "says": "Nobody says a year or a date with its year aloud; a date in speech is said as people say it.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -263,11 +287,22 @@
     {
       "id": "no-quiet-weekday",
       "says": "The day of the week is not small talk (\"a quiet {weekday}\").",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-26",
           "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right.",
           "via": "quoted in a skill with 'owner, Oct 26'"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Nothing happened this week. It shouldn't pop up anything.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "There is no 'a week passes with nothing happens'.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "enforced",
@@ -281,6 +316,8 @@
     {
       "id": "no-bare-yes-or-no-reply",
       "says": "A bare yes or no is never a whole reply, and a yes or no never ends a talk; the reply says what it agrees to or refuses.",
+      "judges": "exchange",
+      "detectorReads": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -311,6 +348,7 @@
     {
       "id": "no-placing-narration",
       "says": "No line says only where the player is or who is with them (\"You're in {place}\", \"{person} is with you\"); the screen shows both.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-24",
@@ -337,6 +375,11 @@
           "date": "2026-10-15",
           "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene.",
           "via": "OWNER-DECISIONS ruling text, not verbatim"
+        },
+        {
+          "date": "2026-10-24",
+          "words": "People in the house need a reason to be there: no \"X is with you\"",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "enforced",
@@ -375,6 +418,7 @@
     {
       "id": "names-something-specific",
       "says": "A line names something specific from its situation (a person, place, thing, amount or day), not a general sentiment.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -567,6 +611,21 @@
           "date": "2026-10-29",
           "words": "short filler \"side stories\" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two,",
           "via": "OWNER-DECISIONS ruling text, not verbatim"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "A complaint names the concrete effect",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-23",
+          "words": "Lines name the actual event in plain words",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "Your great-grandmother Maria Hudson, your grandfather's mother, died in <year>.",
+          "via": "people.md"
         }
       ],
       "research": [
@@ -609,6 +668,7 @@
     {
       "id": "scene-opens-with-when-where-who",
       "says": "A scene opens with narration naming the day, the place and the person: \"First thing on June 7th. You head to the clerk's office and speak to Maria Patton.\"",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -676,6 +736,26 @@
           "date": "2026-10-08",
           "words": "I guess this is fine, but this is missing context",
           "via": "his words as quoted inside a grade-row note"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to Maria Patton. And then it starts like that.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-01",
+          "words": "Dates go into the prose where they matter",
+          "via": "2026-11-08-1-check.md"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "It just throws you into a location. This is where a scene would help.",
+          "via": "words-door-knocking-montage-with-porch-scenes.md"
         }
       ],
       "research": [
@@ -720,6 +800,7 @@
     {
       "id": "question-names-its-subject",
       "says": "A question names what it asks about; \"What do you think?\" alone fails.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -737,6 +818,7 @@
     {
       "id": "no-pointing-at-the-unnamed",
       "says": "A line never points at \"this\", \"that\" or \"it\" when nothing in the line or the scene has named it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -865,6 +947,7 @@
     {
       "id": "no-filler",
       "says": "No filler: no \"Well,\" \"Look,\" \"So,\" opening and no \"you know\" or \"I mean\" padding a line that has nothing else to say.",
+      "judges": "line",
       "from": [
         {
           "date": "undated",
@@ -883,7 +966,14 @@
     {
       "id": "no-stock-phrases",
       "says": "No stock phrase a script reaches for when there is nothing to say (\"moving forward\", \"at the end of the day\", \"I hear you\").",
-      "from": [],
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "\"You're right, I shouldn't have said that\" sounds like AI",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
       "research": [
         "docs/research/dialogue/ (how games write dialogue), rule 16"
       ],
@@ -895,6 +985,7 @@
     {
       "id": "no-explaining",
       "says": "No line explains its own subtext or tells the player what to feel.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-08",
@@ -907,6 +998,11 @@
         {
           "date": "2026-09-07",
           "words": "Reach the pressure and hand control back; do not add a concluding lesson sentence."
+        },
+        {
+          "date": "2026-09-06",
+          "words": "Do not restate implications the scene already makes clear.",
+          "via": "people.md"
         }
       ],
       "research": [
@@ -920,6 +1016,7 @@
     {
       "id": "no-quick-resolution",
       "says": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-16",
@@ -940,6 +1037,11 @@
         {
           "date": "2026-10-16",
           "words": "I still don't like it, but okay. I'm not sure how many people would say that."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "read as AI's quick resolution, not how people talk.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "awaiting-test",
@@ -956,6 +1058,7 @@
     {
       "id": "evasion-points-somewhere",
       "says": "An evasion points to a later time or the public record, not a bare refusal.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -1000,6 +1103,11 @@
         {
           "date": "2026-11-09",
           "words": "Let me sleep on it before I answer. I like that."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "\"I'm not going to talk about that\" is unnatural.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "note": "His notes disagree: \"I'm not going to talk about that\" was fine on Oct 15 and unnatural on Oct 16. \"No comment\" was fine (Oct 15), so no rule flags it. Lines flagged here go to his next sample. The notes disagree on: i'm not going to talk about that.",
@@ -1022,6 +1130,7 @@
     {
       "id": "commitment-names-who-what-why",
       "says": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -1058,6 +1167,7 @@
     {
       "id": "stake-is-named",
       "says": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -1117,6 +1227,26 @@
           "date": "2026-10-15",
           "words": "a bargain names the trade",
           "via": "grade-row note (CTO summary); his related spoken words are in the batch 13 voice note: \"th"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "its dialogue is consequential",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Mundane scenes need a stake.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "These scenes have zero depth to them.",
+          "via": "2026-10-27-1.md"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "there was no reason to have that dialogue.",
+          "via": "words-household-filing-scene-has-a-purpose.md"
         }
       ],
       "research": [
@@ -1143,6 +1273,7 @@
     {
       "id": "reply-follows-the-line-before",
       "says": "A reply answers or follows the line right before it.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -1470,6 +1601,31 @@
           "date": "2026-10-14",
           "words": "lines must sound like people talk (\"Where are you from?\", \"I'm from Washington. What about you?\", \"And you?\"); a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")",
           "via": "OWNER-DECISIONS ruling text, not verbatim"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "A reply fits the line it answers.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "an invitation to walk should be taken up",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Asked to state your name for the record, the reply states it.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "A reply answers the line right before it.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "None of it follows.",
+          "via": "2026-10-28-1.md"
         }
       ],
       "note": "The notes disagree on: okay. for you, i'll do it.",
@@ -1739,6 +1895,7 @@
     {
       "id": "introduced-before-addressed",
       "says": "Every person, outlet, office or thing is named to the player before a line addresses it.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -1787,6 +1944,16 @@
         {
           "date": "2026-09-26",
           "words": "A character can bring up a public matter only if they read it (in News) or took part in it."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Introduce people before they speak.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Introduce people by role.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "research": [
@@ -1822,6 +1989,7 @@
     {
       "id": "tense-of-the-record",
       "says": "A line speaks in the tense the record is in: no talking about a vote as done before it happens.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-16",
@@ -1839,6 +2007,11 @@
           "date": "2026-10-28",
           "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office.",
           "via": "CTO log paraphrase"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "\"Then put this in the story: I'm proud of my vote\" is wrong before the vote.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "awaiting-test",
@@ -1894,6 +2067,7 @@
     {
       "id": "fits-speaker-and-tie",
       "says": "A line fits its speaker's role, age and relationship to the listener, and a speaker is recognizable without the name attached.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-15",
@@ -2085,6 +2259,31 @@
         {
           "date": "2026-09-16",
           "words": "Is this my mom or something? Like, is it a date?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "lines should belong to kinds of people and ways of speaking (a newscaster, a plain speaker, a polished one)",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "you might say something to your mom that you would never say to a coworker.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "A city attorney would not complain about a photo-ID law; only someone it burdens who is against it does.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "An 80-year-old is not told to wait a cycle or that they'll land on their feet",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office.",
+          "via": "2026-10-28-1.md"
         }
       ],
       "research": [
@@ -2135,6 +2334,7 @@
     {
       "id": "pressure-sounds-like-politics",
       "says": "Threats and pressure sound like politics (memory, friends, how it works), never a generic warning.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-16",
@@ -2204,6 +2404,7 @@
     {
       "id": "ending-lands",
       "says": "A scene ends on a beat that lands, not a pleasantry, and never while a grievance or a count is still open.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-15",
@@ -2276,6 +2477,41 @@
         {
           "date": "2026-11-09",
           "words": "Thank you. That's what I came for. It depends on your answer. Thank you. That's all we ask. Sure, that's fine as well."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "where the narrative and the story progresses through those scenes, where you're clicking through dialogue and then you play the game through the actual game",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "a scene does not end at \"Deal.\" when there is more to settle",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Every scene needs conclusions.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "A scene needs a natural close, not a game-changing result",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Walking away gets a beat, not a pleasantry",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "A good exchange keeps going.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Endings and their labels match the path.",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "awaiting-test",
@@ -2307,6 +2543,7 @@
     {
       "id": "why-me-is-answered",
       "says": "When a request is made of the player, a clarifying \"Why me?\" reply exists and the other person answers it.",
+      "judges": "exchange",
       "from": [
         {
           "date": "2026-10-16",
@@ -2327,6 +2564,11 @@
         {
           "date": "2026-10-15",
           "words": "Why didn't you tell me you were running? An appropriate response would be, how would you know? How did you know that? Like, that could be one of those, like, you know, the conversation goes without you picking it. Like, how did you know?"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "the floor switch had no \"Why?\"",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "awaiting-test",
@@ -2338,6 +2580,7 @@
     {
       "id": "vary-the-shape",
       "says": "No one shape repeats across scenes: vary who speaks first, how long, and where the narrator breaks in; a line said once is not said again by the same person soon.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-15",
@@ -2475,6 +2718,41 @@
         {
           "date": "2026-11-01",
           "words": "there needs to be real ones with some good fluff or else it will get old"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "these speeches are not all the same.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "Thirty items are thirty different scenes (a legislator arguing, pork barreling, a wedding, a council meeting, a rally), never the same closer thirty times.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Even good lines turn robotic when the structure repeats; vary openers, closers and the order of moves.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Vary the bills.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Every scene opened with one narrator sentence and two lines from the other person. Vary it, and let the narrator speak between lines",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-23",
+          "words": "the round-3 finding that 16 childhoods share one script is a blocker for #564.",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-10-24",
+          "words": "The opening speech is generated per world and per president from the game's numbers, not formulaic.",
+          "via": "LAW.md"
         }
       ],
       "research": [
@@ -2526,6 +2804,7 @@
     {
       "id": "speech-is-not-a-list",
       "says": "A speech is not a list of figures: it takes a stance, reads as speech, and fits the speaker and the moment.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -2602,6 +2881,31 @@
         {
           "date": "2026-09-07",
           "words": "Dialogue should sound spoken rather than authored."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "none of that real data in there.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "the images of the unemployment is at 4.1%, the fact that I know that is ridiculous",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "It's like listing what the town clerk does. It's just a bunch of garbled mess.",
+          "via": "2026-11-08-1-verbatim.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "is not a conversation.",
+          "via": "2026-10-28-1.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "The national unemployment rate is 4.1%. I think that scene is hard-coded in.",
+          "via": "2026-10-27-1-log.md"
         }
       ],
       "status": "awaiting-test",
@@ -2625,6 +2929,7 @@
     {
       "id": "concrete-image-over-generic",
       "says": "Prefer wit or a concrete image over a generic statement when the voice allows it.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -2669,6 +2974,11 @@
         {
           "date": "2026-09-07",
           "words": "No literary phrasing, metaphor, epigrams, or visibly composed/generated texture."
+        },
+        {
+          "date": "2026-09-07",
+          "words": "Money is a concrete arrangement, not an abstract label.",
+          "via": "words.md"
         }
       ],
       "research": [
@@ -2696,10 +3006,16 @@
     {
       "id": "trade-not-bribe",
       "says": "A trade or offer reads as a bribe only when it is one; build the trade from the district's interests.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-19",
           "words": "the one where it talks about being able to afford something, it sounds like it's going to be a bribe, but it's not. And, like, then it comes with the weird, like, amendment and stuff. I mean, that's fine to trade, but it sounded like it"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "\"can't afford a yes\" sounds like a bribe and should be a real trade",
+          "via": "OWNER-DECISIONS.md"
         }
       ],
       "status": "awaiting-test",
@@ -2710,6 +3026,7 @@
     {
       "id": "variants-differ-in-what-they-say",
       "says": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-15",
@@ -2773,6 +3090,7 @@
     {
       "id": "most-specific-line-wins",
       "says": "The most specific matching line wins: a line tied to the speaker's trait and the situation outranks a generic one.",
+      "judges": "set",
       "from": [
         {
           "date": "2026-10-19",
@@ -2798,6 +3116,7 @@
     {
       "id": "no-dangling-fragments",
       "says": "No line is a dangling fragment (\"All right. Yes.\", \"You've made your case.\" on its own): a reply says what it agrees to or refuses.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -2833,6 +3152,7 @@
     {
       "id": "every-line-gives-its-context",
       "says": "Every line gives its context: the listener knows why it matters to the speaker, a line never leans on an \"it\" or \"they\" the scene has not set up, and a moment's setup makes sense from the player's side.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-10-27",
@@ -2858,6 +3178,56 @@
         {
           "date": "2026-11-01",
           "words": "how do you know why I came here with my forms in a folder?... I used to work at the county clerk's office. You filled out the forms there."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "these scenes aren't making sense. I guess they're firing, but contextually they make no sense to the story.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "who, why you, what the job is, and some surprise.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Every claim has a reason the listener can follow.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "\"Then we'll settle it at the next meeting\" dropped the personal grievance she came with",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "Before the public meeting, say what it's about and what you can do there, from the agenda record.",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-22",
+          "words": "Do not invent a spouse, job or picnic proofreading scene for a successor whose facts do not support it.",
+          "via": "people.md"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "What do you think? What? That's how it starts. There's no context.",
+          "via": "2026-11-08-1-verbatim.md"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "This scene makes absolutely no sense.",
+          "via": "2026-11-08-1-verbatim.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do it?",
+          "via": "2026-10-28-1.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "this has no context. He shows up in your room at midnight.",
+          "via": "2026-10-27-1-log.md"
         }
       ],
       "status": "awaiting-test",
@@ -2901,6 +3271,7 @@
     {
       "id": "no-figures-people-would-not-know",
       "says": "People in conversation don't quote figures they wouldn't know (a race's cost, months of savings, a percent); they ask the plain question: \"Can we even afford this?\"",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-28",
@@ -2932,6 +3303,7 @@
     {
       "id": "alright-in-dialogue",
       "says": "In dialogue, write \"Alright\", not \"All right\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -2950,6 +3322,7 @@
     {
       "id": "never-offer-what-the-player-cannot-do",
       "says": "Never offer the player what they cannot do: no ballot, vote or filing line when the player cannot vote or file.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-09",
@@ -2971,6 +3344,7 @@
     {
       "id": "look-up-how-real-people-say-it",
       "says": "Before writing a line, look up how real people say that thing in that situation (transcripts, interviews, oral histories) and write from that, not from a guess.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-16",
@@ -2991,6 +3365,41 @@
         {
           "date": "2026-11-09",
           "words": "Again, for each of these, 4.1, 4.2, 4.3, etc., look at real-life examples of that and see how real life people talk about it. That will help you."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "the opening speech flows like a real speech",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "That's not a speech",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "lines must sound like people talk",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "People speak about those, from their own views, in real-speech style (council minutes).",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-07",
+          "words": "Dialogue should sound spoken rather than authored.",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-06",
+          "words": "Interpersonal scenes should usually feel like actual communication, not task-card copy.",
+          "via": "people.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "Read previous inaugural addresses.",
+          "via": "2026-10-28-1.md"
         }
       ],
       "status": "awaiting-test",
@@ -3001,6 +3410,7 @@
     {
       "id": "no-offer-tags",
       "says": "An offer is not closed with a tag line: not \"That's real.\", \"That's what's on the table.\" or \"That's what I've got.\"",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -3035,6 +3445,7 @@
     {
       "id": "no-this-town",
       "says": "A line that could name the place names it (Lexington, the United States) instead of saying \"this town\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-09",
@@ -3052,6 +3463,7 @@
     {
       "id": "no-developer-words",
       "says": "No developer words in text the player reads: not \"office replied\", \"bond loyalty\", \"filled on ballot\", \"What the race turns on\", \"Serving when your story began\", \"Views fit close\" or \"Neither, much\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-19",
@@ -3096,6 +3508,36 @@
         {
           "date": "2026-11-01",
           "words": "it says Democratic. Views fit close. How do you know?"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "nothing ships in dev speak.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Dates read month, day, year. \"office replied\", \"bond loyalty\", \"works as us-house at Us\" and \"no job on record\" for someone who just left a job are not English.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-19",
+          "words": "less source/debug boilerplate",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-27",
+          "words": "Never developer or record language.",
+          "via": "screens.md"
+        },
+        {
+          "date": "2026-10-07",
+          "words": "Strip every authored sentence, helper line, explanation and developer word from the [screen]",
+          "via": "screens.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "the \"(counter: director)\" part is developer text.",
+          "via": "2026-10-28-1.md"
         }
       ],
       "status": "enforced",
@@ -3123,10 +3565,26 @@
     {
       "id": "no-out-of-world-words",
       "says": "The player is in the world: no \"fictional\", \"this world\" or \"not a preference\" in text they read.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-09-29",
           "words": "Remove every out-of-world disclaimer from player text... The player is in the world; never talk to them as a developer."
+        },
+        {
+          "date": "2026-09-23",
+          "words": "No provenance or source wording on player screens.",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-20",
+          "words": "Remove normal-play source/debug boilerplate, 'in this fictional world,' raw ISO dates",
+          "via": "opening.md"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "remove 'a skip always stops for these, not a preference'",
+          "via": "screens.md"
         }
       ],
       "status": "enforced",
@@ -3139,6 +3597,7 @@
     {
       "id": "no-thank-you-so-much",
       "says": "In a speech, \"Thank you very much\", not \"Thank you so much\".",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -3160,6 +3619,7 @@
     {
       "id": "no-bill-code-as-headline-subject",
       "says": "A headline never has a bill code for its subject (\"HR1 clears the health committee\"); it names the bill.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-11-08",
@@ -3185,6 +3645,7 @@
     {
       "id": "rejected-by-voice",
       "says": "These whole lines were rejected by voice and do not come back.",
+      "judges": "line",
       "from": [
         {
           "date": "2026-10-15",
@@ -3491,6 +3952,7 @@
     {
       "id": "journal-work-line-tells-a-story-in-ten-words",
       "says": "A journal line about finding work again is told as a small story, never as the bare \"After ... out of work\" statement.",
+      "judges": "piece-in-context",
       "from": [
         {
           "date": "2026-11-09",
@@ -3520,6 +3982,699 @@
       },
       "catches": ["After {span} out of work, I went back to work."],
       "spares": ["I found work again."]
+    },
+    {
+      "id": "journal-names-no-feeling",
+      "says": "The journal never names a feeling; tension and mood show through ordinary concrete behavior and dialogue, and a feeling is never invented to make a sentence work.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-10",
+          "words": "Imply relationship tension through ordinary concrete behavior/dialogue rather than narrating feelings.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-26",
+          "words": "a feeling is never invented to make a sentence work.",
+          "via": "words.md"
+        },
+        {
+          "date": "2026-09-06",
+          "words": "Imply relationship tension through ordinary concrete behavior/dialogue rather than narrating feelings.",
+          "via": "people.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "many-versions-of-each-scene",
+      "says": "Each kind of scene has many versions, not a handful, so a play-through does not meet the same one twice.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-11-08",
+          "words": "there's only 5 in corruption scenes right now, you could get... 30 different scenes within there",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "player-never-says-unchosen",
+      "says": "A line is never put in the player's mouth that they did not choose; a choice is worded as the player's actual reply.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-11-01",
+          "words": "I never said that",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "body-named-as-place-names-it",
+      "says": "A body is named as the place names it (council, trustees, selectboard), and a line to the player never calls it something the place does not have.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-01",
+          "words": "Do you mean city council?",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "news-reads-as-a-story",
+      "says": "A news item is a story: a headline, a lede and a body that tell what happened; a headline repeated as the body, or a list of fields, fails.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-01",
+          "words": "none of this is a story",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-29",
+          "words": "when you click continue and back, it's like headlines and then a little bit of story. Nothing is actually on the paper.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "this isn't news. I mean, this is it. There's no story.",
+          "via": "2026-11-08-1-verbatim.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "Clicking a story opens a page with no story: the headline repeated as the body.",
+          "via": "2026-10-28-1.md"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "This isn't news.",
+          "via": "words-news-inauguration-story-reads-as-news.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "person-history-tells-a-story",
+      "says": "A person's history is told as a story with text under the name, not as a bare office or a list of facts.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-01",
+          "words": "Elected legislator, it needs to be told like a story. How many times do I have to say that?",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "narration-assumes-no-reason",
+      "says": "Narration never gives the player a reason or a history they were not given (why they came, what forms they carry).",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-01",
+          "words": "how do you know why I came here with my forms in a folder?",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "traits-read-as-plain-sentences",
+      "says": "A trait reads as a plain description of what a person is like, in words a person would use; a trait name with a value (\"Neither, much\") fails.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-10-27",
+          "words": "The player is not seeing this stuff. It needs to be a plain version of what this person's like",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "traits neither much keeping commitments neither much those aren't traits",
+          "via": "words-traits-middle-reads-as-a-sentence.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "reply-second-move-follows-the-first",
+      "says": "A reply's second move follows from its first (\"I'm from Washington. What about you?\", never \"I'm from Washington. Have you talked to Omar?\").",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "A reply's second move follows from its first.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")",
+          "via": "LAW.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "many-variants-of-the-same-meaning",
+      "says": "Every meaning has many variants, so a player never sees the same line twice.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "many variants of the same meaning so the player never sees a line twice",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "never-met-is-never-the-only-line",
+      "says": "What a card or a line says about a public figure the player has not met is more than \"you have never met\"; it says what the public knows.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "\"you have never met\" is never the only line.",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "journal-entry-has-story-around-it",
+      "says": "A journal entry is part of a story, not a lone event: the journal reads as a memoir from birth, with the people and the cause around each entry.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "No entry is a lone event with no story around it.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "this journal needs to be written like a story, not individual fucking sections, but written like a story from birth.",
+          "via": "2026-10-27-1.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "journal-line-carries-its-subject",
+      "says": "A journal line carries its subject: the office (\"My father was elected mayor\"), the name (\"My daughter Jane was born\"), and \"a turning point\" only when the record shows one.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Journal lines carry their subject.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up.",
+          "via": "covered-notes.md"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Journal lines carry their subject.",
+          "via": "LAW.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "bill-reads-as-a-real-bill",
+      "says": "A bill, a section and an ordinance read as the real form does for that body (numbering, title, sections, enacting words); the player edits only the terms.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "Numbering, title, sections and enacting language follow the norm for that body, as a real bill reads.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "A town or county ordinance reads as an ordinance",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "A section reads as a real section does",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "bill-called-by-what-people-call-it",
+      "says": "A bill is called by a real name, the name people give it, or what it does; never by a description from the catalog or the catalog's policy name.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "The engine never says a policy's catalog name literally",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "A bill has a real name, not a description.",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "business-names-sound-real",
+      "says": "Private businesses get generated names that sound real, from the town's own family names and streets; no \"general store\", no national chains, no real brands.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "Businesses are generated with real-sounding names.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-05",
+          "words": "private companies get GENERATED names from the town's own records (family names, streets); real names only for public bodies, hospitals, colleges and banks; no national chains.",
+          "via": "people.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "speech-has-a-core",
+      "says": "A speech is short openers and closers around longer, meatier choices on different subjects, played in steps; a four-line rally or one block is not a speech.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "A four-line rally is not a speech.",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "The speeches must not be one block.",
+          "via": "2026-10-28-1.md"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "A four-line rally is not a speech.",
+          "via": "LAW.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "lie-names-another-place",
+      "says": "A lie about where you are from names another place; it is never \"Not here.\"",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "A lie about where you are from names another place",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-do-you-remember-the-school",
+      "says": "No opener asks \"Do you remember <school>?\" unless something recorded happened to the school or decades have passed and the record shows it.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Every item of the form \"do you remember <school>\" is removed from the banks and the catalog as an opener",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "request-needs-its-ground",
+      "says": "A request has its ground in the record: the party asks someone to run only with inroads on record, a donor who leans on you gave a large share, and \"I'll take the meeting\" follows a meeting that was asked for.",
+      "judges": "exchange",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "A request needs its ground.",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "later-replies-move-the-talk-on",
+      "says": "After the first exchange the replies offered do not rehash the first options; they move the talk on.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "After the first exchange, the options must not rehash the first options; they move the talk on",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "replies-may-be-long-and-substantive",
+      "says": "Replies are not all short; some carry an argument or a reason, so a reply does not kill the talk.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "Not every line short; some carry an argument or a reason.",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "escalation-can-be-answered-in-kind",
+      "says": "When the other person escalates, the player can escalate back, not only calm down or leave.",
+      "judges": "set",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "the player can escalate back, not only de-escalate or leave",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "office-named-as-people-say-it",
+      "says": "An office is named as people say it (\"the finance secretary\"), never as a chart (\"Budget Director / Finance Secretary\").",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "an office is named as people say it (\"the finance secretary\"), never as \"Budget Director / Finance Secretary\"",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "promise-only-what-the-speaker-can-do",
+      "says": "A line promises only what the speaker can do (\"I'll call you\" to a stranger in a grocery store fails).",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "Promise only what the character can do.",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "pronoun-fits-the-person",
+      "says": "A line uses the pronoun the person goes by or avoids it (\"like they've done a hundred times\" for one man reads wrong).",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "avoid the pronoun or use the person's own.",
+          "via": "OWNER-DECISIONS.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "speech-craft-is-earned",
+      "says": "Call and response, threes and literary turns belong to speakers with the skill and to public-address registers; a first-time candidate does not speak like a polished president.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "Call and response, saying things in threes and literary turns belong to speakers who have the skill",
+          "via": "OWNER-DECISIONS.md"
+        },
+        {
+          "date": "2026-09-28",
+          "words": "contrasts and three-part lists are allowed only in public-address registers.",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "note": "Sept 28 limited threes to public-address registers; Oct 19 (later) limits them by the speaker's skill; both are cited."
+    },
+    {
+      "id": "regional-speech-is-word-choice-only",
+      "says": "Regional speech is word choice only (pop or soda, y'all, you guys); no spelled-out accents.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-09-28",
+          "words": "Regional speech is word choice only (pop or soda, y'all, you guys), with no spelled-out accents.",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "swearing-follows-personality",
+      "says": "Swearing in private follows personality: crude characters swear freely in private, others rarely or never.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-09-28",
+          "words": "Swearing in private rooms follows personality: crude characters swear freely in private, others rarely or never.",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "brings-up-only-what-they-read-or-took-part-in",
+      "says": "A character brings up a public matter only if they read it (in the news) or took part in it.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-09-26",
+          "words": "A character can bring up a public matter only if they read it (in News) or took part in it.",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "narration-person",
+      "says": "Scene narration is second person (\"you\"); the journal is first person (\"I\").",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-09-26",
+          "words": "Ordinary scene narration elsewhere remains second person ('you').",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "childhood-lines-claim-no-outcomes",
+      "says": "Growing-up \"Remembered as\" lines do not claim outcomes the record does not hold.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-09-23",
+          "words": "Growing-up 'Remembered as' lines must not claim outcomes.",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-literary-phrasing",
+      "says": "No literary phrasing, metaphor, epigrams or visibly composed texture; ordinary political, civic, family, school, work and institutional words.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-09-07",
+          "words": "No literary phrasing, metaphor, epigrams, or visibly composed/generated texture.",
+          "via": "words.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "note": "Sept 7 style authority; the later rule concrete-image-over-generic asks for a concrete image where the voice allows, which this does not forbid."
+    },
+    {
+      "id": "news-comes-from-a-record",
+      "says": "A news story comes from a record; if nothing happened the paper does not invent it.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-09-29",
+          "words": "If nothing happened, the paper doesn't invent it.",
+          "via": "press.md"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "something about fishing rights in shared waters is hardcoded into the news.",
+          "via": "press.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "the-word-lie-never-appears",
+      "says": "The word \"Lie\" never appears on the conversation screen; a lie shows as the scales.",
+      "judges": "line",
+      "from": [
+        {
+          "date": "2026-10-02",
+          "words": "the word 'Lie' never appears.",
+          "via": "people.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "address-is-national-not-about-the-player",
+      "says": "An address is a national speech like a real inaugural: it does not name the player's state or home town, and does not speak as if the President came from the player's place.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-10-27",
+          "words": "The speech needs to be like a real inaugural, not a player-centered one.",
+          "via": "2026-10-27-1.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Why is he specifying on Colorado?",
+          "via": "2026-10-27-1.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "That doesn't make any sense",
+          "via": "2026-10-27-1.md"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "I come to this office from Michigan and I carry it with me. That doesn't make any sense.",
+          "via": "2026-10-27-1-log.md"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
     }
   ]
 }
