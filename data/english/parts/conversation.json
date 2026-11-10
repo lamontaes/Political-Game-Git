@@ -24634,7 +24634,7 @@
       "key": "conversation.own-work-answer-detail.yes-at-employer-and-still-in-my-place",
       "move": "own-work-answer-detail",
       "kind": "spoken",
-      "text": "Yes, at {employer}. And still in {my_place}.",
+      "text": "At {employer}, and still in {my_place}.",
       "uses": [
         {
           "move": "own-work-answer-detail",
@@ -24715,7 +24715,7 @@
       "key": "conversation.own-work-answer-change.yes-and-where-are-you-living-now",
       "move": "own-work-answer-change",
       "kind": "spoken",
-      "text": "Yes. And where are you living now?",
+      "text": "Same as ever. Where are you living now?",
       "uses": [
         {
           "move": "own-work-answer-change",
