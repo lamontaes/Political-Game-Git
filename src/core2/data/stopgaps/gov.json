@@ -1447,8 +1447,10 @@
     "why": "Session A checked main: no customer-data holdings or access/deletion request exists. The business engine's monthly cost review now reads the law (readBusinessDuty in src/core2/modules/business.ts); what a request is, and which businesses hold enough data to be covered, have no records.",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-14",
-    "replacement": "PEOPLE with WORLD: a resident's request to see or delete data, answered by a business that holds customer data; coverage thresholds from the statute's terms read per business.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: PEOPLE with WORLD: a resident's request to see or delete data, answered by a business that holds customer data; coverage thresholds from the statute's terms read per business.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-REACH-A-local-authority",
@@ -1508,8 +1510,10 @@
     "why": "The repository has no per-place dual-office compilation; the previous engine vacated every prior office without reading any law. Research endpoint returned a web application firewall block.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Source each place’s prohibitions and exceptions, replacing the estimated pairs in the same reader.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-policy-power-unresolved",
@@ -1518,10 +1522,12 @@
     "line": 96,
     "whatItFakes": "A question with no entry in the powers catalog, or a local question whose gating state law is not on record, is refused as a disputed missing grant. Today every question is mapped and all 56 places answer both gate questions and the home-rule question, so only a future data gap reaches this refusal.",
     "why": "All 59 policy questions are mapped. What remains unresolved is a gating state law not yet recorded, which the engine cannot infer from absent research.",
-    "replacement": "The gating state laws recorded in the opening law table for every place, read before introduction and executive orders.",
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The gating state laws recorded in the opening law table for every place, read before introduction and executive orders.",
     "addedBy": "Session D (second pool worker)",
     "addedAt": "2026-10-15",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-policy-power-conditions",
@@ -1544,8 +1550,10 @@
     "why": "Federal-only policy questions need recorded starting answers, official stances and downstream effect readers before adding them to the shared proposal pool.",
     "addedBy": "SESSION-D-SECOND",
     "addedAt": "2026-10-15",
-    "replacement": "Wire the federal-only questions through the existing stance, law and effect engines, with named-person played-world evidence, then include them in the proposal pool.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Wire the federal-only questions through the existing stance, law and effect engines, with named-person played-world evidence, then include them in the proposal pool.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-REACH-B-flat-tax-replacement",
@@ -1568,8 +1576,10 @@
     "why": "The world holds no street map or address inside a town, and no record of how a place's council districts or wards are drawn.",
     "addedBy": "claude/gov-council-election-method",
     "addedAt": "2026-10-15",
-    "replacement": "Council districts drawn from the town's dwellings (by the council or a commission, to near equal population as its charter says), each household and each sitting member placed by their dwelling.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Council districts drawn from the town's dwellings (by the council or a commission, to near equal population as its charter says), each household and each sitting member placed by their dwelling.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-ward-residency",
@@ -1580,8 +1590,10 @@
     "why": "The compiled charters (src/core2/gov-rules/municipal-governments.json) carry only the council's composition, and governing-body-seat-qualification.json only the minimum age; most ward and district charters do ask residency in the ward, but no place's own text has been read.",
     "addedBy": "claude/gov-council-ward-residency",
     "addedAt": "2026-10-17",
-    "replacement": "Read each place's charter or state law for whether a ward or district candidate must live in it, and apply the check only where it does; the part of town then comes from the dwellings, as SG-GOV-ward-map's replacement draws it.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read each place's charter or state law for whether a ward or district candidate must live in it, and apply the check only where it does; the part of town then comes from the dwellings, as SG-GOV-ward-map's replacement draws it.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-empty-race-law",
@@ -1592,8 +1604,10 @@
     "why": "Existing vacancy data governs filling a vacancy but does not establish when failure to elect creates one. Only congressional fixed term boundaries are sourced here.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "A researched failure-to-elect row for each of the 56 places and each office family, and the national presidential contingent-election path.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A researched failure-to-elect row for each of the 56 places and each office family, and the national presidential contingent-election path.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-wide-resident-pool",
@@ -1604,8 +1618,10 @@
     "why": "The wider electorate has counts but no resident household records from which candidacy can read personal resources and ambitions.",
     "addedBy": "SESSION-C",
     "addedAt": "2026-10-15",
-    "replacement": "Jurisdiction-wide counted household records with district membership, using the same candidacy reasons before filling in a runner.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Jurisdiction-wide counted household records with district membership, using the same candidacy reasons before filling in a runner.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-press-office-owner-confirmation",
@@ -1640,8 +1656,10 @@
     "why": "The Census Gazetteer legislative districts cover the states, D.C. and Puerto Rico only; the territories' own districts (Guam at large, the Virgin Islands by island, the Northern Marianas by island and village, American Samoa's counties and districts) are not yet read.",
     "addedBy": "claude/territory-seats-s5",
     "addedAt": "2026-10-17",
-    "replacement": "Each territory's districts and sitting members, read from the territory's election commission, so seats are elected by district and hold the real parties and names.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each territory's districts and sitting members, read from the territory's election commission, so seats are elected by district and hold the real parties and names.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-first-race-no-local-office",
@@ -1702,8 +1720,10 @@
     "why": "public-budget-bases.json holds an all-funds total for three island areas and no breakdown for any; without a budget its treasury is empty and its officials and agencies cannot be paid.",
     "addedBy": "claude/territory-admin-line",
     "addedAt": "2026-10-18",
-    "replacement": "Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each island area's published budget by function and its revenue by source (Guam, Virgin Islands and Puerto Rico budget documents; American Samoa and the Northern Marianas' Office of Insular Affairs financial reports) in public-budget-bases.json.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-campaign-walk-order",
@@ -1714,8 +1734,10 @@
     "why": "Added when only older residents could open the door (New Baltimore, Ohio: 45 doors, none opened under an id-ordered walk). Whether a walk list follows age, turnout history, party or the street is the owner's call; the acting CTO kept this order (Oct 24) until the campaigns engine reads a route from the map.",
     "addedBy": "claude/quirky-ride-vrwwz4-campaigns-small-place",
     "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling on how a campaign orders the doors it knocks (docs/coordination/OWNER-DECISIONS.md), built as the campaign's own choice of list.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The owner's ruling on how a campaign orders the doors it knocks (docs/coordination/OWNER-DECISIONS.md), built as the campaign's own choice of list.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-fee-level-by-bill",
@@ -1738,8 +1760,10 @@
     "why": "The news engine records who heard a story only for named people; the counted population has no hearing record of its own.",
     "addedBy": "Claude (traits lead)",
     "addedAt": "2026-10-24",
-    "replacement": "A per-group hearing record for counted residents, kept by the news engine, that the recall reads like a named voter's.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A per-group hearing record for counted residents, kept by the news engine, that the recall reads like a named voter's.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-officer-stipend-hours",
@@ -1750,8 +1774,10 @@
     "why": "The work schedule a post follows is a template's full-time slots, and the payroll pays the hourly rate for the minutes scheduled; fitting hours to a stipend needs a part-time schedule for the post.",
     "addedBy": "gov-town-officers-paid-under-minimum-wage",
     "addedAt": "2026-10-26",
-    "replacement": "A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A post whose line carries less than a full-time week takes a part-time schedule sized to the stipend at the going rate (Census ASPEP part-time municipal payroll), so its hours and hourly rate both match the source.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-carry-ask-no-screen",
@@ -1774,8 +1800,10 @@
     "why": "Renter households are not recorded for the whole government, only for the played town, so the town's slice of a larger government's line cannot be read from renters; the population share is the nearest record that exists.",
     "addedBy": "fixer, Merger 4's send-back of PR 6219",
     "addedAt": "2026-10-27",
-    "replacement": "Record renter households per government (counted, as the town's are) and pay each line by the town's share of them; the stopgap clears when the share reads renters.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Record renter households per government (counted, as the town's are) and pay each line by the town's share of them; the stopgap clears when the share reads renters.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-contract-conflict-named-members",
@@ -1786,8 +1814,10 @@
     "why": "Named officials outside the player's circle carry no family or business records until the player meets or clicks them, and the contracts engine weighs their ties as none for the same reason.",
     "addedBy": "claude/press-exposes-conflicts",
     "addedAt": "2026-10-27",
-    "replacement": "When an official is filled in, the family and firms they were generated with are read by the same familyRelation read, and the vote is checked against the winning firm's owner then; a firm owned by a counted or outside owner reads through the owner's recorded kin the same way.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: When an official is filled in, the family and firms they were generated with are read by the same familyRelation read, and the vote is checked against the winning firm's owner then; a firm owned by a counted or outside owner reads through the owner's recorded kin the same way.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-unheld-filler-party",
@@ -1798,8 +1828,10 @@
     "why": "The officials engine seats other states' members of Congress without the offices engine's terms, so no record names the appointee or the special election's candidates.",
     "addedBy": "gov-sampled-legislator-seats-never-refilled (Claude, wire-office)",
     "addedAt": "2026-10-28",
-    "replacement": "Other states' seats in Congress held on office terms like every other seat, so the appointing authority's choice or the special election's result (the voting engine's world races) names the holder and their party.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Other states' seats in Congress held on office terms like every other seat, so the appointing authority's choice or the special election's result (the voting engine's world races) names the holder and their party.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-petition-count-estimated",
@@ -1822,8 +1854,10 @@
     "why": "The world holds people one by one only in the town (two-level population); a canvass, an event and a circle reach only the town.",
     "addedBy": "claude/elections-petition-filing",
     "addedAt": "2026-10-28",
-    "replacement": "Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Signatures gathered in the district's other places at a coarse step, from the campaign's effort there, checked against the law's whole count.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-territory-legislature-race",
@@ -1834,8 +1868,10 @@
     "why": "The territories have no counted electorate places (no presidential vote or county places on record), so no count could decide a seat; several of their seats carry no party or a party of their own (Puerto Rico's New Progressive and Popular Democratic, American Samoa's nonpartisan Fono), not the two major parties the count fields. Without the skip each such race named no winner and the seat was never refilled.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
     "addedAt": "2026-10-30",
-    "replacement": "Each territory's electorate places from its own legislative, executive or delegate results, and its own parties on the count, so its seats are raced on the same counted engine (the same replacement as SG-GOV-territory-governor-race).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each territory's electorate places from its own legislative, executive or delegate results, and its own parties on the count, so its seats are raced on the same counted engine (the same replacement as SG-GOV-territory-governor-race).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-outside-nonpartisan-race",
@@ -1846,8 +1882,10 @@
     "why": "The world races count two major parties' candidates; an office whose ballot carries no party labels (data/research/offices/unrecorded-holder-parties-2026.json, appliesTo office) has no partisan race to count, and the voting engine has no nonpartisan count for a race the town doesn't vote in.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
     "addedAt": "2026-10-30",
-    "replacement": "A nonpartisan count for a race the town doesn't vote in (the incumbent against a challenger drawn from the state, decided by the places' votes on the candidates' own standing), so the seat loop in racesIn races these offices like every other.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A nonpartisan count for a race the town doesn't vote in (the incumbent against a challenger drawn from the state, decided by the places' votes on the candidates' own standing), so the seat loop in racesIn races these offices like every other.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-outside-ticket-raced-alone",
@@ -1870,8 +1908,10 @@
     "why": "The research file lists them as unread seats; nothing on record names the holder's party.",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 review fixes)",
     "addedAt": "2026-10-30",
-    "replacement": "Each seat's holder read into the research file (the chamber's own member page or the territory's election results), so seatOutsideOffices seats them in their party.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each seat's holder read into the research file (the chamber's own member page or the territory's election results), so seatOutsideOffices seats them in their party.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-outside-legislators-national-pool",
@@ -1882,8 +1922,10 @@
     "why": "The chooser (decideToRun) reads a person's traits, money and party, which a named official on a term row does not have, and filling about 7,400 legislators in as full people to weigh one race would make people the player never meets (the two-level rule).",
     "addedBy": "laws lead (claude/gov-every-state-and-town-governs, U1 re-review fixes)",
     "addedAt": "2026-11-01",
-    "replacement": "Another place's legislators weighed from their term rows by the same reasons as a full official (the seat's reach, the party's backing, an ambition read from the seat), the way candidacy's counted screen weighs counted residents, and filled in only when one runs.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Another place's legislators weighed from their term rows by the same reasons as a full official (the seat's reach, the party's backing, an ambition read from the seat), the way candidacy's counted screen weighs counted residents, and filled in only when one runs.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-outside-seat-records-unfolded",
@@ -1942,8 +1984,10 @@
     "why": "The outside donor is a counted place group with no household of its own: no recorded monthly living costs to take from a typical donor's income, so the month's budget after bills cannot be read from records yet.",
     "addedBy": "governing/campaign-money-calibrated",
     "addedAt": "2026-10-30",
-    "replacement": "Read a typical donor household's monthly living costs for the place group (the same living-cost tables the population is built from), make the cushion and the month's spare from them, and give by donationAnswer's two log-scaled shares, so outside and named donors use one rule; recheck the outside share of a campaign's receipts against localInPlaceDonorShare (0.65, 0.25 to 0.95).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Read a typical donor household's monthly living costs for the place group (the same living-cost tables the population is built from), make the cushion and the month's spare from them, and give by donationAnswer's two log-scaled shares, so outside and named donors use one rule; recheck the outside share of a campaign's receipts against localInPlaceDonorShare (0.65, 0.25 to 0.95).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-gift-no-living-costs",
@@ -1966,8 +2010,10 @@
     "why": "The register rules that the city attorney warns the player on a disputed power (DECISION-REGISTER, \"A law changes the record first\", Sept 22); the executive engine appoints a City Attorney for the town's council (appointTownDepartments) but no attorney or counsel for a county board, a township board or a legislature, and no title is typed in code.",
     "addedBy": "governing builder (gov-m3-01-city-attorney-warning-on-the-bill)",
     "addedAt": "2026-10-30",
-    "replacement": "The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The executive engine seats each other body's own lawyer as an appointment the way it seats the town's City Attorney (the county attorney from the county forms in executive-powers-2026.json, township counsel and legislative counsel from research on who advises each kind of body), and the paper names that appointment's title in bill-paper.authority.disputed.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-platform-support-true-share",
@@ -1978,8 +2024,10 @@
     "why": "The research rule scores a question by the support the candidate believes it has (Druckman, Jacobs and Ostermeier 2004 used Nixon's private polls), and no engine keeps a candidate's belief about how the town stands on a question.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "The candidate's belief about support, read from the people they know and the polls and news they have received, so it leans toward their own side and their circle (Pereira, APSR 2021: local officials misjudge majority opinion and overestimate support for the policies they endorse) and toward the conservative position, more for Republicans (Broockman and Skovron 2018: Republicans overestimate support for the conservative position on every issue by over ten points and often by over twenty, Democrats by less), with the seat's own electorate (its ward, county or state) in place of the town's.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The candidate's belief about support, read from the people they know and the polls and news they have received, so it leans toward their own side and their circle (Pereira, APSR 2021: local officials misjudge majority opinion and overestimate support for the policies they endorse) and toward the conservative position, more for Republicans (Broockman and Skovron 2018: Republicans overestimate support for the conservative position on every issue by over ten points and often by over twenty, Democrats by less), with the seat's own electorate (its ward, county or state) in place of the town's.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-platform-slope-c1-out-of-band",
@@ -1990,8 +2038,10 @@
     "why": "The study followed one candidate who spoke on many issues in graded amounts; the played world's candidates each speak on one question, and their support varies mostly between candidates (a candidate on the town's minority side has low support on most questions), not between one candidate's questions. Which total C1 holds in a world of many candidates, and whether a campaign's acts should share its emphasis over the platform by score as the research's emphasis share has it, is the governing lead's ruling.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (SG-GOV-platform-emphasis-lead-only's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The slope measured into the C1 band once a campaign's acts share its emphasis over the platform by score (SG-GOV-platform-emphasis-lead-only's replacement), by the pooled total with each candidate's offset, and the played-year test holds the band again: pool item campaign-platform-emphasis-c1. Until then the test prints C1 and does not hold it (governing lead, Nov 2, under the CTO's Nov 1 ruling that an unmet calibration line is reported in the PR and carried to its own item, never tuned or widened to pass).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-budget-line-stance-lean-only",
@@ -2014,8 +2064,10 @@
     "why": "The research (docs/research/platform-emphasis-2026-10-30.md, section 1 and the verified P4) multiplies the score by the record term with platformRecordWeight 0.5, TUNABLE, spread 0 to 1, from Sellers (APSR 1998), which gives only the direction; the first version scores conviction and support only.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "record(q), 0 to 1, read from the candidate's recorded votes on the question (StanceReader.votesOn, the votes a voter's record reader already reads) and their job's tie to it, weighted by a platformRecordWeight row (TUNABLE, 0.5, spread 0 to 1, Sellers 1998), with C1 kept in its band with it on.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: record(q), 0 to 1, read from the candidate's recorded votes on the question (StanceReader.votesOn, the votes a voter's record reader already reads) and their job's tie to it, weighted by a platformRecordWeight row (TUNABLE, 0.5, spread 0 to 1, Sellers 1998), with C1 kept in its band with it on.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-platform-emphasis-lead-only",
@@ -2038,8 +2090,10 @@
     "why": "CTO ruling Nov 1, 22:10: each place's counted people are placed along the lean order where, voting first place, they split as the place voted in 2024 (orderPlacement), so a share on top counts that spread twice: in a draw of all 51, D.C. counted 0.193 Republican against 0.072, and a town at 0.20 counted 0.297.",
     "addedBy": "Claude (governing lead)",
     "addedAt": "2026-11-01",
-    "replacement": "A spread of leans within each counted record on the lean order (the residents it stands for over its own stretch of the order), so that races with and without party labels divide by one rule and the lean order's placement reads the same division.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A spread of leans within each counted record on the lean order (the residents it stands for over its own stretch of the order), so that races with and without party labels divide by one rule and the lean order's placement reads the same division.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-REACH-B-medicaid-federal-leg",
@@ -2050,8 +2104,10 @@
     "why": "The aid flows pay each lower treasury a fixed twelfth of its Census revenue line (budgets-treasury.ts, treasury-spending.json aid); no aid flow reads a law, so the match cannot yet set the Medicaid portion of the aid.",
     "addedBy": "laws lead helper (claude/laws-medical-debt)",
     "addedAt": "2026-10-30",
-    "replacement": "The state treasury pays the seller the whole Medicaid part against its welfare and Medicaid line, and the federal share reaches the state as federal aid at the match in force: the Medicaid portion of the federal aid to the state is the match times the state's Medicaid care, read when the aid pays.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The state treasury pays the seller the whole Medicaid part against its welfare and Medicaid line, and the federal share reaches the state as federal aid at the match in force: the Medicaid portion of the federal aid to the state is the match times the state's Medicaid care, read when the aid pays.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-named-district-story",
@@ -2134,8 +2190,10 @@
     "why": "The owner's Nov 5 ruling (OWNER-DECISIONS.md): simulate other places from the people there, keep only the result, generate the detail on demand; running every bill of 55 legislatures through the full pipeline was what slowed every year.",
     "addedBy": "State Sessions session",
     "addedAt": "2026-11-05",
-    "replacement": "Add the terms that matter to a played proof, each read at the chamber's level (how fresh the law is, the executive's reluctance to reverse it), through the same counted-group rule as a full member; and build members on demand rather than at the opening (core-fill-in-hook).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Add the terms that matter to a played proof, each read at the chamber's level (how fresh the law is, the executive's reluctance to reverse it), through the same counted-group rule as a full member; and build members on demand rather than at the opening (core-fill-in-hook).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-outside-officials-counted",
@@ -2146,8 +2204,10 @@
     "why": "The CTO's Nov 7 ruling for the owner's Nov 5 rule (simulate from the people there, keep only the result, build detail on demand): paying 7,500 other-state officials person by person cost 10.9 percent of a country's first year and about 90,000 records, with nobody asking about them.",
     "addedBy": "State Sessions session",
     "addedAt": "2026-11-08",
-    "replacement": "Name and seat the other states' officials only when something asks for them (pool item gov-outside-officials-built-on-demand), so an official met later comes with a past that matches the seat's pay and years served.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Name and seat the other states' officials only when something asks for them (pool item gov-outside-officials-built-on-demand), so an official met later comes with a past that matches the seat's pay and years served.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-property-tax-aggregate-calibration",
@@ -2170,8 +2230,10 @@
     "why": "The game's committee meets once on a bill, on a day, and has no calendar of legislative days to count a wait against; the states' rules have not been researched.",
     "addedBy": "claude/dev-mode-discharge",
     "addedAt": "2026-11-08",
-    "replacement": "A legislative-day count per body, and one data row per state with a discharge rule, sourced from the state's own rules; the petition then opens only after the wait.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A legislative-day count per body, and one data row per state with a discharge rule, sourced from the state's own rules; the petition then opens only after the wait.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   },
   {
     "id": "SG-GOV-reserve-sweep",
@@ -2242,7 +2304,9 @@
     "why": "The OGP publishes each municipio's revenue lines and spending by function in files that were not read (only the island's revenue lines and each municipio's total were); the budgets engine reads one row per territory, scaled here by each municipio's total.",
     "addedBy": "Nation",
     "addedAt": "2026-11-09",
-    "replacement": "Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each municipio's own revenue lines and spending by function from the OGP files and its federal grants; rows for the other territories' local governments.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T2"
   }
 ]
