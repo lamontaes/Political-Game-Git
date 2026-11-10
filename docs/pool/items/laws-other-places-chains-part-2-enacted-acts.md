@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-country-tier
 source: split from laws-other-places-chains in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** When another state or county passes a law, the town does not share that jurisdiction, so the act is never written where withholding reads it and a worker who lives there is withheld by the starting law forever. Once part 1 records each residence's chain, write acts enacted in other jurisdictions to the same table so withholding follows them from their effective date. This is part 2 of laws-other-places-chains.
@@ -33,3 +34,5 @@ source: split from laws-other-places-chains in the pool redo, Nov 10, 2026
 **Waits on.** laws-other-places-chains-part-1-record-chains (its chains table).
 
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/withholding-outside-governments.test.ts
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. `outsideEnact` in src/core2/modules/world-legislating.ts (line 1486) enacts another state's act with `enactLaw`, a row in the laws table under that state's jurisdiction, and `residentLaw` in src/core2/modules/budgets.ts hands every recorded row of the series to the resolver with the residence's own chain. The proof this item asked for (an act elsewhere changes a named worker's withholding) is now part 1's test. Read on main, not run.

@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc1-world-outside-town
 source: split from gov-chamber-committees-reader in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Build Congress's committee list from `src/core2/data/office-day/federal-committees.json`, using each real committee's jurisdiction questions, as the House and Senate rows in `chamber-committees.json`. Congress's bills then route to real committees by the catalog question each carries, and the leadership engine seats members on them.

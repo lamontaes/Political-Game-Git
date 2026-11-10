@@ -17,6 +17,7 @@ root: rc5-full-detail-every-day
 lead: director
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** With all 1,720 people watched in Coventry, Vermont (seed 0fc1c044eef41a1c22a597a9d1846533367bca84), the first 30 days took about 8 seconds on #5336's branch before it merged main (about 50 seconds for a year) and 834 seconds on plain origin/main with the same script, so something main added since makes watching everyone scan far more per day. The test that timed it, src/director/stories-from-engines.test.ts, no longer exists, so the repro cannot be run as written. The scan that makes watching everyone slow was never named, and #5808's cache and rescore slice never got a bounded acceptance table.

@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc1-world-outside-town
 source: split from world-disasters-from-conditions in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Disasters after FEMA's records end already come from weather: on the first of each month the county's exposure to each hazard grows by the climate's rate (hazardRate) and a disaster happens the month the exposure holds one more whole one. But the damage is a lump paid to the counted residents with no harm to businesses, public buildings or people. Make a hazard-caused disaster damage named homes, named businesses and named public buildings, sized from the county's NOAA storm-episode history, each damage a record by id.
