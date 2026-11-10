@@ -10,7 +10,7 @@ import { lookRow } from "./look-row.mjs";
 import { statusLine } from "./fields.mjs";
 import { lastIntroducedSeries } from "./dev-bills.mjs";
 import { tableRows } from "./dev-view.mjs";
-import { moneyWords } from "../../english/plain-words.mjs";
+import { moneyWords, dateWords } from "../../english/plain-words.mjs";
 
 const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
 
@@ -105,6 +105,95 @@ function outlookSection(labels) {
     shown,
   );
   return section;
+}
+
+/**
+ * Skip years: 1, 5 or 20 in results mode. One request per year, so each finished year is a
+ * line of its own; the end says the seconds and the tier's own verdict. What a skipped year does
+ * not do comes from the stopgap itself (the route returns its text), never from this file.
+ */
+function skipSection(labels, onDone) {
+  const skip = labels.skip;
+  const lines = el("div", { className: "dev-skip-lines" });
+  const took = statusLine();
+  const verdict = statusLine();
+  const notDone = el("p", { className: "label" });
+  notDone.dataset.testid = "dev-skip-notdone";
+  const buttons = [
+    [1, skip.one],
+    [5, skip.five],
+    [20, skip.twenty],
+  ].map(([years, text]) => {
+    const b = makeButton({ className: "action" }, text);
+    b.dataset.testid = `dev-skip-${years}`;
+    b.addEventListener("click", async () => {
+      for (const other of buttons) other.disabled = true;
+      lines.replaceChildren();
+      took.textContent = "";
+      verdict.textContent = "";
+      const started = Date.now();
+      try {
+        let last;
+        for (let done = 1; done <= years; done++) {
+          const response = await fetch("/api/dev/run-year", {
+            method: "POST",
+            body: JSON.stringify({}),
+          });
+          const value = await response.json();
+          if (!response.ok) throw new Error(value.error);
+          if (!value.ran) {
+            took.textContent = skip.held;
+            return;
+          }
+          if (!value.opened) {
+            took.textContent = skip.notYet;
+            return;
+          }
+          last = value;
+          lines.append(
+            el("p", {
+              className: "label",
+              textContent: skip.yearDone
+                .replace("{n}", String(done))
+                .replace("{total}", String(years))
+                .replace("{date}", dateWords(value.to)),
+            }),
+          );
+        }
+        took.textContent = skip.took.replace(
+          "{n}",
+          ((Date.now() - started) / 1000).toFixed(1),
+        );
+        verdict.textContent = last.problems
+          ? skip.impossible.replace("{n}", String(last.problems))
+          : skip.possible;
+        await onDone();
+      } catch (error) {
+        took.textContent = error.message;
+      } finally {
+        for (const other of buttons) other.disabled = false;
+      }
+    });
+    return b;
+  });
+  // The list of what a skipped year does not do is read from the stopgap on the first look.
+  fetch("/api/dev/run-year-notice")
+    .then((r) => r.json())
+    .then((v) => {
+      notDone.textContent = v.notDone;
+    })
+    .catch(() => {});
+  return el(
+    "div",
+    { className: "dev-skip" },
+    el("h4", { className: "label", textContent: skip.title }),
+    el("p", { className: "label", textContent: skip.explanation }),
+    notDone,
+    el("div", { className: "acts" }, ...buttons),
+    lines,
+    took,
+    verdict,
+  );
 }
 
 /**
@@ -249,6 +338,7 @@ export function devRunPanel({ labels, onDone }) {
     el("div", { className: "acts" }, ...hourButtons),
     el("div", { className: "acts" }, jump),
     result,
+    skipSection(labels, onDone),
     outlookSection(labels),
   );
 }
