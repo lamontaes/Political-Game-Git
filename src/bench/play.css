@@ -5343,3 +5343,13 @@ body.color-blind .meeting-member.vote-abstain {
   scrollbar-width: thin;
   scrollbar-color: rgba(214, 189, 132, 0.4) transparent;
 }
+
+/* Government in Dev mode: Bills and Bribe sit in the main column under the members; the chamber picture gives them its room. */
+.dev-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.split-main:has(.dev-panels) .chamber {
+  display: none;
+}
