@@ -1594,9 +1594,16 @@ export function composeJournal(
         moment.causeKind === "job-ended:let-go") &&
         own)
     ) {
+      // A lost job names the employer it was lost at; a
+      // death is told by the lines that follow it (the age, the illness).
+      const lostJob =
+        moment.causeKind === "job-ended" ||
+        moment.causeKind === "job-ended:let-go";
       const hard = render(
         { part: "memoir", field: "hard", closedWith },
-        facts,
+        lostJob && facts.employer
+          ? { ...facts, "lost-employer": facts.employer }
+          : facts,
         `${moment.id}:hard`,
         sourceIds,
       );

@@ -43,6 +43,21 @@ export type RuleTest =
     }
   | { readonly kind: "judged" };
 
+/**
+ * What a rule judges: `line` (one line alone), `set` (the replies offered
+ * together), `exchange` (a line with what it answers, or a scene's opener and
+ * close together) or `piece-in-context` (a line with the record or screen it
+ * sits on, such as a journal line's subject).
+ */
+export type RuleJudges = "line" | "set" | "exchange" | "piece-in-context";
+
+export const RULE_JUDGES: readonly RuleJudges[] = [
+  "line",
+  "set",
+  "exchange",
+  "piece-in-context",
+];
+
 export interface RuleApplies {
   readonly banks?: readonly string[];
   readonly kinds?: readonly ("spoken" | "written")[];
@@ -53,6 +68,14 @@ export interface RuleApplies {
 export interface LineRule {
   readonly id: string;
   readonly says: string;
+  /** What the rule judges: one line, the replies together, an exchange, or a line in its context. */
+  readonly judges: RuleJudges;
+  /**
+   * Set where the rule judges a `set` or an `exchange` but its detector still
+   * reads one line at a time, so the mismatch is visible until a reader of the
+   * whole is built.
+   */
+  readonly detectorReads?: "line";
   /**
    * What the owner said, short and exact. Research-only rules have none. A
    * `via` says the words are not his recorded voice but how a log, a ruling or

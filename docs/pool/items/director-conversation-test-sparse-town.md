@@ -6,16 +6,17 @@ lead: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8176
 after:
 blocked-on:
 model: sonnet
 effort: medium
 root: none
 source: Red main, relaying Merger 0's draws fn-1 and fn-2, Nov 1
+merged-at: 2026-11-10T18:39:46.779Z
 ---
 
 **What.** On draws fn-1 and fn-2 (Lavalette, West Virginia) src/director/conversation.test.ts fails 'offers four distinct replies' (8 turns, needs more than 8) and 'never parts with a word the talk already said' (no talk ended in a goodbye), on main before and after #7012. The engine is right by its rulings: a relative with nothing on record says nothing, and nobody says goodbye right after their own question was answered. The player the test picks knows 23 people, 5 of them full; the opening records list only 1 to 4 of them as known, since the rest are added when the world starts, so a pick from the opening records can't see the shortfall.
