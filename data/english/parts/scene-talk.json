@@ -197686,7 +197686,7 @@
       "key": "scene-talk.narrate-narrate.you-are-held-and-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are held, and {name} has come to see you.",
+      "text": "{name} has come to see you inside.",
       "uses": [
         {
           "subject": "scene",
@@ -197710,7 +197710,7 @@
       "key": "scene-talk.narrate-narrate.you-are-serving-sentence-and-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are serving {sentence}, and {name} has come to see you.",
+      "text": "You're serving {sentence}. {name} has come to see you.",
       "uses": [
         {
           "subject": "scene",
@@ -197734,7 +197734,7 @@
       "key": "scene-talk.narrate-narrate.you-are-serving-sentence-and-get-out-on-release-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are serving {sentence} and get out on {release}. {name} has come to see you.",
+      "text": "{name} has come to see you. You're serving {sentence}, and you get out on {release}.",
       "uses": [
         {
           "subject": "scene",
@@ -197758,7 +197758,7 @@
       "key": "scene-talk.narrate-narrate.you-are-held-until-the-case-is-heard-and-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are held until the case is heard, and {name} has come to see you.",
+      "text": "Your case hasn't been heard yet. While you wait, {name} has come to see you.",
       "uses": [
         {
           "subject": "scene",
@@ -197782,7 +197782,7 @@
       "key": "scene-talk.narrate-narrate.you-are-held-because-bail-bail-was-not-paid-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are held because bail, {bail}, was not paid. {name} has come to see you.",
+      "text": "Bail was set at {bail}, and nobody has paid it. {name} has come to see you.",
       "uses": [
         {
           "subject": "scene",
@@ -197806,7 +197806,7 @@
       "key": "scene-talk.narrate-narrate.name-has-come-to-see-you-and-child-is-in-your-household",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "{name} has come to see you, and {child} is in your household.",
+      "text": "{name} has come to see you. The first thing you want to know is how {child} is doing.",
       "uses": [
         {
           "subject": "scene",
@@ -197950,7 +197950,7 @@
       "key": "scene-talk.state-request.would-it-help-first-if-i-put-some-money-on-your-account-this-week",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Would it help, {first}, if I put some money on your account this week?",
+      "text": "Would it help, {first}, if I put some money on your commissary account this week?",
       "uses": [
         {
           "subject": "scene",
@@ -197974,7 +197974,7 @@
       "key": "scene-talk.state-request.tell-me-what-you-need-for-your-account-and-i-ll-put-it-there-before-the-week-is-out",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Tell me what you need for your account, and I'll put it there before the week is out.",
+      "text": "Tell me what you need on your commissary, and I'll put it there before the week is out.",
       "uses": [
         {
           "subject": "scene",
@@ -198048,7 +198048,7 @@
       "key": "scene-talk.state-request.do-you-want-me-to-ask-a-lawyer-whether-anything-can-be-done-about-the-sentence",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Do you want me to ask a lawyer whether anything can be done about the {sentence}?",
+      "text": "Do you want me to ask a lawyer whether anything can be done about your sentence?",
       "uses": [
         {
           "subject": "scene",
@@ -198594,7 +198594,7 @@
       "key": "scene-talk.follow-answer.money-on-your-account-first-then-we-ll-see-about-the-rest",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Money on your account first, then we'll see about the rest.",
+      "text": "Money on your commissary first, then we'll see about the rest.",
       "uses": [
         {
           "subject": "scene",
@@ -198618,7 +198618,7 @@
       "key": "scene-talk.follow-answer.whatever-you-need-carried-out-of-here-i-will",
       "move": "follow-answer",
       "kind": "spoken",
-      "text": "Whatever you need carried out of here, I will.",
+      "text": "Whatever you need done on the outside, I'll do it.",
       "uses": [
         {
           "subject": "scene",
