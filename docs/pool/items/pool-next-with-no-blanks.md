@@ -5,7 +5,7 @@ area: docs
 kind: feature
 priority: 1
 size: S
-status: merged
+status: done
 standard: 2
 claimed-by: claude/fable-pool-no-blanks
 pr: #8242
@@ -18,6 +18,8 @@ root: none
 source: owner, Nov 10, 2026, through the CTO
 checked: fable 2026-11-10
 merged-at: 2026-11-10T21:51:52.189Z
+seen-by: sonnet-0b74
+seen-at: 2026-11-10T21:52:28.401Z
 ---
 
 **What.** The owner pastes one command to start a builder on any tool. The first version made him fill in a level and a name. He said: "No, that's too much work for me. Again, I might not be using Claude for these. That's why I say they're not all going to be Opus, Sonnet, or Haiku. And I'm not choosing the name." The command must be one fixed block, and the levels must not be Claude's model names alone.
@@ -35,3 +37,5 @@ merged-at: 2026-11-10T21:51:52.189Z
 **Waits on.** Nothing.
 
 **Files.** scripts/pool/agent.ts (new), scripts/pool/index.ts, scripts/pool/next.test.ts, docs/pool/tiers.json (new), docs/pool/START-A-BUILDER.md, docs/pool/README.md, AGENTS.md
+
+**Notes.** Seen in the game (2026-11-10, sonnet-0b74): not a game place; pool command check, seed 0, main 213cc566c679221217b008bdf142483cc355f312: Check-in then next gave name, tier, claim, branch, and body file with nothing to fill in
