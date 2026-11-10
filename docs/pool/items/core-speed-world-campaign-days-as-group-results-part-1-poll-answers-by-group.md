@@ -5,9 +5,9 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: high
 root: design-country-tier
 source: split from core-speed-world-campaign-days-as-group-results in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:04:08.982Z
+branch: claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group
 ---
 
 **What.** A poll of unwatched full people is a per-person answer. Add the group impression row per group and candidate (mean warmth, share who heard of them, share who know the platform) in src/core2/hearer-groups.ts, let `impressionOf` (src/core2/modules/campaigns.ts line 730) read the group for a member with no row of their own, and answer a world campaign's poll from it. This is part 1 of core-speed-world-campaign-days-as-group-results and the shape the other parts use.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing. (core-speed-message-viewers-as-groups, which it built on, is done.)
 
 **Files.** src/core2/hearer-groups.ts, src/core2/modules/campaigns.ts, src/core2/modules/voting.ts
+
+**Notes.** Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:03 UTC) on branch claude/pool-core-speed-world-campaign-days-as-group-results-part-1-poll-answers-by-group.

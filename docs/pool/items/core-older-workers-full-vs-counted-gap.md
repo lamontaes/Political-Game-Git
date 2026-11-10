@@ -17,6 +17,7 @@ root: design-one-model-two-tiers
 lead: m0-m2
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The item's first measure (203 of 231 full people aged 62 to 67 working in Cedro, New Mexico against 11 of 115 counted) was shown unfair by three passes of notes: the full count is mostly officials and press staff of other places, and the counted count includes other places' people the opening never employs. In the town alone the tiers open within 9 points (full 8 of 12, counted 22 of 29). Two things remain. One, a filled-in worker must keep the job and pay their counted record held, and no test checks that for ages 62 to 67. Two, the opening's recorded work history employs nearly everyone aged 62 to 64 (16 of 16 in Cedro against an ACS target of 7) because the opening adds jobs up to a cohort target and never trims; whether records or the target win is an owner decision.

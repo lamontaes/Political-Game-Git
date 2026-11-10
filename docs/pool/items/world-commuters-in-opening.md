@@ -17,6 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: "gov-stopgap-budgets-faked-mechanic, found claiming it"
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** No full worker lives elsewhere and works in the town, and no resident works elsewhere: the opening treats a place's residents as its workers, and notes only that many unplaced workers commute. The commuting flows it needs are on main (world-commute-flow-data): data/source/lodes-commuting/place-commuting.json, read by src/core2/commuting-shares.ts, which gives each place the share of its residents who work in it and the share of its jobs held by people who live elsewhere. Use those shares in the opening so a place's commuters, in and out, are real workers with paychecks traced by record id. This also unblocks gov-stopgap-budgets-faked-mechanic, whose nonresident local tax and tax owed to another state cannot fire without it. The player would see it as a choice among people, never a form.

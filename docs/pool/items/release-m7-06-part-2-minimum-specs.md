@@ -17,6 +17,7 @@ effort: low
 root: none
 milestone: M7
 source: split from release-m7-06-steam in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Measure the machine the game needs: run npm run speed:year and the desktop package on the smallest machine available and record time, memory and disk, so the store page can state minimum specs.

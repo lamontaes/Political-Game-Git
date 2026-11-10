@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/modules/recalls.ts reads each state's bars as days into the term and days before its end (src/core2/data/campaigns/recall-bars.json), and bars any later petition for the rest of the term once one failed. Some statutes count from an election instead: Nebraska bars a petition six months before the incumbent filing deadline, Washington stops one six months before the next general election, North Dakota bars a recall election within a year of the next regular one; those are estimated or left out of the table now. Each state's rule after a failed recall also differs (six months in Alaska, 365 days in D.C., two years in Montana, twelve months in Nebraska, the rest of the term in Nevada and North Dakota), recorded in data/research/core/recall-timing-statutes-2026.json. Read both into the recall engine, and read Mississippi's timing rule, which no session has read. Closes SG-GOV-recall-bars-national. Combined by the Oct 25 audit, one change in one seam; the parts folded in: gov-recall-bars-calendar-months (A recall bar stated in calendar months is read as calendar months from the term's own dates); gov-recall-bars-fraction-of-term (A recall bar stated as a fraction of the term is read as that fraction of the term at hand). Each part's own done-when line is listed in Notes and is part of this item's acceptance.

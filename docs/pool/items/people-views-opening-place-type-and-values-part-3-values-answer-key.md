@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: split from people-views-opening-place-type-and-values in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Check the formed values against a sourced answer key for the town's state and metro, as docs/packages/M1-views.md requires ("if the generated town's spread misses the key, fix the weights' sources, never assign views to fit"). The stopgap row says the 14 values have no answer key yet, so this part first finds a survey that measures them or close proxies, fetches and quotes it, and records it under data/research/. The counted groups must carry the same terms and values as full people, times their count, and the check must show it.

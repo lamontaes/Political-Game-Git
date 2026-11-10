@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/campaigns.ts, scripts/speed-years/run.ts
 
 **Notes (Fable's check, Nov 10).** Proposed drop (Fable's check): this part asks for work that exists or is owned elsewhere. Campaign causes already fold at a race's close (`foldClosedRaceCauses`, src/core2/modules/campaigns.ts line 5486, and `foldOldCauses`, line 5527; item core-long-run-campaign-causes-fold is done). Money rows are core-long-run-campaign-money-rows, in a pull request. Gifts, endorsements, polls and stepped-up rows are core-long-run-race-close-campaign-rows. Impressions are one row per voter and person carried across races, so they never fold at a race's close (skill speed-work). Do not build this item; whatever still grows is named by core-long-run-tables-grow-with-history-part-4-whole-save-check.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Mostly built already: the campaign causes fold is on main (foldClosedRaceCauses, campaigns.ts 5486; item core-long-run-campaign-causes-fold is done), the money rows are in a pull request (core-long-run-campaign-money-rows), the rest is core-long-run-race-close-campaign-rows, and impressions must not.

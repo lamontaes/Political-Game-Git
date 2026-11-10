@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The voting engine's scandal term carries exposed-corruption-to-reelection: a voter who heard a story about a candidate's taken bribe or public conviction weighs it. outcome-web-civic-played.test.ts checks that every kept ballot whose voter heard such a story carries the term, but in three drawn worlds played to November 30, 2026 (Cuyamungue Grant, New Mexico; Lawton, North Dakota; Camp Sherman, Oregon) no bribe was offered at all, so no story existed and the check had nothing to hold. Once gov-bribes-in-played-worlds-measured says how often bribes should arise, find a drawn place and seed where one surfaces before a race, and name the ballot that carried the term.

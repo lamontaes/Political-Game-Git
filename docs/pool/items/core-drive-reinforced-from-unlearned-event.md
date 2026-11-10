@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** With bookkeeping on (tests and the bench), the bench world for Londonderry, Vermont (5040150), drawn from run seed 8debd6359985db99f65c53d2477a3c135f906e316e584b9f3f88ad8dcbe579e0 with drawPlace(seed, 'filing-intro'), advanced a week at a time from January 20, 2025, throws 'Drive requires a learned source event and a finite strength.' on 2025-10-01 on main da7ec81210. The stack is src/core2/state.ts updateDrive (line 2128) from src/core2/modules/drives.ts writeDrive, reinforce (line 397), respond (line 764) and onEvent (line 1930): the drives engine reinforces a drive for a person from an event that person has no experienced knowledge of, or an event id that is not recorded. Play does not check, so a drive can form from something the person never lived through. Found by Lane 1 while checking the one-council-race branch, whose filing-intro test now advances weeks.

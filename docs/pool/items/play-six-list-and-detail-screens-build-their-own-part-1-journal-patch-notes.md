@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Patch notes and the Journal each build their own list-beside-detail layout. Move both onto `rosterScreen`, the part Campaign, Elections, Parties and Issues already call, so a player sees the same list at the left and the chosen entry at the right on all of them. Nothing a player can do or read changes.

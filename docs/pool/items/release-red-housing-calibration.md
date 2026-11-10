@@ -12,11 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 standard: 2
-model: haiku
+model: sonnet
 effort: low
 root: none
 lead: laws-effects
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The housing calibration test can judge an eviction-burden curve from only a handful of court cases, which gives an unstable result: on Oct 19 it failed with 'expected 0.25 to be greater than or equal to 0.6723044397463002' (a share against its lower bound, the town's count near its state's HUD rate), and on Oct 25 place 2309585 (seed ad3ef942) compared 1 of 170 with 1 of 197. The test has been rewritten since, so the red may or may not remain. First step: run the test on a drawn place and seed on main; if it is green over five draws, propose dropping the item, and if it is red, rewrite this item with the cause. Requiring ten cases must not silently skip every burden assertion in a small town. If it is still red, draw a bounded number of additional places and pool their recorded court cases until the curve has a meaningful sample, failing with the replay seed and places when that sample cannot be reached.

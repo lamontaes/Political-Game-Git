@@ -11,7 +11,7 @@
  * second run changes nothing. A development tool: no model calls, no world.
  */
 import { execSync } from "node:child_process";
-import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
 import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
 import {
@@ -20,9 +20,15 @@ import {
   replyPairs,
   type ReplyFollowsReport,
 } from "../../src/english/reply-pairs";
-import { REPLY_FOLLOWS } from "../../src/english/reply-follows";
-import { playableParts } from "./reply-pairs";
-import { readVerdicts } from "./reply-verdicts";
+import {
+  REPLY_FOLLOWS,
+  REPLY_RULE,
+  REPLY_STORE,
+} from "../../src/english/reply-follows";
+import { verdictId, type JudgedStores } from "../../src/english/judged";
+import { playable } from "../../src/english/bank-parts";
+import type { BankPart } from "../../src/english/scene-talk-words";
+import { readStore, readStores, textsOf } from "./verdicts";
 import type { PartGradeLedger } from "../../src/english/english-grades";
 import {
   gradeNotesOf,
@@ -33,6 +39,7 @@ import {
   type RulingsReadFile,
 } from "../../src/english/rulings-read";
 import {
+  awaitingAfter,
   pulledFileOf,
   runRules,
   usesWithTags,
@@ -51,6 +58,15 @@ export const PARTS_DIR = "data/english/parts";
 export const GRADES_DIR = "data/english/grades";
 export const RULINGS_FILE = "data/english/rulings-read.json";
 export const NOTES_FILE = "data/english/notes-not-rules.json";
+export const SCENE_TALK_FILE = "data/english/parts/scene-talk.json";
+
+/** The scene-talk bank's pieces play may say. */
+export function playableParts(): BankPart[] {
+  const bank = JSON.parse(readFileSync(SCENE_TALK_FILE, "utf8")) as {
+    parts: BankPart[];
+  };
+  return bank.parts.filter(playable);
+}
 
 /** Every bank piece, in file order. */
 export function readBankPieces(dir = PARTS_DIR): RulePiece[] {
@@ -94,9 +110,11 @@ export function readLedger(file = LEDGER_FILE): PartGradeLedger {
 /**
  * What the reply rule reports: the pairs play can offer now, the verdicts
  * so far and the lines no reply follows. Reads the scene-talk bank and the
- * judged files, and asks the picker's own test (`replyPairs`).
+ * rule's store, and asks the picker's own test (`replyPairs`).
  */
-export function replyFollowsReport(): ReplyFollowsReport {
+export function replyFollowsReport(
+  pieces: readonly RulePiece[] = readBankPieces(),
+): ReplyFollowsReport {
   const silenced: {
     before: string;
     purpose: string;
@@ -111,10 +129,16 @@ export function replyFollowsReport(): ReplyFollowsReport {
       onSilenced: (spot) => silenced.push(spot),
     }),
   );
-  const verdicts = readVerdicts();
+  const store = readStore(REPLY_STORE);
+  const text = textsOf(pieces);
   return replyFollowsReportOf({
     pairs,
-    judgedIds: new Set([...verdicts.yes, ...verdicts.no.keys()]),
+    judgedIds: new Set([...store.yes, ...store.no.keys()]),
+    idOf: (pair) =>
+      verdictId(
+        [pair.before, pair.reply],
+        [text.get(pair.before) ?? "", text.get(pair.reply) ?? ""],
+      ),
     no: REPLY_FOLLOWS,
     silenced,
   });
@@ -141,20 +165,59 @@ export function readReading(rules: readonly LineRule[]): ReadingReport {
   );
 }
 
-/** A fresh run over the files on disk. */
+/** The waiting-for-a-verdict counts in the committed `pulled.json`, if it has them. */
+export function committedAwaiting(
+  file = PULLED_FILE,
+): Readonly<Record<string, number>> | undefined {
+  if (!existsSync(file)) return undefined;
+  return (JSON.parse(readFileSync(file, "utf8")) as Partial<PulledFile>)
+    .awaitingVerdict;
+}
+
+/**
+ * A fresh run over the files on disk. `pulledFile` is what the run writes:
+ * its waiting-for-a-verdict counts never rise above the committed ones, and
+ * `rose` names each rule whose fresh count would.
+ */
 export function freshRun(): {
   readonly result: RunResult;
   readonly pulledFile: PulledFile;
+  readonly rose: ReturnType<typeof awaitingAfter>["rose"];
   readonly rules: LineRule[];
   readonly pieces: RulePiece[];
+  readonly stores: JudgedStores;
 } {
   const rules = readRules();
   const pieces = readBankPieces();
-  const result = runRules(rules, pieces, readLedger(), {
-    "reply-follows-the-line-before": replyFollowsReport(),
-  } satisfies PlaceReports);
-  return { result, pulledFile: pulledFileOf(result), rules, pieces };
+  const stores = readStores(rules);
+  const result = runRules(
+    rules,
+    pieces,
+    readLedger(),
+    { [REPLY_RULE]: replyFollowsReport(pieces) } satisfies PlaceReports,
+    stores,
+  );
+  const { counts, rose } = awaitingAfter(
+    result.awaitingVerdict,
+    committedAwaiting(),
+  );
+  return {
+    result,
+    pulledFile: pulledFileOf(result, counts),
+    rose,
+    rules,
+    pieces,
+    stores,
+  };
 }
+
+/** The message for a rule with more lines waiting for a verdict than committed. */
+export const roseMessage = (row: {
+  rule: string;
+  fresh: number;
+  committed: number;
+}) =>
+  `${row.rule}: ${row.fresh} lines wait for a verdict, more than the ${row.committed} committed. Judge the new or changed lines: npm run words:pairs -- --rule ${row.rule} --out <dir outside the repository>, then npm run words:verdicts -- --from <dir>.`;
 
 const quote = (text: string) => `"${text.replace(/\s+/g, " ").trim()}"`;
 
@@ -227,6 +290,16 @@ export function reportOf(
       `Notes behind it: ${rule.from.length}${rule.research ? `, research ${rule.research.length}` : ""}. ` +
         `Lines it flags: ${row.flagged}. Pulled: ${row.pulled}. Waiting: ${row.waiting}.`,
     );
+    if (row.verdicts)
+      lines.push(
+        "",
+        `Lines judged: ${row.verdicts.judged}. Judged bad: ${row.verdicts.bad}. Waiting for a verdict: ${row.verdicts.waiting}; they play.`,
+      );
+    else if (rule.test.kind === "judged")
+      lines.push(
+        "",
+        `Judged by ${rule.judges}: the store keys a ${rule.judges} once words-machine part 3 builds them; nothing judged yet.`,
+      );
     if (row.report) {
       const r = row.report;
       lines.push(
@@ -269,11 +342,13 @@ export function reportOf(
 }
 
 function main() {
-  const { result, pulledFile, rules, pieces } = freshRun();
+  const { result, pulledFile, rose, rules, pieces } = freshRun();
   writeFileSync(PULLED_FILE, `${JSON.stringify(pulledFile, null, 2)}\n`);
   execSync(`npx prettier --write ${PULLED_FILE}`, { stdio: "ignore" });
   const report = reportOf(rules, pieces, result, readReading(rules));
   console.log(report);
+  for (const row of rose) console.error(roseMessage(row));
+  if (rose.length) process.exitCode = 1;
   const at = process.argv.indexOf("--report");
   if (at >= 0 && process.argv[at + 1]) {
     writeFileSync(process.argv[at + 1]!, report);

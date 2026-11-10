@@ -28,7 +28,6 @@ import {
 import { splitScreen } from "./ui/split-screen.mjs";
 import { makeTab, tabBar, chooseTab } from "./ui/tab.mjs";
 import { plate } from "./ui/plate.mjs";
-import { timeline } from "./ui/timeline.mjs";
 import { townRow } from "./ui/town-row.mjs";
 import { debateCard, speechCard } from "./ui/campaign-acts.mjs";
 import { devBribePanel } from "./ui/dev-bribe.mjs";
@@ -101,6 +100,7 @@ import {
   stripSection,
   perkList,
   introText,
+  lifeStory,
   peopleSentence,
   nameLink,
   dotRows,
@@ -2356,7 +2356,7 @@ async function personCardNode(
           stripSection(
             5,
             capital(heading("lifeStory", "lifeStoryThey")),
-            lifeTimeline(c.history, 3),
+            ...lifeParagraphs(c.history),
           ),
         ]
       : []),
@@ -3158,17 +3158,9 @@ async function ownHistory() {
   );
   return card.history ?? [];
 }
-/** History lines down a timeline `rows` tall, scrolling inside its box. */
-function lifeTimeline(lines, rows) {
-  return timeline({
-    entries: lines.map((h) => ({
-      year: h.date.slice(0, 4),
-      text: h.text,
-      kind: h.kind,
-      recordId: h.recordId,
-    })),
-    rows,
-  });
+/** A life's lines as sentences grouped by what mattered (controls.lifeGroups), one paragraph each. */
+function lifeParagraphs(lines) {
+  return lifeStory(lines, controls.lifeGroups);
 }
 function portraitUrl() {
   // The created look when there is one; else the figure the scene draws you
@@ -3276,7 +3268,22 @@ const sheets = {
                 ]
               : []),
           ],
-          peopleLine ? [stripSection(3, labels.myPeople, peopleLine)] : [],
+          [
+            ...(peopleLine
+              ? [stripSection(3, labels.myPeople, peopleLine)]
+              : []),
+            // Your own life from the same lines the card tells of anyone (the mock
+            // draws no life section; it follows "My people").
+            ...(known.history?.length
+              ? [
+                  stripSection(
+                    5,
+                    labels.myLife,
+                    ...lifeParagraphs(known.history),
+                  ),
+                ]
+              : []),
+          ],
         ],
       }),
     ];
@@ -3405,7 +3412,7 @@ const sheets = {
   async jobs() {
     // On framed plates: your job with its workplace's
     // painting, its title in the name type, pay and hours; beside it the work
-    // and school of your life as a timeline, from the one history every
+    // and school of your life as sentences, from the one history every
     // card reads. Never a scroll.
     const labels = controls.jobs;
     const job = me.card.job;
@@ -3444,20 +3451,14 @@ const sheets = {
     return [
       work,
       ...(worked.length
-        ? [plate(labels.workAndSchool, lifeTimeline(worked, 4))]
+        ? [plate(labels.workAndSchool, ...lifeParagraphs(worked))]
         : []),
     ];
   },
-  // Your own life as a timeline (owner, Oct 29: a history is a "Vertical
-  // timeline"), the same lines a person's card tells of anyone you open.
+  // Your own life as sentences, the same lines a person's card tells of anyone you open.
   async history() {
     const life = await ownHistory();
-    return [
-      plate(
-        null,
-        lifeTimeline(life, Math.max(3, Math.floor((viewHeight() - 300) / 64))),
-      ),
-    ];
+    return [plate(null, ...lifeParagraphs(life))];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);

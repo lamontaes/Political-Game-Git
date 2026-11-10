@@ -17,6 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** In src/core2/credit-deposits.ts the deposit reserve a business keeps in cash was figured from the book's annualOtherCostsMinor, which is not multiplied by the town's count weight, while its sales and purchases are. In Opelika, Alabama (0157048, seed op1, scale 3.5765) a wholesaler put 6.43 billion minor units in the bank, 8.2 times the sample's deposits for 3.55 times the flows, and held no cash on its payday. The aggregate slice landed under world-deposit-reserve-reads-unweighted-costs-aggregate (done, #5791): the reserve now multiplies payroll and other costs by the business's staffed scale. What is left is this item's own acceptance, that each business's deposits over its weighted flows sit inside a stated spread of the same town's ratio at the sample size, per business and not as a town aggregate, because a single firm's ratio swings either way on a given day.

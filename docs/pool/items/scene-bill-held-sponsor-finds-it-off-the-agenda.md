@@ -16,6 +16,7 @@ after:
 model: sonnet
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** Once a committee chair's hold (bill-held-in-committee) names the bill's sponsor in its people and a sponsorId fact (the open item laws-hold-record-names-the-sponsor), the sponsor should meet it as their own moment. No situation type stages a scene for them: bill-held-chair and bill-held-member cast the sponsor as the asker toward a chair or member who is the player, never the sponsor as the player. The packet's line 3 (docs/design/scenes/from-life/bill-held-in-committee.md) is the sponsor learning it from the posted agenda, not from the chair. An unheard hold writes no bill-failed record, so words-staff-news-bill-lost does not cover it either.

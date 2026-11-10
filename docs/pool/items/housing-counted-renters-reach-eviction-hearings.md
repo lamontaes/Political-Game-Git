@@ -16,6 +16,7 @@ effort: high
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 lead: laws
+checked: fable 2026-11-10
 ---
 
 **What.** Housing opens an eviction case only from a full household's lease: a contract with arrears past the grace period. In Clemmons, North Carolina (about 22,800 people; key 3712960, world seed 24811d36fe547b3e21330b24f52ba0fb17dffce7368ad148f5ae6056676ba0d6, GOLDEN_PATH_SEED=hr-fresh-9c2) housing's cases table had 0 rows in 700 days with the right-to-counsel law in force on 23 of 24 monthly checks. If counted renters, who are paid by their groups as rent: contracts, can never produce a case and only full households can, that breaks one model, two tiers. The law-wiring housing test passes such a town over; it does not answer this.

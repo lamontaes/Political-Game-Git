@@ -5,10 +5,10 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
-pr:
+claimed-by: claude/pool-laws-end-to-end-proof
+pr: #8260
 after:
 blocked-on: words-law-effect-learned-journal
 lead: laws
@@ -16,8 +16,9 @@ model: opus
 effort: high
 root: rc2-done-from-records
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at:
+claimed-at: 2026-11-10T23:02:09.136Z
 checked: fable 2026-11-10
+branch: claude/pool-laws-end-to-end-proof
 ---
 
 **What.** The owner keeps hearing that laws work, "from negotiation to its effects," without seeing it. This item is the laws lead's acceptance: one played life in a drawn place where the player proposes a law, negotiates for it by trade or favor on the record, and the bill passes or fails by the members' own reads of their lives and districts. If it passes, the law in force changes, one named person's money or life changes because an engine read it, that person learns of it from news they received, their view or choice moves with that news as the cited reason, and the director's scene and the journal say so. M3-04's "an enacted ordinance reaches specific named people" still has no test where the ordinance passes by the body's vote in a played world and is then followed to a named person: the existing law tests enact their laws with `enactLaw`, not a vote. The units for learning on the day a story is heard and for the held bill keeping the chair's reasons are on main; this is the proof test.
@@ -49,3 +50,5 @@ Oct 25 (CTO ruling): the screenshot split is accepted; the screenshots live in `
 Oct 27, laws-and-effects lead: the draft #5968 is closed and split by the per-unit rule. Its engine units are #6371 (learning on the day a story is heard) and #6374 (the held bill keeps the chair's reasons); main already has the journal lines. The proof test is redone on main once both merge.
 
 Oct 29 (governing lead, from the M3-04 command on branch governing/m3-spec-commands): M3-04's "an enacted ordinance ... reaches specific named people" has no test where the ordinance passes by the body's vote in a played world and is then followed to a named person: legislature.test.ts passes it in a small population world and raises a hand-set worker only if it passes, and law-wiring-labor.test.ts and law-reach-group-a.test.ts enact their laws with `enactLaw`, not a vote (their repeals do end the reach). This item's test is that missing proof; when it lands, add src/core2/laws-end-to-end.test.ts to the M3-04 command in docs/roadmap/features.json.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:02 UTC) on branch claude/pool-laws-end-to-end-proof.

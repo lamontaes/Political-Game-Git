@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of words-director-one-path. A scene's stakes should come from the engine that owns the facts, and how the scene ended should change that engine's record; today the ending stays in the director. Start with three scene kinds and show each by record id.

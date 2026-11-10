@@ -16,6 +16,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 lead: laws-effects
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Four years of Upper Witter Gulch (key 0879800, seed 5a1c0de7a11ce5e1, speed:year --exclusive) on Nov 8 main: year 1 keeps 404,109 records (most in core2-law-effects-v1.applied), year 4 takes 118.8 to 128 s with 962,745 records and 4.5 GB process. The Nov 4 code kept 178,878 records in year 1 and ran year 4 in 95.2 s with 745,850 records. The table is named but not the writer or its reader. Find which commit added the rows and what reads them; the host is now src/core2/law-reach/host.ts (LAW_REACH_HOST_ID core2-law-effects-v1) with applied.ts.

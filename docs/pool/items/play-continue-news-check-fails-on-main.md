@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/bench/continue-news.browser.mjs fails on clean main with 'kept in the opening record: <place> unemployment at <rate>' in every drawn place tried (Se'etaga, American Samoa; Harrington Park, New Jersey; Levelock, Alaska). The fresh reader and the continued reader both show the same rates, so the assertion that the opening record keeps the line no longer matches what the record holds. Found by Merger 2 on Oct 27 while gating a pull request; Merger 4 saw it still failing on clean main twice on fresh draws (Waynesboro unemployment at 4.1 and Warwick unemployment at 2.5), though it had passed on an earlier run the same day, so something merged since broke it.

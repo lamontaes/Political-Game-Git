@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from gov-chamber-committees-reader in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Add the standing committee lists for every chamber of the states and territories from Montana through Wyoming to `chamber-committees.json`, each row with its source and retrieval date. Each committee names the catalog topics, law series and budget lines it hears, so the chamber's bills route to its own committees instead of the national nine. Research is from the chamber's own pages and the research file `data/research/gov/chamber-committee-appointment-2026.json`.

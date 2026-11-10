@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: split from world-local-sales-below-opening-forecast in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Retail's missing buyers are the household categories the counted purchase flows do not cover: apparel, furniture, electronics, household supplies and the rest of the Consumer Expenditure (CE) table, against a Census retail payroll that also sells everything else. Add one household purchase row per missing CE category, each with its national, four regional and five size parameters and the CE cell citation, as the existing rows do. On Oct 19 the BLS table cu-all-detail-2024.xlsx returned 403 from a cloud container, so if the session cannot load it, write the failing host in Notes and stop rather than invent values. This is the first of three parts of world-local-sales-below-opening-forecast.

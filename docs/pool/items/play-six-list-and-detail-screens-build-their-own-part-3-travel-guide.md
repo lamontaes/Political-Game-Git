@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
 source: split from play-six-list-and-detail-screens-build-their-own in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Travel and the Guide each build their own list-beside-detail layout. Move both onto `rosterScreen` with the same rows and words, so every row opens its detail as before, and delete their old builders and styles. This is a cleanup with no change to what the game does. The browser checks that named the old classes are updated in the same change.

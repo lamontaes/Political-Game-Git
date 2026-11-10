@@ -34,3 +34,7 @@ checked: fable 2026-11-10
 **Waits on.** play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split, which re-runs the check on current main and may narrow or drop this part.
 
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/business.ts
+
+**Notes (Fable, Nov 10).** Re-run by Fable on Nov 10 on main cb25bfa5c8 with the command in the Cause (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4; the year ran in 105 seconds): 21 checks pass and 1 fails. This part's check is still broken: 10 of 11 new businesses borrowed more than 9 times the founder's cash, and the largest loan was $917,920. The first part's re-run is therefore done; a finder starts from the eleven foundings' loan records.
+
+**Notes (Fable, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of tests-played-world-founding-means-ignores-savings, which holds the cause. Measured by Fable on Nov 10 on main cb25bfa5c8 (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4, one played year): 11 businesses were founded, and every one borrowed at most 9 times the equity its founding row records (nine at exactly 9.00, one at 8.05, one at 1.15; the largest loan, $917,920, stands against $114,086 of equity). So the engine keeps the nine-times rule, and the check fails 10 of the 11 only because it compares each loan with the founder's cash of the day before (tests/golden-path/played-world.node-test.ts line 383) and not with the equity put in.

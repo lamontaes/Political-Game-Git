@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: high
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Once the incident producer writes stop, fight and carried-weapon incidents for full people from patrol hours, the crime measure, recorded grievances and household firearm ownership, give the counted tier the same events. Read each counted group (`src/core2/counted-groups.ts`: place, district, household kind, income band, tenure, head's age and work) with the producer's rule times the group's member count, summing fractional counts the way `reachOf` in `src/core2/counted-reach.ts` does, and write them as one group incident row per group per month that names the group record id, the cause record ids and the count, with no person until one is filled in.

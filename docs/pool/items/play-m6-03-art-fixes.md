@@ -4,7 +4,7 @@ title: "M6-03 Art fixes"
 area: play
 kind: feature
 priority: 3
-size: L
+size: S
 status: blocked
 standard: 2
 claimed-by:
@@ -14,9 +14,10 @@ milestone: M6
 source: "docs/roadmap/later-specs-draft.md M6-03"
 after:
 lead: play-first
-model: haiku
+model: sonnet
 effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The M6-03 spec in the roadmap is: seated poses that sit, formal clothes by role and place, frame corners, and the rest of the owner's October 8 defect list. The owner has since ruled that full-body staging defects (who stands where, seated poses, people blocking each other in a room) are not filed or reopened while busts are coming, and that how busts are shown is his call. So most of this list is not buildable until he decides how busts are shown. What can be done now is to read the October 8 list once he has decided and keep only what busts do not remove.
@@ -25,7 +26,7 @@ root: none
 
 **Fix.** Do nothing until the owner decides how busts are shown. Then read the October 8 defect list against bust display and file one bounded item per defect that still applies (formal clothes by role and place, frame corners), dropping the full-body staging defects with the full-body view.
 
-**Time box.** 2 hours for one Haiku session, after the owner's decision on busts.
+**Time box.** 2 hours for one Sonnet session, after the owner's decision. When it runs out, write what was filed in the item and stop.
 
 **Rules.** This is a game, not a spreadsheet: the owner judges art side by side, so nothing is built from this item until the list is cut down. Look before you ask: the owner's Nov 10 ruling is quoted above; no question goes to him until he has decided how busts are shown.
 

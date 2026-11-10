@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from core-speed-counted-payroll-into-named-ledger in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Counted employers' wages are settled by `payGroups` (src/core2/counted-money.ts) with their own withholding (`withholdingFor`) and employer share (`payEmployerShare`). Move that settlement onto the group record of part 1, on the employer's own payday, so withholding and the employer tax post through the one ledger. This is part 2 of core-speed-counted-payroll-into-named-ledger.

@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 2, "What I did not test here", and "What I ran, and what I could not verify")
+checked: fable 2026-11-10
 ---
 
 **What.** Three kinds of law in dev mode's list have been shown to pass and nothing more: budget lines, amounts with no value in force at a body, and the 60 grants of power to local government. In the Nov 9 law sweep in Marion, Mississippi (seed 7df73e53cd67) the audit set each to 1 of whatever unit it uses, which proves a bill passes and nothing more, and it did not follow the grants into a town using the power. Dev mode lists 170 laws there: 37 amounts, 73 yes-or-no questions and 60 grants. The audit's call: "do not count any of them as working until someone follows the money the same way." Run the sweep's twin-world money trace on each, with a real change in place of 1 unit, and file every law whose money does not move, or moves the wrong way, as its own item with its figures.

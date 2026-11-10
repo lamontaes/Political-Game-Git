@@ -16,6 +16,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: design-bill-catalog
+checked: fable 2026-11-10
 ---
 
 **What.** The bill menu's Procurement topic is empty because no state's competitive-bidding threshold is in the starting law and no engine reads one. The finance engine's procure step (prepareFinanceProcurement) moves a public body's purchasing money but chooses a seller with no bid rule, and the budget engine buys no contracts that a threshold could gate. The topic needs a researched table of the dollar value above which a town or county must bid a purchase, by state, and a reader that makes a purchase over the threshold go through a bid with a delay and a record.

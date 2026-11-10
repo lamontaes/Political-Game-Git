@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc8-law-judged-by-paperwork
 source: split from gov-federal-questions-money-readers in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Write the effect reader for the top income tax rate and the federal income, sales, excise, payroll and corporate tax terms: the enacted law row changes a federal rate or an outlay that the federal budget, payroll withholding or a household's check reads. Reuse the engines that exist and add data rows for the terms in `src/core2/data/laws/reach-group-a.json`, with the reader in `src/core2/law-reach/group-a-money.ts` or the engine that pays or taxes. Counted groups pay or receive by the same rule times their count.

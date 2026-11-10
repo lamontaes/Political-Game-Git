@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: laws lead, Oct 26
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** In the rights-env family's runs on the own-payment checker, protect-farmland-from-development grades wired, but its money is only postings that name the law: $1,000.00 in Prescott, Michigan and $2,000.00 in Uehling, Nebraska, the same in the control world. The builder's applied row carries no amount. So the money the matrix credits is not the law's own: nothing differs between the world with the law and the world without it. The housing engine reads the protection when a builder chooses a site, and the cost it changes is the law's money.

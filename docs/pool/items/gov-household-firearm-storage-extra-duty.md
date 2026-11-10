@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The household firearms storage-duty rows contained extra adults on a same-seed reproduction: with HOUSEHOLD_FIREARMS_SEED=2724fc27c0417f7c (Atascadero, CA0603064) on clean main 4f4c069a5c, storage-duty rows held 24 people while the effective-date household and ownership records expected 20, with the same four extra person ids (person_76c8e949a5f5bbaa, person_76c8ea49a5f5bd5d, person_f502f74bd53befa1, person_f502f84bd53bf154) before and after PR #4998. The failing test, `src/core2/household-firearms.test.ts`, is not on main (PR #5371 was closed; the branch is claude/firearm-storage-extra-duty), so nothing reproduces on main. The mismatch is a record question: which rule admits four people the effective-date household, alive, age and ownership records do not.
@@ -40,3 +41,5 @@ root: none
 Sent back 2026-10-20 from PR #5371 (branch claude/firearm-storage-extra-duty): see the Cloud merger comment on that PR for the exact reason; finish on that branch, merge main into it first.
 
 Oct 29 (CTO, second account): PR #5371 closed as stale under the owner's standing approval; back to open. Branch `claude/firearm-storage-extra-duty` is kept; claiming this item takes it over.
+
+**Notes (Fable, Nov 10, read).** Nothing on main can show this fault: the test that found it is only on the branch claude/firearm-storage-extra-duty, whose pull request was closed, and main's storage duty is three lines in src/core2/public-safety.ts with no household record beside it. A finder would have to start from that branch. It is the CTO's call whether to drop this item or block it on the branch's work coming back.

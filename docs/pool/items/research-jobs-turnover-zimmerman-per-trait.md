@@ -16,6 +16,7 @@ effort: medium
 root: none
 lead: traits
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Seven job decisions keep the general trait weight of 1 because only the text of Zimmerman 2008 (Personnel Psychology 61(2), a meta-analysis of personality and turnover) without its numbers was read: starting to look, accepting an offer, reviewing a worker, and the counted workers' looking, accepting, applying and retiring. The paper's tables give each Big Five trait's corrected correlation with turnover intentions and with actual turnover. Read them from the paper, record the rows in data/research/trait-effect-sizes.json with quotes, add a retirement-timing source if one exists, and fit each weight to its row on played years.

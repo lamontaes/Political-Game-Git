@@ -4,7 +4,7 @@ title: "The town's vehicle tax is computed from the vehicles on household record
 area: gov
 kind: wiring
 priority: 3
-size: L
+size: S
 status: open
 standard: 2
 claimed-by:
@@ -12,11 +12,12 @@ pr: #5103
 after:
 blocked-on: gov-town-payers-vehicle-tax-part-1-households-hold-vehicles, gov-town-payers-vehicle-tax-part-2-vehicle-tax-rate, gov-town-payers-vehicle-tax-part-3-pay-and-credit
 lead: governing
-model: opus
-effort: medium
+model: sonnet
+effort: low
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The town's residents owe vehicle and other taxes that only an outside group of payers pays today, though no household record holds a vehicle (checked Oct 16: nothing in the core's households, people or finance state names one). Give households their vehicles from the Census vehicles-available counts by household size and tenure, an estimate with a spread. Compute each household's vehicle tax from them and the law in force, pay it to the treasuries on the due dates in the revenue payers data, and reduce the outside group's installment by the same amount so nothing is paid twice. This item is the three parts below joined in one seam (the folded children gov-vehicle-tax-household-vehicles, gov-vehicle-tax-rate and gov-vehicle-tax-payment are closed into it), and its acceptance is the one-year chain at the end.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** Do it in the three parts, in order: part 1 gives households vehicles; part 2 computes the rate from the law row or from the treasury's own vehicle budget line divided by its vehicles; part 3 pays the tax household to treasury and cuts the outside installment by the same amount. This parent then proves the whole chain in one played year and closes the parts' Notes lines.
 
-**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop. (the parts carry their own boxes; this is the joined proof.)
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** An effect is a read, not a record: the treasury reads the vehicle records at the moment the tax is due. One model, two tiers: a counted household's vehicles are read by the same rule as a full household's, times its count. Replace, never layer: the outside group's share of this line is cut in the same change. Estimate, never UNKNOWN: a place without a rate row starts from the treasury's budget-derived rate, marked ESTIMATED with its source.
 

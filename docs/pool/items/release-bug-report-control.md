@@ -17,6 +17,7 @@ effort: medium
 root: rc10-screens-keep-own-facts
 lead: cto
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Add a Report a bug control to the menu and a prompt after a crash. Each builds a report with the core's bug-report builder (the save, the player's note, the error and the recent record kinds) and sends it only when the player presses send, after showing what would leave the machine. Nothing personal about the player leaves the game. The early-access checklist (owner, Oct 12) asks for exactly this button and prompt.

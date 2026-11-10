@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The daily chooser (life.daily-act) weighs every trait's pull on each act at the general weight of 1, and the audit found personality turned 14.8% of 29,520 picks with no study to compare.

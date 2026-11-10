@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A reporter's closeness to a candidate gives access and gentler copy, but a candidate cannot do a reporter a favor or leak them a story, and a reporter cannot hold a story back for a friend. Build a leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts that the reporter's drives and closeness read, in src/core2/modules/press.ts.

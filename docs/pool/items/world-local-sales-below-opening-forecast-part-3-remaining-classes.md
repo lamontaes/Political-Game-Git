@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from world-local-sales-below-opening-forecast in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** After retail and the firm-bought services have buyers, the rest of the gap is realty (75 percent of demand covered), recreation (51), private schools (15) and insurance. For each, give it a sourced customer or size its book to the buyers the opening can name, and say which in the data. Then SG-P8-outside-product-demand-crosswalk can close. This is the third of three parts of world-local-sales-below-opening-forecast.

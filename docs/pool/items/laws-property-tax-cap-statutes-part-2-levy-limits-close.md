@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from laws-property-tax-cap-statutes in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** After part 1 every state with an assessment limit has a row. Finish the table for every state and territory: add levy limits, exemptions and CPI-lesser caps (a cap at the lesser of a fixed percent and inflation) where a statute has them, record "none" for a place with no cap, and close stopgap SG-GOV-REACH-B-property-tax-bills. This is part 2 of laws-property-tax-cap-statutes and absorbs laws-property-tax-cap-statutes-rest.

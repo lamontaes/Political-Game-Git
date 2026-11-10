@@ -5,10 +5,10 @@ area: core
 kind: feature
 priority: 1
 size: M
-status: claimed
+status: merged
 standard: 2
 claimed-by: claude/fable-b2-skip-pay-prices-jobs
-pr:
+pr: #8238
 after:
 blocked-on:
 lead: money
@@ -17,6 +17,7 @@ effort: high
 root: design-country-tier
 source: split from core-fast-clock-twenty-years by Fable, Nov 10, 2026 (owner, Nov 10: every assignment works without Fable)
 checked: fable 2026-11-10
+merged-at: 2026-11-10T22:52:21.793Z
 ---
 
 **What.** With only dated work running, a skipped year leaves prices flat and unemployment well above the day-by-day year's. Some of what moves prices and fills jobs runs in daily loops. This part finds which, and gives those engines a monthly step.

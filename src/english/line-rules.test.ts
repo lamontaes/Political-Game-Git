@@ -2,9 +2,12 @@ import { readdirSync, readFileSync } from "node:fs";
 import path from "node:path";
 import { describe, expect, it } from "vitest";
 import type { PartGradeLedger } from "./english-grades";
+import { verdictId, type JudgedStores } from "./judged";
 import {
   RULE_JUDGES,
+  awaitingAfter,
   caseBreaksRule,
+  caseText,
   gradedGood,
   ruleApplies,
   ruleFlags,
@@ -107,12 +110,14 @@ describe("a rule's own test", () => {
     expect(textBreaksRule(r, "Bye.")).toBe(true);
   });
 
-  it("flags nothing for a place or judged rule", () => {
+  it("flags nothing for a place rule, and a judged rule only where a verdict says no", () => {
     expect(ruleFlags(rule({ test: { kind: "place" } }), piece("a", "x"))).toBe(
       false,
     );
-    expect(ruleFlags(rule({ test: { kind: "judged" } }), piece("a", "x"))).toBe(
-      false,
+    const judged = rule({ test: { kind: "judged" } });
+    expect(ruleFlags(judged, piece("a", "x"))).toBe(false);
+    expect(ruleFlags(judged, piece("a", "x"), storesSaying("a", "x"))).toBe(
+      true,
     );
   });
 });
@@ -203,6 +208,142 @@ describe("a rule that judges a piece in its spot", () => {
     expect(caseBreaksRule(school, { text: line, use: { role: "raise" } })).toBe(
       true,
     );
+  });
+});
+
+/** A store for rule `r1` that judged one line "no" in these words, and others "yes". */
+function storesSaying(
+  key: string,
+  text: string,
+  yes: readonly [string, string][] = [],
+  ruleId = "r1",
+): JudgedStores {
+  return new Map([
+    [
+      ruleId,
+      {
+        no: new Map([
+          [verdictId([key], [text]), { keys: [key], why: "a reason" }],
+        ]),
+        yes: new Set(yes.map(([k, t]) => verdictId([k], [t]))),
+      },
+    ],
+  ]);
+}
+
+describe("a judged rule reads its saved verdicts", () => {
+  const judged = rule({ test: { kind: "judged" } });
+  const lines = () => [piece("a", "A vague line."), piece("b", "A fine line.")];
+  const said = () =>
+    storesSaying("a", "A vague line.", [["b", "A fine line."]]);
+
+  it("an enforced rule pulls the line judged bad and counts lines judged, bad and waiting", () => {
+    const run = runRules(
+      [judged],
+      [...lines(), piece("c", "Not judged yet.")],
+      NO_GRADES,
+      {},
+      said(),
+    );
+    expect(run.pulled).toEqual({ a: ["r1"] });
+    expect(run.perRule.r1!.verdicts).toEqual({ judged: 2, bad: 1, waiting: 1 });
+    expect(run.awaitingVerdict).toEqual({ r1: 1 });
+    process.stdout.write(
+      `judged rule r1 (fixture): lines judged ${run.perRule.r1!.verdicts!.judged}, judged bad ${run.perRule.r1!.verdicts!.bad}, waiting ${run.perRule.r1!.verdicts!.waiting}\n`,
+    );
+  });
+
+  it("a sample rule lists the line and pulls nothing", () => {
+    const run = runRules(
+      [{ ...judged, status: "sample" }],
+      lines(),
+      NO_GRADES,
+      {},
+      said(),
+    );
+    expect(run.pulled).toEqual({});
+    expect(run.sample).toEqual({ a: ["r1"] });
+  });
+
+  it("a line nobody has judged passes, plays and is counted as waiting", () => {
+    const run = runRules([judged], lines(), NO_GRADES, {}, new Map());
+    expect(run.pulled).toEqual({});
+    expect(run.waiting).toEqual({});
+    expect(run.totals.playableAfter).toBe(2);
+    expect(run.perRule.r1!.verdicts).toEqual({ judged: 0, bad: 0, waiting: 2 });
+  });
+
+  it("an awaiting-test rule counts its verdicts but is not held to a waiting count", () => {
+    const run = runRules(
+      [{ ...judged, status: "awaiting-test" }],
+      lines(),
+      NO_GRADES,
+      {},
+      said(),
+    );
+    expect(run.pulled).toEqual({});
+    expect(run.awaitingVerdict).toEqual({});
+    expect(run.perRule.r1!.verdicts!.bad).toBe(1);
+  });
+
+  it("a verdict is tied to the words: change the line and the verdict no longer applies", () => {
+    const run = runRules(
+      [judged],
+      [piece("a", "A vague line, rewritten."), piece("b", "A fine line.")],
+      NO_GRADES,
+      {},
+      said(),
+    );
+    expect(run.pulled).toEqual({});
+    expect(run.perRule.r1!.verdicts).toEqual({ judged: 1, bad: 0, waiting: 1 });
+  });
+
+  it("never pulls a line he graded good, and lists the conflict", () => {
+    const ledger: PartGradeLedger = {
+      ...NO_GRADES,
+      parts: {
+        a: {
+          good: 1,
+          bad: 0,
+          fix: 0,
+          sharedGood: 0,
+          sharedBad: 0,
+          sharedFix: 0,
+        },
+      },
+    };
+    const run = runRules([judged], lines(), ledger, {}, said());
+    expect(run.pulled).toEqual({});
+    expect(run.conflicts).toEqual([{ key: "a", rule: "r1" }]);
+  });
+
+  it("never leaves a spot with no line: the only line there waits", () => {
+    const run = runRules(
+      [judged],
+      [piece("a", "A vague line.")],
+      NO_GRADES,
+      {},
+      storesSaying("a", "A vague line."),
+    );
+    expect(run.pulled).toEqual({});
+    expect(run.waiting).toEqual({ a: ["r1"] });
+    expect(run.totals.spotsMadeSilent).toBe(0);
+  });
+
+  it("a rule about a set or an exchange flags no single line (part 3 keys those)", () => {
+    const set = rule({ test: { kind: "judged" }, judges: "set" });
+    const run = runRules([set], lines(), NO_GRADES, {}, said());
+    expect(run.pulled).toEqual({});
+    expect(run.perRule.r1!.verdicts).toBeUndefined();
+  });
+});
+
+describe("the count of lines waiting for a verdict only falls", () => {
+  it("keeps the committed count where the fresh one is higher, and names the rule", () => {
+    const after = awaitingAfter({ a: 5, b: 2, c: 7 }, { a: 4, b: 3 });
+    expect(after.counts).toEqual({ a: 4, b: 2, c: 7 });
+    expect(after.rose).toEqual([{ rule: "a", fresh: 5, committed: 4 }]);
+    expect(awaitingAfter({ a: 1 }, undefined).rose).toEqual([]);
   });
 });
 
@@ -577,5 +718,76 @@ describe("the rules that judge a piece in its spot, over the banks", () => {
     const tally = talk.find((p) => /^The board shows every name/.test(p.text))!;
     expect(ruleFlags(rule, tally)).toBe(false);
     expect(rule.status).toBe("rewrite");
+  });
+});
+
+describe("the rules that judge one line", () => {
+  const file = JSON.parse(
+    readFileSync(
+      path.resolve(__dirname, "../../data/english/line-rules.json"),
+      "utf8",
+    ),
+  ) as LineRulesFile;
+  const byId = new Map(file.rules.map((r) => [r.id, r]));
+  const TESTED: readonly [string, "enforced" | "sample"][] = [
+    ["question-names-its-subject", "enforced"],
+    ["no-filler", "sample"],
+    ["no-stock-phrases", "sample"],
+    ["pressure-sounds-like-politics", "enforced"],
+    ["traits-read-as-plain-sentences", "enforced"],
+    ["office-named-as-people-say-it", "enforced"],
+    ["regional-speech-is-word-choice-only", "enforced"],
+    ["the-word-lie-never-appears", "enforced"],
+  ];
+
+  it.each(TESTED)(
+    "%s is tested (%s): it flags its catches and spares its spares",
+    (id, status) => {
+      const r = byId.get(id)!;
+      expect(r.status).toBe(status);
+      expect(["phrases", "patterns"]).toContain(r.test.kind);
+      expect((r.catches ?? []).length, `${id} catches`).toBeGreaterThan(0);
+      expect((r.spares ?? []).length, `${id} spares`).toBeGreaterThan(0);
+      for (const line of r.catches ?? [])
+        expect(
+          caseBreaksRule(r, line),
+          `${id} must catch: ${caseText(line)}`,
+        ).toBe(true);
+      for (const line of r.spares ?? [])
+        expect(
+          caseBreaksRule(r, line),
+          `${id} must spare: ${caseText(line)}`,
+        ).toBe(false);
+    },
+  );
+
+  it("the rules that apply to certain banks flag only there", () => {
+    const traits = byId.get("traits-read-as-plain-sentences")!;
+    const lie = byId.get("the-word-lie-never-appears")!;
+    expect(
+      ruleFlags(
+        traits,
+        piece("t", "Neither, much", [], { bank: "person-sketch" }),
+      ),
+    ).toBe(true);
+    expect(ruleFlags(traits, piece("t", "Neither, much"))).toBe(false);
+    expect(
+      ruleFlags(lie, piece("l", "Lie.", [], { bank: "choice-names" })),
+    ).toBe(true);
+    expect(ruleFlags(lie, piece("l", "Lie.", [], { bank: "journal" }))).toBe(
+      false,
+    );
+  });
+
+  it("a rule left judged says in one sentence why, in its note", () => {
+    const left = file.rules.filter(
+      (r) =>
+        r.judges === "line" &&
+        r.status === "awaiting-test" &&
+        r.test.kind === "judged",
+    );
+    expect(left.length).toBeGreaterThan(0);
+    for (const r of left)
+      expect(r.note ?? "", r.id).toMatch(/^.*Stays judged: [^.]+\./s);
   });
 });

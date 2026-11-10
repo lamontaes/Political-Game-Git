@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind closeness, emotion, free time, policy authority, recalls and renewal. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/core/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Twelve local recall timing rows were delivered earlier (ten SOURCED, two ESTIMATED). Still open: unmodeledLeisureValuePerHour stays TUNABLE because no published figure converts to its score units, and SG-GOV-recall-bars-national lacks a Mississippi bar while the engine reads neither election-counted bars nor after-failure rules (gov-recall-bars-election-clock). Each other row waits on a builder item: SG-P15-closeness-model (core-stopgap-closeness-relationship-closeness-model), SG-P8-emotion-model (core-emotion-chronic-affect-trajectories), SG-P15-free-block-plan (core-free-block-daily-budget), SG-GOV-policy-power-conditions (core-policy-authority-limited-cell-predicates) and SG-M1-opening-pregnancies (people-opening-pregnancy-first-year-calibration).

@@ -1447,7 +1447,31 @@ export function composeJournal(
     // is a line in the chapter one is living, and a stranger's birth or death
     // is no chapter of this life (lane 3, path 9: no chapter titled after
     // someone else).
-    const turn = turnOf(row, moment);
+    // A turn is titled by its record ("My son", "Ordinance 2025-4"); a title
+    // that would be a bare person's name (a relative whose relation has no
+    // word to say them by) is no chapter of this life: it is told inside the
+    // chapter being lived (lane 3, path 9: no chapter titled after someone
+    // else).
+    const titledByName = (): boolean => {
+      const text = render(
+        { part: "title", kindPrefix: row.kindPrefix },
+        facts,
+        `${moment.id}:title`,
+        sourceIds,
+      )?.text;
+      return (
+        !!text &&
+        moment.counterpartIds.some((other) => {
+          const row = core.people.get(other);
+          return (
+            !!row &&
+            (text === row.givenName ||
+              text === `${row.givenName} ${row.familyName}`)
+          );
+        })
+      );
+    };
+    const turn = turnOf(row, moment) && !titledByName();
     const ownTitle =
       turn && chapterKind === row.kindPrefix
         ? render(

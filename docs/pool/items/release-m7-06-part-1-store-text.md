@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone: M7
 source: split from release-m7-06-steam in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Draft the Steam store page text and the early-access FAQ from what the shipped game does. Every claim must be something a player can do in the game on main.

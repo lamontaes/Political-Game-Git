@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind housing prices, shelters and mortgages. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/world/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The eviction-step and foreclosure-step rows moved to research-housing-statutes-remaining, which is the better-scoped item for them, and are left out of the list below. Earlier work delivered 46 eviction steps in 21 places, Puerto Rico's FHFA price index, Minnesota and Texas foreclosure rows, and research files for shelter beds and mortgage shares. Still open here: prices for the four island areas (2020 Census Island Areas median home values: U.S. Virgin Islands $290,600, Guam $277,800, Northern Mariana Islands $184,200, American Samoa $84,400; owner shares: Guam 52.0 percent, Northern Marianas 29.0, American Samoa 71.1, Virgin Islands 47.8), territory shelter counts (none found), and two mechanics, world-housing-shelter-beds-by-place and world-housing-mortgages-county-shares.

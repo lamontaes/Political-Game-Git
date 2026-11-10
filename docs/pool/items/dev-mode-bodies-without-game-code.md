@@ -12,10 +12,11 @@ pr:
 after:
 blocked-on:
 lead: play-first
-model: haiku
+model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Dev mode drives bills at every legislative body, bribes and runs. It cannot reach courts and judges (verdicts, sentencing), school boards (a body with its own bills and members) or appointments and confirmations (an executive naming an official, a body confirming) because the game has no code to attach to. Each needs its own engine item before dev mode can drive it, and none gets a dev-only write. This item only files the missing pool items; it builds no engine.
@@ -24,7 +25,7 @@ source: added with npm run pool -- add
 
 **Fix.** Search docs/pool/items first. Write one pool item each for school boards and for court verdicts, naming the engine that must exist and the dev control it enables, and cite the two existing appointment items. No engine is built here.
 
-**Time box.** 1 hour for one Haiku session.
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One engine per mechanic: each missing body becomes data rows the existing body engine reads, not a second engine. Look before you ask: search the pool before filing, and add evidence to a match instead of a twin.
 

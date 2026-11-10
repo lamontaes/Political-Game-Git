@@ -17,6 +17,7 @@ effort: high
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** SG-CORE-residents-cadence in src/core2/residents.ts says the wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays, and that counted workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). The bounded slice that landed delivered the sourced JOLTS and CPS reference tables, explicit across-industry ranges, a weighted turnover report (src/core2/turnover-check.ts) and event-time and fill-in regressions. What is left is a comparable CPS absence report and the pay-date rows: the attendance diagnostic counts job-weeks with any missed work segment, while CPS Table 47 selects full-time wage-and-salary workers, their main jobs, hours below 35 and specified reasons, excluding vacation and holidays, so the diagnostic does not prove a calibration gap. BLS is not reachable from cloud sessions, so use a reachable publisher or mark the row ESTIMATED with its source.

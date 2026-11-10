@@ -16,6 +16,7 @@ effort: medium
 root: none
 after: economy-recessions-from-causes
 source: Money, Nov 8; Coordinator ruling on #7842
+checked: fable 2026-11-10
 ---
 
 **What.** The economy's normal unemployment rate (`naturalUnemploymentPct` on each macro month) drifts toward lived unemployment at an estimated speed (`macroNaturalHysteresisMonths`, 120, ESTIMATED), because no source publishes a hysteresis speed and CBO's natural-rate series (FRED NROU) does not follow lived unemployment (Money's fit: a slightly negative coefficient in every sample from 1960 to 2019). What that series does follow is structure: the fall from 6.2 percent in 1980 to 4.4 in 2019 tracks the working-age mix, since the young have higher unemployment and the baby boom aging out lowered it. Build the normal rate from the world's own working-age composition (age shares of the labor force from the population's records, by the same rule for named and counted people) and remove the hysteresis parameter.

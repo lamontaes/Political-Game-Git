@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: in-pr
+claimed-by: claude/pool-gov-prestart-government-test-red-on-main
+pr: #8257
 blocked-on:
 lead: cto
 standard: 2
@@ -17,6 +17,8 @@ root: rc2-done-from-records
 source: Fable, Nov 10, 2026, found by a helper building the life record's second step and rerun on clean main
 after:
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T22:56:50.646Z
+branch: claude/pool-gov-prestart-government-test-red-on-main
 ---
 
 **What.** On clean main on Nov 10 (after #8116, before the life record pull requests), `npx vitest run src/core2/pre-start-government.test.ts` fails its one test, 'lists how an official reached their seat before the start, by record id', with 'TypeError: Cannot read properties of undefined (reading find)'. A helper on a branch from an earlier main saw the same test fail as `personCard(...).seats` being undefined, so the card the test reads no longer carries the field it expects (the person card's list of seats). Either the card stopped returning seats for that person or the test reads a card shape that has since changed. The test draws its own place; the run printed no place or seed before the error.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/pre-start-government.test.ts, src/bench/card.ts, src/core2/modules/offices.ts
 
 **Notes.** Not checked: which commit turned it red. The life record's first step (#8115, open) rewrites the card's history assembly; this failure is on main without it. Skill red-main says how to take it from here.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 22:49 UTC) on branch claude/pool-gov-prestart-government-test-red-on-main.

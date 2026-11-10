@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-electorate-one-model
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/turnout-web.test.ts ('multiplies each voter's propensity by the links the laws do not already read') fails on clean main (9349010200, Oct 29 14:00 UTC) with WEB_TURNOUT_SEED=6b7ac4d1e81306af, Rosine, Kentucky: 'person_3145fcd0a79db1ab: expected undefined to be defined'. The test shifts the town's web month and expects each voter's turnout decision to carry the web's factor; this voter's decision carries none, so either their decision was made before the shifted row was read (a cached decision for the day), they live outside the town the web keeps, or their age or place gives no link. Other seeds pass. Found by the laws session while gating the civic family.
@@ -37,3 +38,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 Oct 29 14:30 UTC (laws session): a second case on main, WEB_TURNOUT_SEED=88ebfe6449fd8869, As Rabagau, Northern Mariana Islands: person:press:outlet:newspaper:0:jurisdiction_3584967e5578b072:owner:0 carries no web factor. The voter is a press outlet owner, a person the press module seats; check whether such people keep a place or birth date the turnout reader needs (decideTurnout reads who.placeId and who.birthDate before it asks the web).
+
+**Notes (Fable, Nov 10, rerun).** Both seeds pass on main 8f2a7f2725: `WEB_TURNOUT_SEED=6b7ac4d1e81306af npx vitest run src/core2/turnout-web.test.ts` (Rosine, Kentucky) and the same with 88ebfe6449fd8869 (As Rabagau, Northern Mariana Islands). The test now plays one more day after it shifts the web's row, with a comment saying why: the engine reads a voter's web factor once a game day and keeps it for the day (`turnoutWeb` in src/core2/turnout-web.ts, the cache at line 34). That was this item's first candidate cause. Nothing is left to build; it is the CTO's to drop as done by main.

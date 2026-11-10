@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The matrix's opposite-neighbors gap (how much further apart the daily mixes of the most opposite adults in a town sit with personality than with traits wiped flat) is 0.00 to 0.04 in six drawn towns on the family branches, against 0.10 on October 20, and the lead's proof asks for twice that. The mix is mostly routine personality barely touches: going to scheduled work is 35 percent of picks with 0.7 percent turned, shelving a business idea each month 25 percent with none turned, school and staying out of races most of the rest. The main daily outlet, seeing someone against resting, is about a tenth of picks, and in some pairs temperament cancels a difference circumstances made, which narrows them. Find what would let temperament show in more of a day without adding a mechanic the owner has not asked for, measure it on main after the families merge, and report the gap.

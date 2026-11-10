@@ -16,6 +16,7 @@ lead: m0-m2
 model: opus
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** The played-world check M0-13 (tests/golden-path/played-world.node-test.ts, "homes have values and rents") failed on main in Rachel, West Virginia (place 5466460, seed fab4a016e500e2d54ef9dd438fd9575efa4a0053bb25048fd4df627589dcc0aa), replayed by Lane 5 on Nov 4: 0 of 19 homes lack a value or rent, but 0 were ever rented where the records expect 2 renter households. It turned a golden-path-year run red though that pull request changed only a test fixture. Either the two expected renters are counted households that never reach a dwelling lease, or housing seeds no rental where so few homes exist.

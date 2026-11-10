@@ -659,6 +659,15 @@
     "veryConservative": "Very conservative",
     "notSure": "Not sure yet"
   },
+  "lifeGroups": [
+    ["partner", "child", "loss"],
+    ["school"],
+    ["work", "business"],
+    ["moved", "home"],
+    ["health"],
+    ["law"],
+    ["office"]
+  ],
   "who": {
     "age": "Age",
     "born": "Born",
@@ -671,6 +680,7 @@
     "whoIAm": "Who I am",
     "whatImLike": "What I'm like",
     "myPeople": "My people",
+    "myLife": "My life",
     "strong": "Strong",
     "mild": "Moderate",
     "views": "Politics",
