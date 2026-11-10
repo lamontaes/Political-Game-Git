@@ -1,25 +1,7 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {
-    "opening-speech.story-says.polished-twn-prices-in-this-town-have-climbed-faster-than-they-should-and-families": [
-      "no-this-town"
-    ],
-    "opening-speech.story-says.polished-twn-prices-in-this-town-have-eased-since-this-term-began-and-the": [
-      "no-this-town"
-    ],
-    "scene-talk.state-ask.i-m-with-you-i-only-need-to-know-how-we-get-through-remaining-on-savings-that-la": [
-      "no-figures-people-would-not-know"
-    ],
-    "scene-talk.state-ask.say-it-plainly-savings-for-cushion-a-race-of-remaining-where-does-the-money-come": [
-      "no-figures-people-would-not-know"
-    ],
-    "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul": [
-      "no-figures-people-would-not-know"
-    ]
-  },
-  "waiting": {
-    "scene-talk.reply-agree.deal-yes": ["no-dangling-fragments"]
-  },
+  "pulled": {},
+  "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
