@@ -8,16 +8,30 @@ size: M
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+lead: memory
+standard: 2
+model: opus
+effort: high
+root: rc5-full-detail-every-day
 ---
 
 **What.** Merger 1 reproduced an unexpected Vitest worker exit on clean main e269fd0acf3234a06a7ae06e31e9fe0f2cbde18f while collecting src/core2/legislature-committees.test.ts. GOLDEN_PATH_SEED=93678d3573d46855 draws Gastonia, North Carolina (3725580), attempt 0. With normal bookkeeping, one worker and NODE_OPTIONS=--max-old-space-size=5120 in the 8 GiB cloud container, collection ended after 1848.90 seconds, before any assertion. The cgroup oom_kill counter increased from 12 to 13 during this isolated main run. PR #5981 on the same input also exited before assertions at 1828.19 seconds in its isolated 5 GiB repeat; its earlier 4 GiB run hit the V8 heap limit. The producer fix in that PR passes its separate named regression and 35 producer tests.
 
+**Cause.** Measured: run seed 93678d3573d46855 (`GOLDEN_PATH_SEED=93678d3573d46855`; Gastonia, North Carolina, 3725580, attempt 0) with src/core2/legislature-committees.test.ts on main e269fd0acf, one worker and `--max-old-space-size=5120`: collection ended after 1,848 seconds before any assertion. At day 660 the player's circle holds 358 people, and 1.6 million of 2.2 million known facts belong to focused people (Notes).
+
+**Fix.** Store one shared copy of an event's facts instead of one per witness, and let old focus that the player no longer deals with leave the circle. Keep the test, its bookkeeping and its assertions unchanged.
+
+**Time box.** 8 hours for an Opus session.
+
 **Rules.** Find and fix retained memory growth at its source. Keep the full 730-day generated world, bookkeeping validation, drawn-place coverage and all positive committee-trade and floor-vote assertions. Never clear this failure by disabling bookkeeping, weakening the assertions, selecting a convenient replacement seed or raising the container budget. One rule, all 56 places: the unchanged test passes on the recorded place and on a freshly drawn place, each named with its seed. Speed: the fix may not make a played year more than 20 percent slower, and it acts on the day something changed instead of scanning the world or its history every day.
 
-**Done when.** The unchanged committee test completes on the recorded input with one worker and a 5 GiB Node heap in the 8 GiB environment, all three assertions pass with positive trade and honored-floor-vote records, and a freshly drawn place completes with the same checks; the PR names the places, seeds, actual record IDs and measured before/after memory behavior. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session runs the unchanged src/core2/legislature-committees.test.ts on the recorded place (Gastonia, North Carolina, seed 93678d3573d46855) with one worker and a 5 GiB Node heap in the 8 GiB environment and sees all three assertions pass with positive trade and honored-floor-vote records. A freshly drawn place completes with the same checks, and the PR names both places, seeds, record ids and the measured memory before and after.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/legislature-committees.test.ts, src/core2/bookkeeping.ts, src/core2/state.ts
 

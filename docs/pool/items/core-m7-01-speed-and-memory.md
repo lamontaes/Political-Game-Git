@@ -8,19 +8,33 @@ size: L
 status: open
 claimed-by:
 pr:
+after:
 blocked-on: not scheduled: a roadmap milestone at priority 3 until the weekly reschedule (AGENTS.md: saves and release work wait for early-access preparation); an L item is split by whoever claims it once scheduled
 milestone: M7
 source: "docs/roadmap/later-specs-draft.md M7-01"
 claimed-at:
+lead: speed
+standard: 2
+model: haiku
+effort: medium
+root: rc5-full-detail-every-day
 ---
 
-**What.** A town's year in under 2 minutes; the new-game load (including the opening) fits a short loading screen; it runs on a minimum PC. (Owner: OPUS-CORE.)
+**What.** M7-01 asks that a town's year run in under two minutes, that the new-game load (including the opening) fit a short loading screen, and that the game run on a minimum PC. The year-time half is held elsewhere; the load time and the memory on a minimum PC have never been measured. This item measures them, then sets targets from Steam's hardware survey.
 
-**Rules.** Spec approved by the owner Oct 12; AGENTS.md rules.
+**Cause.** Needs cause. Looked at: the item and its Oct 20 Notes. The year time is measured (52 seconds and 194 to 214 seconds) and is held by AGENTS.md Speed and core-speed-year-over-limit-dense-town (done); the new-game load (33 to 36 seconds in the dense town) against a short loading screen and the peak memory on a minimum PC were never measured, and no source for the targets (the Steam hardware survey) was fetched.
 
-**Done when.** Measured on a reference minimum-spec machine, with targets set from Steam's hardware survey.
+**Fix.** None until the cause is found.
 
-**Files.** see spec
+**Time box.** 3 hours for a Haiku session: measure load time and peak memory in a dense town and a small town, and rewrite this item with Measured.
+
+**Rules.** Speed (AGENTS.md, owner Oct 29): a country's year under two minutes and no slower than 20% over base. Spec approved by the owner Oct 12. Research before building: the targets come from a fetched hardware survey and calibrate, they never decide an outcome.
+
+**Done when.** Once the cause is found, a second session measures, in a drawn dense town and a drawn small town (places and seeds named), the new-game load time and the peak memory of a year on a reference minimum-spec machine, and sees the figures printed beside the Steam hardware survey's median PC as figures to report.
+
+**Waits on.** Early-access preparation (the roadmap schedule).
+
+**Files.** docs/roadmap/later-specs-draft.md, scripts/speed-years/run.ts
 
 **Notes.** Priority 3 until scheduled. Verify how much is built before starting. Oct 23: blocked-on was empty; set to the same not-scheduled reason as the other M7 items. #5364 (claude/m7-speed) is a note-only split proposal.
 

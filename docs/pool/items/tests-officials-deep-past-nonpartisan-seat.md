@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/officials-deep-past.test.ts, src/core2/modules/officials.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The test file was renamed to src/core2/officials-past.test.ts, which already skips the party fact for nonpartisan seats (about lines 45 and 46: `!(nonpartisan && kind === "identity:party")`, with the seat's nonpartisan status read from researchedHolderParty).

@@ -8,19 +8,32 @@ size: L
 status: open
 claimed-by:
 pr:
-blocked-on:
+blocked-on: people-partnership-counted-part-1-counted-leave-home, people-partnership-counted-part-2-counted-pair, people-partnership-counted-part-3-counted-separate
 after: people-leave-parents-home, core-household-membership-change, people-partnership-forms, people-partnership-ends, people-orientation-record
 source: added with npm run pool -- add
 claimed-at:
+standard: 2
+model: opus
+effort: high
+root: design-one-model-two-tiers
+lead: lives
 ---
 
-**What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in `src/core2/modules/partnerships.ts`: leaving a parent's home, partnering and separating. It was split Oct 20 into people-partnership-counted-leave-home (the counted-store call that moves one member into a household of their own, plus the leave-home weighing) and people-partnership-counted-pair-and-split (partnering and separating, reading the orientation record). Nothing is built under this id; it is done when both parts are done, with the counted households of a town turning over by the same rules as full people, times their count. Combined by the Oct 25 audit, one change in one seam; the parts folded in: people-partnership-counted-leave-home (Counted young adults leave a parent's home by the same weighing as full people, times their count); people-partnership-counted-pair-and-split (Counted adults partner and separate by the same weighing as full people, times their count). Each part's own done-when line is listed in Notes and is part of this item's acceptance.
+**What.** This is the roll-up for giving the counted tier the three partnership rules that full people already have in src/core2/modules/partnerships.ts: leaving a parent's home, partnering and separating. Nothing is built under this id. It is done when its three parts are done, with the counted households of a town turning over by the same rules as full people, times their count. The folded-in done-when lines from the Oct 25 combination are kept in the Notes.
+
+**Cause.** Found in code: src/core2/modules/partnerships.ts (header, line 33, and COUNTED_STOPGAP at line 88) leaves the counted population's partnerships as their own unit; the stopgap row SG-LIVES-partner-counted is in src/core2/data/stopgaps/lives.json (line 75): the counted population's household types never change by partnering or parting.
+
+**Fix.** Build the three parts: counted young adults leave home, counted adults partner, counted couples separate, each as counted-household records.
+
+**Time box.** 16 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One model, two tiers: a counted group is read with the same rule as a full person times its count, and the rates only check totals. No dice: the weights, not a chance, decide how many go. Wire to the world: every move carries rent and cash by journal record. One rule, all 56 places: no place is named in code.
 
-**Done when.** Both parts are done: in a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose) a group's counted households show young adults leaving, couples forming and couples separating, each as a counted-household record id, proved by src/core2/counted-home-leaving.test.ts and src/core2/counted-partnering.test.ts. Each move names the members who moved, and the town's counted population is unchanged by those household moves.
+**Done when.** A second session runs a one-year played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body) and sees a group's counted households show young adults leaving, couples forming and couples separating, each as a counted-household record id naming the members who moved, with the town's counted population unchanged by those household moves. src/core2/counted-home-leaving.test.ts and src/core2/counted-partnering.test.ts prove it.
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/counted-groups.ts, src/core2/modules/counted-moves.ts, src/core2/data/partnerships/parameters.json, src/core2/counted-home-leaving.test.ts, src/core2/counted-partnering.test.ts
+**Waits on.** Its three parts: people-partnership-counted-part-1-counted-leave-home, people-partnership-counted-part-2-counted-pair and people-partnership-counted-part-3-counted-separate. The after: line names people-partnership-forms and people-partnership-ends, proposed for drop because built on main.
+
+**Files.** src/core2/modules/partnerships.ts, src/core2/counted-groups.ts, src/core2/modules/counted-moves.ts, src/core2/data/opening-partnership.json, src/core2/data/stopgaps/lives.json, src/core2/counted-home-leaving.test.ts (new), src/core2/counted-partnering.test.ts (new)
 
 **Notes.** Follows the People partnership stack (PRs 4948, 4959, 4961, 4963, 4970). Needs a counted-store call that moves one member of a counted household into a new household record of its own (the weight and the household's cash share follow), the counterpart of `changeHouseholdV1` for full people. Check `SG-PEOPLE-partnership-orientation`, which pairs only a woman and a man, before building: a counted pair needs the same rule.
 

@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/research/executive/orders-and-vacancies-2026-11.json, data/research/justice/bop-federal-offenses-2026.json, scripts/audit/research-data-allowlist.json
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both files now have readers: src/core2/modules/federal-courts.ts line 19 imports data/research/justice/bop-federal-offenses-2026.json (and scripts/justice/derive-federal-stay-share.ts line 36 reads it), and scripts/research/check-orders-and-vacancies.ts line 45 reads data/research/executive/orders-and-vacancies-2026-11.json; neither file is in scripts/audit/research-data-allowlist.json. Medium confidence: the guard was not run, and the orders file is read by a script, not production code.

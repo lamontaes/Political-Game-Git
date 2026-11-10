@@ -22,3 +22,5 @@ source: governing lead, Nov 1 (legislature-ask-before-the-roll-test-red-by-seed)
 **Files.** src/director/scheduling.ts, src/director/data/situation-types.json, data/english
 
 **Notes.** Found on legislature-ask-before-the-roll-test-red-by-seed (Nov 1). Lead: Words (director and data/english); governing writes the ask.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into director-cap-on-scene-repeats. The six-per-91-days `seasonCap` (`src/director/data/situation-types.json` line 83, applied in `scheduleMoment`, `src/director/scheduling.ts`) is one of the two limits that item replaces with a record-based rule. The kept item takes what this one adds: for a player seated in a legislature every vote-ahead ask is either staged or recorded with the season-cap reason, and the journal line for a capped ask says the sponsor asked, through a bank line (Springfield, Oregon 4169600, run seed chk2-b). That is now in director-cap-on-scene-repeats's Fix and Done when.

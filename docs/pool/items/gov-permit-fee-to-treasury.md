@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/public-safety.ts,src/core2/data/outside-flows.json
 
 **Notes.** Found working gov-outside-revenue-fees (#5926).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-outside-revenue-fees. Same fix family: fees reach the issuing treasury and clear check 6, and the permit-fee transfers are in src/core2/public-safety.ts near line 1648. The kept item should take the permit-fee rows.

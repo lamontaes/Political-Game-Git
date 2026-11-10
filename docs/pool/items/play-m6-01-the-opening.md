@@ -27,3 +27,5 @@ claimed-at:
 Owner, Nov 1 playtest of v0.73.0 (CTO): "The speech with the president is supposed to start with the president, like in the Oval Office or something, and then doing like a montage. But here it's just like I'm just clicking continue." The address now plays in the talk box over the home backdrop only. The Oct 29 02:35 ruling (cutaways alternating the President working with America, officials named as the camera passes, ending at home) is not built. The Oct 20 claim (claude/political-game-pool-76ksvw) is stale and released by the CTO; the lane takes it next.
 
 Lane 5 (pool truth, Nov 3): claimed with PR #7105 open from its branch; set in-pr.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The cinematic opening is built: src/bench/montage.ts with src/bench/data/opening-montage.json and src/bench/opening-montage.browser.mjs, and its children play-opening-plays-in-the-talk-box and play-opening-pictures-from-records (cutaways and the President's podium from the world's records) are status done. The item's Notes mark it in-pr with #7105. Remaining gaps are separate play-opening-* items.

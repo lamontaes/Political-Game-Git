@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Oct 29 (CTO, second account): PR #6141 closed as stale under the owner's standing approval; back to open. Branch `claude/web-unwired-fire-link-row` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The row it asks for exists in the form the rules now want: src/core2/data/stopgaps/web.json line 1020 holds SG-WEB-unread-fire-civilian-casualties (its research finds no effect, about zero), and src/core2/outcome-web-unwired.test.ts deliberately leaves about-zero links off unwired.json, so the missing unwired row is correct. Not run: that test.

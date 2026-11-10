@@ -7,17 +7,30 @@ kind: wiring
 priority: 1
 size: M
 status: blocked
+standard: 2
 claimed-by:
 pr:
 blocked-on: people-estate-wealth-top-tail
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+after:
+model: sonnet
+effort: medium
+root: rc8-law-judged-by-paperwork
 ---
 
-**What.** This is one bounded family of the umbrella `laws-wiring-every-law`, which no single family PR could finish. Every law in the taxes and public finance family must pass all nine links of the law-wiring standard: it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place. The laws, as the Oct 20 matrix assigns them (the lead corrects the list on its first rebuild): income-tax, property-tax, corporate-income-tax, estate-tax, inheritance-tax, adopt-income-tax, cap-property-tax-growth, graduated-income-tax, balanced-operating-budget, fund-pensions-to-schedule, minimum-reserve-balance and local-income-tax-authority.
+**What.** Two parts of the taxes and public finance family are still short of the nine wiring links: the estate tax, whose money cannot move until a played town has an estate above the exemption (people-estate-wealth-top-tail, open), and the local income tax grant's bill, whose Words row words-bill-section-local-income-tax-authority is now done. Ten laws landed in PR #5649 as laws-nine-links-taxes-ten. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.
+
+**Cause.** Design: the nine-link standard in docs/work-orders/lead-laws-2026-10-24.md. The estate tax cannot show money until people-estate-wealth-top-tail gives a played town an estate above the exemption.
+
+**Fix.** Once people-estate-wealth-top-tail lands, rerun estate-tax in two drawn places on the checker and finish it; wire the local income tax grant's bill now that its Words row is done.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** An effect is a read, not a record: the engine that pays or decides reads the law and records whom it applied it to through `lawApplied`. One model, two tiers: counted groups take the same rule as full people, times the count. Ask why: a person attributes a change to the law only after news they received, a conversation, a notice or an ad. The chain is the acceptance: each law is followed to a named person and a dollar.
 
-**Done when.** In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Done when.** A second session, not the builder, replays this on main in the running game: in two drawn places on seeds nobody chose, dev mode and the law check follow each law still open in this item to a named person or household and a dollar, by `lawApplied` record id and journal entry. The builder's proof: In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+
+**Waits on.** people-estate-wealth-top-tail (open). words-bill-section-local-income-tax-authority is done.
 
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/budgets-treasury.ts, src/core2/law-reach/applied.ts
 

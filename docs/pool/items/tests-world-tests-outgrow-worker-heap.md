@@ -6,17 +6,31 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+lead: speed
+model: sonnet
+effort: medium
+root: rc5-full-detail-every-day
 source: added with npm run pool -- add
 ---
 
 **What.** On a four-core cloud container with 16 GB, Node's default heap limit is 2,096 MB, and vitest's workers inherit it. Run there one file at a time on main 01f5cd4715, school-outcomes.test.ts and school-pay.test.ts fail every run with 'Worker exited unexpectedly' (V8: 'Ineffective mark-compacts near heap limit'), and press-turnover.test.ts's second case does the same. counted-weight-money.test.ts and press-money.test.ts did it once each on a large draw. With NODE_OPTIONS=--max-old-space-size=4096 all of them pass on the same main. Give the tests that build a played world the heap they need where vitest starts its workers, once, so a merger or CI on a 2 GB default sees the same result as a developer. Combined by the Oct 25 audit, one change in one seam; the parts folded in: tests-budgets-worker-heap-limit (budgets.test.ts runs out of its worker's 2 GB heap in some runs of the budgets files at two workers); tests-term-start-history-worker-oom (term-start-history.test.ts runs its worker out of memory on some drawn places (Millington, Tennessee, seed tsh22)). Each part's own done-when line is listed in Notes and is part of this item's acceptance.
 
+**Cause.** Found in code: vite.config.ts line 68 (`test: {`) sets no worker heap or execArgv, so vitest workers inherit Node's default (about 2 GB) and school-outcomes.test.ts, school-pay.test.ts and press-turnover.test.ts exhaust it (item What, main 01f5cd4715); package.json sets a heap only for scripts, and CI sets NODE_OPTIONS=--max-old-space-size=5120 in .github/workflows/release-candidate.yml (line 217), so only local and merger runs differ.
+
+**Fix.** Set the worker heap (execArgv --max-old-space-size) once in the vitest config so every world-building test gets it with no NODE_OPTIONS; keep the tests' bookkeeping and drawn places as they are. Check that election-results.test.ts and drives-filled-in-job-loss.test.ts, named in Notes, pass or are split off into their own item.
+
+**Time box.** 3 hours for one Sonnet session.
+
 **Rules.** Bookkeeping is a debug switch: the tests keep the bookkeeping they set, and only the workers' heap changes. One rule, all 56 places: the tests keep drawing their towns from all 56, the largest included, never a smaller pinned town to fit the heap. Never skip or quarantine a test to get green.
 
-**Done when.** On a machine whose default Node heap is about 2 GB, school-outcomes, school-pay and press-turnover pass with the repo's own vitest command and no NODE_OPTIONS, shown in the PR body with the heap limit printed; the other unit tests are unaffected. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session, on a machine whose default Node heap is about 2 GB, runs school-outcomes, school-pay and press-turnover with the repo's own vitest command and no NODE_OPTIONS; all pass and the heap limit is printed. The Notes' own done-when lines (budgets.test.ts ten runs in a row at two workers; term-start-history.test.ts on GOLDEN_PATH_SEED=tsh22, Millington, Tennessee, and three random draws) also hold, with each place and seed named, and no other unit test changes result.
+
+**Waits on.** Nothing.
 
 **Files.** vite.config.ts, src/core2/school-outcomes.test.ts, src/core2/school-pay.test.ts, src/core2/press-turnover.test.ts, src/core2/budgets.test.ts, src/core2/term-start-history.test.ts
 

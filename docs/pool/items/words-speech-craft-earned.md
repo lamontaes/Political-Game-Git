@@ -28,3 +28,5 @@ claimed-at:
 Sent back 2026-10-20 from PR #5601 (branch claude/speech-craft): docs/pool/items/words-speech-craft-earned.md:20 requires the same press secretary before and after recorded briefings in a drawn buildBenchWorld, with address record ids in sourceRecordIds and a named place and seed. The body explicitly says no producer writes those records and no played-world line uses the new gate. The fixture test of supplied address ids does not meet that proof; wire the actual producer and show the required run before resubmission.; finish on that branch, merge main into it first.
 
 Claim released by the Oct 25 audit: no push in 72 hours (PR #5601 closed unmerged; branch last pushed Oct 20).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Earned devices are built: speechCraft and deviceEarned in src/english/speech-registers.ts (a sliding scale from addresses given, parameter speechCraftHalfAddresses), and src/core2/speech-craft.test.ts proves it in buildBenchWorld. The item's speakerSpeakingRecordIds is now deviceEarned(device, addressesGiven).

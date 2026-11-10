@@ -29,3 +29,5 @@ Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political
 
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
 Stale 2026-10-26: PR #5704 closed (no push since Oct 20, conflicts with main in src/english/mined/public-bank.ts); the work is on branch claude/political-game-pool-yucp92-bn; claim the item and merge main into that branch.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into words-past-fact-renderings. Same fix (public figure and year-before archive wording on the card and in the news). Its branch is closed and its two named files, data/english/parts/public-figure.json and src/english/mined/public-bank.ts, no longer exist. Keep words-past-fact-renderings, which now carries the done-when line that the News shows an archive item worded by record id.

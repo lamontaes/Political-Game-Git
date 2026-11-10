@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/law-wiring-housing.test.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/law-wiring-housing.test.ts now redraws a place with no eviction hearing under the counsel law: it returns "no subject: no eviction hearing had a lawyer in N days" when no case carries the counsel law (about lines 360 to 375), with a comment that a town with no case is redrawn, which is this item's done-when.

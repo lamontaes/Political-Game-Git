@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** src/bench/story.ts, src/bench/play.mjs
 
 **Notes.** Filed by the Oct 25 pool audit: business-local-press-closes-first-year's Done when names no screen. Build the screen against what the engine gives today; when the engine side is thin, the screen says so in plain words. An engine change stays with business-local-press-closes-first-year (needs-from in the handoff line).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Outlet names already show: News is one tab per outlet (`newsBoard` in src/bench/ui/news-board.mjs, fed by `news` in src/bench/play.mjs). The closing half rests on business-local-press-closes-first-year, which is dropped, so there is no closure to print.

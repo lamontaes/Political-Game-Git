@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/director, src/english, data/english, src/bench/card.ts, src/bench/play.mjs
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-what-people-say-about-me-reads-the-life-record. Keep that item (its better cause is docs/design/life-record.md: one reader of the life record, no new record). This item adds the person card (not only You) and the gold tag drawn from the subject's recorded temperament (src/bench/card.ts); the kept item should take the card and the tag, and drop this item's separate 'quote record'.

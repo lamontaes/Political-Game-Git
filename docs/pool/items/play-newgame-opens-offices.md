@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/saves.ts, src/bench/world.ts
 
 **Notes.** The government pre-start test builds the bench world and runs the pass on it for now. Claim released Oct 23: branch idle since Oct 19.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The played game does not use `newGame` in src/core2/saves.ts: it builds through src/bench/world.ts, which calls `openOffices`; only tests call `newGame`. AGENTS.md: 'Saves don't matter until early-access preparation, when a versioned save format is built', so the saves path is rebuilt then. Residual doubt for the CTO: `newGame` still lacks `openOffices` if a save route is revived.

@@ -25,3 +25,5 @@ claimed-at: 2026-10-20T02:35:29.967Z
 **Notes.** TODO
 
 Oct 20: Switched from blocked to the automatic after: gate on gov-redistricting-census-count, so it opens by itself the moment those items are done.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-redistricting-engine. This is an empty draft (every field TODO, released from idle draft #5076); gov-redistricting-engine holds the only written spec, and this stub becomes one of its parts.

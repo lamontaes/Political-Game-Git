@@ -6,18 +6,32 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
+after:
 blocked-on:
+lead: jobs
+model: sonnet
+effort: high
+root: none
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** In a played year at Morrison, Oklahoma (place 4049450, seed 35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3) the only earner in the player's household is a maintenance worker at 'Morrison Public Works Department' (organization_f65162fe1649d10c, sector local-government-office). The department opens with liquidMinor 0 and has no business book, and after 40 days it still holds 0, so work-payroll posts no payment to the household in 12 months; the household's cash falls from $1,964 to 0 by month 2 and stays there. src/core2/player-money-year.test.ts fails there on the payroll line with 'expected 0 to be greater than 0'. Other places pay their town staff, so the funding link from the town's budget to the department is missing in this place, or the department is never given a budget line.
+**What.** In a played year at Morrison, Oklahoma (place 4049450, seed 35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3) the only earner in the player's household is a maintenance worker at "Morrison Public Works Department" (organization_f65162fe1649d10c, sector local-government-office). The department opens with liquidMinor 0 and has no business book, and after 40 days it still holds 0, so work-payroll posts no payment to the household in 12 months; the household's cash falls from $1,964 to 0 by month 2 and stays there. src/core2/player-money-year.test.ts failed there on the payroll line. Other places pay their town staff, so the funding link from the town's budget to the department is missing in this place, or the department is never given a budget line. On Oct 20 it did not reproduce on main, but a later branch found the staff paid in some runs of this seed and not in others.
+
+**Cause.** Needs cause. Looked at the item's Notes and src/core2/player-money-year.test.ts: in Morrison, Oklahoma (place 4049450, seed 35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3) the staff were paid or not depending on the order of reads (runs that first read the town, county, department and treasury balances paid), the named test passed on main on Oct 20, and no cause is named in the code.
+
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Wire to the world: a town job pays from the town's budget through the journal, one dollar followed from the budget line to the worker. One rule, all 56 places: no place named. No dice: the budget and the law in force decide whether the department is funded.
 
-**Done when.** Running GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts passes: the department receives money from the town's budget, work-payroll posts to the maintenance worker's household by journal record id, and a one-year buildBenchWorld run in three other random places shows every town department with staff paid. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session, on main, runs GOLDEN_PATH_SEED=35ae004f918cbf272f6432398117664222bc8643eab297e7225cefbd17b8d4a3 GOLDEN_PATH_PLACE_KEY=4049450 npx vitest run src/core2/player-money-year.test.ts twice in different read orders and plays a year in dev mode in Morrison, Oklahoma and three other drawn places: the department receives money from the town's budget, work-payroll posts to the maintenance worker's household by journal record id, and every town department with staff pays them. The cause found is written into this item.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/budgets.ts, src/core2/modules/official-pay.ts, src/core2/opening-economy.ts, src/core2/player-money-year.test.ts
 

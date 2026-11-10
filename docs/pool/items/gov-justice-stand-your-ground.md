@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Closes SG-GOV-REACH-A-stand-your-ground in src/core2/data/stopgaps.json only when the engine reads the law, never by deleting the row. Check docs/coordination/DECISION-REGISTER.md and OWNER-DECISIONS.md before adding any player-facing step. Remainder of gov-justice-incident-records.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/public-safety.ts reads the stand-your-ground law (STAND_GROUND, line 86; lawIdOf at line 846) and ends self-defense cases at charging where the rule is law; SG-GOV-REACH-A-stand-your-ground is resolved in src/core2/data/stopgaps/gov.json.

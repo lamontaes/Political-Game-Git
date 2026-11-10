@@ -31,3 +31,5 @@ Oct 20: The Oct 16 claim has no PR and is over two days old, so the claim is cle
 Oct 20: Switched from blocked to the automatic after: gate on laws-property-tax-cap-statutes, laws-groundwater-farm-use, so it opens by itself the moment those items are done.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of laws-property-tax-cap-statutes + laws-groundwater-farm-use; the children carry the work.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-property-tax-cap-statutes. This is the roll-up of laws-property-tax-cap-statutes and laws-groundwater-farm-use ("the children carry the work", look-first audit Oct 27); its `after:` gate is those two. Both stopgap rows (SG-GOV-REACH-B-property-tax-bills and SG-GOV-REACH-B-business-cost) are open in src/core2/data/stopgaps/gov.json. The kept item takes the property-tax row; the SG-GOV-REACH-B-business-cost row (groundwater farm use) is carried by laws-groundwater-farm-use and must also close there. Stale path: src/core2/data/stopgaps.json is now src/core2/data/stopgaps/gov.json.

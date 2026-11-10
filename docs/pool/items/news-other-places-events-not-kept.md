@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/regional.ts, src/core2/state.ts
 
 **Notes.** Found by the M0-M2 lead writing M1-13's command, Oct 24. Blocks roadmap M1-13.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Owner, Nov 5, 12:49 p.m. (OWNER-DECISIONS.md): "you dont need to do a whole huge record keeping thing. just simulate based on the people there and then you can fill in the gaps based on what was simulated when things need to be generated. generate on demand". docs/design/country-tier.md makes a state counts and a ledger whose national and state figures every screen reads, so news should read the tier's monthly figures on demand, not 728 kept jobs-report events per year.

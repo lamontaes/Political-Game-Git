@@ -6,17 +6,31 @@ kind: wiring
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: governing
+model: sonnet
+effort: medium
+root: rc5-full-detail-every-day
 ---
 
 **What.** A town hall takes the most driven adults up to its 40 seats, and every adult with any view on a question has a drive, so in a small town every adult comes to every town hall: Lonerock, Oregon (seed c8ff3f460600582a58a7bf6b9b69d5204859bbc4:meetings:6) had about 29 adults and 91% of everyone weighed took part across its 22 meetings. Real attendance at local public meetings is a minority of adults. Make coming to a town hall weigh what the evening costs the resident (their free time and how far they live, as parties.attend's case does) against how strongly they feel, so a room fills only with those for whom it is worth the trip, and refit meetings.take-part's weight on the played pools.
 
-**Rules.** No dice: the drive, the evening's cost and temperament decide who comes. One rule, all 56 places. Estimate the cost from research on time use and meeting attendance, never a fixed share. Replace the room-filling rule, do not layer a second one beside it.
+**Cause.** Found in code: `driveOf` in src/core2/modules/meetings.ts (lines 172 to 185) returns drive = base * (1 + take-part weight * lean) with no cost term, and the room takes the most driven up to 40 seats, so in a small town every adult with a view comes.
 
-**Done when.** In two drawn places' played election windows, seeds named, the share of adults who came to at least one town hall sits within the researched attendance range with its source quoted; a town smaller than a room no longer sends every adult; meetings.take-part's net odds between the thirds of lean are within a factor of 2 of the study's in both; the meetings trait test passes.
+**Fix.** Subtract an evening cost (the resident's free time and distance, as `parties.attend` does) from drive, refit meetings.take-part's weight on the played pools, and report the attendance share without asserting a band.
+
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** No dice: the drive, the evening's cost and temperament decide who comes. One rule, all 56 places. Estimate the cost from research on time use and meeting attendance, never a fixed share. Replace the room-filling rule, do not layer a second one beside it. Ranges are not targets (owner, Nov 8): the researched attendance is reported beside the game's share, never a pass line.
+
+**Done when.** A second session, not the builder, plays two drawn places' election windows (places and seeds named) and sees: a town smaller than a room no longer sends every adult to every town hall; who comes follows each resident's drive less the evening's cost, by meeting record id; the share of adults who came to at least one town hall is reported next to the researched attendance figure with its source quoted, as a number to read and not a pass line; meetings.take-part's net odds between the thirds of lean are reported against the study's; and the meetings trait test src/core2/modules/meetings.traits.test.ts passes.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/meetings.ts, src/core2/modules/parties.ts, src/core2/modules/meetings.traits.test.ts, src/core2/data/meetings/parameters.json
 

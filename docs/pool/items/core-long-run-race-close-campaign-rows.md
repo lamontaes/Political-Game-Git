@@ -8,17 +8,31 @@ size: S
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
 source: added with npm run pool -- add
+lead: speed
+standard: 2
+model: sonnet
+effort: medium
+root: rc5-full-detail-every-day
 ---
 
 **What.** The campaigns engine keeps every gift, endorsement, poll and stepped-up row of every race forever, though every reader in play reads them only while the race is open or reads the player's own race. They grow with every election in every place the world plays. The campaign row keeps raisedMinor, and the campaign-endorsed and campaign-stepped-up events carry what news reads.
 
+**Cause.** Found in code: src/core2/modules/campaigns.ts `closeRace` (line 6602) drops a race's door rows (and pledges, when the player did not file) but leaves the gifts, endorsements, polls and stepped-up rows of every closed race forever.
+
+**Fix.** In `closeRace`, after the door drop and only when the player did not file in the contest, remove the gifts, endorsements, polls and stepped-up rows for that contest. Review branch speed/fold-race-close-rows (410df6df17) and prove the four tables only differ.
+
+**Time box.** 3 hours for a Sonnet session.
+
 **Rules.** Speed (owner, Oct 29): old records fold once play no longer reads them. The governing lead agreed on Nov 1 at 21:22 UTC, keyed on the player's contests: every row of any contest the player filed in stays, rivals' included, because the played-year proof and the incumbent-response unit read them; the rest go at the race-close step. Replace, never layer: the drop runs in the close step that already drops door rows.
 
-**Done when.** A four-year run of the played world (npm run speed:year -- --seed long-1 --years 4, Ringgold, Louisiana) on main and the branch, one process each, keeps dev mode's records proof identical in every table except campaigns gifts, endorsements, polls and steppedUp, with row counts in the PR body, and src/core2/campaign-doors-fold.test.ts in a drawn place named with its seed shows a closed race's rows gone and a contest the player filed in keeping all of its rows.
+**Done when.** A second session runs `npm run speed:year -- --seed long-1 --years 4` (Ringgold, Louisiana, a drawn place) on main and the branch, one process each, and sees dev mode's records proof identical in every table except campaigns gifts, endorsements, polls and steppedUp, with row counts in the PR body. src/core2/campaign-doors-fold.test.ts in a drawn place named with its seed shows a closed race's rows gone and a contest the player filed in keeping all of its rows.
 
-**Files.** src/core2/modules/campaigns.ts,src/core2/campaign-doors-fold.test.ts
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/campaigns.ts, src/core2/campaign-doors-fold.test.ts
 
 **Notes.** lead: speed. Round four; stacked on core-long-run-closed-race-rows-fold (speed/fold-doors).
 

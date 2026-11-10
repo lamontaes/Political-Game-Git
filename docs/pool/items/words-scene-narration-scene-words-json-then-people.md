@@ -40,3 +40,5 @@ Sent back 2026-10-23 from PR #5706 (branch claude/political-game-pool-yucp92-bo)
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: drop the batch-page grading clause.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The owner's Nov 10 ruling "Who does words work: split by role" (docs/coordination/OWNER-DECISIONS.md) gives line-writing to Story and rules and checks to Fable's words machine, replacing this item's mining-and-grading method. The readers it asked for exist (composeNewsStory in src/english/english-newscast.ts, called from src/bench/archive-words.ts; scene words in src/english/scene-words.ts), and the names it cites, bringDataFromBank and townStoryKinds, are gone.

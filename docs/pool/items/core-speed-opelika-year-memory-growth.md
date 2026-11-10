@@ -6,18 +6,32 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5787
+after:
 blocked-on:
+model: sonnet
+effort: medium
+root: rc5-full-detail-every-day
+lead: speed
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** A played year of Opelika, Alabama (place 0157048, seed op1) at the sample size, buildBenchWorld two-level, took about 27 minutes on a 4-core container, against the two-minute rule. The first six 30-day months ran in 15 to 23 seconds each; from August the live heap after collection grows from about 0.9 GB to about 4.9 GB by October and the months slow down, and a vitest run of the year runs out of memory at a 5 GB heap. Clean main showed the same curve, so it is not from the change that found it. Find what accumulates from August (a table, an index or a history kept per day) and make it act on the day something changed or drop what nothing reads.
+**What.** A played year of Opelika, Alabama (place 0157048, seed op1) at the sample size, buildBenchWorld two-level, once took about 27 minutes on a 4-core container, against the two-minute rule, with the heap growing from 0.9 GB in July to 4.9 GB by October. The speed lead's Oct 25 month-by-month run named a cause: from August 6 the player (born 2007) takes up a cause and joins cause groups, each member becomes a tie, every tie with the player adds the other person to the focus set for good, and every focus person's acts and reasons are kept (durableLog 16,387 records in July, 380,070 by January; focus set 47 to 327). Since then core-speed-focus-daily-recent-contact, core-speed-cause-holder-weekly-contacts and core-speed-contact-offers-grow-with-ties are done, and nothing has been re-measured.
 
-**Rules.** Speed: a town's game year runs in under two minutes and no change makes it more than 20 percent slower; never scan or keep a whole history every day. Replace, never layer: the growing store is fixed at its source, not trimmed after.
+**Cause.** Needs cause. Looked at: the item's Oct 25 month-by-month (Opelika, key 0157048, seed op1: durableLog 16,387 records in July to 380,070 by January; focus set 47 to 327) against the three done focus and contact items.
 
-**Done when.** A sampling heap profile of the Opelika year in the played world (buildBenchWorld, seed op1) before and after names the record that grows by file and function, the year runs in under two minutes with its heap flat after August, and npm run speed:year on the same seed is no slower; the PR names the place, seed and measurements. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** None until the cause is found.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Speed: a town's game year must run in under two minutes and no change may make a year more than 20 percent slower than its base, measured before and after on the same machine, one process at a time. Never scan or keep a whole history every day. Replace, never layer: a growing store is fixed at its source, not trimmed after.
+
+**Done when.** A second session, not the builder, re-runs Opelika, Alabama (place 0157048, seed op1) month by month on main in the played world and reports the year's seconds and the live heap after each month; if the heap still grows from August, it names the table that grows by file and function and this item is rewritten with Found in code and a Fix, otherwise it is proposed for dropping.
+
+**Waits on.** Nothing. The first step is to re-run Opelika, Alabama (op1) month by month on main.
 
 **Files.** src/core2/state.ts, src/core2/module-state.ts
 

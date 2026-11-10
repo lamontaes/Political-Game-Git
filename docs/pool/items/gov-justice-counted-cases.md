@@ -23,3 +23,5 @@ claimed-at:
 **Files.** docs/pool/items/gov-justice-counted-incidents.md, docs/pool/items/gov-justice-counted-dispositions.md, docs/pool/items/gov-justice-counted-fill-in.md
 
 **Notes.** Oct 20 (pool feeder): spec written; it was an empty shell for L work, now split into three bounded parts that all wait on gov-justice-incident-producer (the justice engine hears only officials' bribery cases today, so there is no full-person rule to multiply yet).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-justice-counted-fill-in. This item is a roll-up with nothing built under it; its three parts carry all the work. Keep gov-justice-counted-incidents, gov-justice-counted-dispositions and gov-justice-counted-fill-in, and drop this shell. The kept item takes this roll-up's combined done-when (all three parts in a year with a filled-in adult matching the group rows); gov-justice-counted-fill-in now carries it. `src/core2/justice-counted.test.ts` named here is declared new and does not exist yet.

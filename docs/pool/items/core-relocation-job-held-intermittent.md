@@ -6,20 +6,34 @@ kind: bug
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5404
+after:
 blocked-on:
+model: opus
+effort: medium
+root: none
+lead: jobs
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts when a mover still holds a job that has not ended. The place and seed were lost, and eight later runs of the same test did not reproduce it. Find which caller moves a person whose job is still live, reproduce it from a captured place and seed, and make that caller end the job first or not move the person.
+**What.** One played year in a drawn place stopped with 'Invalid relocation: one living household, no job held', thrown by `relocatePeopleV1` in src/core2/state.ts. That message covers four different conditions (household missing, duplicate ids, a dead or foreign member, and a mover whose live job is outside the destination place), so the stop does not say which one happened. The place and seed of the first stop were lost, and eight later reruns did not reproduce it. Two later captures exist: Dover, New Hampshire (3318820, seed ee04c2985f301a47) in PR #5149 comments, and the counted-demotion test failures under the seeds in the Notes.
 
-**Rules.** Wire to the world: a person who moves away leaves their job through the jobs engine's end record, never by the move erasing it. No dice: whether someone moves follows their own circumstances, and this item changes only the order of the job ending and the move.
+**Cause.** Needs cause. Looked at: src/core2/state.ts lines 1700 to 1720, where `relocatePeopleV1` throws "Invalid relocation: one living household, no job held" for four different conditions; the callers src/core2/modules/moves.ts (lines 967, 1087, 1835), src/core2/modules/counted-demotion.ts line 396 and src/core2/modules/partnerships.ts line 259; the only capture is in PR #5149 comments (Dover, New Hampshire, 3318820, seed ee04c2985f301a47), and src/core2/agreement-jobs-free.test.ts names the place and seed on failure.
 
-**Done when.** With the place and seed captured by src/core2/agreement-jobs-free.test.ts (it now names both on failure), the failing year runs a full played year in buildBenchWorld without the error, and a test in src/core2 holds the case by person record id; the owner plays it: a year runs to its end. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
+**Fix.** None until the cause is found.
 
-**Files.** src/core2/state.ts, src/core2/modules/moves.ts, src/core2/modules/counted-moves.ts, src/core2/agreement-jobs-free.test.ts
+**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Wire to the world: a person who moves away leaves their job through the jobs engine's end record, never by the move erasing it. No dice: whether someone moves follows their own circumstances; this item finds which condition fires and changes only the order of the job ending and the move. Ask why: the finding names the caller and the condition by record id.
+
+**Done when.** A second session, not the builder, runs Dover, New Hampshire (3318820, seed ee04c2985f301a47) for a full played year in buildBenchWorld, in that place, and names which of the four conditions fires and which caller moves the person; this item is then rewritten with Found in code and a Fix. If it does not reproduce, the second session records the places and seeds tried in the Notes.
+
+**Waits on.** Nothing. The first step is to run Dover, New Hampshire (3318820, seed ee04c2985f301a47) and name the caller.
+
+**Files.** src/core2/state.ts, src/core2/modules/moves.ts, src/core2/modules/counted-moves.ts, src/core2/modules/counted-demotion.ts, src/core2/modules/partnerships.ts, src/core2/agreement-jobs-free.test.ts
 
 **Notes.** Seen Oct 19 once while testing branch claude/agreement-re-resolve-s7 (which deletes the pinned-job lookup); not reproduced in eight reruns there, so it may predate that branch. Run the test repeatedly on main and on that branch to compare.
 

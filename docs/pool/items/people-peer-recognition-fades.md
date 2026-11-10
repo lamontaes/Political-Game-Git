@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO
 
 Sent back 2026-10-23 from PR #5810 (branch claude/peer-fades): Non-Words pool branch edits src/director/conversation.ts without a Words-session handoff; route or absorb the consuming director change into the Words line; finish on that branch, merge main into it first.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. What it would fade was deleted: the SG-P8-opening-peer-network row in src/core2/data/stopgaps/p8.json says the generated social:generated-school-acquaintance facts and their writer (opening-peer-network.ts) were deleted on Oct 28 and schoolmates are read from the school engine's attended records (src/core2/shared-history.ts). Neither src/core2/opening-peer-network.ts nor src/core2/data/opening-peer-network.json exists on main.

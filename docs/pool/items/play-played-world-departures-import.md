@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Found Oct 20 running the played-world proof for PR 4146 against current main; the cause is the commit that deleted moves/departures (table-unread-moves-departures).
 
 Oct 29 (CTO, second account): PR #5603 closed as stale under the owner's standing approval; back to open. Branch `claude/played-world-departures` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. tests/golden-path/played-world.node-test.ts now imports `watchDepartures` and `departuresSeen` from src/core2/modules/moves.ts (line 44), calls `watchDepartures(core)` (line 285) and reads `departuresSeen(core)` (line 657); both are exported from moves.ts (lines 1721 and 1735). The broken `departuresOf` import is gone. Not replayed.

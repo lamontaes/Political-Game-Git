@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** Unblocked Oct 23: #5549 merged, so the Today list and its Hold an event control are gone; CTO to confirm the bug is closed and drop, or keep for the stance-first scene.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/event-platform-stance` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The control is no longer silent: `campaignDayChoices` in src/core2/campaign-day.ts (lines 496 and 506) returns a `noPlatform` reason, worded 'Choose your platform first' in src/bench/data/controls.json, and the Today list this item was found in is gone (the item's Notes, Oct 23).

@@ -32,3 +32,5 @@ claimed-at:
 **Notes.** Part of `words-scene-web-meeting-people-and-places`, which stays open for the other rows.
 
 Lane 5 (pool truth, Nov 3): claim released under the 48-hour rule. Claimed 2026-10-27 on `words/web-meeting`; last push Oct 27, 16:33 UTC; no open PR. The branch keeps its work; claiming it takes the branch.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into words-scene-web-meeting-people-and-places. It is the first pass of that domain and says so ("Part of words-scene-web-meeting-people-and-places, which stays open"). The kept item takes its four packets (an introduction at a civic event, a neighbor's ask to join a cause, neighbors falling out over a vote, making up after the fight) and the report's tie-turn trigger wording ("a tie grew", "a tie soured", "a tie's re-entry"); its branch words/web-meeting keeps the work.

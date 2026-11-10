@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** data/english/parts/news.json, data/english/parts/headlines.json, src/core2/modules/press-topics.ts
 
 **Notes.** Filed by Lane 3 (Nov 4); red on main independent of lane 3's branches (checked with the change stashed).
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/bench/printed-words.ts line 3405 maps "housing.purchase" to housing("home-sale"), and data/english/parts/news.json (14 pieces) and headlines.json (6 pieces) hold the home-sale moves, so the stories this item names are worded. The file the item names moved: src/core2/modules/press-topics.ts is now src/core2/press-topics.ts.

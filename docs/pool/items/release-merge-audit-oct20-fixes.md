@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Split by number so several builders can take one each.
 
 Oct 20 (pool feeder): spec written as a roll-up; the 19 children already exist as pool items, so no new items were needed.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. This is a roll-up whose children release-audit-01 to 19 each hold one fix, and its own look-first audit note (2026-10-27) says "roll-up; close it: the remaining gap has its own item". The children still open (release-audit-15-energy-cost-year and release-audit-19-stale-text) are rewritten to the standard on their own.

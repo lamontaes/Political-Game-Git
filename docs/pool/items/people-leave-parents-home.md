@@ -12,15 +12,28 @@ blocked-on:
 after: core-household-membership-change
 source: added with npm run pool -- add
 claimed-at:
+standard: 2
+model: opus
+effort: medium
+root: design-life-record
+lead: lives
 ---
 
-**What.** A young adult who lives with their parents never moves out of the household in play, so the town's households keep their opening shape and no new renter household forms from them. Leaving should follow from the person's own record: work and pay, savings against the rent of a place of their own, and the housing on offer in town. PR #4959 builds the decision in the partnerships engine (src/core2/modules/partnerships.ts) with a new household and its lease when the young adult goes.
+**What.** A young adult who lives with their parents never moves out of the household in play, so the town's households keep their opening shape and no new renter household forms from them. Leaving should follow from the person's own record: work and pay, savings against the rent of a place of their own, and the housing on offer in town. Build the decision in the partnerships engine, with a new household and its lease when the young adult goes.
+
+**Cause.** Found in code: src/core2/modules/partnerships.ts has a move-out only in the separation path (lines 248 to 264) and a canLeave check (line 488), and no read for a young adult in a parent's household; partnershipsModule is already installed in src/director/play-modules.ts (line 44).
+
+**Fix.** Add a monthly young-adult review to partnerships.ts (work and pay against the rents on offer) that moves the person into a new household and lease with changeHouseholdV1.
+
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** No dice: a young adult leaves home from their own work, money and the rents on offer, never from a monthly chance. Wire to the world: the move ends one household membership, starts a household and its lease, and moves rent on the journal.
 
-**Done when.** In an ordinary buildBenchWorld played year in a drawn place (place and seed named in the PR body), with the module installed through the play modules and not by the test, at least one young adult leaves their parents' household, shown by the departure, the new household and its lease record ids. **On screen.** Nothing yet: filed play-move-out-on-screen, which puts it on Who you are.
+**Done when.** A second session runs an ordinary buildBenchWorld played year in a drawn place (place and seed named in the PR body) and sees at least one young adult leave their parents' household, shown by the departure, the new household and its lease record ids, with the rent on the journal; the module is installed through the play modules, not by the test, and src/core2/home-leaving.test.ts covers it.
 
-**Files.** src/core2/modules/partnerships.ts, src/core2/modules/moves.ts, src/core2/home-leaving.test.ts, src/director/play-modules.ts (installation, through the Words line)
+**Waits on.** Nothing. Its after: line names core-household-membership-change, which is done.
+
+**Files.** src/core2/modules/partnerships.ts, src/core2/modules/moves.ts, src/core2/home-leaving.test.ts (new), src/director/play-modules.ts
 
 **Notes.** TODO
 

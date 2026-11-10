@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/bench/ui/dev-bills.mjs, src/bench/dev-api.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/bench/ui/dev-bills.mjs` sends a policy question as a yes/no answer (the `questions` set, line 66, and the asked-question branch at line 76) and its Repeal control introduces the opposite answer (line 134: "Repealing a yes-or-no law is a bill that answers it No, voted like any other"). `DevMode.introduce` (`src/bench/dev-mode.ts` line 979) takes both kinds, with `POLICY_QUESTIONS` imported at line 31. Not replayed in a played year.

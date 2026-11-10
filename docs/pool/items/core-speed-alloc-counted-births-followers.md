@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both named hot spots were rebuilt: `countedFollowers` in src/core2/modules/press.ts (line 1189) sums per-age-band counts from a cached `townAdultsByBand` (line 1156; core-speed-press-counted-followers and core-speed-press-town-adults, both done), and the counted births pass is core-speed-counted-renewal-pass (done). The allocation profile script it needs (scripts/speed-years/alloc-profile.ts) is not on main.

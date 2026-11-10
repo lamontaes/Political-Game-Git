@@ -29,3 +29,5 @@ milestone: play-first
 **Files.** src/director/ask-talk.ts, src/director/purpose-scene.ts, src/director/data/situation-types.json, src/director/data/circumstances.json, data/english/parts/scene-talk.json, scripts/scene-web/domains.json
 
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/door-ask` is kept; claiming this item takes it over.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. A door row plays as the player's ask: `src/director/purpose-scene.ts` (line 1222) handles a `campaign.door` moment through `doorStanding`, `src/director/data/situation-types.json` has the `door-ask` type, and `src/director/door-ask-scene.test.ts` asserts a door plays as the player's ask answered from the knock. The item's `src/director/ask-talk.ts` is now `purpose-scene.ts` and `src/director/doors.ts`.

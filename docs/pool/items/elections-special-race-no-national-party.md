@@ -1,6 +1,6 @@
 ---
 id: elections-special-race-no-national-party
-title: "A special election crashes the played year with \"No national party on side 0\" (red on main, M0-13 in Rosewood Heights, Illinois)"
+title: 'A special election crashes the played year with "No national party on side 0" (red on main, M0-13 in Rosewood Heights, Illinois)'
 area: elections
 lead: wire-elections
 kind: bug
@@ -22,3 +22,5 @@ source: "Traits lead, Oct 28 (golden-path-year on PR #6684)"
 **Files.** src/core2/modules/voting.ts, src/core2/appointments.ts
 
 **Notes.** Found Oct 28 by the traits lead: reproduced on clean main and on the integrity family's branch with the same stack. Related: `tests-party-filing-no-join-in-six-draws` mentions an earlier vacant-seat special race fix.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/core2/modules/voting.ts` (around line 5252) builds a side-0 special race from both sides' parties through `partyOnSideIn` (line 5207) instead of throwing, and `src/core2/special-election-outside.test.ts` has the named regression "a vacancy outside the town is filled where the state has no third party" (line 144), which cites this crash. Illinois is among the states it names.

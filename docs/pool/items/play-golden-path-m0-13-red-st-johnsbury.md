@@ -6,18 +6,32 @@ kind: bug
 priority: 1
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
-blocked-on:
+blocked-on: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split, play-golden-path-m0-13-red-st-johnsbury-part-2-heap-growth, play-golden-path-m0-13-red-st-johnsbury-part-3-races-and-ballots, play-golden-path-m0-13-red-st-johnsbury-part-4-homes-and-pay, play-golden-path-m0-13-red-st-johnsbury-part-5-business-borrowing
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: play-first
+model: opus
+effort: high
+root: rc2-done-from-records
 ---
 
-**What.** The accepted spec M0-13 (tests/golden-path/played-world.node-test.ts) fails on main 663a38fedf in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4): heap growth 110.5 MiB a month against a 5 MiB ceiling; modules that never ran (public projects, succession, world races, ballot measures, past); 2 of 15 races with no one on the ballot (Commissioner and County treasurer, 2025-11-04); 9 of 2,830 homes with no value or rent; 7 of 42 people paid in the last month with no cash at the end; both new businesses borrowing more than 9 times the founder's cash (largest $215,153). Golden-path-year turned red on #5919 by this draw. Each failure may need its own item once triaged.
+**What.** The accepted spec M0-13 (tests/golden-path/played-world.node-test.ts) failed on main 663a38fedf in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) on six played-year checks: heap growth of 110.5 MiB a month against the test's 5 MiB ceiling; modules that never ran (public projects, succession, world races, ballot measures, past); 2 of 15 races with no one on the ballot (Commissioner and County treasurer, 2025-11-04); 9 of 2,830 homes with no value or rent; 7 of 42 people paid in the last month with no cash at the end; and both new businesses borrowing more than 9 times the founder's cash (largest $215,153). The golden-path-year check turned red on a pull request by this draw. The draw is more than a month old and no cause was traced for any symptom, so the work is split: re-run and split first, then one part per symptom.
 
-**Rules.** Wire to the world: every check M0-13 makes must hold in every drawn place's played year, so each failure is fixed at its engine, never by loosening the check.
+**Cause.** Measured: GOLDEN_PATH_SEED=f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4 GOLDEN_PATH_PLACE_KEY=5062125 node --max-old-space-size=8192 --expose-gc --import tsx tests/golden-path/played-world.node-test.ts in St. Johnsbury, Vermont failed on main 663a38fedf (Oct 28) with the six symptoms above; none was traced to a file, and the draw predates much that has merged since.
 
-**Done when.** The M0-13 command passes in St. Johnsbury, Vermont with the seed above and two more drawn places named with seeds, each failure's cause named by line in the PR (or split into its own item with the cause). **On screen.** Nothing yet: it would show on Politics → Campaigns and the election night results, and nothing there reads it.
+**Fix.** Done through the parts: re-run M0-13 on current main in that place and seed and split what still fails into one item per symptom (part 1), then fix each at its engine, never by loosening the check (parts 2 to 5). Branch claude/quirky-ride-vrwwz4-m0-13-stj is kept; claiming part 1 takes it over.
+
+**Time box.** 2 hours for one Opus session, only to confirm the parts landed and close this item; the build time is in the parts.
+
+**Rules.** Wire to the world: every check M0-13 makes must hold in every drawn place's played year, so each failure is fixed at its engine, never by loosening the check. One rule, all 56 places: the repro place is a repro, not a rule. Red main comes first (owner, Oct 15).
+
+**Done when.** A second session runs the M0-13 command above in St. Johnsbury, Vermont with the seed above and in two more drawn places (names and seeds recorded) and sees it pass, with each former failure's cause named by file and line in the part that fixed it, and the five parts merged.
+
+**Waits on.** The five parts: play-golden-path-m0-13-red-st-johnsbury-part-1-rerun-and-split first, then parts 2 to 5 (heap growth, races and ballots, homes and pay, business borrowing), each of which part 1 may narrow or drop.
 
 **Files.** tests/golden-path/played-world.node-test.ts
 

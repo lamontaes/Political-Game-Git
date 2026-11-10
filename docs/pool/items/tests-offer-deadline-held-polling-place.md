@@ -30,3 +30,5 @@ claimed-at:
 **Files.** src/core2/jobs-offer-deadline-held.test.ts
 
 **Notes.** Seen on the gate for words/shifts-never-stop (PR #6206) and on main at the same commit base.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/jobs-offer-deadline-held.test.ts no longer exists; offer-deadline coverage now lives in src/core2/player-stops-v1.test.ts (kind offer-deadline, about lines 209 and 247), so the test that met the polling-place hold is gone.

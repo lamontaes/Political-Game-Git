@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/recalls.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/modules/recalls.ts skips ordinance-started recalls where groundsRequired is set (line 449) and starts one from a misconduct record the town heard of; src/core2/recall-for-cause.test.ts proves it in a drawn place whose state requires grounds.

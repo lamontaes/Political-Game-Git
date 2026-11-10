@@ -8,18 +8,35 @@ size: S
 status: blocked
 claimed-by:
 pr:
+after:
 blocked-on: play-stop-05-politics-lists-wrong-officials-a, play-stop-05-politics-lists-wrong-officials-b
+standard: 2
+model: sonnet
+effort: low
+root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 ---
 
-**What.** In Anson, Texas on the v0.22.10 release, Politics → Government listed three U.S. senators for me (Paul Villanueva, Andrew Jackson, John Rodriquez) and Richard Fields, the U.S. Speaker from New York, as one of my two U.S. representatives. The same column then lists every state representative and state senator in Texas, about 180 names. The local view shows five council members and no mayor, and their terms run 28 years (Eden Villarreal, 1999 to 2027) and 16 years (Emma May, 2013 to 2029). Parties shows only the Republican party. I expected my mayor, my council with normal terms, my two senators, my one representative and both parties.
+**What.** In Anson, Texas on the v0.22.10 release, Politics, then Government listed three U.S. senators, the U.S. Speaker from New York as one of the player's two representatives, about 180 state legislators, and no mayor, with council terms of 28 and 16 years. Parties showed only the Republican party. The owner expected his mayor, his council with normal terms, his two senators, his one representative and both parties. Both children (-a, merged in PR 6127, and -b, PR 6791) are done. What is left is a second session's replay of the finish line in a drawn place.
 
-**Rules.** Serves LAW.md §1, Screens and menus; LAW.md §11, The world on screen makes sense. One rule, all 56 places: the representatives shown are the player's own districts read from the place's records, the same way in every place. Estimate, never UNKNOWN: a term or a mayor the data lacks starts from the real pattern, marked as an estimate.
+**Cause.** Design: the owner's Nov 3 ruling (AGENTS.md, "How every session works", step 5): nothing is done until a second session replays its finish line on main. Both children are done and the parent was only the owner's installed-build acceptance; the lists are built in src/bench/government.ts from the opening's key people (src/core2/opening-key-people.ts). Not replayed in a game.
 
-**Done when.** The owner does the same steps on the next build and is not stopped: in a town drawn from all 56, Politics → Government shows the player's mayor, council with plausible terms, two U.S. senators where the place has them, one U.S. representative and one state legislator per chamber, and Parties shows every party holding seats. Shown by a screenshot from the installed build in a drawn place, with the place and seed named.
+**Fix.** Nothing is built here. A second session replays the finish line below on main in the running game, records the result with `npm run pool -- seen`, and, if a step still fails, reopens the item with what was seen and files the failing part as its own item.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One rule, all 56 places: the representatives shown are the player's own districts read from the place's records, the same way in every place. Estimate, never UNKNOWN: a term or a mayor the data lacks starts from the real pattern, marked as an estimate. Look before you ask: the owner's installed-build acceptance this item used to wait on is replaced by the second-session rule (AGENTS.md step 5), so nothing is asked of him. Ask why: the replay records the screen, the place and seed and the record id behind what it shows.
+
+**Done when.** A second session (not the builder) starts the bench in a town drawn from all 56 (place and seed named) and opens Politics, then Government, and Parties, with screenshots at 1440x900: the player's mayor, a council with plausible terms, two U.S. senators where the place has them, one U.S. representative, one state legislator per chamber, and every party holding seats. The Oct 24 repro was Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213 (the Oct 24 playtest place). Recorded with `npm run pool -- seen`.
+
+**Waits on.** Nothing. Both children are done; A second session's check in the running game (seen-in-game).
 
 **Files.** src/bench/government.ts, src/core2/opening-key-people.ts, src/core2/modules/offices.ts, src/bench/play.mjs
+
+**You will see.** Politics lists your own officials and the parties that hold seats where you live.
+
+**Screenshot.** Government and Parties, from a drawn place, with the place and seed under them.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:57; screenshots 24, 26. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was laws. Split Oct 24 into play-stop-05-politics-lists-wrong-officials-a and play-stop-05-politics-lists-wrong-officials-b, each four hours or less; the CTO sets this item done when the last part is done.
