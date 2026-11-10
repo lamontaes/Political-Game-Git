@@ -1815,7 +1815,7 @@
     {
       "key": "visit",
       "occasion": "visit",
-      "note": "The player visits someone they know who is seriously ill (the health engine's health.serious-illness, a person the player has a tie to): the sick person asks the visitor for something: to see to the house, to call someone who has not been told, to bring a child, to say honestly how they look, to come back. How long they have been ill, whether they live alone or with a partner or a child, and another person who heard and could be called are said only when the records give them; the illness itself is never named. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie. Two causes have a purpose: the player visits the ill (visit-ill-ask) and a relative visits the player when the player is the one ill (visited-ill-ask: they offer something or ask whether to tell the family). A visit to the player when they are held stays as it was.",
+      "note": "The player visits someone they know who is seriously ill (the health engine's health.serious-illness, a person the player has a tie to): the sick person asks the visitor for something: to see to the house, to call someone who has not been told, to bring a child, to say honestly how they look, to come back. How long they have been ill, whether they live alone or with a partner or a child, and another person who heard and could be called are said only when the records give them; the illness itself is never named. The reply is written back; what the player agrees to or promises is kept on the reply record (a promise) and a no that is pressed strains the tie. Two causes have a purpose: the player visits the ill (visit-ill-ask) and a relative visits the player when the player is the one ill (visited-ill-ask: they offer something or ask whether to tell the family). A relative visits the player when the player is held (visited-held-ask: news from home, money, a lawyer, the house, the children, the job, or whether to come again), so every cause of this type has a purpose.",
       "asker": "cannot-come",
       "asked": "visitor",
       "stakes": ["relative"],
@@ -1866,7 +1866,10 @@
           "match": {
             "label": "feeling:event:justice.imprisoned",
             "counterpart": "none"
-          }
+          },
+          "purpose": "visited-held-ask",
+          "asker": "visitor",
+          "asked": "cannot-come"
         },
         {
           "match": {
@@ -1904,7 +1907,10 @@
             "cannot-come": "subject",
             "visitor": "kin"
           },
-          "opener": "visitor"
+          "opener": "visitor",
+          "purpose": "visited-held-ask",
+          "asker": "visitor",
+          "asked": "cannot-come"
         }
       ],
       "awaiting": ["record:serious-illness", "record:nursing-home"],

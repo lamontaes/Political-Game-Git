@@ -25,6 +25,7 @@
     "feeling:event:housing.eviction",
     "feeling:event:health.serious-illness",
     "feeling:event:justice.imprisoned",
+    "feeling:event:justice.held-before-trial",
     "feeling:event:justice.charged",
     "feeling:event:justice.convicted",
     "feeling:event:justice.acquitted",
