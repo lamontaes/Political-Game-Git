@@ -18,6 +18,7 @@ import { advanceCore } from "./life";
 import { ELECTIONS_MODULE_ID, type ContestRow } from "./modules/elections";
 import { livesElsewhere } from "./modules/moves";
 import { lifeOf } from "./modules/people";
+import { lifeSummary, whoRemembers } from "./person-life";
 import { coreAPI } from "./state";
 import type { CoreEventInput, PersonId } from "./types";
 
@@ -42,10 +43,10 @@ const api = coreAPI(core);
 const where = `${world.place.displayName} (${placeKey}), seed ${seed}`;
 
 /** Every event an engine emits, as the engines make them, for the survey. */
-const emitted: Pick<
+const emitted: (Pick<
   CoreEventInput,
   "id" | "kind" | "date" | "personIds" | "facts"
->[] = [];
+> & { remembers: PersonId[] })[] = [];
 {
   const emit = api.emit.bind(api);
   api.emit = (event: CoreEventInput) => {
@@ -55,6 +56,8 @@ const emitted: Pick<
       date: event.date,
       personIds: [...event.personIds],
       facts: event.facts,
+      // Who the table says keeps it, read as the record is made.
+      remembers: whoRemembers(core, event),
     });
     return emit(event);
   };
@@ -293,15 +296,6 @@ describe(`the life record's gaps in ${where}`, () => {
       `life-gaps 5: ${where}; ${away.length} people elsewhere with kin in town; events naming them by kind: ${JSON.stringify([...byKind.entries()].sort())}`,
     );
     const withRecord = away.filter((person) => named.has(person.id));
-    if (!withRecord.length) {
-      note(
-        `life-gaps 5: ${where}: no relative elsewhere has a dated record in ${guardDays()} days; skipped`,
-      );
-      return;
-    }
-    const told = withRecord.filter(
-      (person) => lifeOf(core, person.id).length > 1,
-    );
     for (const person of withRecord.slice(0, 3))
       note(
         `life-gaps 5 card: ${where}; ${person.id}: ${JSON.stringify(knownCard(core, core.playerId!, person.id).history.map((row) => row.text))}`,
@@ -310,10 +304,26 @@ describe(`the life record's gaps in ${where}`, () => {
       note(
         `life-gaps 5: ${where}; ${person.id} (${person.placeId}): ${named.get(person.id)} records, life ${JSON.stringify(lifeOf(core, person.id).map((event) => `${event.date} ${event.life}/${event.what} ${event.from}`))}`,
       );
+    // A relative elsewhere holds every record the table says they remember,
+    // as someone in town does. A record of a kind nobody tells (contact with
+    // family, say) is not theirs to hold, so being named by one proves
+    // nothing; and someone whose list has folded (the cap) is left out.
+    const missing: string[] = [];
+    let held = 0;
+    for (const event of emitted)
+      for (const id of event.remembers) {
+        if (!awayIds.has(id) || !core.people.get(id)?.alive) continue;
+        if (Object.keys(lifeSummary(core, id)).length) continue;
+        if (lifeOf(core, id).some((entry) => entry.id === event.id)) held += 1;
+        else missing.push(`${id} lacks ${event.kind} ${event.id}`);
+      }
+    note(
+      `life-gaps 5: ${where}; ${withRecord.length} relatives elsewhere are named by a record; the table gives them ${held + missing.length} to remember and their lists hold ${held}`,
+    );
     expect(
-      told.length,
-      `${where}: ${withRecord.length} relatives elsewhere with a record, ${told.length} tell more than their birth`,
-    ).toBeGreaterThan(0);
+      missing.slice(0, 5),
+      `${where}: ${missing.length} records a relative elsewhere should remember are not on their list`,
+    ).toEqual([]);
   }, 600_000);
 });
 

@@ -186,6 +186,29 @@ function rememberers(
   return event.personIds.filter((id) => id !== left);
 }
 
+/** Whether a row of the table takes this record (its `when` fact, where it has one). */
+function rowApplies(event: Readonly<CoreEventInput>, row: EventRow): boolean {
+  if (!row.when) return true;
+  const held = event.facts?.[row.when.fact];
+  if (held === undefined || held === "") return false;
+  return row.when.is === undefined || String(held) === row.when.is;
+}
+
+/**
+ * Everyone the table says remembers this record, wherever they live and
+ * before any cap folds it: what a check compares a person's list against.
+ */
+export function whoRemembers(
+  core: CoreState,
+  event: Readonly<CoreEventInput>,
+): PersonId[] {
+  const out = new Set<PersonId>();
+  for (const row of EVENT_ROWS.get(event.kind) ?? [])
+    if (rowApplies(event, row))
+      for (const id of rememberers(core, event, row)) out.add(id);
+  return [...out];
+}
+
 /**
  * An engine recorded something a person remembers: it goes on the list of each
  * person the table says remembers it. Called for every such record as it is
@@ -205,11 +228,7 @@ function rememberRow(
   event: Readonly<CoreEventInput>,
   row: EventRow,
 ): void {
-  if (row.when) {
-    const held = event.facts?.[row.when.fact];
-    if (held === undefined || held === "") return;
-    if (row.when.is !== undefined && String(held) !== row.when.is) return;
-  }
+  if (!rowApplies(event, row)) return;
   const kept: Record<string, string> = { ...row.set };
   for (const key of row.facts) {
     // Some writers key a fact by its event (`event:<id>:causeOfDeath`).
@@ -437,10 +456,20 @@ export function lifeOf(
   const inThePast = new Set(
     out.filter((event) => event.from === "past").map(withKey),
   );
+  // A partnership or a birth made in play is written twice by its engine: as
+  // a fact on the person (dated that day) and as the record they remember.
+  // The remembered record is the one told; the fact of the same day is its twin.
+  const inPlay = new Set(
+    out
+      .filter((event) => event.from === "played")
+      .map((event) => `${event.date}|${withKey(event)}`),
+  );
   const told = new Set<string>();
   const once: LifeEvent[] = [];
   for (const event of out) {
     if (event.from === "built" && inThePast.has(withKey(event))) continue;
+    if (event.from === "built" && inPlay.has(`${event.date}|${withKey(event)}`))
+      continue;
     // A record of the past or of play is its own event: two on one day (a year-grain past) are two.
     const key = `${event.date}|${withKey(event)}|${event.from === "built" ? "" : event.id}`;
     if (told.has(key)) continue;

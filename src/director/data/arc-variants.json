@@ -277,6 +277,74 @@
       "idFact": "crimeId",
       "field": "taken",
       "equals": true
+    },
+    "laid-off": {
+      "kind": "person-rows",
+      "module": "jobs",
+      "table": "changes",
+      "index": "byPerson",
+      "where": {
+        "kind": "layoff"
+      },
+      "within": {
+        "value": 180,
+        "tag": "TUNABLE",
+        "spread": [90, 365],
+        "checkedAgainst": "A layoff in the last half year is still the reason they are at the table; one from years ago is only part of their history."
+      },
+      "scale": {
+        "value": 0.5,
+        "tag": "TUNABLE",
+        "spread": [0.25, 1],
+        "checkedAgainst": "One layoff in the window reads two thirds, a second reads four fifths: the person who lost a job this spring is already the person who lost a job."
+      }
+    },
+    "out-of-work": {
+      "kind": "fact-map",
+      "fact": "problem",
+      "values": {
+        "looking-for-work": 1
+      }
+    },
+    "notice-served": {
+      "kind": "household-case",
+      "module": "housing",
+      "table": "cases",
+      "index": "byHousehold"
+    },
+    "rent-owed": {
+      "kind": "household-case",
+      "module": "housing",
+      "table": "cases",
+      "index": "byHousehold",
+      "field": "owedAtNoticeMinor",
+      "against": "asker-year"
+    },
+    "paid-under-floor": {
+      "kind": "fact-map",
+      "fact": "problem",
+      "values": {
+        "paid-under-minimum-wage": 1
+      }
+    },
+    "shortfall": {
+      "kind": "record",
+      "module": "core2-constituent-cases-v1",
+      "table": "cases",
+      "idFact": "caseId",
+      "field": "severity",
+      "when": {
+        "fact": "problem",
+        "is": "paid-under-minimum-wage"
+      }
+    },
+    "own-illness": {
+      "kind": "care-need",
+      "whose": "self"
+    },
+    "household-illness": {
+      "kind": "care-need",
+      "whose": "household"
     }
   },
   "families": {
@@ -2735,6 +2803,390 @@
                 "keeps": "relationship-strained",
                 "when": {
                   "reply": ["confront", "leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "constituent-help": {
+      "variants": {
+        "plain": {
+          "purpose": "constituent-help",
+          "base": 0.3
+        },
+        "lost-job": {
+          "purpose": "constituent-help.lost-job",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "looking-for-work"
+          },
+          "terms": [
+            {
+              "read": "laid-off",
+              "weight": 0.9
+            },
+            {
+              "read": "out-of-work",
+              "weight": 0.2
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "offer", "lie"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "eviction": {
+          "purpose": "constituent-help.eviction",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "behind-on-rent"
+          },
+          "terms": [
+            {
+              "read": "notice-served",
+              "weight": 0.8
+            },
+            {
+              "read": "rent-owed",
+              "weight": 0.6
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "offer"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "short-pay": {
+          "purpose": "constituent-help.short-pay",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "paid-under-minimum-wage"
+          },
+          "terms": [
+            {
+              "read": "paid-under-floor",
+              "weight": 1.0
+            },
+            {
+              "read": "shortfall",
+              "weight": 0.5
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "offer", "lie"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "sick": {
+          "purpose": "constituent-help.sick",
+          "base": 0.0,
+          "forCause": {
+            "fact": "problem",
+            "is": "caring-for-someone-ill"
+          },
+          "terms": [
+            {
+              "read": "own-illness",
+              "weight": 0.36
+            },
+            {
+              "read": "household-illness",
+              "weight": 0.36
+            }
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["promise", "ask", "decline", "offer"],
+            "follow": {
+              "promise": ["thank", "press"],
+              "ask": ["answer"],
+              "decline": ["plea", "accept"],
+              "offer": ["thank", "press"]
+            },
+            "again": {
+              "answer": ["promise", "offer", "decline", "leave"],
+              "plea": ["promise", "offer", "decline"],
+              "press": ["apologize", "leave", "lie"]
+            },
+            "repeatable": {
+              "answer": ["promise", "offer"]
+            },
+            "endings": [
+              {
+                "id": "will-call",
+                "opens": "office",
+                "label": "You'll make the call",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise", "apologize"]
+                }
+              },
+              {
+                "id": "caseworker",
+                "opens": "office",
+                "label": "Handed to a caseworker",
+                "keeps": "meeting-set",
+                "when": {
+                  "anyReply": ["offer"]
+                }
+              },
+              {
+                "id": "cant-help",
+                "label": "Can't help",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["decline"]
+                }
+              },
+              {
+                "id": "caught",
+                "label": "Caught in a lie",
+                "keeps": "trust-lost",
+                "when": {
+                  "caught": true
+                }
+              },
+              {
+                "id": "false-call",
+                "label": "A call you never made",
+                "keeps": "promise",
+                "when": {
+                  "believed": true
+                }
+              },
+              {
+                "id": "left-waiting",
+                "label": "Left waiting",
+                "keeps": "none",
+                "when": {
+                  "reply": ["leave", "ask", "deflect"]
                 }
               },
               {

@@ -424,31 +424,39 @@ describe(`the life record in ${where}`, () => {
   }, 600_000);
 
   it("5: a partner appears once on a life, not once per source", () => {
-    const partnered = (row: PersonState) =>
-      (row.pastFacts ?? []).some(
+    const partnerOf = (row: PersonState) =>
+      (row.pastFacts ?? []).find(
         (fact) => fact.kind === "family:partner" && fact.facts?.otherPersonId,
-      );
-    const person =
-      [...core.people.values()].find(partnered) ?? strangerWho(partnered)!;
-    expect(
-      person,
-      `${where}: nobody in town, full or among ${FILL_IN_MOST} counted households filled in, was built with a partner`,
-    ).toBeDefined();
-    const partner = person.pastFacts!.find(
-      (fact) => fact.kind === "family:partner",
-    )!.facts!.otherPersonId!;
-    const told = lifeOf(core, person.id).filter(
-      (event) =>
-        event.life === "partner" && event.withIds.includes(partner as PersonId),
+      )?.facts?.otherPersonId as PersonId | undefined;
+    // Everyone built or recorded with a partner, wherever they live: someone
+    // who partnered in play holds both the fact and the remembered record.
+    const partnered = [...core.people.values()].filter(
+      (row) => row.alive && partnerOf(row),
     );
-    const byWhat = new Map<string, number>();
-    for (const event of told)
-      byWhat.set(event.what, (byWhat.get(event.what) ?? 0) + 1);
-    for (const [what, n] of byWhat)
-      expect(n, `${where}: ${person.id} ${what} with ${partner}`).toBe(1);
-    expect(told.length, where).toBeGreaterThanOrEqual(1);
-    console.log(
-      `person-life 5: ${where}; ${person.id}; partner ${partner} told ${told.length} time(s): ${[...byWhat.keys()].join(", ")}`,
+    if (!partnered.length) {
+      const filled = strangerWho((row) => Boolean(partnerOf(row)));
+      if (filled) partnered.push(filled);
+    }
+    expect(
+      partnered.length,
+      `${where}: nobody, full or among ${FILL_IN_MOST} counted households filled in, has a partner`,
+    ).toBeGreaterThan(0);
+    let inPlay = 0;
+    for (const person of partnered) {
+      const partner = partnerOf(person)!;
+      const told = lifeOf(core, person.id).filter(
+        (event) => event.life === "partner" && event.withIds.includes(partner),
+      );
+      const byWhat = new Map<string, number>();
+      for (const event of told)
+        byWhat.set(event.what, (byWhat.get(event.what) ?? 0) + 1);
+      for (const [what, n] of byWhat)
+        expect(n, `${where}: ${person.id} ${what} with ${partner}`).toBe(1);
+      expect(told.length, `${where}: ${person.id}`).toBeGreaterThanOrEqual(1);
+      if (told.some((event) => event.from === "played")) inPlay += 1;
+    }
+    process.stdout.write(
+      `person-life 5: ${where}; ${partnered.length} people with a partner, each told once (${inPlay} partnered in play)\n`,
     );
   }, 600_000);
 
