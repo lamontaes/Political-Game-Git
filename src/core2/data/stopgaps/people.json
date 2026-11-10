@@ -264,5 +264,41 @@
     "addedAt": "2026-11-08",
     "replacement": "The modular busts read the person's origin record and a sourced mapping of origin to skin, hair and features.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-life-record-cap",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/life/parameters.json",
+    "line": 1,
+    "whatItFakes": "How many events a person keeps one by one (60) and the order in which kinds are let go (a move first, a loss last) are set by hand. A person's own traits do not yet change what they hold on to.",
+    "why": "The life record's first slice (docs/design/life-record.md) needs a cap so a long game does not grow; the director's measure of an event's impact lives in another family and is not read here yet.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The director's impact for the event and the person's traits decide what is kept; the cap is checked against the long-save speed run.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-whole-past-first-month-economy",
+    "kind": "estimated-parameter",
+    "file": "src/core2/past-work.ts",
+    "line": 1,
+    "whatItFakes": "Before the world's window the economy is its first month for a person's own working life: layoffs at the steady rate with no rise, and pay at the first month's level.",
+    "why": "The economy pass and the business pass start with the world's window, and the owner ruled (Nov 9, 2026) that only people's own pasts reach back to their birth.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "A coarse national series of unemployment and earnings by year, sourced (BLS), read by the same run.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-role-people-have-no-past",
+    "kind": "faked-mechanic",
+    "file": "src/core2/person-life.ts",
+    "line": 1,
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, an election chief) is made with no past facts and no past records. Opened or met, they get their schooling, but no working life when their place is a state jurisdiction with no businesses on record, and no birthplace, parents or partners, so their life stays short until something happens to them in play.",
+    "why": "The life record's first slice reads the pasts that exist; the past passes run only for the town's residents and the people filled in from the counts. Found by the life record's own test in Hewitt, Wisconsin, seed b8f4c36df5632058.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The working-life run covers people whose place has no business on record (a role's employer is the office itself), and role holders are made with a birthplace and family from the same generator as residents.",
+    "status": "open"
   }
 ]

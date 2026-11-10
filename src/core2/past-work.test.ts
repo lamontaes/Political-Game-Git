@@ -20,7 +20,11 @@ import {
   pastWorkPeople,
   runPastWork,
 } from "./past-work";
-import { preStartHistory, preStartWindowOf } from "./pre-start";
+import {
+  preStartHistory,
+  preStartWindowOf,
+  wholePastOpened,
+} from "./pre-start";
 import { residentsRuntime } from "./modules/residents";
 import { coreAPI, fillInPerson } from "./state";
 import type { PersonId } from "./types";
@@ -207,7 +211,14 @@ describe(`the working life before the start, ${label}`, () => {
     );
     const key = (row: { id: string; facts: object }) =>
       `${row.id}:${JSON.stringify(row.facts)}`;
-    expect(again.map(key).sort()).toEqual([...spells, ...outs].map(key).sort());
+    // The run of the window is the same; the people whose whole past has been
+    // opened (the player's circle) also hold the years before it, which join
+    // their first record (src/core2/whole-past.test.ts).
+    const closed = (row: { personIds?: readonly PersonId[] }) =>
+      !wholePastOpened(core, row.personIds![0]!, ["work"]);
+    expect(again.filter(closed).map(key).sort()).toEqual(
+      [...spells, ...outs].filter(closed).map(key).sort(),
+    );
   });
 
   it("gives someone filled in from the counts their working life too", () => {
