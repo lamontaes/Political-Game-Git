@@ -5,10 +5,10 @@ area: docs
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/fable-pool-no-blanks
-pr:
+pr: 8242
 after:
 blocked-on:
 lead: fable
