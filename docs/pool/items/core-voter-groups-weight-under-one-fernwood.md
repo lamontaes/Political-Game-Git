@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: fable
 source: Fable, Nov 10, 2026, replaying the golden path's step M0-09 on clean main after it failed on pull request 8154 (San Lorenzo, Puerto Rico), which changes no core code
 ---
 
