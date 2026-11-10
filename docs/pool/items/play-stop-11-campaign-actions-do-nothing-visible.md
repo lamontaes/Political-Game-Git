@@ -5,8 +5,8 @@ area: elections
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 pr:
 after:
 blocked-on:
@@ -18,6 +18,8 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:04:00.604Z
+branch: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
 ---
 
 **What.** After filing for Anson City Council on the v0.22.10 release, Give a speech made its button disappear and nothing else happened, Ask for an interview added a line and nothing more, Call donors left "$0.00 raised", Hold an event stayed grayed with no reason, and only Knock on doors showed a scene. Child -a is done (PR 6787) and -b is dropped as a twin of play-first-13-campaign-screen-to-mock-b (done); a grayed action now shows its reason from the records on its button. What is left is a second session's replay of the finish line.
@@ -41,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** The Campaigns screen after each action, from a drawn place, with the place and seed under it.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 16:05, 16:06; screenshots 49, 50, 53, 54, 55. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was laws. Split Oct 24 into play-stop-11-campaign-actions-do-nothing-visible-a and play-stop-11-campaign-actions-do-nothing-visible-b, each four hours or less; the CTO sets this item done when the last part is done. A grayed campaign outing (Knock on doors, Hold an event, Ask for an interview, Call donors) now shows its reason from the records on its button, in the play-stop-25 fix on branch claude/play-stop-25-door-count (speed lead, Oct 25); this item's "a grayed action says why" can cite it once that lands.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:03 UTC) on branch claude/pool-play-stop-11-campaign-actions-do-nothing-visible.
