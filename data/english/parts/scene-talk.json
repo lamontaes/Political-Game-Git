@@ -29336,6 +29336,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31102,6 +31103,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31126,6 +31128,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31150,6 +31153,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31174,6 +31178,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31198,6 +31203,7 @@
           "move": "tell",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31222,6 +31228,7 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31246,6 +31253,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31270,6 +31278,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31294,6 +31303,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -31318,6 +31328,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "deflect"
         }
@@ -31343,6 +31354,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "apologize"
         }
@@ -31368,6 +31380,7 @@
           "move": "disagree",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "tell"
         }
@@ -31393,6 +31406,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -35556,6 +35570,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -35581,6 +35596,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -35755,6 +35771,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-press.say-it-out-loud-then-at-the-meeting"
         }
@@ -35779,6 +35796,7 @@
           "key": "routine",
           "move": "apologize",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -35804,6 +35822,7 @@
           "key": "routine",
           "move": "apologize",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -35829,6 +35848,7 @@
           "key": "routine",
           "move": "apologize",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "role": "asked",
           "step": "reply",
           "subject": "scene"
@@ -36404,6 +36424,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -36429,6 +36450,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
         }
@@ -36454,6 +36476,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-confront.grow-up"
         }
@@ -36479,6 +36502,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.grow-up-you-came-at-me-first-and-you-did-it-in-front-of-the-press"
         }
@@ -36504,6 +36528,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-confront.and-you-finished-it-that-s-the-difference"
         }
@@ -40621,6 +40646,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -41210,6 +41236,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -41260,6 +41287,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-confront.and-you-finished-it-that-s-the-difference"
         }
@@ -41285,6 +41313,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-let-s-finish-it-properly-tuesday-in-front-of-everybody"
         }
@@ -41410,6 +41439,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -41435,6 +41465,7 @@
           "move": "warn",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "outcome": "open"
         }
@@ -41636,6 +41667,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.follow-press.a-tense-night-that-s-what-you-ve-got"
         }
@@ -41661,6 +41693,7 @@
           "move": "react",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "leave",
           "outcome": "open"
@@ -46356,6 +46389,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46380,6 +46414,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46405,7 +46440,7 @@
           "role": "asker",
           "purpose": "owed-apology",
           "key": "routine",
-          "excludesFacts": ["daytime"]
+          "excludesFacts": ["read-about-money", "daytime"]
         }
       ],
       "bearing": "hurt",
@@ -46429,6 +46464,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46453,6 +46489,7 @@
           "move": "tell",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46477,6 +46514,7 @@
           "move": "deflect",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46501,6 +46539,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -46525,6 +46564,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "requiresFacts": ["asked_short_on_money"]
         }
@@ -46550,6 +46590,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.you-caught-me-on-a-bad-week-that-s-no-excuse-but-it-s-the-truth"
         }
@@ -46575,6 +46616,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.you-re-right-i-was-out-of-line-i-m-sorry"
         }
@@ -46600,6 +46642,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.you-re-right-i-was-out-of-line-i-m-sorry"
         }
@@ -46625,6 +46668,7 @@
           "move": "disagree",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-tell.i-was-going-after-your-argument-if-it-landed-on-you-that-wasn-t-the-po"
         }
@@ -46650,6 +46694,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-deflect.we-both-said-things-in-there"
         }
@@ -46675,6 +46720,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.you-started-it-the-minute-you-brought-up-my-district"
         }
@@ -46700,6 +46746,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -46725,6 +46772,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -46750,6 +46798,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "press"
         }
@@ -46775,6 +46824,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -46800,6 +46850,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "disagree"
         }
@@ -46825,6 +46876,7 @@
           "move": "apologize",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -46850,6 +46902,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -46875,6 +46928,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.all-right-thursday-on-the-record"
         }
@@ -46900,6 +46954,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight"
         }
@@ -46925,6 +46980,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.fine-it-was-personal-i-m-sorry-for-that"
         }
@@ -46950,6 +47006,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-we-read-the-room-differently"
         }
@@ -46975,6 +47032,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out"
         }
@@ -47000,6 +47058,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours"
         }
@@ -47025,6 +47084,7 @@
           "move": "react",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "leave",
           "outcome": "open"
@@ -47051,6 +47111,7 @@
           "move": "warn",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "outcome": "open"
         }
@@ -47076,6 +47137,7 @@
           "move": "thank",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "outcome": "resolved"
         }
@@ -57574,6 +57636,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -57598,6 +57661,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -57623,6 +57687,7 @@
           "move": "disagree",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "tell"
         }
@@ -57648,6 +57713,7 @@
           "move": "press",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "apologize"
         }
@@ -57673,6 +57739,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -57698,6 +57765,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -57723,7 +57791,7 @@
           "role": "asked",
           "purpose": "owed-apology",
           "key": "routine",
-          "excludesFacts": ["daytime"]
+          "excludesFacts": ["read-about-money", "daytime"]
         }
       ],
       "bearing": "guarded",
@@ -57747,6 +57815,7 @@
           "move": "tell",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine"
         }
       ],
@@ -57771,6 +57840,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-we-ll-settle-it-at-the-next-meeting-in-front-of-everybody"
         }
@@ -57796,6 +57866,7 @@
           "move": "accept",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-tell.i-didn-t-plan-it-it-came-out-sharper-than-i-meant"
         }
@@ -60502,6 +60573,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -60527,6 +60599,7 @@
           "move": "confront",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -60552,6 +60625,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead"
         }
@@ -60577,6 +60651,7 @@
           "move": "confront",
           "role": "asker",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "scene-talk.reply-confront.then-quit-acting-like-you-didn-t-swing-first"
         }
@@ -60602,6 +60677,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "owed-apology",
+          "excludesFacts": ["read-about-money"],
           "key": "routine",
           "after": "confront"
         }
@@ -188290,6 +188366,2589 @@
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
       "tag": { "move": "press", "key": "threat" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.money.you-missed-a-payment-and-the-trouble-landed-on-name-too-now-they-want-to-talk-about-it",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You missed a payment, and the trouble landed on {name} too. Now they want to talk about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.money.name-has-been-waiting-for-you-to-bring-up-the-missed-payment-and-now-has-brought-it-up-first",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been waiting for you to bring up the missed payment, and now has brought it up first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.money.do-you-have-a-minute-first-i-want-to-talk-about-the-payment-you-missed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute, {first}? I want to talk about the payment you missed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.money.i-d-rather-say-this-to-your-face-first-it-s-about-the-payment-you-missed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather say this to your face, {first}. It's about the payment you missed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.money.you-missed-that-payment-first-and-it-landed-on-both-of-us-i-want-to-hear-you-say-you-re-sorry",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "You missed that payment, {first}, and it landed on both of us. I want to hear you say you're sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.money.that-payment-was-your-responsibility-first-i-d-like-an-apology-and-i-d-like-to-know-it-won-t-happen-again",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "That payment was your responsibility, {first}. I'd like an apology, and I'd like to know it won't happen again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.money.anybody-can-miss-a-payment-first-i-just-need-you-to-say-it-was-your-doing",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Anybody can miss a payment, {first}. I just need you to say it was your doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I missed the payment, and that's on me. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I should have kept track of it, and I didn't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry, and I mean it. I know it landed on you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word it won't happen again. I'll check the bills every week.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm sorry. I'll make sure the next one is paid before it's due, and I'll show you the receipt.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "It was one payment, and money's been tight lately.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deflect", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I've had a lot going on lately.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deflect", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.money.you-act-like-you-ve-never-been-late-with-anything",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You act like you've never been late with anything.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I'm not the only one who forgets things around here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then say it in front of everybody, if that's what you want.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You want a fight over one payment? Fine, but I'm not the only one with something to answer for.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "If you're going to keep score, count what I've covered for you too.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't keep going over the missed payment today. I'll come back to you when I can say it right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.let-s-stop-before-we-say-something-we-can-t-take-back",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop before we say something we can't take back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm done for now. We'll talk when we're calmer.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.money.thank-you-first-that-s-all-i-needed-to-hear",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That's all I needed to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.money.alright-i-m-glad-you-said-it-out-loud",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'm glad you said it out loud.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "That's a start, {first}. Tell me what you're going to do about it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.money.sorry-is-easy-first-what-are-you-going-to-do-differently",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry is easy, {first}. What are you going to do differently?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't turn this around on me, {first}. We're talking about your payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-confront.money.i-m-not-going-to-apologize-for-something-you-won-t-let-me-explain-first",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm not going to apologize for something you won't let me explain, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-thank.money.thanks-first-let-s-leave-it-there",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. Let's leave it there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-accept.money.alright-we-ll-leave-it-at-that-for-now",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll leave it at that for now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-warn.money.i-ll-be-watching-the-mail-first-don-t-let-it-happen-twice",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll be watching the mail, {first}. Don't let it happen twice.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-react.money.name-sighs-and-lets-the-subject-drop",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} sighs, and lets the subject drop.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "owed-apology.money",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.close.name-isn-t-angry-so-much-as-hurt-about-the-missed-payment-and-has-come-to-say-so",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} isn't angry so much as hurt about the missed payment, and has come to say so.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.close.you-and-name-are-close-and-the-missed-payment-has-come-between-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You and {name} are close, and the missed payment has come between you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.close.can-we-talk-about-the-missed-payment-first-it-s-been-bothering-me-more-than-i-expected",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can we talk about the missed payment, {first}? It's been bothering me more than I expected.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.close.i-didn-t-want-to-bring-up-the-payment-you-missed-first-but-i-can-t-act-like-it-didn-t-happen",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I didn't want to bring up the payment you missed, {first}, but I can't act like it didn't happen.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.close.i-don-t-care-about-the-late-fee-first-i-care-that-the-missed-payment-came-between-us-can-you-tell-me-you-re-sorry",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I don't care about the late fee, {first}. I care that the missed payment came between us. Can you tell me you're sorry?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.close.you-and-i-don-t-do-this-to-each-other-first-could-you-tell-me-you-re-sorry-about-the-missed-payment",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "You and I don't do this to each other, {first}. Could you tell me you're sorry about the missed payment?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-request.close.i-thought-we-could-count-on-each-other-with-the-bills-first-would-you-tell-me-what-happened-with-the-missed-payment-and-say-you-re-sorry",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I thought we could count on each other with the bills, {first}. Would you tell me what happened with the missed payment, and say you're sorry?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "request", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I hate that I hurt you, {first}. I'm sorry about the missed payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right to be hurt. I'm sorry, and I'm not going to make excuses.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. You're the last person I wanted to let down.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'm sorry, and I promise to do better. You can count on me with the bills.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll make it up to you. I'm sorry, and it won't happen again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-deflect.close.i-didn-t-think-it-would-matter-this-much-to-you",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I didn't think it would matter this much to you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deflect", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I didn't mean anything by it. It just got away from me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deflect", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-ask.close.what-would-help-you-most-right-now-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would help you most right now, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-ask.close.what-do-you-need-from-me-to-put-the-missed-payment-right",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you need from me to put the missed payment right?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "ask", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk about the missed payment anymore today. I'll find you when I'm ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.close.thank-you-first-it-means-a-lot-that-you-said-it",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, {first}. It means a lot that you said it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.close.alright-i-feel-better-already",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I feel better already.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I believe you're sorry, {first}. I just need to see that it counts for something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Sorry helps, {first}. I'd like to know how you'll make sure it doesn't happen again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-answer.close.just-tell-me-the-truth-about-it-first-and-tell-me-it-won-t-happen-again",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just tell me the truth about it, {first}, and tell me it won't happen again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "I only want to know I can count on you, {first}. That's all.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine",
+          "after": "ask"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "answer", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-thank.close.thank-you-first-i-m-glad-we-talked",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'm glad we talked.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-accept.close.alright-we-can-leave-it-here",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We can leave it here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-warn.close.i-ll-give-you-time-first-but-i-won-t-forget-it",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I'll give you time, {first}. But I won't forget it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-react.close.name-looks-away-and-says-nothing-more",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} looks away, and says nothing more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "owed-apology.close",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You and {name} have quarreled over money before, and the missed payment has opened it up again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has had this conversation with you before, and has come to have it again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.repeat.we-have-to-do-this-again-first-it-s-the-missed-payment",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "We have to do this again, {first}? It's the missed payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.repeat.i-hoped-we-were-done-with-this-first-the-missed-payment-says-we-aren-t",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I hoped we were done with this, {first}. The missed payment says we aren't.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.repeat.we-ve-been-through-this-over-money-before-first-i-need-more-than-an-apology-this-time",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "We've been through this over money before, {first}. I need more than an apology this time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "This is not the first time money has come between us, {first}. I want to hear what changes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.repeat.i-m-tired-of-having-this-talk-first-tell-me-what-s-different-now",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'm tired of having this talk, {first}. Tell me what's different now.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right, and I know it's not the first time. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I've said it before, and I know that makes it harder to believe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry about the missed payment. I know what it looks like after last time.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "This time I'll do it differently. I'll pay the bills the day they come, and you can check.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word, and you can hold me to it. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You keep bringing up the past instead of letting me fix it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "If it's going to be a fight every time, why should I bother?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then stop reminding me of every mistake.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Every time, it's the same speech. Maybe that's why nothing changes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You can list everything I've ever done wrong, and it still won't fix the payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.repeat.i-can-t-do-this-again-today-i-ll-talk-to-you-when-i-have-something-real-to-say",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't do this again today. I'll talk to you when I have something real to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.repeat.let-s-drop-it-for-now-i-ll-come-to-you-when-i-know-what-i-can-change",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's drop it for now. I'll come to you when I know what I can change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm walking away before this gets worse. I'll come back when I mean it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'm walking away before this gets worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's drop it. Arguing about the past isn't helping either of us.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.repeat.thank-you-first-i-m-going-to-hold-you-to-that",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, {first}. I'm going to hold you to that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.repeat.alright-i-ll-give-you-one-more-chance",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I'll give you one more chance.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "You said that before, {first}. What's going to be different this time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I've heard sorry, {first}. I need to see a change.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Don't tell me I'm bringing up the past. The past is why we're here, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "And you keep saying you'll change, {first}. I'm the one who watches you not do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-thank.repeat.thanks-first-show-me-and-we-ll-be-fine",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. Show me, and we'll be fine.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-accept.repeat.alright-we-ll-see-how-it-goes",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll see how it goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-warn.repeat.i-won-t-have-this-talk-a-third-time-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "I won't have this talk a third time, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-react.repeat.name-shakes-their-head-and-walks-away",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} shakes their head and walks away.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "owed-apology.repeat",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.pressed.name-is-short-on-money-too-and-the-missed-payment-has-made-it-worse",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} is short on money too, and the missed payment has made it worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.pressed.money-is-tight-for-name-as-well-and-they-have-come-to-talk-about-the-missed-payment",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "Money is tight for {name} as well, and they have come to talk about the missed payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "narrate", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.pressed.do-you-have-a-minute-first-money-is-tight-for-me-too-and-i-need-to-talk-about-the-payment-you-missed",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Do you have a minute, {first}? Money is tight for me too, and I need to talk about the payment you missed.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.open-greet.pressed.i-m-not-trying-to-pile-on-first-but-i-can-t-absorb-another-missed-payment",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm not trying to pile on, {first}, but I can't absorb another missed payment.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "greet", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.pressed.money-s-tight-for-me-too-first-so-a-missed-payment-hits-hard-i-need-you-to-own-it",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "Money's tight for me too, {first}, so a missed payment hits hard. I need you to own it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.pressed.i-can-t-cover-for-a-missed-payment-right-now-first-i-d-like-an-apology-and-a-plan",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I can't cover for a missed payment right now, {first}. I'd like an apology, and a plan.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.state-confront.pressed.i-m-stretched-thin-first-when-you-miss-a-payment-i-feel-it-can-you-say-you-re-sorry",
+      "move": "state-confront",
+      "kind": "spoken",
+      "text": "I'm stretched thin, {first}. When you miss a payment, I feel it. Can you say you're sorry?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "You're right. I missed the payment, and I know you can't afford that either. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I know money is tight for you too, and I made it worse.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
+      "move": "reply-apologize",
+      "kind": "spoken",
+      "text": "I'm sorry. I should have told you before the due date.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "apologize",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "apologize", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.pressed.i-ll-pay-the-next-one-before-anything-else-and-i-ll-tell-you-the-day-it-s-done",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll pay the next one before anything else, and I'll tell you the day it's done.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-promise.pressed.you-have-my-word-i-ll-tell-you-if-i-m-short-before-the-payment-is-due-not-after",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "You have my word. I'll tell you if I'm short before the payment is due, not after.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "promise", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "Money is tight for everybody. I did what I could.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deflect", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
+      "move": "reply-deflect",
+      "kind": "spoken",
+      "text": "I'm stretched thin too. You're not the only one feeling it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "deflect",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "deflect", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.pressed.you-re-not-the-only-one-counting-every-dollar",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You're not the only one counting every dollar.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.pressed.i-don-t-see-you-offering-to-cover-for-me",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "I don't see you offering to cover for me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "Then don't ask me for what I don't have.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "You think I'm hiding money? I'm drowning just like you are.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
+      "move": "reply-confront",
+      "kind": "spoken",
+      "text": "If you can't help, don't lecture me about what I owe.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "confront",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.pressed.i-can-t-argue-about-money-today-i-ll-come-back-when-i-ve-got-a-plan",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't argue about money today. I'll come back when I've got a plan.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.pressed.let-s-stop-neither-of-us-has-anything-left-for-this",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "Let's stop. Neither of us has anything left for this.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.pressed.i-can-t-talk-about-money-anymore-today-i-ll-find-you-when-i-know-what-i-can-do",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't talk about money anymore today. I'll find you when I know what I can do.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "press"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "We're both running on empty. Let's stop here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I'll come back when I've got a plan, and I won't pretend this isn't on me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "leave", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.pressed.thank-you-first-that-helps-more-than-you-know",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Thank you, {first}. That helps more than you know.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-accept.pressed.alright-i-appreciate-you-telling-me",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Alright. I appreciate you telling me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.pressed.a-plan-matters-more-than-sorry-right-now-first-what-are-you-going-to-do",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "A plan matters more than sorry right now, {first}. What are you going to do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "I believe you, {first}. I just can't afford to be wrong again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "press", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "Everybody's short, {first}. That doesn't make a missed payment okay.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
+      "move": "follow-confront",
+      "kind": "spoken",
+      "text": "I'm not asking for what you don't have, {first}. I'm asking you to say it was your doing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "confront",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine",
+          "after": "confront"
+        }
+      ],
+      "bearing": "hurt",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "confront", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-thank.pressed.thanks-first-let-me-know-how-it-goes",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "Thanks, {first}. Let me know how it goes.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "thank", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-accept.pressed.alright-we-ll-figure-out-the-rest",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Alright. We'll figure out the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "accept", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-warn.pressed.if-it-happens-again-i-ll-have-to-bring-it-up-sooner-first",
+      "move": "close-warn",
+      "kind": "spoken",
+      "text": "If it happens again, I'll have to bring it up sooner, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "warn",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "warn", "key": "routine" }
+    },
+    {
+      "key": "scene-talk.close-react.pressed.name-rubs-their-forehead-and-lets-it-go",
+      "move": "close-react",
+      "kind": "spoken",
+      "text": "{name} rubs their forehead and lets it go.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "react",
+          "role": "asker",
+          "purpose": "owed-apology.pressed",
+          "key": "routine"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, apology variants)",
+      "date": "2026-11-09",
+      "tag": { "move": "react", "key": "routine" }
     }
   ]
 }

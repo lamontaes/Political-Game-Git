@@ -228,6 +228,24 @@
     "town-against-bill": {
       "kind": "town-on-bill",
       "side": "against"
+    },
+    "about-money": {
+      "kind": "fact-map",
+      "fact": "about",
+      "values": {
+        "money": 1
+      }
+    },
+    "quarreled-before": {
+      "kind": "history",
+      "events": ["family.quarrel"],
+      "exceptSameFact": "missedId",
+      "scale": {
+        "value": 1,
+        "tag": "TUNABLE",
+        "spread": [0.5, 2],
+        "checkedAgainst": "As refused-before, for earlier quarrels between the same two people that the records name: one earlier quarrel reads one half, so the second is already a different scene."
+      }
     }
   },
   "families": {
@@ -2042,6 +2060,309 @@
                 "keeps": "none",
                 "when": {
                   "reply": ["leave"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        }
+      }
+    },
+    "owed-apology": {
+      "variants": {
+        "plain": {
+          "purpose": "owed-apology",
+          "base": 0.3,
+          "terms": []
+        },
+        "money": {
+          "purpose": "owed-apology.money",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 1.0
+            }
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["apologize", "promise", "deflect", "confront"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "close": {
+          "purpose": "owed-apology.close",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 0.3
+            },
+            {
+              "read": "close",
+              "weight": 0.9
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-sensitive",
+            "personality-v1:facet-tender-hearted",
+            "personality-v1:facet-affectionate"
+          ],
+          "arc": {
+            "state": "request",
+            "replies": ["apologize", "promise", "ask", "deflect"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "ask": ["answer"],
+              "deflect": ["press"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave"],
+              "answer": ["apologize", "promise", "deflect"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "repeat": {
+          "purpose": "owed-apology.repeat",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 0.3
+            },
+            {
+              "read": "quarreled-before",
+              "weight": 1.2
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-persistent",
+            "personality-v1:facet-skeptical",
+            "personality-v1:facet-blunt"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["apologize", "promise", "confront", "leave"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
+                }
+              },
+              {
+                "id": "left-there",
+                "label": "Left it there",
+                "keeps": "none",
+                "when": {}
+              }
+            ]
+          }
+        },
+        "pressed": {
+          "purpose": "owed-apology.pressed",
+          "base": 0.0,
+          "terms": [
+            {
+              "read": "about-money",
+              "weight": 0.1
+            },
+            {
+              "read": "strain",
+              "weight": 1.3
+            }
+          ],
+          "pull": [
+            "personality-v1:facet-practical",
+            "personality-v1:facet-meticulous"
+          ],
+          "arc": {
+            "state": "confront",
+            "replies": ["apologize", "deflect", "confront", "leave"],
+            "follow": {
+              "apologize": ["accept", "press"],
+              "promise": ["accept", "press"],
+              "deflect": ["press"],
+              "confront": ["confront"],
+              "leave": []
+            },
+            "again": {
+              "press": ["apologize", "promise", "leave", "confront"],
+              "confront": ["apologize", "leave", "confront"]
+            },
+            "endings": [
+              {
+                "id": "apology-taken",
+                "label": "Apology accepted",
+                "keeps": "none",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["accept"]
+                }
+              },
+              {
+                "id": "promised-to-make-it-right",
+                "label": "You promised to make it right",
+                "keeps": "promise",
+                "when": {
+                  "anyReply": ["promise"]
+                }
+              },
+              {
+                "id": "half-apology",
+                "label": "A half apology",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["apologize"],
+                  "asker": ["press"]
+                }
+              },
+              {
+                "id": "grudge",
+                "label": "A grudge over the missed payment",
+                "keeps": "relationship-strained",
+                "when": {
+                  "reply": ["confront", "leave", "deflect"]
                 }
               },
               {

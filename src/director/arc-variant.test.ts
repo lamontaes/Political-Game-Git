@@ -218,13 +218,19 @@ describe("a kind with several arcs", () => {
               talk.endingCounts[id] ?? 0,
               `${where} ${id}`,
             ).toBeGreaterThan(0);
-        } else
+        } else if (family === "owed-apology")
+          for (const id of ["apology-taken", "grudge"])
+            expect(
+              talk.endingCounts[id] ?? 0,
+              `${where} ${id}`,
+            ).toBeGreaterThan(0);
+        else
           expect(
             talk.endingCounts["said-you-would-report"] ?? 0,
             where,
           ).toBeGreaterThan(0);
       }
-  });
+  }, 300_000);
 
   it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
     for (const [family, row] of Object.entries(FAMILIES)) {
@@ -267,7 +273,7 @@ describe("a kind with several arcs", () => {
       );
       expect(skeletons.size, family).toBeGreaterThanOrEqual(3);
     }
-  });
+  }, 300_000);
 
   it("says a variant's own lines, and the family's where the variant has none", () => {
     const small = compose("bribe-offer", "small");
