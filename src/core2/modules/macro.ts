@@ -41,7 +41,6 @@ import countryParameters from "../data/country/parameters.json" with { type: "js
 import { countryLaw, startingLawReader } from "../country-law";
 import {
   COUNTRY_AGE_BANDS,
-  COUNTRY_SECTORS,
   countryMoney,
   countryPartFigures,
   countryPeople,
