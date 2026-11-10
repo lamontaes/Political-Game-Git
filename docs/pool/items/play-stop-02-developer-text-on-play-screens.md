@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:07:01.037Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
@@ -51,3 +51,5 @@ Released (2026-11-10): Replay in Basking Ridge, NJ (seed 9978ac7a-fe58-46f4-9998
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:05 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
 
 Released (2026-11-10): Replay-only item: pool seen refuses a claimed item (only merged work), so a builder cannot close it; not replayed here. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:06 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
