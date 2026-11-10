@@ -16,13 +16,14 @@ model: sonnet
 effort: low
 root: rc4-hand-written-words
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Conversations now say a work tenure as whole years, and only from two years up (words/grading-bench-handler): nobody says the month they started. Someone at a job under two years has no tenure line, so that answer is not offered. The bank pieces worded with a {since} or {my_since} slot (own-work-answer-since, tenure-reply-reply-since, tenure-reply-answer-own, and the player's "I've been at {my_employer} since {my_since}.") no longer fit any fact. Give a short tenure its own wording and retire the date pieces.
 
 **Cause.** Found in code: tenureYears in src/director/conversation.ts:365 returns a count only when the years are above one, so a tenure under two years has no text; data/english/parts/conversation.json still holds pieces with a {since} slot (for example "Since {since}." and "Ever since {since}.").
 
-**Fix.** Add short-tenure bank pieces ("I just started.", "About a year now.") written through civic-prose and offered when the tenure is under two years, and retire the {since} and {my_since} pieces in the bank regeneration, not by hand-editing.
+**Fix.** Add short-tenure bank pieces ("I just started.", "About a year now.") written by Story (every line in data/english/parts/ is Story's, owner's ruling of Nov 10; send the Words line the keys needed) and offered when the tenure is under two years, and retire the {since} and {my_since} pieces in the bank regeneration, not by hand-editing.
 
 **Time box.** 2 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

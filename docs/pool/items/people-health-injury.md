@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-life-record
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Add injuries to the health module. A worker's exposure builds from the hours they work in their occupation (the occupation's injury intensity from the BLS Survey of Occupational Injuries and Illnesses), made worse when their employer is short-staffed and by their own fatigue, and the worker is injured when exposure crosses their own keyed injury line. An injury is a typed event with a severity and a recovery spell during which the worker's hours are lowered and the household pays the medical cost. Counted workers accrue the same exposure times their count.

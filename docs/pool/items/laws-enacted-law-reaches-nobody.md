@@ -17,6 +17,7 @@ effort: high
 root: rc2-done-from-records
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A council bill the player's circle enacted took effect in Meadow Lakes, Alaska (seed f835dd278d7312a1, bill 2025-7, passed 6 to 0), but law reach recorded no one or nothing it reached, so the golden path's step 9 did not count and the town did not visibly change. Find which policy key the law's series maps to and why no handler read it, then make the handler for that key read the law when it takes effect. Laws whose handler is genuinely none stay a stopgap with a row. Found Oct 19 by play-step-9-is-a-read: with step 9 counted only when a reach record exists, this seed reached steps 3 to 8 and 10 but not 9.

@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** The director and journal data and the words belong to the Words and director line; take the producer from there. Split from world-new-homes-moves-not-reached.
 
 Oct 29 (CTO, second account): PR #5098 closed as stale under the owner's standing approval; back to open. Branch `claude/housing-moved-read-s6` is kept; claiming this item takes it over.
+
+**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10).** This item also covers words-housing-moved-lines (proposed drop): the lines for a household's move within town are worded from this same `housing.moved` record.

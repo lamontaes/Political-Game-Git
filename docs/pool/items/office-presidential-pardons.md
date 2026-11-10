@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: none
 lead: governing
+checked: fable 2026-11-10
 ---
 
 **What.** A president's pardon is a choice that the court and prison must read, but pardonable() returns no one. The justice engine tries every crime under the state's law, so it records no federal conviction to pardon (stopgap SG-OFFICE-FED-pardons). Build a federal-sovereign case record in justice and a pardon the president grants from it, so a pardoned person leaves custody or their sentence ends. This item also takes the leftover of the closed order umbrella: a played President's own choice over federal orders (stopgap SG-NATION-federal-axis-proxy). The player notices it on the politics screen as a choice among people, never a form.
@@ -37,3 +38,5 @@ lead: governing
 **Notes.** TODO
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate. Pardons are nation-president-orders-by-series-part-4-pardons (the same `pardonable` at line 985 and SG-OFFICE-FED-pardons), and the played President's choice over federal orders is nation-president-orders-by-series-part-3-played-president-orders. Nothing here is missing from those two.

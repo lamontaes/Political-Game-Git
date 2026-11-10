@@ -16,6 +16,7 @@ lead: words
 model: opus
 effort: medium
 root: design-words-machine
+checked: fable 2026-11-10
 ---
 
 **What.** With GOLDEN_PATH_SEED=3d7f19f27037978915428ed7093ff881432c851d, journal.test.ts draws Linganore, Maryland and three tests fail on main. "Never makes a school, a workplace or a visit an entry by itself" and "never titles a chapter by a school" expect an empty journal from a fixture, but the household's own past (where the family came from, a parent's new job) is told whatever the fixture holds; #6093 rewrites both checks to the lines their fixture moments give. "Tells a relative's race by the record's result" finds no race line (line 349). CI draws a random seed, so any PR can go red on these with no change of its own. Four earlier items are folded in, each with its own done-when line in the Notes.

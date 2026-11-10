@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc6-scenes-repeat
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** The director once staged a filing scene and a race-lost scene around listeners tied to a candidate, as if they had filed or lost a race they never entered, and staged hearing scenes around people who never spoke. A participant scene (a filing, a race lost, a public hearing) must be staged only around a person its cause record names. The item was written against October code, its pull request was closed and the director has moved since, so the defect has to be re-measured in a played world before anything is built.

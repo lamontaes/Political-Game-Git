@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: design-life-record
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** viewOn forms an opening stance from lean, faith and degree but keeps nothing, so nobody can ask why a neighbor opens at a given stance. For the player and the people they deal with (keepsWhy), store one record per person and question the first time it is read, holding the value and the lean, faith and degree parts, in the views module's state. The dependency people-opening-stance-from-loadings is done, and keepsWhy already exists.
@@ -35,3 +36,5 @@ lead: lives
 **Files.** src/core2/modules/views.ts, src/core2/views.test.ts
 
 **Notes.** Found Oct 20: the work was built beside PR 5495 and set aside because that PR already forms the stance from the CES faith means. The stored record is the part it does not have.
+
+**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. `openingRecord` in src/core2/modules/views.ts (line 663) keeps one record per person and question in the views module's `openings` table the first time it is read, with what faith and degree add, and `openingStance` (line 709) reads it for every view, so `agreementWith` already returns the stored values. The screen that shows these records is play-issue-stances-on-screen.
