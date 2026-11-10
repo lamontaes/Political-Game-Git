@@ -1936,11 +1936,17 @@ function linkLines(
         ids.some((id) => id.startsWith(PAST_WORK_PREFIX));
       const working =
         work(line.sourceRecordIds) && work(earlier.sourceRecordIds);
+      // A record the line before already cites as its own reason ("when my
+      // daughter was born, I left ...") is the same event told twice, never
+      // its effect: the later telling joins by time.
+      const toldBefore = (name: string) =>
+        line.sourceRecordIds.includes(name) &&
+        earlier.sourceRecordIds.includes(name);
       const shared = working
         ? []
         : line.sourceRecordIds.flatMap((id) =>
             [...namesOf(core, id)]
-              .filter((name) => theirs.has(name))
+              .filter((name) => theirs.has(name) && !toldBefore(name))
               .flatMap((name) => [theirs.get(name)!, id]),
           );
       const echoed = line.momentIds.some((id) =>
