@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: claimed
+status: in-pr
 claimed-by: claude/fable-nightly-twenty-years
-pr:
+pr: #8152
 after:
 blocked-on:
 lead: speed
