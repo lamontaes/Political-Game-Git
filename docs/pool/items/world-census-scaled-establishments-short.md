@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -28,3 +28,7 @@ Checked Oct 21 (claude): PR #5076, which this item points at, is an omnibus (com
 Design finding Oct 21 (claude): the code does not scale establishments at all, by design so far. `countScale` in `src/bench/world.ts` becomes only a household weight (`collapseToTwoLevels(…, { weights })`), and `scaleOutsideSales` multiplies outside demand by it ("a town opened at its Census size sells to the outside as much more as its firms are bigger"). So a town at Census scale keeps the sample's firms and expects them to grow instead of more firms existing. Making businesses follow the Census size therefore needs a decision between two shapes: (a) businesses carry a weight like counted households (one record stands for several firms, read by every business reader times its weight), or (b) the opening generates more firm records for the Census count while households stay weighted. (a) matches the owner's two-tier rule and the existing weight pattern, but every business, payroll and tax reader must multiply by it. Neither is started; the establishments gap and the short owner-draw line (world-census-weight-owner-draws) both come from this one choice.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The firm-sizing it asked for landed: `scaleFirmsToCensus` in src/core2/census-firms.ts sizes each firm to the place's Census scale (its header says a town opened at Census scale has more customers and workers, so its firms are sized to match), is called from src/bench/world.ts, and is tested in src/core2/census-firms.test.ts; the merge is #5295 (commit 645c92a9f0), which closed core-census-opens-at-census-scale (status done). The leftover "establishment count near the county rate" is a range, not a target, under the Nov 8 ruling (OWNER-DECISIONS.md, Nov 8 morning: ranges are not targets). Not certain: it scales firm size, not firm count; if the CTO wants a firm count, that is a new item. The scripts and files it cites (scripts/core2-year/census-scaled-economy.mjs, src/simulation/local-business-counts.ts) are gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

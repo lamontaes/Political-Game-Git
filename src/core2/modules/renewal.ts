@@ -665,6 +665,26 @@ function initialize(api: CoreAPI): void {
   }
 }
 
+/** Opens the engine's records on its first day; true on the day it does. */
+function begin(api: CoreAPI): boolean {
+  if (initialized.has(api.state)) return false;
+  initialized.add(api.state);
+  initialize(api);
+  return true;
+}
+
+/** The counted population's month: its births, deaths and illness, by place. */
+function countedMonth(api: CoreAPI): void {
+  applyCountedFlows(
+    api,
+    "countedCarry",
+    "counts",
+    "births",
+    "countedUnplanned",
+    "countedExposure",
+  );
+}
+
 export const RENEWAL_MODULE: CoreModule = {
   id: RENEWAL_MODULE_ID,
   state: {
@@ -762,23 +782,20 @@ export const RENEWAL_MODULE: CoreModule = {
     fillInCounted(api, memberIds);
   },
   onDay(api) {
-    if (!initialized.has(api.state)) {
-      initialized.add(api.state);
-      initialize(api);
-    }
+    begin(api);
+  },
+  // Results mode runs no day: the engine begins on the first of its first
+  // skipped month, and that day's counted flows, which its calendar could
+  // not hold yet, run now. Its reviews, deliveries and later months are
+  // dated work, which results mode runs.
+  onResultsMonth(api) {
+    if (begin(api)) countedMonth(api);
   },
   onCalendarWork(api, work) {
     const id = work.sourceRecordIds[0]!;
     if (work.kind === "delivery") deliver(api, id);
     else if (work.kind === "counted") {
-      applyCountedFlows(
-        api,
-        "countedCarry",
-        "counts",
-        "births",
-        "countedUnplanned",
-        "countedExposure",
-      );
+      countedMonth(api);
       scheduleCounted(api);
     } else if (work.kind === "review") {
       const row = table(api, "couples").get(id);

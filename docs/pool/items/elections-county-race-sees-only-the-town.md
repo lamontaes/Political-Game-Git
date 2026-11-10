@@ -4,20 +4,35 @@ title: "A county race is contested and voted by the played town's own people onl
 area: elections
 kind: bug
 priority: 2
-size: L
+size: S
 status: open
+standard: 2
 claimed-by:
 pr:
-blocked-on:
+after:
+blocked-on: elections-county-race-sees-only-the-town-part-1-seeded-county-tail, elections-county-race-sees-only-the-town-part-2-weigh-the-tail, elections-county-race-sees-only-the-town-part-3-refit-the-weight
+lead: governing
+model: sonnet
+effort: low
+root: design-one-model-two-tiers
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** A county seat in the played world is seated in the town (offices.ts seatingPlace), its electorate is the town alone (race-places.ts basePlaces returns no places for a local race) and only the town's adults weigh running for it (candidacy.ts weighContest). In Mallard Bay, Oklahoma (4045930, draw a63ad2af1003c7ad:5) its nine county races (board, assessor, clerk, prosecutor, sheriff, treasurer) were each weighed by the same 102 named adults and 149 counted records, and each drew one candidate. Over 24 drawn places 161 of 175 county contests had one candidate or none (0.92); BallotReady counts 66 percent of county legislative and 74 percent of sheriff races uncontested in 2020 (https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications). Lowering candidacyCountywideWeight from 0.5 to 0.4 moved it only to 0.90. The rest of the county, which the electorate engine already counts coarsely for statewide races (electorate-places.ts statePlaces), neither votes in nor weighs running for its own county's seats.
+**What.** A county seat in the played world is seated in the town, its electorate is the town alone and only the town's adults weigh running for it. In Mallard Bay, Oklahoma (4045930, draw a63ad2af1003c7ad:5) its nine county races (board, assessor, clerk, prosecutor, sheriff, treasurer) were each weighed by the same 102 named adults and 149 counted records, and each drew one candidate. Over 24 drawn places 161 of 175 county contests had one candidate or none; BallotReady counts 66 percent of county legislative and 74 percent of sheriff races uncontested in 2020 (https://organizations.ballotready.org/research/nothing-to-lose-uncontested-races-in-2020-and-their-implications), reported as a check, not a target. Step A (the whole county votes) is merged; step B (challengers from the rest of the county) failed and is set aside. The rest of the county, which the electorate engine already counts coarsely for statewide races, still does not weigh running for its own county's seats.
+
+**Cause.** Measured: over 24 drawn places 161 of 175 county contests had one candidate or none (Mallard Bay, Oklahoma 4045930, seed draw a63ad2af1003c7ad:5). Found in code: step B on governing/county-challengers gave no runners because no counted record clears the stay-out bar in `weighContest` (`src/core2/modules/candidacy.ts` line 880), and `candidacyCountywideWeight` lowers it a further 0.5 (line 544).
+
+**Fix.** Generate the county's people like each counted record with their own seeded temperament (generation of who exists), weigh only as many as a seat's tail needs, fill one in as a full person when drawn to run, then refit or remove `candidacyCountywideWeight`. The three parts are listed in Waits on.
+
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** One model, two tiers: the rest of the county is counted on the same engine as the town's counted residents (re-placed records weighted to the county's eligible voters, as countPlaces does), never a second model. No dice: a challenger from elsewhere in the county runs on the same chooser's reasons; real shares check totals only. Two-level population: a challenger from the rest of the county is filled in as a full person only when drawn to run, seeded so the same person returns. One rule, all 56 places: county facts come from data. Replace, never layer: the countywide weight is refit or removed once the county itself weighs its seats.
 
-**Done when.** In a played world in at least six places drawn from all 56 (names and seeds printed), a county contest's result counts the rest of the county's voters by place record id and at least one county contest draws a candidate who lives elsewhere in the county, filled in from the counted rest of the county; the pooled share of county contests with one candidate or none sits between 55 and 80 percent; the stopgap SG-GOV-county-race-town-only is deleted; a test fails when the rest of the county is removed.
+**Done when.** A second session plays a world in at least six places drawn from all 56 (names and seeds printed) and finds a county contest's result counting the rest of the county's voters by place record id, and at least one county contest drawing a candidate who lives elsewhere in the county, filled in from the counted rest of the county. It reports the pooled share of county contests with one candidate or none beside the real figure, and a test fails when the rest of the county is removed. If a stopgap row for the town-only county race exists in src/core2/data/stopgaps (none was found on Nov 10), it is deleted.
+
+**Waits on.** Its three parts: elections-county-race-sees-only-the-town-part-1-seeded-county-tail, elections-county-race-sees-only-the-town-part-2-weigh-the-tail, elections-county-race-sees-only-the-town-part-3-refit-the-weight.
 
 **Files.** src/core2/race-places.ts, src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, src/core2/modules/offices.ts, src/core2/data/candidacy/parameters.json
 

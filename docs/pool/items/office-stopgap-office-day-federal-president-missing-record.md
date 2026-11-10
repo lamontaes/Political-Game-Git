@@ -12,15 +12,30 @@ after: world-other-places-coarse-population
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/office-day-federal-president.ts, kind missing-record"
 claimed-at:
+standard: 2
+model: opus
+effort: medium
+root: design-one-model-two-tiers
+lead: governing
+size: M
+checked: fable 2026-11-10
 ---
 
-**What.** Two missing-record stopgaps remain in the president's day. SG-OFFICE-FED-trip-residents: the people a traveling president meets in another town are recorded identities of that place with no household, job or records beyond the meeting. SG-OFFICE-FED-situation-room: the situation room never opens because main keeps no crisis record. Fill in a met person from the other place's coarser counts as the player's town does, and open the situation room on the crisis records once disasters land. The player would notice meeting a real resident of another town, with a job and family, and a briefing when a crisis happens.
+**What.** When a president visits another town, the person they meet is a recorded identity with no household, job or records beyond the meeting (SG-OFFICE-FED-trip-residents). Fill in that person from the other place's coarser counts, as the player's own town does, so they have a job, pay and family that match what the place's records say. The situation-room row of this item is already resolved. The player notices meeting a real resident of another town with a job and a family.
 
-**Rules.** One model, two tiers: a person met in another place is filled in from that place's counted population by the same rule, matching what the records already say about their job and pay; An effect is a read, not a record: the situation room reads crisis records at the moment the day opens; No dice: who is met and what is briefed follow the records, not a roll; One rule, all 56 places: no place named; other places are kept coarser; Placeholders: each row closes only when the real record exists; Speed: filling in happens when the player meets the person.
+**Cause.** Found in code: src/core2/office-day-federal-president.ts line 849 calls api.stopgap("SG-OFFICE-FED-trip-residents"); the row is at src/core2/data/stopgaps/office.json line 123. The other row, SG-OFFICE-FED-situation-room, was resolved when the situation room began opening on FEMA disaster records.
 
-**Done when.** In a one-year run of the played world (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (name both in the PR body): on a presidential trip the person met has a household, job and pay consistent with the other town's counts (person and place record ids), and with a recorded disaster the situation room lists it with the department that answers it. Both rows close in `stopgaps.json`. Tests beside `src/core2/office-day-federal.test.ts`. The owner plays it: visits a town as president and talks to a resident who has a job and a family.
+**Fix.** Fill in a person met on a presidential trip from that state's cell in the country tier, by the standard fill-in rule, with a job and pay that agree with the cell (docs/design/country-tier.md, section 7, "Results first": a person met in another state is filled in from their cell). Seed them from the world so the same person comes back, and mark the row resolved.
 
-**Files.** src/core2/office-day-federal-president.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps.json
+**Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One model, two tiers: a person met in another place is filled in from that place's counted population by the same rule, matching what the records already say about their job and pay. No dice: who is met follows the records. One rule, all 56 places: no place is named and other places are kept coarser. Placeholders: the row closes only when the real record exists. Speed: filling in happens when the player meets the person.
+
+**Done when.** A second session plays a President on a trip in a one-year run of the played world (buildBenchWorld, a place drawn from all 56 and a seed the builder did not choose, both named in the PR body), meets a resident, and sees a household, job and pay consistent with that other town's counts, by person and place record ids. SG-OFFICE-FED-trip-residents is resolved in src/core2/data/stopgaps/office.json. Tests sit beside src/core2/office-day-federal.test.ts.
+
+**Waits on.** Nothing. (world-other-places-coarse-population, which it once waited on, was replaced by the country tier.) The state cells are on main (`stepCountry` in src/core2/country-model.ts, read through `countryStateNow` in src/core2/modules/macro.ts).
+
+**Files.** src/core2/office-day-federal-president.ts, src/core2/modules/residents.ts, src/core2/data/stopgaps/office.json, src/core2/office-day-federal.test.ts
 
 **Notes.** First row: The people a traveler meets in a town other than the player's are recorded identities of that place (drawn from the world's seed and the town), with no household, job or other records there beyond the meeting.
 

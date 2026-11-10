@@ -239,7 +239,7 @@
       ],
       "entry": "story",
       "framesAge": true,
-      "follow": ["deathAge", "deathIllness"]
+      "follow": ["deathBoth|deathAge|deathIllness"]
     },
     {
       "kindPrefix": "event:housing.eviction",
