@@ -61,7 +61,7 @@ Several mergers run at once, splitting open PRs by PR number modulo the number o
 - If your plain push is rejected because the branch moved, drop that PR and move on.
 - Start every comment with your prompt's prefix (for example `Codex merger:` or `Cloud merger:`), so audits can tell mergers apart.
 
-List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=100'` (all pages). Skip drafts whose body says work in progress.
+List with `gh api 'repos/lamontaes/Political-Game-Git/pulls?state=open&per_page=100'` (all pages). Skip drafts that carry no `Ready for the desk:` comment (section 1b).
 
 ## 1b. How the desk finds pull requests to gate (CTO, Nov 10)
 
