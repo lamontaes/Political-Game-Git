@@ -10805,6 +10805,58 @@
       "tag": {
         "move": "tell"
       }
+    },
+    {
+      "key": "journal.memoir-death-both.name-was-death-age-and-had-been-after-illness",
+      "move": "memoir-death-both",
+      "kind": "spoken",
+      "text": "{name} was {death_age} and had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-both",
+          "subject": "memoir",
+          "role": "death-both",
+          "choice": "death-both",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathBoth"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal death named once)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
+    },
+    {
+      "key": "journal.memoir-death-both.name-was-death-age-years-old-and-had-been-after-illness",
+      "move": "memoir-death-both",
+      "kind": "spoken",
+      "text": "{name} was {death_age} years old and had been {after_illness}.",
+      "uses": [
+        {
+          "move": "memoir-death-both",
+          "subject": "memoir",
+          "role": "death-both",
+          "choice": "death-both",
+          "journal": [
+            {
+              "kindPrefix": "memoir:",
+              "field": "deathBoth"
+            }
+          ]
+        }
+      ],
+      "origin": "authored",
+      "author": "Words, scenes and the director (journal death named once)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "tell"
+      }
     }
   ]
 }

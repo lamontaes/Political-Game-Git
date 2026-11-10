@@ -4687,6 +4687,8 @@
     "journal.memoir-birth-first.firstborn-was-our-first": 0.999,
     "journal.memoir-death-age.name-was-death-age": 1.023,
     "journal.memoir-death-age.name-was-death-age-years-old": 0.989,
+    "journal.memoir-death-both.name-was-death-age-and-had-been-after-illness": 0.989,
+    "journal.memoir-death-both.name-was-death-age-years-old-and-had-been-after-illness": 1.016,
     "journal.memoir-death-illness.name-had-been-after-illness": 0.989,
     "journal.memoir-decided.so-i-filed-for-office-with-the-election-set-for-election": 0.845,
     "journal.memoir-first-pay.i-earned-wage-an-hour": 0.815,
@@ -14856,10 +14858,10 @@
     "opening-speech.unity.polished-ina-victory-a-second-term-is-not-a-mandate-to-divide"
   ],
   "coverage": {
-    "pieces": 11577,
-    "reached": 11577,
-    "near": 10530,
-    "weighted": 11574,
+    "pieces": 11579,
+    "reached": 11579,
+    "near": 10532,
+    "weighted": 11576,
     "byBank": {
       "address": {
         "pieces": 1,
@@ -14907,9 +14909,9 @@
         "near": 3
       },
       "journal": {
-        "pieces": 347,
-        "reached": 347,
-        "near": 347
+        "pieces": 349,
+        "reached": 349,
+        "near": 349
       },
       "legislation": {
         "pieces": 4,
