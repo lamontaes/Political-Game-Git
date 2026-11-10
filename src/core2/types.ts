@@ -992,6 +992,13 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /**
+   * Results mode (advanceCore with `results: true`, for time nobody watches)
+   * skips every module's onDay and the people due; on the first day of each
+   * month it calls this instead, and the engine brings its own daily work up
+   * to date with its own functions, so day-by-day play resumes after the skip.
+   */
+  onResultsMonth?: (api: CoreAPI) => void;
   /** A household's people have just been filled in from the counts (or returned to them and filled in again): its engines move what they kept on the counted household to the full one. */
   onFillIn?: (
     api: CoreAPI,

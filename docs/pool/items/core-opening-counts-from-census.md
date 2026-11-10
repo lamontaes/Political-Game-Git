@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -25,3 +25,7 @@ claimed-at:
 **Notes.** PR #5039 asked whether the counted tiers should be seeded from relatives; the owner answered from the census. Ruling in OWNER-DECISIONS.md, Oct 19. Claim released Oct 23: branch idle since Oct 19.
 
 Measured Oct 19 (claude, nothing built). In Guernsey, Wyoming (place 5634320, seed `census-counts`, `buildBenchWorld` two-level) the counted population by place at the opening is the town 1,025, a second place 3,051 and a third 1,418; the real county (Platte) holds about 8,600 people and the state about 580,000. The county and state rows are the relatives' households: `buildOpeningKin` in `src/core2/opening-kin.ts` gives each kin household a `placeId` of the county or the state (lines 457 to 462), and `collapseToTwoLevels` counts every household by its place (`residentCounts` in `src/core2/modules/residents.ts`), so those two tiers hold only people somebody in town is related to, older than a census cohort and far under its size. The counted rows are full counted households (wage and purchase flows, an account per place), each standing for `weight` households, so a census-sized tier needs representative households with weights that sum to the census figure, not relatives. Two pieces: (1) a generator of representative county and state households from the census age and household tables, weighted to the place's census population and varying with the world seed; (2) the kin builder keeps relatives as husk people but places no counted household for them. Piece (2) is the same cut as `core-light-opening-kin-only-kept`. Start with (1), checked against `data/research` county population (`BASES.countyPopulation2024`) and the state's ACS age table.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-country-tier-first-slice. The state half is replaced by the country tier (docs/design/country-tier.md: "Every state becomes people and firms kept as counts, with a state treasury"). The kept item should take the county tier (the counted county around the town built from census age and household tables, varying by seed, per the owner's Oct 19 "Straight from the census. It'll be variable again") and the relatives cut should move to core-light-opening-kin-only-kept.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-country-tier-first-slice`, which carries this item's remaining work.

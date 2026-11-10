@@ -6,20 +6,35 @@ kind: feature
 priority: 1
 size: S
 status: open
+standard: 2
 claimed-by:
 pr: #5875
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: m0-m2
+model: opus
+effort: high
+root: none
+checked: fable 2026-11-10
 ---
 
-**What.** The M0-M2 lead's baseline on main b09ba675cd ran every M1 command in the place the golden-path runner draws for it. M1-01 (laws in force) and M1-02 (the national economy and central bank) passed, and their tests cover their whole spec text. This item flips those two flags with each run and a bench screenshot, so the owner can see what of M1 is finished.
+**What.** M1-01 (laws in force) already reads passes true in docs/roadmap/features.json, so only M1-02 (the national economy and central bank) is left of the two flags this item was filed for. The Notes record that M1-02's registered command gave zero bank lines and zero repricings in an independent draw at Swanton, Nebraska, byte-identical on clean main, and that the newly accepted flag lacks its positive loan-cost witness. Nobody has traced why the draw shows no repricing. The item stays open until a rate decision is seen changing what loans cost in a drawn place, and M1-02 then flips with its run named.
 
-**Rules.** Wire to the world: each flag flips only on its command passing in a place drawn from all 56 and the spec played in the bench. Never edit a spec's test text; only passes changes.
+**Cause.** Needs cause. Looked at docs/roadmap/features.json (M1-01 true, M1-02 false) and src/core2/tooling/m1-02-check.ts, which exists; the zero-repricing result in the Swanton, Nebraska draw is reported in the Notes but not traced to a record or a line.
 
-**Done when.** docs/roadmap/features.json reads passes: true for M1-01 and M1-02; the PR body names each command's place and full seed, its output, and a bench screenshot of the spec played in that place.
+**Fix.** None until the cause is found.
 
-**Files.** docs/roadmap/features.json
+**Time box.** 4 hours to find why a drawn place shows no bank lines or repricings.
+
+**Rules.** Wire to the world: the flag flips only on its command passing in a place drawn from all 56 with the spec played in the bench. Never edit a spec's test text; only passes changes. Ask why: name by record why the draw shows no repricing before changing the check.
+
+**Done when.** A second session runs the M1-02 command in the Swanton, Nebraska draw and in two more drawn places and sees a rate decision change what a loan costs in the town, by the bank line and repricing record ids, with the place and full seed printed. docs/roadmap/features.json then reads passes true for M1-02, with no spec text changed and the run named in the PR body.
+
+**Waits on.** Nothing.
+
+**Files.** docs/roadmap/features.json, src/core2/tooling/m1-02-check.ts
 
 **Notes.** Split by the M0-M2 lead from roadmap-m1-laws-budgets-flags, roadmap-m1-economy-flags and roadmap-m1-people-politics-flags (CTO branch).
 
@@ -34,3 +49,5 @@ Sent back 2026-10-24 from PR #5875 (branch claude/quirky-ride-vrwwz4-m1-flags): 
 M1-01 alone is bounded by roadmap-m1-flip-proven-one for PR #5875. This two-flag item stays open until M1-02 has its loan-cost witness in a drawn place; no feature test text was changed.
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: flip the flag on the test result, drop the per-spec screenshot; narrow to M1-02.
+
+**Notes (Fable, Nov 10, rerun).** The reason for the empty result is already written in the check's own header: Swanton, Nebraska has no bank, and the check now draws further places until a town has a bank line open at a rate change. Run on Nov 10 with `GOLDEN_PATH_SEED=m102fable1 GOLDEN_PATH_PLACE_KEY=3148060 node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts` on the branch of pull request 8246 (main itself could not load the command that hour): it passed, with 9 rate changes, 1 bank line in the town and 8 repricings on the day of a decision. What is left is this item's own finish line: a second session runs it in two more drawn places and the flag is flipped with the runs named. No cause is left to find.

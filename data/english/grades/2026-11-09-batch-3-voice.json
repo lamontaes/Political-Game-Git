@@ -1,0 +1,557 @@
+{
+  "batch": "2026-11-09-batch-3",
+  "from": "cto/voice-batch-3-part-1:docs/coordination/voice-notes/2026-11-09-batch-3-part-1.md",
+  "grades": [
+    {
+      "id": "7.1",
+      "key": "scene-talk.follow-answer.you-d-be-position-at-pay-an-hour-to-start",
+      "spans": [
+        {
+          "start": 0,
+          "end": 47,
+          "strength": 0.25
+        }
+      ],
+      "note": "You'd be a dishwasher at $13 an hour to start. Sure.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "scene-talk.follow-answer.we-d-go-over-all-of-it-on-your-first-day",
+      "id": "7.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 41,
+          "strength": -0.375
+        }
+      ],
+      "note": "Sure, but that's a little weird."
+    },
+    {
+      "key": "scene-talk.follow-answer.pay-an-hour-to-start-we-d-train-you-on-the-rest",
+      "id": "7.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 51,
+          "strength": -0.75
+        }
+      ],
+      "note": "I'm not quite sure what that means."
+    },
+    {
+      "id": "9.1",
+      "key": "opening-speech.salutation.polished-sta-chair-female-madam-speaker-members-of-congress-my-fellow-americans",
+      "spans": [
+        {
+          "start": 0,
+          "end": 56,
+          "strength": 0.25
+        }
+      ],
+      "note": "Madam Speaker, members of Congress, my fellow Americans. Yep.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "opening-speech.salutation.plain-sta-hopeful-mr-speaker-everybody-in-this-room-and-everybody-at-m",
+      "id": "9.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 141,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "opening-speech.salutation.polished-sta-hopeful-madam-speaker-and-everyone-watching-thank-you-for-having-f",
+      "id": "9.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 141,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.follow-accept.done-my-people-will-call-yours",
+      "id": "10.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 32,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.follow-accept.fine-i-ll-send-you-a-list-tomorrow",
+      "id": "10.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 36,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.follow-accept.a-hearing-then-schedule-it",
+      "id": "10.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 29,
+          "strength": -1
+        }
+      ],
+      "note": "I mean, maybe if the hearing was talked about beforehand, but without any context, that doesn't make any sense."
+    },
+    {
+      "id": "14.1",
+      "key": "scene-talk.follow-accept.i-ll-hold-the-paragraph-the-deadline-won-t-wait-long",
+      "spans": [
+        {
+          "start": 0,
+          "end": 54,
+          "strength": -0.75
+        }
+      ],
+      "note": "I'll hold the paragraph. The deadline won't wait long. I don't really understand that one.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "id": "14.2",
+      "key": "scene-talk.follow-accept.that-s-a-big-claim-i-ll-check-it-with-your-neighbors",
+      "spans": [
+        {
+          "start": 0,
+          "end": 54,
+          "strength": -0.75
+        }
+      ],
+      "note": "That's a big claim. I'll check with your neighbors. That's, I don't understand what that means.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "scene-talk.follow-accept.then-it-says-you-were-asked-and-didn-t-say",
+      "id": "14.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 43,
+          "strength": -0.75
+        }
+      ],
+      "note": "Yeah, see, I don't have any context, so I don't know."
+    },
+    {
+      "key": "scene-talk.follow-bargain.my-name-on-your-next-bill-as-a-co-sponsor-that-s-real",
+      "id": "16.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 56,
+          "strength": -0.75
+        }
+      ],
+      "note": "16.1, that's just really awkward."
+    },
+    {
+      "key": "scene-talk.follow-bargain.your-amendment-gets-a-vote-next-week-that-s-what-s-on-the-table",
+      "id": "16.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 65,
+          "strength": -0.375
+        }
+      ],
+      "note": "Again, a little awkward."
+    },
+    {
+      "key": "scene-talk.follow-bargain.your-district-s-money-stays-in-the-budget-that-s-what-i-ve-got",
+      "id": "16.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 64,
+          "strength": -0.75
+        },
+        {
+          "start": 0,
+          "end": 64,
+          "strength": -0.375
+        }
+      ],
+      "note": "Again, awkward. I didn't like any of those."
+    },
+    {
+      "key": "speech-stages.stage-closer.god-bless-you-and-god-bless-america",
+      "id": "20.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 37,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "speech-stages.stage-closer.let-s-get-to-work",
+      "id": "20.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 18,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "speech-stages.stage-closer.thank-you-all",
+      "id": "20.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 14,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-asked-for-time-about-the-budget-the-council-adopted",
+      "id": "25.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 63,
+          "strength": 0.25
+        }
+      ],
+      "note": "That's fine."
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-budget-the-council-passed",
+      "id": "25.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 57,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
+      "id": "25.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 83,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 83,
+          "strength": -0.75
+        }
+      ],
+      "note": "I'm not sure what blank has the page. 25.3, I guess it doesn't sound completely wrong."
+    },
+    {
+      "key": "scene-talk.reply-leave.i-ll-call-you-after-i-talk-to-the-council-chair",
+      "id": "27.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 48,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.reply-leave.let-me-sleep-on-it-before-i-answer",
+      "id": "27.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 35,
+          "strength": 0.75
+        }
+      ],
+      "note": "I like that."
+    },
+    {
+      "key": "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow",
+      "id": "27.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 39,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 39,
+          "strength": -0.1875
+        }
+      ],
+      "note": "Sure. Just saying the list with no prior context is a little weird."
+    },
+    {
+      "id": "34.1",
+      "key": "opening-speech.salutation.plain-twn-combative-everybody-in-this-room-and-everybody-watching-let-s",
+      "spans": [
+        {
+          "start": 0,
+          "end": 120,
+          "strength": -0.375
+        }
+      ],
+      "note": "let's not pretend that this town is fine ... It isn't, and somebody is to blame. Ooh, that's a little weird way to start off.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "id": "34.2",
+      "key": "opening-speech.salutation.plain-twn-policy-everybody-in-this-room-and-everybody-watching-i-ll",
+      "spans": [
+        {
+          "start": 0,
+          "end": 113,
+          "strength": 0.25
+        }
+      ],
+      "note": "I'll keep this practical tonight. Here's what I want to get done. Okay, sure.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "opening-speech.salutation.plain-twn-mourning-everybody-in-this-room-and-everybody-watching-before-anything",
+      "id": "34.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 158,
+          "strength": 0.75
+        }
+      ],
+      "note": "I like 34.3."
+    },
+    {
+      "key": "headlines.honor.number-place-seniors-sign-with-division-i-programs",
+      "id": "38.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 54,
+          "strength": 0.75
+        }
+      ],
+      "note": "That's good."
+    },
+    {
+      "key": "headlines.honor.name-signs-to-play-at-a-division-i-school",
+      "id": "38.2",
+      "spans": [
+        {
+          "start": 0,
+          "end": 43,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "headlines.honor.name-wins-the-place-spelling-bee",
+      "id": "38.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 36,
+          "strength": 0.25
+        },
+        {
+          "start": 0,
+          "end": 36,
+          "strength": 0.125
+        }
+      ],
+      "note": "Sure. Division I's fine."
+    },
+    {
+      "key": "scene-talk.follow-answer.short-i-ll-have-a-real-count-by-friday",
+      "id": "39.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 40,
+          "strength": 0.25
+        }
+      ],
+      "note": "I guess that's fine."
+    },
+    {
+      "id": "39.2",
+      "key": "scene-talk.follow-answer.we-re-close-but-not-there-yet-we-need-needed",
+      "spans": [
+        {
+          "start": 0,
+          "end": 49,
+          "strength": -0.25
+        }
+      ],
+      "note": "We're close, but not there yet. We need, I assume that would say like 8 votes or Representative Johnson, something like that.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "scene-talk.follow-answer.we-have-votes-we-need-needed",
+      "id": "39.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 34,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "id": "40.2",
+      "key": "speech-stages.stage-stance-enact.on-issue-i-ll-be-plain-goal-i-m-for-",
+      "spans": [
+        {
+          "start": 0,
+          "end": 77,
+          "strength": -0.75
+        }
+      ],
+      "note": "On gun control, I'll be plain. For ask me why, and I'll tell you. I don't like that.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "speech-stages.stage-stance-enact.let-me-talk-about-issue-goal-i-m-for",
+      "id": "40.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 81,
+          "strength": -0.75
+        }
+      ],
+      "note": "That's awkward."
+    },
+    {
+      "id": "41.1",
+      "key": "bring-it-up.your-bill-failed-act.i-read-in-subject-that-your-bill-on-topi",
+      "spans": [
+        {
+          "start": 0,
+          "end": 53,
+          "strength": 0.25
+        }
+      ],
+      "note": "I read in the Daily Gazette that your bill on gun control failed. Sure.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "bring-it-up.your-bill-failed-ordinance.subject-says-your-ordinance-didnt-pass-i",
+      "id": "41.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 53,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure."
+    },
+    {
+      "key": "scene-talk.state-request.they-taped-it-to-the-door-on-a-thursday-i-ve-read-it-nine-times-and-i-still-don",
+      "id": "42.1",
+      "spans": [
+        {
+          "start": 0,
+          "end": 114,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure, that's fine."
+    },
+    {
+      "id": "44.1",
+      "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
+      "spans": [
+        {
+          "start": 0,
+          "end": 50,
+          "strength": -0.75
+        }
+      ],
+      "note": "After 2 years out of work, I found work in Lexington. ... these journal entries are still not being told as stories. They're just statements.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "id": "44.2",
+      "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
+      "spans": [
+        {
+          "start": 0,
+          "end": 46,
+          "strength": -0.75
+        }
+      ],
+      "note": "After out of work, I went back to work. See, these journal entries are still not being told as stories.",
+      "checked": "read by hand against his words"
+    },
+    {
+      "id": "45.1",
+      "key": "scene-talk.close-thank.thank-you-for-hearing-us-out",
+      "spans": [
+        {
+          "start": 0,
+          "end": 29,
+          "strength": -0.75
+        }
+      ],
+      "note": "Thank you for hearing us out. Who's us?",
+      "checked": "read by hand against his words"
+    },
+    {
+      "key": "scene-talk.close-thank.thank-you-that-s-all-we-ask",
+      "id": "45.3",
+      "spans": [
+        {
+          "start": 0,
+          "end": 29,
+          "strength": 0.25
+        }
+      ],
+      "note": "Sure, that's fine as well.",
+      "rewrites": [
+        "Now, see, the bill not passing, like saying thank you or whatever, that somewhat naturally follows this."
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "rule": "Also, you shouldn't always say this town."
+    },
+    {
+      "rule": "You should say Lexington or the United States or Hawaii or whatever."
+    },
+    {
+      "rule": "We need, I assume that would say like 8 votes or Representative Johnson, something like that.",
+      "line": "39.1"
+    }
+  ]
+}

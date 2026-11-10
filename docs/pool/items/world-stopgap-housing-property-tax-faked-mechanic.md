@@ -5,21 +5,37 @@ area: world
 kind: stopgap
 priority: 2
 status: open
+standard: 2
 claimed-by:
 pr: #5249
-blocked-on: sourced county due dates for all 56 places (research data)
+after:
+blocked-on:
+lead: money
+model: sonnet
+effort: medium
+root: rc9-place-facts-one-default
 milestone:
 source: "src/core2/data/stopgaps.json, src/core2/housing-property-tax.ts, kind faked-mechanic"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
-**What.** The stopgap row(s) SG-WORLD-property-tax-monthly in src/core2/housing-property-tax.ts mark a shortcut that is still live in play. Today property tax is paid a twelfth each month, as through a mortgage escrow, for every owner. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
+**What.** Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner, so an owner without escrow never faces the bill dates their place's law sets. The due-date data it waited for has landed: `propertyTaxDueDates` in src/core2/housing-property-tax.ts returns each state's installments and dates. Bill non-escrow owners on those dates and keep the monthly twelfth only for escrow, with the tax reaching the town's treasury. The row stays open until the real mechanic replaces the fake.
+
+**Cause.** Found in code: `billPropertyTax` in src/core2/housing-property-tax.ts (line 122) bills a twelfth each month and calls api.stopgap("SG-WORLD-property-tax-monthly") (line 137, open in src/core2/data/stopgaps/world.json), although `propertyTaxDueDates(usps)` (line 86) now returns each state's installments and due dates.
+
+**Fix.** Bill non-escrow owners on `propertyTaxDueDates` and keep the monthly twelfth only for escrow, then resolve the stopgap row.
+
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Wire to the world: owners pay on the dates their place's law sets. One rule, all 56 places: due dates and installment counts come from each place's data. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, the seed and place named in the PR body), an owner without escrow pays on the place's due dates and the treasury receives it, with the bill and payment record ids, named by record id. The test in src/core2/housing-property-tax.test.ts and the stopgap tripwire test show the row resolved in stopgaps.json. The owner plays it: own a house and see the tax bill arrive when your town says. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
+**Done when.** A second session, on main in a drawn place (place and seed named in the PR body), plays a year in dev mode and watches an owner without escrow pay on the place's due dates and the treasury receive it, with the bill, payment and treasury receipt record ids. The test in src/core2/housing-property-tax.test.ts and the stopgap tripwire test show SG-WORLD-property-tax-monthly resolved.
 
-**Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps.json, src/core2/housing-property-tax.test.ts
+**Waits on.** Nothing. The due-date data it waited for has landed; the blocked-on line above is a leftover for the CTO to clear.
+
+**Files.** src/core2/housing-property-tax.ts, src/core2/data/stopgaps/world.json, src/core2/housing-property-tax.test.ts
 
 **Notes.** First row: Property tax is paid a twelfth each month, as through a mortgage escrow, for every owner.
 

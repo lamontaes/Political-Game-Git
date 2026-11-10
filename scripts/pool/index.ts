@@ -1,8 +1,43 @@
 // Builds docs/pool/INDEX.md from docs/pool/items/*.md. `--check` fails when the index is stale or an item is invalid.
 import { execFileSync } from "node:child_process";
-import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import {
+  existsSync,
+  mkdirSync,
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import {
+  branchPrefix,
+  identify,
+  identityFile,
+  levelOf,
+  readTiers,
+  tierOfLevel,
+} from "./agent";
+import { NOTE_PLACEHOLDER, prBody, prTitle, releaseNote } from "./draft-pr";
+import {
+  claimable,
+  DEFAULT_ORDER,
+  makeOrder,
+  type Order,
+  readOrder,
+  timeBoxHours,
+} from "./order";
+import {
+  needsCause,
+  readRoots,
+  repoAt,
+  section,
+  standardProblems,
+} from "./standard";
+
+export { section };
 
 export const AREAS = [
   "laws",
@@ -48,9 +83,9 @@ const ON_MAIN = ["merged", "done"];
 export const gateOpen = (status: string | undefined): boolean =>
   ON_MAIN.includes(status ?? "");
 export const PRIORITIES = ["1", "2", "3"];
+/** A name git and the pool accept for a branch: no spaces, not starting with a dash. */
+const BRANCH = /^[\w.][\w./-]*$/;
 export const SIZES = ["S", "M", "L"];
-const SIZE_RANK: Record<string, number> = { S: 0, M: 1, L: 2 };
-const PLAY_FIRST = ["play-stop-23", "play-stop-21", "play-stop-22"];
 const sizeOf = (i: { size?: string }): string => i.size || "M";
 
 export interface Item {
@@ -117,6 +152,8 @@ export function validate(
     errs.push(`${file}: claimed-by is required when status is claimed`);
   if (fm.status === "in-pr" && !fm.pr)
     errs.push(`${file}: pr is required when status is in-pr`);
+  if (fm.branch && !BRANCH.test(fm.branch))
+    errs.push(`${file}: branch "${fm.branch}" is not a branch name`);
   return errs;
 }
 
@@ -148,15 +185,6 @@ const DONE_WORDS = [
 ];
 
 const words = (s: string): number => s.split(/\s+/).filter(Boolean).length;
-
-/** Pulls one bolded section ("**What.**") out of an item body. */
-export function section(text: string, name: string): string {
-  const body = text.replace(/^---\r?\n[\s\S]*?\r?\n---/, "");
-  const re = new RegExp(
-    `\\*\\*${name}\\.?\\*\\*\\.?([\\s\\S]*?)(?=\\n\\*\\*[A-Z][a-z ]+\\.?\\*\\*|$)`,
-  );
-  return (re.exec(body)?.[1] ?? "").trim();
-}
 
 /** Quality gate for open or claimed priority 1 and 2 items, and play-first items at any priority. Returns "<id>: <field> ..." problems. */
 export function quality(
@@ -224,7 +252,26 @@ const prLink = (pr: string): string =>
       )
     : "no PR";
 
-export function buildIndex(items: Item[]): string {
+/** Items `next` may take, in the order, for each level of order.json. */
+export function readyByModel(
+  items: Item[],
+  order: Order = DEFAULT_ORDER,
+): Map<string, Item[]> {
+  const onMain = new Set(
+    items.filter((i) => gateOpen(i.status)).map((i) => i.id),
+  );
+  const known = new Set(items.map((i) => i.id));
+  const cmp = makeOrder(items, order);
+  const ready = items.filter((i) => claimable(i, onMain, known)).sort(cmp);
+  return new Map(
+    order.levels.map((l) => [l, ready.filter((i) => i.model === l)]),
+  );
+}
+
+export function buildIndex(
+  items: Item[],
+  order: Order = DEFAULT_ORDER,
+): string {
   const onMainIds = new Set(
     items.filter((i) => gateOpen(i.status)).map((i) => i.id),
   );
@@ -234,29 +281,15 @@ export function buildIndex(items: Item[]): string {
     i.status === "open" && waiting(i).length > 0;
   const by = (s: string): Item[] =>
     items.filter((i) => i.status === s && !gated(i));
-  const order = (a: Item, b: Item): number =>
-    a.priority.localeCompare(b.priority) ||
-    SIZE_RANK[sizeOf(a)] - SIZE_RANK[sizeOf(b)] ||
-    a.area.localeCompare(b.area) ||
-    a.id.localeCompare(b.id);
-  const sorted = (xs: Item[]): Item[] => [...xs].sort(order);
-  const playRank = (i: Item): number => {
-    const k = PLAY_FIRST.findIndex((p) => i.id.startsWith(p));
-    return k < 0 ? PLAY_FIRST.length : k;
-  };
-  const nextUp = (xs: Item[]): Item[] =>
-    [...xs].sort((a, b) => {
-      const pa = a.milestone === "play-first";
-      const pb = b.milestone === "play-first";
-      if (pa !== pb) return pa ? -1 : 1;
-      if (!pa) return order(a, b);
-      return (
-        a.priority.localeCompare(b.priority) ||
-        playRank(a) - playRank(b) ||
-        a.id.localeCompare(b.id)
-      );
-    });
+  const cmp = makeOrder(items, order);
+  const sorted = (xs: Item[]): Item[] => [...xs].sort(cmp);
+  const ready = readyByModel(items, order);
   const gatedItems = items.filter(gated);
+  const needs = items.filter(
+    (i) => i["needs-cause"] === "1" && ["open", "blocked"].includes(i.status),
+  );
+  const live = items.filter((i) => ["open", "blocked"].includes(i.status));
+  const atStandard = live.filter((i) => i.standard === "2").length;
   // Oldest merge first. An item with no merged-at was merged before the stamp
   // existed, so it is older than any stamped one.
   const merged = items
@@ -283,6 +316,8 @@ export function buildIndex(items: Item[]): string {
     "Generated by `npm run pool`. Never edit by hand; see [README](README.md).",
     "",
     `**${items.length} items:** ${counts}.`,
+    "",
+    `**Standard:** ${atStandard} of ${live.length} open, gated and blocked items are at the standard.`,
     "",
     "## In PR (from pool items)",
     "",
@@ -311,14 +346,50 @@ export function buildIndex(items: Item[]): string {
     "",
     "## Next up",
     "",
-    ...nextUp(by("open"))
+    ...sorted(by("open").filter((i) => i["needs-cause"] !== "1"))
       .slice(0, 15)
       .map(
         (i, n) =>
           `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}${i.lead ? `, lead ${i.lead}` : ""}, ${i.kind}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
       ),
     "",
+    "## Ready by model",
+    "",
+    "What `npm run pool -- next` can take now, by the level each item names (an agent's tier maps to a level in tiers.json): open, checked by Fable, cause known, and waiting on nothing that is not on main. Each level counts only its own items; `next` takes lower levels when its own run out.",
+    "",
+    order.levels
+      .map((l) => `**${l}:** ${ready.get(l)?.length ?? 0}`)
+      .join(", ") + ".",
+    "",
   ];
+  for (const l of order.levels) {
+    const xs = ready.get(l) ?? [];
+    out.push(`### ${l} (${xs.length})`, "");
+    out.push(
+      ...(xs.length
+        ? xs
+            .slice(0, 15)
+            .map(
+              (i, n) =>
+                `${n + 1}. [${i.id}](items/${i.id}.md) (${i.area}, p${i.priority}, ${i.effort || "no effort"}, ${sizeOf(i)}) — ${cell(i.title)}`,
+            )
+        : ["None."]),
+      "",
+    );
+  }
+  out.push(
+    `## Needs cause (${needs.length})`,
+    "",
+    "Not built until Fable finds the fix (owner, Nov 10).",
+    "",
+    ...(needs.length
+      ? sorted(needs).map(
+          (i) =>
+            `- [${i.id}](items/${i.id}.md) (${i.area}${i.lead ? `, lead ${i.lead}` : ""}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
+        )
+      : ["None."]),
+    "",
+  );
   for (const s of ["open", "claimed", "in-pr", "blocked"]) {
     out.push(`## ${s} (${by(s).length})`, "");
     out.push(...(by(s).length ? table(by(s)) : ["None."]), "");
@@ -354,7 +425,7 @@ export function run(
   check: boolean,
   qualityOnly?: ReadonlySet<string>,
   opts: { staleCheck?: boolean; writeIndex?: boolean } = {},
-): { index: string; errors: string[]; warnings: string[] } {
+): { index: string; errors: string[]; warnings: string[]; items: Item[] } {
   const dir = join(poolDir, "items");
   const files = existsSync(dir)
     ? readdirSync(dir)
@@ -364,21 +435,36 @@ export function run(
   const errors: string[] = [];
   const warnings: string[] = [];
   const items: Item[] = [];
+  const repo = repoAt(join(poolDir, "..", ".."));
+  const roots = readRoots(poolDir);
   for (const f of files) {
     const text = readFileSync(join(dir, f), "utf8");
     const fm = parseFrontMatter(text);
     const errs = validate(f, fm);
     errors.push(...errs);
     if (!errs.length && fm && (!qualityOnly || qualityOnly.has(f)))
-      warnings.push(...quality(f, fm, text));
-    if (!errs.length && fm)
-      items.push({ "claimed-by": "", pr: "", "blocked-on": "", ...fm } as Item);
+      warnings.push(
+        ...quality(f, fm, text),
+        ...standardProblems(f, fm, text, repo, roots),
+      );
+    if (!errs.length && fm) {
+      const row: Record<string, string> = {
+        "claimed-by": "",
+        pr: "",
+        "blocked-on": "",
+        ...fm,
+        ...(needsCause(fm, text) ? { "needs-cause": "1" } : {}),
+        "waits-on": section(text, "Waits on"),
+        "time-box": section(text, "Time box"),
+      };
+      items.push(row as Item);
+    }
   }
   const known = new Set(files.map((f) => f.replace(/\.md$/, "")));
   for (const i of items)
     for (const a of ids(i.after))
       if (!known.has(a)) errors.push(`${i.id}.md: after "${a}" is not an item`);
-  const index = buildIndex(items);
+  const index = buildIndex(items, readOrder(poolDir));
   const path = join(poolDir, "INDEX.md");
   if (check) {
     if (opts.staleCheck !== false)
@@ -386,7 +472,12 @@ export function run(
         errors.push("docs/pool/INDEX.md is stale: run `npm run pool`");
   } else if (!errors.length && opts.writeIndex !== false)
     writeFileSync(path, index);
-  return { index, errors: check ? [...errors, ...warnings] : errors, warnings };
+  return {
+    index,
+    errors: check ? [...errors, ...warnings] : errors,
+    warnings,
+    items,
+  };
 }
 
 /** The index main's items would produce, without writing it. */
@@ -521,7 +612,7 @@ function applyAndCommit(
 }
 
 /** Runs `step` on a fresh branch at origin/main and pushes it to main, retrying a lost race. */
-function onMain(tmp: string, step: () => void): void {
+function onMain(tmp: string, step: () => void, beforePush?: () => void): void {
   const prev = git("rev-parse", "--abbrev-ref", "HEAD");
   let last: unknown;
   try {
@@ -531,6 +622,7 @@ function onMain(tmp: string, step: () => void): void {
       git("fetch", "origin", "main");
       git("checkout", "-B", tmp, "origin/main");
       step();
+      beforePush?.();
       try {
         git("push", "origin", "HEAD:main");
         return;
@@ -602,6 +694,8 @@ export function flags(
     if (argv[i] === "--no-push") f["no-push"] = "1";
     else if (argv[i] === "--local") f.local = "1";
     else if (argv[i] === "--not") f.not = "1";
+    else if (argv[i] === "--dry-run") f["dry-run"] = "1";
+    else if (argv[i] === "--no-pr") f["no-pr"] = "1";
     else if (argv[i].startsWith("--")) {
       const eq = argv[i].indexOf("=");
       if (eq > 2) f[argv[i].slice(2, eq)] = argv[i].slice(eq + 1);
@@ -611,11 +705,29 @@ export function flags(
   return { pos, f };
 }
 
-/** The body sections `add` takes; a priority 1 or 2 item must give every one. */
-const BODY_FLAGS = ["what", "rules", "done", "files"] as const;
+/** What `add` must be given: every body section and every field of the standard (docs/pool/README.md). */
+const ADD_FLAGS = [
+  "title",
+  "what",
+  "cause",
+  "fix",
+  "timebox",
+  "rules",
+  "done",
+  "waits",
+  "files",
+  "model",
+  "effort",
+  "root",
+  "lead",
+] as const;
 
-const TEMPLATE = (f: Record<string, string>, id: string): string =>
-  `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what || "TODO"}\n\n**Rules.** ${f.rules || "TODO"}\n\n**Done when.** ${f.done || "TODO"}\n\n**Files.** ${f.files || "TODO"}\n\n**Notes.** ${f.notes || "TODO"}\n`;
+const TEMPLATE = (f: Record<string, string>, id: string): string => {
+  const box = /^\d+(?:\.\d+)?$/.test(f.timebox)
+    ? `${f.timebox} hours`
+    : f.timebox;
+  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
+};
 
 /** What `seen` must be told: who looked, where, on which seed and commit, and what was on screen. */
 const SEEN_FLAGS = ["by", "place", "seed", "main", "saw"] as const;
@@ -623,10 +735,439 @@ const SEEN_USAGE =
   'usage: pool seen <id> [--not] --by <who> --place "<place>" --seed <seed> --main <commit> --saw "<what was on screen>"';
 const oneLine = (s: string): string => s.replace(/\s+/g, " ").trim();
 
+/**
+ * An item's text claimed by `branch`, or null when that branch holds it
+ * already and there is nothing new to record. Throws the claim's refusals.
+ * `record` writes `branch:` (the branch `next` made); `pr` records the draft.
+ */
+function claimText(
+  id: string,
+  branch: string,
+  opts: { pr?: string; note?: string; record?: boolean } = {},
+): string | null {
+  const fm = readItem(id);
+  const text = readFileSync(itemPath(id), "utf8");
+  if (fm.status === "claimed" && fm["claimed-by"] === branch)
+    return opts.pr && fm.pr !== opts.pr
+      ? setFields(text, { pr: opts.pr })
+      : null;
+  if (fm.status === "claimed" || fm.status === "in-pr")
+    throw new Error(
+      `already claimed by ${fm["claimed-by"] || fm.pr}; take the next item`,
+    );
+  if (fm.status !== "open") throw new Error(`${id} is ${fm.status}, not open`);
+  if (needsCause(fm, text))
+    throw new Error(
+      `${id} has no known cause (Cause: Needs cause.); it is not built until Fable finds the fix (owner, Nov 10)`,
+    );
+  const waiting = ids(fm.after).filter((a) => !gateOpen(readItem(a).status));
+  if (waiting.length)
+    throw new Error(
+      `${id} waits on ${waiting.join(", ")}; take the top of Next up`,
+    );
+  const fields: Record<string, string> = {
+    status: "claimed",
+    "claimed-by": branch,
+    "claimed-at": new Date().toISOString(),
+  };
+  if (opts.pr) fields.pr = opts.pr;
+  if (opts.record) fields.branch = branch;
+  const out = setFields(text, fields);
+  return opts.note ? appendNote(out, opts.note) : out;
+}
+
+/** A claimed item's text set open, keeping its branch and pull request, with `lead` and where to continue in Notes. */
+function releasedText(id: string, lead: string): string {
+  const fm = readItem(id);
+  const branch = fm.branch || fm["claimed-by"] || "";
+  const fields: Record<string, string> = {
+    status: "open",
+    "claimed-by": "",
+    "claimed-at": "",
+  };
+  if (BRANCH.test(branch)) fields.branch = branch;
+  const where = BRANCH.test(branch)
+    ? ` Continue on branch ${branch}${fm.pr ? ` and pull request ${fm.pr}` : ""}.`
+    : "";
+  return appendNote(
+    setFields(readFileSync(itemPath(id), "utf8"), fields),
+    `${lead.replace(/\s*$/, "")}${/[.!?]$/.test(lead.trim()) ? "" : "."}${where}`,
+  );
+}
+
+/** The release note for `id` on `branch`: origin's copy when origin has the branch, else the local branch's, else null. */
+function noteOnBranch(branch: string, id: string): string | null {
+  if (!BRANCH.test(branch)) return null;
+  const path = `docs/release/changes/${id}.md`;
+  let fetched = false;
+  try {
+    git("fetch", "-q", "origin", branch);
+    fetched = true;
+  } catch {
+    /* no origin copy */
+  }
+  try {
+    return git("show", `${fetched ? "FETCH_HEAD" : branch}:${path}`);
+  } catch {
+    return null;
+  }
+}
+
+/** When a branch was last pushed: its newest commit's time, fetched from origin or read from the local origin ref. */
+function branchTip(branch: string, fetch: boolean): number | null {
+  if (!BRANCH.test(branch)) return null;
+  try {
+    if (fetch) {
+      git("fetch", "-q", "origin", branch);
+      return Date.parse(git("log", "-1", "--format=%cI", "FETCH_HEAD"));
+    }
+    return Date.parse(git("log", "-1", "--format=%cI", `origin/${branch}`));
+  } catch {
+    return null;
+  }
+}
+
+export interface Stale {
+  id: string;
+  branch: string;
+  last: number;
+  hours: number;
+}
+
+/**
+ * Claims gone quiet: claimed longer than twice the item's time box (4 hours
+ * when it names none) and, by the branch's newest commit (or the claim time
+ * when there is no branch), quiet that long too. A claim with neither time
+ * is left alone.
+ */
+export function staleClaims(
+  items: Item[],
+  now: number,
+  tip: (branch: string) => number | null,
+): Stale[] {
+  const out: Stale[] = [];
+  for (const i of items) {
+    if (i.status !== "claimed") continue;
+    const hours = timeBoxHours(i["time-box"]);
+    const limit = 2 * hours * 3600 * 1000;
+    const at = i["claimed-at"] ? Date.parse(i["claimed-at"]) : NaN;
+    if (!Number.isNaN(at) && now - at <= limit) continue;
+    const branch = i.branch || i["claimed-by"] || "";
+    const last = (branch ? tip(branch) : null) ?? at;
+    if (Number.isNaN(last) || now - last <= limit) continue;
+    out.push({ id: i.id, branch, last, hours });
+  }
+  return out;
+}
+
+/** Where `next` prints, and a hook tests use to run another caller between the claim and its push. */
+export interface NextIO {
+  out: (line: string) => void;
+  beforePush?: () => void;
+}
+
+const NEXT_USAGE =
+  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--no-pr] [--dry-run]';
+/** The subject of a new item branch's first commit; any other commit on the branch means another agent started. */
+const startSubject = (id: string): string =>
+  `${id}: start the branch with its release note`;
+
+/** Makes `branch` on origin from origin/main with one commit adding the item's release note, without touching the working tree. */
+function startBranch(id: string, branch: string): void {
+  const dir = mkdtempSync(join(tmpdir(), "pool-branch-"));
+  const env = { ...process.env, GIT_INDEX_FILE: join(dir, "index") };
+  const g = (args: string[], input?: string): string =>
+    execFileSync("git", args, {
+      encoding: "utf8",
+      env,
+      input,
+      stdio: ["pipe", "pipe", "pipe"],
+    }).trim();
+  try {
+    const blob = g(["hash-object", "-w", "--stdin"], releaseNote(id));
+    g(["read-tree", "origin/main"]);
+    g([
+      "update-index",
+      "--add",
+      "--cacheinfo",
+      `100644,${blob},docs/release/changes/${id}.md`,
+    ]);
+    const tree = g(["write-tree"]);
+    const commit = g([
+      "commit-tree",
+      tree,
+      "-p",
+      "origin/main",
+      "-m",
+      startSubject(id),
+    ]);
+    git("push", "-q", "origin", `${commit}:refs/heads/${branch}`);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+const day = (t: number): string => new Date(t).toISOString().slice(0, 10);
+const when = (t: number): string =>
+  new Date(t).toISOString().slice(0, 16).replace("T", " ") + " UTC";
+
+/**
+ * `npm run pool -- next`: releases quiet claims, takes the first claimable item
+ * at the caller's level or the nearest level below, claims it on main, starts
+ * its branch and opens its draft pull request. Returns an error or null.
+ */
+function next(
+  f: Record<string, string>,
+  io: NextIO,
+  env: NodeJS.ProcessEnv,
+): string | null {
+  const order = readOrder(POOL());
+  const tiers = readTiers(POOL());
+  const dry = !!f["dry-run"];
+  const now = Date.now();
+  // The agent of this checkout: named and given its tier by the tool, from
+  // what it says it is. `--tier` (or the older `--model`) and `--agent` are
+  // for an owner or CTO who wants to set them by hand.
+  const who = identify(f.as ?? "", tiers, identityFile(env), now, !dry);
+  const asked = f.tier ?? f.model ?? who.tier;
+  const level = levelOf(asked, tiers, order.levels);
+  const at = level ? order.levels.indexOf(level) : -1;
+  if (!level || at < 0)
+    return `${NEXT_USAGE}\nThe tiers are ${tiers.tiers.map((x) => x.name).join(", ")}.`;
+  const tier = tierOfLevel(level, tiers);
+  const levels = order.levels.slice(0, at + 1).reverse();
+  const prefix = branchPrefix(f["branch-prefix"], env);
+  const agent = oneLine(
+    f.agent
+      ? f.agent
+      : `${who.name} (${who.as ? `${who.as}, ` : ""}tier ${tier})`,
+  );
+  io.out(
+    `You are ${f.agent ? oneLine(f.agent) : who.name}, tier ${tier}${who.as ? ` (${who.as})` : ""}.`,
+  );
+  const template = join(process.cwd(), ".github", "PULL_REQUEST_TEMPLATE.md");
+  const startPage = join(POOL(), "START-A-BUILDER.md");
+  for (const p of [template, startPage])
+    if (!existsSync(p)) return `next needs ${p}, which is missing`;
+  const branchOf = (i: Item): string => i.branch || `${prefix}${i.id}`;
+  if (!BRANCH.test(prefix + "x"))
+    return `--branch-prefix "${prefix}" does not make a branch name`;
+  const read = (): Item[] =>
+    run(POOL(), true, new Set(), { staleCheck: false }).items;
+  const pick = (items: Item[]): Item | null => {
+    const onMain = new Set(
+      items.filter((i) => gateOpen(i.status)).map((i) => i.id),
+    );
+    const known = new Set(items.map((i) => i.id));
+    const cmp = makeOrder(items, order);
+    const ready = items.filter((i) => claimable(i, onMain, known)).sort(cmp);
+    for (const l of levels) {
+      const hit = ready.find((i) => i.model === l);
+      if (hit) return hit;
+    }
+    return null;
+  };
+  const none = `No item is ready for tier ${tier} or any tier below it.`;
+  const staleLine = (s: Stale): string =>
+    `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
+
+  if (dry) {
+    const items = read();
+    const stale = staleClaims(items, now, (b) => branchTip(b, false));
+    if (stale.length)
+      io.out(
+        "These releases go by the branch times this checkout already has; next itself fetches each branch first.",
+      );
+    for (const s of stale) {
+      io.out(`Would release ${s.id}: ${staleLine(s)}.`);
+      const i = items.find((x) => x.id === s.id);
+      if (i) {
+        i.status = "open";
+        if (!i.branch && BRANCH.test(s.branch)) i.branch = s.branch;
+      }
+    }
+    const item = pick(items);
+    if (!item) {
+      io.out(none);
+      return null;
+    }
+    const branch = branchOf(item);
+    io.out(`Would take: ${item.id} (${item.model}, p${item.priority})`);
+    io.out(`Title: ${item.title}`);
+    io.out(`File: docs/pool/items/${item.id}.md`);
+    io.out(`Branch: ${branch}`);
+    io.out(
+      item.pr
+        ? `Pull request: ${item.pr}`
+        : "Pull request: a draft would be opened",
+    );
+    let started = "";
+    try {
+      started = git("log", "--format=%s", `origin/main..origin/${branch}`);
+    } catch {
+      /* no branch yet */
+    }
+    if (started.split("\n").some((x) => x && x !== startSubject(item.id)))
+      io.out("continue: another agent started this item.");
+    io.out("Dry run: nothing was changed.");
+    return null;
+  }
+
+  let taken: Item | null = null;
+  let released: Stale[] = [];
+  onMain(
+    "pool-next",
+    () => {
+      taken = null;
+      released = staleClaims(read(), now, (b) => branchTip(b, true));
+      for (const s of released)
+        writeFileSync(
+          itemPath(s.id),
+          releasedText(s.id, `Released by next (${day(now)}): ${staleLine(s)}`),
+        );
+      const item = pick(read());
+      if (item) {
+        const text = claimText(item.id, branchOf(item), {
+          record: true,
+          note: agent
+            ? `Claimed by next for ${agent} (${when(now)}) on branch ${branchOf(item)}.`
+            : undefined,
+        });
+        if (text) writeFileSync(itemPath(item.id), text);
+        taken = item;
+      }
+      const ids = [...released.map((s) => s.id), ...(item ? [item.id] : [])];
+      if (!ids.length) return;
+      const { errors } = run(POOL(), false);
+      if (errors.length) throw new Error(errors.join("\n"));
+      const files = [
+        "docs/pool/INDEX.md",
+        ...ids.map((x) => `docs/pool/items/${x}.md`),
+      ];
+      // The check-in: one small file per agent, written with its first claim,
+      // so who is working outlives the session and needs no comment thread.
+      const card = join(POOL(), "agents", `${who.name}.json`);
+      if (item && !f.agent && !existsSync(card)) {
+        mkdirSync(join(POOL(), "agents"), { recursive: true });
+        writeFileSync(
+          card,
+          JSON.stringify(
+            { name: who.name, tier, as: who.as, checkedIn: who.at },
+            null,
+            2,
+          ) + "\n",
+        );
+        files.push(`docs/pool/agents/${who.name}.json`);
+      }
+      git("add", ...files);
+      if (!git("diff", "--cached", "--name-only")) return;
+      const parts = [
+        item ? `next takes ${item.id} (${branchOf(item)})` : "",
+        released.length
+          ? `releases ${released.map((s) => s.id).join(", ")}`
+          : "",
+      ].filter(Boolean);
+      git("commit", "-m", `pool: ${parts.join("; ")}`, "--", ...files);
+    },
+    io.beforePush,
+  );
+  for (const s of released) io.out(`Released ${s.id}: ${staleLine(s)}.`);
+  const item = taken as Item | null;
+  if (!item) {
+    io.out(none);
+    return null;
+  }
+  const branch = branchOf(item);
+  let started: string[] | null = null;
+  try {
+    git("fetch", "-q", "origin", branch);
+    started = git("log", "--format=%s", "origin/main..FETCH_HEAD")
+      .split("\n")
+      .filter(Boolean);
+  } catch {
+    startBranch(item.id, branch);
+  }
+  io.out(`Item: ${item.id}`);
+  io.out(`Title: ${item.title}`);
+  io.out(`File: docs/pool/items/${item.id}.md`);
+  io.out(
+    `Branch: ${branch} (to start: git fetch origin ${branch} && git checkout -B ${branch} origin/${branch})`,
+  );
+  let pr = item.pr;
+  if (!pr) {
+    const title = prTitle(item.id, item.title);
+    const body = prBody(
+      item.id,
+      git("show", `origin/main:docs/pool/items/${item.id}.md`),
+      readFileSync(template, "utf8"),
+      readFileSync(startPage, "utf8"),
+    );
+    const bodyFile = join(mkdtempSync(join(tmpdir(), "pool-pr-")), "body.md");
+    writeFileSync(bodyFile, body);
+    let why = "--no-pr was given";
+    if (!f["no-pr"])
+      try {
+        const said = execFileSync(
+          "gh",
+          [
+            "pr",
+            "create",
+            "--draft",
+            "--head",
+            branch,
+            "--base",
+            "main",
+            "--title",
+            title,
+            "--body-file",
+            bodyFile,
+          ],
+          { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+        );
+        const n = /\/pull\/(\d+)/.exec(said)?.[1];
+        if (n) pr = `#${n}`;
+        else why = `gh did not print a pull request address: ${oneLine(said)}`;
+      } catch (e) {
+        why = `gh could not open it: ${oneLine(e instanceof Error ? e.message : String(e)).slice(0, 200)}`;
+      }
+    if (pr) {
+      try {
+        mutate(
+          item.id,
+          () => {
+            const text = claimText(item.id, branch, { pr });
+            if (text) writeFileSync(itemPath(item.id), text);
+          },
+          `pool: ${item.id} draft ${pr}`,
+          false,
+        );
+      } catch (e) {
+        io.out(
+          `The draft is open but its number was not recorded (${e instanceof Error ? e.message : String(e)}): run npm run pool -- claim ${item.id} --branch ${branch} --pr ${pr.slice(1)}`,
+        );
+      }
+      io.out(`Pull request: ${pr} (draft)`);
+    } else {
+      io.out(`Pull request: not opened; ${why}.`);
+      io.out(`Pull request title: ${title}`);
+      io.out(`Pull request body file: ${bodyFile}`);
+      io.out(
+        `Open a draft pull request from ${branch} to main with that title and body, then record it: npm run pool -- claim ${item.id} --branch ${branch} --pr <number>`,
+      );
+    }
+  } else io.out(`Pull request: ${pr}`);
+  if (started?.some((x) => x !== startSubject(item.id)))
+    io.out(
+      "continue: another agent started this item. Read its pull request from top to bottom and the branch's commits before you change anything.",
+    );
+  return null;
+}
+
 /** Runs a subcommand; returns an error message or null. */
 export function command(
   argv: string[],
   env: NodeJS.ProcessEnv = process.env,
+  io: NextIO = { out: (l) => console.log(l) },
 ): string | null {
   const { pos, f } = flags(argv, env);
   const [cmd, id] = pos;
@@ -640,33 +1181,39 @@ export function command(
       return errors.length ? errors.join("\n") : null;
     }
     if (cmd === "claim") {
-      if (!id || !f.branch) return "usage: pool claim <id> --branch <branch>";
+      if (!id || !f.branch)
+        return "usage: pool claim <id> --branch <branch> [--pr N]";
+      const pr = f.pr ? `#${f.pr.replace(/^#/, "")}` : "";
       const edit = (): void => {
-        const fm = readItem(id);
-        if (fm.status === "claimed" && fm["claimed-by"] === f.branch) return;
-        if (fm.status === "claimed" || fm.status === "in-pr")
-          throw new Error(
-            `already claimed by ${fm["claimed-by"] || fm.pr}; take the next item`,
-          );
-        if (fm.status !== "open")
-          throw new Error(`${id} is ${fm.status}, not open`);
-        const waiting = ids(fm.after).filter(
-          (a) => !gateOpen(readItem(a).status),
-        );
-        if (waiting.length)
-          throw new Error(
-            `${id} waits on ${waiting.join(", ")}; take the top of Next up`,
-          );
-        writeFileSync(
-          itemPath(id),
-          setFields(readFileSync(itemPath(id), "utf8"), {
-            status: "claimed",
-            "claimed-by": f.branch,
-            "claimed-at": new Date().toISOString(),
-          }),
-        );
+        const text = claimText(id, f.branch, { pr });
+        if (text) writeFileSync(itemPath(id), text);
       };
       mutate(id, edit, `pool: claim ${id} (${f.branch})`, noPush);
+    } else if (cmd === "release") {
+      const reason = oneLine(f.reason ?? "");
+      if (!id || !reason || reason.startsWith("--"))
+        return 'usage: pool release <id> --reason "<one sentence>"';
+      const edit = (): void => {
+        const fm = readItem(id);
+        if (fm.status !== "claimed")
+          throw new Error(`${id} is ${fm.status}, not claimed`);
+        writeFileSync(
+          itemPath(id),
+          releasedText(
+            id,
+            `Released (${new Date().toISOString().slice(0, 10)}): ${reason}`,
+          ),
+        );
+      };
+      mutate(id, edit, `pool: release ${id}`, noPush);
+    } else if (cmd === "check-in") {
+      const tiers = readTiers(POOL());
+      const who = identify(f.as ?? "", tiers, identityFile(env), Date.now());
+      io.out(
+        `You are ${who.name}, tier ${who.tier}${who.as ? ` (${who.as})` : ""}.`,
+      );
+    } else if (cmd === "next") {
+      return next(f, io, env);
     } else if (cmd === "status") {
       const st = pos[2];
       if (
@@ -678,6 +1225,14 @@ export function command(
         return `${st} is allowed only with --by=cto (or POOL_BY=cto in the environment); work seen in the running game is closed with pool seen`;
       const edit = (): void => {
         const fm = readItem(id);
+        if (st === "in-pr") {
+          const branch = fm.branch || fm["claimed-by"];
+          const note = branch ? noteOnBranch(branch, id) : null;
+          if (note?.includes(NOTE_PLACEHOLDER))
+            throw new Error(
+              `docs/release/changes/${id}.md on ${branch} still says "${NOTE_PLACEHOLDER}" Write the release note, push it, then set the item in-pr.`,
+            );
+        }
         // A second merge of a checked or closed item must not undo its check.
         if (
           st === "merged" &&
@@ -760,19 +1315,29 @@ export function command(
       );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ... [--notes ...] (the four body flags are required for priority 1 and 2)";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
       f.size = f.size || "M";
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);
-        if (!f.title) throw new Error("--title is required");
-        // A priority 1 or 2 item left as the template fails the pool check on
-        // main, which every session's gate runs; refuse it before the push.
-        const missing = BODY_FLAGS.filter((name) => !f[name]);
-        if (f.priority !== "3" && missing.length)
+        const missing = ADD_FLAGS.filter((name) => !f[name]);
+        if (missing.length)
           throw new Error(
-            `a priority ${f.priority} item needs its body: missing ${missing.map((n) => `--${n}`).join(", ")}`,
+            `an item at the standard needs every field and section: missing ${missing.map((n) => `--${n}`).join(", ")}`,
           );
-        writeFileSync(itemPath(id), TEMPLATE(f, id));
+        const text = TEMPLATE(f, id);
+        const fm = parseFrontMatter(text) ?? {};
+        const problems = [
+          ...validate(`${id}.md`, fm),
+          ...standardProblems(
+            `${id}.md`,
+            fm,
+            text,
+            repoAt(join(POOL(), "..", "..")),
+            readRoots(POOL()),
+          ),
+        ];
+        if (problems.length) throw new Error(problems.join("\n"));
+        writeFileSync(itemPath(id), text);
       };
       mutate(id, edit, `pool: add ${id}`, noPush);
     } else return `unknown subcommand: ${cmd}`;
@@ -787,43 +1352,53 @@ if (
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
   const sub = process.argv[2];
-  if (sub && !sub.startsWith("-")) {
-    const err = command(process.argv.slice(2));
-    if (err) {
-      console.error(err);
+  if (sub === "audit") {
+    const { f } = flags(process.argv.slice(3));
+    void import("./audit").then((m) => {
+      const rows = m.auditPool(join(process.cwd(), "docs", "pool"));
+      const json = `${JSON.stringify(rows, null, 2)}\n`;
+      if (f.out) writeFileSync(f.out, json);
+      else process.stdout.write(json);
+    });
+  } else {
+    if (sub && !sub.startsWith("-")) {
+      const err = command(process.argv.slice(2));
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      }
+      console.log(`pool ${sub} done`);
+      process.exit(0);
+    }
+    const check = process.argv.includes("--check");
+    // `--changed`: the writing-quality checks cover only the items named in
+    // CHANGED_FILES (one path per line), so a change answers for its own items.
+    const qualityOnly = process.argv.includes("--changed")
+      ? new Set(
+          (process.env.CHANGED_FILES ?? "")
+            .split("\n")
+            .filter((f) => f.startsWith("docs/pool/items/"))
+            .map((f) => f.slice("docs/pool/items/".length)),
+        )
+      : undefined;
+    const poolDir = join(process.cwd(), "docs", "pool");
+    const home = onIndexHome();
+    const { errors, warnings } = run(poolDir, check, qualityOnly, {
+      staleCheck: false,
+      writeIndex: home,
+    });
+    if (check) errors.push(...indexCheck(poolDir));
+    if (!check && warnings.length) console.warn(warnings.join("\n"));
+    if (errors.length) {
+      console.error(errors.join("\n"));
       process.exit(1);
     }
-    console.log(`pool ${sub} done`);
-    process.exit(0);
+    console.log(
+      check
+        ? "pool items are valid and the index is main's"
+        : home
+          ? "pool index written"
+          : "pool items are valid; the index is written on main only, by the pool index workflow",
+    );
   }
-  const check = process.argv.includes("--check");
-  // `--changed`: the writing-quality checks cover only the items named in
-  // CHANGED_FILES (one path per line), so a change answers for its own items.
-  const qualityOnly = process.argv.includes("--changed")
-    ? new Set(
-        (process.env.CHANGED_FILES ?? "")
-          .split("\n")
-          .filter((f) => f.startsWith("docs/pool/items/"))
-          .map((f) => f.slice("docs/pool/items/".length)),
-      )
-    : undefined;
-  const poolDir = join(process.cwd(), "docs", "pool");
-  const home = onIndexHome();
-  const { errors, warnings } = run(poolDir, check, qualityOnly, {
-    staleCheck: false,
-    writeIndex: home,
-  });
-  if (check) errors.push(...indexCheck(poolDir));
-  if (!check && warnings.length) console.warn(warnings.join("\n"));
-  if (errors.length) {
-    console.error(errors.join("\n"));
-    process.exit(1);
-  }
-  console.log(
-    check
-      ? "pool items are valid and the index is main's"
-      : home
-        ? "pool index written"
-        : "pool items are valid; the index is written on main only, by the pool index workflow",
-  );
 }

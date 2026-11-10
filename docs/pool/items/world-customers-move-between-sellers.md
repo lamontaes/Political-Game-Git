@@ -6,20 +6,35 @@ kind: feature
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5210
 blocked-on:
+after:
+lead: jobs
+model: opus
+effort: high
+root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** A seller's customers change only when a business opens or closes (`splitMarketDemand` runs at entry only), so layoffs run at 0.04% of jobs a month against 1.4% in JOLTS. Re-split each residents' purchase share monthly by sellers' prices and capacity, so a firm that loses customers shrinks and lays people off. Prove it in a one-year run of the played world in a drawn place and a seed the builder did not choose, naming the records the change touched. File anything found along the way as its own pool item.
+**What.** A seller's customers change only when a business opens or closes (`splitMarketDemand` runs at entry only), so layoffs run at 0.04% of jobs a month against 1.4% in JOLTS. The first idea was to re-split each residents' purchase share monthly by sellers' prices and capacity, so a firm that loses customers shrinks and lays people off. Built and measured on Oct 16, it moves almost nothing: in Rush Valley, Utah (seed cs-1, one year) the median price spread among sellers of a kind is 0.06 percent, because every seller's price follows the same wage and price indexes. The Oct 25 ruling under "simulate it, don't ask" is that a household moves its spending between sellers by the shared chooser on price, travel time, capacity and what it has heard, with no dice. Which differences between sellers actually exist in the records to move customers (a seller's own unit labor cost, its location, its hours, a rival's opening) is the open question.
 
-**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance.
+**Cause.** Needs cause. Looked at splitMarketDemand in src/core2/business-books.ts (called from src/core2/modules/residents.ts near line 2516, at entry only) and the item's Oct 16 and Oct 20 measurements: price and capacity cannot move customers on today's data. The name moveCountedCustomers in the old notes is not on main. Which cause differs between sellers and is buildable from today's records is not found.
 
-**Done when.** In a one-year run of a drawn town, layoffs at shrinking firms follow their lost customers, by business and purchase-share record ids, and the layoff rate is checked against JOLTS. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
+**Fix.** None until the cause is found.
 
-**Files.** src/core2/modules/residents.ts, src/core2/modules/business.ts
+**Time box.** 4 hours for one session of the Opus model, to pick the cause that differs between sellers and write it into this item as a Found-in-code cause with a fix. When it runs out, push what is known and stop.
+
+**Rules.** No dice (a death or a move comes from causes); an effect is a read; one rule, all 56 places; one model, two tiers; the chain is the acceptance. The Nov 8 ruling keeps the JOLTS layoff stopgap until firms have their own demand shocks; the JOLTS rate is checked, never a target.
+
+**Done when.** A second session (not the builder) reads the cause written into this item and checks it in a one-year run of the played world in a drawn place and a seed the builder did not choose (named): layoffs at shrinking firms follow their lost customers, by business and purchase-share record ids, and the layoff rate is reported beside JOLTS. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/residents.ts, src/core2/modules/business.ts, src/core2/business-books.ts
 
 **Notes.** Split out of world-needs-world-98 (the "Needs from other sessions" section of docs/coordination/world.md), checked against main on Oct 16, 2026.
 

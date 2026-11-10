@@ -152,11 +152,10 @@ try {
     // Issues is law cards by subject (owner, Oct 24): a card opens its law.
     if (tab === "Issues") {
       const before = await page.locator("#sheet-body").innerText();
-      // The first law is already open beside its subject; another subject opens another.
+      // The first law is already open beside the list; another subject filters it to others.
       await page
-        .locator("#sheet-body .issues-screen > .roster .roster-row")
-        .nth(1)
-        .click();
+        .locator("#sheet-body select.issue-filter")
+        .selectOption({ index: 1 });
       await page.waitForFunction(
         (text) => document.getElementById("sheet-body").innerText !== text,
         before,
