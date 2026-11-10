@@ -172,6 +172,18 @@ describe("the run", () => {
     expect(run.sample).toEqual({ a: ["r1"] });
   });
 
+  it("queues what a rewrite rule flags, still playing, though another line could stand in", () => {
+    const run = runRules(
+      [{ ...bad, status: "rewrite" }],
+      [piece("a", "A bad line."), piece("b", "A fine line.")],
+      NO_GRADES,
+    );
+    // An enforced rule would pull "a" here, because "b" serves the same spot.
+    expect(run.pulled).toEqual({});
+    expect(run.waiting).toEqual({ a: ["r1"] });
+    expect(run.totals.playableAfter).toBe(run.totals.playableBefore);
+  });
+
   it("identifies a spot by what the pickers match on", () => {
     const one = piece("a", "x", [
       {

@@ -19,7 +19,12 @@
  */
 import { heldByGrades, type PartGradeLedger } from "./english-grades";
 
-export type RuleStatus = "enforced" | "sample" | "awaiting-test";
+/**
+ * `rewrite`: the lines the rule flags keep playing and go on the rewrite queue
+ * (the `waiting` list); a rewrite that passes the rules replaces them (CTO,
+ * Nov 10, 2026, on the four journal lines whose first rewrites broke the limit).
+ */
+export type RuleStatus = "enforced" | "sample" | "rewrite" | "awaiting-test";
 
 export type RuleTest =
   | { readonly kind: "phrases"; readonly phrases: readonly string[] }
@@ -285,7 +290,9 @@ export function runRules(
 ): RunResult {
   const enforced = rules.filter((rule) => rule.status === "enforced");
   const samples = rules.filter((rule) => rule.status === "sample");
+  const rewrites = rules.filter((rule) => rule.status === "rewrite");
   const broken = new Map<string, string[]>();
+  const queued = new Map<string, string[]>();
   const sampled = new Map<string, string[]>();
   const conflicts: { key: string; rule: string }[] = [];
   const perRule = new Map<
@@ -328,6 +335,17 @@ export function runRules(
         list.push(rule.id);
         sampled.set(piece.key, list);
       }
+    for (const rule of rewrites)
+      if (ruleFlags(rule, piece)) {
+        const row = count(rule.id);
+        row.flagged += 1;
+        row.examples.push(piece.key);
+        if (!held.has(piece.key)) {
+          const list = queued.get(piece.key) ?? [];
+          list.push(rule.id);
+          queued.set(piece.key, list);
+        }
+      }
   }
   // Spots: who can say what, and which of them is safe (plays, breaks nothing).
   const spotPieces = new Map<string, RulePiece[]>();
@@ -349,6 +367,12 @@ export function runRules(
     const ok = spotsOf(piece).every((spot) => spotHasSafe.get(spot));
     (ok ? pulled : waiting).set(key, ids);
     for (const id of ids) count(id)[ok ? "pulled" : "waiting"] += 1;
+  }
+  // A rewrite rule never pulls: its lines wait, still playing, unless an enforced rule pulled them.
+  for (const [key, ids] of queued) {
+    if (pulled.has(key)) continue;
+    waiting.set(key, [...(waiting.get(key) ?? []), ...ids]);
+    for (const id of ids) count(id).waiting += 1;
   }
   let playableBefore = 0;
   let playableAfter = 0;
