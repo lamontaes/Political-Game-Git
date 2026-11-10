@@ -3,7 +3,7 @@ id: laws-grocery-exemption-local-base-research
 title: "Which states' grocery exemption also spares local sales taxes: a sourced per-state field"
 area: laws
 kind: research
-priority: 4
+priority: 3
 size: S
 status: open
 standard: 2
