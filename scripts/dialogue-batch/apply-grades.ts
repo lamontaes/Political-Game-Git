@@ -12,6 +12,13 @@
  * names no item stops the run with the file and number, so no grade is
  * silently lost.
  *
+ * Counting is by batch and row: folding the same files again changes
+ * nothing. After a fold, run `npm run words:rules` (scripts/words/run-rules.ts):
+ * those two commands are the whole update. The first records what he graded;
+ * the second runs every rule he has given over every line and writes the list
+ * of lines the game does not play (data/english/pulled.json). There is no
+ * map, reach table or odds file to rebuild: a line plays or it does not.
+ *
  * A development tool. It never words anything.
  */
 import { execSync } from "node:child_process";
@@ -21,8 +28,7 @@ import type {
   CalibrationTable,
   RunningGrade,
 } from "../../src/english/calibration";
-import { buildReach, type PieceMakeup } from "../../src/english/grade-reach";
-import { VOICE_VERDICT, writeGradeMap } from "./grade-map";
+import { readBankPieces } from "../words/run-rules";
 import {
   type AxisGradeCounts,
   heldByGrades,
@@ -30,6 +36,9 @@ import {
   type PartGradeCounts,
   type PartGradeLedger,
 } from "../../src/english/english-grades";
+
+/** The whole-line strength a voice grade needs to count as a verdict in the ledger. */
+export const VOICE_VERDICT = 0.25;
 
 export const BATCH_DIR = "data/english/batches";
 export const GRADE_DIR = "data/english/grades";
@@ -299,18 +308,17 @@ const clamp = (value: number, low: number, high: number) =>
 
 /**
  * Folds the bench grades of each batch not yet folded into the calibration
- * table, a small step each (`parameters.step`): a line's axes move its
- * pieces' running grades; trait fit moves its speaker's traits' pull toward
- * the line's bearing; "too long" or "too short" moves the register's target
- * length and the speaker's traits' length pull; a preferred piece takes a 5;
- * naturalness moves the move pair. Pure; returns a new table. Weights only.
+ * table, a small step each (`parameters.step`): trait fit moves its speaker's
+ * traits' pull toward the line's bearing; "too long" or "too short" moves the
+ * register's target length and the speaker's traits' length pull;
+ * naturalness moves the move pair. Pure; returns a new table. Weights only,
+ * and none of them is a grade of a line.
  */
 export function foldCalibration(
   graded: readonly GradedBatch[],
   base: CalibrationTable,
 ): CalibrationTable {
   const step = base.parameters.step!.value;
-  const pieces: Record<string, RunningGrade> = { ...base.pieces };
   const movePairs: Record<string, RunningGrade> = { ...base.movePairs };
   const traits: Record<
     string,
@@ -351,16 +359,9 @@ export function foldCalibration(
           numeric[axisKey(name)] = value;
         } else if (axisKey(name) === "length") length = value.toLowerCase();
       }
-      const quality = Object.entries(numeric)
-        .filter(([name]) => name !== "traitfit" && name !== "length")
-        .map(([, value]) => value);
-      const mean = quality.length
-        ? quality.reduce((sum, value) => sum + value, 0) / quality.length
-        : undefined;
-      if (mean !== undefined)
-        for (const piece of new Set(line.parts))
-          addRunning(pieces, piece, mean);
-      if (typeof row.prefer === "string") addRunning(pieces, row.prefer, 5);
+      // A grade of a line's quality moves no weight: a line plays or it does
+      // not (the ledger and the rules). Only the pair, the speaker's traits
+      // and the register's length move.
       if (numeric.naturalness !== undefined && line.move && line.previousMove)
         addRunning(
           movePairs,
@@ -415,7 +416,7 @@ export function foldCalibration(
     }
     if (any) folded.push(id);
   }
-  return { ...base, folded, traits, registers, pieces, movePairs };
+  return { ...base, folded, traits, registers, movePairs };
 }
 
 export const COVERAGE_FILE = "data/english/coverage.json";
@@ -503,8 +504,9 @@ export function sumGradedCoverage(
 
 /**
  * A grade file of span grades (the voice-note reader's output: rows of
- * `{ key, spans }`). The grade map reads it (`grade-map.ts`); the ledger's
- * fold of whole-line grades leaves it alone.
+ * `{ key, spans }`). Only a span-grade file's whole-line verdicts reach the
+ * ledger (`withVoiceGrades`); the ledger's fold of whole-line grades leaves
+ * the file alone.
  */
 export function isSpanGradeFile(path: string): boolean {
   const rows = rowsOf(JSON.parse(readFileSync(path, "utf8")));
@@ -692,27 +694,6 @@ function without(
 }
 
 export const PARTS_DIR = "data/english/parts";
-export const REACH_FILE = "data/english/grade-reach.json";
-
-/** Every bank piece's makeup by key, read from the banks. */
-export function readPieces(dir = PARTS_DIR): Map<string, PieceMakeup> {
-  const pieces = new Map<string, PieceMakeup>();
-  for (const name of readdirSync(dir)
-    .filter((entry) => entry.endsWith(".json"))
-    .sort()) {
-    const bank = JSON.parse(readFileSync(join(dir, name), "utf8")) as {
-      parts?: (Omit<PieceMakeup, "bank"> & { key: string })[];
-    };
-    for (const part of bank.parts ?? [])
-      pieces.set(part.key, {
-        bank: basename(name, ".json"),
-        move: part.move,
-        ...(part.tag ? { tag: part.tag } : {}),
-        ...(part.bearing ? { bearing: part.bearing } : {}),
-      });
-  }
-  return pieces;
-}
 
 /**
  * Adds the owner's voice-note grades (span-grade files) to a fold: a line his
@@ -835,24 +816,14 @@ function main() {
   console.log(
     `Wrote ${LEDGER_FILE}: ${ledger.batches.length} graded batches, ${Object.keys(ledger.parts).length} parts graded, ${held.length} held back.`,
   );
-  // Every grade reaches the pieces sharing its pattern, voice and register
-  // (`src/english/grade-reach.ts`): the profile and group sums the engine reads.
-  const pieces = readPieces();
-  const reach = buildReach(pieces, ledger, table.registerClasses ?? {});
-  writeFileSync(REACH_FILE, `${JSON.stringify(reach, null, 2)}\n`);
-  execSync(`npx prettier --write ${REACH_FILE}`, { stdio: "ignore" });
-  console.log(
-    `Wrote ${REACH_FILE}: ${Object.keys(reach.groups).length} groups reaching ${Object.keys(reach.profiles).length} pieces.`,
-  );
-  // Every graded span and writing rule scores every line on the heat map
-  // (`src/english/grade-map.ts`).
-  writeGradeMap();
-  // The ledger is the only gate: a bank part plays unless the grades hold it.
-  const heldInBanks = [...pieces.keys()].filter((key) =>
-    heldByGrades(key, ledger),
+  // The ledger and the rules are the only gates: a bank part plays unless the
+  // grades hold it or a rule pulled it (`npm run words:rules`).
+  const pieces = readBankPieces();
+  const heldInBanks = pieces.filter((piece) =>
+    heldByGrades(piece.key, ledger),
   ).length;
   console.log(
-    `Banks in ${PARTS_DIR}: ${pieces.size - heldInBanks} parts play, ${heldInBanks} held by the grades.`,
+    `Banks in ${PARTS_DIR}: ${pieces.length - heldInBanks} parts play, ${heldInBanks} held by the grades. Now run: npm run words:rules`,
   );
 }
 
