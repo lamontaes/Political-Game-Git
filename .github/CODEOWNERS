@@ -253,6 +253,7 @@
 /src/core2/closeness.ts @lamontaes
 /src/core2/encounters.ts @lamontaes
 /src/core2/knowledge-retention.ts @lamontaes
+/src/core2/event-id-retention.ts @lamontaes
 /src/core2/estates.ts @lamontaes
 /src/core2/sibling-births.ts @lamontaes
 /src/core2/retirement-claim.ts @lamontaes

@@ -29,6 +29,7 @@ import {
 import { votesOf } from "./record";
 import { leanOf } from "./legislature";
 import { viewOn } from "./views";
+import { bookkeeping } from "../bookkeeping";
 import { ageOnDate } from "../kernel/dates";
 import { scoreOffers, decisionFromScores } from "../choice";
 import rows from "../data/candidacy/parameters.json" with { type: "json" };
@@ -1810,6 +1811,35 @@ function candidacyDay(api: CoreAPI): void {
   }
 }
 
+/**
+ * Keep results, not their history (owner, Oct 7, Nov 5, Nov 8): a person's
+ * decision not to run in a race decided more than
+ * candidacyDecisionRetentionDays ago leaves the table on the first of a
+ * month, in play. Every reader asks about a race still being run (who
+ * filed, who was asked, the incumbent's own choice) or about those who ran:
+ * demotion keeps a runner full until their race, the candidate pool reads
+ * past runners from the weighed rows, and the dev path check reads the
+ * holder's own decision to run. Those all stay. Kept, the declined decisions
+ * were 28,733 of 30,181 rows at Montpelier, Vermont, year 4 (27 MB as JSON).
+ * With bookkeeping on (tests, proofs) every decision stays.
+ */
+function dropPastNonRunners(api: CoreAPI): void {
+  if (bookkeeping() || !api.state.date.endsWith("-01")) return;
+  if (!api.state.modules.has(ELECTIONS_MODULE_ID)) return;
+  const contests = api.moduleState(ELECTIONS_MODULE_ID).table("contests");
+  const before = addDays(
+    api.state.date,
+    -api.parameter("candidacyDecisionRetentionDays"),
+  );
+  const decisions = table(api);
+  for (const row of [...(decisions.rows() as unknown as CandidacyDecision[])]) {
+    if (row.run) continue;
+    const contest = contests.get(row.contestId) as unknown as
+      { electionDate: string } | undefined;
+    if (contest && contest.electionDate < before) decisions.remove(row.id);
+  }
+}
+
 export const candidacyModule: CoreModule = {
   id: CANDIDACY_MODULE_ID,
   state: {
@@ -1824,6 +1854,7 @@ export const candidacyModule: CoreModule = {
   },
   onDay: (api) => {
     candidacyDay(api);
+    dropPastNonRunners(api);
   },
   eventKinds: ["scene.reply"],
   onEvent: (api, event) => {
