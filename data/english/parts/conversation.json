@@ -24079,10 +24079,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-very-liberal.i-ll-be-honest-with-you-i-m-about-as-liberal-as-they-come",
+      "key": "conversation.own-view-raise-very-liberal.im-about-as-liberal-as-they-come",
       "move": "own-view-raise-very-liberal",
       "kind": "spoken",
-      "text": "I'll be honest with you. I'm about as liberal as they come.",
+      "text": "I'm about as liberal as they come.",
       "uses": [
         {
           "move": "own-view-raise-very-liberal",
@@ -24101,10 +24101,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-very-liberal.might-as-well-say-it-i-m-far-over-on-the-liberal-side",
+      "key": "conversation.own-view-raise-very-liberal.im-far-over-on-the-liberal-side",
       "move": "own-view-raise-very-liberal",
       "kind": "spoken",
-      "text": "Might as well say it. I'm far over on the liberal side.",
+      "text": "I'm far over on the liberal side.",
       "uses": [
         {
           "move": "own-view-raise-very-liberal",
@@ -24233,10 +24233,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-moderate.i-don-t-pick-a-side-i-take-each-thing-as-it-comes",
+      "key": "conversation.own-view-raise-moderate.i-take-each-thing-as-it-comes",
       "move": "own-view-raise-moderate",
       "kind": "spoken",
-      "text": "I don't pick a side. I take each thing as it comes.",
+      "text": "I take each thing as it comes.",
       "uses": [
         {
           "move": "own-view-raise-moderate",
@@ -24343,10 +24343,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-very-conservative.i-ll-be-honest-with-you-i-m-about-as-conservative-as-they-come",
+      "key": "conversation.own-view-raise-very-conservative.im-about-as-conservative-as-they-come",
       "move": "own-view-raise-very-conservative",
       "kind": "spoken",
-      "text": "I'll be honest with you. I'm about as conservative as they come.",
+      "text": "I'm about as conservative as they come.",
       "uses": [
         {
           "move": "own-view-raise-very-conservative",
@@ -24365,10 +24365,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-very-conservative.might-as-well-say-it-i-m-far-over-on-the-conservative-side",
+      "key": "conversation.own-view-raise-very-conservative.im-far-over-on-the-conservative-side",
       "move": "own-view-raise-very-conservative",
       "kind": "spoken",
-      "text": "Might as well say it. I'm far over on the conservative side.",
+      "text": "I'm far over on the conservative side.",
       "uses": [
         {
           "move": "own-view-raise-very-conservative",
@@ -24409,10 +24409,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-not-sure.i-couldn-t-tell-you-where-i-stand-politically-i-don-t-follow-it-much",
+      "key": "conversation.own-view-raise-not-sure.i-dont-follow-politics-much-honestly",
       "move": "own-view-raise-not-sure",
       "kind": "spoken",
-      "text": "I couldn't tell you where I stand, politically. I don't follow it much.",
+      "text": "I don't follow politics much, honestly.",
       "uses": [
         {
           "move": "own-view-raise-not-sure",
@@ -24431,10 +24431,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-not-sure.politics-i-keep-out-of-it-i-couldn-t-say-what-i-am",
+      "key": "conversation.own-view-raise-not-sure.politics-i-keep-out-of-it",
       "move": "own-view-raise-not-sure",
       "kind": "spoken",
-      "text": "Politics? I keep out of it. I couldn't say what I am.",
+      "text": "Politics? I keep out of it.",
       "uses": [
         {
           "move": "own-view-raise-not-sure",
@@ -24453,10 +24453,10 @@
       }
     },
     {
-      "key": "conversation.own-view-raise-not-sure.i-haven-t-made-up-my-mind-where-i-stand-to-be-honest",
+      "key": "conversation.own-view-raise-not-sure.i-havent-made-up-my-mind-yet",
       "move": "own-view-raise-not-sure",
       "kind": "spoken",
-      "text": "I haven't made up my mind where I stand, to be honest.",
+      "text": "I haven't made up my mind yet.",
       "uses": [
         {
           "move": "own-view-raise-not-sure",

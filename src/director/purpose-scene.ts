@@ -25,13 +25,17 @@ import {
   type TownHallRow,
 } from "../core2/modules/meetings";
 import { viewOn } from "../core2/modules/views";
-import { addDays, makeIsoDate } from "../core2/kernel/dates";
+import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
 import {
   isExplicitlyControlledPersonV1,
   playerClockFrontierV1,
 } from "../core2/life";
-import { corePlaceByJurisdictionId } from "../core2/place-lookup";
+import {
+  corePlaceByJurisdictionId,
+  coreStateKeyOfJurisdictionId,
+  coreStateName,
+} from "../core2/place-lookup";
 import { applyCoreEvent, coreAPI } from "../core2/state";
 import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
@@ -43,8 +47,15 @@ import {
   topicInSentence,
 } from "../english/policy-names";
 import { dollars } from "../english/bill-sections";
+import { lateSaid, moneySaid, monthsOfRentDays } from "../english/count-words";
 import { NOTICE_SERVED_EVENT } from "../core2/modules/housing";
-import { moneySaid } from "../english/count-words";
+import {
+  NEWS_MODULE_ID,
+  NEWS_READ,
+  storyOfReadEvent,
+  type Story,
+} from "../core2/modules/news";
+import { MOVED_AWAY_EVENT, departureOf } from "../core2/modules/moves";
 import { disasterSaid, homeSaid } from "../english/disaster-words";
 import { withArticle } from "../english/journal-words";
 import { JOB_OFFERED_EVENT } from "../core2/modules/jobs";
@@ -67,7 +78,19 @@ import {
   type TreeReply,
 } from "./scene-talk";
 import type { Fact } from "../english/scene-talk-words";
+import { custodyFacts } from "./custody-facts";
+import { meetingFacts } from "./meeting-facts";
+import { reunionFacts } from "./reunion-facts";
+import { letterFacts } from "./letter-facts";
+import { celebrationFacts } from "./celebration-facts";
+import { gatheringFacts } from "./gathering-facts";
 import { chooseVariant, favorsGiven, type VariantChoice } from "./arc-variant";
+
+/** A state's key begins with its country (`US-KY`); the rest is its USPS code. */
+const STATE_KEY_PREFIX = "US-";
+
+/** The moves engine's basis for a move to somewhere else in the same state. */
+const STATE_BASIS = "state";
 
 /** The public-action engine's record of a rally forming (`civic.rally`). */
 const RALLY_EVENT = "civic.rally";
@@ -93,7 +116,7 @@ import {
 import { closenessBetween } from "../core2/closeness";
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
-import { properName, spoken, spokenDate } from "./words";
+import { properName, spoken, spokenDate, stateInSentence } from "./words";
 import { giveInauguralAddress, inauguralStand } from "./inaugural-address";
 import {
   ADDRESS_KEEPS,
@@ -214,6 +237,28 @@ export function purposeScene(
     skipped ??= result;
   }
   return skipped;
+}
+
+/**
+ * Where a move went, as people name the place: a town or county by its
+ * jurisdiction; for a move to "somewhere in the state" (basis `state`, the
+ * state the person already lives in), another part of the state, by its name
+ * ("another part of Kentucky", "another part of the U.S. Virgin Islands").
+ * Null for an id that names no place.
+ */
+export function destinationSaid(
+  destinationId: string,
+  basis: string,
+): string | null {
+  const stateKey = coreStateKeyOfJurisdictionId(destinationId);
+  const name = stateKey
+    ? coreStateName(stateKey.slice(STATE_KEY_PREFIX.length))
+    : null;
+  if (name && basis === STATE_BASIS)
+    return `another part of ${stateInSentence(name)}`;
+  const place = corePlaceByJurisdictionId(destinationId as never);
+  if (place) return spoken(place);
+  return name ? stateInSentence(name) : null;
 }
 
 /**
@@ -414,22 +459,177 @@ function composeBinding(
         sourceRecordIds: ids,
       };
   }
-  // A notice to pay or leave (housing.ts): what the household owes, to the
-  // dollar, and the day it must pay by.
+  // A notice to pay or leave (housing.ts): what the household owes as people
+  // say it ("about $400"), how long it has gone unpaid, whether the shortfall
+  // is small or deep against the rent, and the day it must pay by. The lines
+  // are worded to fit all of it (owner, Nov 8 playtest: "that far behind" of
+  // a $14 shortfall).
   if (record?.kind === NOTICE_SERVED_EVENT) {
     const ids = [moment.causeId, said.caseId ?? moment.causeId];
     const owed = Number(said.owedMinor);
-    if (owed > P.zero)
-      facts.owed = {
-        text: dollars(Math.round(owed / P.minorPerDollar) * P.minorPerDollar),
-        sourceRecordIds: ids,
-      };
+    const rent = Number(said.rentMinor);
+    if (owed > P.zero) {
+      facts.owed = { text: moneySaid(owed), sourceRecordIds: ids };
+      if (rent > P.zero) {
+        const months = owed / rent;
+        // stopgapId: SG-WORDS-notice-shortfall-bands
+        const gap = rulesFile.noticeShortfall;
+        if (months < gap.littleBelow.value)
+          facts["short-little"] = { text: "yes", sourceRecordIds: ids };
+        else if (months >= gap.deepFrom.value)
+          facts["short-deep"] = { text: "yes", sourceRecordIds: ids };
+      }
+    }
+    // How long behind: the days since the first missed payment, or the
+    // months of rent owed where that is longer (two rents missed is two
+    // months behind, however recent the first of them).
+    const behind = Math.max(
+      said.unpaidSince
+        ? daysBetweenText(said.unpaidSince, record.date)
+        : P.zero,
+      rent > P.zero && owed > P.zero ? monthsOfRentDays(owed / rent) : P.zero,
+    );
+    if (behind > P.zero)
+      facts.late = { text: lateSaid(behind), sourceRecordIds: ids };
     if (said.cureBy)
       facts.deadline = {
         text: spokenDate(said.cureBy, core.date),
         sourceRecordIds: ids,
       };
   }
+  // A story someone in the household read (news.ts, `news.read`): what it was
+  // about, as the catalog names it, and the paper that ran it. The lines name
+  // the story; a story the catalog cannot name has no scene (the scene is
+  // skipped, never worded as "something"). stopgapId:
+  // SG-WORDS-story-read-talk-moves-nothing (the talk moves no view).
+  const storyId =
+    record?.kind === NEWS_READ ? storyOfReadEvent(record.id) : null;
+  const about =
+    storyId && record?.topic ? (questionAbout(record.topic) ?? cause) : null;
+  if (storyId && about) {
+    const story = core.modules.has(NEWS_MODULE_ID)
+      ? (coreAPI(core as CoreState)
+          .moduleState(NEWS_MODULE_ID)
+          .table("stories")
+          .get(storyId) as unknown as Story | undefined)
+      : undefined;
+    const cited = [moment.causeId, storyId];
+    facts.story = { text: about, sourceRecordIds: cited };
+    // A story that a law took effect says so: the lines can name the change.
+    if (said.lawId)
+      facts["took-effect"] = { text: "yes", sourceRecordIds: cited };
+    const printer = story ? core.organizations.get(story.outletId) : undefined;
+    if (printer)
+      facts.outlet = {
+        text: properName(printer.name),
+        sourceRecordIds: [...cited, printer.id],
+      };
+  }
+  // Someone the player knows who has moved away (moves.ts, `person.moved-away`):
+  // where they went, who went with them, and why when the records name a
+  // reason (the rows of `departureWhy`, stopgapId:
+  // SG-WORDS-moving-goodbye-reason-rows); how they stood to the player.
+  const departure =
+    record?.kind === MOVED_AWAY_EVENT ? departureOf(record.facts) : null;
+  if (departure) {
+    const cited = [moment.causeId, departure.id];
+    const where = destinationSaid(
+      departure.destinationId,
+      departure.destinationBasis,
+    );
+    if (where)
+      facts.destination = {
+        text: where,
+        sourceRecordIds: [...cited, departure.destinationId],
+      };
+    const along = departure.withIds
+      .filter((id) => id !== departure.personId && id !== askedId)
+      .map((id) => core.people.get(id))
+      .find((row) => row?.alive);
+    if (along)
+      facts.companion = {
+        text: along.givenName,
+        sourceRecordIds: [...cited, along.id],
+      };
+    if (asked.householdId === departure.householdId)
+      facts["same-home"] = { text: asker.givenName, sourceRecordIds: cited };
+    const why = rulesFile.departureWhy.rows.find((row) =>
+      row.reason.startsWith("basis:")
+        ? departure.destinationBasis === row.reason.slice("basis:".length)
+        : (departure.reasons[row.reason] ?? P.zero) > P.zero,
+    );
+    if (why)
+      facts[why.fact] = { text: asker.givenName, sourceRecordIds: cited };
+  }
+  // A prison term (justice.ts): a person home from prison, a sentence handed
+  // down or a person held before trial, with how long, the day they get out,
+  // the bail, whether the term ended their job and the child at home, each
+  // cited to the records it came from. stopgapId:
+  // SG-WORDS-homecoming-stay-unread, SG-WORDS-prison-visit-limits-fixed
+  for (const [key, fact] of Object.entries(
+    custodyFacts(core, record, askerId, askedId),
+  ))
+    facts[key] = fact;
+  // A first meeting or a tie that grew (the jobs, school and parties engines'
+  // records): the employer, the job, the school, the children at one school,
+  // the party and the town the two share or do not. stopgapId:
+  // SG-WORDS-meeting-no-club-records, SG-WORDS-meeting-promise-unread
+  for (const [key, fact] of Object.entries(
+    meetingFacts(core, binding.typeKey, moment.causeId, askerId, askedId),
+  ))
+    facts[key] = fact;
+  // Someone who has come back after a long time apart (the director's thread
+  // for the pair), and a letter from a relative elsewhere (kin-contact.ts's
+  // `family.contact`): how long, where they live, what changed in their life
+  // and what the tie records, each cited. stopgapId:
+  // SG-WORDS-reunion-ask-unrecorded, SG-WORDS-letter-ask-unrecorded
+  const placeNamed = (placeId: string) => destinationSaid(placeId, "");
+  for (const [key, fact] of Object.entries({
+    ...reunionFacts(
+      core,
+      director,
+      binding.typeKey,
+      moment.date,
+      askerId,
+      askedId,
+      placeNamed,
+    ),
+    ...letterFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      placeNamed,
+    ),
+  }))
+    facts[key] = fact;
+  // A celebration (a wedding, a new job) and a family gathering with a
+  // relative missing (`family.gathering-missed`): what is celebrated and whose
+  // it is, who is missing and why the records say so, each cited. stopgapId:
+  // SG-WORDS-celebration-ask-unrecorded, SG-WORDS-gathering-ask-unrecorded
+  for (const [key, fact] of Object.entries({
+    ...celebrationFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      moment.date,
+      askerId,
+      askedId,
+      cast("honoree"),
+      placeNamed,
+    ),
+    ...gatheringFacts(
+      core,
+      binding.typeKey,
+      moment.causeId,
+      askerId,
+      askedId,
+      placeNamed,
+      (aId, bId) => tieSide(core, aId, bId)?.side === "rival",
+    ),
+  }))
+    facts[key] = fact;
   // A damaged home (disasters.ts, the day its aid is paid): the kind of home,
   // what the repairs cost and what the aid came to, each as people round a
   // sum, and what is still owed. The flags say which of the three ways the

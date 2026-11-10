@@ -278,7 +278,8 @@
         "src/core2/household-cost.ts",
         "src/core2/husk-promoters.ts",
         "src/core2/closeness.ts",
-        "src/core2/trait-decisions.ts"
+        "src/core2/trait-decisions.ts",
+        "src/core2/modules/moves.ts"
       ],
       "paths": [
         "src/core2/modules/people.ts",
@@ -340,6 +341,7 @@
         "src/core2/closeness.ts",
         "src/core2/encounters.ts",
         "src/core2/knowledge-retention.ts",
+        "src/core2/event-id-retention.ts",
         "src/core2/estates.ts",
         "src/core2/sibling-births.ts",
         "src/core2/retirement-claim.ts",
