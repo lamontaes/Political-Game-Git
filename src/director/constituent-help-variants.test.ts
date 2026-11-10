@@ -11,8 +11,9 @@ import { CASES_MODULE_ID } from "../core2/modules/constituent-cases";
 import { JOBS_MODULE_ID } from "../core2/modules/jobs";
 import { beginSeriousIllness, careNeedOf } from "../core2/modules/health";
 import { townSeats } from "../core2/modules/offices";
-import { coreAPI } from "../core2/state";
-import type { PersonId } from "../core2/types";
+import { residentsRuntime } from "../core2/modules/residents";
+import { coreAPI, fillInPerson } from "../core2/state";
+import type { CoreState, PersonId } from "../core2/types";
 import type { Fact } from "../english/scene-talk-words";
 import { chooseVariant, type VariantChoice } from "./arc-variant";
 import { constituentFacts } from "./constituent-help-facts";
@@ -26,6 +27,10 @@ import sceneTalk from "../../data/english/parts/scene-talk.json" with { type: "j
 const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(8).toString("hex");
 const DAYS = 45;
 const ATTEMPTS = 6;
+// The hand-made probes each take a resident of their own household.
+const PROBE_RESIDENTS = 5;
+// Counted households filled in, at most, to find them in a small town.
+const FILL_IN_MOST = 40;
 
 type Variants = Record<
   string,
@@ -79,12 +84,21 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
     ).toEqual(PLAIN_ENDINGS.map((e) => [e.id, e.keeps]));
   }
 
+  // The route needs a town where a resident brought a problem to an official;
+  // the probes need a town with an official and five residents. A small town
+  // can go a season with no visit, so the two may be met in different draws.
+  let routeSeen = false;
+  let probed = false;
   const tried: string[] = [];
   for (let attempt = 0; attempt < ATTEMPTS; attempt += 1) {
     const place = drawPlace(`${seed}:${attempt}`, "constituent-help-variants");
     const where = `${place.name} (${place.key}), run seed ${seed} draw ${attempt}, world seed ${place.seed}`;
     setBookkeeping(false);
-    const { core, director } = buildBenchWorld(place.seed, gameStartDate(), {
+    const {
+      core,
+      director,
+      placeId: town,
+    } = buildBenchWorld(place.seed, gameStartDate(), {
       twoLevel: true,
       placeKey: place.key,
     });
@@ -103,10 +117,11 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         row.kind === "office.approached" &&
         director.ledger.people.has(String(row.facts?.officialId) as PersonId),
     );
-    if (!visits.length) {
-      tried.push(`${where}: no visit to a full-person official`);
-      continue;
-    }
+    if (visits.length) routeSeen = true;
+    else
+      tried.push(
+        `${where}: no resident brought a problem to one of its ${officials.length} full-person officials in ${DAYS} days`,
+      );
 
     const yearOf = (personId: PersonId) => {
       const person = core.people.get(personId)!;
@@ -290,41 +305,78 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         `${residentId} (${problem}) ${chosen!.variant} [${chosen!.scores.map((s) => `${s.variant} ${s.score.toFixed(2)}`).join(", ")}] opens "${scene.talk.state.text}"`,
       );
     }
-    process.stdout.write(
-      `CONSTITUENT HELP ROUTE ${where}: ${visits.length} visits, played ${[...played].map(([k, v]) => `${k} ${v}`).join(", ")}\n  ${lines.join("\n  ")}\n`,
-    );
+    if (visits.length)
+      process.stdout.write(
+        `CONSTITUENT HELP ROUTE ${where}: ${visits.length} visits, played ${[...played].map(([k, v]) => `${k} ${v}`).join(", ")}\n  ${lines.join("\n  ")}\n`,
+      );
 
     // ---- Hand-made probes (labeled): records written on residents one at a
     // time, each on its own constituent, and the scores read before and after.
-    const town = core.people.get(officials[0]!)!.placeId;
+    if (probed) {
+      if (routeSeen) return;
+      continue;
+    }
+    if (!officials.length) {
+      tried.push(`${where}: no full-person official to ask`);
+      continue;
+    }
     const asked = officials[0]!;
     const seen = new Set<PersonId>(officials);
     for (const v of visits)
       seen.add(String(v.facts!.constituentId) as PersonId);
-    const residents = [...core.people.values()]
-      .filter(
-        (p) =>
-          p.alive &&
-          p.placeId === town &&
-          !seen.has(p.id) &&
-          p.id !== core.playerId &&
-          p.livingCostDailyMinor > 0,
-      )
-      .sort((a, b) => a.id.localeCompare(b.id));
+    const residentsNow = () =>
+      [...core.people.values()]
+        .filter(
+          (p) =>
+            p.alive &&
+            p.placeId === town &&
+            !seen.has(p.id) &&
+            p.id !== core.playerId &&
+            p.livingCostDailyMinor > 0,
+        )
+        .sort((a, b) => a.id.localeCompare(b.id));
     // One resident with another living member at home carries the relative's
     // illness; the other probes each take a resident of another household.
     const mateOf = (id: PersonId) =>
       core.households
         .get(core.people.get(id)!.householdId)
         ?.memberIds.find((m) => m !== id && core.people.get(m)?.alive);
-    const sickKin = residents.find((p) => mateOf(p.id))?.id;
-    const apart = residents.filter(
-      (p) =>
-        sickKin === undefined ||
-        p.householdId !== core.people.get(sickKin)!.householdId,
-    );
-    if (apart.length < 5) {
-      tried.push(`${where}: too few residents to probe (${residents.length})`);
+    const apartOf = (
+      rows: readonly { id: PersonId; householdId: string }[],
+    ) => {
+      const kin = rows.find((p) => mateOf(p.id))?.id;
+      return {
+        kin,
+        apart: rows.filter(
+          (p) =>
+            kin === undefined ||
+            p.householdId !== core.people.get(kin)!.householdId,
+        ),
+      };
+    };
+    // A small town keeps few full people: the rest of its residents are in
+    // the counts, and meeting one fills them in by the engine's own call.
+    let filledIn = 0;
+    const rt = residentsRuntime(core as CoreState);
+    if (rt && apartOf(residentsNow()).apart.length < PROBE_RESIDENTS) {
+      const heads: PersonId[] = [];
+      for (const home of rt.store.liveHouseholds()) {
+        if (home.placeId !== town || home.quarters) continue;
+        const member = rt.store.countedMembers(home)[0];
+        if (member !== undefined) heads.push(rt.store.ids[member]! as PersonId);
+      }
+      for (const id of heads.sort().slice(0, FILL_IN_MOST)) {
+        if (apartOf(residentsNow()).apart.length >= PROBE_RESIDENTS) break;
+        fillInPerson(core as CoreState, id);
+        filledIn += 1;
+      }
+    }
+    const residents = residentsNow();
+    const { kin: sickKin, apart } = apartOf(residents);
+    if (apart.length < PROBE_RESIDENTS) {
+      tried.push(
+        `${where}: too few residents to probe (${residents.length} full, ${filledIn} filled in from the counts)`,
+      );
       continue;
     }
     const nextDay = addDays(makeIsoDate(core.date), 1);
@@ -603,9 +655,12 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
         "; no resident of this town shares a home with another full person, so no relative's illness was probed here";
     notes.push(sickNote);
     process.stdout.write(
-      `CONSTITUENT HELP PROBES ${where}:\n  ${notes.join("\n  ")}\n`,
+      `CONSTITUENT HELP PROBES ${where} (${filledIn} residents filled in from the counts):\n  ${notes.join("\n  ")}\n`,
     );
-    return;
+    probed = true;
+    if (routeSeen) return;
   }
-  expect.fail(`seed ${seed}: ${tried.join("; ")}`);
+  expect.fail(
+    `seed ${seed}: ${routeSeen ? "" : "no drawn town had a visit to an official; "}${probed ? "" : "no drawn town could be probed; "}${tried.join("; ")}`,
+  );
 }, 3_600_000);
