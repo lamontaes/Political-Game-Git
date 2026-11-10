@@ -10,7 +10,8 @@
  * or a transcript of a voice message); the batch is
  * docs/coordination/batches/2026-11-09-batch-2.json. The output is a grade
  * file for data/english/grades/ whose rows carry the line's `key`, its
- * `spans` and the `note`, which `grade-map.ts` reads.
+ * `spans` and the `note`; `apply-grades.ts` counts a whole-line verdict in
+ * the ledger.
  *
  * How a note is read, from how the owner grades in the voice notes
  * (docs/coordination/voice-notes/, the batch rulings in OWNER-DECISIONS.md):

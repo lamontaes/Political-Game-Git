@@ -29,7 +29,9 @@ import { P } from "../core2/parameters";
 import { stableHash } from "../core2/kernel/ids";
 import type { CoreState, PersonId } from "../core2/types";
 import arcsFile from "./data/purpose-arcs.json" with { type: "json" };
-import { variantArc } from "./arc-variant";
+import { variantArc, variantFamilies } from "./arc-variant";
+import type { ReplyFollowsTable } from "../english/reply-follows";
+import situationFile from "./data/situation-types.json" with { type: "json" };
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 import {
   pieceAnswers,
@@ -318,6 +320,8 @@ export interface SceneTalkOptions {
    * only words are held stays out of play.
    */
   includeHeld?: boolean;
+  /** The "no" verdicts of the reply rule to read instead of the file's (tests). */
+  replyFollows?: ReplyFollowsTable;
 }
 
 export type SceneTalkResult =
@@ -1779,3 +1783,120 @@ export function lastAnswerAlong(
   }
   return last;
 }
+
+/**
+ * Every scene the director can word: each situation type with a purpose (and
+ * each variant of its family), and each type with none under its key's
+ * generic arc. The English engine's reply pairs
+ * (`src/english/reply-pairs.ts`) are listed for these.
+ */
+export function talkScenes(): {
+  purpose: string;
+  family?: string;
+  key: string;
+}[] {
+  const families = variantFamilies();
+  return (
+    situationFile as unknown as {
+      types: { key: string; purpose?: string; tag?: { key: string } }[];
+    }
+  ).types.flatMap((type) => {
+    const key = type.tag?.key ?? type.key;
+    if (!type.purpose) return ARCS.keys?.[key] ? [{ purpose: "*", key }] : [];
+    return [
+      { purpose: type.purpose, key },
+      ...Object.entries(families)
+        .filter(([, family]) => family === type.purpose)
+        .map(([variant]) => ({
+          purpose: variant,
+          family: type.purpose!,
+          key,
+        })),
+    ];
+  });
+}
+
+/**
+ * Which moves the scene's arc lets come right after a line of this step and
+ * move, from the same tables the tree builder reads (`candidatesFor`, the
+ * arc's `replies`, `again`, `auto`, `continue`, the lie and the player's own
+ * ask). It is a union across rounds, so it may allow a move the tree never
+ * reaches from a given node; it never leaves out one the tree can.
+ */
+export function talkFlow(scene: { purpose: string; key: string }): {
+  next(step: string, move: string): ReadonlySet<string> | undefined;
+} {
+  const arc = (
+    scene.purpose === "*"
+      ? ARCS.keys?.[scene.key]
+      : (ARCS.purposes[scene.purpose] ?? variantArc(scene.purpose))
+  ) as PurposeArc | undefined;
+  if (!arc) return { next: () => undefined };
+  const lie = ARCS.lie;
+  const asks = arc.asks;
+  const askMoves = asks ? [asks.yes, asks.carried, asks.no] : [];
+  const againMoves = asks ? asks.again.map((row) => row.move) : [];
+  /** The replies the player's character may make after an asker line of this move. */
+  const repliesAfter = (move: string): string[] => [
+    ...(move === arc.state ? arc.replies : []),
+    ...(arc.again?.[move] ?? ARCS.again[move] ?? []),
+    ...(arc.repeatable?.[move] ?? []),
+    ...(arc.continue ?? [])
+      .filter((row) => row.asker === move)
+      .flatMap((row) => row.replies),
+    ...(lie && move === lie.caught.move ? lie.caught.replies : []),
+    ...(asks && move === arc.state ? askMoves : []),
+    ...(asks && (move === asks.thanks || againMoves.includes(move))
+      ? [...asks.relent, asks.no]
+      : []),
+  ];
+  /** The asker's answers to a reply of this move. */
+  const answersTo = (move: string): string[] => {
+    const moves = candidatesFor(arc, move);
+    return [
+      ...(moves.length ? moves : ["answer"]),
+      ...(lie?.afterCaught[move] ?? []).filter((name) => name !== "close"),
+      ...(lie && move === "lie" ? [lie.caught.move, ...lie.believed] : []),
+      ...(arc.continue ?? [])
+        .filter((row) => row.on === move || row.on === "resolved")
+        .map((row) => row.asker),
+      ...(asks && askMoves.includes(move) ? [asks.thanks, ...againMoves] : []),
+    ];
+  };
+  /** The player's character's unprompted line after an asker line, and the asker's answer to it. */
+  const autoAfter = (step: string, move: string): string[] =>
+    (arc.auto ?? [])
+      .filter(
+        (row) =>
+          row.after === move ||
+          (row.after === "open" && step === "open") ||
+          (row.after === "state" && step === "state"),
+      )
+      .map((row) => row.move);
+  return {
+    next(step, move) {
+      if (step === "open") return new Set(autoAfter(step, move));
+      if (step === "auto") return new Set(answersTo(move));
+      if (step === "reply") return new Set(answersTo(move));
+      if (step === "state" || step === "follow" || step === "continue")
+        return new Set([...repliesAfter(move), ...autoAfter(step, move)]);
+      return undefined;
+    },
+  };
+}
+
+const FLOWS = new Map<string, ReturnType<typeof talkFlow>>();
+
+/** `talkFlow` for any scene, read once per purpose and key: the flow the reply pairs ask. */
+export const talkReplyFlow = {
+  next(
+    scene: { purpose: string; key: string },
+    step: string,
+    move: string,
+  ): ReadonlySet<string> | undefined {
+    const at = `${scene.purpose}|${scene.key}`;
+    let flow = FLOWS.get(at);
+    if (!flow) FLOWS.set(at, (flow = talkFlow(scene)));
+    return flow.next(step, move);
+  },
+};

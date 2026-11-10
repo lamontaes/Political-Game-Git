@@ -1,30 +1,30 @@
 import { readdirSync, readFileSync, statSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
+import {
+  ruleFlags,
+  textAsPiece,
+  type LineRule,
+} from "../../../src/english/line-rules";
 
 /**
- * The English ban (owner, Oct 27, 4 PM Eastern: "When it says you're in place
- * or person is with you, I hate those. Remove every instance of that from the
- * English engine. Block that."). The screen shows where the player is and who
- * is there; narration never restates it (scene-standard). No bank piece, no
- * corpus shape that would mine one back, and no string in the director, the
- * English engine or the bench says only "You're in {place}" or "{person} is
- * with you".
+ * The English ban on lines that restate the place or who is there: the rule
+ * `no-placing-narration` in `data/english/line-rules.json`, with the owner's
+ * words and the lines it must and must not flag. This guard runs that rule
+ * over everything a player can read beyond the banks the run covers: every
+ * English data file, every corpus shape that would mine a line back, and
+ * every string in the director, the English engine and the bench.
  */
 
 const ROOT = path.resolve(__dirname, "../../..");
 
-/** A sentence that only says where the player is. */
-const PLACE =
-  /^(?:You(?:'re| are)(?: now| out| over| back| standing| inside)? (?:in|at|inside) (?:\{[a-z]+\}|\$\{[^}]+\}|your (?:home|house|workplace)|the (?:house|office|plant)|(?:work|school|class|town|downtown))(?: (?:home|house|place|today))?|You(?:'re| are) (?:outside|home|back home|here|downtown|in town|out and about|at home)|Welcome to \{(?:place|town)\})\.?$/i;
-/** A sentence that only says who is there. */
-const PRESENT =
-  /(?:\{[a-z]+\}|\$\{[^}]+\}|Your [a-z]+)(?:,[^.]*,)? (?:is|are) (?:with you|here|there|waiting(?: for you)?)(?: too| (?:when you [a-z ]+|for it))?\.$|, and (?:\{[a-z]+\}|\$\{[^}]+\}) is there(?: [a-z ]+)?\.$|is among the people who have come/;
+const RULE = (
+  JSON.parse(
+    readFileSync(path.join(ROOT, "data/english/line-rules.json"), "utf8"),
+  ) as { rules: LineRule[] }
+).rules.find((rule) => rule.id === "no-placing-narration")!;
 
-const banned = (text: string) =>
-  text
-    .split(/(?<=[.!?])\s+/)
-    .some((sentence) => PLACE.test(sentence) || PRESENT.test(sentence));
+const banned = (text: string) => ruleFlags(RULE, textAsPiece(text));
 
 /** Every string value in a JSON document. */
 function strings(value: unknown, out: string[] = []): string[] {
@@ -51,29 +51,10 @@ function literals(source: string): string[] {
 }
 
 describe("the English ban: no line restates the place or who is there", () => {
-  it("catches the shapes it bans and leaves story lines alone", () => {
-    for (const text of [
-      "You're in {place}.",
-      "You are at {employer}.",
-      "You're over at {host} place.",
-      "You're outside.",
-      "You're home.",
-      "Liam Melendez is with you.".replace("Liam Melendez", "{name}"),
-      "Your mother is with you.",
-      "A child has been born, and {other} is there.",
-      "You're in ${town}.",
-      "You are at home",
-    ])
-      expect(banned(text), text).toBe(true);
-    for (const text of [
-      "You're in the cereal aisle when {name} parks a cart across from you.",
-      "You're in {outlet}, and not in a good way.",
-      "{name} is here tonight.",
-      "I'm with you on {bill}.",
-      "{other} falls in step with you in the hallway.",
-      "The phone rings.",
-    ])
-      expect(banned(text), text).toBe(false);
+  it("is a rule the build fails on, with lines it catches and spares", () => {
+    expect(RULE.failsBuild).toBe(true);
+    expect(RULE.catches?.length).toBeGreaterThan(5);
+    expect(RULE.spares?.length).toBeGreaterThan(3);
   });
 
   it("no English bank or corpus shape holds a banned sentence", () => {
@@ -81,8 +62,11 @@ describe("the English ban: no line restates the place or who is there", () => {
       ...files(path.join(ROOT, "data/english"), (file) =>
         file.endsWith(".json"),
       ).filter(
-        // Past grading batches are the record of what the engine once said.
-        (file) => !file.includes(`${path.sep}batches${path.sep}`),
+        // Past grading batches are the record of what the engine once said;
+        // the rules file holds the banned lines it must catch.
+        (file) =>
+          !file.includes(`${path.sep}batches${path.sep}`) &&
+          !file.endsWith("line-rules.json"),
       ),
       ...files(path.join(ROOT, "scripts/english-corpus/shapes"), (file) =>
         file.endsWith(".json"),
