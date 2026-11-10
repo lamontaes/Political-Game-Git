@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-life-record
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** A family talk can turn back to the other person's relative ('And how's your sister?') only when something recorded happened to that relative that the player knows of. For a neighbor's relative the director keeps no moment (it keeps them only for the people it watches), and the player's own ledger gets none from witnessing their move, so the question never comes up between non-relatives. In src/director/conversation.test.ts (Jackson Center, Ohio, seed conversation-test) all four neighbors' turn-back choices are empty on main; the only questions that turned back were between relatives, about a relative they share, which play-stop-20 removes.
@@ -30,7 +31,7 @@ source: added with npm run pool -- add
 
 **Done when.** A second session plays a world in a drawn place (name and seed written down), witnesses or learns of something that happened to a neighbor's relative, talks to the neighbor in the running game, and sees a question about that relative offered, with the happening's record id named. `src/director/conversation.test.ts` runs its turn-back check at Jackson Center, Ohio (seed conversation-test) in its seeded world.
 
-**Waits on.** Nothing.
+**Waits on.** core-life-record (the one reader of a person's life, `lifeOf`; on main once pull requests 8115, 8123 and 8139 merge). Build the fix on that reader, not on a new record.
 
 **Files.** src/director/conversation.ts, src/director/conversation.test.ts
 

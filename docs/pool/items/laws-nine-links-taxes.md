@@ -6,16 +6,17 @@ lead: laws
 kind: wiring
 priority: 1
 size: M
-status: blocked
+status: open
 standard: 2
 claimed-by:
 pr:
-blocked-on: people-estate-wealth-top-tail
+blocked-on:
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
 after:
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Two parts of the taxes and public finance family are still short of the nine wiring links: the estate tax, whose money cannot move until a played town has an estate above the exemption (people-estate-wealth-top-tail, open), and the local income tax grant's bill, whose Words row words-bill-section-local-income-tax-authority is now done. Ten laws landed in PR #5649 as laws-nine-links-taxes-ten. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.
@@ -30,7 +31,7 @@ root: rc8-law-judged-by-paperwork
 
 **Done when.** A second session, not the builder, replays this on main in the running game: in two drawn places on seeds nobody chose, dev mode and the law check follow each law still open in this item to a named person or household and a dollar, by `lawApplied` record id and journal entry. The builder's proof: In a played year (`buildBenchWorld`, every module installed) in two places drawn from all 56 with seeds the builder did not choose, named in the PR body, `scripts/law-wiring/check.ts` and `scripts/law-wiring/matrix.ts` grade every law in this family wired on all nine links in `docs/reports/law-wiring-matrix.json`. A link declared not applicable in `scripts/law-wiring/declared.json` with its statute or research reason counts; a registered stopgap does not. The family test names, for each law, its `lawApplied` record id, the journal entry of the money and the person or household reached. **On screen.** Nothing yet: it would show on Politics → Budgets, and nothing there reads it.
 
-**Waits on.** people-estate-wealth-top-tail (open). words-bill-section-local-income-tax-authority is done.
+**Waits on.** Nothing for the local income tax grant's bill (words-bill-section-local-income-tax-authority is done): wire it now. The estate-tax half waits on people-estate-wealth-top-tail (open); leave it for a second pull request and say so.
 
 **Files.** src/core2/modules/employer-taxes.ts, src/core2/budgets-treasury.ts, src/core2/law-reach/applied.ts
 

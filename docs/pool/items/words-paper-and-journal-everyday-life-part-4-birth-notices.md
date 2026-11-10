@@ -16,13 +16,14 @@ effort: medium
 root: rc3-thin-life-record
 source: split from words-paper-and-journal-everyday-life in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** A birth is a recorded event, but the paper has no birth notice. Add a press kind that prints a birth notice from the person-birth record, worded from the banks, so the paper carries births the way it carries obituaries.
 
 **Cause.** Found in code: src/core2/modules/press.ts (the press kinds around `LETTER_DECISION`, line 3055) and src/core2/press-topics.ts list no birth kind (Lane 3, Nov 4: no birth notice printed in any of three seeded places).
 
-**Fix.** Add the press kind and its topic entry reading the person-birth event, word it in data/english/parts/news.json and headlines.json (Story writes the pieces), and keep a birth with no public record off the wire.
+**Fix.** Add the press kind and its topic entry reading the person-birth event, word it with the birth pieces data/english/parts/news.json already holds (`news.birth.*`, near line 5058, which nothing prints today) and a headline in headlines.json (Story writes any piece that is missing), and keep a birth with no public record off the wire.
 
 **Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

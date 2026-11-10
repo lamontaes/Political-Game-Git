@@ -17,6 +17,8 @@ root: rc4-hand-written-words
 lead: words
 source: "src/core2/data/stopgaps.json, desktop/main.mjs, kind player-text-gap"
 claimed-at:
+size: S
+checked: fable 2026-11-10
 ---
 
 **What.** The desktop shell's update dialogs (Check for Updates, and the Mac note on what installing does) are written in the shell, not by the English engine (row SG-PLAY-desktop-update-dialog-text in src/core2/data/stopgaps/play.json). The text is one sentence in desktop/main.mjs (`installNote`, line 210: "When you quit, the new version replaces this one in the same folder and opens. Your saves stay where they are."), a dialog the owner ordered on Oct 14. PR #5251 moved 19 authored dialog lines into a bank and was held, because authored text ships only after grading and the shell cannot read graded parts. Either the English engine's graded parts feed the shell with one graded fallback per dialog, or the owner accepts the shell string.

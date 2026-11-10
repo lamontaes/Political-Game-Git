@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc1-world-outside-town
 source: split from world-federal-case-stream in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The justice engine has state sentence ranges for ordinary cases and nothing for federal cases. Before any engine work, add the data: federal arrests and charges by offense, federal sentencing ranges and the mandatory minimums that bind federal drug and firearm offenses, sized from the U.S. Sentencing Commission, each row with its citation and spread. The Bureau of Prisons offense file already in the repository (data/research/justice/bop-federal-offenses-2026.json) is the starting point for the custody side.
@@ -33,3 +34,5 @@ source: split from world-federal-case-stream in the pool redo, Nov 10, 2026
 **Waits on.** Nothing.
 
 **Files.** data/research/justice/ussc-federal-sentencing.json (new), data/research/justice/bop-federal-offenses-2026.json, src/core2/modules/justice.ts
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as replaced. The federal courts were built on Nov 8 as results and counts in src/core2/modules/federal-courts.ts, from the Sentencing Commission file data/research/justice/ussc-federal-sentencing-fy2025.json and the Bureau of Prisons table, and that engine already reads the reduce-mandatory-minimums law in force. What is left (a federal case, defendant and sentence built when someone opens one, the door that opens it, and the proof against the Bureau's table) is justice-federal-case-stream with its two parts, justice-federal-case-stream-part-1-case-on-open and justice-federal-case-stream-part-2-door-and-proof. This item's plan (a new data file, then cases kept for everyone through justice.ts) is the design the country tier replaced.
