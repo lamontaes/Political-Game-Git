@@ -5,10 +5,10 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8176
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -17,6 +17,7 @@ model: haiku
 effort: low
 root: none
 checked: fable 2026-11-10
+merged-at: 2026-11-10T18:37:40.000Z
 ---
 
 **What.** src/director/conversation.test.ts "never parts with a word the talk already said" fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say. The Notes record that run alone, or paired with any one earlier test, it passes, and that in the full file every known person opens an empty talk, so earlier tests leave something behind.
@@ -47,3 +48,5 @@ checked: fable 2026-11-10
 - **Next:** find what in the earlier tests leaves `openConversation` empty, then let the player fall silent so talks reach a farewell.
 
 **Notes.** Cause finder, Nov 10 (main 6af036c7). Ran the whole file on main: 21 passed. Ran the test as it stood before 94b8877056 against today's engine: the farewell test fails with "expected 0 to be greater than 0", as filed. A probe (working copy only, not committed) logged each known person's remembered `talk:` topics before the talk opened: two or three each, and every talk opened with 0 lines and 0 choices. Deleting those keys in the probe made the three non-housemates open talks that end on a farewell, and the whole file passed. Run alone, the five talk, but none says goodbye: the housemates' talks end on an acknowledgment after the player's view, and the others' on the player's answer to their school question. The test as #8176 left it also passes against today's engine. Fresh draw: Pamelia Center, New York, seed 799e81757157, 21 passed. Still unknown: why the two housemates still open empty with their remembered topics cleared (they may have nothing else on record on that day), and which earlier test wrote the `quiet:...:2021-01-05` topic.
+
+**Notes (Fable B's check, Nov 10).** Checked against main: `say` writes the talked-over topic to the listener (src/director/conversation.ts near line 3172), `openConversation` puts every remembered topic into `used` (near line 2278) and empties a talk that is only a greeting (near line 2297). So the cause holds, and nothing is left to build. The item is marked merged with pull request 8176, which kept the test's fix, so that it goes to a second session and is not handed to a builder who could not close it.
