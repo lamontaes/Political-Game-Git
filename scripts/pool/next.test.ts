@@ -18,6 +18,7 @@ import { branchPrefix, identify, readTiers, tierOf } from "./agent";
 import { command, flags, run, staleClaims, validate, type Item } from "./index";
 import {
   claimable,
+  inKind,
   makeOrder,
   readOrder,
   timeBoxHours,
@@ -27,6 +28,8 @@ import {
 const ROOT = process.cwd();
 
 interface Unit {
+  area?: string;
+  lead?: string;
   model?: string;
   priority?: string;
   status?: string;
@@ -48,7 +51,7 @@ const unit = (id: string, o: Unit = {}): string =>
     "---",
     `id: ${id}`,
     `title: "Title of ${id}"`,
-    "area: laws",
+    `area: ${o.area ?? "laws"}`,
     "kind: wiring",
     `priority: ${o.priority ?? "3"}`,
     `size: ${o.size ?? "M"}`,
@@ -58,7 +61,7 @@ const unit = (id: string, o: Unit = {}): string =>
     "pr:",
     `after: ${o.after ?? ""}`.trimEnd(),
     "blocked-on:",
-    "lead: laws",
+    `lead: ${o.lead ?? "laws"}`,
     `model: ${o.model ?? "sonnet"}`,
     `effort: ${o.effort ?? "medium"}`,
     `root: ${o.root ?? "none"}`,
@@ -354,6 +357,63 @@ describe("next --dry-run by level", () => {
     expect(r.out.slice(1)).toEqual([
       "No item is ready for tier mid or any tier below it.",
     ]);
+  });
+});
+
+describe("next --for <kind>", () => {
+  // laws-top is first in the order (priority 1) but is not play work.
+  const items = {
+    "laws-top": unit("laws-top", { priority: "1" }),
+    "play-area": unit("play-area", { area: "play", lead: "laws" }),
+    "play-lead": unit("play-lead", { area: "laws", lead: "screens" }),
+  };
+  const take = (dir: string, extra: string[]): string =>
+    line(pool(dir, ["next", "--dry-run", ...extra]).out, "Would take:");
+  it("plain next takes the first item; --for play takes the first play item, by area or by lead", () => {
+    const { clones } = world(items);
+    expect(take(clones[0], [])).toBe("Would take: laws-top (sonnet, p1)");
+    expect(take(clones[0], ["--for", "play"])).toBe(
+      "Would take: play-area (sonnet, p3)",
+    );
+    const lead = world({
+      "laws-top": items["laws-top"],
+      "play-lead": items["play-lead"],
+    });
+    expect(take(lead.clones[0], ["--for", "play"])).toBe(
+      "Would take: play-lead (sonnet, p3)",
+    );
+    expect(
+      inKind(
+        { id: "x", status: "open", priority: "3", lead: "screens" },
+        readOrder(join(ROOT, "docs/pool")).kinds.play,
+      ),
+    ).toBe(true);
+  });
+  it("claims the play item for real, and leaves the higher one for plain next", () => {
+    fakeGh(null);
+    const { clones, onOrigin } = world(items);
+    const r = pool(clones[0], ["next", "--for", "play"]);
+    expect(r.err).toBeNull();
+    expect(r.out[1]).toBe("Item: play-area");
+    expect(onOrigin("main", `${ITEM}/play-area.md`)).toContain(
+      "status: claimed",
+    );
+    expect(onOrigin("main", `${ITEM}/laws-top.md`)).toContain("status: open");
+  });
+  it("an unknown kind is an error that names the kinds order.json has", () => {
+    const { clones } = world(items);
+    const r = pool(clones[0], ["next", "--for", "nonsense", "--dry-run"]);
+    expect(r.err).toContain('No kind of work is called "nonsense"');
+    expect(r.err).toContain("The kinds are play");
+  });
+  it("takes nothing and says so when no item of the kind is left, never falling back", () => {
+    const { clones } = world({ "laws-top": items["laws-top"] });
+    const r = pool(clones[0], ["next", "--for", "play", "--dry-run"]);
+    expect(r.err).toBeNull();
+    expect(r.out.slice(1)).toEqual([
+      "No play item is left for your tier (mid) or any tier below it.",
+    ]);
+    expect(line(r.out, "Would take:")).toBe("");
   });
 });
 

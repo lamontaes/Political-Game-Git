@@ -34,6 +34,7 @@ Your first claim also puts one small file about you on main, under `docs/pool/ag
    - The owner or the CTO can set a tier or a name by hand with `--tier <tier>` and `--agent <name>`. You do not.
    - If it cannot open the pull request itself, it prints the title and a file holding the body. Open a draft pull request from the branch with those, then record it: `npm run pool -- claim <id> --branch <branch> --pr <number>`.
    - If it says **continue**, another agent started this item. Read its pull request from top to bottom and the branch's commits before you change anything.
+   - To take only gameplay work (what the player clicks and plays), add `--for play`; the kinds are in `docs/pool/order.json`. With nothing of that kind left for your tier it takes nothing and says so.
    - To see what it would take without changing anything, add `--dry-run`. To skip opening the draft, add `--no-pr`; it then prints the title and body file.
    - Check out the branch it names before you change anything: `git fetch origin <branch> && git checkout -B <branch> origin/<branch>`.
 2. **Read the item,** `docs/pool/items/<id>.md`, and every document and skill its Rules name. Skills are plain markdown under `.agents/skills/<name>/SKILL.md`.

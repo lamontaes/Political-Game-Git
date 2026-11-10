@@ -24,6 +24,7 @@ import { NOTE_PLACEHOLDER, prBody, prTitle, releaseNote } from "./draft-pr";
 import {
   claimable,
   DEFAULT_ORDER,
+  inKind,
   makeOrder,
   type Order,
   readOrder,
@@ -867,7 +868,7 @@ export interface NextIO {
 }
 
 const NEXT_USAGE =
-  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--no-pr] [--dry-run]';
+  'usage: pool next [--as "<your model and tool>"] [--tier <tier>] [--agent <name>] [--branch-prefix <prefix>] [--for <kind>] [--no-pr] [--dry-run]';
 /** The subject of a new item branch's first commit; any other commit on the branch means another agent started. */
 const startSubject = (id: string): string =>
   `${id}: start the branch with its release note`;
@@ -934,6 +935,10 @@ function next(
   const at = level ? order.levels.indexOf(level) : -1;
   if (!level || at < 0)
     return `${NEXT_USAGE}\nThe tiers are ${tiers.tiers.map((x) => x.name).join(", ")}.`;
+  const kindName = f.for ?? "";
+  const kind = kindName ? order.kinds[kindName] : undefined;
+  if (kindName && !kind)
+    return `No kind of work is called "${kindName}". The kinds are ${Object.keys(order.kinds).join(", ") || "none"} (docs/pool/order.json).\n${NEXT_USAGE}`;
   const tier = tierOfLevel(level, tiers);
   const levels = order.levels.slice(0, at + 1).reverse();
   const prefix = branchPrefix(f["branch-prefix"], env);
@@ -960,14 +965,18 @@ function next(
     );
     const known = new Set(items.map((i) => i.id));
     const cmp = makeOrder(items, order);
-    const ready = items.filter((i) => claimable(i, onMain, known)).sort(cmp);
+    const ready = items
+      .filter((i) => claimable(i, onMain, known) && (!kind || inKind(i, kind)))
+      .sort(cmp);
     for (const l of levels) {
       const hit = ready.find((i) => i.model === l);
       if (hit) return hit;
     }
     return null;
   };
-  const none = `No item is ready for tier ${tier} or any tier below it.`;
+  const none = kind
+    ? `No ${kindName} item is left for your tier (${tier}) or any tier below it.`
+    : `No item is ready for tier ${tier} or any tier below it.`;
   const staleLine = (s: Stale): string =>
     `no push to ${s.branch || "its branch"} since ${when(s.last)}, more than twice its ${s.hours}-hour time box`;
 
