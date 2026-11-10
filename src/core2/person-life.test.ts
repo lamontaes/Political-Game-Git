@@ -359,7 +359,10 @@ describe(`the life record in ${where}`, () => {
     const person = strangers().find(
       (row) =>
         row.tier !== "husk" &&
-        core.households.get(row.householdId)?.memberIds.length,
+        // No one at home works today: a job cannot be ended on the day it was attended.
+        core.households
+          .get(row.householdId)
+          ?.memberIds.every((id) => !core.people.get(id)?.jobId),
     );
     expect(person, `${where}: a full stranger`).toBeDefined();
     const id = `event:work.job-lost:${core.date}:demote-${person!.id}`;

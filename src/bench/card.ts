@@ -241,11 +241,25 @@ function historyLines(
   const schools = new Map(
     schoolsOf(core, other.id).map((school) => [school.recordId, school]),
   );
-  const firstSchool = lifeOf(core, other.id).find(
+  const life = lifeOf(core, other.id);
+  const firstSchool = life.find(
     (event) => event.life === "school" && event.what === "started",
   );
-  for (const event of lifeOf(core, other.id)) {
-    const line = lineOf(core, viewerId, other, event, schools, firstSchool?.id);
+  // The day of the first child, for ordering a partner the person was made with.
+  const firstChild = life
+    .filter((event) => event.life === "child" && event.what === "born")
+    .map((event) => event.date)
+    .sort()[0];
+  for (const event of life) {
+    const line = lineOf(
+      core,
+      viewerId,
+      other,
+      event,
+      schools,
+      firstSchool?.id,
+      firstChild,
+    );
     if (line) lines.push(line);
   }
   // The school they are at now has no event of its own: the school engine's
@@ -275,18 +289,10 @@ function historyLines(
     if (own)
       lines.push(
         ...officialLines(core, rows, own).filter(
-          (line) => line.key !== "born.year" && line.recordId !== own.id,
+          (line) => line.recordId !== own.id,
         ),
       );
   }
-  // Everyone has a birth year on their own record, even with no birth event kept.
-  if (!lines.some((line) => line.key.startsWith("born.")) && other.birthDate)
-    lines.push({
-      date: other.birthDate,
-      key: "born.year",
-      slots: { year: other.birthDate.slice(0, 4) },
-      recordId: other.id,
-    });
   return lines;
 }
 
@@ -302,6 +308,7 @@ function lineOf(
   event: LifeEvent,
   schools: ReadonlyMap<string, { name: string; stage: string; grade: number }>,
   firstSchoolId: string | undefined,
+  firstChildDate: string | undefined,
 ): HistoryLine | null {
   const facts = event.facts ?? {};
   const year = event.date.slice(0, 4);
@@ -330,21 +337,24 @@ function lineOf(
     ...extra,
   });
   switch (`${event.life}/${event.what}`) {
-    case "born/born": {
-      const place = placeName(
-        (other.pastFacts ?? []).find((row) => row.kind === "birthplace")?.facts
-          ?.placeId,
-      );
-      return make(place ? "born.place" : "born.year", { place });
-    }
     case "partner/partnered":
     case "partner/moved-in": {
       if (!partnerName) return null;
       const home =
         event.what === "partnered" ? "partner.home" : "partner.moved-in";
-      return make(partner === viewerId ? `${home}-you` : home, {
+      const line = make(partner === viewerId ? `${home}-you` : home, {
         name: partnerName,
       });
+      // A partner the person was made with has only the year the partnership began (its
+      // day is the world's opening day), so it is told before the children, never after
+      // them by that day: it sorts no later than the first child.
+      if (
+        event.from === "built" &&
+        firstChildDate &&
+        firstChildDate < line.date
+      )
+        line.date = firstChildDate;
+      return line;
     }
     case "partner/engaged":
     case "partner/married":
@@ -569,6 +579,38 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     }
     folded.push({ ...line });
   }
+  // More than two jobs are one sentence, never a list of facts: the earlier employers as a
+  // spoken list, then the job held now or last. It stands where the first job stood and
+  // names every job's record.
+  const spells = folded.filter((line) => line.key === "work.spell");
+  const last = spells.at(-1);
+  const earlier = [
+    ...new Set(
+      spells
+        .slice(0, -1)
+        .map((line) => line.slots.employer!)
+        .filter((employer) => employer !== last?.slots.employer),
+    ),
+  ];
+  if (spells.length > 2 && last && earlier.length) {
+    const first = spells[0]!;
+    const records = spells.flatMap((line) => [
+      line.recordId,
+      ...(line.later ?? []),
+    ]);
+    first.key = "work.history";
+    first.slots = {
+      year: last.date.slice(0, 4),
+      employers: joinList(earlier, "and"),
+      employer: last.slots.employer!,
+    };
+    first.recordId = last.recordId;
+    first.later = records.filter((id) => id !== last.recordId);
+    delete first.again;
+    for (const line of spells.slice(1)) folded.splice(folded.indexOf(line), 1);
+  }
+  // The player's own life is told in the first person (the bank's `.i` pieces).
+  const voice = teller.form === "you" ? "i" : teller.form;
   const said = new Set<string>();
   let named = false;
   return folded.flatMap((line) => {
@@ -589,7 +631,7 @@ function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
     // The first sentence names them; the rest use their pronouns, or the
     // they form when their record holds none.
     const first = teller.form !== "you" && !named;
-    const form = first ? "third" : teller.form;
+    const form = first ? "third" : voice;
     const text = screenLine(
       "person-history",
       `person-history.story.${again}.${form}`,
@@ -919,7 +961,7 @@ function enteredOffice(
     : [];
 }
 
-/** An official's own lines: born, and each term they won or were given. */
+/** An official's own lines: each term they won or were given (the birth is under their name). */
 function officialLines(
   core: CoreState,
   rows: readonly TermLike[],
@@ -931,13 +973,6 @@ function officialLines(
     row.identity?.birthDate === term.identity?.birthDate &&
     row.seatId === term.seatId;
   const lines: HistoryLine[] = [];
-  if (term.identity?.birthDate)
-    lines.push({
-      date: term.identity.birthDate,
-      key: "born.year",
-      slots: { year: term.identity.birthDate.slice(0, 4) },
-      recordId: term.id,
-    });
   for (const row of rows.filter(same)) {
     const office = officeTitle(core, row.officeId);
     if (!office) continue;

@@ -634,7 +634,7 @@
     "notSure": "Not sure yet"
   },
   "lifeGroups": [
-    ["born", "partner", "child", "loss"],
+    ["partner", "child", "loss"],
     ["school"],
     ["work", "business"],
     ["moved", "home"],
