@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: claude/words-work-four-answers
-pr: 8164
+pr: 8331
 blocked-on:
 lead: words
 source: added by hand on the branch
