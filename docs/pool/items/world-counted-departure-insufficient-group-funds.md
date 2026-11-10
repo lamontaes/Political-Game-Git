@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-world-counted-departure-insufficient-group-funds
-pr:
+pr: #8291
 blocked-on:
 after:
 lead: money
