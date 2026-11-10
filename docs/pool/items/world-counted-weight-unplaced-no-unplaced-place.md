@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The test src/core2/counted-weight-unplaced.test.ts fails in a place with no unplaced workers (Lone Chimney, Oklahoma): it draws a place, and when the town has none it tries up to eight more before failing with "no unplaced workers in <places>". This item was released from an idle draft with an empty body. The first job is to rerun the test, record the places and seeds drawn, and decide whether a town with no unplaced workers is a real case the test should skip. Guards: the counted-weight-unplaced test on main, red by draw in a place with no unplaced workers.
+**What.** The test src/core2/counted-weight-unplaced.test.ts fails in a place with no unplaced workers (Lone Chimney, Oklahoma): it draws a place, and when the town has none it tries up to eight more before failing with "no unplaced workers in <places>". This item was released from an idle draft with an empty body. The first job is to rerun the test, record the places and seeds drawn, and decide whether a town with no unplaced workers is a real case the test should skip.
 
 **Cause.** Needs cause. Item body is empty; the title names Lone Chimney, Oklahoma. Looked at src/core2/counted-weight-unplaced.test.ts (the draw loop near line 44 retries up to eight places); why it fails on main is not established.
 
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** TODO Released from idle draft #5076 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-19). Cleared from the front matter and kept here.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have fixed a test that has nothing to check in a town with no unplaced workers; no player sees it.
