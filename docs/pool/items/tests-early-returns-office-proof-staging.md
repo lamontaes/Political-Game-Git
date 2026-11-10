@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #5045
 blocked-on:
@@ -26,3 +26,7 @@ claimed-at:
 Sent back 2026-10-20 from PR #5045 (branch claude/tests-early-returns-office-staging): Merging current origin/main conflicts in src/core2/office-proof.test.ts. Resolve that test conflict on this branch, preserving current main assertions and this PRs bounded positive-case draws for both offices, then rerun both changed test files on the merged result. The staging improvement itself must retain its unconditional left/right assertions.; finish on that branch, merge main into it first.
 
 The remaining #5045 diff repairs only scene-staging.test.ts. The office-proof bounded search is already on main, but the latest builder receipt did not obtain a clean office-proof run. This partial staging merge does not complete the original paired office-proof/staging acceptance; keep that acceptance open for its named played-world proof.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/office-proof.test.ts now draws up to six places in drawWorld until one has a governor and a legislator and throws naming every place passed over; src/bench/scene-staging.test.ts draws a painted place with drawPlace and keeps no bare return before an assertion (its which-way-two-people-turn case is gone, and full-body staging waits for busts under the Nov 10 ruling). The one remaining bare return the item named, src/director/civic-roles.test.ts line 231 (`if (!contest) return;`), belongs to the Words session.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

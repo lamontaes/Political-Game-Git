@@ -9,6 +9,103 @@ import { makeButton } from "./button.mjs";
 import { lookRow } from "./look-row.mjs";
 import { statusLine } from "./fields.mjs";
 import { lastIntroducedSeries } from "./dev-bills.mjs";
+import { tableRows } from "./dev-view.mjs";
+import { moneyWords } from "../../english/plain-words.mjs";
+
+const roundedMoney = (minor) => moneyWords(minor, { rounded: true });
+
+/**
+ * The country-in-20-years section: one button, then the time it took, whether every count
+ * stayed possible, and one table of the nation and the player's state at chosen years. Every
+ * figure is formatted the way the Metrics tab formats it; every word is a control name.
+ */
+function outlookSection(labels) {
+  const out = labels.outlook;
+  const percent = (value) => `${value.toFixed(1)} ${out.percent}`;
+  const count = (value) => Math.round(value).toLocaleString("en-US");
+  const dollars = (value) => roundedMoney(Math.round(value * 100));
+  const button = makeButton({ className: "action" }, out.button);
+  button.dataset.testid = "dev-outlook";
+  const took = statusLine();
+  const verdict = statusLine();
+  const shown = el("div", { className: "dev-outlook-table" });
+  button.addEventListener("click", async () => {
+    button.disabled = true;
+    took.textContent = "";
+    verdict.textContent = "";
+    shown.replaceChildren();
+    try {
+      const response = await fetch("/api/dev/outlook", {
+        method: "POST",
+        body: JSON.stringify({}),
+      });
+      const value = await response.json();
+      if (!response.ok) throw new Error(value.error);
+      if (!value.opened) {
+        took.textContent = out.notYet;
+        return;
+      }
+      took.textContent = out.took.replace("{n}", value.seconds.toFixed(1));
+      verdict.textContent = value.couldBe
+        ? out.possible
+        : out.impossible.replace("{n}", String(value.monthsWithProblems));
+      const columns = [
+        { name: out.yearColumn, value: (row) => row.when },
+        {
+          name: out.unemployment,
+          value: (row) => percent(row.nation.unemploymentPct),
+        },
+        {
+          name: out.inflation,
+          value: (row) => percent(row.nation.inflationPct),
+        },
+        {
+          name: out.policyRate,
+          value: (row) => percent(row.nation.policyRatePct),
+        },
+        { name: out.pay, value: (row) => dollars(row.nation.hourlyPay) },
+        ...(value.mine.length
+          ? [
+              {
+                name: out.stateUnemployment,
+                value: (row) => percent(row.mine.unemploymentPct),
+              },
+              { name: out.statePeople, value: (row) => count(row.mine.people) },
+              { name: out.stateJobs, value: (row) => count(row.mine.jobs) },
+              {
+                name: out.stateBudget,
+                value: (row) =>
+                  roundedMoney(Math.round(row.mine.budgetYear * 100)),
+              },
+            ]
+          : []),
+      ];
+      const rows = value.shown.map((year, at) => ({
+        when: year === 0 ? out.today : out.year.replace("{n}", String(year)),
+        nation: value.nation[at],
+        mine: value.mine[at],
+      }));
+      const table = el("table", {}, ...tableRows(columns, rows));
+      table.dataset.testid = "dev-outlook-table";
+      shown.replaceChildren(table);
+    } catch (error) {
+      took.textContent = error.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+  const section = el(
+    "div",
+    { className: "dev-outlook" },
+    el("h4", { className: "label", textContent: out.title }),
+    el("p", { className: "label", textContent: out.explanation }),
+    el("div", { className: "acts" }, button),
+    took,
+    verdict,
+    shown,
+  );
+  return section;
+}
 
 /**
  * The run panel. `labels` is controls.devRun; `onDone()` refreshes the game's screens once
@@ -63,6 +160,13 @@ export function devRunPanel({ labels, onDone }) {
     b.setAttribute("aria-pressed", String(hold));
   });
   holdButton.dataset.testid = "dev-hold-law";
+  // Where an event counts: the player's own town, county, state and nation (the default), or anywhere.
+  let anywhere = false;
+  const whereButton = toggle(labels.anywhere, false, (b) => {
+    anywhere = !anywhere;
+    b.setAttribute("aria-pressed", String(anywhere));
+  });
+  whereButton.dataset.testid = "dev-run-anywhere";
   const run = makeButton({ className: "action" }, labels.run);
   run.dataset.testid = "dev-run";
   run.addEventListener("click", async () => {
@@ -75,6 +179,7 @@ export function devRunPanel({ labels, onDone }) {
           days: until ? undefined : labels.steps[at],
           event: until || undefined,
           cap: labels.cap,
+          ...(anywhere ? { where: "anywhere" } : {}),
           ...(hold && lastIntroducedSeries()
             ? { defeat: [lastIntroducedSeries()] }
             : {}),
@@ -84,6 +189,7 @@ export function devRunPanel({ labels, onDone }) {
       if (!response.ok) throw new Error(value.error);
       result.textContent = [
         `${labels.reasons[value.reason]}`,
+        ...(until ? [labels.where[value.where]] : []),
         `${value.from} → ${value.to}`,
         `${value.days} ${labels.daysName}`,
         ...value.records,
@@ -138,10 +244,11 @@ export function devRunPanel({ labels, onDone }) {
     stepper,
     el("h4", { className: "label", textContent: labels.orUntil }),
     el("div", { className: "acts" }, ...eventButtons),
-    el("div", { className: "acts" }, holdButton, run),
+    el("div", { className: "acts" }, whereButton, holdButton, run),
     el("h4", { className: "label", textContent: labels.hour }),
     el("div", { className: "acts" }, ...hourButtons),
     el("div", { className: "acts" }, jump),
     result,
+    outlookSection(labels),
   );
 }

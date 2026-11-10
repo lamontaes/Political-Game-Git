@@ -3,6 +3,15 @@ import { execFileSync } from "node:child_process";
 import { existsSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
+import {
+  needsCause,
+  readRoots,
+  repoAt,
+  section,
+  standardProblems,
+} from "./standard";
+
+export { section };
 
 export const AREAS = [
   "laws",
@@ -32,10 +41,21 @@ export const STATUSES = [
   "open",
   "claimed",
   "in-pr",
+  "merged",
   "blocked",
   "done",
   "dropped",
 ];
+/**
+ * `merged`: the work is on main and no second session has seen it in the
+ * running game yet. Only `pool seen` (or the CTO, for work with no running-game
+ * check) makes an item `done` (owner, Nov 3: "nothing is done until a second
+ * session replays its finish line on main").
+ */
+const ON_MAIN = ["merged", "done"];
+/** An `after:` gate opens when the item it names is on main: checkers never hold work. */
+export const gateOpen = (status: string | undefined): boolean =>
+  ON_MAIN.includes(status ?? "");
 export const PRIORITIES = ["1", "2", "3"];
 export const SIZES = ["S", "M", "L"];
 const SIZE_RANK: Record<string, number> = { S: 0, M: 1, L: 2 };
@@ -138,15 +158,6 @@ const DONE_WORDS = [
 
 const words = (s: string): number => s.split(/\s+/).filter(Boolean).length;
 
-/** Pulls one bolded section ("**What.**") out of an item body. */
-export function section(text: string, name: string): string {
-  const body = text.replace(/^---\r?\n[\s\S]*?\r?\n---/, "");
-  const re = new RegExp(
-    `\\*\\*${name}\\.?\\*\\*\\.?([\\s\\S]*?)(?=\\n\\*\\*[A-Z][a-z ]+\\.?\\*\\*|$)`,
-  );
-  return (re.exec(body)?.[1] ?? "").trim();
-}
-
 /** Quality gate for open or claimed priority 1 and 2 items, and play-first items at any priority. Returns "<id>: <field> ..." problems. */
 export function quality(
   file: string,
@@ -205,12 +216,20 @@ const ids = (v?: string): string[] =>
 
 const cell = (s: string): string => (s || "").replace(/\|/g, "\\|");
 
+const prLink = (pr: string): string =>
+  pr
+    ? pr.replace(
+        /^#(\d+)$/,
+        "[#$1](https://github.com/lamontaes/Political-Game-Git/pull/$1)",
+      )
+    : "no PR";
+
 export function buildIndex(items: Item[]): string {
-  const doneIds = new Set(
-    items.filter((i) => i.status === "done").map((i) => i.id),
+  const onMainIds = new Set(
+    items.filter((i) => gateOpen(i.status)).map((i) => i.id),
   );
   const waiting = (i: Item): string[] =>
-    ids(i.after).filter((a) => !doneIds.has(a));
+    ids(i.after).filter((a) => !onMainIds.has(a));
   const gated = (i: Item): boolean =>
     i.status === "open" && waiting(i).length > 0;
   const by = (s: string): Item[] =>
@@ -238,6 +257,20 @@ export function buildIndex(items: Item[]): string {
       );
     });
   const gatedItems = items.filter(gated);
+  const needs = items.filter(
+    (i) => i["needs-cause"] === "1" && ["open", "blocked"].includes(i.status),
+  );
+  const live = items.filter((i) => ["open", "blocked"].includes(i.status));
+  const atStandard = live.filter((i) => i.standard === "2").length;
+  // Oldest merge first. An item with no merged-at was merged before the stamp
+  // existed, so it is older than any stamped one.
+  const merged = items
+    .filter((i) => i.status === "merged")
+    .sort(
+      (a, b) =>
+        (a["merged-at"] || "").localeCompare(b["merged-at"] || "") ||
+        a.id.localeCompare(b.id),
+    );
   const counts = STATUSES.map(
     (s) => `${items.filter((i) => i.status === s).length} ${s}`,
   ).join(", ");
@@ -256,18 +289,36 @@ export function buildIndex(items: Item[]): string {
     "",
     `**${items.length} items:** ${counts}.`,
     "",
+    `**Standard:** ${atStandard} of ${live.length} open, gated and blocked items are at the standard.`,
+    "",
     "## In PR (from pool items)",
     "",
     ...(by("in-pr").length
       ? sorted(by("in-pr")).map(
           (i) =>
-            `- ${i.pr ? i.pr.replace(/^#(\d+)$/, "[#$1](https://github.com/lamontaes/Political-Game-Git/pull/$1)") : "no PR"}: ${cell(i.title)} ([${i.id}](items/${i.id}.md))`,
+            `- ${prLink(i.pr)}: ${cell(i.title)} ([${i.id}](items/${i.id}.md))`,
+        )
+      : ["None."]),
+    "",
+    `## Merged, waiting to be seen in the game (${merged.length})`,
+    "",
+    ...(merged.length
+      ? merged.map(
+          (i) =>
+            `- [${i.id}](items/${i.id}.md) (${[
+              i.area,
+              i.lead ? `lead ${i.lead}` : "",
+              i["merged-at"] ? `merged ${i["merged-at"].slice(0, 10)}` : "",
+              prLink(i.pr),
+            ]
+              .filter(Boolean)
+              .join(", ")}) — ${cell(i.title)}`,
         )
       : ["None."]),
     "",
     "## Next up",
     "",
-    ...nextUp(by("open"))
+    ...nextUp(by("open").filter((i) => i["needs-cause"] !== "1"))
       .slice(0, 15)
       .map(
         (i, n) =>
@@ -275,6 +326,19 @@ export function buildIndex(items: Item[]): string {
       ),
     "",
   ];
+  out.push(
+    `## Needs cause (${needs.length})`,
+    "",
+    "Not built until Fable finds the fix (owner, Nov 10).",
+    "",
+    ...(needs.length
+      ? sorted(needs).map(
+          (i) =>
+            `- [${i.id}](items/${i.id}.md) (${i.area}${i.lead ? `, lead ${i.lead}` : ""}, p${i.priority}, ${sizeOf(i)}) — ${cell(i.title)}`,
+        )
+      : ["None."]),
+    "",
+  );
   for (const s of ["open", "claimed", "in-pr", "blocked"]) {
     out.push(`## ${s} (${by(s).length})`, "");
     out.push(...(by(s).length ? table(by(s)) : ["None."]), "");
@@ -320,15 +384,26 @@ export function run(
   const errors: string[] = [];
   const warnings: string[] = [];
   const items: Item[] = [];
+  const repo = repoAt(join(poolDir, "..", ".."));
+  const roots = readRoots(poolDir);
   for (const f of files) {
     const text = readFileSync(join(dir, f), "utf8");
     const fm = parseFrontMatter(text);
     const errs = validate(f, fm);
     errors.push(...errs);
     if (!errs.length && fm && (!qualityOnly || qualityOnly.has(f)))
-      warnings.push(...quality(f, fm, text));
+      warnings.push(
+        ...quality(f, fm, text),
+        ...standardProblems(f, fm, text, repo, roots),
+      );
     if (!errs.length && fm)
-      items.push({ "claimed-by": "", pr: "", "blocked-on": "", ...fm } as Item);
+      items.push({
+        "claimed-by": "",
+        pr: "",
+        "blocked-on": "",
+        ...fm,
+        ...(needsCause(fm, text) ? { "needs-cause": "1" } : {}),
+      } as Item);
   }
   const known = new Set(files.map((f) => f.replace(/\.md$/, "")));
   for (const i of items)
@@ -354,8 +429,8 @@ export function buildIndexFor(poolDir: string): string {
  * The index is main's alone (pool-generated-index-merge-starvation): its count
  * line and lists change with every status, so any two branches that each wrote
  * it conflicted, and checked PRs starved. It is written only where the checkout
- * stands on main (a claim's push, the pool index workflow, the done-on-merge
- * flip, each on a branch made at origin/main to push to it); a branch never
+ * stands on main (a claim's push, the pool index workflow, the merge flip, a
+ * seen check, each on a branch made at origin/main to push to it); a branch never
  * changes it. A checkout with no origin/main is its own main.
  */
 export function onIndexHome(): boolean {
@@ -414,17 +489,35 @@ export function setFields(
     const head = /^---\r?\n[\s\S]*?\r?\n---/.exec(out);
     if (!head) throw new Error("no front matter");
     if (re.test(head[0])) {
-      const h2 = head[0].replace(re, `${k}: ${v}`.trimEnd());
+      const h2 = head[0].replace(re, () => `${k}: ${v}`.trimEnd());
       out = h2 + out.slice(head[0].length);
     } else {
       const h2 = head[0].replace(
         /\r?\n---$/,
-        `\n${`${k}: ${v}`.trimEnd()}\n---`,
+        () => `\n${`${k}: ${v}`.trimEnd()}\n---`,
       );
       out = h2 + out.slice(head[0].length);
     }
   }
   return out;
+}
+
+/** A front-matter value: plain when the reader takes it as written, quoted otherwise. */
+const fmValue = (v: string): string =>
+  /^[\w./@-]+(?: [\w./@-]+)*$/.test(v) ? v : JSON.stringify(v);
+
+/**
+ * Adds one line, as its own paragraph, to the end of an item's Notes section;
+ * an item with no Notes section gets one at the end.
+ */
+export function appendNote(text: string, line: string): string {
+  const head = /\*\*Notes\.?\*\*\.?/.exec(text);
+  if (!head) return `${text.trimEnd()}\n\n**Notes.** ${line}\n`;
+  const from = head.index + head[0].length;
+  const next = /\n\*\*[A-Z][a-z ]+\.?\*\*/.exec(text.slice(from));
+  const end = next ? from + next.index : text.length;
+  const tail = text.slice(end).replace(/^\s+/, "");
+  return `${text.slice(0, end).trimEnd()}\n\n${line}\n${tail ? `\n${tail}` : ""}`;
 }
 
 const git = (...a: string[]): string =>
@@ -539,6 +632,7 @@ export function flags(
   for (let i = 0; i < argv.length; i++) {
     if (argv[i] === "--no-push") f["no-push"] = "1";
     else if (argv[i] === "--local") f.local = "1";
+    else if (argv[i] === "--not") f.not = "1";
     else if (argv[i].startsWith("--")) {
       const eq = argv[i].indexOf("=");
       if (eq > 2) f[argv[i].slice(2, eq)] = argv[i].slice(eq + 1);
@@ -548,11 +642,35 @@ export function flags(
   return { pos, f };
 }
 
-/** The body sections `add` takes; a priority 1 or 2 item must give every one. */
-const BODY_FLAGS = ["what", "rules", "done", "files"] as const;
+/** What `add` must be given: every body section and every field of the standard (docs/pool/README.md). */
+const ADD_FLAGS = [
+  "title",
+  "what",
+  "cause",
+  "fix",
+  "timebox",
+  "rules",
+  "done",
+  "waits",
+  "files",
+  "model",
+  "effort",
+  "root",
+  "lead",
+] as const;
 
-const TEMPLATE = (f: Record<string, string>, id: string): string =>
-  `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nclaimed-by:\npr:\nblocked-on:\n${f.after ? `after: ${f.after}\n` : ""}source: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what || "TODO"}\n\n**Rules.** ${f.rules || "TODO"}\n\n**Done when.** ${f.done || "TODO"}\n\n**Files.** ${f.files || "TODO"}\n\n**Notes.** ${f.notes || "TODO"}\n`;
+const TEMPLATE = (f: Record<string, string>, id: string): string => {
+  const box = /^\d+(?:\.\d+)?$/.test(f.timebox)
+    ? `${f.timebox} hours`
+    : f.timebox;
+  return `---\nid: ${id}\ntitle: ${JSON.stringify(f.title)}\narea: ${f.area}\nkind: ${f.kind}\npriority: ${f.priority}\nsize: ${f.size}\nstatus: open\nstandard: 2\nclaimed-by:\npr:\nafter: ${f.after ?? ""}\nblocked-on:\nlead: ${f.lead}\nmodel: ${f.model}\neffort: ${f.effort}\nroot: ${f.root}\nsource: ${f.source || "added with npm run pool -- add"}\n---\n\n**What.** ${f.what}\n\n**Cause.** ${f.cause}\n\n**Fix.** ${f.fix}\n\n**Time box.** ${box}\n\n**Rules.** ${f.rules}\n\n**Done when.** ${f.done}\n\n**Waits on.** ${f.waits}\n\n**Files.** ${f.files}\n${f.notes ? `\n**Notes.** ${f.notes}\n` : ""}`;
+};
+
+/** What `seen` must be told: who looked, where, on which seed and commit, and what was on screen. */
+const SEEN_FLAGS = ["by", "place", "seed", "main", "saw"] as const;
+const SEEN_USAGE =
+  'usage: pool seen <id> [--not] --by <who> --place "<place>" --seed <seed> --main <commit> --saw "<what was on screen>"';
+const oneLine = (s: string): string => s.replace(/\s+/g, " ").trim();
 
 /** Runs a subcommand; returns an error message or null. */
 export function command(
@@ -581,8 +699,12 @@ export function command(
           );
         if (fm.status !== "open")
           throw new Error(`${id} is ${fm.status}, not open`);
+        if (needsCause(fm, readFileSync(itemPath(id), "utf8")))
+          throw new Error(
+            `${id} has no known cause (Cause: Needs cause.); it is not built until Fable finds the fix (owner, Nov 10)`,
+          );
         const waiting = ids(fm.after).filter(
-          (a) => readItem(a).status !== "done",
+          (a) => !gateOpen(readItem(a).status),
         );
         if (waiting.length)
           throw new Error(
@@ -600,18 +722,34 @@ export function command(
       mutate(id, edit, `pool: claim ${id} (${f.branch})`, noPush);
     } else if (cmd === "status") {
       const st = pos[2];
-      if (!id || !["in-pr", "done", "blocked", "open", "dropped"].includes(st))
-        return "usage: pool status <id> <in-pr|done|blocked|open|dropped> [--pr N] [--blocked-on <id>] [--by=cto]";
+      if (
+        !id ||
+        !["in-pr", "merged", "done", "blocked", "open", "dropped"].includes(st)
+      )
+        return "usage: pool status <id> <in-pr|merged|done|blocked|open|dropped> [--pr N] [--blocked-on <id>] [--by=cto]";
       if ((st === "done" || st === "dropped") && f.by !== "cto")
-        return `${st} is allowed only with --by=cto (or POOL_BY=cto in the environment)`;
+        return `${st} is allowed only with --by=cto (or POOL_BY=cto in the environment); work seen in the running game is closed with pool seen`;
       const edit = (): void => {
-        readItem(id);
+        const fm = readItem(id);
+        // A second merge of a checked or closed item must not undo its check.
+        if (
+          st === "merged" &&
+          ["done", "dropped"].includes(fm.status) &&
+          f.by !== "cto"
+        )
+          throw new Error(
+            `${id} is already ${fm.status}; merged would undo that (allowed only with --by=cto)`,
+          );
         const fields: Record<string, string> = { status: st };
         if (f.pr) fields.pr = `#${f.pr.replace(/^#/, "")}`;
         if (f["blocked-on"]) fields["blocked-on"] = f["blocked-on"];
+        // The first merge's time stands: the index lists the oldest merge first.
+        if (st === "merged" && !(fm.status === "merged" && fm["merged-at"]))
+          fields["merged-at"] = new Date().toISOString();
         if (st === "open") {
           fields["claimed-by"] = "";
           fields["claimed-at"] = "";
+          if ("merged-at" in fm) fields["merged-at"] = "";
         }
         writeFileSync(
           itemPath(id),
@@ -624,21 +762,80 @@ export function command(
         `pool: ${id} ${st}${f.pr ? ` (#${f.pr.replace(/^#/, "")})` : ""}`,
         noPush,
       );
+    } else if (cmd === "seen") {
+      if (!id) return SEEN_USAGE;
+      const missing = SEEN_FLAGS.filter(
+        (k) => !f[k]?.trim() || f[k].startsWith("--"),
+      );
+      if (missing.length)
+        return `seen needs every one of its five flags; missing ${missing.map((k) => `--${k}`).join(", ")}\n${SEEN_USAGE}`;
+      const by = oneLine(f.by);
+      const saw = oneLine(f.saw);
+      if (words(saw) < 8)
+        return `--saw needs at least 8 words saying what was on screen (has ${words(saw)})`;
+      const not = !!f.not;
+      const edit = (): void => {
+        const fm = readItem(id);
+        if (fm.status === "done" && fm["seen-by"])
+          throw new Error(`${id} was already seen by ${fm["seen-by"]}`);
+        if (fm.status !== "merged" && fm.status !== "done")
+          throw new Error(
+            `${id} is ${fm.status}, not merged; only work on main can be seen in the game`,
+          );
+        // Only the confirmation needs a second session: a builder who finds
+        // their own work missing may say so, since that never moves the number.
+        const builder = (fm["claimed-by"] || "").toLowerCase();
+        if (!not && builder && builder.includes(by.toLowerCase()))
+          throw new Error(
+            `${by} built ${id} (claimed-by ${fm["claimed-by"]}); the builder cannot confirm their own work, a second session must see it`,
+          );
+        const now = new Date().toISOString();
+        const fields: Record<string, string> = not
+          ? { status: "open", "claimed-by": "", "claimed-at": "" }
+          : { status: "done", "seen-by": fmValue(by), "seen-at": now };
+        if (not && "merged-at" in fm) fields["merged-at"] = "";
+        const note = `${not ? "Not seen" : "Seen"} in the game (${now.slice(0, 10)}, ${by}): ${oneLine(f.place)}, seed ${oneLine(f.seed)}, main ${oneLine(f.main)}: ${saw}`;
+        writeFileSync(
+          itemPath(id),
+          appendNote(
+            setFields(readFileSync(itemPath(id), "utf8"), fields),
+            note,
+          ),
+        );
+      };
+      mutate(
+        id,
+        edit,
+        not
+          ? `pool: ${id} not seen in the game, reopened (${by})`
+          : `pool: ${id} seen in the game (${by})`,
+        noPush,
+      );
     } else if (cmd === "add") {
       if (!id)
-        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --rules ... --done ... --files ... [--notes ...] (the four body flags are required for priority 1 and 2)";
+        return "usage: pool add <id> --title ... --area ... --kind ... --priority N --size S|M|L [--after a,b] --what ... --cause ... --fix ... --timebox <hours> --rules ... --done ... --waits ... --files ... --model haiku|sonnet|opus|fable --effort low|medium|high --root <id|none> --lead <role> [--notes ...] (every one of these is required; the item is written at the standard, docs/pool/README.md)";
       f.size = f.size || "M";
       const edit = (): void => {
         if (existsSync(itemPath(id))) throw new Error(`${id} already exists`);
-        if (!f.title) throw new Error("--title is required");
-        // A priority 1 or 2 item left as the template fails the pool check on
-        // main, which every session's gate runs; refuse it before the push.
-        const missing = BODY_FLAGS.filter((name) => !f[name]);
-        if (f.priority !== "3" && missing.length)
+        const missing = ADD_FLAGS.filter((name) => !f[name]);
+        if (missing.length)
           throw new Error(
-            `a priority ${f.priority} item needs its body: missing ${missing.map((n) => `--${n}`).join(", ")}`,
+            `an item at the standard needs every field and section: missing ${missing.map((n) => `--${n}`).join(", ")}`,
           );
-        writeFileSync(itemPath(id), TEMPLATE(f, id));
+        const text = TEMPLATE(f, id);
+        const fm = parseFrontMatter(text) ?? {};
+        const problems = [
+          ...validate(`${id}.md`, fm),
+          ...standardProblems(
+            `${id}.md`,
+            fm,
+            text,
+            repoAt(join(POOL(), "..", "..")),
+            readRoots(POOL()),
+          ),
+        ];
+        if (problems.length) throw new Error(problems.join("\n"));
+        writeFileSync(itemPath(id), text);
       };
       mutate(id, edit, `pool: add ${id}`, noPush);
     } else return `unknown subcommand: ${cmd}`;
@@ -653,43 +850,53 @@ if (
   import.meta.url === pathToFileURL(process.argv[1]).href
 ) {
   const sub = process.argv[2];
-  if (sub && !sub.startsWith("-")) {
-    const err = command(process.argv.slice(2));
-    if (err) {
-      console.error(err);
+  if (sub === "audit") {
+    const { f } = flags(process.argv.slice(3));
+    void import("./audit").then((m) => {
+      const rows = m.auditPool(join(process.cwd(), "docs", "pool"));
+      const json = `${JSON.stringify(rows, null, 2)}\n`;
+      if (f.out) writeFileSync(f.out, json);
+      else process.stdout.write(json);
+    });
+  } else {
+    if (sub && !sub.startsWith("-")) {
+      const err = command(process.argv.slice(2));
+      if (err) {
+        console.error(err);
+        process.exit(1);
+      }
+      console.log(`pool ${sub} done`);
+      process.exit(0);
+    }
+    const check = process.argv.includes("--check");
+    // `--changed`: the writing-quality checks cover only the items named in
+    // CHANGED_FILES (one path per line), so a change answers for its own items.
+    const qualityOnly = process.argv.includes("--changed")
+      ? new Set(
+          (process.env.CHANGED_FILES ?? "")
+            .split("\n")
+            .filter((f) => f.startsWith("docs/pool/items/"))
+            .map((f) => f.slice("docs/pool/items/".length)),
+        )
+      : undefined;
+    const poolDir = join(process.cwd(), "docs", "pool");
+    const home = onIndexHome();
+    const { errors, warnings } = run(poolDir, check, qualityOnly, {
+      staleCheck: false,
+      writeIndex: home,
+    });
+    if (check) errors.push(...indexCheck(poolDir));
+    if (!check && warnings.length) console.warn(warnings.join("\n"));
+    if (errors.length) {
+      console.error(errors.join("\n"));
       process.exit(1);
     }
-    console.log(`pool ${sub} done`);
-    process.exit(0);
+    console.log(
+      check
+        ? "pool items are valid and the index is main's"
+        : home
+          ? "pool index written"
+          : "pool items are valid; the index is written on main only, by the pool index workflow",
+    );
   }
-  const check = process.argv.includes("--check");
-  // `--changed`: the writing-quality checks cover only the items named in
-  // CHANGED_FILES (one path per line), so a change answers for its own items.
-  const qualityOnly = process.argv.includes("--changed")
-    ? new Set(
-        (process.env.CHANGED_FILES ?? "")
-          .split("\n")
-          .filter((f) => f.startsWith("docs/pool/items/"))
-          .map((f) => f.slice("docs/pool/items/".length)),
-      )
-    : undefined;
-  const poolDir = join(process.cwd(), "docs", "pool");
-  const home = onIndexHome();
-  const { errors, warnings } = run(poolDir, check, qualityOnly, {
-    staleCheck: false,
-    writeIndex: home,
-  });
-  if (check) errors.push(...indexCheck(poolDir));
-  if (!check && warnings.length) console.warn(warnings.join("\n"));
-  if (errors.length) {
-    console.error(errors.join("\n"));
-    process.exit(1);
-  }
-  console.log(
-    check
-      ? "pool items are valid and the index is main's"
-      : home
-        ? "pool index written"
-        : "pool items are valid; the index is written on main only, by the pool index workflow",
-  );
 }

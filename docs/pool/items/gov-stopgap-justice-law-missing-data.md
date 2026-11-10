@@ -9,17 +9,31 @@ claimed-by:
 pr: #5317
 blocked-on:
 milestone:
+standard: 2
+lead: governing
+model: sonnet
+effort: medium
+root: rc9-place-facts-one-default
 source: "src/core2/data/stopgaps.json, src/core2/justice-law.ts, kind missing-data"
 claimed-at:
+after:
 ---
 
-**What.** Replace or clear the 1 open missing-data stopgap row(s) in src/core2/justice-law.ts: SG-GOV-justice-prosecutor-stand-in. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** Replace or clear the one open missing-data stopgap row in src/core2/justice-law.ts: SG-GOV-justice-prosecutor-stand-in. The fake is replaced by the mechanic, or the feature that needs it is deleted. The row is never closed by deleting it alone.
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Cause.** Found in code: src/core2/justice-law.ts lines 102-103 register SG-GOV-justice-prosecutor-stand-in for a state prosecutor's office where the offices data names neither a covering county prosecutor nor an elected attorney general.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Fix.** Seat the real prosecuting office for places with no county prosecutor or elected attorney general (an appointed attorney general or the data's equivalent), read from the offices data, and show a justice case consuming it in a one-year run by record id.
 
-**Files.** src/core2/justice-law.ts
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the item's state honestly with a one-line note, and stop.
+
+**Rules.** No dice. Registered stopgaps: never close a row by deleting it. Replace, never layer. Numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE). An effect is a read, not a record: the seated office counts only when the justice engine reads it.
+
+**Done when.** A second session finds SG-GOV-justice-prosecutor-stand-in resolved in src/core2/data/stopgaps/gov.json and, in a one-year played-world run in a drawn place (seed named) with no county prosecutor or elected attorney general, a justice case prosecuted by the seated office, by record id.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/justice-law.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** First row: A state prosecutor's office where the offices data has neither a county prosecutor covering the town nor an elected attorney general.
 

@@ -40,6 +40,10 @@ export interface LawAppliedRow {
 
 /** The host module's id (host.ts); kept here so engines import no host code. */
 const HOST_ID = "core2-law-effects-v1";
+/** The other stores that record a law applied to someone, by module id (group-a-records.ts, group-b-store.ts, modules/laws.ts). */
+const REACH_A_ID = "core2-law-reach-a-v1";
+const REACH_B_ID = "core2-law-reach-b-v1";
+const LAWS_ID = "core2-laws-v1";
 
 /** Whether the world runs the law reach (laws are applied to people in it). */
 export function lawReachRuns(core: {
@@ -185,3 +189,220 @@ export const LAW_APPLIED_STATE = {
     },
   },
 } as const;
+
+/** One engine's part of a law's reach: what it did, to how many, and the money it moved. */
+export interface LawReachSide {
+  /** The engine that applied the law (its module id), or the law-reach store that holds the row. */
+  readonly engine: string;
+  /** What it changed, as the key the English engine words. */
+  readonly what: string;
+  readonly records: number;
+  readonly fullPeople: number;
+  /** People still in the counts that its groups, households and counted rows stand for. */
+  readonly counted: number;
+  readonly organizations: number;
+  readonly governments: number;
+  /** Money the law moved for these targets, minor units (signed: paid in is positive). */
+  readonly amountMinor: number;
+}
+
+export interface LawReach {
+  readonly lawId: string;
+  readonly records: number;
+  readonly fullPeople: number;
+  /** Full people it reached who live in the played town, and those who live anywhere else. */
+  readonly fullPeopleInTown: number;
+  readonly fullPeopleElsewhere: number;
+  readonly counted: number;
+  readonly organizations: number;
+  readonly governments: number;
+  readonly amountMinor: number;
+  readonly amountInTownMinor: number;
+  readonly amountElsewhereMinor: number;
+  readonly by: readonly LawReachSide[];
+  /** Each full person it reached, the most money first. */
+  readonly people: readonly {
+    readonly personId: string;
+    readonly inTown: boolean;
+    readonly what: string;
+    readonly amountMinor: number;
+  }[];
+}
+
+/**
+ * Everyone one law row reached, from every store that records a law applied
+ * to someone: the applied table each engine writes when it reads the law at
+ * the moment it decides or pays (applied.ts), both law-reach stores, and the
+ * wage raises. Full people are named, with where they live; counted people
+ * are the numbers their groups stand for; the money is what the engines
+ * recorded moving. Ended rows count too: a repealed law reached people while
+ * it was law. This is the reader for a check or a page that asks "what did
+ * this law do"; `reachedBy` (host.ts) stays the indexed read of who a key
+ * still reaches. It walks the stores, so it is for a screen or a tool, never for a
+ * step of play. (Fable audit, Nov 9, 2026: dev mode's count read three
+ * modules for a `personId` and missed the applied table, so a property tax
+ * and a wage raise read zero, and the crew's harness counted the members who
+ * voted.)
+ */
+export function lawReach(
+  api: CoreAPI,
+  lawId: string,
+  /** The played town's place id: full people are split by whether they live there. */
+  townPlaceId: string,
+): LawReach {
+  const core = api.state;
+  const town = townPlaceId;
+  type Side = {
+    engine: string;
+    what: string;
+    records: number;
+    people: Set<string>;
+    counted: number;
+    organizations: Set<string>;
+    governments: Set<string>;
+    amountMinor: number;
+  };
+  const sides = new Map<string, Side>();
+  const perPerson = new Map<string, { amountMinor: number; what: string }>();
+  const side = (engine: string, what: string) => {
+    const key = `${engine}|${what}`;
+    let held = sides.get(key);
+    if (!held)
+      sides.set(
+        key,
+        (held = {
+          engine,
+          what,
+          records: 0,
+          people: new Set(),
+          counted: 0,
+          organizations: new Set(),
+          governments: new Set(),
+          amountMinor: 0,
+        }),
+      );
+    return held;
+  };
+  const num = (value: unknown) =>
+    typeof value === "number" && Number.isFinite(value) ? value : 0;
+  const text = (value: unknown) => (typeof value === "string" ? value : "");
+  const person = (into: Side, id: string, amount: number) => {
+    if (!core.people.has(id)) return false;
+    into.people.add(id);
+    const held = perPerson.get(id);
+    if (held) held.amountMinor += amount;
+    else perPerson.set(id, { amountMinor: amount, what: into.what });
+    return true;
+  };
+  const stores: readonly (readonly [string, readonly string[]])[] = [
+    [HOST_ID, [LAW_APPLIED_TABLE]],
+    [REACH_A_ID, ["reach", "premiums"]],
+    [REACH_B_ID, ["people", "organizations", "groups"]],
+    [LAWS_ID, ["raises"]],
+  ];
+  for (const [moduleId, tables] of stores) {
+    if (!core.modules.has(moduleId)) continue;
+    const state = api.moduleState(moduleId);
+    const declared = core.modules.get(moduleId)?.state?.tables ?? {};
+    for (const name of tables) {
+      if (!(name in declared)) continue;
+      for (const row of state.table(name).rows() as unknown as Readonly<
+        Record<string, unknown>
+      >[]) {
+        if (row.lawId !== lawId) continue;
+        const into = side(
+          text(row.engine) || moduleId,
+          text(row.what) || text(row.effect) || text(row.key) || name,
+        );
+        into.records += 1;
+        const amount =
+          num(row.amountMinor) ||
+          // A wage raise: the hourly pay it added, as the raise row keeps it.
+          (name === "raises" ? num(row.toMinor) - num(row.fromMinor) : 0);
+        into.amountMinor += amount;
+        const target = text(row.target);
+        const targetId = text(row.targetId);
+        const count = num(row.count) || 1;
+        if (typeof row.personId === "string") {
+          if (!person(into, row.personId, amount)) into.counted += 1;
+        } else if (typeof row.organizationId === "string")
+          into.organizations.add(row.organizationId);
+        else if (typeof row.reached === "number") into.counted += row.reached;
+        else if (target === "organization") into.organizations.add(targetId);
+        else if (target === "government") into.governments.add(targetId);
+        else if (target === "household") {
+          // A full household's members are full people; one still in the counts stands for its count.
+          const full = (core.households.get(targetId)?.memberIds ?? []).filter(
+            (id) => core.people.has(id),
+          );
+          if (full.length)
+            full.forEach((id, at) => person(into, id, at === 0 ? amount : 0));
+          else into.counted += count;
+        } else if (target === "group") into.counted += count;
+        else if (targetId) {
+          // A person by id, or a counted target named by a key of its own ("counted:<spec>").
+          if (!person(into, targetId, amount)) into.counted += count;
+        }
+      }
+    }
+  }
+  const everyone = new Set<string>();
+  const organizations = new Set<string>();
+  const governments = new Set<string>();
+  let records = 0;
+  let counted = 0;
+  let amountMinor = 0;
+  for (const s of sides.values()) {
+    records += s.records;
+    counted += s.counted;
+    amountMinor += s.amountMinor;
+    for (const id of s.people) everyone.add(id);
+    for (const id of s.organizations) organizations.add(id);
+    for (const id of s.governments) governments.add(id);
+  }
+  const people = [...perPerson]
+    .map(([personId, held]) => ({
+      personId,
+      inTown: core.people.get(personId)?.placeId === town,
+      what: held.what,
+      amountMinor: held.amountMinor,
+    }))
+    .sort(
+      (a, b) =>
+        Math.abs(b.amountMinor) - Math.abs(a.amountMinor) ||
+        a.personId.localeCompare(b.personId),
+    );
+  const sum = (rows: readonly { amountMinor: number }[]) =>
+    rows.reduce((total, row) => total + row.amountMinor, 0);
+  return {
+    lawId,
+    records,
+    fullPeople: everyone.size,
+    fullPeopleInTown: people.filter((p) => p.inTown).length,
+    fullPeopleElsewhere: people.filter((p) => !p.inTown).length,
+    counted,
+    organizations: organizations.size,
+    governments: governments.size,
+    amountMinor,
+    amountInTownMinor: sum(people.filter((p) => p.inTown)),
+    amountElsewhereMinor: sum(people.filter((p) => !p.inTown)),
+    by: [...sides.values()]
+      .map((s) => ({
+        engine: s.engine,
+        what: s.what,
+        records: s.records,
+        fullPeople: s.people.size,
+        counted: s.counted,
+        organizations: s.organizations.size,
+        governments: s.governments.size,
+        amountMinor: s.amountMinor,
+      }))
+      .sort(
+        (a, b) =>
+          Math.abs(b.amountMinor) - Math.abs(a.amountMinor) ||
+          b.records - a.records ||
+          `${a.engine}|${a.what}`.localeCompare(`${b.engine}|${b.what}`),
+      ),
+    people,
+  };
+}

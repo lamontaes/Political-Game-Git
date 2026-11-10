@@ -6,18 +6,32 @@ kind: bug
 priority: 1
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #4938
+after:
 blocked-on:
+lead: m0-m2
+model: opus
+effort: high
+root: none
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net. A real town's net migration sits within about 1 percent of its state's. Find what makes in-moves fall short of out-moves and fix the cause.
+**What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net. A real town's net migration sits near its state's, so a town that empties faster than its state is a sign that the in-moves and out-moves follow different rules. Find what makes in-moves fall short of out-moves and fix the cause. Two causes were fixed on Oct 17 (the counted engine could not tell which state a state-level counted place lay in, and newcomers settled only where a counted household of their age lived); the rest were measured and need a fresh look at the current code.
 
-**Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed.
+**Cause.** Needs cause. Looked at the item's measured table and src/core2/modules/counted-moves.ts (`stateOfCountedPlace` at line 531 and `month` at line 559): fixes (1) and (2) are in, and `departuresOf` is gone, so the remaining suspects (a full person who moves away is never replaced by a full arrival; the destination pull is not normalized, so a state poorer than average loses more than the ACS rate; tiny towns get fewer than one arrival a year) have not been re-measured against the current code.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld) in six places drawn from all 56 and seeds the builder did not choose (names in the PR body), each town's net moving (in-moves less out-moves, counted and full, over its residents at the start) is within 1.5 percent of its state's net migration, shown by move record ids, and a test in src/core2 states it. **On screen.** Nothing yet: filed play-town-moves-on-screen, which puts it on Who you are and News.
+**Fix.** None until the cause is found.
+
+**Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** No dice: movers come from the pull of income, prices and jobs, never a roll. One model, two tiers: a counted household and a full person leave and arrive by the same rule. One rule, all 56 places. Never tune a seed. Real migration rates report the gap and never decide a pass (owner, Nov 8: ranges are not targets).
+
+**Done when.** A second session, on main in six places drawn from all 56 with seeds it chooses (names in the PR body), plays a year in dev mode and reads the Metrics tab and the move records: every in-move and out-move, counted and full, names a recorded reason, a full person who leaves is replaced by arrivals under the same rule as a counted household, and each town's net moving and its state's net migration are printed side by side as a report. A test in src/core2 states the cause found and the move record ids that show it.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/counted-moves.ts, src/core2/modules/moves.ts, src/core2/place-lookup.ts
 

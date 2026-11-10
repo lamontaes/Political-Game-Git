@@ -6,20 +6,34 @@ kind: feature
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
+after:
+lead: jobs
+model: opus
+effort: medium
+root: none
 source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** When an employer picks among applicants in the jobs engine, the choice records its reasons: the owner's recorded traits and views read against each applicant's own record (experience, reliability, and the applicant's protected traits such as gender and age that the people records already carry). Reasons are saved only for the decisions that actually hire or pass over someone. The player sees it as a choice among people, never a form, and no hire changes unless a recorded view already pulled one way.
+**What.** When an employer picks among applicants in the jobs engine, the choice records its reasons: the owner's recorded traits and views read against each applicant's own record (experience, reliability, and the applicant's protected traits such as gender and age that the people records already carry). Reasons are saved only for the decisions that actually hire or pass over someone. The player sees it as a choice among people, never a form, and no hire changes unless a recorded view already pulled one way. The owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": a discrimination ban refuses a decision whose recorded reasons cite a protected trait (the next item, world-hiring-discrimination-ban-refusal).
+
+**Cause.** Found in code: the hire loop `runWeek` in src/core2/modules/jobs.ts reads only src/core2/jobs-age-bias.ts for any hiring bias; no record holds an owner's attitude toward a group (views.ts holds political-question stances only), so a hiring decision has no recorded view to cite until world-employer-attitude-table lands.
+
+**Fix.** Record each hire and pass-over decision's reasons by record id from the owner's recorded attitude and the applicant's record, in the hiring scoring in src/core2/modules/jobs.ts, with no change of outcome where no view applies.
+
+**Time box.** 8 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** An effect is a read, not a record: the reasons are read by the next item's law check, not just logged. No dice: reasons come from traits, views and records, never a roll. Ask why: every pass-over answers why by record id. One rule, all 56 places: nothing names a place.
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, a drawn place and a seed the builder did not choose, both named in the PR body), a hiring decision's job-change record lists its reasons by record id, a test in src/core2/jobs.test.ts shows two applicants with the same fit chosen differently only where the owner's recorded view differs, and no hiring outcome changes where no view applies. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
+**Done when.** A second session (not the builder) plays a one-year world (`buildBenchWorld`, a drawn place and a seed the builder did not choose, both named in the PR body) and sees a hiring decision's job-change record list its reasons by record id; a test in src/core2/jobs.test.ts shows two applicants with the same fit chosen differently only where the owner's recorded view differs, and no hiring outcome changes where no view applies. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
 
-**Files.** src/core2/modules/jobs.ts, src/core2/modules/offices.ts (owner views), src/core2/jobs.test.ts
+**Waits on.** world-employer-attitude-table (the sourced attitude table the reasons cite).
+
+**Files.** src/core2/modules/jobs.ts, src/core2/modules/offices.ts, src/core2/jobs-age-bias.ts, src/core2/jobs.test.ts
 
 **Notes.** Split from world-sale-eligibility-reads (an L item) on Oct 19; the owner's ruling is in docs/coordination/OWNER-DECISIONS.md, "Employer passing over an applicant (#5102)": the owner's traits and views read against the applicant's record, with the reasons recorded; a discrimination ban refuses a decision whose recorded reasons cite a protected trait. Stopgap SG-GOV-REACH-A-discrimination. Claim released Oct 23: branch gone.
 

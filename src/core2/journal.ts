@@ -155,39 +155,48 @@ export function journalCheckCounts(): {
   };
 }
 
+/**
+ * The journal's checks, once at module level: a posting used to make these as
+ * closures on every call (hundreds of thousands a year), each named at run
+ * time. Same checks, same messages.
+ */
+function journalParameter(
+  parameters: Readonly<Record<string, number>>,
+  key: string,
+): number {
+  const value = parameters[key];
+  if (value === undefined || !Number.isFinite(value))
+    throw new Error(`Missing registered journal parameter: ${key}`);
+  return value;
+}
+function journalMinor(zero: number, value: number, field: string): void {
+  if (!Number.isSafeInteger(value) || value < zero)
+    throw new Error(`Invalid nonnegative integer journal amount: ${field}`);
+}
+function journalExactMinor(zero: number, value: bigint, field: string): number {
+  const result = Number(value);
+  journalMinor(zero, result, field);
+  if (BigInt(result) !== value)
+    throw new Error(`Journal amount overflows exact minor units: ${field}`);
+  return result;
+}
+function journalExactSignedMinor(value: bigint, field: string): number {
+  const result = Number(value);
+  if (!Number.isSafeInteger(result) || BigInt(result) !== value)
+    throw new Error(
+      `Journal signed flow overflows exact minor units: ${field}`,
+    );
+  return result;
+}
+
 export function projectCashJournal(
   input: Readonly<CashJournalInput>,
   context: Readonly<CashJournalContext>,
   parameters: Readonly<Record<string, number>> = P,
 ): CashJournalProjection {
-  const p = (key: string) => {
-    const value = parameters[key];
-    if (value === undefined || !Number.isFinite(value))
-      throw new Error(`Missing registered journal parameter: ${key}`);
-    return value;
-  };
-  const zero = p("zero"),
-    one = p("one"),
+  const zero = journalParameter(parameters, "zero"),
+    one = journalParameter(parameters, "one"),
     zeroExact = BigInt(zero);
-  const minor = (value: number, field: string) => {
-    if (!Number.isSafeInteger(value) || value < zero)
-      throw new Error(`Invalid nonnegative integer journal amount: ${field}`);
-  };
-  const exactMinor = (value: bigint, field: string) => {
-    const result = Number(value);
-    minor(result, field);
-    if (BigInt(result) !== value)
-      throw new Error(`Journal amount overflows exact minor units: ${field}`);
-    return result;
-  };
-  const exactSignedMinor = (value: bigint, field: string) => {
-    const result = Number(value);
-    if (!Number.isSafeInteger(result) || BigInt(result) !== value)
-      throw new Error(
-        `Journal signed flow overflows exact minor units: ${field}`,
-      );
-    return result;
-  };
   // Bookkeeping is a debug switch: the structural re-checks below run in
   // tests and the bench; play runs the same arithmetic without them. The
   // sequence, source, balance and overflow checks always run.
@@ -198,11 +207,11 @@ export function projectCashJournal(
     date = makeIsoDate(input.date);
   if (date !== at)
     throw new Error("Journal posting must use the actual current date.");
-  minor(context.nextSequence, "next sequence");
+  journalMinor(zero, context.nextSequence, "next sequence");
   if (input.expectedSequence !== context.nextSequence)
     throw new Error("Duplicate or stale journal sequence.");
   const nextSequence = context.nextSequence + one;
-  minor(nextSequence, "next sequence");
+  journalMinor(zero, nextSequence, "next sequence");
   if (nextSequence <= context.nextSequence)
     throw new Error("Journal sequence must advance.");
   if (input.id !== `journal:${at}:${context.nextSequence}`)
@@ -319,8 +328,8 @@ export function projectCashJournal(
     }
     if (bigSum !== zeroExact || bigCredits !== bigDebits)
       throw new Error("Cash journal postings must balance exactly.");
-    exactMinor(bigCredits, "gross credits");
-    exactMinor(bigDebits, "gross debits");
+    journalExactMinor(zero, bigCredits, "gross credits");
+    journalExactMinor(zero, bigDebits, "gross debits");
   }
   if (sum !== zero || credits !== debits)
     throw new Error("Cash journal postings must balance exactly.");
@@ -347,7 +356,7 @@ export function projectCashJournal(
     if (!owner || owner.id !== ownerId)
       throw new Error("Registered cash account owner is absent.");
     if (checked) identity(owner.id, "cash owner");
-    minor(owner.liquidMinor, "owner cash");
+    journalMinor(zero, owner.liquidMinor, "owner cash");
     const accountIds = checked ? new Set(owner.accountIds) : undefined;
     if (accountIds && accountIds.size !== owner.accountIds.length)
       throw new Error("Duplicate registered owner account index.");
@@ -401,7 +410,7 @@ export function projectCashJournal(
           if (delta < zeroExact) outgoing -= delta;
           else incoming += delta;
         }
-      const afterNetMinor = exactSignedMinor(
+      const afterNetMinor = journalExactSignedMinor(
         BigInt(owner.outsideNetMinor) + incoming - outgoing,
         "outside net flow",
       );
@@ -409,8 +418,16 @@ export function projectCashJournal(
         ownerId,
         beforeNetMinor: owner.outsideNetMinor,
         afterNetMinor,
-        outgoingMinor: exactMinor(outgoing, "outside outgoing flow"),
-        incomingMinor: exactMinor(incoming, "outside incoming flow"),
+        outgoingMinor: journalExactMinor(
+          zero,
+          outgoing,
+          "outside outgoing flow",
+        ),
+        incomingMinor: journalExactMinor(
+          zero,
+          incoming,
+          "outside incoming flow",
+        ),
       });
       owners.set(ownerId, { ownerId, beforeMinor: zero, afterMinor: zero });
       accounts.set(id, {
@@ -445,9 +462,9 @@ export function projectCashJournal(
           throw new Error("Cash owner requires exactly one residual account.");
         residualId = id;
       } else {
-        minor(account.allocatedMinor, "fund allocation");
+        journalMinor(zero, account.allocatedMinor, "fund allocation");
         const after = account.allocatedMinor + delta;
-        minor(after, "fund after");
+        journalMinor(zero, after, "fund after");
         fundsBefore += account.allocatedMinor;
         fundsAfter += after;
         accounts.set(id, {
@@ -472,11 +489,11 @@ export function projectCashJournal(
             "Posted account is missing from the owner's complete fund index.",
           );
     const ownerAfter = owner.liquidMinor + ownerDelta;
-    minor(ownerAfter, "owner after");
+    journalMinor(zero, ownerAfter, "owner after");
     const residualBefore = owner.liquidMinor - fundsBefore;
-    minor(residualBefore, "residual before");
+    journalMinor(zero, residualBefore, "residual before");
     const residualAfter = ownerAfter - fundsAfter;
-    minor(residualAfter, "residual after");
+    journalMinor(zero, residualAfter, "residual after");
     accounts.set(residualId, {
       accountId: residualId,
       ownerId,

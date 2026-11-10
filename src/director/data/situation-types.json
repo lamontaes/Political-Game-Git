@@ -614,6 +614,27 @@
           "opener": "bearer",
           "setting": ["public"],
           "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "circumstance:race-result-known-after-ran",
+            "causeFacts": [
+              {
+                "key": "winnerId",
+                "is": "other"
+              }
+            ]
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "election-result",
+          "bind": {
+            "bearer": "counterpart",
+            "you": "subject",
+            "about": "winner"
+          },
+          "opener": "bearer",
+          "setting": ["public"],
+          "opening": "tell"
         }
       ],
       "tag": {
@@ -6494,6 +6515,19 @@
           "causeRecord": "rival-filed",
           "bind": {
             "teller": "household",
+            "you": "subject"
+          },
+          "opener": "teller",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "circumstance:rival-known-late"
+          },
+          "causeEngine": "circumstance",
+          "causeRecord": "candidate-filed",
+          "bind": {
+            "teller": "counterpart",
             "you": "subject"
           },
           "opener": "teller",
