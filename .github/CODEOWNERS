@@ -199,6 +199,7 @@
 /src/core2/modules/life.ts @lamontaes
 /src/core2/modules/moves.ts @lamontaes
 /src/core2/modules/counted-moves.ts @lamontaes
+/src/core2/returned-members-move.ts @lamontaes
 /src/core2/modules/counted-demotion.ts @lamontaes
 /src/core2/modules/health.ts @lamontaes
 /src/core2/modules/housing.ts @lamontaes

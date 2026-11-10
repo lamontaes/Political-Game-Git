@@ -296,6 +296,122 @@ Repaired after an independent audit, before review:
 - A promise can only be conditioned on something the game can actually settle.
   One condition on the list could never come true and is gone.
 
+## PRE-ALPHA 0.99.0
+
+_Released November 9, 2026._
+
+### Added
+
+- **A celebration and a birthday missing a relative now each ask you for
+  something.** At a wedding or a new-job celebration in your home, a relative
+  asks you for something: a few words for everyone, a picture, a talk about an
+  old quarrel, or help finding work. When a birthday at home goes by with a
+  relative missing, someone in your household asks you to call, write or visit
+  them, and may mention their news, like a new baby or an illness. What you
+  agree to is kept, and a no that is pressed strains the tie.
+
+- **A new coworker's first meeting and a new friend's ask now say what they are
+  about.** When someone new starts at your workplace, they come over, introduce
+  themselves and ask you something real: how things run, the same job you do,
+  where you went to school, the party you both belong to, or where to eat in a
+  town they drive in to. When a tie with someone has grown into a friendship,
+  they ask you to come along somewhere or to do them a favor. What you agree to
+  or promise is kept, and putting them off after they press you strains the tie.
+
+- **The person who got you help when you fell ill now asks you for something.**
+  When a serious illness hits you at home and someone in your household calls
+  for help, they come to you afterward with a request: a ride to the doctor, a
+  visit to one, to stay close for a few days, or a promise to tell them the
+  moment you feel sick again. If a child was in the room, they may ask you to
+  talk to the child. What you agree to is kept, and a no that is pressed strains
+  the tie.
+
+- **A homecoming from prison and a prison visit now say what they are about.**
+  When someone you live with or love comes home from prison, they ask you for a
+  place to stay until there is work, for help finding work with a record, and to
+  know where they stand after what the term cost, and you can agree, promise to
+  help, ask what they need or put the talk off. When you visit someone the
+  justice engine holds, they ask you to put money on their account, look after a
+  child, call a lawyer or take a word to the family, with the sentence, the day
+  they get out or the bail named from the record, and what you promise is kept.
+
+- **A long-lost friend coming back and a relative's letter now each ask you for
+  something.** When someone you have not been in touch with for years finds you
+  again, they say how long it has been and ask for something. They may want to
+  start over, catch up over lunch, find a lead on work, or have you visit. They
+  tell you what has changed for them, like a new child or a new job. A letter
+  from a relative who lives elsewhere asks for a visit or a letter back, and may
+  mention their news. What you agree to is kept, and a no that is pressed
+  strains the tie.
+
+- **A complaint to the prosecutor about you now plays four different
+  confrontations.** When someone reports you to the prosecutor over a bribe, the
+  face-to-face that follows depends on what they know. An official you offered
+  money to says so plainly, someone who was only told of it asks who talked, a
+  case where the money was taken names more than one person, and a friend asks
+  you to tell them the truth. The old lines about a firm on a bid list no longer
+  play for a complaint.
+
+- **A quarrel over a missed payment now plays four different apology scenes.**
+  When you miss a payment and the person you live with is wronged by it, the
+  talk that follows depends on how things stand. A close housemate is hurt and
+  asks what happened, someone you have quarreled with over money before is tired
+  of hearing sorry, and someone short on money themselves asks for a plan. The
+  old lines about a council meeting no longer play for a household quarrel.
+
+### Improved
+
+- **Old decisions not to run are let go** Once a race is long decided, the game
+  stops keeping every townsperson's reasons for not running in it, so long games
+  hold less in memory. Who ran, and every race still ahead, is kept.
+
+- **Old ballot-by-ballot counts are let go** Two months after a race, the game
+  stops keeping how each of the town's counted voters marked their ballot, so
+  long games hold less in memory. Every result, return and named voter's ballot
+  is kept.
+
+- **The world forgets the ids of long-past events** The game stops keeping the
+  name tag of every event that ever happened once the event's date is more than
+  a year past, so long games hold less in memory. Nothing that can still be
+  asked about is forgotten.
+
+- **Checked petitions let their signature sheets go** Once the clerk has checked
+  a nominating petition, the game keeps the result (how many signatures counted
+  and which were struck) and lets the individual signatures go, so long games
+  hold less in memory.
+
+- **A story read at home, a goodbye and a rent notice now say what they are
+  about.** When someone at home or at work reads a story and brings it up, they
+  name it, and you can agree, disagree, ask what it said or put the talk off.
+  When someone you know moves away and comes to say goodbye, they tell you where
+  they are going, who goes along and why when it is on record, and you can
+  comfort them, ask, promise to keep in touch or thank them. The rent notice now
+  says about how much is owed and how long the rent has gone unpaid, and a few
+  dollars short no longer reads like months behind.
+
+### Fixed
+
+- **A reporter's call says what the story is about** When a reporter calls about
+  your vote, the opening now names the bill or topic the story is about, and the
+  reporter's later lines (holding a paragraph, checking a claim, printing your
+  answer) say what they refer to.
+
+- **Long games no longer stop when the paper's staff list is refreshed** Someone
+  who had faded back into the town's wider population and then moved away could
+  still be hired for a job in town. When that job was at a newspaper, the
+  paper's weekly staff refresh tried to bring the absent worker into the story
+  and the game stopped (Montpelier, Vermont, in year 19). Job seekers who have
+  moved away or died are now taken off the list before anyone is hired. When a
+  household that had faded back into the wider population moves away, the people
+  in it now move away too, as anyone else who leaves town does: their relatives
+  in town hear of it, and they stop looking for work here.
+
+- **A visit to meet a new baby now only comes to the baby's parents, from a
+  relative who is not the other parent.** When you have a baby, a relative now
+  comes by to meet the child and asks how you are really doing, naming the baby
+  and your partner. Before, other people's babies could cast you as the parent,
+  and the baby's own father could be the one who came to visit.
+
 ## PRE-ALPHA 0.98.0
 
 _Released November 9, 2026._

@@ -93,6 +93,7 @@ import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
 import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
+import { traceNode, type TraceNode } from "./dev-trace";
 import { newsItems } from "./calendar";
 import experiments from "./data/dev-experiments.json" with { type: "json" };
 import { causeMatches, SITUATION_LIBRARY } from "../director/scheduling";
@@ -1966,16 +1967,13 @@ export class DevMode {
 
   // 4. Trace --------------------------------------------------------------
 
-  /** A record's causes as the core's saved-trace resolver (and the director) know them. */
-  trace(id: string) {
-    if (!this.player) throw new Error("Generate a town first.");
-    const law = has(this.core, LAWS_MODULE_ID)
-      ? this.api.moduleState(LAWS_MODULE_ID).table("laws").get(id)
-      : undefined;
-    return {
-      ...this.player.trace(id),
-      record: this.core.durableLog.get(id) ?? law ?? null,
-    };
+  /**
+   * Why a record is there: the one trace (dev-trace.ts), which finds the record wherever the game keeps
+   * it and answers decided, caused, circle-only, opening, no-cause-kept or not-a-record, with the
+   * records behind it. It reads only.
+   */
+  trace(id: string): TraceNode {
+    return traceNode(this.core, this.director, id);
   }
 
   /**
