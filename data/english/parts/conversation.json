@@ -24853,6 +24853,250 @@
       "tag": {
         "move": "answer"
       }
+    },
+    {
+      "key": "conversation.shared-school-answer-detail.i-remember-school-i-m-at-my-employer-now",
+      "move": "shared-school-answer-detail",
+      "kind": "spoken",
+      "text": "I remember {school}. I'm at {my_employer} now.",
+      "uses": [
+        {
+          "move": "shared-school-answer-detail",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-detail.sure-these-days-i-live-in-my-place",
+      "move": "shared-school-answer-detail",
+      "kind": "spoken",
+      "text": "Sure. These days I live in {my_place}.",
+      "uses": [
+        {
+          "move": "shared-school-answer-detail",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-deflect.give-me-a-minute-on-that-ask-me-again-later",
+      "move": "shared-school-answer-deflect",
+      "kind": "spoken",
+      "text": "Give me a minute on that. Ask me again later.",
+      "uses": [
+        {
+          "move": "shared-school-answer-deflect",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-deflect.i-d-need-to-think-ask-me-again-sometime",
+      "move": "shared-school-answer-deflect",
+      "kind": "spoken",
+      "text": "I'd need to think. Ask me again sometime.",
+      "uses": [
+        {
+          "move": "shared-school-answer-deflect",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-change.school-sure-where-do-you-work-now",
+      "move": "shared-school-answer-change",
+      "kind": "spoken",
+      "text": "{school}, sure. Where do you work now?",
+      "uses": [
+        {
+          "move": "shared-school-answer-change",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.shared-school-answer-change.of-course-what-are-you-doing-these-days",
+      "move": "shared-school-answer-change",
+      "kind": "spoken",
+      "text": "Of course. What are you doing these days?",
+      "uses": [
+        {
+          "move": "shared-school-answer-change",
+          "subject": "shared-school",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-answer-detail.still-here-i-m-at-my-employer-these-days",
+      "move": "home-answer-detail",
+      "kind": "spoken",
+      "text": "Still here. I'm at {my_employer} these days.",
+      "uses": [
+        {
+          "move": "home-answer-detail",
+          "subject": "home",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-answer-detail.yes-i-work-at-my-employer-now",
+      "move": "home-answer-detail",
+      "kind": "spoken",
+      "text": "Yes. I work at {my_employer} now.",
+      "uses": [
+        {
+          "move": "home-answer-detail",
+          "subject": "home",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-answer-deflect.for-now-it-s-a-long-story-ask-me-another-day",
+      "move": "home-answer-deflect",
+      "kind": "spoken",
+      "text": "For now. It's a long story. Ask me another day.",
+      "uses": [
+        {
+          "move": "home-answer-deflect",
+          "subject": "home",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-answer-deflect.it-s-complicated-ask-me-again-another-time",
+      "move": "home-answer-deflect",
+      "kind": "spoken",
+      "text": "It's complicated. Ask me again another time.",
+      "uses": [
+        {
+          "move": "home-answer-deflect",
+          "subject": "home",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-answer-change.still-here-where-do-you-work-now",
+      "move": "home-answer-change",
+      "kind": "spoken",
+      "text": "Still here. Where do you work now?",
+      "uses": [
+        {
+          "move": "home-answer-change",
+          "subject": "home",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.home-answer-change.yes-what-are-you-up-to-these-days",
+      "move": "home-answer-change",
+      "kind": "spoken",
+      "text": "Yes. What are you up to these days?",
+      "uses": [
+        {
+          "move": "home-answer-change",
+          "subject": "home",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, school home four answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }
