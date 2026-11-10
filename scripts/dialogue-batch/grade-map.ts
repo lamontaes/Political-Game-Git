@@ -42,6 +42,12 @@ const PARTS_DIR = "data/english/parts";
 const GRADE_DIR = "data/english/grades";
 const CALIBRATION_FILE = "data/english/calibration.json";
 const LEDGER_FILE = "data/english/part-grades.json";
+const REWRITTEN_FILE = "data/english/rewritten-after-grading.json";
+/** Keys of lines the owner graded that a later pass deleted outright. */
+const gradedThenRemoved = new Set(
+  (JSON.parse(readFileSync(REWRITTEN_FILE, "utf8")) as { deleted?: string[] })
+    .deleted ?? [],
+);
 
 /** Every bank piece with its text, bearing and the kinds of scene it plays in. */
 export function readMapPieces(
@@ -140,6 +146,10 @@ export function spanGrades(
     for (const row of file.grades ?? file.items ?? []) {
       if (!row.key || (!row.spans && row.strength === undefined)) continue;
       const piece = pieces.get(row.key);
+      // A line he graded that a later pass deleted with his lessons (the
+      // journal's "after ... out of work" lines became small stories) has no
+      // piece to weigh; its grade stays in the grade file and the ledger.
+      if (!piece && gradedThenRemoved.has(row.key)) continue;
       if (!piece)
         throw new Error(
           `${join(dir, name)}: span grade names no piece ${row.key}`,
