@@ -80,7 +80,7 @@ import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { countryOutlook, nationalPanel } from "../core2/modules/macro";
 import { corePlaceByJurisdictionId } from "../core2/place-lookup";
-import type { EntityId } from "../core2/types";
+import type { EntityId } from "../core2/kernel/brands";
 import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
