@@ -37,4 +37,4 @@ checked: fable 2026-11-10
 
 **Notes.** Oct 28: the earlier item world-disaster-repairs-no-outside-market is done; this is its test turning red again.
 
-**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10).** When the cause is found, the fix plays the path in a place that reaches it, found by the test's own bounded draws and named in the failure message, and never loosens the assertion.
+**Notes (Fable's check, Nov 10).** When the cause is found, the fix plays the path in a place that reaches it, found by the test's own bounded draws and named in the failure message, and never loosens the assertion.

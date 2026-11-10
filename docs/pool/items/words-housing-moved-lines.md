@@ -48,4 +48,4 @@ Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political
 
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
 
-**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of world-new-homes-moves-read. The record this item could not find is `housing.moved`, written in src/core2/housing-occupancy.ts (line 383) with the household's members, and read by nothing. world-new-homes-moves-read has that record written to the life record and read by the journal and the director, with Story writing the lines.
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of world-new-homes-moves-read. The record this item could not find is `housing.moved`, written in src/core2/housing-occupancy.ts (line 383) with the household's members, and read by nothing. world-new-homes-moves-read has that record written to the life record and read by the journal and the director, with Story writing the lines.
