@@ -195304,12 +195304,16 @@
         }
       ],
       "bearing": "contrite",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "withdraw",
         "key": "vote-wanted"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195329,12 +195333,16 @@
         }
       ],
       "bearing": "glad",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "agree",
         "key": "honor"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195354,12 +195362,16 @@
         }
       ],
       "bearing": "hurt",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "ask",
         "key": "news-received"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195379,12 +195391,16 @@
         }
       ],
       "bearing": "hopeful",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "request",
         "key": "news-received"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195412,12 +195428,16 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "relent",
         "key": "favor-asked"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195436,12 +195456,16 @@
         }
       ],
       "bearing": "calm",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195460,12 +195484,16 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195484,12 +195512,16 @@
         }
       ],
       "bearing": "braced",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "tell",
         "key": "race-heard"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
@@ -195509,12 +195541,16 @@
         }
       ],
       "bearing": "anxious",
-      "origin": "authored",
+      "origin": "owner-voice",
       "author": "Owner (batch 2 voice note, Nov 9)",
       "date": "2026-11-09",
       "tag": {
         "move": "ask",
         "key": "news-received"
+      },
+      "source": {
+        "document": "owner voice note, Nov 9, batch 2 (kept off main, branch cto/voice-batch-2-part-1)",
+        "date": "2026-11-09"
       }
     },
     {
