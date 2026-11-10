@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr: 0
+pr: 8211
 blocked-on:
 lead: words
 source: docs/words/one-line-spots.md (#8182), rows 1 to 30
