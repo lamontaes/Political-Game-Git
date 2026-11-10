@@ -5,15 +5,15 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: merged
-claimed-by: claude/fable-life-record-list
+status: open
+claimed-by:
 pr: #8115
 after:
 blocked-on:
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Against your newest rulings (measured)", and "Reported done that is not done", item 8)
-claimed-at: 2026-11-10T06:09:05.995Z
-merged-at: 2026-11-10T20:15:54.998Z
+claimed-at:
+merged-at:
 ---
 
 **What.** Measured by the audit on Nov 9 in Blodgett Landing, New Hampshire (a random world; the audit gives no seed), playing a 17-year-old the game named Ray Kent: "the You screen's Your life tab and the person card still draw a timeline... You approved a timeline on October 29 and withdrew it on November 7; the game shows the older design." Its screenshot `docs/audits/fable-vision-2026-11-09-screens/01-your-life-four-lines.jpg` (branch audit/fable-vision) shows the Your life tab as a gold line with four round icons and four dated cards, 2007, 2012, 2018 and 2021. Read in code on main, Nov 10: `lifeTimeline` in `src/bench/play.mjs` (line 3156) wraps the one timeline part (`timeline` in `src/bench/ui/timeline.mjs`, line 72) and is called three times: on a person's card (line 2353, inside `personCardNode`), on Jobs and study (line 3441, `jobs()`) and on Your life (line 3452, `history()`); its styles are `.timeline` and the five `.timeline-*` rules in `src/bench/play.css` (from line 3630). Fix all three at once: the same history lines are told as sentences in a section strip, as the approved You screen and person card draw text, and the timeline part, its styles and its callers are deleted.
@@ -27,3 +27,5 @@ merged-at: 2026-11-10T20:15:54.998Z
 **Files.** src/bench/play.mjs, src/bench/ui/timeline.mjs, src/bench/play.css, src/bench/ui/strips.mjs
 
 **Notes.** From the audit's Pillar 6 and its "Reported done" item 8 ("The approved screens are in the game": "The frames are. The approved content is not, and the withdrawn timeline and full figures remain"). The comments in `play.mjs` still cite the withdrawn ruling (line 3445: "owner, Oct 29: a history is a 'Vertical timeline'"); delete them with the code. The person card's history section was restored after the Nov 8 playtest (point P32: the card was sent the story and never drew it), and it was restored as a timeline; keep the section, change how it is drawn. What the life section should say in the end waits on the life record (the audit's Pillar 4, root cause 3); this item only removes the withdrawn look. Related, filed Nov 10: play-your-life-draws-a-full-body-figure (same screenshot), play-one-person-shows-two-faces. The legislation mocks' note says the same of bills: "No dated timeline (the owner rules out timelines)". Not verified by the audit: Jobs and study (found by reading the code here, not seen in the audit).
+
+Not seen in the game (2026-11-10, second session (acceptance check)): Rock Hill, Missouri, seed 0cf1896a-28d6-4915-b0d4-7cf95baa3efd, main b094bee1: My life read as three I-sentences with no timeline, icons or dated cards, and cards were sentence paragraphs; but in Caño Martin Peña seed 50fe2d1143af adults born before 1980 showed only child sentences, no schooling or work, and a lost candidate's card could not be reached
