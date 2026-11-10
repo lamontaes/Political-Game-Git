@@ -288,5 +288,17 @@
     "addedAt": "2026-11-10",
     "replacement": "A coarse national series of unemployment and earnings by year, sourced (BLS), read by the same run.",
     "status": "open"
+  },
+  {
+    "id": "SG-PEOPLE-role-people-have-no-past",
+    "kind": "faked-mechanic",
+    "file": "src/core2/person-life.ts",
+    "line": 1,
+    "whatItFakes": "A person an engine makes to hold a role (a newspaper's owner, an election chief) is made with no past facts and no past records. Opened or met, they get their schooling, but no working life when their place is a state jurisdiction with no businesses on record, and no birthplace, parents or partners, so their life stays short until something happens to them in play.",
+    "why": "The life record's first slice reads the pasts that exist; the past passes run only for the town's residents and the people filled in from the counts. Found by the life record's own test in Hewitt, Wisconsin, seed b8f4c36df5632058.",
+    "addedBy": "Fable",
+    "addedAt": "2026-11-10",
+    "replacement": "The working-life run covers people whose place has no business on record (a role's employer is the office itself), and role holders are made with a birthplace and family from the same generator as residents.",
+    "status": "open"
   }
 ]

@@ -552,7 +552,13 @@ const OFFICE_KEYS = ["office.elected", "office.appointed", "office.entered"];
  */
 function tellHistory(lines: readonly HistoryLine[], teller: Teller) {
   // Terms in the same office, one after another, fold into the first.
-  const sorted = [...lines].sort((a, b) => a.date.localeCompare(b.date));
+  // By date; on the same day a partner is told before a child (a partner the person was
+  // made with carries no day of its own and is placed on the first child's).
+  const partnerFirst = (line: HistoryLine) =>
+    line.key.startsWith("partner.") ? 0 : 1;
+  const sorted = [...lines].sort(
+    (a, b) => a.date.localeCompare(b.date) || partnerFirst(a) - partnerFirst(b),
+  );
   const folded: (HistoryLine & { again?: string[]; later?: string[] })[] = [];
   for (const line of sorted) {
     const run = folded.at(-1);

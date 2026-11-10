@@ -88,9 +88,19 @@ describe(`the life record in ${where}`, () => {
           String(Number(person.birthDate.slice(0, 4)) + 18),
     );
     let events = 0;
+    // People an engine made for a role with no past of their own (a newspaper's owner): their
+    // life is empty until the whole-life past gives them one (SG-PEOPLE-role-people-have-no-past).
+    const pastless: string[] = [];
     for (const person of adults) {
       const life = lifeOf(core, person.id);
-      expect(life.length, `${where}: ${person.id}`).toBeGreaterThanOrEqual(1);
+      if (!life.length) {
+        expect(
+          (person.pastFacts ?? []).length,
+          `${where}: ${person.id} has past facts and no life`,
+        ).toBe(0);
+        pastless.push(person.id);
+        continue;
+      }
       for (const event of life) {
         events++;
         const label = `${where}: ${person.id} ${event.id}`;
@@ -100,9 +110,14 @@ describe(`the life record in ${where}`, () => {
       }
     }
     console.log(
-      `person-life 1: ${where}; ${adults.length} adults, ${events} events at ${core.date}`,
+      `person-life 1: ${where}; ${adults.length} adults, ${events} events at ${core.date}; made without a past: ${pastless.length} ${JSON.stringify(pastless.slice(0, 3))}`,
     );
     expect(adults.length, where).toBeGreaterThan(0);
+    // They are a handful of role holders, never the town's residents at large.
+    expect(
+      pastless.length * 20,
+      `${where}: ${pastless.join(", ")}`,
+    ).toBeLessThan(adults.length);
   }, 600_000);
 
   it("2: three kinds of event about a stranger are on their list though the log keeps none of them", () => {

@@ -1,3 +1,4 @@
+/* global Node */
 // The approved strip screen (owner, Nov 7, 2026: You, the person card,
 // Government, Budgets; docs/mocks/2026-11-07-approved/): a left column with
 // the screen's name, the role line under it and a bust, and sections down the
