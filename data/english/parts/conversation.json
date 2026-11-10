@@ -9606,10 +9606,10 @@
       "bearing": "braced"
     },
     {
-      "key": "conversation.news-ask-think.what-do-you-think",
+      "key": "conversation.news-ask-think.what-do-you-make-of-the-news",
       "move": "news-ask-think",
       "kind": "spoken",
-      "text": "What do you think?",
+      "text": "What do you make of the news?",
       "uses": [
         {
           "move": "news-ask-think",

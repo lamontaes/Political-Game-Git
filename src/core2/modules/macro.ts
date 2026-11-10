@@ -868,6 +868,11 @@ export function countryOpened(api: CoreAPI): boolean {
   return readState(api) !== undefined;
 }
 
+/** The tier's own check for counts that cannot be (negative, more working than people, jobs not matching workers); empty before the economy opens. */
+export function countryTierProblems(api: CoreAPI): string[] {
+  return readState(api) ? countryProblems(readCountry(api)) : [];
+}
+
 export function countryOutlook(api: CoreAPI, months: number): CountryOutlook {
   const p = params(api),
     core = api.state as CoreState;

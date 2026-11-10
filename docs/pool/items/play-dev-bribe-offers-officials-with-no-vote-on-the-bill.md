@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-dev-bribe-offers-officials-with-no-vote-on-the-bill
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:34:02.997Z
 ---
 
 **What.** Dev mode's Bribe panel on the Government screen offers a bribe for the vote on the bill last introduced in the Bills panel. Measured on screen by the Nov 9 audit in Ten Broeck, Kentucky (no seed given): the bill was before a five-member town council, and the bribe record the panel wrote names a senator from Kentucky and a House member from California as its two parties. Neither has a vote on a town council's bill, so the record is a bribe for a vote that does not exist. Fix both ends, for every bill and every body: the panel offers only the people with a say on that bill (the members of each chamber it passes through and the executive who signs it), and the engine refuses an offer to an official who has no say over the subject, for every caller, and says why.
