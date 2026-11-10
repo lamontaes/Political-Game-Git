@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/reads-wrong-nov10
-pr: pending
+pr: 8138
 blocked-on:
 lead: words
 source: "read-through of celebration and gathering, rescue, apology and accusation, new baby, reporter story, race told, rival filed late and the win side against the owner's batch 3 notes"
