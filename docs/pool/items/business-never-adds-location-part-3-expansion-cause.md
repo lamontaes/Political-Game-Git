@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** No business in Cochituate, Massachusetts opened a second location in three years, because market room is exactly 0 in a steady town and the expansion score can never beat keeping the business. An owner needs a reason to expand that exists in a steady town: demand for what the business sells growing past what it can supply. Give expansion that cause, read from the business's own books and the market, and let a parent open a location when it holds.

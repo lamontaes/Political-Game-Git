@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of words-director-one-path. The filing counter is played by a bespoke visit while the scheduled `filing` scene cannot be worded, so the same filing has two paths. Move the visit into the one scene path and delete the duplicate. The counter's where, the clerk and the after-filing line must come from the filing and petition records.

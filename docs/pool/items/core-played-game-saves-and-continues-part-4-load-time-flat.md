@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from core-played-game-saves-and-continues in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** saves.ts replays every command from the opening unless every module is covered by the snapshot, so a load can grow with played years. Measure load time after 2 and after 24 played months in a drawn place, find any module that is not covered (`uncoveredModules`), and cover it so a load restores the snapshot and replays only the days since. This is part 4 of core-played-game-saves-and-continues.

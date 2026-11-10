@@ -17,6 +17,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** rivalDay steps an incumbent up only when raceReading shows a threat above zero, and in a council race that reading never does: a poll needs about 9,000 dollars set aside and no council campaign has it, and word of a rival is read as how warm the incumbent's own circle is to each candidate (SG-GOV-threat-from-circle), which always favors the incumbent. Traced on seed 7d00da010de8fe91 in Lecompton, Kansas and Vinita, Oklahoma, the threat was negative on every word day even when the circle held 12 door yeses for the player against 6 for the incumbent, so the incumbent never came home to campaign. The reading should be what people have actually told the candidate: the yeses to a rival held by people in touch with them since, and what residents say at the candidate's own doors. The told door answers (the doors row's told field, kept by toldAtDoor) must open a reading by themselves, sourced from a kept record of the evening they were told, without waiting for a rivalWord row or a poll, so recordSteppedUp keeps one stepped-up row for each new evening's answers. SG-GOV-threat-from-told-yeses registers the gap until then.

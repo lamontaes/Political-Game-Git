@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** In Cochituate, Massachusetts the wider-population branch of foundings (the counted founder, `strongestPulls(api, "found", rows)`) founds a business in the top market every month, in this world manufacturing, whatever its room, so foundings pile into one market. The full-person branch weighs market room; the counted branch carries a baseline and unemployed and prospect terms that ignore it. Make the counted founding weigh market room the way the full-person branch does so foundings spread across the markets that have room.

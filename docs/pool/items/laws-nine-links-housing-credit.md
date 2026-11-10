@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** Two parts of the housing and credit family are still short of the nine wiring links: right-to-counsel-in-eviction has no hearing outside Prescott, and the cap-consumer-loan-rates money is a registered stopgap pending an owner question about small-lender loan caps. The other laws (allow-multifamily-in-single-family-zones, budget-line:housing, inclusionary-requirement, rent-stabilization) are wired; rent stabilization's money stays partly and that is right, since the 7% cap never binds in a calm year (Oct 27 rerun in Prescott, Uehling and North Pownal). A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.

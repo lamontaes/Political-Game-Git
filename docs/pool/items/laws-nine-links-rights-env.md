@@ -17,6 +17,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** The rights, technology, environment, farms and parks family (thirteen laws) stood at 9 of 13 wired when PR #5669 was sent back on Oct 25, with two stopgap web links and two partial reach chains left; the Notes also say five laws stay open after the bounded item laws-nine-links-rights-eight (now dropped), so which laws are still short is not settled. The family: ban-discrimination-in-housing-and-work, restrict-abortion, dedicated-parks-funding, budget-line:parks, age-verification-for-social-media, restrict-government-facial-recognition, consumer-data-privacy-law, clean-air-plan-for-polluted-counties, budget-line:naturalResources, limit-groundwater-withdrawal, protect-farmland-from-development, budget-line:highways and shift-highway-funds-to-transit. A law passes the nine links when it exists in all 56 places, a body can enact and repeal it, it reaches people and organizations, the engine it changes reads it, it moves money between real accounts, it moves its outcome-web measures, people learn of it only by a read, repeal stops it, and one code path serves every place.

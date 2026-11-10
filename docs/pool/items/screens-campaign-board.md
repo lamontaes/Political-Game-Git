@@ -16,6 +16,7 @@ lead: play-first
 model: sonnet
 effort: medium
 root: design-screen-principles
+checked: fable 2026-11-10
 ---
 
 **What.** The owner ruled at 5 PM on Oct 27 that the campaign screen is one board. It carries an inbox of media requests and the like, and a campaign team the player builds from people they know and met in scenes, such as a partner or best friend as manager, as in The Political Process. The board itself now exists on main: src/bench/play.mjs builds a campaign-board with the race standing and the money. What is missing is the inbox and the team area, and the old Campaigns rows still sit beside the board. The owner sees the board before anything more is asked of him.

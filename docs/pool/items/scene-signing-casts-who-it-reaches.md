@@ -18,6 +18,7 @@ after:
 model: sonnet
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** The bill-signed type casts only the sponsor, the signer and the press, and makes the executive the asker. At real signings it goes the other way. The sponsor, a resident the law was written for or an advocate asks the executive for the next step (full funding next session, how it will be enforced), and the executive answers. The packet docs/design/scenes/from-life/the-signing.md draws on signings in Arizona, Wisconsin, California and elsewhere, calibration only. The records exist to cast them: a resident the law reaches (filled in from the counted adults, as the executive-order episode does) and a member who voted no.

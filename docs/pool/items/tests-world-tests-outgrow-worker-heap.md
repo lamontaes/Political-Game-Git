@@ -45,4 +45,4 @@ Merger 1, Oct 26 03:16 UTC, independently reproduced while gating #6041: `src/be
 
 Oct 26 (speed lead): drives-filled-in-job-loss.test.ts does the same on main 4b6763bdd5, run alone with the default heap: 'Reached heap limit', then 'Worker exited unexpectedly'.
 
-**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10).** A build of this is on branch `claude/fable-b1-worker-heap` (not yet a pull request). Claiming this item takes that branch over; read its last commits first.
+**Notes (Fable's check, Nov 10).** A build of this is on branch `claude/fable-b1-worker-heap` (not yet a pull request). Claiming this item takes that branch over; read its last commits first.

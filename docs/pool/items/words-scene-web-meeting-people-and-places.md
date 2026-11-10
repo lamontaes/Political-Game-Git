@@ -18,13 +18,14 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-story-director
+checked: fable 2026-11-10
 ---
 
 **What.** The scene web (`npm run scene-web`, `docs/reports/scene-web.md`) lists every situation type in the meeting people and places domain, one row per cause that fires it. This domain covers the people and places a life runs into: a first meeting, a friendship, an argument, a reunion, a cause that asks you to join. A row is complete when a real life calibrates it, its lines vary by speaker, and it fires in a played year. The owner's meeting people and places requests with no type are listed under Missing in the report and become rows here.
 
 **Cause.** Measured: `npm run scene-web` (docs/reports/scene-web.json, generated 2026-10-29 at Huntington Center, Vermont, seed 0d5692f0d73cf0c56240825b71aa5b04dd663a9a): the meeting people and places domain has 18 rows, 12 without an episode packet, and 2 fired in the played year.
 
-**Fix.** Regenerate the report on a fresh drawn place, write the missing episode packets in docs/design/scenes/from-life/ and lines for rows that lack three per speaker role, and file each row that waits on a producer as an item with lead director. This item also takes the four packets of words-scene-web-meeting-pass-1 (an introduction at a civic event, a neighbor's ask to join a cause, neighbors falling out over a vote, making up after the fight) and the report's tie-turn trigger wording ("a tie grew", "a tie soured", "a tie's re-entry"), and files the gap that no tie-turn type fires for the director.
+**Fix.** Regenerate the report on a fresh drawn place, write the missing episode packets in docs/design/scenes/from-life/ and, for rows that lack three lines per speaker role, list the lines needed for Story (every line in data/english/parts/ is Story's, owner's ruling of Nov 10; only the Words line writes them), and file each row that waits on a producer as an item with lead director. This item also takes the four packets of words-scene-web-meeting-pass-1 (an introduction at a civic event, a neighbor's ask to join a cause, neighbors falling out over a vote, making up after the fight) and the report's tie-turn trigger wording ("a tie grew", "a tie soured", "a tie's re-entry"), and files the gap that no tie-turn type fires for the director.
 
 **Time box.** 4 hours for one Sonnet session per pass; a domain may take several passes, each its own PR. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

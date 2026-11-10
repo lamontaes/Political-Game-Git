@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** campaign-like-real-races has two halves: path-check winning a council seat in 7 of 10 drawn places, and a buildBenchWorld played-year test showing an organization endorsing and sending volunteers, a forum the player hosts, money raised by named donors and the incumbent changing their schedule after the player gains, each by record id. This item is the second half, so its PR can merge on its own while the first is measured. The test is src/core2/campaign-real-race-played.test.ts, read on the eve of the election before any fold.

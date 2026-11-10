@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Since evicted counted households stay counted (core-evicted-counted-stays-counted), an eviction names its full members and husks, and lists its counted members in the counted-subjects fact. A full person who lists a counted member as family but is not in the household does not perceive the eviction on the day, where on main they would have through the filled-in relatives. The gap is registered as SG-WORLD-counted-eviction-kin-notice, with its marker in housing.ts remove(); the counted-death notice (births-counted-death-notice) is the precedent.
