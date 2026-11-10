@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-life-a-dead-persons-own-card-says-they-died
-pr:
+pr: #8332
 after:
 blocked-on:
 lead: fable
