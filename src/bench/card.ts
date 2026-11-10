@@ -31,7 +31,7 @@ import {
   coreStateName,
 } from "../core2/place-lookup";
 import { relationWord, schoolsOf } from "./words";
-import { faceOf, scenePlace } from "./scene";
+import { faceOf } from "./scene";
 import {
   BALANCED_TRAIT,
   PEOPLE_TRAITS,
@@ -60,8 +60,6 @@ export function personCard(core: CoreState, personId: string) {
   const job = person.jobId ? core.jobs.get(person.jobId) : undefined;
   const employer = job ? core.organizations.get(job.organizationId) : undefined;
   const household = core.households.get(person.householdId);
-  // Faces for the People map: each the figure a room here would draw.
-  const place = scenePlace(core, personId).place;
   // The People screen's groups a tie falls in: family by kind, by a relation
   // word or by sharing the home; coworkers at work; friends; politics.
   const homeIds = new Set(household?.memberIds ?? []);
@@ -91,7 +89,7 @@ export function personCard(core: CoreState, personId: string) {
         level: currentCloseness(core, row),
         lastContactDate: row.lastContactDate,
         recordId: row.id,
-        face: faceOf(core, otherId, place),
+        face: faceOf(core, otherId),
         // Why the tie last changed, from its own record.
         latestChange: row.latestChange && {
           date: row.latestChange.date,
@@ -106,7 +104,7 @@ export function personCard(core: CoreState, personId: string) {
   return {
     id: person.id,
     name: name(person.id),
-    face: faceOf(core, person.id, place),
+    face: faceOf(core, person.id),
     birthDate: person.birthDate,
     age: ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
     alive: person.alive,
@@ -120,7 +118,7 @@ export function personCard(core: CoreState, personId: string) {
           relation: relationWord(core, id, relationOf(id)),
           groups: ["family"],
           alive: core.people.get(id)?.alive ?? true,
-          face: faceOf(core, id, place),
+          face: faceOf(core, id),
         })),
     },
     job: job && {
@@ -1211,7 +1209,7 @@ function officialCard(core: CoreState, viewerId: string, id: string) {
       },
       run,
     ),
-    face: faceOf(core, term.id, scenePlace(core, viewerId).place),
+    face: faceOf(core, term.id),
   };
 }
 
@@ -1269,7 +1267,7 @@ export function knownCard(core: CoreState, viewerId: string, otherId: string) {
           .filter((row) => row.date <= core.date)
           .at(-1) ?? null)
       : null;
-  const face = faceOf(core, otherId, scenePlace(core, viewerId).place);
+  const face = faceOf(core, otherId);
   const lines = (() => {
     const base = historyLines(core, viewerId, other);
     const entered = enteredOffice(core, otherId, publicKnowledge);

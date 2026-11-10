@@ -1,5 +1,3 @@
-import type { PersonFace } from "./scene";
-import { faceOfFigure } from "./scene";
 import {
   colorParts,
   figurePng,
@@ -330,11 +328,3 @@ export function portraitPng(
   return figurePng(figure, figure.kind === "kit" ? (recipe.colors ?? {}) : {});
 }
 
-/** The look as a face for a headshot: its everyday figure drawn at `url`, cropped by the screen to the figure's own head. */
-export function portraitFace(
-  recipe: LookRecipe,
-  url: string,
-): PersonFace | null {
-  const figure = figureFor(recipe);
-  return figure ? faceOfFigure(figure, url) : null;
-}

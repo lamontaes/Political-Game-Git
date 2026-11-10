@@ -170,7 +170,7 @@ export function meetingSceneView(
       // figures are drawn where the room has a mannequin plate for them).
       return {
         ...scene,
-        members: bodyMembers(core, personId, meeting.officeId, scene.place),
+        members: bodyMembers(core, personId, meeting.officeId),
       };
     })(),
   };

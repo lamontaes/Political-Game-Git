@@ -2,7 +2,7 @@
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 import { makeButton, buttonRow, buttonTray } from "./ui/button.mjs";
-import { headshot } from "./ui/headshot.mjs";
+import { face as drawFace } from "./ui/face.mjs";
 import {
   talkLine,
   transcript,
@@ -16,7 +16,7 @@ import {
 import { showToast, hideToast } from "./ui/toast.mjs";
 import { mountRail } from "./ui/rail.mjs";
 import { chamberHeader } from "./ui/chamber.mjs";
-import { memberCard } from "./ui/member-card.mjs";
+import { personCard } from "./ui/person-card.mjs";
 import { dateList } from "./ui/date-list.mjs";
 import { pager } from "./ui/pager.mjs";
 import {
@@ -113,15 +113,12 @@ import {
   quitButton,
   optionsBoard,
   patchNotesScreen,
-  savedLifeRow,
-  leaderBlock,
   seatNumbers,
   voteRows,
   moneyFigure,
   deskBill,
   deskTitle,
   deskList,
-  candidate,
   rosterTitle,
   rosterCols,
   rosterSide,
@@ -131,6 +128,8 @@ mountPanelHeads();
 mountCloseButtons();
 mountSpeakers();
 const $ = (id) => document.getElementById(id);
+/** A saved life's bust width in pixels (layout, not a game rule). */
+const SAVED_LIFE_BUST = 300;
 let me;
 let packet;
 // The game's date is the clock's, the packet's; me.date is only the day the
@@ -156,9 +155,9 @@ function setClock(at) {
     ),
   );
 }
-/** A bust: the person's round headshot (the People map's), or nothing. */
+/** A face slot: the person's round face (ui/face.mjs), or nothing. */
 function setFace(id, face) {
-  $(id).replaceChildren(...(face ? [headshot(face)] : []));
+  $(id).replaceChildren(...(face ? [drawFace(face)] : []));
 }
 // A record id as the bench stores it (person_<hex>, official:term:seat:...).
 const RECORD_ID =
@@ -3162,15 +3161,6 @@ async function ownHistory() {
 function lifeParagraphs(lines) {
   return lifeStory(lines, controls.lifeGroups);
 }
-function portraitUrl() {
-  // The created look when there is one; else the figure the scene draws you
-  // with, or the one your card's face is cut from (a life started anywhere
-  // but the creator, who is not standing in their own scene).
-  return me.portrait
-    ? `/api/portrait?id=${encodeURIComponent(me.id)}`
-    : (me.scene?.people.find((p) => p.personId === me.id)?.figureUrl ??
-        me.card?.face?.url);
-}
 /** A record image has no substitute when its producer has not supplied one. */
 
 // ---- Menus ----
@@ -3750,17 +3740,17 @@ const sheets = {
                   stripSection(
                     4,
                     gov.executive.title,
-                    leaderBlock({
-                      face: gov.executive.face,
-                      name: gov.executive.name,
-                      party: gov.executive.party,
-                      post: gov.executive.title,
-                      onOpen: () =>
-                        showPerson({
-                          personId: gov.executive.cardId,
-                          figureUrl: gov.executive.face?.url,
-                        }),
-                    }),
+                    personCard(
+                      {
+                        face: gov.executive.face,
+                        name: gov.executive.name,
+                        party: gov.executive.party,
+                        line: gov.executive.title,
+                        onOpen: () =>
+                          showPerson({ personId: gov.executive.cardId }),
+                      },
+                      { layout: "leader" },
+                    ),
                   ),
                 ]
               : []),
@@ -3931,19 +3921,24 @@ const sheets = {
     const life = titleLife;
     if (!life) return [plate(null, prose(words.none, "saves-none"))];
     return [
-      savedLifeRow({
-        name: life.name,
-        face: life.face,
-        date: dateWords(life.date),
-        load: makeButton({
-          className: "action",
-          textContent: words.load,
-          onclick: () => {
-            closeSheet();
-            $("front-continue").click();
-          },
-        }),
-      }),
+      personCard(
+        { name: life.name, face: life.face },
+        {
+          layout: "saved",
+          note: dateWords(life.date),
+          column: SAVED_LIFE_BUST,
+          actions: [
+            makeButton({
+              className: "action",
+              textContent: words.load,
+              onclick: () => {
+                closeSheet();
+                $("front-continue").click();
+              },
+            }),
+          ],
+        },
+      ),
     ];
   },
   /**
@@ -4240,24 +4235,23 @@ const sheets = {
     const racePage = (race) => {
       const candidates = race.filers.length
         ? race.filers.map((f) =>
-            candidate(
-              memberCard({
-                name: f.name ?? "",
-                line: f.party ?? "",
-                party: f.party,
-                face: f.face,
-                onOpen: () => {
-                  closeSheet();
-                  showPerson({ personId: f.cardId, figureUrl: f.face?.url });
-                },
-              }),
-              ...f.stances.map((st) =>
+            personCard({
+              name: f.name ?? "",
+              line: f.party ?? "",
+              party: f.party,
+              face: f.face,
+              onOpen: () => {
+                closeSheet();
+                showPerson({ personId: f.cardId });
+              },
+              // A candidate's stances under their card.
+              more: f.stances.map((st) =>
                 row(
                   policyLabel(st.question),
                   st.position > 0 ? (stance.for ?? "") : (stance.against ?? ""),
                 ),
               ),
-            ),
+            }),
           )
         : [prose(labels.noFilers, "record-empty")];
       const mayFile =
@@ -4475,9 +4469,9 @@ const sheets = {
         text ?? "",
       );
     const short = (iso) => dateWords(iso, { month: "short", year: today() });
-    const open = (cardId, face) => () => {
+    const open = (cardId) => () => {
       closeSheet();
-      showPerson({ personId: cardId, figureUrl: face?.url });
+      showPerson({ personId: cardId });
     };
     const stateName = (key) =>
       key === gov.homeState?.key
@@ -4495,13 +4489,13 @@ const sheets = {
             })
           : district;
     const card = (body, m, line, large = false) =>
-      memberCard(
+      personCard(
         {
           name: m.name,
           line,
           party: m.party,
           face: m.face,
-          onOpen: open(m.cardId, m.face),
+          onOpen: open(m.cardId),
         },
         { large },
       );
@@ -4689,17 +4683,16 @@ const sheets = {
                     stripSection(
                       5,
                       chief.title,
-                      leaderBlock({
-                        face: chief.members[0].face,
-                        name: chief.members[0].name,
-                        party: chief.members[0].party,
-                        post: chief.title,
-                        line: sinceLine(chief.members[0]),
-                        onOpen: open(
-                          chief.members[0].cardId,
-                          chief.members[0].face,
-                        ),
-                      }),
+                      personCard(
+                        {
+                          face: chief.members[0].face,
+                          name: chief.members[0].name,
+                          party: chief.members[0].party,
+                          line: chief.title,
+                          onOpen: open(chief.members[0].cardId),
+                        },
+                        { layout: "leader", note: sinceLine(chief.members[0]) },
+                      ),
                     ),
                   ]
                 : []),
@@ -4719,7 +4712,7 @@ const sheets = {
           o.members.map((m) => ({
             name: m.name,
             relation: o.title,
-            onOpen: open(m.cardId, m.face),
+            onOpen: open(m.cardId),
           })),
         ),
       );
@@ -4739,14 +4732,16 @@ const sheets = {
                     stripSection(
                       1,
                       chief.title,
-                      leaderBlock({
-                        face: head.face,
-                        name: head.name,
-                        party: head.party,
-                        post: chief.title,
-                        line: sinceLine(head),
-                        onOpen: open(head.cardId, head.face),
-                      }),
+                      personCard(
+                        {
+                          face: head.face,
+                          name: head.name,
+                          party: head.party,
+                          line: chief.title,
+                          onOpen: open(head.cardId),
+                        },
+                        { layout: "leader", note: sinceLine(head) },
+                      ),
                     ),
                   ]
                 : []),
@@ -4968,17 +4963,14 @@ const sheets = {
             ? pager({
                 items: seats,
                 render: (s) =>
-                  memberCard({
+                  personCard({
                     name: s.name,
                     line: s.title,
                     party: name,
                     face: s.face,
                     onOpen: () => {
                       closeSheet();
-                      showPerson({
-                        personId: s.cardId,
-                        figureUrl: s.face?.url,
-                      });
+                      showPerson({ personId: s.cardId });
                     },
                   }),
                 rows: Math.max(
@@ -5277,7 +5269,7 @@ async function openSheet(tab) {
           portraitUrl:
             me.card.presentation?.portraitUrl !== undefined
               ? me.card.presentation.portraitUrl
-              : portraitUrl(),
+              : me.card.face?.url,
           backgroundUrl: me.card.presentation?.backgroundUrl,
           name: me.card.name,
         }
@@ -5451,7 +5443,6 @@ $("front-continue").addEventListener("click", async () => {
     date: life.date,
     minuteOfDay: life.minuteOfDay,
     names: {},
-    portrait: life.portrait,
   };
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
@@ -6037,7 +6028,6 @@ async function enterAs(life, personId) {
     placeName: life.placeName,
     date: life.date,
     names: life.names,
-    portrait: false,
   };
   show("front", false);
   for (const id of ["rings", "card"]) show(id, true);
@@ -6184,7 +6174,6 @@ async function startLife({ custom = false, pick = false, placeKey, person }) {
       placeName: life.placeName,
       date: life.date,
       names: life.names,
-      portrait: Boolean(person?.recipe),
     };
     show("front", false);
     if (opening?.home) me.minuteOfDay = opening.home.minuteOfDay;

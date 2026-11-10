@@ -195,7 +195,7 @@ export function holderFace(
   const cardId = holder.personId ?? `official:${holder.id}`;
   return {
     cardId,
-    face: place ? faceOf(core, holder.personId ?? holder.id, place) : null,
+    face: place ? faceOf(core, holder.personId ?? holder.id) : null,
   };
 }
 
@@ -535,11 +535,7 @@ function politicsKeyPeople(core: CoreState, personId: string, place: string) {
         resident: core.people.has(row.id),
         // Their headshot, by person or by the term a named official's id names.
         face: place
-          ? faceOf(
-              core,
-              row.id.startsWith("official:") ? row.id.slice(9) : row.id,
-              place,
-            )
+          ? faceOf(core, row.id.startsWith("official:") ? row.id.slice(9) : row.id)
           : null,
         name: row.name,
         officeTitle: row.officeTitle || (office?.title ?? ""),

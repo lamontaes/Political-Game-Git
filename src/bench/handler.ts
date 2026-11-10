@@ -89,7 +89,6 @@ import {
   backdropPath,
   benchScene,
   faceOf,
-  scenePlace,
 } from "./scene";
 import { occluderPath } from "./occluders";
 import { DevMode } from "./dev-mode";
@@ -112,7 +111,6 @@ import {
   drawnAppearance,
   lookForGender,
   moveAppearance,
-  portraitFace,
   portraitPng,
   readRecipe,
   setColor,
@@ -731,11 +729,9 @@ const ROUTES: readonly Route[] = [
     match: ({ request, url }) =>
       request.method === "GET" && url.pathname === "/api/portrait",
     run: async ({ url, response }) => {
-      // The engine's portrait: a recipe from the creator, or a person's own.
-      const id = url.searchParams.get("id");
-      const kept = id
-        ? requireCore().people.get(id)?.looks?.recipe
-        : url.searchParams.get("recipe");
+      // The creator's portrait of a look not yet anyone's (a person's own
+      // face is their pack figure, faceOf).
+      const kept = url.searchParams.get("recipe");
       if (!kept) throw new Error("No portrait.");
       response.writeHead(200, {
         "Content-Type": "image/png",
@@ -778,18 +774,8 @@ const ROUTES: readonly Route[] = [
                 ),
                 makeIsoDate(state.core!.date),
               ),
-              portrait: Boolean(
-                state.core!.people.get(personId)?.looks?.recipe,
-              ),
-              // The face the creator saved, for Continue's headshot.
-              face: state.core!.people.get(personId)?.looks?.recipe
-                ? portraitFace(
-                    readRecipe(
-                      state.core!.people.get(personId)!.looks!.recipe!,
-                    ),
-                    `/api/portrait?id=${encodeURIComponent(personId)}`,
-                  )
-                : null,
+              // The life's one face, as every other view of the player reads it.
+              face: faceOf(state.core!, personId),
               placeName: state.placeName,
               date: state.core!.date,
               minuteOfDay:
@@ -905,7 +891,7 @@ const ROUTES: readonly Route[] = [
       const id = url.searchParams.get("id") ?? "";
       send(200, {
         face: core.people.has(id)
-          ? faceOf(core, id, scenePlace(core, id).place)
+          ? faceOf(core, id)
           : null,
       });
       return;

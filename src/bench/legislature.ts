@@ -572,13 +572,12 @@ export function bodyScene(
 
 /**
  * A body's members as the meeting panel draws them: each with their headshot (the
- * face they wear in the chamber), party and the key their votes are recorded under.
+ * one face, faceOf), party and the key their votes are recorded under.
  */
 export function bodyMembers(
   core: CoreState,
   personId: string,
   officeId: string,
-  place: string,
 ) {
   const body = bodiesOf(core, personId).find((b) => b.officeId === officeId);
   return (body?.members ?? []).map((m) => ({
@@ -586,7 +585,7 @@ export function bodyMembers(
     name: m.name,
     party: m.party ?? null,
     you: m.you,
-    face: faceOf(core, m.key.replace(/^official:/, ""), place),
+    face: faceOf(core, m.key.replace(/^official:/, "")),
   }));
 }
 

@@ -4,7 +4,7 @@
 // with face and what the player knows. The voting engine counts what is marked.
 import { el } from "./dom.mjs";
 import { makeButton } from "./button.mjs";
-import { headshot } from "./headshot.mjs";
+import { face as drawFace } from "./face.mjs";
 import { stripSection, introText } from "./strips.mjs";
 
 /**
@@ -27,7 +27,7 @@ export function ballotPaper({ contests, labels, onMark, know, onLeave }) {
             el(
               "div",
               { className: "ballot-person" },
-              ...(k.face ? [headshot(k.face)] : []),
+              ...(k.face ? [drawFace(k.face)] : []),
               el(
                 "div",
                 {},

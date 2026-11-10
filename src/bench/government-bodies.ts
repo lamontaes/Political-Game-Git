@@ -351,11 +351,7 @@ export function governmentBodies(
         name: row.name,
         post: row.leads!.post,
         face: place
-          ? faceOf(
-              core,
-              row.id.startsWith("official:") ? row.id.slice(9) : row.id,
-              place,
-            )
+          ? faceOf(core, row.id.startsWith("official:") ? row.id.slice(9) : row.id)
           : null,
       }));
     return {

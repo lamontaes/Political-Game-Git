@@ -8,6 +8,7 @@ import { el } from "./dom.mjs";
 import { pager } from "./pager.mjs";
 import { partyClass as partyClassOf } from "./map.mjs";
 import { makeButton } from "./button.mjs";
+import { face as drawFace } from "./face.mjs";
 
 /** Characters a chapter needs to run in two columns, and a first paragraph to take a drop cap (layout, not game rules). */
 const JOURNAL_TWO_COLUMNS = 700;
@@ -24,35 +25,6 @@ export function stripSection(depth, title, ...nodes) {
     el("h3", { className: "sechead", textContent: title }),
     el("div", { className: "secbody" }, ...nodes),
   );
-}
-
-/** The bust's size: the head fills this share of the column, and the crop ends this far below the head's top. */
-const HEAD_PX = 190;
-const BUST_BELOW_HEAD = 1.65;
-const COLUMN_PX = 320;
-
-/**
- * A bust from a pack figure: head to upper chest, ending in a soft fade. `face`
- * is the card's face record (the figure's url and size, and its head
- * [top, middle, width] in the figure's pixels).
- */
-export function bust(face, alt, column = COLUMN_PX) {
-  if (!face) return el("div", { className: "mxglow" });
-  const [top, middle, width] = face.head;
-  const scale = column / COLUMN_PX;
-  const k = (HEAD_PX * scale) / width;
-  const image = el("img", { src: face.url, alt });
-  Object.assign(image.style, {
-    height: `${Math.round(face.height * k)}px`,
-    left: `${Math.round(column / 2 - middle * k)}px`,
-    top: `${Math.round(12 * scale - top * k)}px`,
-  });
-  const frame = el("div", { className: "mxbust" }, image);
-  frame.style.height = `${Math.round(12 * scale + BUST_BELOW_HEAD * HEAD_PX * scale)}px`;
-  frame.style.width = `${column}px`;
-  const glow = el("div", { className: "mxglow" }, frame);
-  glow.style.width = `${column}px`;
-  return glow;
 }
 
 /**
@@ -74,7 +46,7 @@ export function stripScreen({ name, role, face, columns }) {
           ? [el("p", { className: "strip-role", textContent: role })]
           : []),
       ),
-      bust(face, name),
+      drawFace(face, { bust: true, alt: name }),
     ),
     el(
       "div",
@@ -256,37 +228,6 @@ export function departmentRow({ name, amount, head, selected, onSelect }) {
   return row;
 }
 
-/**
- * A leader: a bust at the left, the name big beside it, the party and post under
- * it, then a line (the mock's mayor and governor). `onOpen` opens their card.
- */
-export function leaderBlock({ face, name, party, post, line, onOpen }) {
-  const nameNode = nameLink(name, onOpen);
-  nameNode.className = "leader-name pick";
-  return el(
-    "div",
-    { className: "leader" },
-    bust(face, name, 200),
-    el(
-      "div",
-      { className: "leader-text" },
-      nameNode,
-      el(
-        "p",
-        { className: "leader-post" },
-        ...(party
-          ? [
-              el("span", { className: "leader-party", textContent: party }),
-              " · ",
-            ]
-          : []),
-        post,
-      ),
-      ...(line ? [el("p", { className: "intro", textContent: line })] : []),
-    ),
-  );
-}
-
 /** Seats as big numbers, each in its party's color: `parts` are { party, seats, label }. */
 export function seatNumbers(parts, vacant) {
   return el(
@@ -334,21 +275,6 @@ export function voteRows(rows) {
       });
       return node;
     }),
-  );
-}
-
-/** A saved life as a strip: its name over a bust, the game's date and the Load button. */
-export function savedLifeRow({ name, face, date, load }) {
-  return el(
-    "div",
-    { className: "strip-screen strip-wrap strips ol-g saves-row" },
-    stripSection(
-      1,
-      name,
-      bust(face, name, 300),
-      el("p", { className: "save-date", textContent: date }),
-      el("div", { className: "acts" }, load),
-    ),
   );
 }
 
@@ -569,5 +495,3 @@ export const rosterCols = (...nodes) =>
   el("div", { className: "roster-cols" }, ...nodes);
 export const rosterSide = (...nodes) =>
   el("div", { className: "roster-side" }, ...nodes);
-export const candidate = (...nodes) =>
-  el("div", { className: "candidate" }, ...nodes);

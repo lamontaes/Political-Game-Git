@@ -4,7 +4,7 @@
 // "the UI is terrible"; the members, the tally and the result on the panel). Every word
 // is a control name or a record's own: the status word, the counts, the member names.
 import { el } from "./dom.mjs";
-import { headshot } from "./headshot.mjs";
+import { face as drawFace } from "./face.mjs";
 
 const KINDS = ["yes", "no", "abstain"];
 
@@ -23,9 +23,7 @@ function memberStrip(members, votes, words) {
     { className: "meeting-members" },
     ...members.map((member) => {
       const vote = cast.get(member.key);
-      const face = member.face
-        ? headshot(member.face)
-        : el("span", { className: "headshot" });
+      const face = drawFace(member.face);
       face.classList.add("meeting-face");
       const cell = el(
         "span",

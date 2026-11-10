@@ -313,7 +313,7 @@ ol {
 #front-main #front-continue .continue-text b {
   display: block;
 }
-/* A bust holds the person's round headshot (ui/headshot.mjs), filling it. */
+/* A bust holds the person's round headshot (ui/face.mjs), filling it. */
 .bust {
   flex: none;
   width: 62px;

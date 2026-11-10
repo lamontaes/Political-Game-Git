@@ -1,7 +1,8 @@
 /* global process, console, document, getComputedStyle, fetch, location */
 // The title's Continue shows the face the creator saved: after making a
-// character and starting the life, the title's Continue holds a portrait that
-// is byte for byte the creator's, drawn as its round headshot. Run against the bench:
+// character and starting the life, the title's Continue holds the player's one
+// face (their pack figure, the same one You and the player card show), byte for
+// byte the creator's portrait, drawn as its round headshot. Run against the bench:
 //   BENCH_PORT=3000 node src/bench/continue-face.browser.mjs [shot.png]
 import assert from "node:assert/strict";
 import { chromium } from "playwright";
@@ -42,7 +43,14 @@ try {
     }
     return false;
   };
-  if (await choose("skin", "ebony")) await choose("shirt-color", "red");
+  // Another build (another pack person, so another skin), then a red top.
+  await page
+    .locator("[data-testid=engine-appearance-build]")
+    .getByRole("button")
+    .last()
+    .click();
+  await page.waitForTimeout(250);
+  await choose("top", "red");
   await page.waitForTimeout(500);
   const made = await page.evaluate(() =>
     document.getElementById("cr-portrait").src.replace(location.origin, ""),
@@ -61,13 +69,21 @@ try {
         .backgroundImage,
   );
   console.log("continue face:", face);
-  assert.match(face, /\/api\/portrait\?id=/, "Continue shows no face");
+  assert.match(face, /\/art\/people\//, "Continue shows no face");
   const url = /url\("(.*)"\)/.exec(face)[1];
   assert.equal(
     await hash(url),
     await hash(made),
     "the Continue face is not the creator's portrait",
   );
+  // The same face You shows (play-one-person-shows-two-faces): one picture source.
+  await page.locator("#front-continue").click();
+  await page.locator('#rings [data-tab="who"]').click();
+  const you = await page
+    .locator("#sheet-body .mxbust img")
+    .first()
+    .getAttribute("src");
+  assert.equal(you, url, "You shows a different face from Continue");
   console.log("PASS Continue shows the face the creator saved");
 } finally {
   await browser.close();

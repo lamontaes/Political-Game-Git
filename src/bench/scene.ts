@@ -928,16 +928,16 @@ export function faceOfFigure(figure: PackFigure, url: string): PersonFace {
     height: figure.size[1],
   };
 }
-/** The person standing as they are dressed in `place`, cropped to their head; null for a child. */
-export function faceOf(
-  core: CoreState,
-  id: string,
-  place: string,
-): PersonFace | null {
+/**
+ * The one face of a person (play-one-person-shows-two-faces): their standing
+ * portrait from their own looks record, the same on every card, list, bust and
+ * menu wherever the viewer is; null for a child.
+ */
+export function faceOf(core: CoreState, id: string): PersonFace | null {
   const looks = looksOf(core, id);
   if (!looks) return null;
   const who = whoOf(core, id, looks);
-  const figure = portraitFigure(core, who, place);
+  const figure = portraitFigure(core, who);
   if (!figure) return null;
   const url = drawnUrl(figure, who, ageBandOf(core, who.birthDate));
   drawAhead(url);

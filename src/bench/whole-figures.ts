@@ -236,20 +236,21 @@ export function figureForSpot(
   );
 }
 
-/** The person standing toward the viewer, as they would be dressed here: their portrait and their face. */
+/** The person standing toward the viewer: their one portrait and face. */
 export function portraitFigure(
   core: CoreState,
   who: FigurePerson,
-  place: string,
 ): PackFigure | null {
   if (ageBandOf(core, who.birthDate) === "child") return null;
   const person = packPersonOf(who);
   if (!person) return null;
-  // An officeholder's face shows them as they serve, wherever the viewer is.
-  const dresses = who.official
-    ? rules.dressOrder.official
-    : dressesFor(core, who, place);
-  return portraitOf(person, who, dresses);
+  // One face per person, wherever the viewer is (play-one-person-shows-two-faces):
+  // an officeholder as they serve, everyone else in their everyday clothes.
+  return portraitOf(
+    person,
+    who,
+    who.official ? rules.dressOrder.official : rules.dressOrder.everyday,
+  );
 }
 /**
  * A figure a portrait may show: standing, holding nothing (owner, Oct 29:

@@ -1,8 +1,9 @@
 // Advanced, Play as (the Nov 8 front mock, fr-playas): the people who hold an office,
-// grouped by the body they sit in, a bust and a button for the one chosen.
+// grouped by the body they sit in, the chosen one's person card and a button.
 import { el } from "./dom.mjs";
-import { makeButton, buttonRow } from "./button.mjs";
-import { stripSection, bust } from "./strips.mjs";
+import { makeButton } from "./button.mjs";
+import { stripSection } from "./strips.mjs";
+import { personCard } from "./person-card.mjs";
 
 const titleCase = (text) =>
   text.toLowerCase().replace(/\b[a-z]/g, (c) => c.toUpperCase());
@@ -45,7 +46,7 @@ export function playAsList(holders, { levels, onSelect, selected }) {
   );
 }
 
-/** The chosen person: their bust, their office and body, and the button that steps in. */
+/** The chosen person: the one person card with their office and body, and the button that steps in. */
 export function playAsDetail(holder, { face, labels, levels, onPlay }) {
   const body = bodyOf(holder, levels);
   const play = makeButton({
@@ -54,17 +55,12 @@ export function playAsDetail(holder, { face, labels, levels, onPlay }) {
     textContent: labels.playAs.replace("{name}", holder.name),
   });
   play.addEventListener("click", onPlay);
-  return stripSection(
-    1,
-    labels.heading,
-    bust(face, holder.name),
-    el("h2", { className: "strip-name", textContent: holder.name }),
-    el("p", {
-      className: "strip-role",
-      textContent: [holder.title, body, holder.party]
-        .filter(Boolean)
-        .join(" · "),
-    }),
-    buttonRow(play),
+  return personCard(
+    {
+      name: holder.name,
+      face,
+      line: [holder.title, body, holder.party].filter(Boolean).join(" · "),
+    },
+    { layout: "section", heading: labels.heading, actions: [play] },
   );
 }
