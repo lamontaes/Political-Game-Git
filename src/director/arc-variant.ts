@@ -237,6 +237,13 @@ interface VariantRow {
   base: number;
   terms?: readonly Term[];
   pull?: readonly string[];
+  /**
+   * The cause this variant speaks to: where the cause's record carries this
+   * fact, the variant plays only for this value (a visitor whose case is about
+   * work never states a relative's illness instead). A cause without the fact
+   * leaves every variant open.
+   */
+  forCause?: { fact: string; is: string };
   /** The variant's arc; absent for the family's own purpose, whose arc is in purpose-arcs.json. */
   arc?: unknown;
 }
@@ -671,7 +678,16 @@ export function chooseVariant(
   const reads: Record<string, number> = {};
   const read = (name: string) =>
     (reads[name] ??= readOf(core, DATA.reads[name]!, input, recordIds));
+  // Every read the family names is read, whichever variants are open: the
+  // scene's facts cite them (`read-...`), and a closed variant's records are
+  // still true of the asker.
+  for (const row of Object.values(family.variants))
+    for (const term of row.terms ?? []) read(term.read);
   const scores: VariantScore[] = Object.entries(family.variants)
+    .filter(([, row]) => {
+      const named = row.forCause && input.cause.facts[row.forCause.fact];
+      return !named || named === row.forCause!.is;
+    })
     .map(([variant, row]) => {
       const world = (row.terms ?? []).reduce((total, term) => {
         const value = read(term.read);

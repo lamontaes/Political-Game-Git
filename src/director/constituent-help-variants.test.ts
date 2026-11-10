@@ -34,6 +34,7 @@ type Variants = Record<
     base: number;
     terms?: { read: string; weight: number }[];
     pull?: string[];
+    forCause?: { fact: string; is: string };
     arc?: { endings: { id: string; keeps: string }[] };
   }
 >;
@@ -158,6 +159,15 @@ it(`office hours plays the variant the constituent's records give (seed ${seed})
       expect(chosen, `${here}: no variant`).toBeTruthy();
       expect(chosen!.family, here).toBe("constituent-help");
       expect(chosen!.scores[0]!.variant, here).toBe(chosen!.variant);
+      // A variant plays only for the problem the visit's case records: a
+      // visitor who came about work never states a relative's illness.
+      for (const s of chosen!.scores) {
+        const gate = VARIANTS[s.variant]!.forCause;
+        expect(
+          !gate || gate.is === String(visit.facts!.problem),
+          `${here}: ${s.variant} is open to a case about ${String(visit.facts!.problem)}`,
+        ).toBe(true);
+      }
       expect(scene.talk.purpose, here).toBe(chosen!.purpose);
       expect(scene.askerId, here).toBe(residentId);
       for (const s of chosen!.scores)
