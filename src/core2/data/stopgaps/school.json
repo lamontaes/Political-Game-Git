@@ -59,8 +59,10 @@
     "why": "The core records no ethnicity on a student (neither a full person nor a counted household) and no enrollment by ethnicity: the school engine (schoolFor in src/core2/modules/school.ts) sends every school-age person to the town's one district, so enrollment is never decided, only attendance, and there is nothing for the link to change.",
     "addedBy": "EFFECT-WEB-SCHOOLS",
     "addedAt": "2026-10-20",
-    "replacement": "An enrollment record by ethnicity (from the opening's school enrollment, src/core2/opening-public-schools.ts) that the school engine decides, with a student's ethnicity from the opening's population counts; at the moment it decides whether a student stays enrolled it multiplies the student's own rate by webReach(api, placeId, \"school.hispanic-enrollment\", subject), which is how enforcement-to-hispanic-enrollment (-0.10 after 24 months, Dee and Murphy 2020) changes who stays enrolled, read back as this measure.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An enrollment record by ethnicity (from the opening's school enrollment, src/core2/opening-public-schools.ts) that the school engine decides, with a student's ethnicity from the opening's population counts; at the moment it decides whether a student stays enrolled it multiplies the student's own rate by webReach(api, placeId, \"school.hispanic-enrollment\", subject), which is how enforcement-to-hispanic-enrollment (-0.10 after 24 months, Dee and Murphy 2020) changes who stays enrolled, read back as this measure.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-SCHOOL-links-not-running",

@@ -32,7 +32,9 @@
     "why": "How marriage works in play is not yet decided (OWNER-DECISIONS.md, Marriage and children), and no engine decides who partners or marries.",
     "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
     "addedAt": "2026-10-29",
-    "replacement": "Once adults carry an orientation record and partnering reads it, partnerships.ts counts same-sex marriages by place from its own wedding records, and the link takes a size in that count's unit.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Once adults carry an orientation record and partnering reads it, partnerships.ts counts same-sex marriages by place from its own wedding records, and the link takes a size in that count's unit.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   }
 ]

@@ -189,7 +189,9 @@
     "why": "The game keeps no first-assistant or deputy record for a department, so there is no one to name as acting head under 5 U.S.C. 3345(a)(1); a drawn person stands in so the post has a name.",
     "addedBy": "Legislation",
     "addedAt": "2026-11-08",
-    "replacement": "Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, hand the department's work to them, draw them from the capital's counted people rather than the town's, and extend service while a nomination is pending (3346(a)(2)).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Name the department's first assistant as acting head (5 U.S.C. 3345(a)(1)), or a Senate-confirmed officer or qualified senior employee the president directs (3345(a)(2)-(3)), pay and credit them as the acting official, hand the department's work to them, draw them from the capital's counted people rather than the town's, and extend service while a nomination is pending (3346(a)(2)).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   }
 ]

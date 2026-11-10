@@ -56,8 +56,10 @@
     "why": "The world races count only House and legislative districts; the other kinds have no counted race yet. Narrowed Oct 19 (claude/special-election-races).",
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
-    "replacement": "Each office's special-election timing from its law (many fill at the next general election).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each office's special-election timing from its law (many fill at the next general election).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-voter-registration-assumed",
@@ -619,8 +621,10 @@
     "why": "The federal treasury owes each qualifying household one monthly payment (law-reach group B, group-b-food-aid.ts), read by the household's cash and spending. The core records a household's wages and retirement awards, not its rent, child care or medical bills, so those deductions have nothing to read.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "Per-household shelter, dependent-care and medical expense records read by the benefit (world housing and health costs), and the other income programs (SSI, TANF) a household receives.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Per-household shelter, dependent-care and medical expense records read by the benefit (world housing and health costs), and the other income programs (SSI, TANF) a household receives.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-REACH-B-preschool-enrollment",
@@ -631,8 +635,10 @@
     "why": "There is no school enrollment or child-care spending in the core.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-PEOPLE schools engine: enroll(childId, schoolOrgId, { program: \"pre-k\" }) and OPUS-CORE household child-care cost, reduced when enrolled.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: OPUS-PEOPLE schools engine: enroll(childId, schoolOrgId, { program: \"pre-k\" }) and OPUS-CORE household child-care cost, reduced when enrolled.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-REACH-B-voucher-payment",
@@ -679,8 +685,10 @@
     "why": "No construction projects or building fuel choices exist in the core.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: OPUS-WORLD housing and business engine: new-construction cost and appliance fuel by code in force (setBuildingCode({ placeId, allElectric: true })).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-REACH-B-energy-price",
@@ -736,11 +744,13 @@
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 295,
     "whatItFakes": "Farmland protection is a rule record on farms, builders and real-estate firms; no land parcel is recorded. The builders carry the outcome web's researched cut in farmland loss (farmland-easements-to-farmland-lost, Liu and Lynch 2011) as less land open to single-family starts, from the law's effective date rather than after the research's five-year lag.",
-    "why": "Land parcels and development aren't modeled. Stays out of early access (owner, Nov 10, 2026); its research is kept.",
+    "why": "Land parcels and development aren't modeled. Dropped by the owner, Nov 10, 2026; its research is kept.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
-    "replacement": "OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
-    "status": "open"
+    "replacement": "Dropped by the owner, Nov 10, 2026: not in the game. Was: OPUS-WORLD housing engine: land parcels with zoning, read by new construction (zoneParcels({ placeId, use: \"agricultural\", protected: true })).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-polling-place-kind",
@@ -760,7 +770,7 @@
     "file": "src/core2/data/laws/reach-group-b.json",
     "line": 361,
     "whatItFakes": "The highways line sets the share of the town's roads in poor condition (poorRoadShareAt, with a TUNABLE elasticity of 1), and drivers' repair bills follow it through place-prices; the outcome web also moves its recorded poor-road share from the line (highways-spending-to-poor-roads). Commute time does not change.",
-    "why": "There is no commute-time model in the core, so road condition has two readers, vehicle repair spending and the web's poor-road share, and no reader of time lost on the road. Stays out of early access (owner, Nov 10, 2026); its research is kept.",
+    "why": "There is no commute-time model in the core, so road condition has two readers, vehicle repair spending and the web's poor-road share, and no reader of time lost on the road. Commute time is a slight estimate at most (owner, Nov 10, 2026); nothing the player sees reads it today.",
     "addedBy": "OPUS-GOV (sub-agent B)",
     "addedAt": "2026-10-12",
     "replacement": "A commute-time model that reads the town's poor-road share.",
@@ -1677,8 +1687,10 @@
     "why": "The governor decides alone only where the state's law says so (governor alone, or a board that only advises); the other authorities need a board or council engine that does not exist yet.",
     "addedBy": "claude/governor-clemency",
     "addedAt": "2026-10-17",
-    "replacement": "A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A clemency board engine (members, petitions, recommendations) and the council or senate consent, read by the governor's act where the law requires it.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-bail-not-escrowed",
@@ -2194,8 +2206,10 @@
     "why": "There is no provider enrollment or child-care bill in the core.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A child-care enrollment record (child, provider, hours, the family's copay up to 7 percent of income) and the household's child-care bill, reduced by the subsidy while the child is enrolled.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-REACH-B-energy-assistance-enrollment",
@@ -2206,8 +2220,10 @@
     "why": "The average benefit ($301, FY2014) and the 16% served are national figures (CRS RL31865); the state plans' income limits and benefit tables sit on acf.gov and liheapch.acf.gov, which the build session could not reach.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Each state's limit and benefit from its LIHEAP plan; an application record and the household's utility bill the benefit offsets.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-REACH-B-ssi-eligibility",
@@ -2218,8 +2234,10 @@
     "why": "The game keeps no disability record, resource (assets) test or application, and state supplements are per state and not in the data.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
-    "replacement": "A disability status and an asset record on the person; the application and the Social Security Administration's own income rules; each state's supplement from its plan.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A disability status and an asset record on the person; the application and the Social Security Administration's own income rules; each state's supplement from its plan.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-GOV-spending-vote-state-county",

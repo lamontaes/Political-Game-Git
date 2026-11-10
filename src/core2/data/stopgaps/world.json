@@ -485,8 +485,10 @@
     "why": "Husks are kept as a name and family ties only; their place's work isn't modeled at the coarse level, so whether they are out of work, and so free to take the post, can't be read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-14",
-    "replacement": "Let a husk who is out of work and within commuting reach apply like anyone, reading the work kept by jobs-elsewhere.ts.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Let a husk who is out of work and within commuting reach apply like anyone, reading the work kept by jobs-elsewhere.ts.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-WORLD-withholding-residence-law",

@@ -56,8 +56,10 @@
     "why": "The core has no intercity rail service, station or fare, so there is nothing to carry the rider count.",
     "addedBy": "effect-web-prices",
     "addedAt": "2026-10-20",
-    "replacement": "An intercity rail engine whose boardings per place multiply by webFactorFor(rail.intercity-ridership).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An intercity rail engine whose boardings per place multiply by webFactorFor(rail.intercity-ridership).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in-triage"
   },
   {
     "id": "SG-EFFECT-WEB-prices-past-due-debt",
