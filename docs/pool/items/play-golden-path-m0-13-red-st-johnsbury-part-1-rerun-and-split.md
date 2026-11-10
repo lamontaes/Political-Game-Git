@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: done
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,7 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** tests/golden-path/played-world.node-test.ts, docs/pool/items/play-golden-path-m0-13-red-st-johnsbury.md
+
+**Notes (Fable, Nov 10, proposed for the CTO).** Proposed: close, the re-run is done. On main cb25bfa5c8 the item's command (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4; the year ran in 105 seconds) passes 21 checks and fails 1. What still fails, by part: part 2, heap growth of 16.7 MiB a month against a 5 MiB ceiling; part 3, one of three races with no one on the ballot and a challenger off it (cause found and written in that item); part 5, 10 of 11 new businesses borrowing more than 9 times the founder's cash. What no longer fails: part 4, homes and pay. The opening's two memory ceilings also read broken (398.7 MiB after import against 150, and 632.4 MiB after the opening against 250); those are the check's known-failing lines and belong to the memory items.
+
+**Notes (CTO, Nov 10).** Closed on Fable's proposal: the re-run it asks for is done and recorded in #8209 (St. Johnsbury, Vermont on main at cb25bfa5c8).

@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by:
-pr: 0
+pr: 8215
 blocked-on:
 lead: words
 source: second rerun of scripts/words/one-line-spots.ts after words-one-line-spots-1 (Cooleemee, North Carolina; Port Alexander, Alaska; La Vista, Nebraska)

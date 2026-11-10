@@ -17,6 +17,7 @@ effort: low
 root: none
 source: split from core-stopgap-membership-dues-assumed-data, Oct 19
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Make union membership a record on each member, by industry and state from the Bureau of Labor Statistics, instead of only an aggregate rate. Today union dues follow the aggregate membership rates (src/core2/union-rate.ts and src/core2/membership-dues.ts) and the union law reach reads them (src/core2/law-reach/group-a-union.ts). The original body was never written, and the pull request that tried it was sent back for missing industry-level BLS acceptance. This item is held until an engine that needs a per-member record is named.

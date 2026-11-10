@@ -442,6 +442,17 @@ const piecesOf = (id: string) => id.split(/([:|@#])/);
 
 /** A fact of the generated past, kept on the record of the person its id names. */
 function pastFact(core: CoreState, id: string): FoundRecord | undefined {
+  // A fact whose id is a hash (a birth date, a birthplace) names no person: its owner is found by the fact.
+  if (id.startsWith("fact_"))
+    for (const person of core.people.values()) {
+      const fact = person.pastFacts?.find((row) => row.id === id);
+      if (fact)
+        return {
+          engine: PAST_FACT_ENGINE,
+          kind: fact.kind,
+          record: { ...fact, personId: person.id },
+        };
+    }
   const pieces = piecesOf(id);
   if (pieces.length < 3 || pieces.length > 2 * MAX_ID_PARTS) return undefined;
   const tried = new Set<string>();

@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ checked: fable 2026-11-10
 **Notes.** The test draws its own place from GOLDEN_PATH_SEED with the label voter-groups; the Fernwood draw came from a random seed in my replay, and the world seed above is the one it printed. The failure on pull request 8154 was the same step in San Lorenzo, Puerto Rico (world seed 82d7b46a29debf1ff32ff697623ab8b0288375cdc8ce1b4ef970f499929a9748); my replay of that place died for memory beside other runs, so its message is not confirmed to be the same.
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of core-voter-household-weight-below-one. That item names where the 0.77 comes from: the county sample's household weight in src/core2/opening-county-sample.ts (lines 286 to 290) is the county's eligible voters over the sampled adults, which is under one whenever the sample holds more adults than the county has voters. Fernwood, Idaho and San Lorenzo, Puerto Rico are now named there as replays.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): The same defect as core-voter-household-weight-below-one, which has the cause this item lacked (the county sample's weight formula at opening-county-sample.ts 286 to 290).

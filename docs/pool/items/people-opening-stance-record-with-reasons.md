@@ -5,7 +5,7 @@ area: people
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Found Oct 20: the work was built beside PR 5495 and set aside because that PR already forms the stance from the CES faith means. The stored record is the part it does not have.
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. `openingRecord` in src/core2/modules/views.ts (line 663) keeps one record per person and question in the views module's `openings` table the first time it is read, with what faith and degree add, and `openingStance` (line 709) reads it for every view, so `agreementWith` already returns the stored values. The screen that shows these records is play-issue-stances-on-screen.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Asks for work that already exists.

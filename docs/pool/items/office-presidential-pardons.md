@@ -5,7 +5,7 @@ area: office
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 Deferred Oct 25: nothing on screen reads it yet.
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate. Pardons are nation-president-orders-by-series-part-4-pardons (the same `pardonable` at line 985 and SG-OFFICE-FED-pardons), and the played President's choice over federal orders is nation-president-orders-by-series-part-3-played-president-orders. Nothing here is missing from those two.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): The same defect, file, line and stopgap as nation-president-orders-by-series-part-4-pardons, and its second half (the played President's choice over orders) is that parent's part 3.

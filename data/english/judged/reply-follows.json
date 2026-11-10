@@ -1,168 +1,590 @@
 {
-  "schema": "english-judged/1",
+  "schema": "english-judged/2",
   "rule": "reply-follows-the-line-before",
   "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line (A) was just said by one person and the second (B) is the other person's reply. Words in {braces} stand for a name, a place or a number. Each pair also names its scene: what the whole conversation is about (for example \"conflict accuse\", \"floor switch\", \"family loss\"). Earlier lines of the scene are not shown. B may refer to the scene's own subject (the bill, the vote, the firm, the loss) even when A does not repeat it; that alone is never a reason to say B does not follow.\n\nFor each pair, do this in order:\n1. Say to yourself what A does: asks something (what?), offers something (what?), states something (what?), agrees to something, thanks, refuses, or says it is leaving.\n2. Find what B reacts to. B's main point is the thing it answers, agrees with, thanks for, pushes back on, promises, or asks about. Look for that thing in A.\n3. B FOLLOWS when that thing is in A: a real person could say B right after hearing A, and a listener would know what B is responding to. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to A.\n4. B does NOT follow when any of these is true:\n   - B answers a question A did not ask, or acts as if A had told a story, made a case, made an offer, given a plan or apologized when A did not;\n   - A asked a direct question or made a direct request and B neither answers it, refuses it, nor visibly dodges it;\n   - B agrees or disagrees with, or thanks A for, something A did not say;\n   - B leans on \"it\", \"that\", \"them\", \"the third\" or the like and A gives nothing it could mean;\n   - A already did the thing B asks for (A gave the plan and B asks what the plan is; A said yes and B treats it as a no; A has not told the story yet and B asks whether that is all of it);\n   - B's tone answers a different situation (A agrees warmly and B shrugs it off as if overruled).\n5. Do not judge whether either line is well written, only whether B follows A. Do not give B the benefit of an imagined earlier conversation: only A was said. If a listener would have to guess what B refers to, it does not follow.\n\nExamples that do NOT follow:\n- A: \"Give me a minute. I'll explain how it happened.\" B: \"And that's everything?\" (A has not explained anything yet.)\n- A: \"I'll call the landlord tomorrow and set up a payment by Friday.\" B: \"Sorry isn't enough. What's your plan?\" (A just gave the plan and did not say sorry.)\n- A: \"Count me in. I'll tell them tonight.\" B: \"Have it your way.\" (B answers a refusal, and A agreed.)\n- A: \"We open at nine on Saturdays.\" B: \"I never said that about your brother.\" (Nothing in A is about a brother or a claim.)\nExamples that DO follow:\n- A: \"Would you sign my petition?\" B: \"I don't really follow local politics.\" (A dodge a listener understands.)\n- A: \"You can't avoid me forever.\" B: \"I've said all I'm going to say.\"\n- A: \"I need your vote on this.\" B: \"What's in it for my district?\"",
-  "judged": 2429,
+  "judged": 2811,
   "no": {
-    "scene-talk.close-accept.then-we-ll-each-answer-for-our-own-vote": [
-      "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight"
-    ],
-    "scene-talk.follow-accept.done-don-t-look-at-me-when-it-posts": [
-      "scene-talk.reply-bargain.then-make-it-worth-something-what-s-on-the-table"
-    ],
-    "scene-talk.follow-accept.send-me-the-letter-that-s-all-i-need": [
-      "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y"
-    ],
-    "scene-talk.follow-ask.taken.who-else-knew-first": [
-      "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
-    ],
-    "scene-talk.follow-ask.then-why-vote-at-all": [
-      "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
-      "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
-      "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
-      "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it"
-    ],
-    "scene-talk.follow-confront.i-will": [
-      "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
-      "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor",
-      "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
-      "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say"
-    ],
-    "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first": [
-      "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight",
-      "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public"
-    ],
-    "scene-talk.follow-offer.we-rework-it-and-bring-it-back": [
-      "scene-talk.reply-accept.get-me-the-list-i-ll-make-the-calls"
-    ],
-    "scene-talk.follow-press.money.sorry-is-easy-first-what-are-you-going-to-do-differently": [
-      "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week"
-    ],
-    "scene-talk.follow-press.somebody-not-you": [
-      "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida"
-    ],
-    "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside": [
-      "scene-talk.reply-apologize.you-re-right-i-ll-stand-up-and-say-it-in-front-of-everyone"
-    ],
-    "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first": [
-      "scene-talk.reply-deny.no-where-did-you-hear-that",
-      "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
-      "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong"
-    ],
-    "scene-talk.follow-promise.i-ll-work-the-phones-i-won-t-touch-the-money": [
-      "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends"
-    ],
-    "scene-talk.follow-thank.call-before-nine-if-you-can-after-that-i-m-at-the-clinic": [
-      "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out"
-    ],
-    "scene-talk.reply-accept.friday-i-ll-be-watching-for-it": [
-      "scene-talk.follow-promise.you-re-welcome"
-    ],
-    "scene-talk.reply-accept.then-we-understand-each-other": [
-      "scene-talk.follow-bargain.name-a-number-everyone-has-one"
-    ],
-    "scene-talk.reply-agree.all-right-i-ll-do-it": [
-      "scene-talk.follow-press.then-tell-me-what-would-change-your-mind"
-    ],
-    "scene-talk.reply-agree.yes-i-ll-marry-you-put-the-ring-on-me-before-i-start-crying-into-the-d": [
-      "scene-talk.follow-plea.please-don-t-close-it-for-good-just-keep-it-in-mind-while-we-do-the-bi"
-    ],
-    "scene-talk.reply-agree.you-re-right-and-i-ll-do-it": [
-      "scene-talk.follow-press.i-understand-but-it-matters-to-me-can-you-tell-me-what-s-in-the-way"
-    ],
-    "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment": [
-      "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again"
-    ],
-    "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything": [
-      "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account"
-    ],
-    "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours": [
-      "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic"
-    ],
-    "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor": [
-      "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
-      "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise"
-    ],
-    "scene-talk.reply-confront.i-m-not-planning-on-being-the-third": [
-      "scene-talk.follow-confront.bold-let-me-know-how-that-goes",
-      "scene-talk.follow-confront.prove-it-by-lunch",
-      "scene-talk.follow-confront.welcome-to-public-service"
-    ],
-    "scene-talk.reply-confront.put-that-clipboard-in-front-of-me-again-and-i-ll-sign-it-myself-just-t": [
-      "scene-talk.follow-confront.bring-a-chair-it-s-a-long-morning"
-    ],
-    "scene-talk.reply-confront.that-sounds-like-two-jobs-for-one-paycheck": [
-      "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more"
-    ],
-    "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself": [
-      "scene-talk.follow-confront.welcome-to-public-service"
-    ],
-    "scene-talk.reply-confront.you-sit-me-down-and-hand-me-a-finished-plan-you-could-have-said-someth": [
-      "scene-talk.follow-plea.i-don-t-want-us-to-end-with-shouting-can-you-give-me-that-much-and-let"
-    ],
-    "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead": [
-      "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic"
-    ],
-    "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me": [
-      "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all"
-    ],
-    "scene-talk.reply-deflect.it-s-temporary-it-ll-settle-down": [
-      "scene-talk.follow-comfort.sit-down-i-ll-heat-it-up"
-    ],
-    "scene-talk.reply-deny.no-where-did-you-hear-that": [
-      "scene-talk.follow-ask.then-why-vote-at-all",
-      "scene-talk.follow-confront.i-will"
-    ],
-    "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours": [
-      "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more"
-    ],
-    "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here": [
-      "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic"
-    ],
-    "scene-talk.reply-leave.we-re-voting": [
-      "scene-talk.follow-confront.i-will"
-    ],
-    "scene-talk.reply-lie.nobody-s-even-asked-me-that-before": [
-      "scene-talk.follow-press.the-vote-s-in-two-weeks-after-is-too-late-for-my-readers"
-    ],
-    "scene-talk.reply-offer.fine-i-ll-step-out": [
-      "scene-talk.follow-confront.i-will"
-    ],
-    "scene-talk.reply-press.i-ve-heard-by-friday-before": [
-      "scene-talk.follow-promise.you-re-welcome"
-    ],
-    "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no": [
-      "scene-talk.follow-answer.because-you-ve-been-on-the-fence-all-week-and-everybody-on-this-floor-"
-    ],
-    "scene-talk.reply-relent.all-right-you-win-i-m-in": [
-      "scene-talk.follow-press.what-would-change-it"
-    ],
-    "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi": [
-      "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind"
-    ],
-    "scene-talk.reply-relent.you-ve-made-your-point-count-me-in": [
-      "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week"
-    ],
-    "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote": [
-      "scene-talk.follow-ask.friend.is-that-all-of-it-first",
-      "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
-      "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
-      "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
-      "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
-      "scene-talk.follow-ask.taken.who-else-knew-first",
-      "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it"
-    ],
-    "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part": [
-      "scene-talk.follow-ask.how-much-did-they-give"
-    ],
-    "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g": [
-      "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
-      "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
-      "scene-talk.follow-confront.i-will"
-    ],
-    "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit": [
-      "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work"
-    ]
+    "005r70dinlx": {
+      "keys": [
+        "scene-talk.follow-confront.bold-let-me-know-how-that-goes",
+        "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
+      ],
+      "why": "'The third' has no referent in A."
+    },
+    "005s74dxjw2": {
+      "keys": [
+        "scene-talk.follow-ask.friend.is-that-all-of-it-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks if that is all; B answers about the rule to vote."
+    },
+    "03zzfn37j8w": {
+      "keys": [
+        "scene-talk.follow-promise.you-re-welcome",
+        "scene-talk.reply-accept.friday-i-ll-be-watching-for-it"
+      ],
+      "why": "A only says you're welcome; B refers to Friday with nothing to mean it."
+    },
+    "07nhc2mdyc8": {
+      "keys": [
+        "scene-talk.reply-request.would-you-take-child-on-the-nights-i-m-at-the-meetings-i-ll-take-the-weekends",
+        "scene-talk.follow-promise.i-ll-work-the-phones-i-won-t-touch-the-money"
+      ],
+      "why": "A asks them to take the child; B neither answers nor dodges."
+    },
+    "085q10wfeh1": {
+      "keys": [
+        "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
+        "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first"
+      ],
+      "why": "A did not apologize; B says sorry doesn't tell who was involved."
+    },
+    "08rqe3gbsml": {
+      "keys": [
+        "scene-talk.reply-accept.get-me-the-list-i-ll-make-the-calls",
+        "scene-talk.follow-offer.we-rework-it-and-bring-it-back"
+      ],
+      "why": "A asks who to call first; B answers about reworking something."
+    },
+    "09bkodv88x4": {
+      "keys": [
+        "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
+        "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first"
+      ],
+      "why": "B answers an apology A never made."
+    },
+    "09ih80j2yok": {
+      "keys": [
+        "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
+        "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything"
+      ],
+      "why": "Agrees and apologizes though A accused nothing and only said the prosecutor has the account."
+    },
+    "09zfiao27u0": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "0bghh99u4t5": {
+      "keys": [
+        "scene-talk.follow-confront.prove-it-by-lunch",
+        "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
+      ],
+      "why": "\"The third\" has no referent in A."
+    },
+    "0d1sct9aff9": {
+      "keys": [
+        "scene-talk.follow-confront.welcome-to-public-service",
+        "scene-talk.reply-confront.i-m-not-planning-on-being-the-third"
+      ],
+      "why": "'The third' has no referent in A's welcome."
+    },
+    "0dgd9gtuh0v": {
+      "keys": [
+        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor",
+        "scene-talk.follow-confront.i-will"
+      ],
+      "why": "A asks a question; \"I will\" answers nothing"
+    },
+    "0eifhuilq50": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "0f0mtplffmf": {
+      "keys": [
+        "scene-talk.follow-plea.i-don-t-want-us-to-end-with-shouting-can-you-give-me-that-much-and-let",
+        "scene-talk.reply-confront.you-sit-me-down-and-hand-me-a-finished-plan-you-could-have-said-someth"
+      ],
+      "why": "A gave no finished plan; B reacts as if it did."
+    },
+    "0fmfeznegq9": {
+      "keys": [
+        "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
+        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "0fn934ssddy": {
+      "keys": [
+        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "0gi5qgw614k": {
+      "keys": [
+        "scene-talk.follow-press.what-would-change-it",
+        "scene-talk.reply-relent.all-right-you-win-i-m-in"
+      ],
+      "why": "A asks what would change it; B concedes without answering."
+    },
+    "0hp9pzdy21e": {
+      "keys": [
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote",
+        "scene-talk.follow-ask.taken.who-else-knew-first"
+      ],
+      "why": "'Who else knew?' has no link to A's rule-and-vote reason."
+    },
+    "0i8e0laa1yw": {
+      "keys": [
+        "scene-talk.follow-comfort.sit-down-i-ll-heat-it-up",
+        "scene-talk.reply-deflect.it-s-temporary-it-ll-settle-down"
+      ],
+      "why": "A offers food; B talks about something being temporary."
+    },
+    "0jpnijlix4q": {
+      "keys": [
+        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "0jr9cjjfmfz": {
+      "keys": [
+        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
+        "scene-talk.reply-confront.and-mine-pays-for-half-the-projects-in-yours"
+      ],
+      "why": "A agrees to apologize Tuesday; B's remark about paying for projects is unrelated."
+    },
+    "0kiemnnltxn": {
+      "keys": [
+        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
+        "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here"
+      ],
+      "why": "A agrees to apologize; B's complaint answers a refusal."
+    },
+    "0ltw3nyspt7": {
+      "keys": [
+        "scene-talk.reply-offer.i-ll-step-out-on-this-one-not-because-i-ve-done-anything-but-because-y",
+        "scene-talk.follow-accept.send-me-the-letter-that-s-all-i-need"
+      ],
+      "why": "A says it will step out; B asks for a letter A never mentioned"
+    },
+    "0nka4nwhlbo": {
+      "keys": [
+        "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks if B expects belief; B answers about the rule to vote."
+    },
+    "0o087msunuv": {
+      "keys": [
+        "scene-talk.follow-confront.i-will",
+        "scene-talk.reply-leave.we-re-voting"
+      ],
+      "why": "A's 'I will' gives B's 'We're voting' nothing to answer."
+    },
+    "0ob72df98dw": {
+      "keys": [
+        "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
+        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
+      ],
+      "why": "A asks for something checkable; B accuses A of going to a prosecutor."
+    },
+    "0ont3ctgtib": {
+      "keys": [
+        "scene-talk.follow-ask.then-why-vote-at-all",
+        "scene-talk.reply-deny.no-where-did-you-hear-that"
+      ],
+      "why": "A asks why vote; B asks where A heard something."
+    },
+    "0pjwch1nbda": {
+      "keys": [
+        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "0pwy84y1ru6": {
+      "keys": [
+        "scene-talk.follow-press.the-vote-s-in-two-weeks-after-is-too-late-for-my-readers",
+        "scene-talk.reply-lie.nobody-s-even-asked-me-that-before"
+      ],
+      "why": "B answers a question A never asked"
+    },
+    "0q8k7i15iix": {
+      "keys": [
+        "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "0qlgjxp22l5": {
+      "keys": [
+        "scene-talk.follow-ask.how-much-did-they-give",
+        "scene-talk.reply-tell.my-family-s-already-said-yes-that-was-the-hard-part"
+      ],
+      "why": "A asks how much was given; B answers about family saying yes"
+    },
+    "0ra7obs8amj": {
+      "keys": [
+        "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
+        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
+      ],
+      "why": "'There is' answers nothing in A's statement about being told."
+    },
+    "0rb4jkz03k0": {
+      "keys": [
+        "scene-talk.reply-deny.no-where-did-you-hear-that",
+        "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first"
+      ],
+      "why": "A never apologized; B says sorry doesn't tell who was involved."
+    },
+    "0scxgz8krij": {
+      "keys": [
+        "scene-talk.follow-confront.fine-i-will-tuesday-at-the-mic",
+        "scene-talk.reply-confront.you-want-to-keep-score-fine-i-m-ahead"
+      ],
+      "why": "A agreed to apologize; B treats it as keeping score"
+    },
+    "0su0b18s9cn": {
+      "keys": [
+        "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it",
+        "scene-talk.follow-ask.then-why-vote-at-all"
+      ],
+      "why": "A offers to explain the money remark; 'why vote at all' has no link."
+    },
+    "0tcjnpeoyd9": {
+      "keys": [
+        "scene-talk.follow-confront.i-will",
+        "scene-talk.reply-deny.no-where-did-you-hear-that"
+      ],
+      "why": "A's 'I will' is not something B answers with 'Where did you hear that?'"
+    },
+    "0tw45fjmewk": {
+      "keys": [
+        "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
+        "scene-talk.follow-ask.then-why-vote-at-all"
+      ],
+      "why": "A promises to tell everything; B asks 'why vote at all', unconnected."
+    },
+    "0xg45rgwav2": {
+      "keys": [
+        "scene-talk.follow-confront.i-will",
+        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
+      ],
+      "why": "A's 'I will' is no question or claim; B gives a rebuttal."
+    },
+    "0yz4qy6w1i1": {
+      "keys": [
+        "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
+        "scene-talk.follow-press.money.sorry-is-easy-first-what-are-you-going-to-do-differently"
+      ],
+      "why": "A already gave the plan; B asks what they will do differently."
+    },
+    "0znm0a68bss": {
+      "keys": [
+        "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks if B thought A would take it; B answers about the rule."
+    },
+    "10jrh1fglio": {
+      "keys": [
+        "scene-talk.follow-press.then-tell-me-what-would-change-your-mind",
+        "scene-talk.reply-agree.all-right-i-ll-do-it"
+      ],
+      "why": "A asks what would change their mind; B says 'I'll do it' as if asked to act."
+    },
+    "11rgn4pordv": {
+      "keys": [
+        "scene-talk.reply-bargain.then-make-it-worth-something-what-s-on-the-table",
+        "scene-talk.follow-accept.done-don-t-look-at-me-when-it-posts"
+      ],
+      "why": "Answers \"what is on the table\" with \"Done\", as if an offer was made"
+    },
+    "132szf5jj6e": {
+      "keys": [
+        "scene-talk.reply-confront.i-m-not-doing-penance-on-the-record-for-a-fair-fight",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
+      ],
+      "why": "A never said B brings up the past; B answers a claim not made."
+    },
+    "14hw8ksy70d": {
+      "keys": [
+        "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
+        "scene-talk.follow-ask.then-why-vote-at-all"
+      ],
+      "why": "A offers to tell how it went; B asks why vote at all."
+    },
+    "15tak2w8b5h": {
+      "keys": [
+        "scene-talk.follow-press.i-understand-but-it-matters-to-me-can-you-tell-me-what-s-in-the-way",
+        "scene-talk.reply-agree.you-re-right-and-i-ll-do-it"
+      ],
+      "why": "A asks what is in the way; B agrees as if told something."
+    },
+    "16jayhlgr3g": {
+      "keys": [
+        "scene-talk.follow-ask.taken.who-else-knew-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks who else knew; B gives a voting justification"
+    },
+    "18beakglilu": {
+      "keys": [
+        "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks why someone said otherwise; B answers about the rule to vote."
+    },
+    "19362ljis5q": {
+      "keys": [
+        "scene-talk.reply-apologize.you-re-right-i-ll-stand-up-and-say-it-in-front-of-everyone",
+        "scene-talk.follow-press.sorry-doesn-t-cost-anything-in-a-parking-lot-say-it-inside"
+      ],
+      "why": "A agreed to apologize in public; B treats it as a parking-lot apology."
+    },
+    "1c61qwtv5v6": {
+      "keys": [
+        "scene-talk.follow-press.you-keep-saying-that-what-changes-by-next-week",
+        "scene-talk.reply-relent.you-ve-made-your-point-count-me-in"
+      ],
+      "why": "A asks what changes; B agrees as if A made a case."
+    },
+    "1flwlzb30eq": {
+      "keys": [
+        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
+        "scene-talk.reply-confront.that-sounds-like-two-jobs-for-one-paycheck"
+      ],
+      "why": "Complains about two jobs; A said nothing about work or quiet ones being assigned."
+    },
+    "1fp46zyatw4": {
+      "keys": [
+        "scene-talk.follow-press.i-hear-you-what-s-standing-in-the-way",
+        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "1gbucw9fbp0": {
+      "keys": [
+        "scene-talk.follow-press.is-that-a-promise-i-d-like-to-tell-the-family-you-ll-do-it",
+        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "1gqqdtz78dr": {
+      "keys": [
+        "scene-talk.follow-press.so-i-can-count-on-that-i-d-like-to-plan-around-it",
+        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "1h8065urg15": {
+      "keys": [
+        "scene-talk.follow-plea.please-don-t-close-it-for-good-just-keep-it-in-mind-while-we-do-the-bi",
+        "scene-talk.reply-agree.yes-i-ll-marry-you-put-the-ring-on-me-before-i-start-crying-into-the-d"
+      ],
+      "why": "Accepts a proposal that A never made."
+    },
+    "1iqfvz8ehzw": {
+      "keys": [
+        "scene-talk.follow-answer.exactly-what-i-told-you-wait-and-work",
+        "scene-talk.reply-thank.funerals-all-right-i-own-a-black-suit"
+      ],
+      "why": "Funerals appear nowhere in A"
+    },
+    "1j6lk0hhuag": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-be-able-to-tell-the-family-you-ll-do-it",
+        "scene-talk.reply-agree.you-re-right-i-ll-contact-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "1k7soz35rxr": {
+      "keys": [
+        "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight",
+        "scene-talk.close-accept.then-we-ll-each-answer-for-our-own-vote"
+      ],
+      "why": "Nothing in A about voting or answering for votes."
+    },
+    "1lwsh0goh9f": {
+      "keys": [
+        "scene-talk.follow-answer.because-you-ve-been-on-the-fence-all-week-and-everybody-on-this-floor-",
+        "scene-talk.reply-refuse.afford-is-a-funny-word-for-it-no"
+      ],
+      "why": "B picks up the word 'afford', which A never said."
+    },
+    "1n54l4pkxj9": {
+      "keys": [
+        "scene-talk.follow-press.can-i-tell-the-family-you-ll-do-it-first",
+        "scene-talk.reply-agree.that-s-fair-i-ll-reach-out-to-them"
+      ],
+      "why": "The reply agrees with a point the line before never made, since that line only asked a question."
+    },
+    "1na9nr4igpn": {
+      "keys": [
+        "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
+        "scene-talk.reply-tell.there-is-i-reported-it-in-writing-and-counsel-said-i-could-vote-i-ll-g"
+      ],
+      "why": "'There is' answers nothing A said; A made no question or claim to affirm."
+    },
+    "1q2j2b5iqu3": {
+      "keys": [
+        "scene-talk.follow-confront.bring-a-chair-it-s-a-long-morning",
+        "scene-talk.reply-confront.put-that-clipboard-in-front-of-me-again-and-i-ll-sign-it-myself-just-t"
+      ],
+      "why": "B talks of signing a clipboard; A only said bring a chair."
+    },
+    "1rum4q2twzc": {
+      "keys": [
+        "scene-talk.follow-confront.i-will",
+        "scene-talk.reply-offer.fine-i-ll-step-out"
+      ],
+      "why": "A only says \"I will\"; stepping out is unprompted"
+    },
+    "1sf94tox9vo": {
+      "keys": [
+        "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
+        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "1sgfquy62fh": {
+      "keys": [
+        "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks why B didn't tell them; B answers about the rule to vote."
+    },
+    "1sp6kmb0ain": {
+      "keys": [
+        "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
+        "scene-talk.follow-confront.i-will"
+      ],
+      "why": "'I will' answers nothing A said."
+    },
+    "1t2rqdl6crd": {
+      "keys": [
+        "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
+        "scene-talk.follow-confront.i-will"
+      ],
+      "why": "'I will' answers nothing in A's statement."
+    },
+    "1t8lx52yoeg": {
+      "keys": [
+        "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public",
+        "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first"
+      ],
+      "why": "A never said B brings up the past; B answers a claim not made."
+    },
+    "1u9zeyy89k0": {
+      "keys": [
+        "scene-talk.follow-plea.at-least-tell-me-what-would-change-your-mind",
+        "scene-talk.reply-relent.alright-youve-made-your-case-put-it-on-the-calendar-id-rather-have-thi"
+      ],
+      "why": "B says case was made; A only asked a question"
+    },
+    "1wnrxnv1ddq": {
+      "keys": [
+        "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
+        "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me"
+      ],
+      "why": "A made no accusation; B excuses itself as if accused."
+    },
+    "1wu5rdlx5qc": {
+      "keys": [
+        "scene-talk.follow-press.is-there-something-i-can-fix-i-d-like-to-understand",
+        "scene-talk.reply-agree.you-re-right-i-ll-get-it-done"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "20uy4ulhzpe": {
+      "keys": [
+        "scene-talk.follow-answer.good-the-quiet-ones-worry-me-more",
+        "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours"
+      ],
+      "why": "A comments on quiet people; B's bag remark answers nothing in A."
+    },
+    "22ian24oux6": {
+      "keys": [
+        "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
+        "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote"
+      ],
+      "why": "A asks where the money went; B answers about the rule to vote."
+    },
+    "238fyxz5dig": {
+      "keys": [
+        "scene-talk.follow-confront.welcome-to-public-service",
+        "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself"
+      ],
+      "why": "'Then I'll ask the boss' reacts to nothing in a welcome."
+    },
+    "24ni2pnf5qy": {
+      "keys": [
+        "scene-talk.follow-bargain.name-a-number-everyone-has-one",
+        "scene-talk.reply-accept.then-we-understand-each-other"
+      ],
+      "why": "A asks for a number; B says \"we understand each other\""
+    },
+    "257geqjbw0k": {
+      "keys": [
+        "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
+        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "25hgc4lmj4g": {
+      "keys": [
+        "scene-talk.follow-press.is-that-a-firm-answer-i-need-to-plan-around-it",
+        "scene-talk.reply-agree.you-make-a-fair-point-i-ll-do-it"
+      ],
+      "why": "B agrees with a point A never made; A only asks a question or says it wants to plan around the answer."
+    },
+    "25ztng057bb": {
+      "keys": [
+        "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
+        "scene-talk.follow-ask.then-why-vote-at-all"
+      ],
+      "why": "A offers to tell what happened; B questions voting, unrelated."
+    },
+    "28hkgoc5y65": {
+      "keys": [
+        "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
+        "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment"
+      ],
+      "why": "A asks how it won't recur and says sorry helped; B just apologizes first time."
+    },
+    "29kwxhoqov6": {
+      "keys": [
+        "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
+        "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor"
+      ],
+      "why": "A never mentions a prosecutor or going to one."
+    },
+    "2busqwoqvx8": {
+      "keys": [
+        "scene-talk.reply-offer.stay-with-my-caseworker-she-ll-go-through-what-you-may-qualify-for-and-fill-out",
+        "scene-talk.follow-thank.call-before-nine-if-you-can-after-that-i-m-at-the-clinic"
+      ],
+      "why": "A refers them to a caseworker; B gives call timing as if A asked."
+    },
+    "2dlc7ch7gh3": {
+      "keys": [
+        "scene-talk.follow-promise.you-re-welcome",
+        "scene-talk.reply-press.i-ve-heard-by-friday-before"
+      ],
+      "why": "'You're welcome' gives no Friday; B answers a promise never made."
+    },
+    "2efd6mkrlgv": {
+      "keys": [
+        "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
+        "scene-talk.follow-confront.i-will"
+      ],
+      "why": "'I will' has no referent in A's statement of not fearing."
+    },
+    "2fxwucgfci4": {
+      "keys": [
+        "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida",
+        "scene-talk.follow-press.somebody-not-you"
+      ],
+      "why": "'Somebody' echoes a word A never said; A offered a name reference."
+    }
   },
-  "yesHash": "22xi8by2jtt"
+  "yesHash": "22wmg1ytoc3"
 }
