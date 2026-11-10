@@ -105,8 +105,12 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
     const groups = own.filter((row) => row.target === "group" || row.count > 1);
     if (groups.length)
       expect(reach.counted, `${where}: counted people`).toBeGreaterThan(0);
+    // A law that only moves a government's own budget lines reaches that government and no one else.
     expect(
-      reach.fullPeople + reach.counted + reach.organizations,
+      reach.fullPeople +
+        reach.counted +
+        reach.organizations +
+        reach.governments,
       `${where}: someone is named`,
     ).toBeGreaterThan(0);
     // Full people are split by where they live, and the split adds up.
