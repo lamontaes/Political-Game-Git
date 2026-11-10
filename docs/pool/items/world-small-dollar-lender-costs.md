@@ -23,7 +23,7 @@ claimed-at:
 
 **Cause.** Found in code: src/core2/modules/credit.ts lines 1556 to 1563 (stopgap SG-WORLD-small-dollar-lender-keeps-interest): the lender's `roomMinor` is its whole `liquidMinor`, and no monthly posting takes costs out of it.
 
-**Fix.** Add a monthly posting from the lender's cash for its costs (storefront rent, wages, charge-offs from its own written-off loans) and its owner's draw, sized from a sourced industry operating-cost and pre-tax-margin share (publicly traded payday lenders' annual reports, or the CFPB's or FDIC's studies of storefront lending), recorded as a parameter tagged SOURCED or ESTIMATED with its spread in src/core2/data/credit/small-dollar.json. The room to lend becomes capital plus retained earnings after those payments. Resolve the stopgap row.
+**Fix.** Reuse the money paths that exist; add no ledger. Give the lender's organization business books through `addBusinessBooks` (src/core2/state.ts, the call every seller's books go through), so its costs (storefront rent, wages, charge-offs) post through the existing business cost and payment flows, and its owner's draw is decided by `ownerDrawCase` and `ownerDrawReasons` in src/core2/modules/business.ts, as for any owner-operator. Size the cost and margin shares from a sourced industry figure (publicly traded payday lenders' annual reports, or the CFPB's or FDIC's studies of storefront lending), tagged SOURCED or ESTIMATED with its spread in src/core2/data/credit/small-dollar.json. `smallLender` in src/core2/modules/credit.ts then reads the lender's cash after those payments as its room to lend. Resolve the stopgap row.
 
 **Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

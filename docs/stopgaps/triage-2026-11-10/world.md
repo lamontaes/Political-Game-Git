@@ -125,3 +125,7 @@ New pool items: 8 (listed below). Waits on the crime system: none.
 ## Questions for the owner
 
 None. Everything that looked intricate has an answer on record: counted people stay a pooled population (owner, Oct 11, "Keep it simple"), unions wait for 1.0 (Oct 20), and a counted household's back rent on fill-in "depends on the people" (Oct 19, `docs/coordination/OWNER-DECISIONS.md`).
+
+## Reuse check (owner, Nov 10: one money system)
+
+The three new code items name the function they change and add no second path: `world-small-dollar-lender-costs` gives the lender business books through `addBusinessBooks` and an owner's draw through `ownerDrawCase`; `world-public-pay-growth-within-job` changes the existing public branch in `jobs.ts` to call `withinJobRaise`; `world-housing-eviction-day-counting` changes the three existing `addDays` calls. The rest of the code closings are existing items filed before tonight's rule and were not re-read for it. The two partly replaced rows and the replaced row were decided from the code lines in their evidence, not from the register text.

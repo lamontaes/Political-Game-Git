@@ -23,7 +23,7 @@ claimed-at:
 
 **Cause.** Found in code: src/core2/modules/housing.ts lines 1035 and 1036 (stopgap SG-WORLD-housing-eviction-day-counting) return the steps row unchanged, and the periods are added as calendar days at lines 1783 (`addDays` for the notice), 1960 (hearing) and 2485 (stay). The research file data/research/world/eviction-statute-reads-2026.json already records each read's `dayType` (business, court, calendar).
 
-**Fix.** Add a `dayType` to the steps rows in src/core2/data/housing/housing.json from the research file (calendar where none is recorded). Add one helper that adds N counting days to a date, skipping weekends and the place's holidays for a business, court or holiday-free day type, and use it at the three places that add notice, hearing and stay days. Read the place's holidays from the calendar the game already keeps; if it keeps none for a place, count weekends only and register that as a stopgap. Resolve the stopgap row.
+**Fix.** Change the three places that add days with `addDays` (src/core2/modules/housing.ts lines 1783, 1960 and 2485) to call one counting helper, which reads a `dayType` on the steps row and skips non-counting days (weekends and the place's holidays from the calendar the game already keeps; if it keeps none, count weekends only and register that as a stopgap). Add `dayType` to the steps rows in src/core2/data/housing/housing.json from data/research/world/eviction-statute-reads-2026.json (calendar where none is recorded). No new case path: the existing eviction case rows and steps stay. Resolve the stopgap row.
 
 **Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

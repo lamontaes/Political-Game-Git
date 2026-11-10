@@ -23,7 +23,7 @@ claimed-at:
 
 **Cause.** Found in code: src/core2/modules/jobs.ts line 2739 (stopgap SG-WORLD-jobs-public-pay-growth): the within-job raise (`withinJobRaise`, with tenure and work reasons) applies only when the employer has business books (`c.finance.businesses.has`); a public employer takes the else branch at lines 2740 to 2750.
 
-**Fix.** Apply the same `withinJobRaise` rule to public workers, with the raise capped by the room in the government's personnel budget line (read from the budgets engine) or, where a bargaining or pay law in force records a step schedule, set by that schedule. A government with no room gives no raise, and the refusal is recorded with its reason. Resolve the stopgap row.
+**Fix.** Change the one existing raise path, add no second one: let the branch at src/core2/modules/jobs.ts line 2739 for a public employer call `withinJobRaise` (jobs.ts line 2670) as the business branch does, then cap the raise by the room in the government's personnel line read through the budgets engine's existing line reader in src/core2/modules/budgets.ts (name the function in the PR body), or by the step schedule a pay law in force records. Payroll still posts through the existing public payroll flow. A government with no room gives no raise, and the refusal is recorded with its reason. Resolve the stopgap row.
 
 **Time box.** 8 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
