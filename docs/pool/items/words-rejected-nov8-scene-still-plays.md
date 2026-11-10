@@ -32,7 +32,7 @@ root: design-words-machine
 
 **Waits on.** Nothing. The words machine (words-machine-rules-from-the-owners-notes) will generalize it.
 
-**Files.** data/english/grades, data/english/part-grades.json, data/english/grade-reach.json, scripts/dialogue-batch/apply-grades.ts, src/bench/grade-line.ts, data/english/parts/conversation.json, data/english/parts/scene-talk.json, docs/coordination/playtest/2026-11-08-1.md
+**Files.** data/english/grades, data/english/part-grades.json, scripts/dialogue-batch/apply-grades.ts, src/bench/grade-line.ts, data/english/parts/conversation.json, data/english/parts/scene-talk.json, docs/coordination/playtest/2026-11-08-1.md
 
 **Notes.** From the Fable audit: Pillar 4 ("What a player sees": "That is the scene you rejected on November 8, unchanged"), the grading section ("Lines from the scene you rejected, and lines like them, are boosted", "What you say while playing still goes nowhere") and "Reported done that is not done" item 11: "'The I liked what the President had to say scene was fixed.' It played unchanged on November 9 (measured)."
 
