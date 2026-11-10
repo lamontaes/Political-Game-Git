@@ -183,7 +183,7 @@
     "id": "SG-NATION-town-part-unsorted-jobs",
     "kind": "assumed-data",
     "file": "src/core2/modules/macro.ts",
-    "line": 292,
+    "line": 285,
     "whatItFakes": "A town or county worker the records place at no employer (the opening's workers outside a recorded firm, commuters among them), or at an employer whose classification and kind have no sector in the tables, is counted in the state's sectors in the shares the state's jobs are in, not in the industry they work in.",
     "why": "The opening records those workers only as a count per household and pays them from the place's outside account; no record says which industry they work in.",
     "addedBy": "Fable helper",
