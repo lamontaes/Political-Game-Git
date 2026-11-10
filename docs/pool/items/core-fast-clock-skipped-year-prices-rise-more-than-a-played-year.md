@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8239
 after:
 blocked-on:
 lead: speed
@@ -17,6 +17,7 @@ effort: medium
 root: design-country-tier
 source: found Nov 10 by the builder of the fast clock's part 3 (pull request #8238)
 checked: fable 2026-11-10
+merged-at: 2026-11-10T21:46:55.921Z
 ---
 
 **What.** After the fast clock's part 3, a skipped year moves prices, but in some places it moves them more than the same year played day by day. A player who skips ahead should come back to about the world they would have reached by playing. The gap is outside the fifth the fast clock's parts hold themselves to, and nobody knows which engines make it.
