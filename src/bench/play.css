@@ -5008,10 +5008,6 @@ select.release-pick {
 .issue-filter-row .tab-rail {
   margin: 0;
 }
-.issue-filter-row select.issue-filter {
-  justify-self: start;
-  min-width: 260px;
-}
 .issues-laws {
   width: auto;
   max-width: 100%;

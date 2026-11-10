@@ -144,6 +144,7 @@ import { lawChanges } from "./changes";
 import { patchNoteReleases } from "./patch-notes";
 import { governmentMap } from "./map";
 import { budgetLineNames, choiceName, policyNames } from "./words";
+import { NAMED_QUESTIONS, questionAbout } from "../english/question-names";
 import controls from "./data/controls.json" with { type: "json" };
 
 // This is a reference to engine-owned state, not a parallel state or writer.
@@ -1065,6 +1066,10 @@ const ROUTES: readonly Route[] = [
       send(200, {
         ...controls,
         policyNames: { ...policyNames(), ...budgetLineNames() },
+        // What each policy question is about, from the English engine's names.
+        policyAbout: Object.fromEntries(
+          NAMED_QUESTIONS.map((q) => [q, questionAbout(q)]),
+        ),
       });
       return;
     },

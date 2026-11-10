@@ -3,7 +3,6 @@
 // computes no fact of its own, so the list and a test count the same laws.
 import { el } from "./dom.mjs";
 import { tabBar, chooseTab } from "./tab.mjs";
-import { select } from "./fields.mjs";
 
 /** Every filter's "no filter" key. */
 export const ALL = "all";
@@ -44,8 +43,8 @@ export function levelChoices(laws) {
 }
 
 /**
- * The Issues screen's frame: a Level bar and an In force bar of tabs and a Subject select
- * (the shared controls) over the list `draw` fills. `choices`: { level, force,
+ * The Issues screen's frame: a Level, an In force and a Subject bar of lit toggle buttons
+ * (the shared controls, the owner's menu look) over the list `draw` fills. `choices`: { level, force,
  * subject } each [[key, label]]; `state` is the chosen key per filter, kept by the screen;
  * `draw(list)` fills the list node it is handed, now and on every change; `words` names the filters ({ level, force, subject, all }).
  */
@@ -59,7 +58,7 @@ export function issueFilterScreen({ words, choices, state, draw }) {
       el("span", { textContent: words[name] }),
       control,
     );
-  const bars = ["level", "force"].map((name) => {
+  const bars = ["level", "force", "subject"].map((name) => {
     const bar = tabBar({
       attr: name,
       className: "issue-filter",
@@ -76,26 +75,6 @@ export function issueFilterScreen({ words, choices, state, draw }) {
     });
     return row(name, bar);
   });
-  const subject = select({
-    className: "issue-filter",
-    label: words.subject,
-    value: state.subject,
-    options: [[ALL, words.all], ...choices.subject].map(([value, label]) => ({
-      value,
-      label,
-      data: { subject: value },
-    })),
-    onChange: (value) => {
-      state.subject = value;
-      onChange();
-    },
-  });
   onChange();
-  return el(
-    "div",
-    { className: "issues-screen" },
-    ...bars,
-    row("subject", subject),
-    list,
-  );
+  return el("div", { className: "issues-screen" }, ...bars, list);
 }
