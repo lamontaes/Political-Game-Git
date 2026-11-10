@@ -51,7 +51,7 @@ export interface GrievanceRow {
   /** The event that carried the cause. */
   readonly causeEventId: string;
   /** The evicted household (an eviction only): its new lease is read to end it. */
-  readonly householdId?: string;
+  readonly householdId: string | null;
   readonly date: string;
   /** The people the cause record stands for: one for a full person, a counted job's heads. */
   readonly heads: number;
@@ -110,6 +110,7 @@ function fromLayoff(api: CoreAPI, event: CoreEventInput): void {
     organizationId: facts.organizationId ?? "",
     causeId,
     causeEventId: event.id,
+    householdId: null,
     date: event.date,
     heads: change?.heads ?? api.parameter("one"),
     open: true,
@@ -149,7 +150,7 @@ function fromEviction(api: CoreAPI, event: CoreEventInput): void {
     organizationId: landlordId,
     causeId,
     causeEventId: event.id,
-    ...(householdId ? { householdId } : {}),
+    householdId: householdId ?? null,
     date: event.date,
     heads: api.parameter("one"),
     open: true,
