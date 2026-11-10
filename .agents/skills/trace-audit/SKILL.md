@@ -13,7 +13,7 @@ description: >
 
 **SMART and look first (owner, Oct 26; `.agents/rules/smart-and-look-first.md`).** The example command's state is an example only; every run draws its places from all 56. Each helper brief and each filed defect is SMART with a time box.
 
-The audit shows the owner what each of the 56 places actually did in a year, and why. It views the game and changes nothing. A place's year includes the country tier (states kept as counts, stepped monthly, `docs/design/country-tier.md`); read a state's result as a result, and do not file a missing day-by-day trace of unwatched people as a defect.
+The audit shows the owner what each of the 56 places actually did in a year, and why. It views the game and changes nothing. A place's year includes the country tier (states kept as counts, stepped monthly, `docs/design/country-tier.md`); the viewer reads what the engines keep, so check the design before calling a missing day-by-day trace of unwatched people a defect.
 
 ## Steps
 
