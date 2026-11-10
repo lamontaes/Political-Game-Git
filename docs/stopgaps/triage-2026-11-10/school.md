@@ -40,3 +40,7 @@ Speed: the new build item reads the line monthly with the budget in force and co
 ## Questions for the owner
 
 None.
+
+## Reuse check (owner, Nov 10: one money system)
+
+Every new item names the existing function it changes and adds no second payment, tax or ledger path: the spending item changes the existing moveBudget handler (src/core2/law-reach/group-b-money.ts) and schoolsLineAboveBase; no second budget path.
