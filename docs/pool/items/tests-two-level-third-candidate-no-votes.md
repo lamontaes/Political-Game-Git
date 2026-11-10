@@ -5,10 +5,10 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8241
 after:
 blocked-on:
 lead: wire-elections
@@ -17,6 +17,7 @@ effort: medium
 root: design-electorate-one-model
 source: wire-office session, Oct 28 (found red on main)
 checked: fable 2026-11-10
+merged-at: 2026-11-10T21:51:39.788Z
 ---
 
 **What.** src/core2/two-level-elections.test.ts fails on clean main for two of four fixed seeds. With GOLDEN_PATH_SEED=b2 (Clayville, Rhode Island, 4415940) the Attorney General race has a third filing with no party and it gets 0 votes, while the test expects every filing in a contested race to get real votes; the same failure was seen with a Governor race on a random seed. With GOLDEN_PATH_SEED=c3 (Machias, Washington, 5341470) no November 3, 2026 race has both a Republican and a Democrat on the ballot. Seeds a1 and d4 pass.
