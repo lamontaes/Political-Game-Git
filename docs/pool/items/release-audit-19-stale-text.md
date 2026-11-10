@@ -12,11 +12,12 @@ blocked-on:
 source: added with npm run pool -- add
 claimed-at:
 standard: 2
-model: haiku
+model: sonnet
 effort: low
 root: none
 lead: cto
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** The Oct 20 merge audit found stale text that is partly fixed: SG-CORE-territory-places is resolved and src/core2/territory-deposits.test.ts exists. What is left is the deleted file src/core2/tooling/build-place-lookup-data.ts, which a comment in .prettierignore, docs/design/old-core-retirement-map.md and docs/coordination/core.md still name, and the stopgap SG-WORLD-credit-island-deposits, whose island wording must be reread against the territory test. Skip the audit's pull-request-link and blocked-status edits where the item files already read right.
@@ -25,7 +26,7 @@ after:
 
 **Fix.** Remove the references to the deleted build-place-lookup-data.ts from .prettierignore and the live docs (leave history in docs/reports and pool Notes). Reread SG-WORLD-credit-island-deposits against src/core2/territory-deposits.test.ts and correct its text, or keep it with a reason.
 
-**Time box.** 1 hours for one Haiku session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+**Time box.** 1 hour for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Replace, never layer: corrected text replaces the stale text in the same change, and no history is rewritten. Look before you ask: read the pool items before changing any status line.
 

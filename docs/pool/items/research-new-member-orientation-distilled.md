@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** On Sept 22 the owner asked for real orientation programs for newly elected officials so he could decide what goes in the game: "have GPT search up orientations for legislators. If it can get examples from all 50 states at levels of government, maybe five representative samples for each state at the local level. But I feel like state and federal level, those orientations, have it distill those orientations to me and I'll decide what should go in the game." The research question `new-member-transition-and-orientation` was only partly answered (Congress's allowance and programs, plus several states) and never reached him. On Oct 29 he ruled that learning the job is "a mix of short scenes in a real orientation", so the game needs the real content: what a new council member, county official, state legislator, governor and member of Congress is actually taught, by whom, when, and for how long.

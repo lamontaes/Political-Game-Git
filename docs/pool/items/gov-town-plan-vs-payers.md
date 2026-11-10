@@ -17,6 +17,7 @@ effort: high
 root: none
 source: Money, Nov 9; scripts/money/collected.ts
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A town collects several times its planned revenue. In Wooster, Indiana (key 1885562, seed money-1) the town's treasury took in 0.53 B (units of 100 million minor, credits on the cash journal) in 2026 against a planned revenue of 0.14 B, a ratio of 3.7, while the state (1.014) and the county (1.016) sit near 1. The town's plan is the Census fiscal-2022 per-resident line times its residents, and its income is what the town's laws (property, sales, income taxes and charges) raise from its modeled payers. The two should come from the same laws and payers; until they do, the town's spending cannot be voted from its receipts (SG-GOV-spending-vote-state-county).

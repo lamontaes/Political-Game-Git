@@ -16,6 +16,7 @@ effort: medium
 root: none
 after: gov-press-outlet-revenue
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Since gov-press-outlet-revenue, the town's businesses buy ads from the town's outlets out of their own costs, and each purchase is a record in the press module's `adBuys` table: outlet, advertiser, amount and the payment's transfer id. No screen reads it, so the player never sees a local paper run an ad from a shop they know. Give the paper view the advertisers a local outlet carried this month, named from their organization records. This is a read of records that exist and adds no mechanic.
@@ -30,7 +31,7 @@ source: added with npm run pool -- add
 
 **Done when.** A second session (not the builder) plays one year of the played world (`buildBenchWorld`) in a drawn place (place and seed named), opens News on a local outlet's tab and sees the advertisers it carried for one month, each named from its organization record and matching that month's `adBuys` rows by record id, with a screenshot at 1440x900 in the PR. A bench test fails when an advertiser shown has no `adBuys` row.
 
-**Waits on.** gov-press-outlet-revenue (the item's `after:`); the `adBuys` records it writes already exist on main.
+**Waits on.** Nothing. (gov-press-outlet-revenue, which it once waited on, is closed; the `adBuys` records it wrote are on main.)
 
 **Files.** src/core2/press-money.ts, src/core2/modules/press.ts, src/bench/play.mjs, src/bench/ui/news-board.mjs
 

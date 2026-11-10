@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc1-world-outside-town
 source: split from world-disasters-from-conditions in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** When damage, repairs and aid are built, the stopgap SG-CORE-disasters-from-records no longer describes the code. Mark it resolved with what replaced it, and make the disaster-weather test state the whole chain by record id: hazard record, disaster, damaged homes and businesses, repairs and insurance over months, aid on its dates.

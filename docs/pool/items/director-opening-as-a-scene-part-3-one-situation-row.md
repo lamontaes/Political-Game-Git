@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-director-on-core2
 source: split from director-opening-as-a-scene in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The opening should be one scene. The director stages it from one situation-type row, like every other scene. What is left of its private staging, and the tests that cover only it, is deleted in the same change, and the PR body counts what was removed. The owner's sequence and key people stay as the scene's roles.

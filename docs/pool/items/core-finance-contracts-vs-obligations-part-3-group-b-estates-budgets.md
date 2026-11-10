@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** After the payee account exists, the remaining readers of the accounts obligation layer move to finance contracts: group B law reach (fund payees), estates (which ends a dead person's obligations) and budgets-treasury (which reads and sets obligation amounts). Each uses the finance layer's own end and set-amount calls. The law-wiring health, schools, group-B food aid and retirement tests broke before when the order of payments changed, so keep the order.

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: split from nation-federal-scandal-producer in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Once a federal official's act is recorded, the press must be able to learn of it and run it, because the public learns of an act only through the press. Today the tip-off path reads only the town's own outlets and crimes. This is part 2 of nation-federal-scandal-producer.

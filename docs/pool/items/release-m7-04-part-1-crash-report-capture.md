@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone: M7
 source: split from release-m7-04-updates-and-bug-reports in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** When the game throws an error during play, it writes a crash report (the save, the error and the recent record kinds, using the existing bug-report builder) to disk, and the next launch offers to send it. The send itself, and the button and prompt screens, belong to release-bug-report-control.

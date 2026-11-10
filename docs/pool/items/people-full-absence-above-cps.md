@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** Measured Oct 25 in a played year of Cleveland, Alabama (0115472, seed 9310ee1167fba09c): full people missed at least one planned day in 21.68 percent of work weeks, read from core.work.rollups, against CPS absence of 3.0 private and 4.2 public. The merger's source review found the 21.68 percent is job-weeks with any missed work segment, not the CPS measure (full-time wage and salary workers, under 35 hours for included reasons, vacation excluded), so the two are not comparable. Find which reasons in the attendance engine drive the misses once a comparable measure exists.

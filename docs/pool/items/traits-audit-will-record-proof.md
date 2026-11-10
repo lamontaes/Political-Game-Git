@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Merger 2 Done-when review of PR #5886
+checked: fable 2026-11-10
 ---
 
 **What.** The election-window audit counts estates.will calls but cannot name a retained decision record when the caller represents the wider population. The current gap says no work is needed even though the audit acceptance requires a record witness or tracked follow-up. Capture a real witness through the ordinary will and estate producers and report its source, without fabricating a will or changing inheritance behavior.

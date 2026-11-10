@@ -12,11 +12,12 @@ blocked-on:
 source: "collapsed Oct 19, 2026 from people-stopgap-births-plan-unmeasured-life-loop-model, people-stopgap-drives-estimated-behavior, people-stopgap-opening-kin-estimated-behavior, people-stopgap-views-partial-model"
 claimed-at:
 standard: 2
-model: opus
+model: sonnet
 effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind births, drives, kin and views. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The Oct 24 slice delivered the birth age, spacing, gestation and income-fallback rows, volunteer hours and two personality correlations, with nine research files. Seven rows remain open because each still fakes something its replacement names: the 14 behavior weights and pulls have no convertible source, renewalReviewDays is a fixed step (bug people-renewal-renewalReviewDays-as-cause), no appraisal study with an effect that converts to a perception-channel weight was found, and norms on the five personality dimensions themselves remain.
@@ -33,7 +34,7 @@ after:
 
 **Fix.** Source what can be sourced. The fourteen behavior weights have no convertible source (keep them TUNABLE with the reason), and renewalReviewDays is a fixed step, filed as a bug.
 
-**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 
 **Rules.** Research before building: real data checks the simulation and never decides an outcome by itself; a sourced rate calibrates the band the proof reports against, never the chance one person acts. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source in data, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Sliding scales and causes: if an engine reads the number as a cap, a cutoff or a chance, file a bug for the builder instead of sourcing it. Follow .agents/skills/researcher/SKILL.md.
 

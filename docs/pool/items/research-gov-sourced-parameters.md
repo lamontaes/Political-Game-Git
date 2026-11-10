@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind justice law, officials and news habits. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/gov/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. The Oct 24 slice delivered newsOutletDelayDays (ESTIMATED, 1 day, spread 1 to 2 days), bribery ranges read from statute for 43 places, and the party of 158 unrecorded officeholders. Three things remain: newsMaxAgeDays (the engine reads it as a cutoff; bug people-news-newsMaxAgeDays-as-cause), newsStoriesPerContact (no convertible source) and bribery ranges for 13 places whose code sites refused the cloud fetch. Also open: 24 unrecorded seats (six vacancies absent from Ballotpedia's tables, two territory boards not read, 16 invented by a district-name mismatch).
@@ -27,7 +28,7 @@ after:
 
 **Cause.** Design: each stopgap row named below is still open in its family file under src/core2/data/stopgaps/ and waits on sourced data. The rule is AGENTS.md "Placeholders" (every shortcut registered, every number tagged SOURCED, ESTIMATED or TUNABLE), and the research is in docs/research/pool-feeder-oct20/research-gov-sourced-parameters.md.
 
-**Fix.** Three rows remain: newsMaxAgeDays (wait on bug people-news-newsMaxAgeDays-as-cause), newsStoriesPerContact (no source found) and the 13 places' bribery ranges that need code sites the cloud could not reach.
+**Fix.** Three rows remain: newsMaxAgeDays (wait on bug people-news-newsMaxAgeDays-as-cause), newsStoriesPerContact (no source found) and the bribery-of-a-public-official grade and range for the 13 places not yet read. An earlier cloud session could not reach those places' own code sites: read each statute from any page that carries its text (the legislature's site, or a public mirror of the code), cite the section and quote it, and where no page can be reached keep that place on the stopgap and list the pages tried in the pull request body.
 
 **Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
 

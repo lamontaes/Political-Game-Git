@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: Existing calibration limitation documented in PR #5882 and traitWeightCampaignsPartyFirmness
+checked: fable 2026-11-10
 ---
 
 **What.** The party-firmness weight cites working for a party or candidate as a proxy, not a direct measurement of holding a party line. Its existing citation reports an odds ratio about 1.35 at weight 0.44 in Newfane and a ceiling about 1.5, below the revised proxy target 2.63. PR #5882 corrects standard deviations and rescales the weight to 0.484 but explicitly does not refit this row. Check whether the study outcome is compatible with the modeled measure before changing the engine or claiming a fit.

@@ -4755,6 +4755,31 @@
       "test": {
         "kind": "judged"
       }
+    },
+    {
+      "id": "line-fits-the-roles-in-its-situation",
+      "says": "What a line implies must fit who is in the situation: it never treats the listener as a candidate when they only heard the result secondhand, and never sends a speaker to someone else to decide a vote that is the speaker's own.",
+      "judges": "piece-in-context",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "An apology implies the listener was running; if you were running you wouldn't hear the result secondhand.",
+          "via": "data/english/grades/2026-11-09-batch-2-voice.json, note on scene-talk.state-tell.i-m-sorry-first-winner-won-the-office-race"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "\"You'll have to ask the chair\" makes no sense for your own vote.",
+          "via": "docs/coordination/OWNER-DECISIONS.md, Oct 16 batch 15 review; also data/english/grades/voice-notes-batches-11-19.json, note on scene-talk.reply-deflect.you-ll-have-to-ask-the-chair"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "I'm sorry. {winner} won the {office} race.",
+        "You'll have to ask the chair."
+      ]
     }
   ]
 }

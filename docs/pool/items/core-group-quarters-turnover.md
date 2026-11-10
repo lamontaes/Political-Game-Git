@@ -5,7 +5,7 @@ area: core
 lead: speed
 kind: stopgap
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -15,8 +15,9 @@ source: speed lead, Nov 1, review of core-group-quarters-population
 claimed-at:
 standard: 2
 model: sonnet
-effort: high
+effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The opening houses each place's group-quarters residents (college housing, prisons, juvenile facilities, nursing homes, military quarters, other) in room records counted from the 2020 Census, and both moves engines leave them out of the households' leaving and arrival rates (stopgap SG-GQ-no-turnover). Nothing admits anyone: a college admits no class in the fall, a prison and a nursing home take no one as residents leave, so each type's count only falls as residents die or are filled in, and a college's students are a year older every year. Over a long save a college town's dormitories empty and its students reach middle age in place.
@@ -25,7 +26,7 @@ root: none
 
 **Fix.** Two parts: first settle whether the test or the admission is right and make the test say it; then add institution intake on its own calendar and resolve SG-GQ-no-turnover.
 
-**Time box.** 2 hours for a Sonnet session, the closing check only; the build is in the two parts.
+**Time box.** 2 hours for one Sonnet session, the closing check after the parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** One model, two tiers: an intake is a counted arrival through admitCountedHousehold, read by every engine with the same rule as a household, times its weight. Sliding scales and causes: an institution admits on its own calendar (a college each fall, a prison and a nursing home as residents leave), never by a monthly chance. One rule, all 56 places: each type is held at its row in data/research/group-quarters/census-2020-group-quarters.json scaled by the world's count, never by a place named in logic.
 

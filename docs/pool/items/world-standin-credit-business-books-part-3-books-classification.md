@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: split from world-standin-credit-business-books in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The business books keep an authored crosswalk from workplace classifications to corporate industry priors and excluded institutional funding routes, with no legal form, supplier relationship or budget established. Record industry and legal form (corporation, branch, nonprofit, public) and the funding route for actual employers and counterparties, including public, branch and nonprofit budgets, and let the credit engine read the classified book. This is the third of three parts of world-standin-credit-business-books.

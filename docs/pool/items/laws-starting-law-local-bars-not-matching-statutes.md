@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** A research check of the starting-law local bars against statute text (Dev Tester, Nov 8, sub-agent with fetched sources) found the game bars what the law allows: a Tennessee county may set transit fares (Tenn. Code 7-56-101(b), so fare-free transit is allowed), may fund mass transit from the county aid fund up to 22.22 percent (54-4-103(e), so shifting highway funds to transit is allowed with that cap), and may create a police advisory and review committee on a two-thirds vote at two meetings with no subpoena power (38-8-312, so oversight boards are allowed in the state's template). The game bars all three flatly (data/research/laws/starting-law-2026/*.json preempts true, read by policy-authority.ts localPowerBarred). Two more rows have no support: a Tennessee minimum reserve balance (no statute found; the Kansas 79-2927(a) rule is a 5 percent cap on the non-appropriated balance, not a floor) and bottle deposit for Kansas and Tennessee (no preemption statute found). The Kansas pension cite should be K.S.A. 12-5002 for cities' own plans. The Tennessee work-requirement bar is right but for a different reason (the state runs the program).

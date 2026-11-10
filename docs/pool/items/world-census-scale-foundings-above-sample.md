@@ -16,13 +16,14 @@ model: opus
 effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Washington, D.C. (1150000, seed dc-closures-a) opened at 69 times its sample founds six businesses in a year (inns, construction, a restaurant, retail, information), while the same city at the sample size founds one inn. None of the six closes, after the change for world-census-scale-closures-large-cities stopped filled-in households and full owners keeping money that stood for many households. The suspicion is that some founding reason reads a weighted figure against an unweighted one: the growers' cash against a cushion from the book payroll, a counted candidate's cash and savings against the startup cost, or the prospect against the median pay. Find which one and weight it. Per the Nov 8 ruling that ranges are not targets, a gap between the two sizes is fixed only if nothing in the world explains it.
 
-**Cause.** Measured: Washington, D.C. (place 1150000, seed dc-closures-a) at its Census size founds six businesses in a year against one at the sample size (this item's own measurement). Which founding reason reads a weighted figure against an unweighted one is the suspicion; the founding code is the foundings and found functions in src/core2/modules/business.ts.
+**Cause.** Needs cause. Looked at: Washington, D.C. (place 1150000, seed dc-closures-a) at its Census size founds six businesses in a year against one at the sample size (this item's own measurement). Which founding reason reads a weighted figure against an unweighted one is the suspicion; the founding code is the foundings and found functions in src/core2/modules/business.ts.
 
-**Fix.** Weight the founding reason that reads a weighted figure against an unweighted one (growers' cash, a counted candidate's cash against startup cost, or prospect against median pay) in src/core2/modules/business.ts, so every reason reads its money and the book at the same weight.
+**Fix.** None until the cause is found.
 
 **Time box.** 5 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
@@ -35,3 +36,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/business.ts, src/core2/census-scale-closures-large-cities.test.ts
 
 **Notes.** TODO
+
+**Notes (Fable's check, Nov 10).** How to find the cause: in the Washington, D.C. replay at Census size and at sample size, print each founding's reasons from `foundings` and `found` in src/core2/modules/business.ts and see which term differs between the two sizes (growers' cash, a counted candidate's cash against the startup cost, or the prospect against median pay). The fix then weights that one term, so the count of foundings follows the town's real size and not the sample's.

@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Raising the corrections line moves no money an engine pays. In the Oct 24 justice regrade, raising budget-line:corrections in Prescott, Michigan and Uehling, Nebraska moved no money through an engine. Jail days are capped by the sentences being served, so more capacity buys nothing, and the money link graded wired only on treasury rounding (budgets-treasury.ts:851 differs by one unit against the control world). A larger corrections line should either fund something the jail spends (staff, programs, conditions) or be returned unspent at the close.

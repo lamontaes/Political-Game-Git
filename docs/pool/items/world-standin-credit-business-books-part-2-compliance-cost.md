@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: split from world-standin-credit-business-books in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A compliance duty costs every bound business twice the manufacturing average pollution-abatement share of its operating costs, because no per-industry abatement cost data is loaded. Load the Census Pollution Abatement Costs and Expenditures (PACE) operating costs by industry (NAICS) as a sourced table, and scale the cost by the standard the county misses. The business books then carry a cost that differs by industry. This is the second of three parts of world-standin-credit-business-books.

@@ -16,13 +16,14 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** Election night's returns steps do not add up to the final count. On main 705120be1b, New Game in Storrs, Connecticut (0973980, replay storrs-1), the player ran for Selectman and lost November 4, 2025. The steps read "The polls closed" with 0 votes each, then "The rest of the town is in. Avery Cooper leads there, 2 to 0." with 2 votes and 0 votes, then the call "Avery Cooper has won the race for Selectman" at 552 to 223. The middle step says the rest of the town is in with two votes counted, then the call adds 773 more, so only the named voters seem to be in the middle step.
 
-**Cause.** Measured: New Game in Storrs, Connecticut (0973980, replay seed storrs-1) on main 705120be1b, election night: the middle step totals 2 to 0 while the call totals 552 to 223. The steps are built in `src/bench/election-night.ts` (`electionNight`, the `places.forEach` loop reading `returnsOf`), whose running totals come from `recordPlaces` in `src/core2/modules/voting.ts`, summing each place row's votes.
+**Cause.** Needs cause. Looked at: New Game in Storrs, Connecticut (0973980, replay seed storrs-1) on main 705120be1b, election night: the middle step totals 2 to 0 while the call totals 552 to 223. The steps are built in `src/bench/election-night.ts` (`electionNight`, the `places.forEach` loop reading `returnsOf`), whose running totals come from `recordPlaces` in `src/core2/modules/voting.ts`, summing each place row's votes.
 
-**Fix.** Find why the rest-of-town place row's votes sum to 2 and 0 while the tally holds 552 and 223 (the row at `town:<place>:rest` in `src/core2/modules/voting.ts` must carry the counted groups' votes by the same rule as named voters). Make each returns step's running total part of the final count and the last step before the call equal it, and add a test that fails when a step falls short of or exceeds the counted votes it says are in.
+**Fix.** None until the cause is found.
 
 **Time box.** 4 hours for one sonnet session.
 
@@ -35,3 +36,5 @@ root: rc10-screens-keep-own-facts
 **Files.** src/bench/election-night.ts, src/core2/modules/voting.ts
 
 **Notes.** TODO
+
+**Notes (Fable's check, Nov 10).** How to find the cause: in the Storrs, Connecticut replay, print the place rows of that race from src/core2/modules/voting.ts beside the tally and find which counted groups' votes are missing from the rest-of-town row (`town:<place>:rest`). The fix then makes that row carry the counted groups' votes by the same rule as the tally, so the night's steps add up to the call; the screen keeps no total of its own.

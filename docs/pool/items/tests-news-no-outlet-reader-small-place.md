@@ -17,6 +17,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** The golden-path spec M2-09 (src/core2/news.test.ts) fails on clean main (185d76d7ce) in Cave, Missouri (place key 2912079, seed 89974afab8e8ef9592bf602b64510149e1b7a1423695217f04d8ee4e19eb39c4): "expected 0 to be greater than 0" at news.test.ts:83, because no resident learns the story from an outlet; the other five news tests pass. The golden path draws its place from each PR's commit, so any PR that draws a place like this goes red on golden-path without touching news. Find whether Cave has no outlet a resident follows or the story never reaches one, and fix the cause in the engine or in how the test picks its story, not the assertion. The item is marked blocked with no named blocker.

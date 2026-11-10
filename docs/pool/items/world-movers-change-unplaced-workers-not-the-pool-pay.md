@@ -14,8 +14,9 @@ blocked-on:
 model: opus
 effort: high
 root: design-one-model-two-tiers
-lead: fable
+lead: jobs
 source: Fable, Nov 10, 2026, found by the new test for the unit of a counted household's out-of-town workers (src/core2/unplaced-workers-unit.test.ts)
+checked: fable 2026-11-10
 ---
 
 **What.** At the opening, the out-of-town workers the counted records hold (unplacedWorkers times each record's weight) times the pool's pay per worker equal what the place's unplaced-workers flow pays a year, to the cent. In play the two drift apart: a newcomer household is given the place's rate of unplaced workers and nothing is added to the pool's flow, and a household that leaves takes its workers off the records while nothing comes off the flow. Every reader of a counted household's income (income bands, rent it can pay, the law-reach readers, poverty) then reads pay the pool never hands out, or misses pay it does. Make arrivals add the out-of-town pay to the pool and departures take it off.

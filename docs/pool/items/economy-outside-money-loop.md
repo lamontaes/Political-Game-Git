@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** In Algiers, Vermont (5001035, seed r7), a town of about 100 workers whose firms sell about 25 million dollars a year, the cash journal's outside-market account for the place nets minus 1.39 billion dollars in the first year, minus 2.59 billion by year 2 and minus 3.76 billion by year 3, against gross incoming and outgoing of about 6.9 trillion dollars. The same drift exists on dd9a4417, before the trade-area change, so that change did not cause it. The Dev Tester found the same pattern as 11.7 to 19.1 billion dollars of cash per town (Nov 8), first found Oct 12 (docs/reports/world-drift-2026-10-12.md). Money's trace (Nov 8) shows the gross is the U.S. Treasury's national budget flowing through the same outside account, and the town's real drift is counted households' unplaced pay arriving far above what their modeled budget spends outside.
@@ -30,7 +31,7 @@ source: added with npm run pool -- add
 
 **Done when.** A second session runs a played year in Algiers, Vermont (5001035, seed r7) and in a place drawn from all 56 (name and seed written down) and finds the outside account's net matching the town's gross sales to outside buyers for the year, its gross incoming and outgoing on the order of the town's firms' yearly demand plus wages, and the largest outside owners listed by record id with the flow that explains each. The proof script prints the same numbers before and after, and the counted households' unplaced pay is spent by their group budget, shown by record id.
 
-**Waits on.** Nothing.
+**Waits on.** Nothing to start. Read core-country-tier-town-joins-its-state and its parts first: they replace the outside markets' buyers with the state's sectors and count the town inside its state. Build this on that code if it has merged, and say in the pull request which parts were on main.
 
 **Files.** src/core2/journal-state.ts, src/core2/modules/residents.ts, src/core2/opening-outside-market.ts, scripts/world-proofs/outside-money.ts, scripts/money/outside-flows.ts
 

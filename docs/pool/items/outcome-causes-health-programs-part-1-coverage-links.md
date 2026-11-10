@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from outcome-causes-health-programs in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Four links wait on a cause the health engine does not record as a measure: coverage-to-catastrophic-bills, coverage-to-medical-debt, coverage-to-depression and marriage-equality-to-coverage. Each cause is a share over the place's people read from the coverage and health rows the engines already write. Record the cause as an engine measure and keep the outcome the web needs, with its base and source, so each link runs.

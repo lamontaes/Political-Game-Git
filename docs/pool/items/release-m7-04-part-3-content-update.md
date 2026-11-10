@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone: M7
 source: split from release-m7-04-updates-and-bug-reports in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A data-only update (for example a corrected parameter table or research file) reaches an installed game without a reinstall. The desktop package already has a runtime content module; this part makes a content bundle load over the shipped data and proves one table changes.

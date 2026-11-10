@@ -4,7 +4,7 @@ title: "Six list-beside-detail screens each build their own layout, the old fram
 area: play
 kind: cleanup
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -12,10 +12,11 @@ after:
 blocked-on: play-six-list-and-detail-screens-build-their-own-part-1-journal-patch-notes, play-six-list-and-detail-screens-build-their-own-part-2-calendar-people, play-six-list-and-detail-screens-build-their-own-part-3-travel-guide, play-six-list-and-detail-screens-build-their-own-part-4-replace-plate-calls, play-six-list-and-detail-screens-build-their-own-part-5-one-tab-strip-guard
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, "Duplicate systems worth merging", item 5, and Pillar 6)
+checked: fable 2026-11-10
 ---
 
 **What.** The audit found by reading code on Nov 9 that six list-beside-detail screens (Patch notes, Journal, Calendar, People, Travel and the Guide) never call the shared list-and-detail part, that the play screen still calls the older framed plate 8 times beside the newer strip section 47 times, and that the campaign screen builds its own tab strip. The owner's rule is one screen renderer per menu type, and a second one is a duplicate to delete. Fix the class with no change to what a player can do: one list-beside-detail part that every such screen calls, one section part, one tab strip, and the others deleted. The work is split into five parts; this item is done when all five are and the guard holds.

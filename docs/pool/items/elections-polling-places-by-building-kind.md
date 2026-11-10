@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
 **What.** Every precinct of a town votes in one building: the first government building in the town's records, or no building with the kind unread where the town records none. The EAC's 2024 EAVS gives each place's precincts and polling places, and one state's measured list shows the buildings voters use (religious 31 percent, government 19, schools and libraries 15, public safety 14, community and club 12, commercial and other 9). Read `data/research/elections/eavs-2024-polling-places.json` in `pollingPlaces()`: give the town as many polling places as its precincts share at its place's EAVS ratio, each in one of the town's own recorded buildings of a fitting kind, and record that kind on the row. The election-day scene and the poll workers then read the building the precinct votes in.

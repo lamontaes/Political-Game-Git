@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: low
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/law-wiring-housing.test.ts draws a place only if it would start at least two apartment buildings' worth of apartments in the days the test plays, at its state's permit rate (apartmentsPermitted, the gate). On Oct 24 both the named seed (7c1e5a9d03b2f648) and a fresh seed (2225ee2fab3164f793604a2e8fb7a177105881e6) drew Washington, D.C., because few places pass that gate, so the family test proves the zoning laws in one place. A test draws from all 56 and its subject filter should keep many of them drawable.

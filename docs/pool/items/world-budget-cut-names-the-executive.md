@@ -17,6 +17,7 @@ root: design-director-on-core2
 source: words-and-scenes helper D, Oct 27, from scenes-from-life episode budget-cut-department-head; evidence in the first probe of a mayor's year in Riverton, Wyoming, Prospect, Kentucky and East Bend, North Carolina
 lead: laws-effects
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** When the council adopts a budget or an amendment that lowers a spending line, the budgets engine records budget-line-changed with no people on it, so no executive ever meets the cut as a scene. In three drawn towns a mayor's played year held 38, 37 and 40 of these records and none named the mayor (Riverton, Wyoming, Prospect, Kentucky and East Bend, North Carolina). Name the sitting executive of that government (the mayor, county executive or governor, a full person) in personIds and add the fact executiveId, for lowering changes only; a raise, and a government with no executive, stay as they are. The director already reads the record through the budget-cut situation type.

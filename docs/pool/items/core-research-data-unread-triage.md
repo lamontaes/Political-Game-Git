@@ -17,6 +17,7 @@ root: none
 lead: researcher
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The 370-file baseline scripts/audit/research-data-unread-baseline.json is gone; the research data guard now counts only real reads, and scripts/audit/research-data-allowlist.json records 38 files under data/research in `unreadFound` with no reader (housing 7, laws/local-starting-law 11, macro/series 7, regional/series 2, renewal 2, and one each in six other folders, 14 folders in all). Go through them folder by folder: wire each file to the engine that should read it, list it as raw source with a one-line reason, or move it to the waiting list with its engine and owner. Take each file off `unreadFound` as it is settled.

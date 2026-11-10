@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from core-speed-counted-payroll-into-named-ledger in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Once parts 1 to 3 pay every counted group through the one ledger, the counted settlement code in `payGroups` (src/core2/counted-money.ts) has no caller. Delete it and its markers, count the lines removed in the PR body, and prove the year did not slow. This is part 4 of core-speed-counted-payroll-into-named-ledger.

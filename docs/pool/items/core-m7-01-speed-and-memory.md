@@ -4,7 +4,7 @@ title: "M7-01 Speed and memory"
 area: core
 kind: feature
 priority: 3
-size: L
+size: S
 status: open
 claimed-by:
 pr:
@@ -15,9 +15,10 @@ source: "docs/roadmap/later-specs-draft.md M7-01"
 claimed-at:
 lead: speed
 standard: 2
-model: haiku
-effort: medium
+model: sonnet
+effort: low
 root: rc5-full-detail-every-day
+checked: fable 2026-11-10
 ---
 
 **What.** M7-01 asks that a town's year run in under two minutes, that the new-game load (including the opening) fit a short loading screen, and that the game run on a minimum PC. The year-time half is held elsewhere; the load time and the memory on a minimum PC have never been measured. This item measures them, then sets targets from Steam's hardware survey.
@@ -26,7 +27,7 @@ root: rc5-full-detail-every-day
 
 **Fix.** None until the cause is found.
 
-**Time box.** 3 hours for a Haiku session: measure load time and peak memory in a dense town and a small town, and rewrite this item with Measured.
+**Time box.** 3 hours for one Sonnet session: measure the load time and the peak memory in two drawn places and write the numbers in the item. When it runs out, write what was measured and stop.
 
 **Rules.** Speed (AGENTS.md, owner Oct 29): a country's year under two minutes and no slower than 20% over base. Spec approved by the owner Oct 12. Research before building: the targets come from a fetched hardware survey and calibrate, they never decide an outcome.
 

@@ -1,3 +1,4 @@
+/* global Node */
 // The approved strip screen (owner, Nov 7, 2026: You, the person card,
 // Government, Budgets; docs/mocks/2026-11-07-approved/): a left column with
 // the screen's name, the role line under it and a bust, and sections down the
@@ -113,6 +114,32 @@ export function perkList(rows) {
 /** A paragraph set in the story face; `names` clickable inside it are the caller's own nodes. */
 export function introText(...parts) {
   return el("p", { className: "intro" }, ...parts);
+}
+
+/**
+ * A life told as sentences, never a list of dates: the card's lines (oldest
+ * first, each with its kind and the record behind it) grouped by what mattered
+ * (`groups`: the kinds that belong together, in the order they are read), one
+ * paragraph in the story face for each group, each sentence on its record.
+ */
+export function lifeStory(lines, groups) {
+  const at = new Map(
+    groups.flatMap((kinds, i) => kinds.map((kind) => [kind, i])),
+  );
+  const paragraphs = [...groups, []].map(() => []);
+  for (const line of lines)
+    paragraphs[at.get(line.kind) ?? groups.length].push(line);
+  return paragraphs
+    .filter((rows) => rows.length)
+    .map((rows) =>
+      introText(
+        ...rows.flatMap((row, i) => {
+          const sentence = el("span", { textContent: row.text });
+          sentence.dataset.record = row.recordId;
+          return i ? [" ", sentence] : [sentence];
+        }),
+      ),
+    );
 }
 
 /** A name that opens its card: bold gold in the sentence, a button for keyboard and screen reader. */

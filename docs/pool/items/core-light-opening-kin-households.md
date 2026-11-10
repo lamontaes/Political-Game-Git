@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** Make kin a separate, optional step of the opening so the order can change. Today `buildPopulation` (src/core2/population.ts) builds kin for every household inside `openingFamilies`, before `buildDeepPast`, the player's pick (`entrantChoice`, which reads residents and never husks), `buildOpeningPeerContacts` and the kept set (`fullPeople` and `representativeSample`) are decided. Add an option so `buildPopulation` can leave kin out, and an exported step that adds kin for a given set of household ids; with every household passed, the opening input must hash the same as today. Deep past has to read family facts for the households that got kin, so list what in `buildDeepPast` and `enrichCivicInputs` needs kin first.

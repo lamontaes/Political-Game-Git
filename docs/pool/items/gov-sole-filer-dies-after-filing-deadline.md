@@ -16,6 +16,7 @@ lead: governing
 root: rc9-place-facts-one-default
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** When the only candidate who filed for a seat dies after the place's filing deadline, ballot() in src/core2/modules/elections.ts drops the dead filer and nobody else can file, so the election runs with an empty ballot and the seat resolves by the holdover rule (voting.emptyRaces). Real places replace a candidate who dies late through their own law: a party or committee names a substitute, the dead candidate's name stays and a win opens a vacancy, or write-ins are counted. Seen in St. Johnsbury, Vermont (place key 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4) before the open-seat fix on gov-empty-ballot-stay-out-and-late-vacancy: the county treasurer filed on 2025-03-30 and died on 2025-10-17.
@@ -35,3 +36,5 @@ after:
 **Files.** src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/modules/candidacy.ts
 
 **Notes.** TODO
+
+**Notes (Fable's check, Nov 10).** A second sighting, traced Nov 10 for gov-decision-to-run-off-ballot-huntington: in Mashantucket, Connecticut (place key 0945995, world seed 7a0e449feba29bda0d3d54d316d649976ee7b892f35bcb55ce8adf0a619a44c7) a county filing officer filed for board seat 1 on 2025-06-07 and died by 2025-07-01, before the deadline of 2025-08-06. The filing row still read on-ballot, nobody filed in their place, and the race had nobody on it. That world plays its year in 22 seconds.

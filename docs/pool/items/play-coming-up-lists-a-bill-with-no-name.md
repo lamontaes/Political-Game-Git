@@ -16,6 +16,7 @@ source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on bran
 model: sonnet
 effort: medium
 root: rc10-screens-keep-own-facts
+checked: fable 2026-11-10
 ---
 
 **What.** On the player's own Government screen, each body has a Coming up list: its next meeting, its bills waiting for the floor, and its election dates. Measured on screen by the Nov 9 audit in Ten Broeck, Kentucky (no seed given): after bills were introduced through dev mode, the council's Coming up list read "Jul 1 2025-11:" with nothing after it, a date, something that reads like a second date, a colon and no name. The "2025-11" is the ordinance's own number printed bare, where `spokenDesignation` exists to say it with its form's word ("Ordinance 2025-11"). Fix the class: every place a screen lists a bill (Coming up, the recent votes, Your office) says a bare number with its form's word, names a bill from its sections' own laws when no title was composed, and never prints a label with an empty slot.

@@ -17,13 +17,14 @@ model: sonnet
 effort: medium
 root: design-story-director
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** TODO
 
 **Cause.** Found in code: the ribbon-cut event is written by src/core2/modules/projects.ts (line 147, kind "ribbon-cut", with the project id, line, government, contractor, owner and amount paid) and worded for the paper (data/english/parts/news.json, line 7278, news.ribbon-cut.a-new-purpose-project-is-finished; data/english/parts/headlines.json), but nothing in src/director names ribbon-cut, so no scene plays it.
 
-**Fix.** Add a ribbon-cut situation type and scene whose lines cite the project record id, with pieces in the scene banks (not shippable until graded); the news line is already done.
+**Fix.** Add a ribbon-cut situation type to src/director/data/situation-types.json (its arc in src/director/data/purpose-arcs.json) fired by the ribbon-cut event, casting the officeholder who cut it and carrying the project record id, the purpose and the amount paid as facts. The builder ships the type, its cast, its facts and the test; the scene's lines in data/english/parts/ are Story's under the Nov 10 split of words work, so name the moves the scene needs in the pull request body for Story. The news line is already done.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 

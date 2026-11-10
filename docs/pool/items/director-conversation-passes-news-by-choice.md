@@ -16,11 +16,12 @@ model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** `src/director/conversation.test.ts` ('records talking as time together, and passes news the other hasn't heard') takes `talk.choices[0]` and then expects the other person to know fixture-story as 'told'. In Moscow, Tennessee (seed cvd4) and Galateo, Puerto Rico (seed cvd5) the first choice is an answer that tells no news, so `api.knows(...).access` is undefined. It fails the same on clean main.
 
-**Cause.** Found in code: `src/director/conversation.test.ts` line 314, `say(core, talk, talk.choices[0]!.key)` in the test at line 301; the first choice is not always the one that tells the news. Measured: GOLDEN_PATH_SEED=cvd4 (Moscow, Tennessee) and cvd5 (Galateo, Puerto Rico).
+**Cause.** Found in code: `src/director/conversation.test.ts` line 339, `say(core, talk, talk.choices[0]!.key)` in the test at line 326; the first choice is not always the one that tells the news. Measured: GOLDEN_PATH_SEED=cvd4 (Moscow, Tennessee) and cvd5 (Galateo, Puerto Rico).
 
 **Fix.** Pick the choice that tells the news from the conversation's own tells data (`CONVERSATION_DATA`, `src/director/conversation.ts` line 177) instead of index 0, and keep the assertion that the news was told.
 

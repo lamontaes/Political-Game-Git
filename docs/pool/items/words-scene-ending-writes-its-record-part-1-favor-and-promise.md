@@ -16,6 +16,7 @@ effort: medium
 root: design-story-director
 source: split from words-scene-ending-writes-its-record in the pool redo, Nov 10, 2026
 standard: 2
+checked: fable 2026-11-10
 ---
 
 **What.** Scenes whose endings keep "favor-owed" (16 endings) or "promise" (79 endings) write only the label. Make those endings write a favor owed or a promise on the record the legislature, the relationship record and the campaigns engine already read, so a favor can be called in and a promise held against the player. The journal should tell it from that record.

@@ -12,11 +12,12 @@ pr: #6166
 after:
 blocked-on:
 lead: cto
-model: haiku
+model: sonnet
 effort: low
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** PR #6166 introduced useful owner rulings and a SMART process rule, but two documentation claims are stale or broader than the implemented behavior. The rule says the pool check flags an open item without a time box, while the check enforces the Time box only for play-first items (and for items at the standard). The LAW-LINK package describes old handler counts and a single Codex builder in the present tense, which conflicts with the laws and effects lead. Correct those statements without weakening any runtime or release guard.
@@ -25,7 +26,7 @@ claimed-at:
 
 **Fix.** Reword line 15 to say what the check enforces now, and mark docs/packages/LAW-LINK.md as dated history routed to the laws lead. Preserve the new owner rulings. Mirror skill files only if one is touched.
 
-**Time box.** 1 hour for one Haiku session.
+**Time box.** 1 hour for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Replace, never layer: correct the existing documentation and preserve the owner rulings, distinguishing process requirements from actual CLI enforcement and marking historical plans as history. Look before you ask: read OWNER-DECISIONS.md for the laws lead before routing.
 

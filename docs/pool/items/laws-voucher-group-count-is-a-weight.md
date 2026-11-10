@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** The school voucher law's applied records for counted groups put a weight in the `count` field, which every reader takes as the number of people the group stands for (`src/core2/law-reach/group-b-money.ts (line 1521)`, found by the health-schools helper, Oct 25). In the health-schools year run in Uehling, Nebraska (seed 5e27b0c4196fd3a8) the voucher's group records say 310,500 people, where the same town's SNAP group record says 16. The matrix's reach cells and anything that sums people under a law then overstate the voucher's reach by orders of magnitude.

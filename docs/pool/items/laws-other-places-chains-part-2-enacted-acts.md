@@ -5,7 +5,7 @@ area: laws
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/world-legislating.ts, src/core2/modules/laws.ts, src/core2/modules/budgets.ts, src/core2/withholding-outside-governments.test.ts
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. `outsideEnact` in src/core2/modules/world-legislating.ts (line 1486) enacts another state's act with `enactLaw`, a row in the laws table under that state's jurisdiction, and `residentLaw` in src/core2/modules/budgets.ts hands every recorded row of the series to the resolver with the residence's own chain. The proof this item asked for (an act elsewhere changes a named worker's withholding) is now part 1's test. Read on main, not run.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Asks for work that already exists.

@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** MORTALITY_WEB_SEED=m2 GOLDEN_PATH_SEED=m2 npx vitest run src/core2/law-wiring-mortality-web.test.ts fails on main with: Sale Creek, Tennessee [4766220], seed m2:5 person_ad93ce081ff8fceb: no coverage part (own 1, parts []). The person is paid coverage by two spells dated 2025-03-23, reach-b:coverage:us-policy-positions:health-human-services.expand-medicaid-eligibility:US-TN|person_ad93ce081ff8fceb:2025-03-23 and the same law's medicaid-match spell for the United States, yet their own death-hazard factor reads exactly 1 and carries no coverage-to-mortality-55-64 part. Found Oct 29 by Merger 1 while checking the mortality-own-records PR (#6731) on a seed its author did not choose, sent back, then merged by Merger 3 after a new head that does not change this result; either the hazard misses a person holding both a state and a federal coverage spell, or this person is outside the link's age band or lag at the look and the test should pass them over with a named reason.

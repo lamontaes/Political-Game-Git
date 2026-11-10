@@ -16,6 +16,7 @@ root: rc8-law-judged-by-paperwork
 source: effect-web-poverty; stopgap SG-WEB-poverty-licensing-no-engine
 claimed-by:
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The jobs engine matches seekers to jobs without any licensing requirement, so the law "reduce occupational licensing" reaches no one's pay. Give licensed occupations a requirement row in the jobs data, and let the match read the law row in force: where the license is repealed, seekers without it are matched to those jobs and their pay enters household income. The poverty measure (povertyShare in world-metrics) then moves from incomes with no web link.

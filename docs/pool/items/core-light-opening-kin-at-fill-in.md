@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: design-one-model-two-tiers
+checked: fable 2026-11-10
 ---
 
 **What.** When fillInPerson takes a counted household, run buildOpeningKin and openingTemperaments for that household alone, seeded by the world seed and the household's stableKey, as the opening would have. The household comes back with the same relatives and traits each time and with no change to the town's totals. The deep past already rebuilds this way (pastBuild in src/core2/residents.ts); kin joins it.
