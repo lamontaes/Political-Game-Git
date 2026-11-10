@@ -19,7 +19,7 @@ claimed-at: 2026-11-10T01:00:00.000Z
 
 **Rules.** No dice: the gift's size against what others gave decides the impact. Wire to the world: the gift is the campaign-gift record the campaigns engine writes.
 
-**Done when.** src/director/donor-ask-scene.test.ts, which files a candidacy through fileCandidacy in drawn places and runs the campaign, finds each campaign-gift as a moment with a donor-ask scene composed from it, on seeds 11 and 3333 (seed 222 reaches a gift line that omits the pending bill; see Notes); the arc-variant test and the families guard pass.
+**Done when.** src/director/donor-ask-scene.test.ts, which files a candidacy through fileCandidacy in drawn places and runs the campaign, finds each campaign-gift as a moment with a donor-ask scene composed from it on seeds 11, 222 and 3333, and a donor with a pending bill asks about it by name (seed 222, Palmer Town, Massachusetts, failed this on main before the bank fix); the arc-variant test and the families guard pass.
 
 **Files.** src/director/data/director.json, src/director/data/situation-types.json, src/director/donor-ask-scene.test.ts (already covers it)
 
@@ -27,4 +27,4 @@ claimed-at: 2026-11-10T01:00:00.000Z
 
 **You will see.** A donor comes to the candidate after giving, with an ask.
 
-**Notes.** Seed 222, Palmer Town, Massachusetts (seed 222:4), gift campaign-gift:filing:contest:seat:gus2025:224812:council:0:2025-11-04:person_000c2c6ab0747bc6:person_000c2d6ab0747d79:2025-08-09:75100: the scene composes but the talk line chosen ("I put in $751 because it was you...") does not name the pending bill, which donor-ask-scene.test.ts line 218 expects. A bank-selection call for Words: prefer a line that uses the donor-bill fact when one is present.
+**Notes.** Seed 222 (Palmer Town, Massachusetts, seed 222:4, gift campaign-gift:filing:contest:seat:gus2025:224812:council:0:2025-11-04:person_000c2c6ab0747bc6:person_000c2d6ab0747d79:2025-08-09:75100) played the friend variant's gift-only line ("I put in $751 because it was you..."), which tied with the bill lines on one required fact each, and did not name the pending bill; red on clean main too. The gift-only request lines of the small, large, friend and again variants now exclude the donor-bill fact, so a donor with a pending bill always asks about it.
