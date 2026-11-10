@@ -5,8 +5,8 @@ area: laws
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-06-texas-shows-local-income-tax
 pr: #6111
 after:
 blocked-on:
@@ -17,8 +17,9 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:01:24.336Z
 checked: fable 2026-11-10
+branch: claude/pool-play-stop-06-texas-shows-local-income-tax
 ---
 
 **What.** Politics, then Issues in Anson, Texas on the v0.22.10 release read "Local income tax rate 37% top rate". Texas has no state income tax and Anson no local one; 37 percent is the federal top rate shown under a local label, so a player choosing what to run on would believe the town taxes income at 37 percent. The fix is merged (commit 6029ce3efe and PR 6111, which name a rate's government from the budgets where no seat names it, in src/bench/government.ts). The item stayed open only for the owner's installed-build check, which the second-session rule replaces; the Texas no-income-tax row was never confirmed in a game.
@@ -46,3 +47,5 @@ checked: fable 2026-11-10
 Sent back 2026-10-26 from PR #6111 (branch play-first/play-stop-06-texas-shows-local-income-tax): Merging current main conflicts in src/bench/government.ts and src/bench/play.mjs; resolve code on this branch and drop its main-only PROGRESS.md hunk under the October25 ruling.; finish on that branch, merge main into it first.
 
 Acceptance audit 2026-10-27 from PR #6111: repaired implementation merged by Merger1 at caf4b9926aa60fc7ddab11d30d09abac5fc682a5; old conflicts cleared, no new code failure alleged. The original owner installed-build screenshot remains unrecorded, and the Oct25 CTO ruling says that owner check closes this item later. Keep original acceptance OPEN; this session claims no own runtime gate or merge. Audit comment6432467537.
+
+Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:01 UTC) on branch claude/pool-play-stop-06-texas-shows-local-income-tax.
