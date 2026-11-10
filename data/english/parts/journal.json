@@ -7855,7 +7855,7 @@
       "key": "journal.work-line-again.after-span-out-of-work-i-went-to-work-for-employer",
       "move": "work-line-again",
       "kind": "spoken",
-      "text": "I looked for work for {span}, and then {employer} called. I hardly slept the night before my first shift.",
+      "text": "After {span} out of work, I went to work for {employer}.",
       "uses": [
         {
           "move": "work-line-again",
@@ -7933,7 +7933,7 @@
       "key": "journal.work-line-again.after-span-out-of-work-i-went-back-to-work",
       "move": "work-line-again",
       "kind": "spoken",
-      "text": "I looked for work for {span}, and then the call finally came. I hardly slept the night before I started.",
+      "text": "After {span} out of work, I went back to work.",
       "uses": [
         {
           "move": "work-line-again",
@@ -7985,7 +7985,7 @@
       "key": "journal.work-line-again.after-span-out-of-work-i-found-work-in-place",
       "move": "work-line-again",
       "kind": "spoken",
-      "text": "I looked for work for {span}, and then someone in {place} gave me a chance. I hardly slept the night before my first day.",
+      "text": "After {span} out of work, I found work in {place}.",
       "uses": [
         {
           "move": "work-line-again",
@@ -8089,7 +8089,7 @@
       "key": "journal.work-line-moved-on.after-employer-i-took-a-job-at-next",
       "move": "work-line-moved-on",
       "kind": "spoken",
-      "text": "I cleared out my things at {employer}, and the first morning at {next} I got there early.",
+      "text": "After {employer}, I took a job at {next}.",
       "uses": [
         {
           "move": "work-line-moved-on",
