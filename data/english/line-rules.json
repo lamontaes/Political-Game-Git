@@ -1,0 +1,3245 @@
+{
+  "schema": "english-line-rules/1",
+  "about": "Each rule is one of the owner's notes on the words, made testable: his words, one plain sentence of what it forbids or requires, how a program tests it, and lines it must and must not flag. `npm run words:rules` runs every rule over every bank line and writes data/english/pulled.json, the lines the game does not play.",
+  "rules": [
+    {
+      "id": "no-x-is-home",
+      "says": "A line never says that someone is home or at a place (\"{name} is home\", \"{name} is at the house\"); nothing replaces it.",
+      "from": [
+        {
+          "date": "2026-10-28",
+          "words": "\"You filed for Trustee, and the race has nine months left to run. Megan Peck is home.\" is useless narration. Remove every \"X is home\" and \"X is at place\" line. Do not replace them."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "\\{[a-z_-]+\\} (?:is|are|was|were) (?:at )?home\\b|\\{[a-z_-]+\\} (?:is|are|was|were) at (?:\\{[a-z_-]+\\}|the house|work)\\b|\\{[a-z_-]+\\} (?:is|are|was|were) in with\\b"
+        ]
+      },
+      "catches": [
+        "{name} is home.",
+        "{name} was home when it came.",
+        "{name} is at home with {child}."
+      ]
+    },
+    {
+      "id": "no-talk-to-you-soon",
+      "says": "Nobody closes with \"Talk to you soon\" after a question was answered.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Nobody closes with \"Talk to you soon\" after a question was answered."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "And one big talk button. That's not how this was approved. Talk to you soon."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\btalk(?: to you)? soon\\b"]
+      },
+      "catches": ["Talk to you soon.", "Okay, talk soon."]
+    },
+    {
+      "id": "no-see-you-later",
+      "says": "\"See you later\" is not a sign-off the game uses.",
+      "from": [
+        {
+          "date": "2026-10-27",
+          "words": "These replies, I guess, are fine. The warehouse worker, Clint Supply Company partner, that needs work. I don't like the way that's displayed. I think these initial replies are relatively fine. These replies are okay. Sure, see you later."
+        }
+      ],
+      "note": "Banned from the Oct 24 playtest complaints and kept as a ban because it is one today. On Oct 27 he called a reply ending \"Sure. See you later.\" fine; that line is for his next sample.",
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\bsee you later\\b"]
+      },
+      "catches": ["See you later."]
+    },
+    {
+      "id": "no-must-for-have-to",
+      "says": "In speech, say \"have to\" where Americans do; \"must\" stays only in \"must have\" (a guess).",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "Saying I must lock up. No, that's not. That doesn't. I mean, Americans say must, but not in that way."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\bmust\\b(?! have\\b)"]
+      },
+      "applies": {
+        "banks": [
+          "bring-it-up",
+          "choice-names",
+          "conversation",
+          "journal",
+          "newscast",
+          "opening-speech",
+          "scene-talk",
+          "scene-words",
+          "speech-stages"
+        ]
+      },
+      "catches": ["I must lock up."],
+      "spares": ["They must have lost the message."]
+    },
+    {
+      "id": "no-thats-settled",
+      "says": "Nobody says \"That's settled\" or \"It's settled\"; it is a little dev talky.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "That's settled. It's a little dev talky. Deal? Okay. I mean, she's fine."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\b(?:that's|that is|it's|it is) settled\\b"]
+      },
+      "applies": {
+        "banks": [
+          "bring-it-up",
+          "choice-names",
+          "conversation",
+          "journal",
+          "newscast",
+          "opening-speech",
+          "scene-talk",
+          "scene-words",
+          "speech-stages"
+        ]
+      },
+      "catches": ["Then that's settled.", "That's settled."]
+    },
+    {
+      "id": "no-insider-words",
+      "says": "No election-insider, developer or office-chart words in speech; say canvassing or door knocking, not \"the doors\" or \"gaps\".",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Your volunteers are packing up the signs. I would say like campaign signs or campaign materials or something, or election."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "And for the doors, I know it's technically like an election term, but to someone who's not in elections, that just sounds weird. So don't say that. Just say, you know, we're going canvassing or door knocking or something."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Just keep showing up. Thanks, all of you. I'll be at the doors. Yeah, the doors is awkward."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "And the budget director slash finance secretary, that's not how people talk. You would say like the finance secretary or something."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Hold the vote 1 week and hear from the people who it reaches first. Hold the vote 1 week. Oh, put the vote on hold for a week."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Has anybody else up there talked to the people this reaches? Maybe this affects. That's more accurate, I would say, than reaches."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Don't say gaps, though. That is dev language."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "The budget, or the posts line lost cut. I don't know what post mean. I'm assuming post is like, so the military's line lost $2 billion in the budget the council passed."
+        },
+        {
+          "date": "2026-09-07",
+          "words": "Prefer ordinary political, civic, family, school, work and institutional words."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\bthe doors\\b", "\\bgaps\\b|\\b(?:your|the) gap\\b"]
+      },
+      "applies": {
+        "banks": [
+          "bring-it-up",
+          "choice-names",
+          "conversation",
+          "journal",
+          "newscast",
+          "opening-speech",
+          "scene-talk",
+          "scene-words",
+          "speech-stages"
+        ]
+      },
+      "catches": ["I'll be at the doors.", "Where are your gaps?"]
+    },
+    {
+      "id": "no-day-or-place-in-narration",
+      "says": "Narration never names the day, the date, the time or the place; the screen already shows them.",
+      "from": [
+        {
+          "date": "2026-10-26",
+          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "\\{(?:weekday|day|month|date|time|today|place|town|city|room)\\}"
+        ]
+      },
+      "applies": {
+        "moves": "^narrate"
+      },
+      "catches": [
+        "It's {weekday}, and {name} calls.",
+        "{name} recognizes you in {place}."
+      ],
+      "spares": ["{name} catches you on the steps."]
+    },
+    {
+      "id": "no-day-or-place-in-scene-words",
+      "says": "Scene words never name the day, the date, the time or the place; the screen already shows them.",
+      "from": [
+        {
+          "date": "2026-10-26",
+          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "\\{(?:weekday|day|month|date|time|today|place|town|city|room)\\}"
+        ]
+      },
+      "applies": {
+        "banks": ["scene-words"]
+      },
+      "catches": ["It's {weekday}, and {name} calls."],
+      "spares": ["{name} catches you on the steps."]
+    },
+    {
+      "id": "no-year-in-speech",
+      "says": "Nobody says a year or a date with its year aloud; a date in speech is said as people say it.",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "it says 2026-11-01. I would hope that in the game it's month, day, year."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "A lie about where you are from names another place (\"I'm from Bloomington\"), never \"Not here.\" Nobody says a date in speech (\"I talked to Diana on November 13\")."
+        },
+        {
+          "date": "2026-09-23",
+          "words": "Lines name the actual event in plain words ('Lucia Moran filed to run for governor.', 'January 16, 2028'). A choice that takes no time carries no time label."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\b(?:19|20)\\d\\d\\b"]
+      },
+      "applies": {
+        "banks": [
+          "bring-it-up",
+          "choice-names",
+          "conversation",
+          "journal",
+          "newscast",
+          "opening-speech",
+          "scene-talk",
+          "scene-words",
+          "speech-stages"
+        ]
+      },
+      "catches": ["The vote was in 2025."]
+    },
+    {
+      "id": "no-quiet-weekday",
+      "says": "The day of the week is not small talk (\"a quiet {weekday}\").",
+      "from": [
+        {
+          "date": "2026-10-26",
+          "words": "it shouldn't say you're at home in Albion or it's Tuesday in November. Obviously, it says that in the bottom right."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\bquiet \\{weekday\\}"]
+      },
+      "catches": ["A quiet {weekday} at the office."]
+    },
+    {
+      "id": "no-bare-yes-or-no-reply",
+      "says": "A bare yes or no is never a whole reply, and a yes or no never ends a talk; the reply says what it agrees to or refuses.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "A yes or no never ends a talk; the asker follows up."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Where in language does \"Do you remember the school?\" \"Yes.\" \"Okay, bye.\" happen? Nowhere; that pattern is a defect in the conversation rules and is fixed at the root before anything else is built."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "\"All right\" and \"Okay\" as answers to \"How's Keanu?\" are not how conversations work, even when grammatical. The four replies each move the talk somewhere."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": ["^(?:yes|no|yeah|nope)[.!]?$"]
+      },
+      "applies": {
+        "moves": "^(?!news-answer)(?:(?:reply|answer)|.*-(?:reply|answer)(?:-|$))"
+      },
+      "catches": ["Yes.", "Nope!"],
+      "spares": ["Yes. Put me down for it."]
+    },
+    {
+      "id": "no-placing-narration",
+      "says": "No line says only where the player is or who is with them (\"You're in {place}\", \"{person} is with you\"); the screen shows both.",
+      "from": [
+        {
+          "date": "2026-10-24",
+          "words": "Yeah, Noah Chan is with you. I've said remove this person is with you and shit like that. Why is there, like, that shouldn't even pop up? Or you know, I don't know. It should be something, you know, you show up at night and there's no one"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "See this Solito Public Schools. Like, what the hell? Nobody's there right now. Somebody at home studies here. Dana Roach works here. What? These subtitles need to fucking go."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Again, you're in Salida. I hate that shit. When it says you're in place or person is with you, I hate those. Remove every instance of that from the English engine. Block that. Remove every single hard-coded instance of that."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Someone at home studies here\" on a place card: remove. This goes for most of the game: things do not pop up because someone the player knows does them. It matters only when a scene makes it matter or it comes up in dialogue."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "I assume this is a scene. It is a Monday in January. You're at home. ... It shouldn't say you're at home. You're obviously [there]."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene."
+        }
+      ],
+      "status": "enforced",
+      "failsBuild": true,
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "^(?:You(?:'re| are)(?: now| out| over| back| standing| inside)? (?:in|at|inside) (?:\\{[a-z]+\\}|\\$\\{[^}]+\\}|your (?:home|house|workplace)|the (?:house|office|plant)|(?:work|school|class|town|downtown))(?: (?:home|house|place|today))?|You(?:'re| are) (?:outside|home|back home|here|downtown|in town|out and about|at home)|Welcome to \\{(?:place|town)\\})\\.?$",
+          "(?:\\{[a-z]+\\}|\\$\\{[^}]+\\}|Your [a-z]+)(?:,[^.]*,)? (?:is|are) (?:with you|here|there|waiting(?: for you)?)(?: too| (?:when you [a-z ]+|for it))?\\.$|, and (?:\\{[a-z]+\\}|\\$\\{[^}]+\\}) is there(?: [a-z ]+)?\\.$|is among the people who have come"
+        ],
+        "each": "sentence"
+      },
+      "catches": [
+        "You're in {place}.",
+        "You are at {employer}.",
+        "You're over at {host} place.",
+        "You're outside.",
+        "You're home.",
+        "{name} is with you.",
+        "Your mother is with you.",
+        "A child has been born, and {other} is there.",
+        "You're in ${town}.",
+        "You are at home",
+        "It is a Monday in January. You're at home.",
+        "Your son is with you."
+      ],
+      "spares": [
+        "You're in the cereal aisle when {name} parks a cart across from you.",
+        "You're in {outlet}, and not in a good way.",
+        "{name} is here tonight.",
+        "I'm with you on {bill}.",
+        "{other} falls in step with you in the hallway.",
+        "The phone rings."
+      ]
+    },
+    {
+      "id": "names-something-specific",
+      "says": "A line names something specific from its situation (a person, place, thing, amount or day), not a general sentiment.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Can you tell me how you'll vote on, again, the bill titles need work. Okay, you're saying it's taking the name of the bill literally. Okay, so that may be fixed later."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Can you tell me how you'll vote on, that sounds like a good press question."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Do you have a moment for a couple of questions? That's good."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Mind if I ask you a few things? I like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "They loved you up there. Sure, that's good too."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Crystal Savage has been counting votes on bottle deposit all week. You know, for now, you can also, instead of just always directly referencing the bill, you can say, you know, the infrastructure bill or something like that. Or the omnibus"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I need a few days. That's fine. I would say, like, I need a few days to think it over or whatever."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Yeah, it says, make it smaller and you'll have my vote. That I can live with. And that's not very specific. Like, what are you at?"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Then Liam McCarthy has it wrong, that's also good."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I'm going to say then Liam McCarthy has it wrong because I like that."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Put my district's back money back in the budget. She said, done. Don't look at me when it posts. It's good news, I promise. See, again, number 10. Like, there's no context to this. Again, you're just like, what? Again, where's like the"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "It says, your office is boxes now. What? That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I mean, that scene, it started off okay. You've asked for coffee because you can't decide. Decide on what? I guess office?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "That you bought the race. It was on the 11 o'clock. I think they were trying to say it was on the 11 o'clock news."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Next month I'll need you on mine and I'll need you early. Okay, that's a little ambiguous. You'll have me, which one?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say, can I see it? Read the top. It's three lines, and your vote on blah, blah, blah is the first one. I wonder what the other two lines are."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Office hours never stopped. They moved it to Tuesday nights, and nobody printed it. Again, this doesn't give me any context of what. And what does this have to do with inclusionary requirements? And I'll see you at the forum. These options"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I've read restrict abortion twice. What does that have to do with anything? And nobody on my street was asked. I'd like the council to hear. Yeah, that first one doesn't even make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I wonder why he's so poor. Ryan King, why is he so poor? And why does the savings matter?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Oh, I guess it's the end of your term. It says works as U.S. At U.S. Okay, make sure that that's done correctly. It just says us. Wait, so I'm no job on record? Okay, so see? Need to know, like, the job and stuff."
+        },
+        {
+          "date": "undated",
+          "words": "And what is with this right to counsel for eviction? There's nothing with rail, no health care, no education, no crime, nothing. Both parties have already signed off on every line. It's pretty stupid. That's a dumb lie."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "This news is terrible."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "Yeah, I mean, look at this news. Again, there's the one of 3 pages, but this isn't news. I mean, this is it. There's no story. There's no pictures."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "There's job cuts. See, there isn't. This news is terrible. There's no information here."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "Also, why does everything say more than a year on?"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Fellow citizens, thank you for being here. See, why am I looking? I shouldn't. I come to this office from Michigan and I carry it with me. That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "By the plain measure, what? The country is doing better than it was a year ago, and I mean to build on that."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "This isn't news."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Sorry to bother you. I like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "What's in it for my district? I guess that's if you've been talking about. Sure, I need a few days. I would say like to think it over, to mull it over, something like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Is now a bad time? Sure. I like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Got a second. Yeah, that's good. Good."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Look who it is. County Commissioner, you really did it. That's good. Or, you know, Mr. Commissioner or anything like that, you know?"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Guess who won the... I don't have any context around this race. Like, why is it important to you?"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "So 38, the paper prints a headline about seniors or students winning honors. Number in place, seniors signed with Division I program. So I'd soon say like for what, Idaho? For Lexingtonians? Oh, place. For Lexington High School seniors"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Bob Johnson signs to play at a Division I school. Sure. Bob Johnson wins the Lexington Spelling Bee. Sure. Division I's fine."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Also saying, you know, Lexington has our next Division I soccer player, or whatever it may be."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "An employer has picked you for an opening, and you asked about the job. Answer what the position, what it pays. You'd be a dishwasher at $13 an hour to start."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Sure, we'd go over all of it on your first day. Sure, but that's a little weird. I personally would not show up to a job that wouldn't tell me what I got paid on the first day."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "In a speech or a building, you tell the audience where you stand on one issue and invite them to hold you to it. I want to talk about gun control. Ending it or expanding gun control? I'm for it, and I'd like you to hold me to that. That's"
+        },
+        {
+          "date": "2026-11-01",
+          "words": "none of this is a story"
+        },
+        {
+          "date": "2026-11-01",
+          "words": "a bunch of nonsensical stuff there"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Journal lines carry their subject. \"My father was elected mayor\" (the office), \"My daughter Jane was born\" (the name), and \"Little did I know\" needs what. \"That was a turning point\" only when the record shows it was one."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "A bill has a real name, not a description. \"Allow multifamily in single family zones\" is a description."
+        },
+        {
+          "date": "2026-10-29",
+          "words": "when you click continue and back, it's like headlines and then a little bit of story. Nothing is actually on the paper."
+        },
+        {
+          "date": "2026-10-29",
+          "words": "short filler \"side stories\" on the newspaper, for realism: a fourth car stolen when crime is up, someone opening a business, a local child winning a spelling bee, three Division I recruits on the high school team. Briefs of a line or two,"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 1"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "I need a few days.",
+        "Make it smaller and you'll have my vote.",
+        "Your office is boxes now.",
+        "It was on the 11 o'clock.",
+        "Next month I'll need you on mine and I'll need you early.",
+        "more than a year on",
+        "I come to this office from {home-state}, and I carry it with me.",
+        "By the plain measures, the country is doing better than it was a year ago, and I mean to build on that.",
+        "My brother Leo was born after me.",
+        "Guess who won the {office} race? {winner}.",
+        "We'd go over all of it on your first day.",
+        "I want to talk about gun control. I'm for it, and I'd like you to hold me to that."
+      ],
+      "spares": [
+        "Can you tell me how you'll vote on {bill}?",
+        "Do you have a moment for a couple of questions?",
+        "Mind if I ask you a few things?",
+        "They loved you up there.",
+        "Then {source} has it wrong.",
+        "Sorry to bother you.",
+        "Is now a bad time?",
+        "Got a second?",
+        "{office}. You really did it.",
+        "Lexington High School seniors signed with Division I programs",
+        "Bob Johnson signs to play at a Division I school.",
+        "Bob Johnson wins the Lexington Spelling Bee.",
+        "You'd be a dishwasher at $13 an hour to start."
+      ]
+    },
+    {
+      "id": "scene-opens-with-when-where-who",
+      "says": "A scene opens with narration naming the day, the place and the person: \"First thing on June 7th. You head to the clerk's office and speak to Maria Patton.\"",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "There's a knock at your door. It's Mark Wood from Beacon News Network. Yep, that's perfect."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Emily Villanueva catches you before you leave. That's good."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "A reporter for Wong. That's good. Catch, I see the improvement already."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "The beginning right now is a current great example of a scene."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "the way that it's illustrated, like with the scene starting, is correct, but the words aren't right, and I told the word session to do that before I went to bed yesterday."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "I do like being in the right place. That's good."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "It says your sister has come to say goodbye. I click continue. She said, good to see you. What do you think? What? That's how it starts. There's no context. All I can say is I don't like it. She said, right. What the hell is this?"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "So it starts the conversation off. I don't mind that. But see, it just throws you into it. I would prefer you it'd say, first thing on June 7th. If it's June 7th, it says first thing on June 7th. You head to the clerk's office and speak to"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "The clerk's lines: \"The deadline is August 6, 2025\" then \"File for this office\" then \"You are on the ballot\" is not a conversation. She should say: you're running for Trustee; you'll need this many signatures; the primary is this date and"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "there was no reason to have that dialogue. ... that's not like Wildermyth, because there was no reason to have that conversation. It was unnatural. Like, that scene was useless."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Someone is telling you how they won a race. That's how they put it. I don't understand what that means."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'm on 25. The narrator sets up a talk with a member of your staff who has worked for you for years and wants to argue about a line in the budget. Bob has asked for time about the budget the council adopted. That's fine. Bob wants to talk"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Then it says you were asked and didn't say. Yeah, see, I don't have any context, so I don't know."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "The speech with the president is supposed to start with the president, like in the Oval Office or something, and then doing like a montage. But here it's just like I'm just clicking continue."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "that come out of what is actually happening in the world, narrated into a moment, played out with real dialogue and choices, the outcome back into the game; the current opening is the right shape, the words are wrong."
+        },
+        {
+          "date": "2026-10-08",
+          "words": "I guess this is fine, but this is missing context"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 3"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": [
+        "Good to see you. What do you think?",
+        "Are you sure about running for Council member?"
+      ],
+      "spares": [
+        "There's a knock at your door. It's {name}, a reporter for {outlet}.",
+        "{name} catches you before you leave.",
+        "{name}, a reporter for {outlet}, catches you on your way out.",
+        "Bob has asked for time about the budget the council adopted.",
+        "Bob wants to talk about the budget the council passed."
+      ]
+    },
+    {
+      "id": "question-names-its-subject",
+      "says": "A question names what it asks about; \"What do you think?\" alone fails.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "What does that mean?"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 4"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-pointing-at-the-unnamed",
+      "says": "A line never points at \"this\", \"that\" or \"it\" when nothing in the line or the scene has named it.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Every item of the form \"do you remember <school>\" is removed from the banks and the catalog as an opener unless something recorded happened to the school or decades have passed and the record shows it."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "But got a minute for Woem? I'm not sure what that means, so I'm just going to be neutral on that."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Write that on your hand. What does that mean?"
+        },
+        {
+          "date": "2026-10-24",
+          "words": "Yeah, it says won the election. You're like, what election?"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "This town became a campaign stop like Nora Real? I don't understand what that means. And are you saying they held 1,100 individual town halls? That sounds a little ridiculous."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "But I'll take the meeting. That doesn't even make sense. I'll take the meeting. I won't promise a vote. There's no meeting referenced anywhere. And the thank you, really, that doesn't fit there either."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'll be watching what they do with it. This like no subject in these answers is a little weird. Like it, I don't like. I'll be watching what they do with it. If it's apprehensive or if it's braced, like I mean, I'm a little apprehensive,"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "John has the page. I'm not sure what blank has the page. 25.3, I guess it doesn't sound completely wrong. I just don't quite know."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A reporter asked you to comment on a national story, and you gave an answer. The reporter says what they will do with it. I'll hold the paragraph. The deadline won't wait long. I don't really understand that one."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "$20 an hour to start. We'd train you on the rest. On the rest. I'm not quite sure what that means."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Send me the list. I'll answer tomorrow. Sure. Also, but I just want to say, saying the list, a lot of these say the list. Just saying the list with no prior context is a little weird."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "whatever the board sends you to sign. What do you mean, whatever the board? Do you mean city council? ... I'm in Northampton, Massachusetts."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "how do you know why I came here with my forms in a folder?... I used to work at the county clerk's office. You filled out the forms there."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "\"Where do you work\" between relatives is not a scene. Family talks are personal scenes only, since the family has little involvement in play for now, and lines like \"Have you talked to Diana?\" do not belong in one."
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 1"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": [
+        "Write that on your hand.",
+        "won the election",
+        "I'll take the meeting. I won't promise a vote.",
+        "I'll be watching what they do with it.",
+        "{name} has the page.",
+        "I'll hold the paragraph. The deadline won't wait long.",
+        "$20 an hour to start. We'd train you on the rest.",
+        "Send me the list. I'll answer tomorrow.",
+        "whatever the board sends you to sign",
+        "You come in with your forms in a folder.",
+        "Where do you work?"
+      ]
+    },
+    {
+      "id": "no-filler",
+      "says": "No filler: no \"Well,\" \"Look,\" \"So,\" opening and no \"you know\" or \"I mean\" padding a line that has nothing else to say.",
+      "from": [
+        {
+          "date": "undated",
+          "words": "filler"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 16"
+      ],
+      "note": "The word \"filler\" is cited as his Nov 8 ruling, but it is not in his recorded message of that time. The source is the research document only until a note of his backs it.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-stock-phrases",
+      "says": "No stock phrase a script reaches for when there is nothing to say (\"moving forward\", \"at the end of the day\", \"I hear you\").",
+      "from": [],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 16"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-explaining",
+      "says": "No line explains its own subtext or tells the player what to feel.",
+      "from": [
+        {
+          "date": "2026-11-08",
+          "words": "Okay, so it says you have to file your papers. Like you see party endorsements. It's like listing what the town clerk does. It's just a bunch of garbled mess."
+        },
+        {
+          "date": "2026-09-07",
+          "words": "Do not out-determine facts or explain what a situation 'means.'"
+        },
+        {
+          "date": "2026-09-07",
+          "words": "Reach the pressure and hand control back; do not add a concluding lesson sentence."
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 12"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-quick-resolution",
+      "says": "No instant, agreeable wrap-up: a reply may push back, deflect or escalate instead of giving in in one line.",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "Liam McNeely says you told him you're against it. You're right, I shouldn't have said that. That sounds like AI responding."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "You've got it. We'll bring more people Saturday. Yeah, see, that sounds like AI. It's like, okay, quick resolution. That's not how normal people talk."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I'll go door knocking with you this weekend. Again, these answers for number five are also awkward, but I'm going to click that one. He said, we'll be there. Yeah, that's a weird response."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "And a lot of the responses are just, like, they just completely kill it. You know, they don't need to be short replies and responses and stuff, but, you know, they can be longer ones. Some can be substantive, some can't be, but they just"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I still don't like it, but okay. I'm not sure how many people would say that."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "You're right, I shouldn't have said that.",
+        "You've got it. We'll bring more people Saturday.",
+        "We'll be there.",
+        "Okay. I don't like it, but okay."
+      ]
+    },
+    {
+      "id": "evasion-points-somewhere",
+      "says": "An evasion points to a later time or the public record, not a bare refusal.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "I'll have something to say after the vote. That's also fair."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "No comment. That's also fine."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I'm not going to talk about that. Okay, that's completely fine."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "You'll be in the story either way. I'm not going to talk about that. Doesn't sound natural. In 1.4 or 1.5, I don't know how to say it."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I'll have something to say after the vote is most natural."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "People say a lot of things, that's pretty decent."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I'm not going to talk about that, but that doesn't really, that's awkward, unnatural."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I can't be on it. I won't work against you either. I'll tell you before the vote. Sure. Okay. Not against me. I'll take that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "You came up short today? Sure, that's fine. I don't even understand number 3, though. What would be the context for this? Like, you came up short this time? Sure. Or, like, you didn't win or something like that, sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A department head has argued against a budget cut. You are not ready to decide, and tell them when you will answer. I'll call you after I talk to the council chair. Sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Let me sleep on it before I answer. I like that."
+        }
+      ],
+      "note": "His notes disagree: \"I'm not going to talk about that\" was fine on Oct 15 and unnatural on Oct 16. \"No comment\" was fine (Oct 15), so no rule flags it. Lines flagged here go to his next sample. The notes disagree on: i'm not going to talk about that.",
+      "status": "sample",
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\bi'm not going to talk about (?:that|it)\\b"]
+      },
+      "spares": [
+        "No comment.",
+        "No comment at this time.",
+        "I'll have something to say after the vote.",
+        "People say a lot of things.",
+        "I won't work against you either. I'll tell you before the vote.",
+        "You came up short this time.",
+        "I'll call you after I talk to the council chair.",
+        "Let me sleep on it before I answer."
+      ]
+    },
+    {
+      "id": "commitment-names-who-what-why",
+      "says": "A line that commits (a stance, a threat, a refusal) names who, what or why in plain words.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "We have it on the record. I'm just giving you a chance to respond. Oh, that's what you mean by who's your source. Okay, so that just needs to be communicated a little more directly of what you mean by that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I really need this one. I would like it if they said why. You know, I really need this. Like I really need this one is I really need this win, or I need to bring something home to my district. I'm in danger of being prime. Anything like"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I wish I could, but I can't. Ooh. If you help me find the votes. Ooh, I like that too. I haven't decided yet. These are all good."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Thanks for taking my call. Sure. Okay, this is a little weird. I've been a good friend of your campaign. Okay, now this would be better if it was someone who gave more, like is like, you know, 80% of your campaign. Like if they're like"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "All right, we have a deal. Don't count on my help next time. That's missing a little context."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Party ask. I like this. I'm on scene 17. The party needs you to run for attorney general. Now, I hope this wouldn't happen randomly. You know, you would have to have some kind of inroads."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": ["I really need this one."],
+      "spares": ["I wish I could, but I can't."]
+    },
+    {
+      "id": "stake-is-named",
+      "says": "A plea gives its stake; a bargain names the trade; a complaint names the concrete effect.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "The narrator sets the scene in a few sentences. The other person opens with a purpose. Each reply carries a stake and moves the exchange."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm gonna say what happened exactly. Nobody asked people like me before you voted. Okay, why? There needs to be a reason that locking up a gun where a child could reach it is bad for her. Like, is she some gun nut? Is she super"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Why me? Because you've been on the fence all week and everybody on this floor knows it. You're the one I can still move. Ooh, I like this."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Then move me. What's it worth to you? That's a great response."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I think what counts as a moment needs to be somewhat changed. A lot of this stuff, I mean, some of this stuff is fine as like minor moments, but I'm not really feeling any variable stakes here."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "And not all of them have to have stakes. Some of that can happen, but, you know, some of this should lead to the game screen. You know, maybe drafting a bill or something like that, but I don't know, I'm just not feeling it yet. There are"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "And also, there's no real stakes here. Like, I haven't done anything as president, as Congress. I haven't been campaigning. I haven't been accused of anything, etc. These are all, like, the same mundane sort of things."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"unemployment is 3.4 percent\" should be \"is at 3.4 percent\", and then: so what is he going to do about it? Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I'll vote yes if you help me with mine. I like the intention. But there's multiple ways you can say that. That's a little awkward. You could say, you know, I'll vote yes if you can help me with, you know, XYZ bill. Or, you know, I'm going"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Meet me halfway and we have a deal. I like that conceptually. I can give you that if you can give me this. That's a little awkward."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Couldn't have done it without you. I'm going to make this count. You earned this. I like that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A colleague asked you to carry their bill. You asked how the count stands, and they tell you, short. I'll have a real count by Friday. I guess that's fine. We're close, but not there yet. We need, I assume that would say like 8 votes or"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "a plea gives its stake"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "a bargain names the trade"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 15"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "Across the country, unemployment is {unemployment-rate} percent.",
+        "I'll vote yes if you help me with mine.",
+        "We're close, but not there yet."
+      ],
+      "spares": [
+        "Because you've been on the fence all week, and everybody on this floor knows it. You're the one I can still move.",
+        "Then move me. What's it worth to you?",
+        "Meet me halfway, and we have a deal.",
+        "I couldn't have done it without you.",
+        "I could lose my primary over this",
+        "this is a two-way street"
+      ]
+    },
+    {
+      "id": "reply-follows-the-line-before",
+      "says": "A reply answers or follows the line right before it.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Who's your source? Who's your source doesn't fit here, though that isn't necessarily a bad question to ask. It just doesn't fit here."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Yeah, sure. Let's not get ahead of ourselves. I would like to see what that prints out as. Or let's not get ahead of ourselves. I guess it does. That doesn't make a lot of sense there."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Then let me answer it on the record. Yeah, that's good. That's good."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Great rally. We need more people. Can you help us find them? I'll be at the doors with you this weekend. That doesn't make sense."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Keep them coming back. That's all I need. It doesn't make sense. Just keep showing up."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Thank you, all of you. Let's talk about it at the office. Let's talk about it at the office is the only one that makes sense to me there. Like the other ones kind of are awkward. They don't make sense in that context."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "So what's next? I'll come by the office and thank someone. That's all I needed to hear. Yeah, this exchange is a little awkward on scene four."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "That's all we need to hear. That really doesn't make sense."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Can I talk to you? Can I count on you for the bottle deposit? You can say, count me in. Sure."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Sorry, but I'm a no. Make it smaller. That doesn't necessarily make sense. Make it smaller."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Great rally. Where do you want us this weekend? Saying the answers for scene four, I get what they're saying conceptually, but they're very awkward."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I'm gonna say more people knocking on doors, bring a friend next time. They bring a friend next time. I get what you're trying to say, but it's a little awkward."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "They loved you up there. What do you need from us this week? That's also a weird transition. Like, they loved you up there. Like, you know, it's like right after a speech. What do you need from us? It's like really awkward. Like, why not"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "You'll have to ask the chair. I'm not quite sure why you would say that in scene one."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "And then he responds the story runs Thursday. That's a weird. Response."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "The back of the room was standing by the end. Was it that loud back there? Louder than the mic. It cut out twice. What do you mean it cut out? And what does standing have to do with how loud it was? That's a little awkward."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Louder than the mic. It cut out twice. What do you mean it cut out?"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "We've got 12 people for Saturday. Where do you want them? Okay, I'll be there at 10. All of these responses are weird."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Can it wait till tomorrow? I'm dead on my feet. She said go home. I'll call you at 8. That's a little weird. That's really awkward."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Saying fine, I'll do it, but this is the last time. Weird response."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Saying okay for you, I'll do it is weird."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "And the entire, like, debate one or whatever with your opponent, that entire one is completely awkward. I didn't like that. A lot of those were super awkward."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "You're gonna say, come to the meeting Thursday. I've been to meetings and then left it there. That's weird."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "We're collecting signatures to recall you. Is that the only reason? I'm asking. That and you stopped holding office hours. Have a good day. It's weird. And the first two options are a little unnatural too."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Let me think about what you said. I'll call you. I mean, how are you gonna call her?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "And then the reply, I will, first thing on the agenda, in my own words. What?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'll say, let's talk tomorrow when we're both calmer. And then you said, good night."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "She said, come on, mind the step. I'll find the coffee first. Like, what is the what? This doesn't even make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Okay, he said, come here then. And then it says, you said what it meant? What?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "There also should have been like a, fine, I'll do it. And then she said, 10 minutes. I'll be outside the door waiting. I wonder why she went to 10 minutes. Was that meant?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Why me? Fine. You'll remember this. That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Your district's money stays in the budget. That's what I've got. Saying not this one, that doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "That's a fine answer for the cameras. They've gone home. Then say it with the cameras here. I'll wait. That doesn't make any sense. Nobody needs cameras for a thank you."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Wow, you told me you signed. to override it by Friday. Say why? You told me you sign it."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Then I'll see you on the floor. Okay. That was a little... There's a little... why? There's a little context missing there. You've never spoken to the governor."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "We're collecting signatures to recall you. Damn. They'd care if you told them the whole thing. You won't, because then you'd have no table. What? That doesn't even make sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Go ahead. I'll win the vote. It's your right. Good luck with it. I'm not signing my own recall. Good luck. I don't think they were asking you to sign the recall. They'd care if you told them. Yeah, that second one doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Then let them tell me what it costs the other way. Give me 5 minutes at your table. That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "5 minutes, then you leave the table to me. That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "That's noted. What? That didn't even make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Neither is what part of it hit you. I ask because if it's landing wrong on your street, I want to know. Like, that context is completely wrong."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say then we'll settle it at the next meeting. Fine, bring your numbers, I'll bring mine. So she's just completely going to drop the personal disrespect. Thursday then, bring your numbers. Also, that's redundant."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say, did Elizabeth call yet? Not yet. If she calls while you're on stage, I'll take a message. It says, take a message. Take the message. I'm not holding the room. Well, obviously. What? Then I'll wait. I want to thank her"
+        },
+        {
+          "date": "undated",
+          "words": "What does everyone I've heard from is for it? And how is that a lie? I mean, sure, someone can say, yes, I don't like it, but like, people can make generalities. And what does it matter if someone... That doesn't even make any sense."
+        },
+        {
+          "date": "undated",
+          "words": "I'm going to say I'm not negotiating it in a hallway with you. Someone's going to negotiate it. Why not out loud? Because out loud it turns to a fight. Quietly it turns into a law. Who gets left out of the quiet? And again, a phone held at"
+        },
+        {
+          "date": "undated",
+          "words": "You sound like you're hoping somebody does. What does that mean? One person pulled a packet Monday, hasn't brought it back. Good, let them bring it back. That's weird. Let them all take my record into that race. That's also weird. Thanks,"
+        },
+        {
+          "date": "undated",
+          "words": "Yeah, right to work. What is going on with this? Tell me what it means for you day to day. That doesn't make any sense."
+        },
+        {
+          "date": "undated",
+          "words": "Stay after. My staff will take your number and follow up. Why stay after? That doesn't make any sense."
+        },
+        {
+          "date": "undated",
+          "words": "Then I'll be waiting for it. Then I'll be watching for it. Well, since I read waiting, that's what it should be. That seems unnatural."
+        },
+        {
+          "date": "undated",
+          "words": "what did they change? Has anyone told the people who are waiting on it? That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "You know, again, that should be going to the hi, have a good day. That makes no sense."
+        },
+        {
+          "date": "2026-10-29",
+          "words": "yesterday they would ask a question, like they'll be like, did you see the president's address? And then the reply is like, oh, okay. What about you? You know, shit like that. Shit that didn't make any sense."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Okay, the responses don't even make sense. What kind of help were you thinking? He just said to knock on doors."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Systems are being made for individually instead of linking everything together. That conversation you just had with Mary literally doesn't make sense."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Nice to see you. What do you do if you're running into him? See, now these scenes aren't making sense. I guess they're firing, but contextually they make no sense to the story. Again, I use Wildermyth as an example. These scenes have zero"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "I work for Quinn Supply Company and you, not right now. See, this is a total regression. I don't understand. This is something I would have graded like 2 or 3 weeks ago. Yet when I last talked to the Word session, like last week or"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "these replies literally don't even make sense. Like, grammatically, they don't even make sense."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Now I'm on stubborn. I've made up my mind. It's no. That's not an answer. Well, technically, yes, that is."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Okay, for you, I'll do it. I like that. These are all good."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I'll hold you to that. Give me until the vote. Sure, that's fine. I would like it if that, you know, expanded to, you know, wait until I'm on the floor or I'm unsure or something. Because, you know, it doesn't exactly have to match what"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Would you put your name on this bill? Of course, I'm glad you asked. Sure, I like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I hope you know what you're doing. That doesn't fit there."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Now, you saying the county needs you to run for attorney general."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Thank you, really, doesn't really fit there either. I'll think about it if the party backs me in the... backs me next time. That doesn't even make sense."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Family filing. Ooh. There you are. Why didn't you tell me you were running? Number one is fine. Number two, no. Nothing has to change at home. That would make more sense if, like, they were running for a bigger office and there was some"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "You'd be good at it. That's a weird response. Thank you. That means everything. Yeah, all these responses are weird in this one. I mean, like, they're all okay individually, but in this context, this makes no sense."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Thank you for putting up with all of it. That's a little weird. That's a little awkward."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "It changes what I have to think about next. That doesn't even make any sense. I don't even know how to give it any feedback."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'm going to use Bob as first name. I'm sorry, Bob. John won the presidential race. Well, I assume if you care enough and they're apologizing to you, it seems like you are also running, so we should not be watching the result."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "You just told someone close that you filed. This is what they ask of you for the campaign. So I filed and I'm telling a friend, but they're asking me. That doesn't make any sense."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Will you help with the campaign? I'll keep the money out of it if you do. I'll keep the money out of it if you do. Does not make any sense."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I need you with me on this. Can you take the school nights while I'm out? That doesn't make any sense."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "That's a big claim. I'll check with your neighbors. That's, I don't understand what that means."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A big donor asked you for something. You agreed to make a deal, and they answer with what happens next. Done. My people will call yours. Sure. Fine. I'll send you a list tomorrow. Sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A fellow legislator wants your vote on a bill and opens by reminding you a favor they once did for you. The other one's asking you. You remember earlier? I would like to see how earlier manifests itself in the game."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "The Daily Gazette says your ordinance didn't pass. I'm sorry. Sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Now, see, the bill not passing, like saying thank you or whatever, that somewhat naturally follows this. You know, if it's, you know, you fought really hard for this person and, you know, they say, I'm sorry. And then you say, no, don't"
+        },
+        {
+          "date": "2026-11-01",
+          "words": "I never said that"
+        },
+        {
+          "date": "2026-10-14",
+          "words": "lines must sound like people talk (\"Where are you from?\", \"I'm from Washington. What about you?\", \"And you?\"); a reply's second move must follow from its first (never \"I'm from Washington. Have you talked to Omar?\")"
+        }
+      ],
+      "note": "The notes disagree on: okay. for you, i'll do it.",
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": [
+        "Let's not get ahead of ourselves.",
+        "I'll be at the doors with you this weekend.",
+        "Just keep showing up.",
+        "I'll come by the office and thank someone.",
+        "That's all we need to hear.",
+        "Make it smaller.",
+        "Great rally. Where do you want us this weekend?",
+        "Bring a friend next time.",
+        "They loved you up there. What do you need from us this week?",
+        "You'll have to ask the chair.",
+        "The story runs Thursday.",
+        "The back of the room was standing by the end.",
+        "Louder than the mic. It cut out twice.",
+        "We've got 12 people for Saturday. Where do you want them?",
+        "Go home. I'll call you at eight.",
+        "Fine. I'll do it, but this is the last time.",
+        "I'll call you.",
+        "I will. First thing on the agenda.",
+        "Fine. You'll remember this.",
+        "Not this one.",
+        "That's noted.",
+        "Then we'll settle it at the next meeting",
+        "Take the message. I'm not holding the room.",
+        "Everyone I've heard from is for it.",
+        "Tell me what it means for you day to day.",
+        "Stay after. My staff will take your number and follow up.",
+        "oh, okay. What about you?",
+        "What kind of help were you thinking?",
+        "Nice to see you. What do you do?",
+        "Good for you. Is it busy?",
+        "So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.",
+        "That's not an answer.",
+        "Give me until the vote.",
+        "Nothing has to change at home.",
+        "You'd be good at it.",
+        "Thank you for putting up with all of it.",
+        "It changes what I have to think about next.",
+        "I'm sorry, {first}. {winner} won the {office} race.",
+        "Will you help with the campaign? I'll keep the money out of it if you do.",
+        "I need you with me on this. Can you take the school nights when I'm out?",
+        "That's a big claim. I'll check with your neighbors.",
+        "I see."
+      ],
+      "spares": [
+        "Then let me answer it on the record.",
+        "Let's talk about it at the office.",
+        "Can I count on you for the bottle deposit?",
+        "Of course, I'm glad you asked.",
+        "Done. My people will call yours.",
+        "Fine. I'll send you a list tomorrow.",
+        "The Daily Gazette says your ordinance didn't pass. I'm sorry."
+      ]
+    },
+    {
+      "id": "introduced-before-addressed",
+      "says": "Every person, outlet, office or thing is named to the player before a line addresses it.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Got a minute for Woem? Who is Woem? Is that where he's from? Like the city? That doesn't make any sense there. It should just say Michael Howell, like if he's been introduced earlier in the scene."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "you can have the narrator, like, you know, you arrive for the interview as Michael Howell told you something."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "She says you have 3 minutes or whatever. So I clicked it, and then he didn't even say his name. Is there concern on the bill or how it's done? I'm just going to say I'm done. Next speaker."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Is Jessica Sparks like my communications person or something? Let's see. Oh, a reporter maybe?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Okay, she's my campaign manager. Okay. We need to talk about the call. It's time to call Michael Norton. The longer we wait, the worse it looks. What, did I lose?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "So, like, did my character sign up as a poll worker? I don't understand. I'm not finding you in this book. Hold on. It says, the line at the polling place moves fast until it reaches you. Sarah Strickland flips the binder. So, I guess I'm"
+        },
+        {
+          "date": "2026-10-24",
+          "words": "And who is Linda? You have to say someone just won the presidency, blah, blah, blah. There needs to be more information, but not in dev speak. This is player focused. What are we doing here?"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "A notice from the landlord was taped to the door. Michael Velasquez has read it twice. I guess this guy's my son. We owe $14. Okay, so why are we behind on rent? How did we get that far behind? They can put us out. I'm going to say that."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "And also, this has no context. He shows up in your room at midnight. I'll help. Like, what?"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A hearing then. Schedule it. I mean, maybe if the hearing was talked about beforehand, but without any context, that doesn't make any sense."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A visitor came to your desk about a bill. Thanks you as the meeting ends. Thank you for hearing us out. Who's us?"
+        },
+        {
+          "date": "2026-09-26",
+          "words": "A character can bring up a public matter only if they read it (in News) or took part in it."
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 6"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": [
+        "A notice from the landlord was taped to the door. {name} has read it twice."
+      ]
+    },
+    {
+      "id": "tense-of-the-record",
+      "says": "A line speaks in the tense the record is in: no talking about a vote as done before it happens.",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "And then put this in the story, I'm proud of my vote. I guess that doesn't really make sense because it's talking like it's in the present, but the vote hasn't happened yet."
+        },
+        {
+          "date": "undated",
+          "words": "Then you know what it does? I'll sign it again tomorrow. What do you mean again?"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "it says your son has been waiting for you to get home. I liked what the president had to say. This is 2 weeks later. You and me both. I'll see it that way. I'm going to say you and me both. And he said, then we agree on something for once."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "Then put this in the story: I'm proud of my vote.",
+        "I'll sign it again tomorrow.",
+        "Your son has been waiting for you to get home.",
+        "Things are better than they were a year ago, and I intend to keep it going."
+      ]
+    },
+    {
+      "id": "fits-speaker-and-tie",
+      "says": "A line fits its speaker's role, age and relationship to the listener, and a speaker is recognizable without the name attached.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "I'm voting for it and you can quote me. That's very, very, like confident. Like Joe Biden would say that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I'm a no, and I'll say why to anyone who asks. Okay, I understand what you're trying to do, but it's like I'll say no, and I'll say why to anyone who asks. I guess it kind of fits. It's a little awkward."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Even if it costs you votes. Okay, that's a good response. Even then, it's the right call. Yep."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Read the bill before you judge it. Sure. That's good, too."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Go ahead. I meant every word. I mean, I don't really see how that's anxious, but that's fine."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Go ahead. I meant every word. Okay, sure. I mean, that's not necessarily boastful, but, you know, I get what you mean."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Honestly, more of what you're already doing. That's not necessarily stubborn, but I like that wording."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Like, where do you drive in from? That's creepy."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Except for an idiot. Going to know your street. It says, neighbors, come stand on my corner and lie. It makes you sound like a hooker."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "What do you want to learn first is a weird question to ask at a diner."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "David Nash leans in the doorway like they've done 1,000 times. They've? Don't you mean he?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "What did you do when it was you? That's not a natural phrasing."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "being able to work in literary stuff or the call and response or saying things in threes, like speech writing tactics. But not everyone should automatically get access to that."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "If your character is poor and they're a first-time politician and they're giving their first speech, you shouldn't give a speech the same way that the president who is an actor, you know, will."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "you could use the dev mode in whatever world you generate, and actually give me, you know, generate the lines or whatever, and then give me the actual context between or why these things are being said. And so I can tell you, like, what"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I don't think this guy, Nathan Mendez, would really care if he's a lawyer, an attorney. I don't think he would care about this."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Before the day eats us, that's kind of awkward."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say roughly, I was hoping you'd tell me the rest. It says, the rest is mostly phones, files, and keeping the boss off your back. I'll show you to the first two. Isn't he the boss? This is weird. I don't really understand the"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say, I don't know what I'm doing next. That's the part that keeps me up. You'll land, you always do. Call me if you need someone to say it twice. I mean, I'm also 80. And that doesn't sound natural."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Sit the pies. I'll say it before. You're one good. Okay, hold on. That makes telling an 80-year-old to wait, that makes zero sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say everyone says next year. I mean, then go now. Don't come crying to me in November. I'll help anyway. That's a little awkward. That all help anyway."
+        },
+        {
+          "date": "undated",
+          "words": "Then you're on the ballot. Congratulations again. I'm not sure if... No, you wouldn't say congratulations at an office. It's weird. I worked at an office like that."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "You know, the opening speech, right? It seems pretty fixed right now. That's something that the English generator, you know, at the start of every game, you know, that's something that can also be generated since every world is different."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "you can figure out how I talk and how I speak. I've given plenty of examples of how I want the game to flow. So most of these should flow naturally. There should always, I always say, you know, instead of saying, you know, okay, that's"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "maybe there needs to be a separate thing where it decides topics as well. Like I said, it needs to work off of effects or in-laws and people around them and their temperament and their personality and stuff."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "To the governors, some of the laws I care about are yours to make. With the flash of a random, is that the Capitol bill? Unpaid family leave, the law in Colorado already says yes. I ask you to consider whether your state's law on paid"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "And you see all these intros, it's absolutely ridiculous. The speech needs to be like a real inaugural, not a player-centered one."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "the woman who was apparently my partner asked me if I enjoyed the speech. I did like that"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Today the work starts, and I mean to do it right\" is unnatural."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "The speeches must not be one block. They are assembled through the English engine, the director and the person (traits, party, wants, the world's events), played in steps. \"We're not building scenarios. We're building tools.\""
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Saying I'll carry it, a little awkward."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Not bad for a first run. I like that. Yeah, we'll celebrate this weekend. I'm rating that one a three. It's a little weird."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "It matters to me, whoever won. I live under what they decide. That's almost right. It sounds a little clunky, like saying something like, \"Of course I care who won.\" I mean, they govern me, or I mean, they're our head politician or the"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "You decided, and I'm the one finding out. Okay, so 4.1, that doesn't... It'd be like, what, did you just decide this without me? Who's going to take care of Bob? Or something like that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "4.3 is not good. Guarded. I'm not quite sure I would say that, but sort of an example would help you."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I guess 6. Six 6.2 and 6.3 are kind of weird. They sound clunky and unnatural."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "7.1, I don't really like. Some you'd be like, I know what I said, but circumstances have changed. I can't. I'm sorry. You know, something like that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "You open your State of the Union address by greeting the Speaker, Congress, and the country. Madam Speaker, members of Congress, my fellow Americans. Yep. Madam or Mr. Oh, there you go. Mr. Speaker, everybody in this room and everybody at"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "It isn't, and somebody is to blame. Ooh, that's a little weird way to start off. I would be interested to see in what were the other options."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "On gun control, I'll be plain. For ask me why, and I'll tell you. I don't like that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Let me talk about gun control. Gun control, I'm for it, and I'm saying so here in Texas. That's awkward. I don't know."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Someone read in the paper the bill you introduced failed and tells you, I read in the Daily Gazette that your bill on gun control failed. Sure. The Daily Gazette says your bill didn't pass. I'm sorry. I don't know why a random person in"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Yes, nothing about your state... obviously it should change by the goddamn party and traits. It should change by what the president wants and what's happening in the world... these speeches are not all the same. That's why the 4.1%. No,"
+        },
+        {
+          "date": "2026-09-28",
+          "words": "Regional speech is word choice only (pop or soda, y'all, you guys), with no spelled-out accents."
+        },
+        {
+          "date": "2026-09-28",
+          "words": "Swearing in private rooms follows personality: crude characters swear freely in private, others rarely or never."
+        },
+        {
+          "date": "2026-09-16",
+          "words": "Is this my mom or something? Like, is it a date?"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 7",
+        "docs/research/dialogue/ (how games write dialogue), rule 8"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "I'm a no, and I'll say why to anyone who asks.",
+        "Where'd you drive in from?",
+        "neighbors, come stand on my corner",
+        "What do you want to learn first?",
+        "{name} leans in the doorway like they've done it a thousand times.",
+        "What did you do when it was you?",
+        "Quick question before the day eats us.",
+        "Call me if you need someone to say it twice.",
+        "Then go now, and don't come crying to me in November. I'll help anyway.",
+        "Congratulations again.",
+        "I ask you to consider whether your state's law on paid family leave is right for its people.",
+        "Well, here we are. Thank you for being here.",
+        "Today the work starts, and I mean to do it right.",
+        "I'll carry it.",
+        "It matters to me whoever won. I live under what they decide.",
+        "You decided, and I'm the one finding out who has {child} on those nights.",
+        "You filed. Fine. Tell me who has {child} the nights you're out.",
+        "I hope you know what this costs you.",
+        "Then we'll see who's right.",
+        "I gave you my word, and I'm going back on it. I'm sorry.",
+        "It isn't, and somebody is to blame.",
+        "On gun control, I'll be plain. Ask me why, and I'll tell you.",
+        "Gun control, I'm for it, and I'm saying so here in Texas.",
+        "Let them know you heard."
+      ],
+      "spares": [
+        "I'm voting for it, and you can quote me.",
+        "Even then. It's the right call.",
+        "Read the bill before you judge it.",
+        "Honestly, more of what you're already doing.",
+        "Did you see the President's speech?",
+        "Not bad for a first run, right?",
+        "Madam Speaker, members of Congress, my fellow Americans.",
+        "Mr. Speaker, everybody in this room and everybody at home. Thank you very much."
+      ]
+    },
+    {
+      "id": "pressure-sounds-like-politics",
+      "says": "Threats and pressure sound like politics (memory, friends, how it works), never a generic warning.",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "I'm not doing this in a hallway. I like that. That's pretty good."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Exactly the way that Dave, oh, he's pressing me. I like that. If he's kind of escalating, you should have an option to escalate. I mean, then we're not talking. That's kind of an escalation, but that's not like, you know, a back and forth."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I'll think hard about that is a weird response on cold scene seven. I'd think hard about that. It's like she's threatening you."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "And it says you'll need friends after this vote. I won't be one. I like that. I like that a lot."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "You know what this means to me. Yeah, that's a little pressure. I like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I'm asking as a friend. Remember this conversation? I get what she's trying to say. It's a little awkward. Like, I won't forget this. That's better."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "I won't forget this. That's better."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Then I'll find a candidate who listens. Ooh, I like that."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Don't expect your party's help in the next race. The shouldn't be there. And that shouldn't, I mean, threatening like that is fine. Like, you shouldn't expect our help in the next race, in your next race, but also should be like, it sure"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "The party has a long memory. That's a solid threat. But again, they remember this conversation. That's weird."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Threats sound like politics"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "I'd think hard about that.",
+        "Remember this conversation.",
+        "Don't expect your party's help in the next race."
+      ],
+      "spares": [
+        "I'm not doing this in a hallway.",
+        "You'll need friends after this vote. I won't be one.",
+        "You know what this means to me.",
+        "I won't forget this.",
+        "Then I'll find a candidate who listens.",
+        "The party has a long memory.",
+        "You know how this works."
+      ]
+    },
+    {
+      "id": "ending-lands",
+      "says": "A scene ends on a beat that lands, not a pleasantry, and never while a grievance or a count is still open.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "That's all I needed. Thanks. Yep, that's good. That's solid."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Thank you for your time. That was great."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "You won't regret it. Sure. That's fine."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "a lot of the replies, there's no conclusions in the scene. There needs to be a bunch of conclusions and a bunch of ways you can get to those conclusions and stuff. So, but dialogue is varied."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "each scene doesn't necessarily have to end with like a meeting or something like you said. It just has to end naturally, because some scenes can be, you know, transition between the big scenes that actually have game-changing events or"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Enjoy your cereal. You walked away. Wait, wait, what? That's it. It's anti-climactic."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Maybe. Or you lose, and nobody remembers you in 8 years either. See, this is something that seems prime for more conversation."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'll note it in the log. Okay, it's kind of an abrupt ending. That scene was going all right."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say done, put it in writing tonight. I will. Thank you. That was a good scene."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say, let me sleep on it. I'll call you Tuesday. Don't make me chase you. I like that one. That one was great."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "That you are on the ballot first of all on small letters. Why there's no reason for that to be there. Second of all, there was no conversation or anything and the dude just said okay. And also when there's nothing left to say, don't allow"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "if the narrator is going to have something happen, like, have it happen. Like, it should just be continue or something like that. Not say nothing or leave. That's awful."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "what the hell, mark gap, say nothing, leave. This is not ... like what I approved as dialogue."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "But the conversation shouldn't really end after that. Again, if it's a scene, some scenes can be just a few lines, but that feels like it should be a little more. Like, you know, you got to find the votes. Okay, what kind of votes do you"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Number two, or 28, it's a little weird just immediately. Okay, this weekend is ours, no calls. Like, that's, like, that seems like something that should be in a multiple, like, after a few conversation replies."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A speaker closes a speech, number 20. God bless you and God bless America. Sure. Let's get to work. Sure. Thank you all. Sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Thank you. That's what I came for. It depends on your answer. Thank you. That's all we ask. Sure, that's fine as well."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": ["YOU ARE ON THE BALLOT", "This weekend is ours, no calls."],
+      "spares": [
+        "That's all I needed. Thanks.",
+        "Thank you for your time.",
+        "You won't regret it.",
+        "Done. Put it in writing tonight.",
+        "Let me sleep on it. I'll call you Tuesday.",
+        "Thank you. That's all we ask."
+      ]
+    },
+    {
+      "id": "why-me-is-answered",
+      "says": "When a request is made of the player, a clarifying \"Why me?\" reply exists and the other person answers it.",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "I'm too short. Change your vote before they call your name. See, again, here, fine. See, a question here would be why on number 9? Why can't I say why?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "It's good news, I promise. The governor reads your vote on the right to work and wants someone like you as budget director. I'll be honest, it means giving up your seat. Okay, these three options aren't good. You know, there needs to be"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Why me? We've never met. That's the point. I really like the tell the governor I'll talk. Not yes, but I'll talk."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "It's okay for your character to have lines that progress the conversation but aren't chosen, right? So for scene 17, saying, you know, the party needs you to run for attorney general, you could say something like the character... You can"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Why didn't you tell me you were running? An appropriate response would be, how would you know? How did you know that? Like, that could be one of those, like, you know, the conversation goes without you picking it. Like, how did you know?"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "spares": ["Why me? We've never met."]
+    },
+    {
+      "id": "vary-the-shape",
+      "says": "No one shape repeats across scenes: vary who speaks first, how long, and where the narrator breaks in; a line said once is not said again by the same person soon.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "BATCH 12 IS REJECTED. It is the same material as batch 11 with personality variants: \"Do you remember Newark Charter School?\", \"Have you talked to X?\", a death of someone the player does not know, replies that are \"Yes\" and talks that end"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "A scene has a setup, a person with a purpose, and stakes, and it plays out:"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "They loved you up there. What do you need from us this week? Okay, we've already gone over that a little bit."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "These scenes can go multiple things, as you've seen. These scenes can go, you know, 5-10 deep. You know, they can be a few minutes long as the narrative calls for it. Like, if it's a contentious meeting or something, or, you know, you're"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "you can make them like multi, multiple exchanges"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Voters will want to know where you stand. Okay, so now there's no, the options have repeated. So now it should say something like, you know, it'll say like, and they'll see when I vote, or like, you know, I'm not doing this, goodbye. Or,"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "no comment. Voters will want to know where you stand. Okay, so again, these options are kind of like rehashed first options, kind of. Like, the replies need a lot of work. They seem very vanilla."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Scene six. Okay, this is going against what I'm saying. I said that I didn't want a bunch of scenarios repeated. I wanted each one to be different and to be testing different things. This is a complete regression."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Is now a bad time? Can I count on you? This is a two-way street. Okay, so these are basically the same one, but there's not much up there. It's just like cleaning up those ones."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Again, these are not new scenarios that are coming from director stuff and all that. Like, it's, you're just rehashing the same ones."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "And again, these replies. Are kind of very similar. Which I guess isn't necessarily the worst thing. But again, I'm supposed to be grading new stuff every time. I'm seeing the same two or three situations. Like I said, you need to start"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Why is it always the same two or three bills? Are the same two or three things passing? Or is this just for example?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Okay, see, I already said write down your number. I'll call you this week. That isn't acceptable. That's not a good one."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Okay, no, it doesn't look like you've updated anything. What are these? Like, these are like the same replies and shit. This goes against the rule that I said. Every batch needs to be different. And every damn near word has to be helped"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "between lines, like, it says... you know, you want to say it out loud and then you reply and then it says you hear the crowd grow louder in 6.3 and then 6.4 is my answer. And then, you know, after 6.4, you can say like the crowd is"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Also, I noticed that the narrator only ever says one line, and the person always says two lines. It doesn't need to be fixed like that."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Also, I noticed that everything starts out the same way. It's the narrator, one sentence, and then two sentences by, or two things by the other person. It needs to be varied."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "And the narrator can talk between people. That's the whole point of a narrator. It's like Baldur's Gate. Again, I've used that as an example."
+        },
+        {
+          "date": "undated",
+          "words": "Give it a month, then you get a real interview. Okay, hopefully all these reporters don't just say quick one before you go."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "I don't understand what the English engine has or hasn't merged. Like, this looks like something that I've already graded a million times already."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "Sometimes, you could have a Jimmy Carter, a crisis of confidence kind of thing. Sometimes it could just be a hopeful speech, or it could be like Trump just railing on people. There's so many different types of presidential speeches"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "My fellow Americans, we have come together to do something. And see, this speech, again, it starts like it's an inauguration. I keep saying, like, that's not how these speeches should work. And almost all of them feel the exact same."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "yes i mean its style. 3 seconds is too slow. and time after time i bitch about the english engine yet it only updates one scene at a time. i keep saiyng that english engine updates should be reletively frequent and should impact the entire"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "The national unemployment rate is 4.1%. I think that scene is hard-coded in. Hourly pay is up 4.1% over the year. That image is hard-coded in. That is progress, and progress is not the same as finished. See, this is coming out the same way"
+        },
+        {
+          "date": "2026-10-15",
+          "words": "So this is better, except now it's kind of coming robotic in the structure."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "see, we need to start building these trees as well so that these scenes can have multiple endings as well, or not necessarily endings because the scene's gonna stay the same. It's just the text that will stay the same, that will change,"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Also, I'd like to get more speeches and stuff. And mix them up. So there will be like 3 in a row here where it's about like making it up, like legislation. Give me a legislation, a speech, a reaction, a constituent, mixing them up."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Everybody in this room and everybody watching. I don't like, it keeps repeating that. Like, again, it has to open differently as well."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "The speech can be longer because, again, it's supposed to be like a montage."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "that's not how I approve this"
+        },
+        {
+          "date": "2026-11-01",
+          "words": "every one of these speeches has the same general outline. They need to vary... varying degrees of speech and varying ways that lots of people talk in the game. So that it really seems alive"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "a short scene at 1 or 2 doors, maybe sometimes it's uneventful, maybe sometimes you meet someone at the library, maybe sometimes you meet someone waiting outside of a job... Scenes are the game. They're the narrative"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "Talk with Hunter: 'Let them pick the topic' does nothing, and the options never change."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "there needs to be real ones with some good fluff or else it will get old"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 9",
+        "docs/research/dialogue/ (how games write dialogue), rule 10"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": [
+        "Voters will want to know where you stand.",
+        "write down your number. I'll call you this week.",
+        "quick one before you go",
+        "My fellow Americans, we have come together to do something.",
+        "The national unemployment rate is 4.1 percent.",
+        "Everybody in this room and everybody watching.",
+        "Let them pick the topic"
+      ]
+    },
+    {
+      "id": "speech-is-not-a-list",
+      "says": "A speech is not a list of figures: it takes a stance, reads as speech, and fits the speaker and the moment.",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "You need somebody who isn't me. My district's against it. And I told them where I'd be. That line's okay. I get the sentiment. It's just really wordy. Put my district's money back in the budget and I'm yours or I'll pass. So most of those"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "the beginning presidential speech right now in the intro, it's pretty bad, and it would be great if it could naturally, you know, work in like figures, like, you know, inflation or Social Security or more states' rights or whatever."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "That speech is terrible. I told the word session that the speech needed to be... It shouldn't be formulaic, and it should be customized to the world, not just the employment rate is this. I see you, governors. I see you. That's not how"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "the opening presidential address still isn't really at my liking. It's still very robotic. It says, the unemployment rate is better than it was a year ago. It's always good news. It's never bad news, and it's always about the unemployment"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "you're right inagural is fine. i just hate the way the speech looks which is the english engines fault"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "That's not a speech"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "To the families doing better, I want it to last. And any, why are there so many commas?"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "how many times do I have to say this journal needs to be written like a story, not individual fucking sections, but written like a story from birth?"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "This isn't coming out like a speech. And these scenes are hard-coded in."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'm hopeful tonight, and I think you've got a reason to be too. Sure. Madam Speaker and everyone watching, thank you for having me. I come with a plain belief that this country is on the edge of something good. Sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'll keep this practical tonight. Here's what I want to get done. Okay, sure."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "After 2 years out of work, I found work in Lexington. After out of work, I went back to work. See, these journal entries are still not being told as stories. They're just statements."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "this dialogue is absolutely god-awful. It's just listing things. Unless it calls for it specifically in the dialogue scene, it shouldn't read as a list. That's not how normal people talk."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "I don't like where this part of the speech where it just laces statistics and stuff. Again, I keep telling the word session, look at real like inauguration speeches."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "Elected legislator, it needs to be told like a story. How many times do I have to say that? ... Under her name, she told legislator. That's not good. There needs to be more text."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "It says what you do here. And then it's just a list of people's names."
+        },
+        {
+          "date": "2026-09-29",
+          "words": "I support opening this room one extra evening each week"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "What hours are proposed, and who would pay for them?"
+        },
+        {
+          "date": "2026-09-07",
+          "words": "Dialogue should sound spoken rather than authored."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "I see you, governors. I see you.",
+        "the unemployment rate is better than it was a year ago",
+        "To the families doing better, I want it to last.",
+        "After 2 years out of work, I found work in Lexington.",
+        "I support opening this room one extra evening each week",
+        "What hours are proposed, and who would pay for them?"
+      ],
+      "spares": [
+        "I'm hopeful tonight, and I think you've got a reason to be too.",
+        "Madam Speaker and everyone watching, thank you for having me.",
+        "I'll keep this practical tonight. Here's what I want to get done."
+      ]
+    },
+    {
+      "id": "concrete-image-over-generic",
+      "says": "Prefer wit or a concrete image over a generic statement when the voice allows it.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "What do you say to the people who disagree? Tell them I listened and I still disagree. That's funny."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Your vote is public. Your reasons don't have to be a secret. Ooh, I like that response. That's great."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "See, after the meeting, say it was a tense night for everyone. A tense night, that's what you've got."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Here's what I'd do. And you won't like it. Wait a cycle. Run for state senator when you can't. When you can win it, not when you want it. That's a good one."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Then say we didn't buy it. We knocked it door by door. Door by door. Write that on your hand. That scene was great, except for the write that on your hand."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "James Cook picked the diner in the back and the back booth. And already ordered for both of you. That sentence is a little awkward."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I can't do this alone. I need you on the phones. I need you to say when we've gone too far. I mean, again, these sound like very clunky and unnatural. It'd be like, I can't do this alone. I need help with phones and door knocking. And"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I slept on worse. Fine, yes, I like that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Before anything else, let's take a breath. A lot of families are living through the worst days of their lives. Wow, that one's heavy. I like 34.3."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A constituent has come to your office hours about an eviction. They explain their situation and ask what the town can do. They taped it to the door on Thursday. I read it 9 times and I still don't know who I'm supposed to call. Sure,"
+        },
+        {
+          "date": "2026-09-07",
+          "words": "No literary phrasing, metaphor, epigrams, or visibly composed/generated texture."
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 16"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      },
+      "catches": [
+        "a tense night for everyone",
+        "{name} picked the diner, and the back booth, and already ordered for both of you.",
+        "I can't do this alone. I need you on the phones, and I need you to say when we've gone too far."
+      ],
+      "spares": [
+        "I'd tell them I listened, and I still disagree.",
+        "Your vote is public. Your reasons don't have to be a secret.",
+        "Here's what I'd do, and you won't like it. Wait a cycle. Run for {office} when you can win it, not when you want it.",
+        "Then say we didn't buy it. We knocked it, door by door.",
+        "I slept on worse. Fine. Yes.",
+        "Before anything else, let's take a breath. A lot of families are living through the worst days of their lives.",
+        "They taped it to the door on Thursday. I read it 9 times and I still don't know who I'm supposed to call."
+      ]
+    },
+    {
+      "id": "trade-not-bribe",
+      "says": "A trade or offer reads as a bribe only when it is one; build the trade from the district's interests.",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "the one where it talks about being able to afford something, it sounds like it's going to be a bribe, but it's not. And, like, then it comes with the weird, like, amendment and stuff. I mean, that's fine to trade, but it sounded like it"
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "variants-differ-in-what-they-say",
+      "says": "Variants of a slot differ in what they say, each tied to a fact in the record, not only in wording; a bank grows by adding conditions and specifics, not more generic lines.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Remember, we're not authoring scenarios. We're giving the simulation pieces to work with."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Just to note that not every reply or response needs to be from a memory or whatever. Just some that, you know, alternate options. Like I said, I've used Baldur's Gate 3 as a model. So sometimes it's just additional dialogue or something,"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "These responses, I feel like you could add another one or two."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "This should be something where every time I update a batch or something, it should update through the entire game. So say I do 20 lines. I shouldn't have to update literally, or I shouldn't have to approve literally every single line in"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "Ooh, 2 scenes widened, I love that."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "Okay, we'll have the mayor ask council for things. Good, sharing lines and stuff, that's perfect."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "just get them all in the game working and stuff for now. And then they've gotta have like a variance. So even though there's only 5 in corruption scenes right now, you could get, I'm just making it up, I'm making a number up, 30 different"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "then I want it to work specifically on adding lines and different tones and subjects and things like that."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "And I guess the English can work different for different kinds of scenes and stuff like that."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "stop limiting the scope to what I say. It can be a constituent stopping you in the street after a law passes. News of a new war starting: even though wars aren't coded in, you could still talk with somebody about it at a location. People"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "a victory speech obviously means there needs to be a concession speech... they had a contentious call with the other candidate, or this other person in this state had this one unique experience, and that can be a branch... use hundreds of"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "I grade 17, that should calibrate the entire engine... a butterfly effect, and calibrates a concession speech later on"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 2",
+        "docs/research/dialogue/ (how games write dialogue), rule 13",
+        "docs/research/dialogue/ (how games write dialogue), rule 14"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "most-specific-line-wins",
+      "says": "The most specific matching line wins: a line tied to the speaker's trait and the situation outranks a generic one.",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "Be sure you include personality traits or experiences or memories that are coming to effect in these as well. If they're not coming to effect, then they should."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "And that's fine, having conditionals for lines. So if there's only one line that's and it needs conditional, we'll add a bunch of other conditions or non-conditions if needed."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "I find those events or whatever a little lackluster. I would hope there would be more political related ones and, you know, different ones for your office. Like this stuff should link with the effects, you know. Maybe if you're having a"
+        }
+      ],
+      "research": [
+        "docs/research/dialogue/ (how games write dialogue), rule 5"
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-dangling-fragments",
+      "says": "No line is a dangling fragment (\"All right. Yes.\", \"You've made your case.\" on its own): a reply says what it agrees to or refuses.",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "You've made your case. That sounds like it's at the end of like some kind of hearing or something, not asking for a hearing. Or saying, all right, you've made your case. Sounds like the precursor to, all right, you've made your case. Put"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Not a huge fan of 10.2. Again, that's kind of like the sentence fragment kind of thing."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "13.2, no."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'll come back to this later, but you can take the lessons from this, not just the grades from those ones that I graded, but like I said, you know, I don't like the kind of dangling sentence fragment and stuff. You can take that with the"
+        }
+      ],
+      "note": "Narrowed to two or more fragment sentences in a row (\"Alright. Yes.\"). A single \"Alright.\" or \"Okay.\" is a real hearing or procedure line he graded good, so it is not flagged.",
+      "status": "enforced",
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "^(?:(?:all right|alright|yes|yeah|no|okay|ok|fine|sure|well|deal|understood|noted|got it|then|so)[.!]\\s+)+(?:all right|alright|yes|yeah|no|okay|ok|fine|sure|well|deal|understood|noted|got it|then|so)[.!]?$"
+        ]
+      },
+      "applies": {
+        "kinds": ["spoken"]
+      },
+      "catches": ["Alright. Yes.", "Deal. Yes.", "All right. Yes."],
+      "spares": ["Alright.", "Then, yes.", "Yes, I will."]
+    },
+    {
+      "id": "every-line-gives-its-context",
+      "says": "Every line gives its context: the listener knows why it matters to the speaker, a line never leans on an \"it\" or \"they\" the scene has not set up, and a moment's setup makes sense from the player's side.",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "This like no subject in these answers is a little weird."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I don't have any context around this race. Like, why is it important to you?"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "So I filed and I'm telling a friend, but they're asking me. That doesn't make any sense."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      }
+    },
+    {
+      "id": "no-figures-people-would-not-know",
+      "says": "People in conversation don't quote figures they wouldn't know (a race's cost, months of savings, a percent); they ask the plain question: \"Can we even afford this?\"",
+      "from": [
+        {
+          "date": "2026-10-28",
+          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "How... 4.2, how would they know how much the race costs? Again, for each of these, 4.1, 4.2, 4.3, etc., look at real-life examples of that and see how real life people talk about it. That will help you. But it'd be like 4.2, can we even"
+        }
+      ],
+      "note": "Speech in private scenes never quotes how long the savings last; a narrator may. He asked for the plain question instead: \"Can we even afford this?\"",
+      "status": "enforced",
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\{(?:cushion|savings)\\}"]
+      },
+      "applies": {
+        "banks": ["scene-talk", "conversation", "bring-it-up"],
+        "kinds": ["spoken"],
+        "moves": "^(?!narrate)"
+      },
+      "catches": [
+        "You filed, and we have {cushion} saved.",
+        "Our savings cover {cushion} of what the paychecks don't, and the race runs {remaining}. How do we pay for the rest?"
+      ],
+      "spares": ["Can we even afford this?"]
+    },
+    {
+      "id": "alright-in-dialogue",
+      "says": "In dialogue, write \"Alright\", not \"All right\".",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "And saying all right, first of all, I don't like all right. I prefer ALRIGHT. That might be British."
+        }
+      ],
+      "note": "His notes disagree: \"I prefer ALRIGHT. That might be British\" (Nov 9), but he graded several \"All right\" lines good in the same batch. Lines flagged here go to his next sample.",
+      "status": "sample",
+      "test": {
+        "kind": "patterns",
+        "patterns": ["\\ball right\\b"]
+      },
+      "catches": ["All right, let's go."],
+      "spares": ["Alright, let's go."]
+    },
+    {
+      "id": "never-offer-what-the-player-cannot-do",
+      "says": "Never offer the player what they cannot do: no ballot, vote or filing line when the player cannot vote or file.",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "There's no ballot for you here today. Number 2 shouldn't even, or 3.2 shouldn't even be in there. It just shouldn't let you do it if you can't vote."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "place"
+      },
+      "catches": [
+        "There's no ballot for you here today. You no longer live where this race is voted."
+      ]
+    },
+    {
+      "id": "look-up-how-real-people-say-it",
+      "says": "Before writing a line, look up how real people say that thing in that situation (transcripts, interviews, oral histories) and write from that, not from a guess.",
+      "from": [
+        {
+          "date": "2026-10-16",
+          "words": "So the replies need work. Again, you know, just use real life stuff to calibrate and see responses. Like, try to, you know, saying like Liam McCarthy said you told him you were against it. Like, try to find examples of saying, you know,"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "a great thing to do if for these, look at like 60 minutes. Look at transcripts of that. That would be perfect. Everyone from Trump to I don't know how long, 60 minutes go. Same thing with Firing Line with Margaret Bennett. Just look at"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Again, for every one of these, you should try to find, like, real-life things."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "I've used Suzerain as an example so many times. Suzerain gets dialogue right. See how much of that dialogue you can find. Again, it's not a legal thing for you to take inspiration."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Again, for each of these, 4.1, 4.2, 4.3, etc., look at real-life examples of that and see how real life people talk about it. That will help you."
+        }
+      ],
+      "status": "awaiting-test",
+      "test": {
+        "kind": "judged"
+      }
+    },
+    {
+      "id": "no-offer-tags",
+      "says": "An offer is not closed with a tag line: not \"That's real.\", \"That's what's on the table.\" or \"That's what I've got.\"",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "A colleague wants you to switch your vote on the floor. You ask what you would get, and they name what they will give you. My name's on your next bill as a co-sponsor. That's real. Saying that's real. I know I've graded something like this"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Your amendment gets a vote next week. That's what's on the table. Again, a little awkward."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Your district's money stays in the budget. That's what I've got. Again, awkward. I know I've graded something like this before. I didn't like any of those."
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "phrases",
+        "phrases": [
+          "That's real.",
+          "That's what's on the table.",
+          "That's what I've got."
+        ]
+      },
+      "catches": [
+        "That's real.",
+        "Your amendment gets a vote next week. That's what's on the table.",
+        "My name's on your next bill as a co-sponsor. That's real.",
+        "Your district's money stays in the budget. That's what I've got."
+      ],
+      "spares": ["That's real progress."]
+    },
+    {
+      "id": "no-this-town",
+      "says": "A line that could name the place names it (Lexington, the United States) instead of saying \"this town\".",
+      "from": [
+        {
+          "date": "2026-11-09",
+          "words": "You open your town address by greeting everyone in the room and watching at home and setting the tone for the night. Everybody in this room and everybody watching, let's not pretend that this town is fine. Also, you shouldn't always say"
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "phrases",
+        "phrases": ["this town"]
+      },
+      "catches": ["Let's not pretend that this town is fine."],
+      "spares": ["Let's not pretend that Lexington is fine."]
+    },
+    {
+      "id": "no-developer-words",
+      "says": "No developer words in text the player reads: not \"office replied\", \"bond loyalty\", \"filled on ballot\", \"What the race turns on\", \"Serving when your story began\", \"Views fit close\" or \"Neither, much\".",
+      "from": [
+        {
+          "date": "2026-10-19",
+          "words": "I don't know what office replied mean. Is that just him doing his job? You got to put this English for me."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Yeah, I don't know what office replied means. Very bond loyalty? What does that mean?"
+        },
+        {
+          "date": "2026-10-24",
+          "words": "Again, now filled on ballot council. Like, that's dev speak."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "Number 24, there's dev language going on there."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "What is this sociability, handling disagreement, keeping commitments, risk, deliberation? The player is not seeing this stuff. It needs to be a plain version of what this person's like, their personality or something."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Serving when your story began . Like, what is that? No. Stop."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "What the race turns on? What the hell does that mean? Remove that. This is dev language."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "How do you know you knocked on 45 doors, 32 [22] reached? What the hell does that mean?"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "traits neither much keeping commitments neither much those aren't traits social ability risk neither much why is this delineated right and look okay."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "politics there's more dev language again how does this keep happening"
+        },
+        {
+          "date": "2026-11-01",
+          "words": "it says Democratic. Views fit close. How do you know?"
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "phrases",
+        "phrases": [
+          "office replied",
+          "bond loyalty",
+          "filled on ballot",
+          "What the race turns on",
+          "Serving when your story began",
+          "Views fit close",
+          "Neither, much"
+        ]
+      },
+      "catches": [
+        "office replied",
+        "filled on ballot",
+        "Serving when your story began",
+        "What the race turns on",
+        "Neither, much",
+        "Views fit close"
+      ]
+    },
+    {
+      "id": "no-out-of-world-words",
+      "says": "The player is in the world: no \"fictional\", \"this world\" or \"not a preference\" in text they read.",
+      "from": [
+        {
+          "date": "2026-09-29",
+          "words": "Remove every out-of-world disclaimer from player text... The player is in the world; never talk to them as a developer."
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "phrases",
+        "phrases": ["fictional", "this world", "not a preference"]
+      },
+      "catches": ["This is a fictional town."]
+    },
+    {
+      "id": "no-thank-you-so-much",
+      "says": "In a speech, \"Thank you very much\", not \"Thank you so much\".",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "\"Thank you very much\" over \"Thank you so much\" in a speech"
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "phrases",
+        "phrases": ["Thank you so much"]
+      },
+      "applies": {
+        "banks": ["opening-speech", "speech-stages", "address"]
+      },
+      "catches": ["Thank you so much."],
+      "spares": ["Thank you very much."]
+    },
+    {
+      "id": "no-bill-code-as-headline-subject",
+      "says": "A headline never has a bill code for its subject (\"HR1 clears the health committee\"); it names the bill.",
+      "from": [
+        {
+          "date": "2026-11-08",
+          "words": "HR1 clears the health committee. Again, it's only political stories."
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "patterns",
+        "patterns": [
+          "^(?:H\\.? ?R\\.?|S\\.?|H\\.? ?B\\.?|S\\.? ?B\\.?|H\\.? ?J\\.? ?Res\\.?)\\s?\\d+\\b"
+        ]
+      },
+      "applies": {
+        "banks": ["headlines", "news"]
+      },
+      "catches": [
+        "HR1 clears the health committee.",
+        "S 22 stalls in the senate."
+      ],
+      "spares": ["The clean water bill clears the health committee."]
+    },
+    {
+      "id": "rejected-by-voice",
+      "says": "These whole lines were rejected by voice and do not come back.",
+      "from": [
+        {
+          "date": "2026-10-15",
+          "words": "Great rally. We need more people. Can you help us find them? I'll be at the doors with you this weekend. That doesn't make sense."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "That's all we need to hear. That really doesn't make sense."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Just keep showing up. Thanks, all of you. I'll be at the doors. Yeah, the doors is awkward."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Yeah, it says, make it smaller and you'll have my vote. That I can live with. And that's not very specific. Like, what are you at?"
+        },
+        {
+          "date": "2026-10-16",
+          "words": "And then put this in the story, I'm proud of my vote. I guess that doesn't really make sense because it's talking like it's in the present, but the vote hasn't happened yet."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Liam McNeely says you told him you're against it. You're right, I shouldn't have said that. That sounds like AI responding."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "You've got it. We'll bring more people Saturday. Yeah, see, that sounds like AI. It's like, okay, quick resolution. That's not how normal people talk."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "You'll have to ask the chair. I'm not quite sure why you would say that in scene one."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Like, where do you drive in from? That's creepy."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Can it wait till tomorrow? I'm dead on my feet. She said go home. I'll call you at 8. That's a little weird. That's really awkward."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "Except for an idiot. Going to know your street. It says, neighbors, come stand on my corner and lie. It makes you sound like a hooker."
+        },
+        {
+          "date": "2026-10-16",
+          "words": "I still don't like it, but okay. I'm not sure how many people would say that."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "And then the reply, I will, first thing on the agenda, in my own words. What?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "It says, your office is boxes now. What? That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "David Nash leans in the doorway like they've done 1,000 times. They've? Don't you mean he?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "What did you do when it was you? That's not a natural phrasing."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Write that on your hand. What does that mean?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Next month I'll need you on mine and I'll need you early. Okay, that's a little ambiguous. You'll have me, which one?"
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say then we'll settle it at the next meeting. Fine, bring your numbers, I'll bring mine. So she's just completely going to drop the personal disrespect. Thursday then, bring your numbers. Also, that's redundant."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "Before the day eats us, that's kind of awkward."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say, I don't know what I'm doing next. That's the part that keeps me up. You'll land, you always do. Call me if you need someone to say it twice. I mean, I'm also 80. And that doesn't sound natural."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "James Cook picked the diner in the back and the back booth. And already ordered for both of you. That sentence is a little awkward."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say everyone says next year. I mean, then go now. Don't come crying to me in November. I'll help anyway. That's a little awkward. That all help anyway."
+        },
+        {
+          "date": "2026-10-19",
+          "words": "I'm going to say, did Elizabeth call yet? Not yet. If she calls while you're on stage, I'll take a message. It says, take a message. Take the message. I'm not holding the room. Well, obviously. What? Then I'll wait. I want to thank her"
+        },
+        {
+          "date": "undated",
+          "words": "What does everyone I've heard from is for it? And how is that a lie? I mean, sure, someone can say, yes, I don't like it, but like, people can make generalities. And what does it matter if someone... That doesn't even make any sense."
+        },
+        {
+          "date": "undated",
+          "words": "Then you know what it does? I'll sign it again tomorrow. What do you mean again?"
+        },
+        {
+          "date": "undated",
+          "words": "Yeah, right to work. What is going on with this? Tell me what it means for you day to day. That doesn't make any sense."
+        },
+        {
+          "date": "undated",
+          "words": "Stay after. My staff will take your number and follow up. Why stay after? That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-24",
+          "words": "That speech is terrible. I told the word session that the speech needed to be... It shouldn't be formulaic, and it should be customized to the world, not just the employment rate is this. I see you, governors. I see you. That's not how"
+        },
+        {
+          "date": "2026-10-24",
+          "words": "Yeah, Noah Chan is with you. I've said remove this person is with you and shit like that. Why is there, like, that shouldn't even pop up? Or you know, I don't know. It should be something, you know, you show up at night and there's no one"
+        },
+        {
+          "date": "2026-10-29",
+          "words": "yesterday they would ask a question, like they'll be like, did you see the president's address? And then the reply is like, oh, okay. What about you? You know, shit like that. Shit that didn't make any sense."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "the opening presidential address still isn't really at my liking. It's still very robotic. It says, the unemployment rate is better than it was a year ago. It's always good news. It's never bad news, and it's always about the unemployment"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "it says your son has been waiting for you to get home. I liked what the president had to say. This is 2 weeks later. You and me both. I'll see it that way. I'm going to say you and me both. And he said, then we agree on something for once."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "HR1 clears the health committee. Again, it's only political stories."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "It says your sister has come to say goodbye. I click continue. She said, good to see you. What do you think? What? That's how it starts. There's no context. All I can say is I don't like it. She said, right. What the hell is this?"
+        },
+        {
+          "date": "2026-11-08",
+          "words": "A notice from the landlord was taped to the door. Michael Velasquez has read it twice. I guess this guy's my son. We owe $14. Okay, so why are we behind on rent? How did we get that far behind? They can put us out. I'm going to say that."
+        },
+        {
+          "date": "2026-11-08",
+          "words": "Also, why does everything say more than a year on?"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Fellow citizens, thank you for being here. See, why am I looking? I shouldn't. I come to this office from Michigan and I carry it with me. That doesn't make any sense."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "By the plain measure, what? The country is doing better than it was a year ago, and I mean to build on that."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "To the governors, some of the laws I care about are yours to make. With the flash of a random, is that the Capitol bill? Unpaid family leave, the law in Colorado already says yes. I ask you to consider whether your state's law on paid"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "To the families doing better, I want it to last. And any, why are there so many commas?"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "See this Solito Public Schools. Like, what the hell? Nobody's there right now. Somebody at home studies here. Dana Roach works here. What? These subtitles need to fucking go."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Okay, the responses don't even make sense. What kind of help were you thinking? He just said to knock on doors."
+        },
+        {
+          "date": "2026-10-27",
+          "words": "Nice to see you. What do you do if you're running into him? See, now these scenes aren't making sense. I guess they're firing, but contextually they make no sense to the story. Again, I use Wildermyth as an example. These scenes have zero"
+        },
+        {
+          "date": "2026-10-27",
+          "words": "these replies literally don't even make sense. Like, grammatically, they don't even make sense."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Well, here we are. Thank you for being here\" sounds like a late-night host, not a president."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Today the work starts, and I mean to do it right\" is unnatural."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"Things are better than they were a year ago... I intend to keep it going\" makes no sense from someone just taking office."
+        },
+        {
+          "date": "2026-10-28",
+          "words": "\"unemployment is 3.4 percent\" should be \"is at 3.4 percent\", and then: so what is he going to do about it? Why is this president talking about unemployment and pay in particular, what in the world prompts it, what makes him think he can do"
+        },
+        {
+          "date": "2026-10-28",
+          "words": "Megan's lines: \"So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.\" Did what? No lead-up: the director staged nothing before this. \"Savings that last one month\" is asserted from"
+        },
+        {
+          "date": "2026-10-26",
+          "words": "there was no reason to have that dialogue. ... that's not like Wildermyth, because there was no reason to have that conversation. It was unnatural. Like, that scene was useless."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "I assume this is a scene. It is a Monday in January. You're at home. ... It shouldn't say you're at home. You're obviously [there]."
+        },
+        {
+          "date": "2026-10-26",
+          "words": "What the hell kind of entry is that? Again, there's no history. I keep saying history should be simulated. It shouldn't be blank when it pops up."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "But I'll take the meeting. That doesn't even make sense. I'll take the meeting. I won't promise a vote. There's no meeting referenced anywhere. And the thank you, really, that doesn't fit there either."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Family filing. Ooh. There you are. Why didn't you tell me you were running? Number one is fine. Number two, no. Nothing has to change at home. That would make more sense if, like, they were running for a bigger office and there was some"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'll be watching what they do with it. This like no subject in these answers is a little weird. Like it, I don't like. I'll be watching what they do with it. If it's apprehensive or if it's braced, like I mean, I'm a little apprehensive,"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "It changes what I have to think about next. That doesn't even make any sense. I don't even know how to give it any feedback."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I'm going to use Bob as first name. I'm sorry, Bob. John won the presidential race. Well, I assume if you care enough and they're apologizing to you, it seems like you are also running, so we should not be watching the result."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Guess who won the... I don't have any context around this race. Like, why is it important to you?"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "There's no ballot for you here today. Number 2 shouldn't even, or 3.2 shouldn't even be in there. It just shouldn't let you do it if you can't vote."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "4.3 is not good. Guarded. I'm not quite sure I would say that, but sort of an example would help you."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Will you help with the campaign? I'll keep the money out of it if you do. I'll keep the money out of it if you do. Does not make any sense."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "I need you with me on this. Can you take the school nights while I'm out? That doesn't make any sense."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "You've made your case. That sounds like it's at the end of like some kind of hearing or something, not asking for a hearing. Or saying, all right, you've made your case. Sounds like the precursor to, all right, you've made your case. Put"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "13.2, no."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "The budget, or the posts line lost cut. I don't know what post mean. I'm assuming post is like, so the military's line lost $2 billion in the budget the council passed."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A reporter asked you to comment on a national story, and you gave an answer. The reporter says what they will do with it. I'll hold the paragraph. The deadline won't wait long. I don't really understand that one."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "That's a big claim. I'll check with your neighbors. That's, I don't understand what that means."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "A colleague wants you to switch your vote on the floor. You ask what you would get, and they name what they will give you. My name's on your next bill as a co-sponsor. That's real. Saying that's real. I know I've graded something like this"
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Your amendment gets a vote next week. That's what's on the table. Again, a little awkward."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Your district's money stays in the budget. That's what I've got. Again, awkward. I know I've graded something like this before. I didn't like any of those."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "On gun control, I'll be plain. For ask me why, and I'll tell you. I don't like that."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "Let me talk about gun control. Gun control, I'm for it, and I'm saying so here in Texas. That's awkward. I don't know."
+        },
+        {
+          "date": "2026-11-09",
+          "words": "After 2 years out of work, I found work in Lexington. After out of work, I went back to work. See, these journal entries are still not being told as stories. They're just statements."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "whatever the board sends you to sign. What do you mean, whatever the board? Do you mean city council? ... I'm in Northampton, Massachusetts."
+        },
+        {
+          "date": "2026-11-01",
+          "words": "how do you know why I came here with my forms in a folder?... I used to work at the county clerk's office. You filled out the forms there."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "Two short narrator lines (\"Your son is with you.\" \"You got a job.\") do not set a scene."
+        },
+        {
+          "date": "2026-09-29",
+          "words": "I support opening this room one extra evening each week"
+        },
+        {
+          "date": "2026-09-29",
+          "words": "What hours are proposed, and who would pay for them?"
+        },
+        {
+          "date": "2026-09-16",
+          "words": "Is this my mom or something? Like, is it a date?"
+        }
+      ],
+      "status": "enforced",
+      "test": {
+        "kind": "sentences",
+        "sentences": [
+          "I'll be at the doors with you this weekend.",
+          "That's all we need to hear.",
+          "I'll be at the doors.",
+          "Make it smaller and you'll have my vote.",
+          "Then put this in the story: I'm proud of my vote.",
+          "You're right, I shouldn't have said that.",
+          "You've got it. We'll bring more people Saturday.",
+          "You'll have to ask the chair.",
+          "Where'd you drive in from?",
+          "Go home. I'll call you at eight.",
+          "neighbors, come stand on my corner",
+          "Okay. I don't like it, but okay.",
+          "I will. First thing on the agenda.",
+          "Your office is boxes now.",
+          "{name} leans in the doorway like they've done it a thousand times.",
+          "What did you do when it was you?",
+          "Write that on your hand.",
+          "Next month I'll need you on mine and I'll need you early.",
+          "Then we'll settle it at the next meeting",
+          "Quick question before the day eats us.",
+          "Call me if you need someone to say it twice.",
+          "{name} picked the diner, and the back booth, and already ordered for both of you.",
+          "Then go now, and don't come crying to me in November. I'll help anyway.",
+          "Take the message. I'm not holding the room.",
+          "Everyone I've heard from is for it.",
+          "I'll sign it again tomorrow.",
+          "Tell me what it means for you day to day.",
+          "Stay after. My staff will take your number and follow up.",
+          "I see you, governors. I see you.",
+          "Noah Chan is with you.",
+          "oh, okay. What about you?",
+          "the unemployment rate is better than it was a year ago",
+          "Your son has been waiting for you to get home.",
+          "HR1 clears the health committee.",
+          "Good to see you. What do you think?",
+          "A notice from the landlord was taped to the door. {name} has read it twice.",
+          "more than a year on",
+          "I come to this office from {home-state}, and I carry it with me.",
+          "By the plain measures, the country is doing better than it was a year ago, and I mean to build on that.",
+          "I ask you to consider whether your state's law on paid family leave is right for its people.",
+          "To the families doing better, I want it to last.",
+          "Someone at home studies here",
+          "What kind of help were you thinking?",
+          "Nice to see you. What do you do?",
+          "Good for you. Is it busy?",
+          "Well, here we are. Thank you for being here.",
+          "Today the work starts, and I mean to do it right.",
+          "Things are better than they were a year ago, and I intend to keep it going.",
+          "Across the country, unemployment is {unemployment-rate} percent.",
+          "So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.",
+          "Are you sure about running for Council member?",
+          "It is a Monday in January. You're at home.",
+          "My brother Leo was born after me.",
+          "I'll take the meeting. I won't promise a vote.",
+          "Nothing has to change at home.",
+          "I'll be watching what they do with it.",
+          "It changes what I have to think about next.",
+          "I'm sorry, {first}. {winner} won the {office} race.",
+          "Guess who won the {office} race? {winner}.",
+          "There's no ballot for you here today. You no longer live where this race is voted.",
+          "You filed. Fine. Tell me who has {child} the nights you're out.",
+          "Will you help with the campaign? I'll keep the money out of it if you do.",
+          "I need you with me on this. Can you take the school nights when I'm out?",
+          "All right. You've made your case.",
+          "All right, I got you. I'll keep working.",
+          "the posts line lost cut",
+          "I'll hold the paragraph. The deadline won't wait long.",
+          "That's a big claim. I'll check with your neighbors.",
+          "My name's on your next bill as a co-sponsor. That's real.",
+          "Your amendment gets a vote next week. That's what's on the table.",
+          "Your district's money stays in the budget. That's what I've got.",
+          "On gun control, I'll be plain. Ask me why, and I'll tell you.",
+          "Gun control, I'm for it, and I'm saying so here in Texas.",
+          "After 2 years out of work, I found work in Lexington.",
+          "whatever the board sends you to sign",
+          "You come in with your forms in a folder.",
+          "Your son is with you.",
+          "I support opening this room one extra evening each week",
+          "What hours are proposed, and who would pay for them?",
+          "Let them know you heard.",
+          "Then we agree on something for once.",
+          "I'll let you get back to it.",
+          "I liked what the President had to say."
+        ]
+      },
+      "catches": [
+        "I'll be at the doors with you this weekend.",
+        "That's all we need to hear.",
+        "I'll be at the doors.",
+        "Make it smaller and you'll have my vote.",
+        "Then put this in the story: I'm proud of my vote.",
+        "You're right, I shouldn't have said that.",
+        "You've got it. We'll bring more people Saturday.",
+        "You'll have to ask the chair.",
+        "Where'd you drive in from?",
+        "Go home. I'll call you at eight.",
+        "neighbors, come stand on my corner",
+        "Okay. I don't like it, but okay.",
+        "I will. First thing on the agenda.",
+        "Your office is boxes now.",
+        "{name} leans in the doorway like they've done it a thousand times.",
+        "What did you do when it was you?",
+        "Write that on your hand.",
+        "Next month I'll need you on mine and I'll need you early.",
+        "Then we'll settle it at the next meeting",
+        "Quick question before the day eats us.",
+        "Call me if you need someone to say it twice.",
+        "{name} picked the diner, and the back booth, and already ordered for both of you.",
+        "Then go now, and don't come crying to me in November. I'll help anyway.",
+        "Take the message. I'm not holding the room.",
+        "Everyone I've heard from is for it.",
+        "I'll sign it again tomorrow.",
+        "Tell me what it means for you day to day.",
+        "Stay after. My staff will take your number and follow up.",
+        "I see you, governors. I see you.",
+        "Noah Chan is with you.",
+        "oh, okay. What about you?",
+        "the unemployment rate is better than it was a year ago",
+        "Your son has been waiting for you to get home.",
+        "HR1 clears the health committee.",
+        "Good to see you. What do you think?",
+        "A notice from the landlord was taped to the door. {name} has read it twice.",
+        "more than a year on",
+        "I come to this office from {home-state}, and I carry it with me.",
+        "By the plain measures, the country is doing better than it was a year ago, and I mean to build on that.",
+        "I ask you to consider whether your state's law on paid family leave is right for its people.",
+        "To the families doing better, I want it to last.",
+        "Someone at home studies here",
+        "What kind of help were you thinking?",
+        "Nice to see you. What do you do?",
+        "Good for you. Is it busy?",
+        "Well, here we are. Thank you for being here.",
+        "Today the work starts, and I mean to do it right.",
+        "Things are better than they were a year ago, and I intend to keep it going.",
+        "Across the country, unemployment is {unemployment-rate} percent.",
+        "So. You did it. I'm with you. I only need to know how we get through nine months on savings that last one month.",
+        "Are you sure about running for Council member?",
+        "It is a Monday in January. You're at home.",
+        "My brother Leo was born after me.",
+        "I'll take the meeting. I won't promise a vote.",
+        "Nothing has to change at home.",
+        "I'll be watching what they do with it.",
+        "It changes what I have to think about next.",
+        "I'm sorry, {first}. {winner} won the {office} race.",
+        "Guess who won the {office} race? {winner}.",
+        "There's no ballot for you here today. You no longer live where this race is voted.",
+        "You filed. Fine. Tell me who has {child} the nights you're out.",
+        "Will you help with the campaign? I'll keep the money out of it if you do.",
+        "I need you with me on this. Can you take the school nights when I'm out?",
+        "All right. You've made your case.",
+        "All right, I got you. I'll keep working.",
+        "the posts line lost cut",
+        "I'll hold the paragraph. The deadline won't wait long.",
+        "That's a big claim. I'll check with your neighbors.",
+        "My name's on your next bill as a co-sponsor. That's real.",
+        "Your amendment gets a vote next week. That's what's on the table.",
+        "Your district's money stays in the budget. That's what I've got.",
+        "On gun control, I'll be plain. Ask me why, and I'll tell you.",
+        "Gun control, I'm for it, and I'm saying so here in Texas.",
+        "After 2 years out of work, I found work in Lexington.",
+        "whatever the board sends you to sign",
+        "You come in with your forms in a folder.",
+        "Your son is with you.",
+        "I support opening this room one extra evening each week",
+        "What hours are proposed, and who would pay for them?",
+        "Let them know you heard."
+      ]
+    }
+  ]
+}

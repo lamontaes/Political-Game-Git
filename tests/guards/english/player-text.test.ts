@@ -107,7 +107,9 @@ function findings(): Map<string, string[]> {
     (file) =>
       file.endsWith(".json") &&
       // Grading batches, grades and counts are records of the engine, not banks.
-      !/[\\/](?:batches|grades|counts)[\\/]/.test(file),
+      !/[\\/](?:batches|grades|counts)[\\/]/.test(file) &&
+      // The rules file quotes the owner's notes and the lines each rule must catch.
+      !file.endsWith("line-rules.json"),
   ))
     for (const text of jsonStrings(JSON.parse(readFileSync(file, "utf8"))))
       add(file, text);
