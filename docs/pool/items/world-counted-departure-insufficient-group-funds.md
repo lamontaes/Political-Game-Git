@@ -5,10 +5,10 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: merged
 standard: 2
 claimed-by:
-pr:
+pr: #8240
 blocked-on:
 after:
 lead: money
@@ -17,6 +17,7 @@ effort: medium
 root: design-one-model-two-tiers
 source: added with npm run pool -- add
 checked: fable 2026-11-10
+merged-at: 2026-11-10T21:46:22.226Z
 ---
 
 **What.** The played-year golden path (M0-13, tests/golden-path/played-world.node-test.ts) crashes on main 6656fbd2 in Larned, Kansas (GOLDEN_PATH_PLACE_KEY=2038700, GOLDEN_PATH_SEED=0f76ad5a90c444afa08206f08bc3e13754bc031f5951ed0b119a37caf3140b96) on 2025-05-01 with 'Insufficient funds in fund:group:jurisdiction_451abf949449fc2a:town:with-children:income-1:other:30-44:working for counted-departure:household_36ebf1aae0b27cf0:2025-05-01', thrown by transferSplit (src/core2/accounts.ts) from departCountedHousehold in counted-moves month (src/core2/modules/counted-moves.ts). The departing household's share of its group's fund is moved out with it, but the group's fund holds less than that share. Speed ran the same seed on main and on its branch on November 9 and both crashed the same way, so the fault is in the departure step itself, not in a recent change.
