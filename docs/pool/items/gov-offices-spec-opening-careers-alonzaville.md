@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: cto
 source: Fable, Nov 10, 2026, from the golden-path run on pull request 8114 (job 129673752621), reproduced on clean main
 ---
 
