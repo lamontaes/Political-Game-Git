@@ -13,14 +13,18 @@ import { setFastForward } from "../../src/core2/fast-forward";
 setBookkeeping(false);
 if (process.env.CORE2_FAST_FORWARD === "1") setFastForward(true);
 const [seed = "mont1", key = "5046000", years = "3"] = process.argv.slice(2);
-const w = buildBenchWorld(seed, gameStartDate(), { twoLevel: true, placeKey: key });
+const w = buildBenchWorld(seed, gameStartDate(), {
+  twoLevel: true,
+  placeKey: key,
+});
 const core = w.core as any;
 const seen = new Set<string>();
 const end = addDays(makeIsoDate(core.date), 365 * Number(years));
 const STATE = ["counted", "filled", "dead", "moved"];
 while (core.date < end) {
   advanceCore(core, addDays(makeIsoDate(core.date), 7));
-  if (core.date.slice(5, 7) === "01" && Number(core.date.slice(8)) <= 7) returnedWithoutHousehold();
+  if (core.date.slice(5, 7) === "01" && Number(core.date.slice(8)) <= 7)
+    returnedWithoutHousehold();
   const rt = residentsRuntime(core) as any;
   if (!rt) continue;
   for (const [jobId, job] of rt.jobs as Map<string, any>) {
@@ -33,12 +37,25 @@ while (core.date < end) {
     if (seen.has(jobId)) continue;
     seen.add(jobId);
     const m = rt.store.memberOf.get(job.personId);
-    console.log(JSON.stringify({
-      date: core.date, jobId, personId: job.personId, org: job.organizationId, title: job.title,
-      memberState: m === undefined ? "none" : STATE[rt.store.state[m]],
-      full: p ? { alive: p.alive, placeId: p.placeId, householdId: p.householdId, tier: p.tier } : null,
-      husk: core.husks?.has(job.personId) ?? false,
-    }));
+    console.log(
+      JSON.stringify({
+        date: core.date,
+        jobId,
+        personId: job.personId,
+        org: job.organizationId,
+        title: job.title,
+        memberState: m === undefined ? "none" : STATE[rt.store.state[m]],
+        full: p
+          ? {
+              alive: p.alive,
+              placeId: p.placeId,
+              householdId: p.householdId,
+              tier: p.tier,
+            }
+          : null,
+        husk: core.husks?.has(job.personId) ?? false,
+      }),
+    );
   }
 }
 function returnedWithoutHousehold(): void {
@@ -53,7 +70,9 @@ function returnedWithoutHousehold(): void {
     why.set(k, (why.get(k) ?? 0) + 1);
     if (examples.length < 5) examples.push(`${p.id}:${k}:${p.placeId}`);
   }
-  console.log(`RETURNED-NO-HOUSEHOLD ${core.date} ${JSON.stringify(Object.fromEntries(why))} ${examples.join(" ")}`);
+  console.log(
+    `RETURNED-NO-HOUSEHOLD ${core.date} ${JSON.stringify(Object.fromEntries(why))} ${examples.join(" ")}`,
+  );
 }
 console.log(`done ${core.date} orphans=${seen.size}`);
 returnedWithoutHousehold();
