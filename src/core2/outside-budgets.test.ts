@@ -15,7 +15,6 @@ import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { buildBenchWorld } from "../bench/world";
-import { stateJurisdictionId } from "./government-jurisdictions";
 import { gameStartDate } from "./game-start";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { advanceCore } from "./life";
@@ -73,7 +72,8 @@ it(`another state's budget reads its ledger in the country tier, and its own tax
   play(alone, 30);
   play(raised, 30);
   enactLaw(api, {
-    jurisdiction: stateJurisdictionId(stateKey!) ?? stateKey!,
+    // Another state's law is kept under its state key (stateLawInForce).
+    jurisdiction: stateKey!,
     level: "state",
     series: "sales-tax",
     value: rate + RAISE,
