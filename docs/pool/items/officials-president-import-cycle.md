@@ -6,9 +6,9 @@ kind: bug
 priority: 2
 size: S
 lead: wire-elections
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8173
 blocked-on:
 source: added with npm run pool -- add
 after:
@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+merged-at: 2026-11-10T18:39:31.368Z
 ---
 
 **What.** The officials roster and the president's file import each other, so a test that loads the director first fails before it runs. On main at 4d9066aed9, npx vitest run src/director/player-asks-for-a-vote.test.ts failed at load, because officials-roster.ts imports appointments.ts, which imports the elections module, which reaches officials-president.ts while officials-roster.ts is still loading. The load-time crash is worked around, but the cycle itself is still there. Remove the import that closes the cycle.
