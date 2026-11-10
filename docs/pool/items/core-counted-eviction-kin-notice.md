@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/housing.ts, src/core2/births-counted.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Lead: speed. Filed Nov 1 from the second review of speed/evicted-stay-counted.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). A relative of an evicted counted household hears of it later through the husks instead of on the day, and no player sees which day.

@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -62,3 +62,5 @@ Sent back 2026-10-20 from PR #5321 (branch claude/pool-views-delete): see the Cl
 Sent back 2026-10-23 from PR #4920 (branch claude/births-columns): Done when requires one-year buildBenchWorld proof and a resolved counted-person-views stopgap, but the body explicitly leaves the person source unfinished and has no Done-when evidence table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-26 from PR #4915 (branch claude/counted-views-delete): Current-main integration conflicts in births-counted.ts, counted-demotion.test.ts, housing-construction.ts, housing-occupancy.ts, modules/residents.ts, modules/world-metrics.ts and residents.test.ts, plus pool and stopgap data; reconcile code, retain every stopgap ID and pool Note, regenerate INDEX and provide the Done-when evidence table; finish on that branch, merge main into it first.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It deletes counted-view code that works, and the only item waiting on it is already dropped.

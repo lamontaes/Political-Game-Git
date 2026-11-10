@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/free-block.ts, src/core2/free-block.test.ts, src/core2/data/free-block.json, data/research/core/atus-2025-socializing.json, src/core2/data/stopgaps/p15.json
 
 **Notes.** TODO
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have let a person fit several acts per need into free hours and keep the plan in the save, and the player sees the same visits and talks either way.

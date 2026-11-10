@@ -20,7 +20,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The counted-deaths-opening test failed in a small town: Wiley Ford, West Virginia (seed 277237f6cee1bc958164636cebb4861256472194c83f59c9a78c759bc359320d) saw 2 counted people die where 13.4 were expected, and the test passed on a rerun of the same seed. A run that differs between two runs of one seed means something in the opening or the deaths pass is not seeded. This item finds that and fixes it.
+**What.** The counted-deaths-opening test failed in a small town: Wiley Ford, West Virginia (seed 277237f6cee1bc958164636cebb4861256472194c83f59c9a78c759bc359320d) saw 2 counted people die where 13.4 were expected, and the test passed on a rerun of the same seed. A run that differs between two runs of one seed means something in the opening or the deaths pass is not seeded. This item finds that and fixes it. Guards: counted-deaths-opening.test, which fails on one seed and passes on a rerun, so deaths in a town differ between two runs of one seed.
 
 **Cause.** Needs cause. Looked at: the item's title only, which records that counted-deaths-opening.test failed with 2 counted people dead against 13.4 expected in Wiley Ford, West Virginia (seed 277237f6cee1bc958164636cebb4861256472194c83f59c9a78c759bc359320d) and passed on a rerun of the same seed, which points at something not seeded. Not read: src/core2/counted-deaths-opening.test.ts.
 

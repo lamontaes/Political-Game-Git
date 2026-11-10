@@ -19,7 +19,7 @@ root: design-one-model-two-tiers
 checked: fable 2026-11-10
 ---
 
-**What.** When a single adult living elsewhere marries, the partnerships module (src/core2/modules/partnerships.ts, PR #7082) generates the partner as a new full person on top of the population. So the place or state they live in counts one more resident than its data: the counted-moves engine reads them as a resident of a counted place, and a state's coarse counts are not reduced. The speed lead found this through the unit 4 ablation, and under one model, two tiers a filled-in person must match the records already kept.
+**What.** When a single adult living elsewhere marries, the partnerships module (src/core2/modules/partnerships.ts, PR #7082) generates the partner as a new full person on top of the population. So the place or state they live in counts one more resident than its data: the counted-moves engine reads them as a resident of a counted place, and a state's coarse counts are not reduced. The speed lead found this through the unit 4 ablation, and under one model, two tiers a filled-in person must match the records already kept. Feeds: core-every-life-simulated (a partner met elsewhere is counted twice, so a place's population is one too high).
 
 **Cause.** Found in code: src/core2/modules/partnerships.ts `meetPartner` (line 171) generates a partner living elsewhere as a new full person on top of the population, so counted-moves reads one extra resident and the state's coarse counts are not reduced.
 

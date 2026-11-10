@@ -14,7 +14,7 @@ claimed-at:
 branch: lane-5/opening-every-locality
 ---
 
-**What.** core-opening-public-coverage-conflict-bayou-blue's fix landed on main with #5899 (4541542a17): a government's recorded county-buyer coverage of a place stands for every office it runs there, so Bayou Blue, Louisiana opens. Its last Done-when clause is still unmet: a test that builds the opening for every locality in the place records whose governments carry more than one coverage row for a place, naming any that fail. The regression test (src/core2/opening-customers-county-office.test.ts) covers Bayou Blue and one drawn place. This item is that exhaustive check.
+**What.** core-opening-public-coverage-conflict-bayou-blue's fix landed on main with #5899 (4541542a17): a government's recorded county-buyer coverage of a place stands for every office it runs there, so Bayou Blue, Louisiana opens. Its last Done-when clause is still unmet: a test that builds the opening for every locality in the place records whose governments carry more than one coverage row for a place, naming any that fail. The regression test (src/core2/opening-customers-county-office.test.ts) covers Bayou Blue and one drawn place. This item is that exhaustive check. Guards: the opening, which must open in every locality whose government covers it twice (a place that does not open is a crash).
 
 **Rules.** One rule, all 56 places: the check enumerates the localities from the place records, never a named list, and names each failure with its place key; building an opening is slow, so it is a script under src/core2/tooling/ rather than a unit test, and it builds only the opening, not a played year.
 

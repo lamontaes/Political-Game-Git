@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/opening-customers.ts, src/core2/opening-public-owner.ts, src/core2/data/opening-customers.json, src/core2/data/stopgaps/p8.json, src/core2/opening-customers.test.ts, data/research/core/census-2022-local-public-buildings-by-government-type.json, data/research/core/census-gus-2021-county-identity-continuity.json
 
 **Notes.** TODO
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have set a public building-services buyer's budget from the 2021 county listing instead of one national share, and no player sees a custodial agreement's monthly budget to that precision.

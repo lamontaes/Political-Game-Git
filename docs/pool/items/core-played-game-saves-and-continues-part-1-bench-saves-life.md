@@ -19,7 +19,7 @@ source: split from core-played-game-saves-and-continues in the pool redo, Nov 10
 checked: fable 2026-11-10
 ---
 
-**What.** The bench holds the played life only in memory, so restarting the server loses it. Write the life to a save file through saveGame in src/core2/saves.ts (backed by src/core2/snapshot.ts) when time advances and when the server quits, with no second save writer. A save made under an older CORE_API_VERSION must still load after an update (the clause taken from core-m7-02-saves-that-last), which saves.ts supports by replaying its commands. This is part 1 of core-played-game-saves-and-continues.
+**What.** The bench holds the played life only in memory, so restarting the server loses it. Write the life to a save file through saveGame in src/core2/saves.ts (backed by src/core2/snapshot.ts) when time advances and when the server quits, with no second save writer. A save made under an older CORE_API_VERSION must still load after an update (the clause taken from core-m7-02-saves-that-last), which saves.ts supports by replaying its commands. This is part 1 of core-played-game-saves-and-continues. Feeds: core-played-game-saves-and-continues.
 
 **Cause.** Found in code: src/bench/handler.ts line 760 ("continue (the server's current life), or none") is only the server's in-memory life, and nothing in src/bench or the desktop host calls `saveGame` or `loadGame` from src/core2/saves.ts. saves.ts replays every command from the opening unless `uncoveredModules(core)` is empty (lines 215 and 238).
 

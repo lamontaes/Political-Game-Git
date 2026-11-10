@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -44,3 +44,5 @@ Split Oct 20, 2026 (claude/m7-speed). Measured on a 4-core container, `npm run s
 Sent back 2026-10-23 from PR #5364 (branch claude/m7-speed): the first-line bare item ID would auto-complete the performance umbrella even though this is only a profile/Notes update and load/memory acceptance is explicitly unmeasured; retain the umbrella open and use a bounded evidence table; finish on that branch, merge main into it first.
 
 Sent back 2026-10-24 from PR #5364 (branch claude/m7-speed): reporting scope corrected, but the Notes-only diff has no docs/release/changes declaration; add impact:none and keep the unfinished umbrella open; finish on that branch, merge main into it first.
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have measured new-game load time and peak memory on a minimum-spec PC and set targets from Steam's survey, which is early-access preparation and shows nothing in play; the year-time bar and memory crashes are held by other items.

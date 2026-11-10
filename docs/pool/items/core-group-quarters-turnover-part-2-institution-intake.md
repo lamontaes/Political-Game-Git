@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The opening houses each place's group-quarters residents (college housing, prisons, juvenile facilities, nursing homes, military quarters, other) in room records counted from the 2020 Census, and nothing admits anyone afterward, so each type's count only falls and a college's students are a year older every year. Over a long save a college town's dormitories empty. Give each institution intake on its own calendar: a college each fall, a prison and a nursing home as residents leave.
+**What.** The opening houses each place's group-quarters residents (college housing, prisons, juvenile facilities, nursing homes, military quarters, other) in room records counted from the 2020 Census, and nothing admits anyone afterward, so each type's count only falls and a college's students are a year older every year. Over a long save a college town's dormitories empty. Give each institution intake on its own calendar: a college each fall, a prison and a nursing home as residents leave. Feeds: core-group-quarters-turnover.
 
 **Cause.** Found in code: src/core2/modules/counted-moves.ts and src/core2/modules/moves.ts leave group-quarters residents out of the households' leaving and arrival rates; stopgap SG-GQ-no-turnover (src/core2/data/stopgaps/gq.json line 27).
 

@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/emotion.ts, src/core2/emotion.test.ts, data/research/core/affect-trajectories-2018.json, scripts/research/core-year.ts, src/core2/data/stopgaps/p8.json
 
 **Notes.** TODO
+
+**Notes.** Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have tuned how long a bereaved person's stress lasts to documented shares of resilient, chronic and delayed courses, and the player sees one person's mood either way.

@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The opening's job start (population.ts openingJobStart, a commitment's heldSince) and the business pass's founding dates (business.ts businessHistory, ranked by size) are made separately, so a worker can hold a job since a date before the business pass says their employer was founded. Found by src/core2/past-work.test.ts (history-past-work) in a drawn place.
+**What.** The opening's job start (population.ts openingJobStart, a commitment's heldSince) and the business pass's founding dates (business.ts businessHistory, ranked by size) are made separately, so a worker can hold a job since a date before the business pass says their employer was founded. Found by src/core2/past-work.test.ts (history-past-work) in a drawn place. Seen: a person's card, where a job can start before the firm that employs them was founded; a test finds it in a drawn place.
 
 **Cause.** Found in code: src/core2/population.ts `openingJobStart` (called at about line 1105, from the organization's `formedAt` in the world's history) dates a commitment's `heldSince`, while src/core2/modules/business.ts `businessHistory` (line 2452) separately dates each business's founding, ranked by size, so a worker can hold a job since a date before their employer's `business.founded`. Found by src/core2/past-work.test.ts in a drawn place.
 

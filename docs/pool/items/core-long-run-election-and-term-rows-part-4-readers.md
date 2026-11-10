@@ -19,7 +19,7 @@ root: rc5-full-detail-every-day
 checked: fable 2026-11-10
 ---
 
-**What.** Once terms and races fold, every reader that holds an old id must still get an answer: the person card's past offices, the dev trace, the press desk and printed words, /api/results for an old night, recalls and candidate identity. The reader map in the Notes lists them; the CTO ruled the folded-id question in OWNER-DECISIONS (Nov 1 23:40) with four conditions. Two flaws found outside the fold are fixed here too.
+**What.** Once terms and races fold, every reader that holds an old id must still get an answer: the person card's past offices, the dev trace, the press desk and printed words, /api/results for an old night, recalls and candidate identity. The reader map in the Notes lists them; the CTO ruled the folded-id question in OWNER-DECISIONS (Nov 1 23:40) with four conditions. Two flaws found outside the fold are fixed here too. Seen: the person card's past offices, Trace and old election nights, which must still answer after old terms fold.
 
 **Cause.** Found in code: src/bench/legislature.ts, src/core2/modules/voting.ts and src/core2/modules/offices.ts read terms and races by id; the Notes of core-long-run-election-and-term-rows list the readers with file and line, and that the press desk's `holdsHighOffice` (src/core2/press-desk.ts line 587) and the recall check read the term named by an official's own id, which has ended after a re-election.
 

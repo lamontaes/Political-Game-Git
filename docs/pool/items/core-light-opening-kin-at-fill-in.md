@@ -20,7 +20,7 @@ root: design-one-model-two-tiers
 checked: fable 2026-11-10
 ---
 
-**What.** When fillInPerson takes a counted household, run buildOpeningKin and openingTemperaments for that household alone, seeded by the world seed and the household's stableKey, as the opening would have. The household comes back with the same relatives and traits each time and with no change to the town's totals. The deep past already rebuilds this way (pastBuild in src/core2/residents.ts); kin joins it.
+**What.** When fillInPerson takes a counted household, run buildOpeningKin and openingTemperaments for that household alone, seeded by the world seed and the household's stableKey, as the opening would have. The household comes back with the same relatives and traits each time and with no change to the town's totals. The deep past already rebuilds this way (pastBuild in src/core2/residents.ts); kin joins it. Feeds: core-light-opening.
 
 **Cause.** Found in code: src/core2/state.ts `fillInPerson` (line 2309) takes a counted household without building kin and temperament; `buildOpeningKin` (src/core2/opening-kin.ts) and `openingTemperaments` (src/core2/opening-personality.ts) run only at the opening.
 
