@@ -58,6 +58,7 @@
     "spelling": "node --import tsx scripts/prose-eval/spelling.ts",
     "dialogue:report": "node --max-old-space-size=8192 --expose-gc --import tsx scripts/dialogue-report/report.ts",
     "scene-web": "node --max-old-space-size=8192 --import tsx scripts/scene-web/build.ts",
+    "long-game": "node --max-old-space-size=8000 --max-semi-space-size=64 --expose-gc --import tsx scripts/long-game/twenty-years.ts",
     "speed:year": "node --max-old-space-size=8192 --max-semi-space-size=64 --expose-gc --import tsx scripts/speed-years/run.ts",
     "report:check": "node scripts/report-check/cli.mjs",
     "validate:ci-sharded": "npm run format && npm run lint && npm run typecheck && npm run release:check && npm run zero-dice && npm run build",
