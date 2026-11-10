@@ -11,11 +11,11 @@ description: >
 
 # Red main
 
-Red main comes first (owner, Oct 15). One red, one branch, one ready PR whose line 1 is `Touches pool item: release-main-red-standing`. Fix at the root; never skip, disable, quarantine or allowlist a test, and never widen a bound without saying why in the PR body.
+Red main comes first (owner, Oct 15; `AGENTS.md` "How every session works", step 2). One red, one branch, one ready PR whose line 1 is `Touches pool item: release-main-red-standing`. A fix to a red check is a check or tooling change, so it merges ahead of other pull requests (owner, Nov 10: rules, checks and skills merge first; `merger` section 0b). Put the red's test, place and seed and your progress on that PR, where the next agent on any tool finds it. Fix at the root; never skip, disable, quarantine or allowlist a test, and never widen a bound without saying why in the PR body.
 
 ## 1. Read the verdicts first
 
-Read the newest run of Release, Deterministic validation, M0 guards and Every place nightly on main (GitHub MCP `actions_list`, branch main, event schedule). A push run on main is canceled by the next push, so the scheduled runs are the verdicts. A report that is "red on main" may already be green: check the newest run before building (Oct 29: two reds on the list were fixed by earlier merges).
+Read the newest run of Release, Deterministic validation, M0 guards and Every place nightly on main (the Actions runs for branch main; with the GitHub tools, `actions_list`, or `gh api repos/lamontaes/Political-Game-Git/actions/runs?branch=main`). A push run on main is canceled by the next push, so the scheduled runs are the verdicts. A report that is "red on main" may already be green: check the newest run before building (Oct 29: two reds on the list were fixed by earlier merges).
 
 ## 2. Name the red by test, place and seed
 
@@ -70,6 +70,8 @@ A red is not named until you have the failing test, the drawn place, the seed an
 - **Never `pkill -f vitest` in the same shell.** It killed the session's shell (exit 144) on Nov 2. Wait for a run with `until [ -f <name>.done ]` and stop one with the PID it printed.
 
 - **The hourly full run (CTO, Nov 8: reds were found by accident, because a PR's checks run only the test files it changes).** About once an hour, at the first break between other pieces of work after an hour has passed (never a sleep loop or a timer), in your own checkout at the newest `origin/main`: run the full unit suite and `npm run guards`, one process, alone (`heavy-runs`). For each red post one line on #7365 that starts "Dev Tester: red on main", naming the test, the commit that broke it (bisect to it) and the owning session, and message the coordinator the same line so it reaches the owner and the owner's fix goes to the front of the desk's line. Name the main commit of each run in your PR bodies.
+
+A red from the words machine (`npm run words:rules`, `tests/guards/english`) names a line or a rule. A rule a program can judge pulls the failing line (`data/english/pulled.json`); the rewrite is the Story session's, so a red-main fixer lists the line and does not edit `data/english/parts/` (owner, Nov 10, "Split by role"). A red in a rule is fixed in the rule's test, not by weakening the rule.
 
 ## 6. Keep the record
 
