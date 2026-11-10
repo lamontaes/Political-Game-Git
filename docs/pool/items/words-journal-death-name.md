@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: open
-claimed-by:
+status: in-pr
+claimed-by: story/journal-death-name
 pr: pending
 blocked-on:
 lead: words
@@ -20,4 +20,4 @@ claimed-at: 2026-11-10T14:00:00.000Z
 
 **Files.** src/director/journal.ts, src/director/data/journal-rows.json, data/english/parts/journal.json
 
-**Notes.** Paused Nov 10 (weekly limit). Branch story/journal-death-name holds the work. Done: the one-sentence death memoir and the "a|b|c" alternatives in a row's follow; death-school test passes on seeds 5 and 41, journal.test (18) and journal-story (4) pass on seed 11. Left: director.test.ts, families, the English guards and english-parts-banks on seed 11 were still running and have not been seen to pass; then open the PR.
+**Notes.** Resumed Nov 10 after the pause: merged main, grades regenerated, tests run on seed 11.
