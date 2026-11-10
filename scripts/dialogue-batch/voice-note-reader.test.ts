@@ -1,8 +1,7 @@
 import { mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
-import { readGradedBatches } from "./apply-grades";
-import { readMapPieces, spanGrades } from "./grade-map";
+import { readGradedBatches, withVoiceGrades } from "./apply-grades";
 import { describe, expect, it } from "vitest";
 import {
   placeSaid,
@@ -208,10 +207,14 @@ describe("a voice note on the real batch 2 reaches the grade map", () => {
       JSON.stringify({ batch: batch.id, grades }),
     );
     expect(readGradedBatches(dir, dir)).toEqual([]);
-    const read = spanGrades(readMapPieces({}), dir);
-    expect(read.map((row) => row.key).sort()).toEqual(
-      grades.map((grade) => grade.key).sort(),
+    // A whole-line verdict goes to the ledger; the batch reader leaves it
+    // there so it is not counted twice.
+    const ledger = withVoiceGrades(
+      { schema: "english-part-grades/1", batches: [], parts: {} },
+      dir,
     );
+    expect(ledger.parts[one.key]?.good).toBe(1);
+    expect(ledger.parts[batch.moments[1]!.lines[2]!.key]?.bad).toBe(1);
   });
 });
 
