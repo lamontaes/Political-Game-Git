@@ -17,6 +17,7 @@ model: opus
 effort: medium
 root: design-life-record
 lead: lives
+checked: fable 2026-11-10
 ---
 
 **What.** A young adult who lives with their parents never moves out of the household in play, so the town's households keep their opening shape and no new renter household forms from them. Leaving should follow from the person's own record: work and pay, savings against the rent of a place of their own, and the housing on offer in town. Build the decision in the partnerships engine, with a new household and its lease when the young adult goes.

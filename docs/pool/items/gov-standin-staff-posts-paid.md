@@ -16,6 +16,7 @@ lead: governing
 root: rc1-world-outside-town
 source: split from gov-standins-other (Oct 19, 2026); rows SG-WORLD-staff-husk-work, SG-WORLD-staff-seat-applicant (SG-GOV-staff-unpaid and SG-GOV-staff-hire-out-of-work are resolved on main)
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Two of the four staff stopgaps are already resolved on main (SG-GOV-staff-unpaid and SG-GOV-staff-hire-out-of-work: a staffer is paid from a treasury line and hiring can draw on employed applicants). What remains is the staff husk work (SG-WORLD-staff-husk-work) and out-of-town relatives never being candidates (SG-WORLD-staff-seat-applicant). Replace them so a seat outside the town draws applicants from its own seat of government and the post's work is real. Read each row in src/core2/data/stopgaps/world.json before starting.

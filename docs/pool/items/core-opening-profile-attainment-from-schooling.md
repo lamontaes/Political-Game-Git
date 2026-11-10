@@ -16,6 +16,7 @@ effort: medium
 root: design-life-record
 lead: m0-m2
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Each adult's education and faith at the opening is read from their state's CES 2024 survey shares by age band (src/core2/opening-profile.ts, SG-P15-opening-profile), so a person's degree ignores their own schooling record and their faith ignores the family they grew up in. Derive attainment from the person's school records (school.started and the past-school records) and faith from the household they were raised in, following the approved per-person faith record (handed down in families, changing only through events; DECISION-REGISTER.md). Check the town's totals against data/research/core/acs-2023-b15001-attainment-by-state.json (ACS 2019-2023 B15001) and data/research/core/pew-rls-2023-24-faith-by-state.json (Pew 2023-24), both covering all 56 places. In the Owings, Maryland year (seed 38e6252af62e) the 83 adults of the town were 28.9% Protestant against the Pew Maryland share of 43.3%, and across all 1,729 full adults the bachelor's share ran 4 to 6 points under the ACS at ages 25 to 44.

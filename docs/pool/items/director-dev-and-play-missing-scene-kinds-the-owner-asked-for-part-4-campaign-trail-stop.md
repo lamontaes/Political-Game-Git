@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: rc7-player-cannot-drive
 source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A statewide candidate has no scene for a stop in another part of the state, and the campaigns engine records no travel. Add a trail-stop scene where a candidate for a statewide office stops in another place and the views of the people there move, read from records. The rest of the state is counted groups, so the people met there are filled in when met.

@@ -16,6 +16,7 @@ effort: high
 root: rc5-full-detail-every-day
 lead: speed
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The golden path's played-world year (tests/golden-path/played-world.node-test.ts, spec M0-13) fails its memory-at-the-end check when the draw lands on a large town. Sandy, Utah (place key 4967440, seed a230b4b0b65c783d3d44852feaf476f7001104f08c59fb42d8a5faa366af2f3f) holds 2,343 MB after one year against the 2,000 MB bound, identically on clean main and on a PR branch; its opening alone is 532.6 MiB. Every other check in that run passes, so any PR whose commit draws a town this size goes red on golden-path-year. Brookside, Delaware (replay 4d50e1f88df997f9) also ran out of an 8 GB heap in src/bench/path-check.ts after 74 minutes (Nov 4). Find what a large town holds at the end of a year and bring it under the bound, or set the bound by town size with the speed lead's agreement.

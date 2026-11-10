@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: rc7-player-cannot-drive
 source: split from office-budget-season-attend-hearing in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** On main a hearing on the budget exists (`holdCouncilBudgetHearing` in src/core2/modules/legislature.ts writes a budgetHearings row and the room speaks), but it and the vote run as direct calls on set days, so the budget bill never sits on the body's meeting agenda and a seated player with the every-meeting stop is never held at it. Place the bill on the agenda of the body's meeting before the fiscal year starts with `placeOnAgenda`, the meeting day coming from the body's own rule. The player then has a real meeting to attend. This is part 1 of office-budget-season-attend-hearing.
@@ -30,6 +31,6 @@ source: split from office-budget-season-attend-hearing in the pool redo, Nov 10,
 
 **Done when.** A second session, not the builder, plays a drawn place and seed (named) up to the fiscal year and sees the budget bill on the body's meeting agenda before the year starts, by bill id and agenda date; src/core2/office-day-budget-season.test.ts still passes.
 
-**Waits on.** office-the-budget-season (open; PR #5533 was sent back).
+**Waits on.** Nothing. (office-the-budget-season, which it once waited on, was closed: its children are done.)
 
 **Files.** src/core2/modules/legislature.ts, src/core2/modules/office-day.ts, src/core2/office-day-budget-season.test.ts

@@ -16,6 +16,7 @@ lead: laws-effects
 model: sonnet
 effort: low
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** Once `justice-low-level-offenses` lands, the case flow counts minor quality-of-life arrests each month (`src/core2/public-safety.ts`, `lowLevelStreams`), and the outcome web keeps their rate as `justice.low-level-arrests`. No news topic reports that rate, so no person learns of it and the effect web's "knowing" point fails for the `police-to-low-level-arrests` link (measured by the low-level helper on a scratch run of the effect matrix, Oct 25). A person can attribute more or fewer minor arrests to the police line only after hearing of them.

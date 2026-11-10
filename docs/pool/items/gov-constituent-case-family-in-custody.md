@@ -16,6 +16,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: rc3-thin-life-record
+checked: fable 2026-11-10
 ---
 
 **What.** A relative of someone in custody cannot bring a case, and the official's call does not reach the jail. The constituent-cases module knows only two problems, a wage under the floor and being out of work, so no resident ever brings the office a relative in custody. The justice engine already writes `justice.charged`, `justice.bail-set` and `justice.imprisoned` for a named person. This item adds a family-in-custody problem for a living relative in the official's district, and a referral that reaches the justice engine on a later day. The scene packet is `docs/design/scenes/from-life/constituent-family-in-custody.md`.
