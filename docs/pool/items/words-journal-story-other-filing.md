@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/journal-story-other-filing
-pr: pending
+pr: 8212
 blocked-on:
 lead: words
 source: "journal-story.test.ts 'opens no chapter on someone else's filing or oath' red on clean main, seed 9d265ce046a38771"
