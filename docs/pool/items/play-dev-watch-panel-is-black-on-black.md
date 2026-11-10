@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-dev-watch-panel-is-black-on-black
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: rc10-screens-keep-own-facts
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:11:53.243Z
 ---
 
 **What.** With Dev mode on, the Calendar carries a Watch panel: the town's pay by month since the first dev change, its metrics, the nation's figures, each budget, the price rules and the recent news, then the Golden path steps. Measured on screen by the Nov 9 audit in Ten Broeck, Kentucky (no seed given): the panel is black text on a black sheet, and its tables cannot be read. Watch is where a tester sees whether a law moved pay, prices or a budget month by month, so today that proof cannot be read from the screen. Fix the class: every dev table and record tree (Watch, Golden path, small-dollar loans, the person card's Records tree) is drawn with the one shared look for a table on a sheet, in the menu's colors, so its text passes the contrast check the game's panels already pass.
