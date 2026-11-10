@@ -70,16 +70,17 @@ describe("a pushed value does not drift back by itself", () => {
   // rate); this test asks whether the gap closes with the policy rate the
   // same in both worlds.
   it("national unemployment pushed up three points on day one stays apart where the policy rate is the same", () => {
-    const pushed = world();
-    const control = world();
-    // The country tier opens on the first step.
-    for (const core of [pushed, control])
+    // One world at a time, so only one is held in memory.
+    const year = (push: boolean) => {
+      const core = world();
+      // The country tier opens on the first step.
       advanceCore(core, addDays(makeIsoDate(core.date), 1));
-    layOff(pushed);
-    for (const core of [pushed, control])
+      if (push) layOff(core);
       advanceCore(core, addDays(makeIsoDate(core.date), 365));
-    const a = months(pushed).at(-1)!;
-    const b = months(control).at(-1)!;
+      return { ...months(core).at(-1)! };
+    };
+    const a = year(true);
+    const b = year(false);
     const gapStart = PUSH;
     const gapEnd = a.unemploymentPct - b.unemploymentPct;
     const note = `unemployment gap ${gapStart} to ${gapEnd.toFixed(2)} points; policy rate ${a.policyRatePct} against ${b.policyRatePct}`;
