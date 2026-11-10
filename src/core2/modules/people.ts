@@ -175,6 +175,8 @@ export { keyPeopleOf } from "../opening-key-people";
 // move records and a named resident's moved-away event.
 export { COUNTED_MOVES_MODULE_ID, countedMoves } from "./counted-moves";
 export { MOVED_AWAY_EVENT } from "./moves";
+// A person's life as one list, for the screens that tell it (the card, the You screen).
+export { lifeOf, type LifeEvent } from "../person-life";
 // A relative's letter and a missed family gathering, for the director's letter scene.
 export { FAMILY_CONTACT, FAMILY_GATHERING_MISSED } from "./kin-contact";
 // A housemate's call for help, for the director's rescue scene.

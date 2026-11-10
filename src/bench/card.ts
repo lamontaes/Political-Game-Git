@@ -7,7 +7,9 @@ import {
   COUNTED_MOVES_MODULE_ID,
   countedMoves,
   familyFactsOf,
+  lifeOf,
   MOVED_AWAY_EVENT,
+  type LifeEvent,
 } from "../core2/modules/people";
 import { townFacts } from "../core2/modules/laws";
 import type { EntityId } from "../core2/kernel/brands";
@@ -37,7 +39,6 @@ import {
 import { VIEWS_MODULE_ID, viewOf } from "../core2/modules/views";
 import { viewKey } from "../director/view-learned";
 import { preStartHistory, sharedHistory } from "../core2/past";
-import { lifeOf, type LifeEvent } from "../core2/person-life";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
