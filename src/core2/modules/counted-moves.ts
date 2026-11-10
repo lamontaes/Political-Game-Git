@@ -257,12 +257,6 @@ function renterPriceLevel(fips: string): number {
   return all * Math.pow(row.housing / row.allItems, tilt);
 }
 
-/** A world without the laws module reads the research's starting law by the same rule (never a table of its own). */
-const startingReaders = new WeakMap<
-  CoreState,
-  ReturnType<typeof startingLawReader>
->();
-
 /**
  * Yearly state income tax on wages in dollars: every state's law in force
  * (the laws module's answer for the town's state and for any other), taken as
@@ -283,11 +277,13 @@ function stateIncomeTax(
       usps === rt.townState
         ? lawInForce(api, "income-tax")
         : stateLawInForce(api, `US-${usps}`, "income-tax");
-  else {
-    let read = startingReaders.get(core);
-    if (!read) startingReaders.set(core, (read = startingLawReader(core.date)));
-    answer = read(`US-${usps}`, "income-tax");
-  }
+  // A world without the laws module reads the research's starting law by the
+  // same rule, on today's date (never a table of its own).
+  else
+    answer = startingLawReader(core.date, core.startedAt)(
+      `US-${usps}`,
+      "income-tax",
+    );
   const lines = withholdingFor({
     paidMinor: Math.round(wages * 100),
     periodDays: 365,
