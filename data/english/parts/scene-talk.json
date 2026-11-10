@@ -113295,7 +113295,7 @@
       "key": "scene-talk.reply-promise.i-m-not-done-with-this-town",
       "move": "reply-promise",
       "kind": "spoken",
-      "text": "I'm not done with this town.",
+      "text": "I'm not done with {place}.",
       "uses": [
         {
           "subject": "scene",
@@ -113303,7 +113303,8 @@
           "move": "promise",
           "role": "asked",
           "purpose": "morning-after",
-          "key": "honor"
+          "key": "honor",
+          "requiresFacts": ["place"]
         }
       ],
       "bearing": "braced",
@@ -187871,7 +187872,7 @@
       "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Will you talk to {child} yourself, {first}? They were in the room when you fell ill.",
+      "text": "The youngest in the house, {child}, was in the room when you fell ill. Will you talk to them yourself, {first}?",
       "uses": [
         {
           "subject": "scene",
