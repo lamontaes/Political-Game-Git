@@ -175139,7 +175139,7 @@
       "key": "scene-talk.close-accept.all-right-i-won-t-hold-you",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "All right. I won't hold you.",
+      "text": "Okay. I won't hold you.",
       "uses": [
         {
           "subject": "scene",
@@ -175213,7 +175213,7 @@
       "key": "scene-talk.close-accept.that-s-all-right-i-just-wanted-somebody-to-know",
       "move": "close-accept",
       "kind": "spoken",
-      "text": "That's all right. I just wanted somebody to know.",
+      "text": "That's fine. I just wanted somebody to know.",
       "uses": [
         {
           "subject": "scene",
