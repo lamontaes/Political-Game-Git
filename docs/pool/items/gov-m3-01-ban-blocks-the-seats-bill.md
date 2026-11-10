@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: pool/gov-m3-01-ban-blocks-the-seats-bill
-pr:
+pr: #8251
 blocked-on:
 after: gov-m3-01-phase-in-by-dated-steps
 lead: governing
