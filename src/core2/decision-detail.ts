@@ -17,6 +17,7 @@ import retention from "./data/log-retention.json" with { type: "json" };
 import type { CoreState, DecisionResult, LogRecord } from "./types";
 import { registerWorldMapPart } from "./snapshot";
 import { forgetOldExperiences } from "./knowledge-retention";
+import { forgetOldEventIds } from "./event-id-retention";
 import { foldCashJournalDetail } from "./journal-state";
 
 const queues = new WeakMap<CoreState, [string, string][]>();
@@ -273,6 +274,7 @@ export function condenseCircleDecisions(core: CoreState): void {
   dropOldReceiptDetail(core);
   if (core.date.endsWith("-01")) foldOldCashJournalDetail(core);
   forgetOldExperiences(core);
+  forgetOldEventIds(core);
   condensePlayerDecisions(core);
   condenseRelationshipDecisions(core);
   dropShortEntries(core);
