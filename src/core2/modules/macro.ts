@@ -283,7 +283,13 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const nation = stepCountry(
     tier,
     {
-      law: lawNow(api),
+      // The tier's first month fits its hiring and matching constants, so it runs under the
+      // law the world began with, as the opening does; a law enacted on the first day
+      // reaches paychecks from the second month.
+      law:
+        tier.month === p("zero")
+          ? lawNow(api, addDays(makeIsoDate(api.state.startedAt), -p("one")))
+          : lawNow(api),
       policyRate: state.policyRatePct / p("macroHundred"),
       jobsLost: (row) => lost.get(row.usps) ?? p("zero"),
     },
@@ -380,7 +386,10 @@ function openCountryTier(
       },
       p,
     ),
-    lawNow(api),
+    // The opening is fitted under the law the world began with: the law in force the day
+    // before the start. A law enacted on the first day (dev mode's law control, before the
+    // economy opens) is a change the first month then answers, never part of the baseline.
+    lawNow(api, addDays(makeIsoDate(api.state.startedAt), -p("one"))),
     rules,
   );
   writeCountry(api, tier);
