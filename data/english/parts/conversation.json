@@ -24975,46 +24975,6 @@
       }
     },
     {
-      "key": "conversation.home-reply-answer-deflect.okay-ask-me-where-i-live-another-time",
-      "move": "home-reply-answer-deflect",
-      "kind": "spoken",
-      "text": "Okay. Ask me where I live another time.",
-      "uses": [
-        {
-          "move": "home-reply-answer-deflect",
-          "subject": "home-reply",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, conversation four answers more)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.home-reply-answer-deflect.maybe-i-ll-tell-you-later",
-      "move": "home-reply-answer-deflect",
-      "kind": "spoken",
-      "text": "Maybe I'll tell you later.",
-      "uses": [
-        {
-          "move": "home-reply-answer-deflect",
-          "subject": "home-reply",
-          "role": "answer",
-          "choice": "deflect"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, conversation four answers more)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
       "key": "conversation.home-reply-answer-change.place-right-where-do-you-work",
       "move": "home-reply-answer-change",
       "kind": "spoken",
@@ -25047,46 +25007,6 @@
           "role": "answer",
           "choice": "change",
           "raises": "their-work"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, conversation four answers more)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.tenure-reply-answer-detail.good-for-you-i-live-in-my-place",
-      "move": "tenure-reply-answer-detail",
-      "kind": "spoken",
-      "text": "Good for you. I live in {my_place}.",
-      "uses": [
-        {
-          "move": "tenure-reply-answer-detail",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "detail"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, conversation four answers more)",
-      "date": "2026-11-10",
-      "tag": {
-        "move": "answer"
-      }
-    },
-    {
-      "key": "conversation.tenure-reply-answer-detail.that-s-great-i-m-in-my-place-myself",
-      "move": "tenure-reply-answer-detail",
-      "kind": "spoken",
-      "text": "That's great. I'm in {my_place} myself.",
-      "uses": [
-        {
-          "move": "tenure-reply-answer-detail",
-          "subject": "tenure-reply",
-          "role": "answer",
-          "choice": "detail"
         }
       ],
       "origin": "authored",
