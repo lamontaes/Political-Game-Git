@@ -21,3 +21,5 @@ claimed-at:
 **Done when.** For each of the eight places above, the run names why no race was told (no count that year from the place's election calendar, or a count with no one tied to a candidate), the test widens its draw or its year to places whose records hold a count, and it passes at seed 409bddfc… and at seed 11.
 
 **Files.** src/director/race-told-scene.test.ts, src/director (the race-told producer)
+
+**Notes.** Nov 10, 15:25 UTC (Story): red again on CI at seed 13185266f8e7978e6bec3346aacf921bab78efe0, same message (Little Rock, South Carolina, no race to enter that year; Old Agency, Montana, no race told in the year; and the rest of its draw), so it is red on most seeds, not one.
