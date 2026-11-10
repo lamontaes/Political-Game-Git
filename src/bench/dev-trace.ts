@@ -7,12 +7,20 @@
  */
 import { coreAPI } from "../core2/state";
 import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
-import { ACCOUNTS_MODULE_ID } from "../core2/accounts";
-import type { CountedHousehold, CountedStore } from "../core2/counted-groups";
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { LEGISLATURE_MODULE_ID, votesOn } from "../core2/modules/legislature";
 import { residentsRuntime } from "../core2/modules/residents";
-import { preStartRecord } from "../core2/pre-start";
+
+// The counted people's store and household, named through the residents entry
+// rather than their own file; the accounts module's id as the budgets family
+// states it (the guard keeps this file to the families' entries).
+type CountedStore = NonNullable<ReturnType<typeof residentsRuntime>>["store"];
+type CountedHousehold =
+  ReturnType<CountedStore["liveHouseholds"]> extends Iterable<infer H>
+    ? H
+    : never;
+const ACCOUNTS_MODULE_ID = "core2-accounts-v1";
+import { preStartHistory, type HistoryRecord } from "../core2/past-module";
 import { keepsWhy } from "../core2/why-kept";
 import type { CoreState, PersonId, PlaceId } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -40,8 +48,8 @@ export interface TraceChild {
  *   - circle-only: a decision by someone outside the player's circle, whose
  *     reasons the game does not keep, and no record behind it either;
  *   - opening: made at world creation or by the simulated past, naming no cause;
- *   - no-cause-kept: made in play, not a decision, and its engine named no record
- *     behind it (the gap to file against that engine);
+ *   - no-cause-kept: not dated at or before the start, not a decision, and its
+ *     engine named no record behind it (the gap to file against that engine);
  *   - not-a-record: the id is kept nowhere and names no record.
  */
 export type TraceAnswer =
@@ -173,7 +181,6 @@ type Stores = readonly (readonly [
 const CORE_STORES: Stores = [
   ["core.log", undefined, (core) => core.durableLog],
   ["core.people", "person", (core) => core.people],
-  ["core.husks", "person-husk", (core) => core.husks],
   ["core.organizations", undefined, (core) => core.organizations],
   [
     "core.publicOrganizations",
@@ -187,8 +194,13 @@ const CORE_STORES: Stores = [
   ["core.memberships", "membership", (core) => core.memberships],
 ];
 
-/** The work and finance engines' records and the quiet choices, after the counted people. */
+/**
+ * After the counted people: a relative kept by name only (a husk) may still be
+ * in the counts, and the counts hold their money, job and traits. Then the
+ * work and finance engines' records and the quiet choices.
+ */
 const ENGINE_STORES: Stores = [
+  ["core.husks", "person-husk", (core) => core.husks],
   ["core.cashJournal", "payment", (core) => core.cashJournal.detailedReceipts],
   ["core.quietChoices", "person.acted", (core) => core.quietChoices],
   ["core.work.commitments", "work.commitment", (core) => core.work.commitments],
@@ -332,11 +344,14 @@ function countedRecord(core: CoreState, id: string): FoundRecord | undefined {
       record: countedHouseholdView(store, home),
     };
   const member = store.memberOf.get(id as PersonId);
-  if (member !== undefined)
+  const named = core.husks.has(id as PersonId);
+  // Someone who left the counts and is kept by name answers from that record.
+  if (member !== undefined && (store.isCounted(member) || !named))
     return {
       engine: COUNTED_ENGINE,
       kind: store.isCounted(member) ? "counted-person" : "counted-person-left",
       record: countedMemberView(store, member),
+      ...(named ? { alsoIn: ["core.husks"] } : {}),
     };
   const groupIx = store.groupOf.get(id);
   const group = groupIx === undefined ? undefined : store.groups[groupIx];
@@ -490,6 +505,8 @@ function foldedReceipt(core: CoreState, id: string): FoundRecord | undefined {
  * payment's postings share their opening pieces), so each id is looked up once.
  */
 class Lookup {
+  /** The past's rows by id, built on the first ask for one. */
+  private historyById?: Map<string, HistoryRecord>;
   private readonly memo = new Map<string, FoundRecord | null>();
   constructor(
     readonly core: CoreState,
@@ -576,7 +593,10 @@ class Lookup {
   }
 
   private history(id: string): FoundRecord | undefined {
-    const row = preStartRecord(this.core, id);
+    this.historyById ??= new Map(
+      preStartHistory(this.core).map((row: HistoryRecord) => [row.id, row]),
+    );
+    const row = this.historyById.get(id);
     return row
       ? { engine: HISTORY_ENGINE, kind: row.kind, record: row }
       : undefined;
@@ -906,10 +926,21 @@ function deciderOf(lookup: Lookup, record: unknown): string | undefined {
   return undefined;
 }
 
+// The fields a record dates itself by, in the order they are read.
+const MADE_ON = [
+  "date",
+  "since",
+  "introduced",
+  "startedAt",
+  "startsAt",
+  "joinedAt",
+  "effectiveDate",
+] as const;
+
 /** The day a record says it is from: its own date, else its source line's. */
 function madeOn(record: unknown): string | undefined {
   const row = (record ?? {}) as Record<string, unknown>;
-  for (const name of ["date", "since", "introduced", "startedAt"])
+  for (const name of MADE_ON)
     if (typeof row[name] === "string") return row[name] as string;
   const asOf = (row.source as { asOf?: unknown } | undefined)?.asOf;
   return typeof asOf === "string" ? asOf : undefined;
@@ -917,6 +948,9 @@ function madeOn(record: unknown): string | undefined {
 
 function sourceOf(record: unknown): TraceNode["source"] {
   const source = (record as { source?: unknown } | null)?.source;
+  // A law row's source is its citation, or a list of them.
+  if (typeof source === "string") return { citation: source };
+  if (Array.isArray(source)) return { citation: source.join(" ; ") };
   if (!source || typeof source !== "object") return undefined;
   const { tag, citation } = source as { tag?: unknown; citation?: unknown };
   return {
@@ -1112,10 +1146,11 @@ export function traceNode(
     id,
     engine: found?.engine ?? "none",
     kind: found?.kind ?? "missing",
-    record: found?.record ?? null,
-    ...(found?.alsoIn ? { alsoIn: found.alsoIn } : {}),
-    resolver,
+    // The answer first: the client's tree shows a node's fields in this order.
     ...answerOf(lookup, found, resolver, shown),
+    ...(found?.alsoIn ? { alsoIn: found.alsoIn } : {}),
+    record: found?.record ?? null,
+    resolver,
     why: whyPanels(core, id, found?.record ? found : undefined),
     children: shown,
   };

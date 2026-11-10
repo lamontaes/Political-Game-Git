@@ -362,34 +362,6 @@ export function preStartHistory(
   return rows;
 }
 
-/** Kept beside a history and never saved: its rows by id, for a reader that holds one id. */
-const rowsById = new WeakMap<
-  readonly HistoryRecord[],
-  { size: number; rows: Map<string, HistoryRecord> }
->();
-
-/**
- * One record of the past by its id (dev mode's trace opens the ids the
- * Journal cites). Read-only and never asked in play: the by-id view is built
- * on the first ask and again only once the history has grown.
- */
-export function preStartRecord(
-  core: CoreState,
-  id: string,
-): HistoryRecord | undefined {
-  const history = histories.get(core);
-  if (!history) return undefined;
-  let held = rowsById.get(history);
-  if (!held || held.size !== history.length) {
-    held = {
-      size: history.length,
-      rows: new Map(history.map((row) => [row.id, row])),
-    };
-    rowsById.set(history, held);
-  }
-  return held.rows.get(id);
-}
-
 /**
  * Run every installed module's pre-start pass, in phase order (modules in
  * installation order within a phase). Once per world, before day one.
