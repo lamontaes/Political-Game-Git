@@ -4654,6 +4654,45 @@
         }
       ]
     },
+    "town-hall-neighbor": {
+      "state": "request",
+      "replies": ["agree", "promise", "ask", "decline"],
+      "follow": {
+        "agree": ["thank", "accept"],
+        "promise": ["thank", "press"],
+        "ask": ["answer"],
+        "decline": ["accept", "press"]
+      },
+      "again": {
+        "press": ["agree", "promise", "leave"],
+        "answer": ["agree", "promise", "decline"]
+      },
+      "endings": [
+        {
+          "id": "said-you-would-speak-up",
+          "label": "You said you would speak up, or go again",
+          "keeps": "promise",
+          "when": {
+            "anyReply": ["agree", "promise"]
+          }
+        },
+        {
+          "id": "brushed-off-the-neighbor",
+          "label": "You brushed your neighbor off, and it showed",
+          "keeps": "relationship-strained",
+          "when": {
+            "reply": ["decline", "leave"],
+            "asker": ["press"]
+          }
+        },
+        {
+          "id": "left-it-at-the-hall",
+          "label": "Left it at the hall",
+          "keeps": "none",
+          "when": {}
+        }
+      ]
+    },
     "introduction": {
       "state": "request",
       "replies": ["agree", "promise", "ask", "deflect"],

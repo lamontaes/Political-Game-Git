@@ -151,6 +151,7 @@ export const CIVIC_FILLS: ReadonlySet<string> = new Set([
   "sponsor",
   "lobbyist",
   "town-hall-askers",
+  "town-hall-neighbors",
   "supporters",
   "volunteers",
   "opponent",
@@ -477,6 +478,30 @@ export function civicFill(
         living(core, [
           ...new Set((row?.questions ?? []).map((q) => q.askedBy)),
         ]),
+      );
+    }
+    case "town-hall-neighbors": {
+      // The people the subject knows who were also in the room at a town hall
+      // someone else held (the record's people are the host first, then the
+      // attendees), the ones they are closest to first.
+      const record = core.durableLog.get(moment.causeId);
+      const known = core.people.get(moment.personId)?.knownIds;
+      if (record?.kind !== "town-hall" || !known) return [];
+      const host = record.facts?.hostId;
+      return free(
+        living(
+          core,
+          record.personIds
+            .filter(
+              (id) => id !== host && id !== moment.personId && known.has(id),
+            )
+            .sort(
+              (a, b) =>
+                closenessBetween(core, moment.personId, b) -
+                  closenessBetween(core, moment.personId, a) ||
+                a.localeCompare(b),
+            ),
+        ),
       );
     }
     case "appointer": {

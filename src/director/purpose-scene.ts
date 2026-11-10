@@ -726,6 +726,54 @@ function composeBinding(
       };
     }
   }
+  // A town hall the player sat in, held by another (meetings.ts): who held it,
+  // the question the room took, the bill it was called for, whether the host
+  // answered, and whether the neighbor or the player stood up. stopgapId:
+  // SG-WORDS-town-hall-attendee-unrecorded
+  if (
+    binding.typeKey === "town-hall-attendee" &&
+    said.townHallId &&
+    core.modules.has(MEETINGS_MODULE_ID)
+  ) {
+    const api = coreAPI(core as CoreState);
+    const hall = api
+      .moduleState(MEETINGS_MODULE_ID)
+      .table("townHalls")
+      .get(said.townHallId) as unknown as TownHallRow | undefined;
+    const host = hall ? core.people.get(hall.hostId as PersonId) : undefined;
+    if (hall && host) {
+      const cited = [said.townHallId, moment.causeId];
+      facts.host = {
+        text: `${host.givenName} ${host.familyName}`,
+        sourceRecordIds: [...cited, host.id],
+      };
+      const first = hall.questions[P.zero];
+      const issue = first ? questionAbout(first.question) : null;
+      if (first && issue) {
+        facts.issue = { text: issue, sourceRecordIds: cited };
+        const stand = hall.answers.find(
+          (row) => row.question === first.question,
+        )?.position;
+        const reading =
+          stand === null || stand === undefined
+            ? "host-declined"
+            : "host-answered";
+        facts[reading] = { text: reading, sourceRecordIds: cited };
+      }
+      if (hall.questions.some((row) => row.askedBy === askerId))
+        facts["neighbor-asked"] = { text: "yes", sourceRecordIds: cited };
+      const calledBill =
+        hall.calledFor?.cause === "bill" &&
+        core.modules.has(LEGISLATURE_MODULE_ID)
+          ? billOf(api, hall.calledFor.recordId)
+          : undefined;
+      if (calledBill?.number)
+        facts.bill = {
+          text: spokenDesignation(calledBill.number, calledBill.form.kind),
+          sourceRecordIds: [...cited, calledBill.id],
+        };
+    }
+  }
   // A strike or protest in the town (public-action.ts): what it is over.
   // stopgapId: SG-WORDS-action-confront-town-hall-lines. The
   // official has given no answer yet, so the exchange opens as a town hall
