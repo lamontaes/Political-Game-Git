@@ -186,6 +186,29 @@ function rememberers(
   return event.personIds.filter((id) => id !== left);
 }
 
+/** Whether a row of the table takes this record (its `when` fact, where it has one). */
+function rowApplies(event: Readonly<CoreEventInput>, row: EventRow): boolean {
+  if (!row.when) return true;
+  const held = event.facts?.[row.when.fact];
+  if (held === undefined || held === "") return false;
+  return row.when.is === undefined || String(held) === row.when.is;
+}
+
+/**
+ * Everyone the table says remembers this record, wherever they live and
+ * before any cap folds it: what a check compares a person's list against.
+ */
+export function whoRemembers(
+  core: CoreState,
+  event: Readonly<CoreEventInput>,
+): PersonId[] {
+  const out = new Set<PersonId>();
+  for (const row of EVENT_ROWS.get(event.kind) ?? [])
+    if (rowApplies(event, row))
+      for (const id of rememberers(core, event, row)) out.add(id);
+  return [...out];
+}
+
 /**
  * An engine recorded something a person remembers: it goes on the list of each
  * person the table says remembers it. Called for every such record as it is
@@ -205,11 +228,7 @@ function rememberRow(
   event: Readonly<CoreEventInput>,
   row: EventRow,
 ): void {
-  if (row.when) {
-    const held = event.facts?.[row.when.fact];
-    if (held === undefined || held === "") return;
-    if (row.when.is !== undefined && String(held) !== row.when.is) return;
-  }
+  if (!rowApplies(event, row)) return;
   const kept: Record<string, string> = { ...row.set };
   for (const key of row.facts) {
     // Some writers key a fact by its event (`event:<id>:causeOfDeath`).
