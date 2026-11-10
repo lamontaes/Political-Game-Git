@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T23:02:30.920Z
+claimed-at: 2026-11-10T23:07:56.679Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-08-no-high-school-at-seventeen
 ---
@@ -53,3 +53,11 @@ Sent back 2026-10-25 ~21:30 UTC from PR #6038 (branch claude/play-stop-08-high-s
 Lane 4 check, Nov 4 (main b78f83fb42): New Game through the creator, Anson, Texas, age 17 (born 2007). Who you are shows School "Anson Public Schools"; Jobs and study reads "2013 You started school at Anson Public Schools. / 2019 You went on to middle school. / 2022 You went on to high school." No cut-off name and no missing high school. The school is named by its district, not "Anson High School", so this item is ready for a closing check against that one line.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:02 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
+
+Released (2026-11-10): Replayed on main in two drawn places: history reads high school, name is the district's; seen refuses a claimed item, see handoff on PR 6038. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:05 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
+
+Released (2026-11-10): Replayed on main 94969ad22a, not recorded as seen (pool seen refuses a claimed item; it needs status merged): Fort McDermitt, Nevada, seed c1b4258f-ab41-4038-b653-ca22b9a44c71, age 17, 1440x900: Who you are and Jobs and study read 'I started school at Fort McDermitt Public Schools. I went on to middle school. I went on to high school.' with no cut-off and no missing high school; the school is named by its district, not as a high school. Same in Platte Center, Nebraska. Ready for pool seen once the item is merged. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:07 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.

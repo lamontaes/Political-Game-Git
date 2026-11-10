@@ -5,9 +5,9 @@ area: release
 kind: feature
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-tests-every-test-file-loads
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: design-guards
 source: CTO, Nov 10, 2026, after three test files on main were found not loading
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:12:26.325Z
+branch: claude/pool-tests-every-test-file-loads
 ---
 
 **What.** Three test files on main could not load, so every check inside them silently stopped running: the journal's opening test (fixed in pull request 8227), the officials and president import cycle (8173) and the election law test (8243). Each was found by chance, days or weeks later. A file that cannot load must turn main red within the hour and name itself.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** scripts/tests-load/check.ts (new), tests/guards/test-files-load.test.ts (new), .github/workflows/validate.yml, package.json, .agents/rules/repository-reference.md
 
 **Notes (Fable, Nov 10, a fourth case).** The national economy command (src/core2/tooling/m1-02-check.ts) could not load on main after pull request 8231: src/core2/modules/grievance.ts read an event's name from the housing engine while it was half loaded. Fixed in pull request 8246. It was a command, not a test file, so the golden-path commands are now part of this check.
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:12 UTC) on branch claude/pool-tests-every-test-file-loads.

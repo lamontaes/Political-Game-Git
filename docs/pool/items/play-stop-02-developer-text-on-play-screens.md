@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
-pr:
+pr: #8266
 after:
 blocked-on:
 standard: 2
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T22:59:53.623Z
+claimed-at: 2026-11-10T23:12:18.364Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
@@ -45,3 +45,13 @@ branch: claude/pool-play-stop-02-developer-text-on-play-screens
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:54, 15:57, 16:02, 16:03, 16:04, 16:05; screenshots 14, 24, 31, 39, 44, 46, 48. Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md); was m0-m2. Split Oct 24 into play-stop-02-developer-text-on-play-screens-a and play-stop-02-developer-text-on-play-screens-b, each four hours or less; the CTO sets this item done when the last part is done.
 
 Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:59 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released (2026-11-10): Replay in Basking Ridge, NJ (seed 9978ac7a-fe58-46f4-9998-f5e8401d92d6): plain-text.browser.mjs stalls at src/bench/plain-text.browser.mjs:173 (#talk-leave hidden after the clerk's race choice; the talk still shows 'I understand.' to pick first), run with dev mode on so Mark gap showing is expected; dev-mode-off screens/screenshots and seen not recorded. Needs the script to pick the last choice, then a dev-mode-off replay. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:05 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released (2026-11-10): Replay-only item: pool seen refuses a claimed item (only merged work), so a builder cannot close it; not replayed here. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:06 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released (2026-11-10): Replayed on main (bench, 1440x900): News, all Politics tabs and clerk talk box show no code, ISO date or status; but plain-text.browser.mjs turns dev mode on so Mark gap shows, and it fails at line 173 (#talk-leave not visible after the race choice for an age-17 life); needs a dev-mode-off run and a fixed flow, then pool seen once merged. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.

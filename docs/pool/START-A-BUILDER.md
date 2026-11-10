@@ -59,7 +59,7 @@ A session can end at any moment. Nothing may live only in your conversation.
 
 - **The item's time box is used.** Push what passes, write the handoff, and take the next item only if your usage allows.
 - **Your usage is running out.** Write the handoff first.
-- **The item needs words.** Every line under `data/english/parts/` is written by the Story session. List each spot and what it must say in the pull request, and build everything else.
+- **The item needs words.** Every line under `data/english/parts/` is written by the session that holds words (Fable B since Nov 10, owner ruling) or the helper it names for that file. List each spot and what it must say in the pull request, and build everything else.
 
 ## The order
 
@@ -74,7 +74,7 @@ An item is offered only when it is open, carries `checked: fable`, has a known c
 
 ## What you never do
 
-- Build an item whose Cause says "Needs cause", or one above your tier.
+- Build an item whose Cause says "Needs cause", or one above your tier. Finding a cause is its own job, with its own page: `docs/pool/FIND-A-CAUSE.md`.
 - Say you are a model you are not, to be given harder items.
 - Write, change or delete a line under `data/english/parts/`.
 - Decide what a person, business or body does by chance or a fixed percentage.

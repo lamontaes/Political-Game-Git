@@ -31,7 +31,6 @@ import {
   type StanceProfile,
 } from "../campaign-views";
 import { currentCloseness } from "../closeness";
-import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
 import drivesJson from "../data/drives.json" with { type: "json" };
 import type {
@@ -49,45 +48,9 @@ import {
 } from "../trait-decisions";
 import { keepsWhy } from "../why-kept";
 import { placeStateKey } from "../place-map";
+import { registerStanceListener, stanceMoved } from "../stance-listeners";
+import { VIEWS_KEYS, type CellKey } from "../views-keys";
 
-interface CellKey {
-  n: number;
-  mean: number;
-  sd: number;
-  engagement?: number;
-  shares?: Readonly<Record<string, number>>;
-}
-interface StateKey extends CellKey {
-  byAge: Readonly<Record<string, CellKey>>;
-  educationShares: Readonly<
-    Record<string, Readonly<Record<string, number>> | null>
-  >;
-  faithShares: Readonly<
-    Record<string, Readonly<Record<string, number>> | null>
-  >;
-}
-export const VIEWS_KEYS = keysJson as unknown as {
-  version: string;
-  source: { citation: string };
-  ageBands: readonly string[];
-  national: CellKey;
-  states: Readonly<Record<string, StateKey>>;
-  counties: Readonly<Record<string, CellKey>>;
-  nationalEducationShares: Readonly<
-    Record<string, Readonly<Record<string, number>>>
-  >;
-  nationalFaithShares: Readonly<
-    Record<string, Readonly<Record<string, number>>>
-  >;
-  profileShift: Readonly<
-    Record<
-      string,
-      Readonly<
-        Record<string, Readonly<Record<string, { n: number; shift: number }>>>
-      >
-    >
-  >;
-};
 export const VIEWS_DATA = viewsJson as {
   version: string;
   stopgapId: string;
@@ -779,16 +742,9 @@ export function agreementWith(
   return Math.max(-v("one"), Math.min(v("one"), sum / platform.length));
 }
 
-type StanceListener = (api: CoreAPI, personId: PersonId, topic: string) => void;
-const stanceListeners: StanceListener[] = [];
-
-/**
- * Engines that act on the day a stance moves (interest-group membership
- * follows the view) register here; each is called after the move is stored.
- */
-export function registerStanceListener(listener: StanceListener): void {
-  if (!stanceListeners.includes(listener)) stanceListeners.push(listener);
-}
+// Engines that act on the day a stance moves register in a file of their own
+// (../stance-listeners), so registering while they load never waits on this one.
+export { registerStanceListener, VIEWS_KEYS };
 
 export function stancesOf(api: CoreAPI, personId: PersonId): Stance[] {
   return stancesTable(api).query("byPerson", [personId]) as unknown as Stance[];
@@ -1048,7 +1004,7 @@ export const viewsModule: CoreModule = {
       if (!stance) continue;
       // Built fresh here and never touched again: frozen in place, not copied.
       stancesTable(api).putOwned(stance as unknown as { id: string });
-      for (const listener of stanceListeners) listener(api, personId, topic);
+      stanceMoved(api, personId, topic);
     }
   },
 };

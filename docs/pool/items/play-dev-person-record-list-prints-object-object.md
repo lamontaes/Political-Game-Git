@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-dev-person-record-list-prints-object-object
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ model: sonnet
 effort: low
 root: none
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:15:44.627Z
 ---
 
 **What.** With Dev mode on, a person's card has a Records section that should list their latest records, each one opening its Trace. Measured on screen by the Nov 9 audit in Ten Broeck, Kentucky (no seed given): every slot in the list prints "[object Object]", and clicking one opens a Trace that says "kind missing, record null". So the one place a tester can click from a person to the records about them leads nowhere. Fix the class: the list shows each record by its own id, with its kind and date beside it as record data, and a click opens that record's Trace; and `idList` and `idLink` take ids only, so a caller that passes anything else fails in a test and never reaches the screen.
