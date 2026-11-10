@@ -23,13 +23,13 @@ Whoever starts you names three things: the item's id, your branch, and your time
    - Do not set or change `checked:`. The lead checks your cause against the code and sets it.
    - If the item is a duplicate of another, or should be split, say so in the pull request and leave that to the lead.
 4. **Check it.** `npm run pool -- --check` passes, and prettier passes on the files you changed. Add a release note, `docs/release/changes/<an id nobody has used>.md`, with frontmatter `id:` (the file name without `.md`) and `impact: none`, then one plain sentence. With `impact: none` it has no `section:` and no `title:`.
-5. **Open the pull request,** ready and not a draft. The first line of its body is exactly:
+5. **Open the pull request as a draft.** The lead reads the cause against the code and marks it ready; a cause nobody has checked must not merge, because the item is offered to builders the moment it does. The first line of its body is exactly:
 
    `Touches pool item: <id> (cause and fix written in; nothing built, so the item stays open).`
 
    Never write `Pool item:` there: the merge reads that as "this builds the item" and marks it merged (three items were lost that way for twenty minutes on Nov 10). Then four headings: `## What changed for the player` ("Nothing."), `## What I found` (the cause by record id, file and line, the place and seed, and the probe that showed it), `## Still unknown`, and `## Removed` ("Nothing."). Plain American English, short sentences, no model names (skill `civic-reports`).
 
-6. **Tell whoever started you,** if they named a session: one message with the pull request number, its head commit and the cause in three sentences. Then stop.
+6. **Tell whoever started you,** if they named a session: one message with the pull request number, its head commit and the cause in three sentences. Give every money figure in dollars, and say so once: the journal keeps cents, and a figure copied from it unconverted is a hundred times too large. Then stop.
 
 ## When the time box runs out with no cause
 
