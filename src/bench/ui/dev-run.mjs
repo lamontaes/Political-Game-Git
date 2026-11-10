@@ -112,11 +112,24 @@ function outlookSection(labels) {
  * line of its own; the end says the seconds and the tier's own verdict. What a skipped year does
  * not do comes from the stopgap itself (the route returns its text), never from this file.
  */
+// Kept outside the section: finishing a skip redraws the panel, and the result must survive it.
+const lastSkip = { lines: [], took: "", verdict: "" };
+
 function skipSection(labels, onDone) {
   const skip = labels.skip;
   const lines = el("div", { className: "dev-skip-lines" });
   const took = statusLine();
   const verdict = statusLine();
+  const draw = () => {
+    lines.replaceChildren(
+      ...lastSkip.lines.map((text) =>
+        el("p", { className: "label", textContent: text }),
+      ),
+    );
+    took.textContent = lastSkip.took;
+    verdict.textContent = lastSkip.verdict;
+  };
+  draw();
   const notDone = el("p", { className: "label" });
   notDone.dataset.testid = "dev-skip-notdone";
   const buttons = [
@@ -128,9 +141,8 @@ function skipSection(labels, onDone) {
     b.dataset.testid = `dev-skip-${years}`;
     b.addEventListener("click", async () => {
       for (const other of buttons) other.disabled = true;
-      lines.replaceChildren();
-      took.textContent = "";
-      verdict.textContent = "";
+      Object.assign(lastSkip, { lines: [], took: "", verdict: "" });
+      draw();
       const started = Date.now();
       try {
         let last;
@@ -142,34 +154,36 @@ function skipSection(labels, onDone) {
           const value = await response.json();
           if (!response.ok) throw new Error(value.error);
           if (!value.ran) {
-            took.textContent = skip.held;
+            lastSkip.took = skip.held;
+            draw();
             return;
           }
           if (!value.opened) {
-            took.textContent = skip.notYet;
+            lastSkip.took = skip.notYet;
+            draw();
             return;
           }
           last = value;
-          lines.append(
-            el("p", {
-              className: "label",
-              textContent: skip.yearDone
-                .replace("{n}", String(done))
-                .replace("{total}", String(years))
-                .replace("{date}", dateWords(value.to)),
-            }),
+          lastSkip.lines.push(
+            skip.yearDone
+              .replace("{n}", String(done))
+              .replace("{total}", String(years))
+              .replace("{date}", dateWords(value.to)),
           );
+          draw();
         }
-        took.textContent = skip.took.replace(
+        lastSkip.took = skip.took.replace(
           "{n}",
           ((Date.now() - started) / 1000).toFixed(1),
         );
-        verdict.textContent = last.problems
+        lastSkip.verdict = last.problems
           ? skip.impossible.replace("{n}", String(last.problems))
           : skip.possible;
+        draw();
         await onDone();
       } catch (error) {
-        took.textContent = error.message;
+        lastSkip.took = error.message;
+        draw();
       } finally {
         for (const other of buttons) other.disabled = false;
       }

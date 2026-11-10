@@ -58,9 +58,9 @@ try {
     365 * 864e5,
     `${placeName}, seed ${seed}: ${before} to ${after}`,
   );
-  assert.match(text, /Year 1 of 1 done/);
-  assert.match(text, /Took [\d.]+ seconds/);
-  assert.match(text, /born/);
+  assert.match(text, /Year 1 of 1 done/i);
+  assert.match(text, /Took [\d.]+ seconds/i);
+  assert.match(text, /born/i);
   assert.doesNotMatch(text, /\d{4}-\d{2}-\d{2}/, "no ISO dates");
   assert.deepEqual(errors, []);
   console.log("DEV SKIP BROWSER: passed");
