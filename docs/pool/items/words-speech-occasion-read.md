@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc3-thin-life-record
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** A speech a person heard becomes a scene or a journal line through the director, which already matches the speech.heard event by its views:speaker fact (src/director/data/situation-types.json, src/director/scheduling.ts). Once core-speech-heard-occasion makes deliverSpeech in src/core2/modules/speech.ts carry an occasion fact (a record id for the rally, hearing or meeting where it was given, as the bench's speechGive in src/bench/campaign.ts now gives speeches in play), have the director bind that record as a fact of the scene and have the English engine word where the speech was given from it. A listener's journal line then says it was a rally, a hearing or a council meeting speech, where today it says only that a speech was heard. The place words come from the record's kind through the engine's part banks, never typed into the scene.

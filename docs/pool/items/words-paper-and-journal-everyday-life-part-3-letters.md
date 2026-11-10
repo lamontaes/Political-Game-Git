@@ -35,4 +35,4 @@ checked: fable 2026-11-10
 
 **Files.** src/core2/modules/press.ts, src/bench/printed-words.ts, src/bench/printed-words.test.ts, data/english/parts/news.json
 
-**Notes (Fable's check, Nov 10).** **Notes (Fable's check, Nov 10).** Once the count names the test that removes every follower, the fix is to let a resident whose recorded view of a law differs from or agrees with the paper write a letter by the existing decision, changing only that test, without adding a roll.
+**Notes (Fable's check, Nov 10).** Once the count names the test that removes every follower, the fix is to let a resident whose recorded view of a law differs from or agrees with the paper write a letter by the existing decision, changing only that test, without adding a roll.
