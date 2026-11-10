@@ -10,7 +10,6 @@ claimed-by:
 pr:
 blocked-on:
 lead: governing
-milestone: play-first
 source: "director helper trace, Nov 10: town-hall-question fires far less than other scenes; the director offers the player no town hall"
 ---
 
