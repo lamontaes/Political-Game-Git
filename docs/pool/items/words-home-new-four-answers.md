@@ -12,7 +12,7 @@ blocked-on:
 source: added with npm run pool -- add
 ---
 
-**What.** Home-new offered one answer four ways (I'm from X, I grew up here, Here in X). New moves detail (work from the player's record), work and mutual (ask back, raise their-work or mutual), and deflect (a later time) sit beside plain, always and brief, with follows.home extended for the asking moves.
+**What.** Home-new offered one answer four ways (I'm from X, I grew up here, Here in X). New moves detail (work from the player's record), work and mutual (ask back, raise their-work or mutual), and deflect (a later time) sit beside plain, always and brief, with follows.home extended for the asking moves. The owner ruled this three times in OWNER-DECISIONS: "Four dynamic choices, always" (Oct 14), "The four replies each move the talk somewhere" (Oct 15), and "four replies are four different answers, never one reworded" (Oct 27).
 
 **Rules.** Declared slots only; no year in speech; evasion points to a later time; American English; no dice (traits and calibration rank the moves).
 
