@@ -74,7 +74,7 @@ An item is offered only when it is open, carries `checked: fable`, has a known c
 
 ## What you never do
 
-- Build an item whose Cause says "Needs cause", or one above your tier.
+- Build an item whose Cause says "Needs cause", or one above your tier. Finding a cause is its own job, with its own page: `docs/pool/FIND-A-CAUSE.md`.
 - Say you are a model you are not, to be given harder items.
 - Write, change or delete a line under `data/english/parts/`.
 - Decide what a person, business or body does by chance or a fixed percentage.
