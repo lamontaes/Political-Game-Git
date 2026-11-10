@@ -9,7 +9,8 @@ status: open
 claimed-by:
 pr:
 blocked-on:
-source: added with npm run pool -- add
+lead: legislation
+source: Fable, Nov 10, 2026, found red on clean main while checking the rider fix
 ---
 
 **What.** On main at 758ba9c3bd the test 'makes a trade in committee, with both sides reasons and the section on the bill' in src/core2/legislature-committees.test.ts fails in Achugao, Northern Mariana Islands (GOLDEN_PATH_SEED=0fa0de4be8c33033, attempt 0, place seed 3b0d7e363ddb0a8720b67bc3818f33d4fb365bd077f48d8f88932d8986675f3b). After two played years the bill bill:office:US-MP:legislature-lower:2025-09-01:official:term:seat:US-MP:governor:2025-01-20:58 carries an accepted committee trade with member official:term:seat:US-MP:lower:At-large:10:2025-01-20, but no section of the bill answers the question the deal's terms name. Either a later step replaced or struck the traded section and left the deal on the record as kept, or the deal was recorded for a section that never went in. Find which, and make the record and the bill agree: a traded section that is later struck ends the deal on the record, with the step that struck it.
