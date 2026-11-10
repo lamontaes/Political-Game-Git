@@ -1716,7 +1716,7 @@ export function composeJournal(
     }
     // Another's turn in public life (their filing, their oath, a race they
     // won) is told as what it meant to the person, from their tie: a friend's
-    // is gladness, a rival's is doubt; anyone else's is only the line.
+    // is the friendship, a rival's is doubt; anyone else's is only the line.
     const governing = row.turnFor === "self" || row.hasOwnLine;
     const theirWin =
       !row.hasOwnLine || facts.winner?.text === subjectOf(moment);
