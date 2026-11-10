@@ -7,6 +7,7 @@
  * `four-replies-are-four-answers` (data/english/line-rules.json) reads the
  * same table.
  */
+// stopgapId: SG-DIRECTOR-reply-groups-gaps
 import meaningsJson from "./data/reply-meanings.json" with { type: "json" };
 
 interface ReplyMeanings {

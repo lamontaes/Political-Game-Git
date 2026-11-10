@@ -84,6 +84,7 @@ import type {
 } from "../core2/types";
 import { BRING_IT_UP_ROWS, bringItUp, changesKnownTo } from "./bring-it-up";
 import { DEFAULT_DIRECTOR_DATA, type Director } from "./ledger";
+import { everydayMeaning } from "./reply-meanings";
 import { SITUATION_LIBRARY } from "./scheduling";
 import type { Moment } from "./types";
 import { viewOf } from "../core2/modules/views";
@@ -2766,10 +2767,11 @@ function replyReach(core: Readonly<CoreState>, playerId: PersonId): number {
 }
 
 /**
- * The four replies a turn offers, ranked by the player's traits: someone who carries talk on sees
- * the replies that raise or ask first, someone who keeps it short sees plain
- * answers and acknowledgments first. Each is a different move: a second
- * wording of a move offered is never one of them. "Say nothing" is a control beside them
+ * The four replies a turn offers, ranked by the player's traits: someone who
+ * carries talk on sees the replies that raise or ask first, someone who keeps
+ * it short sees plain answers and acknowledgments first. Each is a different
+ * answer: a second wording of an answer already offered, in any move of its
+ * meaning group, is never one of them. "Say nothing" is a control beside them
  * (`sayNothing`), never one of the four.
  */
 function rankChoices(
@@ -2813,15 +2815,18 @@ function rankChoices(
     )
     .map(({ row }) => row);
   const count = DEFAULT_DIRECTOR_DATA.parameters.directorChoicesPerTurn!.value;
-  // Four replies are four answers, never one reworded (owner, Oct 27, 4 PM
-  // Eastern: "four replies are four different answers"): a second wording of
-  // a move already offered is not offered.
-  const moves = new Set<string>();
+  // Four replies are four different answers, never one reworded (owner, Oct
+  // 27, 4 PM Eastern): one reply of each meaning group
+  // (data/reply-meanings.json). A second wording of an answer already offered
+  // is not offered, whatever move it comes from; where a group has no wording
+  // here, the next-ranked reply of another group takes the place, and a spot
+  // with fewer than four groups plays with what it has (reply-gaps.json).
+  const meanings = new Set<string>();
   return ranked
     .filter((row) => {
-      const move = row.move.startsWith("ack:") ? "ack" : row.move;
-      if (moves.has(move)) return false;
-      moves.add(move);
+      const meaning = everydayMeaning(after.kind, row.move);
+      if (meanings.has(meaning)) return false;
+      meanings.add(meaning);
       return true;
     })
     .slice(zero, count);

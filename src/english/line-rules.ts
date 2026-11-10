@@ -18,6 +18,7 @@
  * Pure: no files, no world. `scripts/words/run-rules.ts` reads the banks.
  */
 import { heldByGrades, type PartGradeLedger } from "./english-grades";
+import type { ChoicesReport } from "./choice-sets";
 import type { ReplyFollowsReport } from "./reply-pairs";
 
 /**
@@ -240,6 +241,8 @@ export interface RuleCount {
   readonly examples: readonly string[];
   /** What a place rule reports about its judged verdicts (`reply-follows-the-line-before`). */
   readonly report?: ReplyFollowsReport;
+  /** What the choices rule reports about the sets of replies spots offer (`four-replies-are-four-answers`). */
+  readonly choices?: ChoicesReport;
 }
 
 export interface RunTotals {
@@ -261,7 +264,11 @@ export interface RunTotals {
 /** What the place rules' own readers found, for the run to carry (`scripts/words/run-rules.ts` builds them). */
 export interface PlaceReports {
   readonly "reply-follows-the-line-before"?: ReplyFollowsReport;
+  readonly "four-replies-are-four-answers"?: ChoicesReport;
 }
+
+/** The place rule that reads the whole set of replies a spot offers together. */
+export const CHOICES_RULE = "four-replies-are-four-answers";
 
 export interface RunResult {
   readonly pulled: Readonly<Record<string, readonly string[]>>;
@@ -271,6 +278,15 @@ export interface RunResult {
   readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
   /** An enforced rule flags a piece the owner graded good: the rule is wrong. */
   readonly conflicts: readonly {
+    readonly key: string;
+    readonly rule: string;
+  }[];
+  /**
+   * Lines he graded good that sit in a set of replies the choices rule flags:
+   * kept in play and off the rewrite queue. The set is short, not the line
+   * wrong, so this is not a conflict; the report lists them for him.
+   */
+  readonly keptInFlaggedSets: readonly {
     readonly key: string;
     readonly rule: string;
   }[];
@@ -310,6 +326,7 @@ export function runRules(
   const queued = new Map<string, string[]>();
   const sampled = new Map<string, string[]>();
   const conflicts: { key: string; rule: string }[] = [];
+  const keptInFlaggedSets: { key: string; rule: string }[] = [];
   const perRule = new Map<
     string,
     { flagged: number; pulled: number; waiting: number; examples: string[] }
@@ -362,6 +379,25 @@ export function runRules(
         }
       }
   }
+  // The choices rule reads sets, not lines: every piece in a set that holds
+  // two replies of one meaning group, or fewer than four groups, waits for a
+  // rewrite and keeps playing (what a short set needs is another reply, so
+  // pulling one would leave it shorter). A piece he graded good is reported,
+  // never queued.
+  const choices = places[CHOICES_RULE];
+  const choicesRule = enforced.find((rule) => rule.id === CHOICES_RULE);
+  if (choices && choicesRule)
+    for (const key of Object.keys(choices.pieces)) {
+      if (!good.has(key) && !held.has(key)) {
+        const list = queued.get(key) ?? [];
+        list.push(CHOICES_RULE);
+        queued.set(key, list);
+      }
+      const row = count(CHOICES_RULE);
+      row.flagged += 1;
+      row.examples.push(key);
+      if (good.has(key)) keptInFlaggedSets.push({ key, rule: CHOICES_RULE });
+    }
   // Spots: who can say what, and which of them is safe (plays, breaks nothing).
   const spotPieces = new Map<string, RulePiece[]>();
   for (const piece of pieces)
@@ -419,14 +455,21 @@ export function runRules(
     conflicts: conflicts.sort((a, b) =>
       a.key === b.key ? (a.rule < b.rule ? -1 : 1) : a.key < b.key ? -1 : 1,
     ),
+    keptInFlaggedSets: keptInFlaggedSets.sort((a, b) =>
+      a.key < b.key ? -1 : a.key > b.key ? 1 : 0,
+    ),
     perRule: Object.fromEntries(
       [...perRule].map(([id, row]) => [
         id,
         {
           ...row,
           examples: row.examples.sort().slice(0, 5),
-          ...(places[id as keyof PlaceReports]
-            ? { report: places[id as keyof PlaceReports] }
+          ...(id === "reply-follows-the-line-before" &&
+          places["reply-follows-the-line-before"]
+            ? { report: places["reply-follows-the-line-before"] }
+            : {}),
+          ...(id === CHOICES_RULE && places[CHOICES_RULE]
+            ? { choices: places[CHOICES_RULE] }
             : {}),
         },
       ]),

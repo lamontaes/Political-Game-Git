@@ -18,7 +18,1669 @@
     ]
   },
   "waiting": {
-    "scene-talk.reply-agree.deal-yes": ["no-dangling-fragments"]
+    "conversation.acquittal-answer-deflect.it-s-behind-me-now": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.acquittal-answer-deflect.let-s-talk-about-something-else": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.acquittal-answer-refuse.i-d-rather-leave-it-there": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.acquittal-answer-refuse.that-s-all-i-ll-say": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.acquittal-raise.i-was-acquitted": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.acquittal-raise.they-found-me-not-guilty": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.asked-kin-answer-name.whos-name": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-comfort.itll-be-okay": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-comfort.its-going-to-be-okay": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-comfort.well-be-fine": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-comfort.well-figure-it-out": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-help.ill-help": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-ok.all-right-we-ll-make-it-work": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.eviction-where-reply-answer-ok.okay-tell-me-what-you-need": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-ill.hes-in-the-hospital": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-ill.not-so-good-i-ll-tell-name-you-asked": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-ill.not-too-well-you-should-call-name": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-thanks.thank-you-for-asking-i-ll-let-name-know": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-thanks.thanks-for-asking-i-ll-tell-name-you-asked": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.doing-well-i-ll-let-name-know-i-ran-into-you": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.he-s-doing-well-i-ll-tell-him-you-asked": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.he-s-good-you-should-come-by-and-see-him": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.name-is-doing-well-we-should-all-get-together-soon": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.she-s-doing-well-i-ll-tell-her-you-asked": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.she-s-good-you-should-come-by-and-see-her": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.they-re-doing-well-i-ll-tell-them-you-asked": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.family-answer-well.they-re-good-you-should-come-by-and-see-them": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.greet-answer-fine.and-you": ["four-replies-are-four-answers"],
+    "conversation.greet-answer-fine.cant-complain": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.greet-answer-fine.how-about-you": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.greet-answer-fine.okay": ["four-replies-are-four-answers"],
+    "conversation.greet-answer-fine.what-about-you": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-answer-always.i-grew-up-here": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-new-answer-always.i-grew-up-in-place": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-new-answer-always.i-was-born-and-raised-in-place": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-new-answer-always.i-was-born-in-place": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-new-answer-turn.where-do-you-live": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-new-ask-where.where-are-you-from": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-brief.oh": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-brief.right": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-brief.sure": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-own.i-live-in-my-place": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-own.im-in-my-place": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-same.me-too": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.home-reply-answer-same.same-here": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-against-about-before-i-see-it-differently-now": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-against-about-id-vote-that-way-again": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-against-about-thats-my-record": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-against-it-and-id-do-it-again": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-against-it-ive-changed-my-mind": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-for-about-before-ive-changed-my-mind": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-for-about-my-vote-stands": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-for-about-thats-my-record": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-for-it-and-id-do-it-again": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.i-voted-for-it-i-see-it-differently-now": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.my-vote-on-about-was-against-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-further.my-vote-on-about-was-for-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.i-havent-said-where-i-stand-on-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.i-havent-taken-a-position-on-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.i-oppose-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.i-support-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.i-want-to-to-thats-my-platform": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.i-wouldnt-to-thats-my-platform": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.im-against-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.im-for-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-plain.my-platform-doesnt-cover-about": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-turn.im-against-about-rival-is-for-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-turn.im-for-about-rival-is-against-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-turn.rival-is-against-about-ask-them-why": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-turn.rival-is-against-about-im-not": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-turn.rival-is-for-about-ask-them-why": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.interview-question-answer-turn.rival-is-for-about-im-not": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-brief.all-right-let-me-know-how-it-goes": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-brief.okay-keep-me-posted": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-help.can-i-help": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-help.how-can-i-help": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-help.i-can-help": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-help.tell-me-what-needs-doing-and-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-help.what-can-i-do": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-help.what-can-i-do-to-help": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-hope.good-luck": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-hope.i-hope-so": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-hope.i-know-you-will": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-hope.im-sure-you-will": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-hope-reply-answer-hope.youll-be-fine": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-new-told-reply-answer-tell.i-start-soon": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-new-told-reply-answer-tell.it-s-a-good-job-i-ll-tell-you-more-about-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-new-told-reply-answer-thank.thank-you-i-appreciate-that": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.job-new-told-reply-answer-thank.thanks-it-finally-came-through": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.kin-reply-not.i-dont-think-so": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.kin-reply-not.no-i-dont-think-so": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.kin-reply-not.no-i-havent": ["four-replies-are-four-answers"],
+    "conversation.mutual-answer-brief.huh": ["four-replies-are-four-answers"],
+    "conversation.news-answer-no.did-they-say-when-you-can-see-them": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-no.did-they-say-why": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-no.i-didnt-hear": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-no.i-havent-heard": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-no.no": ["four-replies-are-four-answers"],
+    "conversation.news-answer-no.no-i-didnt": ["four-replies-are-four-answers"],
+    "conversation.news-answer-no.tell-me": ["four-replies-are-four-answers"],
+    "conversation.news-answer-no.what": ["four-replies-are-four-answers"],
+    "conversation.news-answer-no.what-about-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-no.what-happened": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.could-be-good-we-ll-find-out-soon-enough": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.good-that-s-been-a-long-time-coming": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-d-want-more-than-a-headline-before-i-decide": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-don-t-like-the-sound-of-that": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-dont-know": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-dont-like-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-like-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-think-its-a-good-thing": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-think-its-great": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.i-think-its-terrible": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.im-not-sure": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.its-a-shame": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.its-about-time": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.that-worries-me-somebody-here-is-going-to-feel-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.time-will-tell": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.well-see": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-opinion.what-does-that-mean-for-us-though": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-react.i-cant-believe-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-react.i-didnt-know-that": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-react.no-kidding": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-react.oh-my": ["four-replies-are-four-answers"],
+    "conversation.news-answer-react.we-ll-manage-we-always-do": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.news-answer-react.youre-kidding": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.employer-how-do-you-like-it": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.employer-right": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.good-for-you": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.good-for-you-is-it-busy": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.i-see": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.oh-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.oh-i-see": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.oh-okay": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.oh-really": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.really": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.thats-good": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-ack.thats-great": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-own.i-work-at-my-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-own.i-work-for-my-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-own.im-at-my-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-own.im-with-my-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.do-you-like-it-there": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.have-you-been-there-long": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.how-long": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.how-long-has-it-been": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.how-long-have-you-been-doing-that": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.how-long-have-you-been-there": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.other-work-answer-tenure.is-that-new": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-brief.busy": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-brief.its-the-same": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-brief.nothings-changed": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-since.almost-years-years": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-since.ever-since-since": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-since.for-years-years-now": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-since.ive-been-at-employer-since-since": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-since.ive-been-there-for-years-years": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-since.since-since": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-turn.how-about-yourself": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-turn.what-are-you-doing-now": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-turn.what-do-you-do": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-answer-turn.where-do-you-work": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-new-answer-plain.at-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-new-answer-plain.im-at-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-new-answer-since.ive-been-at-employer-for-years-years": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-raise-tell.i-work-at-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-raise-tell.i-work-for-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-raise-tell.im-with-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.own-work-raise-tell.im-working-for-employer": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.i-go-to-school": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.i-graduated-from-school": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.i-went-to-school": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.i-went-to-school-at": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.im-a-student-at": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.im-at-school": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.school-answer-at.im-going-to-school": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.shared-school-answer-plain.i-remember": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.shared-school-answer-plain.of-course": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.shared-school-answer-plain.oh-sure": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.shared-school-answer-turn.i-do": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.shared-work-answer-turn.employer-sure": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.shared-work-answer-turn.i-sure-do": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.tenure-reply-answer-own.ive-been-at-my-employer-for-years-years": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.tenure-reply-answer-own.ive-been-at-my-employer-since-my-since": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.tenure-reply-answer-turn.thats-a-long-time": [
+      "four-replies-are-four-answers"
+    ],
+    "conversation.tenure-reply-answer-turn.wow": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.close-thank.welcome-aboard": ["four-replies-are-four-answers"],
+    "scene-talk.follow-accept.that-s-all-i-m-asking": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.all-right-congratulations-again": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.all-right-i-ll-hold-you-to-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.all-right-if-that-s-where-you-are-begging-won-t-help-either-of-us-i-ll": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.all-right-let-s-keep-counting": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.don-t-apologize-you-did-the-work-i-m-the-one-who-asked-people-to-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.fine-put-it-down-and-go": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.get-me-the-list-i-ll-make-the-calls": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.keep-this-between-us": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.okay-i-think-i-ve-felt-it-too-and-i-didn-t-want-to-be-the-one-to-say-i": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.okay-write-something-i-ll-look-at-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.provisional-hand-it-over": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-accept.then-give-me-a-provisional-ballot-and-write-my-name-in-that-log": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.all-right-as-long-as-we-both-stick-to-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.all-right-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.all-right-i-ll-look-at-it-again": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.all-right-i-ll-make-the-call": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.all-right-i-ll-run": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.all-right-i-ll-sign-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.alright-i-can-do-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.alright-i-have-it-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.alright-that-makes-sense-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.alright-that-s-easy-enough-i-ll-help-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.count-me-in": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.deal-yes": ["no-dangling-fragments"],
+    "scene-talk.reply-agree.do-it": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.everybody-should-get-a-shot-i-ll-sign": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.fair-i-will": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.fine-bring-it-back-i-ll-sign": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.fine-this-once-and-you-owe-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.fine-we-cancel": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.i-know-the-drill-you-ll-have-them-in-time": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.i-ll-do-it-tell-me-when": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.i-m-with-you": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.i-promise": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.i-will-support-the-constitution-and-the-laws-and-i-will-serve-as-office": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.okay-i-ll-read-it-this-weekend-and-sign-monday": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.okay-the-call-first-then-them": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.thank-you-chair-ill-be-voting-with-the-member": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.that-helps-and-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.that-makes-it-easier-and-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.that-makes-sense-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.that-makes-sense-to-me-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.that-s-great-news-count-me-in": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.then-i-believe-you-come-thursday": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.then-i-ll-come": ["four-replies-are-four-answers"],
+    "scene-talk.reply-agree.then-rest-i-ll-call-relative": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.when-you-put-it-that-way-i-see-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.yes-i-can-t-think-of-anyone-else-i-want-signing-the-lease-next-to-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.yes-i-d-rather-it-was-you-than-anyone": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.you-have-my-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-agree.you-ve-got-my-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.enough-that-i-d-be-embarrassed-to-give-it-back": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.i-don-t-know-yet-ask-me-tomorrow": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.i-gave-you-my-answer-on-that-and-i-meant-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.i-m-paying-it-back-and-i-ve-asked-the-clerk-to-post-the-records-you-ca": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.i-read-all-of-bill-ask-me-about-any-page-and-i-ll-tell-you-what-i-thi": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.parking-mostly-and-the-bus-stop-nobody-s-said-where-the-bus-goes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.something-that-matters-around-here-i-ll-tell-you-when-i-know": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.take-a-message-and-tell-opponent-i-ll-call-back-as-soon-as-i-m-off-the-stage": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.the-equivalency-test-im-done-with-that-building": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.then-write-that-i-stand-by-every-page-of-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.then-write-that-i-stand-by-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.yes-some-things-matter-more-than-one-election": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.you-can-quote-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-answer.you-re-right-to-ask-i-stand-where-i-said-i-do": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.all-right-thursday-on-the-record": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.fair-i-m-sorry-for-how-it-came-out": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.fair-to-the-chair-then-you-ve-already-decided": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.fine-fine-i-couldn-t-have-done-it-alone": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.fine-i-m-sorry-i-ll-say-it-at-the-meeting": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.i-m-sorry-for-what-i-didn-t-say-and-for-what-i-said-badly-i-wish-i-d-d": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.okay-okay-i-ll-stay-humble": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.okay-okay-point-taken": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.you-re-right-cut-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.you-re-right-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-apologize.you-re-right-to-be-tired-of-it-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-ask.did-anybody-call-us-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-ask.where-are-we-now": ["four-replies-are-four-answers"],
+    "scene-talk.reply-ask.where-do-you-want-me-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-ask.who-voted-against-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.fix-the-funding-section-and-i-m-there": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.help-me-with-the-road-money-for-my-district-and-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.i-ll-vote-yes-but-i-m-going-to-need-a-favor-from-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.i-will-if-you-ll-do-the-same-for-me-some-day": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.or-we-skip-the-fight-and-you-tell-me-what-you-d-sign": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.take-out-section-section-and-you-ll-have-my-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.then-give-me-two-months-pay-and-a-reference-in-writing": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.then-say-that-in-public-and-you-re-in": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.then-you-owe-me-one-a-big-one": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-bargain.what-s-in-it-for-my-district": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-blame.we-counted-those-votes-what-happened": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-boast.a-little-just-for-today": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-boast.then-let-it-be-the-clip-i-m-proud-of-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-boast.write-that-it-works-check-back-in-a-year": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-comfort.then-i-m-staying-here-a-while-longer-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-comfort.whatever-the-reason-i-m-on-your-side": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-comfort.whatever-this-means-for-you-i-m-on-your-side": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-comfort.you-might-be-right-i-m-still-angry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confess.fine-most-of-it-s-right-give-me-an-hour-for-a-statement": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confess.yes-i-did-it-i-m-sorry-and-i-ll-tell-you-what-i-m-doing-about-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.grow-up-you-came-at-me-first-and-you-did-it-in-front-of-the-press": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.i-don-t-need-to-count-twice-i-know-my-members": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.it-s-the-answer-you-ll-get-cameras-or-not": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.more-people-asked-me-for-it-than-against-it-that-s-the-honest-answer": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.put-it-down-on-the-table-i-m-calling-this-in": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.so-you-decided-for-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.that-s-what-i-ve-got-you-want-more-say-it-in-public": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.that-s-your-framing-not-the-record-who-told-you-most-people-here-want": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.then-i-ll-ask-the-boss-myself": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.then-quit-acting-like-you-didn-t-swing-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.then-they-should-hear-what-it-would-have-cost-without-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.then-we-re-done-talking": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.we-don-t-have-time-and-you-know-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.why-are-you-asking-me-before-the-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.witness.you-re-reporting-me-because-it-suits-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.you-argued-for-me-sure": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.you-got-to-think-it-over-alone-for-as-long-as-you-wanted-and-i-get-fiv": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.you-ve-already-decided-haven-t-you-you-didn-t-ask-me-for-anything-you-": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.you-ve-got-my-vote-on-there-did-you-put-down-why-i-cast-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-confront.you-want-a-fight-you-ll-get-one-tuesday-at-the-mic": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.can-it-wait-till-tomorrow-i-m-dead-on-my-feet": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-appreciate-it-but-i-d-rather-keep-this-small": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-can-carry-it-to-the-people-who-decide-i-can-t-make-them-say-yes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-can-t-be-on-it-i-won-t-work-against-you-either": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-can-t-not-on-this-one": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-can-t-say-yes-today-i-won-t-say-no-without-hearing-you-out": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-d-rather-let-the-campaign-speak-for-itself": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-d-rather-run-it-myself-for-now": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-don-t-need-a-room-to-say-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-don-t-need-to-sleep-on-it-it-s-still-no": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-ll-sit-this-one-out": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-love-you-and-i-m-not-going-anywhere-but-i-m-not-ready-to-marry-and-i": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-m-not-in-a-position-to-commit-bring-me-your-best-argument": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-m-not-sold-yet": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-m-not-the-one-for-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-m-sorry-but-i-still-can-t-do-it-i-hope-you-ll-understand": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-see-why-you-asked-but-my-answer-is-still-no-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-still-don-t-see-it-your-way": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-understand-but-i-still-can-t-do-it-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.i-understand-why-you-asked-but-i-still-can-t-do-it-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.no-i-m-not-ready-for-this-and-i-won-t-pretend-i-am": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.not-this-time-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.not-today-thanks": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.thank-you-but-i-m-going-to-pass": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.that-s-more-than-i-can-do-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.that-s-twenty-people-i-d-let-down-either-way": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-decline.the-state-i-m-sorry-but-it-s-the-state": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.doesn-t-change-anything-for-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.i-can-t-count-it-yet-give-me-a-day": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.i-ll-take-the-next-hand": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.i-m-not-going-to-chase-every-flyer": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.i-m-not-saying-no-i-need-more-time-to-think-can-you-give-me-that-witho": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.i-m-still-making-up-my-mind": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.i-understand-but-i-still-can-t-give-you-an-answer-today": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.it-s-just-a-busy-stretch": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.it-was-a-tense-night-for-everybody": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.let-me-make-you-some-tea-and-then-we-ll-talk-about-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.let-me-read-it-first-then-i-ll-say": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.let-me-think-about-whether-i-m-the-right-person-to-help-and-i-ll-tell-you-tomorrow": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.let-me-think-it-over-before-i-say-yes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.let-s-get-a-second-estimate-before-we-decide-anything": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.maybe-they-ll-wait-if-we-ask": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.people-will-talk-about-it-for-a-while-i-suppose": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.that-s-a-big-one-for-fries-and-coffee-can-we-start-smaller": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deflect.this-isn-t-the-place": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deny.friend.no-i-swear-i-didn-t": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deny.no-where-did-you-hear-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deny.one-thing-the-date-s-wrong-i-can-send-you-the-calendar": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deny.that-s-wrong-what-s-the-specific-claim-and-who-s-your-source-on-the-da": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-disagree.i-don-t-have-the-patience-you-had": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-disagree.thank-you-chair-i-cant-go-along-with-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-disagree.that-s-not-enough-we-ll-lose-on-the-floor": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-disagree.that-s-their-side-of-it-where-s-the-other": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.call-me-back-later": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.can-we-talk-later": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.forget-it-i-ll-go-across-town": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.give-me-a-little-time-with-this": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.give-me-a-second-it-s-a-lot": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.good-then-we-re-done": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-can-t-decide-this-right-now": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-can-t-do-this-today": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-can-t-talk-now-later": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-have-to-be-on-the-floor-in-five-minutes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-have-to-go": ["four-replies-are-four-answers"],
+    "scene-talk.reply-leave.i-have-to-go-but-thank-you-for-asking": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-have-to-go-call-me-later": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-have-to-go-send-me-what-you-ve-got": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-hear-you-and-i-have-to-take-the-next-question": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-answer-this-at-my-next-town-hall": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-be-right-back-don-t-dial-without-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-call-you-once-i-ve-decided": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-decide-by-the-deadline-you-ll-hear-from-my-office": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-go-start-knocking-on-doors": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-let-you-get-back-to-your-evening": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-tell-you-before-the-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ll-think-about-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-done-take-it-with-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-going-to-clean-out-my-locker": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-going-to-go-lie-down-for-a-while": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-going-to-take-a-shower": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-going-to-think-about-what-you-said-i-mean-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-late-for-a-meeting-we-ll-pick-this-up-another-time": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-sorry-i-have-to-go": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-m-sorry-i-have-to-move-on": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-need-a-minute": ["four-replies-are-four-answers"],
+    "scene-talk.reply-leave.i-need-some-air": ["four-replies-are-four-answers"],
+    "scene-talk.reply-leave.i-need-to-head-home": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-need-to-sit-down-for-a-minute": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-need-to-sit-with-this-a-while": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-really-have-to-go": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-should-feed-kid-soon": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-should-get-these-to-the-car-before-i-change-my-mind": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-should-think-about-that-before-i-answer": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ve-got-a-meeting-walk-with-me-if-you-want": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ve-got-to-run-call-me-tonight": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.i-ve-said-all-i-m-going-to-say": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.im-done-talking": ["four-replies-are-four-answers"],
+    "scene-talk.reply-leave.im-going-to-go-lie-down": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.leave-me-the-file-i-ll-call-the-other-side-before-i-decide": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-me-drop-my-bag-and-i-m-all-yours": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-me-look-at-next-week": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-me-put-my-things-down-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-me-splash-some-water-on-my-face-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-s-talk-about-it-tomorrow-once-we-ve-both-cooled-off": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-s-talk-over-dinner-not-here": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-s-talk-tomorrow-when-we-re-both-calmer": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.let-them-count-goodnight": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.maybe-let-me-think-on-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.next-question-please": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.not-tonight-ask-me-again-this-weekend": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.thank-you-chair-ill-hear-the-rest-from-my-seat": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.that-s-all-i-ve-got-thank-you-for-staying-late": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.that-s-enough-for-now-we-ll-finish-this-later": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.they-re-getting-loud-let-s-go": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.this-conversation-is-over": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.understood-i-ll-sit-down": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.we-re-not-getting-anywhere-out-here": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.we-re-voting": ["four-replies-are-four-answers"],
+    "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-leave.you-need-to-rest-i-ll-come-back-in-the-morning": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-lie.you-can-count-on-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.call-my-office-monday-i-ll-walk-it-to-the-right-desk": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.call-my-office-tomorrow-and-ask-for-me-by-name": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.come-see-me-this-week-i-ll-make-the-time": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.fine-i-ll-step-out": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.i-can-bring-the-members-from-my-side": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.i-can-t-do-this-justice-from-here-come-see-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.i-ve-got-a-little-put-away-use-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.stay-after-and-let-s-sit-down-i-want-the-whole-story": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.then-i-ll-meet-them-at-the-door-not-in-the-street": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-offer.there-s-a-posting-at-public-works-this-week-tell-him-to-apply-by-frida": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-press.and-if-nobody-calls": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.all-right-i-ll-call-them-myself-this-week": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.all-right-me-have-him-send-it-to-me-directly": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.don-t-apologize-we-re-disappointed-not-done-we-bring-it-back-next-sess": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.fair-i-ll-find-out-whose-it-is-and-tell-you-myself": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.first-thing-tomorrow-i-m-calling-everyone-who-knocked-doors": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.good-now-it-s-a-real-race": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.have-him-call-me-i-ll-see-what-s-real": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-answer-that-thanks-for-telling-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-be-there-and-you-can-count-on-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-be-there-at-ten": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-call-you-this-week": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-clear-my-schedule-this-weekend-you-have-my-word": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-figure-it-out-i-promise": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-get-you-the-rest": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-give-you-a-real-answer-not-the-polished-one-it-might-take-me-a-mi": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-start-on-it-tomorrow-and-i-ll-tell-you-how-it-goes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-start-tomorrow-and-write-you-what-i-find": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-take-care-of-it-and-i-ll-check-on-you-afterward": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-ll-take-care-of-it-and-you-have-my-word": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-m-running-again-and-i-want-you-in-it-again": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.i-will-support-the-constitution-and-the-laws-i-will-carry-out-the-duties": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.ill-finish-summer-school-or-the-equivalency-test": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.im-going-to-fix-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.my-people-will-want-a-say-i-ll-be-in-touch": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.tell-me-what-it-s-doing-to-you-and-i-ll-take-it-back-to-the-others": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.then-i-ll-still-call-you-when-i-can-t-find-something": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.then-i-ll-take-it-up-i-ll-tell-you-what-comes-of-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.then-let-s-get-it-done-i-ll-start-with-the-builder": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.then-we-fix-it-now-i-ll-help": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.this-isn-t-the-end-of-anything-we-ll-keep-in-touch": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.today-before-five-ask-for-my-office-manager": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.yes-you-can-count-on-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.anyone-else-i-d-say-it-flat-you-i-m-sorry-it-s-a-no": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.bill-isn-t-going-on-my-calendar-this-session": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.don-t-get-comfortable": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-can-t-do-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-can-t-vote-for-bill": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-m-not-going-to-respond-to-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-m-sorry-but-i-m-a-no-on-bill": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-m-sorry-i-can-t-be-the-one-who-gets-him-in": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-m-sorry-my-answer-doesn-t-change": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-ve-heard-you-the-answer-stays-the-same": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-ve-listened-it-stays-as-the-council-passed-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.i-ve-made-up-my-mind-it-s-no": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.my-answer-is-the-same-dont-come-to-me-again": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.no-and-don-t-ask-me-on-the-floor-again": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.no-and-this-changes-nothing": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.no-i-m-staying-where-i-am": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.no-let-it-go-for-now": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.not-in-a-hallway-send-the-question-to-my-office-in-writing": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.not-me-that-s-the-whole-point": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.not-yet-i-m-not-ready": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.not-yet-i-m-sorry": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.pick-that-up-and-go": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.put-the-risk-in-writing-for-me-and-we-go-ahead": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.tell-them-it-s-a-veto": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.then-it-gets-a-veto": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-refuse.then-talk-to-my-lawyer": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-relent.all-right-i-m-in-you-re-buying-lunch": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-relent.all-right-mark-me-yes-and-mark-that-i-didn-t-enjoy-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-relent.all-right-stay-and-we-ll-see-how-it-goes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-relent.all-right-you-win-i-m-in": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-relent.you-ve-made-your-point-count-me-in": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.call-the-county-now-i-ll-wait": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.give-me-a-list-of-everyone-who-s-undecided": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.hold-on-to-kid-for-an-hour-i-need-to-sleep": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.i-d-like-the-board-to-hear-from-the-people-on-my-block-first": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.put-me-where-you-re-shortest": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.then-could-you-stay-an-hour-so-i-can-sleep": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-request.write-that-down-too-i-want-a-record-i-was-here": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-stall.depends-on-the-amendment": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-stall.give-me-an-hour-before-we-decide": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-stall.then-i-ll-pass-and-you-can-call-it-what-you-want": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.ask-me-anything-about-that-vote-i-ll-answer-it-here": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.because-the-rule-says-i-can-and-the-people-who-sent-me-sent-me-to-vote": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.fine-it-s-on-the-list-i-reported-it-and-i-ll-show-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.honestly-a-regular-life-with-some-use-in-it-dinner-with-people-i-like-": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-d-like-to-be-useful-without-being-noticed-for-it-that-s-harder-than-": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-ll-tell-them-the-truth-i-need-a-little-time": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-m-running-i-ll-be-home-for-dinner-with-child-most-nights-and-i-ll-tell-you-the": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-really-thought-we-had-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-still-can-t-believe-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-ve-got-people-counting-on-me-to-say-yes": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-voted-the-way-i-thought-was-right-for-place-here-s-why": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.i-went-after-the-idea-not-you-i-can-see-it-didn-t-come-across-that-way": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.it-was-a-hard-vote-i-ll-tell-you-what-i-weighed": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.it-was-most-of-it-now-grab-the-other-end": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.maybe-something-with-the-town-i-ve-been-paying-attention": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.support-the-head-there-you-re-a-natural": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.that-s-fair-nobody-should-find-out-what-a-law-does-to-them-from-a-stra": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.then-i-ll-wait-i-want-to-thank-opponent-before-i-thank-anybody-else": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.then-put-my-answer-next-to-it-let-people-read-both-before-they-sign": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-tell.you-did-tell-the-next-one-i-said-to-listen-to-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.going-away-okay-that-s-what-i-needed-to-hear": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.good-thanks-for-being-straight-with-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.good-that-s-a-start": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.good-to-know-thanks": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.i-appreciate-that-it-s-a-good-start": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.i-couldn-t-have-run-it-without-you-not-one-day-of-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.i-d-like-that-thank-you": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.okay-thanks-for-putting-up-with-me": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.thank-you-i-mean-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.thanks-for-everything-i-mean-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.thanks-i-mean-it": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.thanks-i-needed-that": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.thanks-really": ["four-replies-are-four-answers"],
+    "scene-talk.reply-thank.thanks-tell-me-when-you-know-more": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.that-helps-more-than-you-know": [
+      "four-replies-are-four-answers"
+    ],
+    "scene-talk.reply-thank.you-carried-me-through-this-thank-you": [
+      "four-replies-are-four-answers"
+    ]
   },
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
@@ -78,7 +1740,9 @@
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
       "conflict-accuse.hearsay/deny",
-      "conflict-accuse.taken/deny"
+      "conflict-accuse.taken/deny",
+      "conflict-accuse.witness/deny",
+      "conflict-accuse/deny"
     ],
     "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first": [
       "conflict-accuse.hearsay/tell"
@@ -87,6 +1751,9 @@
       "conflict-accuse.hearsay/tell"
     ],
     "scene-talk.follow-confront.i-will": [
+      "conflict-accuse.friend/deny",
+      "conflict-accuse.friend/leave",
+      "conflict-accuse.friend/tell",
       "conflict-accuse.hearsay/deny",
       "conflict-accuse.hearsay/leave",
       "conflict-accuse.hearsay/tell",

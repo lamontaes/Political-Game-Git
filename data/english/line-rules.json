@@ -1737,6 +1737,32 @@
       ]
     },
     {
+      "id": "four-replies-are-four-answers",
+      "says": "A spot offers four replies that are four different answers, never one answer worded several ways: no two replies of one meaning group, and at least four groups to choose from.",
+      "from": [
+        {
+          "date": "2026-10-14",
+          "words": "Four dynamic choices, always. A conversation always offers four replies ranked by the engine, with \"say nothing\" as a smaller control beside them, never one of the four."
+        },
+        {
+          "date": "2026-10-15",
+          "words": "The four replies each move the talk somewhere.",
+          "via": "OWNER-DECISIONS.md, Oct 15, evening, \"A reply continues the conversation\""
+        },
+        {
+          "date": "2026-10-27",
+          "words": "four replies are four different answers, never one reworded.",
+          "via": "OWNER-DECISIONS.md, Oct 27, afternoon, \"Scenes have depth or they do not fire\""
+        }
+      ],
+      "note": "Seen on main on Nov 10: \"Where are you from?\" offered \"I'm from Grandville. And you?\", \"I grew up here.\", \"I'm from Grandville.\" and \"Here in Grandville.\" The groups are in src/director/data/reply-meanings.json. The rule reads the sets the composers offer (scenes with a purpose composed in a drawn world, everyday talk by the answers a subject can give), lists each flagged spot with its replies, and queues every piece in a flagged set for a rewrite; the lines keep playing, since a short set needs another reply, not one fewer.",
+      "status": "enforced",
+      "test": {
+        "kind": "place",
+        "reads": "src/director/data/reply-meanings.json"
+      }
+    },
+    {
       "id": "introduced-before-addressed",
       "says": "Every person, outlet, office or thing is named to the player before a line addresses it.",
       "from": [
