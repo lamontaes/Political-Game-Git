@@ -20,7 +20,13 @@ import {
   readTiers,
   tierOfLevel,
 } from "./agent";
-import { NOTE_PLACEHOLDER, prBody, prTitle, releaseNote } from "./draft-pr";
+import {
+  NOTE_PLACEHOLDER,
+  chooseNoteId,
+  prBody,
+  prTitle,
+  releaseNote,
+} from "./draft-pr";
 import {
   claimable,
   DEFAULT_ORDER,
@@ -795,22 +801,61 @@ function releasedText(id: string, lead: string): string {
   );
 }
 
-/** The release note for `id` on `branch`: origin's copy when origin has the branch, else the local branch's, else null. */
-function noteOnBranch(branch: string, id: string): string | null {
+/** The release notes a branch adds under docs/release/changes/: path and text, read from origin's copy when origin has the branch, else the local branch. Null when the branch is unreadable. */
+function notesOnBranch(
+  branch: string,
+): { path: string; text: string }[] | null {
   if (!BRANCH.test(branch)) return null;
-  const path = `docs/release/changes/${id}.md`;
-  let fetched = false;
+  let ref = branch;
   try {
     git("fetch", "-q", "origin", branch);
-    fetched = true;
+    ref = "FETCH_HEAD";
   } catch {
     /* no origin copy */
   }
   try {
-    return git("show", `${fetched ? "FETCH_HEAD" : branch}:${path}`);
+    const names = git(
+      "diff",
+      "--name-only",
+      "--diff-filter=AM",
+      `origin/main...${ref}`,
+      "--",
+      "docs/release/changes/",
+    )
+      .split("\n")
+      .filter(Boolean);
+    return names.map((path) => ({ path, text: git("show", `${ref}:${path}`) }));
   } catch {
     return null;
   }
+}
+
+/** Every change id already used on main: those listed in consumed-changes.json and the files in docs/release/changes/. */
+function usedNoteIds(): Set<string> {
+  const used = new Set<string>();
+  try {
+    const j = JSON.parse(
+      git("show", "origin/main:docs/release/consumed-changes.json"),
+    ) as { entries?: { changeIds?: string[] }[] };
+    for (const e of j.entries ?? [])
+      for (const c of e.changeIds ?? []) used.add(c);
+  } catch {
+    /* no list on main */
+  }
+  try {
+    for (const f of git(
+      "ls-tree",
+      "--name-only",
+      "origin/main",
+      "docs/release/changes/",
+    )
+      .split("\n")
+      .filter(Boolean))
+      used.add(f.replace(/^.*\//, "").replace(/\.md$/, ""));
+  } catch {
+    /* no changes folder on main */
+  }
+  return used;
 }
 
 /** When a branch was last pushed: its newest commit's time, fetched from origin or read from the local origin ref. */
@@ -860,10 +905,27 @@ export function staleClaims(
   return out;
 }
 
+/** Whether a pull request is OPEN, CLOSED or MERGED, asked of gh; null when gh cannot say. */
+function prState(pr: string): string | null {
+  try {
+    const said = execFileSync(
+      "gh",
+      ["pr", "view", pr.replace(/^#/, ""), "--json", "state"],
+      { encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] },
+    );
+    const state = (JSON.parse(said) as { state?: string }).state;
+    return state && /^[A-Z]+$/.test(state) ? state : null;
+  } catch {
+    return null;
+  }
+}
+
 /** Where `next` prints, and a hook tests use to run another caller between the claim and its push. */
 export interface NextIO {
   out: (line: string) => void;
   beforePush?: () => void;
+  /** Where the stage lines go; standard error when unset, so the result lines stay the same. */
+  progress?: (line: string) => void;
 }
 
 const NEXT_USAGE =
@@ -873,7 +935,7 @@ const startSubject = (id: string): string =>
   `${id}: start the branch with its release note`;
 
 /** Makes `branch` on origin from origin/main with one commit adding the item's release note, without touching the working tree. */
-function startBranch(id: string, branch: string): void {
+function startBranch(id: string, noteId: string, branch: string): void {
   const dir = mkdtempSync(join(tmpdir(), "pool-branch-"));
   const env = { ...process.env, GIT_INDEX_FILE: join(dir, "index") };
   const g = (args: string[], input?: string): string =>
@@ -884,13 +946,13 @@ function startBranch(id: string, branch: string): void {
       stdio: ["pipe", "pipe", "pipe"],
     }).trim();
   try {
-    const blob = g(["hash-object", "-w", "--stdin"], releaseNote(id));
+    const blob = g(["hash-object", "-w", "--stdin"], releaseNote(noteId));
     g(["read-tree", "origin/main"]);
     g([
       "update-index",
       "--add",
       "--cacheinfo",
-      `100644,${blob},docs/release/changes/${id}.md`,
+      `100644,${blob},docs/release/changes/${noteId}.md`,
     ]);
     const tree = g(["write-tree"]);
     const commit = g([
@@ -925,6 +987,8 @@ function next(
   const tiers = readTiers(POOL());
   const dry = !!f["dry-run"];
   const now = Date.now();
+  const stage = (line: string): void =>
+    (io.progress ?? ((l) => void process.stderr.write(`${l}\n`)))(line);
   // The agent of this checkout: named and given its tier by the tool, from
   // what it says it is. `--tier` (or the older `--model`) and `--agent` are
   // for an owner or CTO who wants to set them by hand.
@@ -973,11 +1037,8 @@ function next(
 
   if (dry) {
     const items = read();
-    const stale = staleClaims(items, now, (b) => branchTip(b, false));
-    if (stale.length)
-      io.out(
-        "These releases go by the branch times this checkout already has; next itself fetches each branch first.",
-      );
+    stage("Looking for claims gone quiet (fetching each claimed branch).");
+    const stale = staleClaims(items, now, (b) => branchTip(b, true));
     for (const s of stale) {
       io.out(`Would release ${s.id}: ${staleLine(s)}.`);
       const i = items.find((x) => x.id === s.id);
@@ -1013,6 +1074,7 @@ function next(
     return null;
   }
 
+  stage("Releasing quiet claims, choosing the item and claiming it on main.");
   let taken: Item | null = null;
   let released: Stale[] = [];
   onMain(
@@ -1079,13 +1141,14 @@ function next(
   }
   const branch = branchOf(item);
   let started: string[] | null = null;
+  stage(`Starting the branch ${branch}.`);
   try {
     git("fetch", "-q", "origin", branch);
     started = git("log", "--format=%s", "origin/main..FETCH_HEAD")
       .split("\n")
       .filter(Boolean);
   } catch {
-    startBranch(item.id, branch);
+    startBranch(item.id, chooseNoteId(item.id, usedNoteIds()), branch);
   }
   io.out(`Item: ${item.id}`);
   io.out(`Title: ${item.title}`);
@@ -1093,8 +1156,26 @@ function next(
   io.out(
     `Branch: ${branch} (to start: git fetch origin ${branch} && git checkout -B ${branch} origin/${branch})`,
   );
+  const notes = notesOnBranch(branch) ?? [];
+  io.out(
+    notes.length
+      ? `Release note: ${notes.map((n) => n.path).join(", ")}`
+      : "Release note: none on the branch yet; add one under docs/release/changes/",
+  );
   let pr = item.pr;
+  if (pr) {
+    const state = prState(pr);
+    if (state === "OPEN") {
+      /* a live draft: keep it */
+    } else if (state) {
+      io.out(
+        `Pull request ${pr} is ${state.toLowerCase()}; opening a new draft.`,
+      );
+      pr = "";
+    } else io.out(`Pull request ${pr}: gh could not say whether it is open.`);
+  }
   if (!pr) {
+    stage("Opening the draft pull request.");
     const title = prTitle(item.id, item.title);
     const body = prBody(
       item.id,
@@ -1227,10 +1308,11 @@ export function command(
         const fm = readItem(id);
         if (st === "in-pr") {
           const branch = fm.branch || fm["claimed-by"];
-          const note = branch ? noteOnBranch(branch, id) : null;
-          if (note?.includes(NOTE_PLACEHOLDER))
+          const notes = branch ? notesOnBranch(branch) : null;
+          const open = notes?.find((n) => n.text.includes(NOTE_PLACEHOLDER));
+          if (open)
             throw new Error(
-              `docs/release/changes/${id}.md on ${branch} still says "${NOTE_PLACEHOLDER}" Write the release note, push it, then set the item in-pr.`,
+              `${open.path} on ${branch} still says "${NOTE_PLACEHOLDER}" Write the release note, push it, then set the item in-pr.`,
             );
         }
         // A second merge of a checked or closed item must not undo its check.
