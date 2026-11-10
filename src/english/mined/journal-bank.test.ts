@@ -54,7 +54,7 @@ const minedPatterns = JOURNAL_BANK.parts.map(
     ),
 );
 const FEELINGS =
-  /\b(?:happy|sad|glad|proud|angry|afraid|scared|lonely|loved|hated|miss(?:ed)?|grief|joy|upset|worried|excited)\b/i;
+  /\b(?:happy|sad|glad|proud|angry|afraid|scared|lonely|loved|hated|miss(?:ed)?|grief|joy|upset|worried|excited|difficult|hard|tough|terrible|wonderful|relieved|relief|rough|nervous|anxious|lucky|painful|awful|heartbreaking|overwhelmed)\b/i;
 
 function resolves(state: CoreState, id: string): boolean {
   const person = state.people.get(player.id)!;

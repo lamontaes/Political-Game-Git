@@ -28,7 +28,12 @@
     "bargains": "Offers a trade or a condition.",
     "boasts": "Plays up the player's own standing.",
     "lies": "Says what is not so.",
-    "leaves": "Ends the talk by going."
+    "leaves": "Ends the talk by going.",
+    "changes-subject": "Moves the talk to something else, with a short answer or none."
+  },
+  "fill": {
+    "about": "The groups a new move fills a short set with when the spot's own moves cannot reach four (the words-engine skill: \"Fill a gap with a new move (a reply that adds a fact from the player's own record, turns it back, deflects, declines)\"; the item's Notes, Nov 10: home-new \"has no move that adds a detail from the player's record, deflects, or changes the subject\"; #8174 wrote a change-the-subject answer for own-work and mutual). Read by the words run (`npm run words:rules`), which names them, after the spot's own unwritten moves, as the groups a gap in data/english/pulled.json is missing. Never read by play.",
+    "groups": ["adds", "turns-back", "deflects", "changes-subject", "refuses"]
   },
   "everyday": {
     "greet": {
@@ -41,7 +46,10 @@
       "brief": "answers",
       "plain": "answers",
       "since": "adds",
-      "turn": "turns-back"
+      "detail": "adds",
+      "turn": "turns-back",
+      "deflect": "deflects",
+      "change": "changes-subject"
     },
     "own-work-new": {
       "plain": "answers",
@@ -96,7 +104,10 @@
       "brief": "acknowledges",
       "turn": "turns-back",
       "mine-saw": "adds",
-      "mine-not": "agrees"
+      "mine-not": "agrees",
+      "care": "requests",
+      "deflect": "deflects",
+      "change": "changes-subject"
     },
     "asked-mutual": {
       "turn": "turns-back",

@@ -26,6 +26,14 @@ import { playableParts } from "./reply-pairs";
 import { readVerdicts } from "./reply-verdicts";
 import type { PartGradeLedger } from "../../src/english/english-grades";
 import {
+  gradeNotesOf,
+  readingOf,
+  type GradeRow,
+  type NotesNotRulesFile,
+  type ReadingReport,
+  type RulingsReadFile,
+} from "../../src/english/rulings-read";
+import {
   pulledFileOf,
   runRules,
   type PlaceReports,
@@ -40,6 +48,9 @@ export const RULES_FILE = "data/english/line-rules.json";
 export const PULLED_FILE = "data/english/pulled.json";
 export const LEDGER_FILE = "data/english/part-grades.json";
 export const PARTS_DIR = "data/english/parts";
+export const GRADES_DIR = "data/english/grades";
+export const RULINGS_FILE = "data/english/rulings-read.json";
+export const NOTES_FILE = "data/english/notes-not-rules.json";
 
 /** Every bank piece, in file order. */
 export function readBankPieces(dir = PARTS_DIR): RulePiece[] {
@@ -109,6 +120,27 @@ export function replyFollowsReport(): ReplyFollowsReport {
   });
 }
 
+/** What was read besides the rules' words: his grade notes and his rulings from the other places. */
+export function readReading(rules: readonly LineRule[]): ReadingReport {
+  const files = readdirSync(GRADES_DIR)
+    .filter((name) => name.endsWith(".json"))
+    .sort()
+    .map((file) => ({
+      file,
+      grades: (
+        JSON.parse(readFileSync(join(GRADES_DIR, file), "utf8")) as {
+          grades: GradeRow[];
+        }
+      ).grades,
+    }));
+  return readingOf(
+    rules,
+    gradeNotesOf(files),
+    JSON.parse(readFileSync(RULINGS_FILE, "utf8")) as RulingsReadFile,
+    JSON.parse(readFileSync(NOTES_FILE, "utf8")) as NotesNotRulesFile,
+  );
+}
+
 /** A fresh run over the files on disk. */
 export function freshRun(): {
   readonly result: RunResult;
@@ -125,6 +157,45 @@ export function freshRun(): {
   return { result, pulledFile: pulledFileOf(result), rules, pieces };
 }
 
+const quote = (text: string) => `"${text.replace(/\s+/g, " ").trim()}"`;
+
+/** The top lines of the report: what was read and how much of it is attached. */
+function readingTotals(reading: ReadingReport): string[] {
+  const notes = reading.notes.length;
+  const noteAttached = notes - reading.unattachedNotes.length;
+  const rulings = reading.rulings.length;
+  const places = Object.entries(reading.perPlace)
+    .map(([name, count]) => `${name} ${count}`)
+    .join(", ");
+  return [
+    `- Grade notes read: ${notes}. Attached to a rule: ${noteAttached}. Attached to none: ${reading.unattachedNotes.length}.`,
+    `- Rulings read from the other places: ${rulings} (${places}). Attached to a rule: ${reading.attachedRulings}. Not rules: ${rulings - reading.attachedRulings}.`,
+  ];
+}
+
+/** The two lists at the end of the report: notes no rule cites, and rulings that are not rules. */
+function readingSections(reading: ReadingReport): string[] {
+  const batch = (file: string) => file.replace(/\.json$/, "");
+  return [
+    `## Grade notes attached to no rule (${reading.unattachedNotes.length})`,
+    "",
+    ...reading.unattachedNotes.map(
+      (note) =>
+        `- ${note.date || "no date"}, ${batch(note.file)}, ${quote(note.note)}: ${note.reason || "NO REASON GIVEN"}`,
+    ),
+    "",
+    `## Rulings that are not rules (${reading.rulings.length - reading.attachedRulings})`,
+    "",
+    ...reading.rulings
+      .filter((r) => !r.rule)
+      .map(
+        (r) =>
+          `- ${r.id}, ${r.date}, ${r.source}, ${quote(r.words)}: ${r.notARule ?? "NO REASON GIVEN"}`,
+      ),
+    "",
+  ];
+}
+
 const short = (text: string, max = 80) =>
   text.length > max ? `${text.slice(0, max - 1)}...` : text;
 
@@ -133,9 +204,20 @@ export function reportOf(
   rules: readonly LineRule[],
   pieces: readonly RulePiece[],
   result: RunResult,
+  reading?: ReadingReport,
 ): string {
   const text = new Map(pieces.map((piece) => [piece.key, piece.text]));
   const lines: string[] = ["# Rules run", ""];
+  if (reading) {
+    const mismatched = rules
+      .filter((rule) => rule.detectorReads)
+      .map((rule) => `${rule.id} (${rule.judges})`);
+    lines.push(
+      ...readingTotals(reading),
+      `- Rules: ${rules.length}. Rules that judge a set or an exchange but whose detector reads one line: ${mismatched.length ? mismatched.join(", ") : "none"}.`,
+      "",
+    );
+  }
   for (const rule of rules) {
     const row = result.perRule[rule.id]!;
     lines.push(
@@ -164,7 +246,7 @@ export function reportOf(
         `Spots read: ${c.spots}. Offering four replies of four groups: ${c.fourOfFour}. Flagged: ${c.flagged.length}. A short set needs another reply of a group it lacks; no line is queued.`,
         ...c.flagged.map(
           (flag) =>
-            `- ${flag.spot} (${flag.problems.join("; ")}): ${flag.replies.map((reply) => `"${short(reply.text, 40)}" [${reply.group}]`).join(", ")}`,
+            `- ${flag.spot} (${flag.problems.join("; ")}; needs ${flag.needs} more, missing ${flag.missing.join(", ") || "none named"}): ${flag.replies.map((reply) => `"${short(reply.text, 40)}" [${reply.group}]`).join(", ")}`,
         ),
       );
     }
@@ -194,6 +276,7 @@ export function reportOf(
         )
       : ["None."]),
     "",
+    ...(reading ? readingSections(reading) : []),
   );
   return lines.join("\n");
 }
@@ -202,7 +285,7 @@ function main() {
   const { result, pulledFile, rules, pieces } = freshRun();
   writeFileSync(PULLED_FILE, `${JSON.stringify(pulledFile, null, 2)}\n`);
   execSync(`npx prettier --write ${PULLED_FILE}`, { stdio: "ignore" });
-  const report = reportOf(rules, pieces, result);
+  const report = reportOf(rules, pieces, result, readReading(rules));
   console.log(report);
   const at = process.argv.indexOf("--report");
   if (at >= 0 && process.argv[at + 1]) {

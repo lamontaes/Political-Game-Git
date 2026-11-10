@@ -44,6 +44,21 @@ export type RuleTest =
     }
   | { readonly kind: "judged" };
 
+/**
+ * What a rule judges: `line` (one line alone), `set` (the replies offered
+ * together), `exchange` (a line with what it answers, or a scene's opener and
+ * close together) or `piece-in-context` (a line with the record or screen it
+ * sits on, such as a journal line's subject).
+ */
+export type RuleJudges = "line" | "set" | "exchange" | "piece-in-context";
+
+export const RULE_JUDGES: readonly RuleJudges[] = [
+  "line",
+  "set",
+  "exchange",
+  "piece-in-context",
+];
+
 export interface RuleApplies {
   readonly banks?: readonly string[];
   readonly kinds?: readonly ("spoken" | "written")[];
@@ -54,6 +69,14 @@ export interface RuleApplies {
 export interface LineRule {
   readonly id: string;
   readonly says: string;
+  /** What the rule judges: one line, the replies together, an exchange, or a line in its context. */
+  readonly judges: RuleJudges;
+  /**
+   * Set where the rule judges a `set` or an `exchange` but its detector still
+   * reads one line at a time, so the mismatch is visible until a reader of the
+   * whole is built.
+   */
+  readonly detectorReads?: "line";
   /**
    * What the owner said, short and exact. Research-only rules have none. A
    * `via` says the words are not his recorded voice but how a log, a ruling or
@@ -233,10 +256,16 @@ export function spotsOf(piece: RulePiece): string[] {
   return [...spots];
 }
 
-/** A spot whose set of replies is short of four different answers. */
+/**
+ * A spot whose set of replies is short of four different answers: the groups
+ * it offers, how many more it needs, and the groups it is missing (those its
+ * own moves allow with no line written here first, then the groups a new move
+ * fills a gap with). The writer's list: a spot, never a line.
+ */
 export interface SpotGap {
-  readonly groups: readonly string[];
-  readonly replies: number;
+  readonly offers: readonly string[];
+  readonly needs: number;
+  readonly missing: readonly string[];
   readonly problems: readonly string[];
 }
 
@@ -393,8 +422,9 @@ export function runRules(
   if (choices && enforced.some((rule) => rule.id === CHOICES_RULE))
     for (const flag of choices.flagged) {
       gaps[flag.spot] = {
-        groups: [...new Set(flag.replies.map((reply) => reply.group))].sort(),
-        replies: flag.replies.length,
+        offers: [...new Set(flag.replies.map((reply) => reply.group))].sort(),
+        needs: flag.needs,
+        missing: flag.missing,
         problems: flag.problems,
       };
       const row = count(CHOICES_RULE);
@@ -505,7 +535,7 @@ export interface PulledFile {
   readonly sample: Readonly<Record<string, readonly string[]>>;
   /** Lines after which no reply that fits follows: a new reply is needed (`spot` is `purpose/move`). */
   readonly noReplyFollows: Readonly<Record<string, readonly string[]>>;
-  /** Spots that offer fewer than four different answers, by spot id: the groups they offer now. */
+  /** Spots that offer fewer than four different answers, by spot id: the groups they offer, how many more they need and the groups they are missing. Read by the writer (Story), never by play. */
   readonly gaps: Readonly<Record<string, SpotGap>>;
 }
 

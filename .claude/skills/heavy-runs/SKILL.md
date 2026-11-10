@@ -47,6 +47,8 @@ Learned by the path-check runners A and B and the speed lead, Oct 29 to Nov 1. A
 - **A watch on a log stays silent if any stage of its pipe buffers.** `tail -F log | grep --line-buffered X | cut -c1-200` delivered nothing for 30 minutes while the run wrote its year lines (Nov 10): `cut` holds its output until its buffer fills. Keep `grep --line-buffered` as the last stage (or put `stdbuf -oL` in front of every later stage), and when a watch is silent longer than one step of the run, read the log directly before assuming the run hung.
 - **A push to main can lose a race.** Fetch, rebase and push again, and stay on the branch until the push lands. Switching away first loses the commit, which happened twice on Nov 1.
 
+- **A long run beside helpers is killed without a word.** A 20-year game that reaches 2 GB by its last years died at year 11 (exit 137) with five helpers running tests on the same 16 GB machine, after 15 minutes of work (Nov 10). Start the long run when the helpers are done, or tell each helper to check `free -m` and wait under 3.5 GB available, and write the run's exit code to its output file so a kill is not read as a hang.
+
 ## After the run
 
 - **Compare only like with like:** the same place, seed and key on both heads. Diff the outputs line by line first. Two heads that give identical output for a place (Salida on m5 and m6) mean the change did nothing there, so don't spend an hour reading them.

@@ -8,16 +8,30 @@ size: S
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
+standard: 2
+lead: play-first
+model: sonnet
+effort: low
+root: none
 source: added with npm run pool -- add
 ---
 
-**What.** Loading the play page opens the Election Night sheet over the day whenever the player's town has any past result, even two months after the count. In the bench in White Sulphur Springs, Montana (3080050), place seed e6253d7d132141ef79226210a85a474e90a1d2bb2d5ea41a69c63b9bfdb96035, on January 3, 2026, the sheet showed the November 4, 2025 council and mayor results on load and hid the Day and Week buttons until it was closed. The cause is in refresh() in src/bench/play.mjs: seenResults starts at zero on every page load, so every result already on record counts as new and opens the sheet.
+**What.** Loading the play page opened the Election Night sheet over the day whenever the player's town had any past result, even two months after the count (seen in White Sulphur Springs, Montana, 3080050, place seed e6253d7d132141ef79226210a85a474e90a1d2bb2d5ea41a69c63b9bfdb96035, on January 3, 2026, showing the November 4, 2025 results and hiding Day and Week until closed). The original cause (`seenResults` in the page) is gone, but the sheet can still reopen months after the count: the election-night route returns the newest night's race with no age limit and suppresses it only through a set the server keeps in memory. The sheet should open only on the night of a new count, and the watched mark should outlive a restart.
 
-**Rules.** No hand-written player text: the sheet shows record data only, and nothing here adds words to it. Ask why: whether a result is new comes from the record's own date against the player's day, not from what this page happened to see. One rule, all 56 places: the same rule for every place's results.
+**Cause.** Found in code: `electionNight` in src/bench/election-night.ts (line 247) returns the newest night's race with no limit on its age, and the `/api/election-night` route in src/bench/handler.ts (line 1515) hides it only when `state.nightsWatched` (line 163, an in-memory set) has it, so a restart or a reload of a saved life reopens it.
 
-**Done when.** In the bench, in a drawn place with its seed named, a page loaded more than a day after a count opens on the day with Day and Week showing and no Election Night sheet, and the sheet still opens on its own on the night of a new count. A bench screenshot at 1440x900 of each, with the place and seed under it, and the results browser check pass.
+**Fix.** Return the night only when the record's date is the player's day (or within the day after the count), and keep the watched mark in the life's own state instead of the server's memory set; if the life state has no place for it, register the memory set as a stopgap.
 
-**Files.** src/bench/play.mjs
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Ask why: whether a result is new comes from the record's own date against the player's day, not from what the page happened to see. One rule, all 56 places: the same rule for every place's results. No hand-written player text: the sheet shows record data only and nothing here adds words to it.
+
+**Done when.** A second session (not the builder) starts the bench in a drawn place (place and seed named), plays through an election night, closes the sheet, then reloads the page and restarts the bench server the next day and a month later: each time the page opens on the day with Day and Week showing and no Election Night sheet, and the sheet still opens on its own on the night of a new count. A test over the route covers an old night and a new night. Screenshots at 1440x900 of each, with the place and seed under them.
+
+**Waits on.** Nothing.
+
+**Files.** src/bench/election-night.ts, src/bench/handler.ts, src/bench/play.mjs
 
 **Notes.** TODO

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/bench/calendar.browser.mjs, src/bench/play.mjs
 
 **Notes.** Found by the screens designer, Oct 27 (PR 6382 makes the check wait for the jump to settle, which fixed one race). lead: play-first.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into play-calendar-jump-hangs-brookside-2025. It is the same failure, a calendar jump stopping at a scene and then Continue or advance not answering. Keep the Brookside item (it has a replay command with seed and place); it should take this item's evidence that src/bench/calendar.browser.mjs fails 2 of 3 runs in Papago, Northern Mariana Islands and La Madera, New Mexico at e34de8c1ee, which its fix must also pass. The pool redo has already folded that into the kept item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `play-calendar-jump-hangs-brookside-2025`, which carries this item's remaining work.

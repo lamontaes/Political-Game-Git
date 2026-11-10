@@ -16,10 +16,12 @@ import directorFile from "../../src/director/data/director.json" with { type: "j
 import { CONVERSATION_DATA } from "../../src/director/conversation";
 import {
   everydayMeaning,
+  REPLY_MEANINGS,
   sceneMeaning,
 } from "../../src/director/reply-meanings";
 import {
   composeSceneTalk,
+  talkFlow,
   type PurposeType,
   type TreeNode,
 } from "../../src/director/scene-talk";
@@ -107,6 +109,10 @@ export function sceneSpots(): ChoiceSpot[] {
     );
     if (result.kind !== "composed") continue;
     const { talk } = result;
+    const flow = talkFlow({
+      purpose: talk.purpose,
+      key: type.tag?.key ?? type.key,
+    });
     const walk = (node: TreeNode) => {
       const asker = [...node.lines].reverse().find((l) => l.role === "asker");
       const replies = node.replies
@@ -119,12 +125,21 @@ export function sceneSpots(): ChoiceSpot[] {
           text: line.text,
         }));
       const id = `scene: ${talk.purpose} after ${asker?.move ?? "state"}`;
+      // Every move the scene allows here, offered or not: a group among them
+      // that is not offered is a move with no line written for this spot.
+      const allowed = [
+        ...new Set(
+          (asker ? flow.repliesAfter(asker.move) : [])
+            .filter((move) => move !== "lie")
+            .map(sceneMeaning),
+        ),
+      ];
       // The same spot reached on another path keeps its worst set.
       const seen = spots.get(id);
       const groups = (set: readonly ChoiceReply[]) =>
         new Set(set.map((row) => row.group)).size;
       if (replies.length && (!seen || groups(replies) < groups(seen.replies)))
-        spots.set(id, { id, replies });
+        spots.set(id, { id, replies, allowed });
       for (const row of node.replies) if (row.next) walk(row.next);
       for (const branch of node.branches ?? []) walk(branch.node);
     };
@@ -135,5 +150,9 @@ export function sceneSpots(): ChoiceSpot[] {
 
 /** The report the rule folds into a run. */
 export function choiceSetsReport(): ChoicesReport {
-  return choicesReport([...everydaySpots(), ...sceneSpots()], wanted);
+  return choicesReport(
+    [...everydaySpots(), ...sceneSpots()],
+    wanted,
+    REPLY_MEANINGS.fill.groups,
+  );
 }

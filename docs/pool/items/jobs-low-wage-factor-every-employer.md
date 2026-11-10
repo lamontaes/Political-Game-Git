@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/jobs-web.ts, src/core2/modules/jobs.ts
 
 **Notes.** Filed Oct 25 by the effects lead while auditing web-reach-labor; the family's waiting links are named on claude/web-reach-labor.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The mechanism this item asks to extend, `lowWageStaffFactor`, was deleted: it is no longer in src/, and the stopgap SG-LABOR-low-wage-unreviewed in src/core2/data/stopgaps/labor.json is resolved (resolvedAt 2026-11-08) with the sentence "Deleted lowWageStaffFactor. A higher wage floor reaches low-wage jobs as pay (wage-floor engine) and reaches staffing and prices through the employers' own books", proven by the twin pair in scripts/world-proofs/minimum-wage-twin.ts. Pool redo note: the batch sorting called this item live; the code and the stopgap row say otherwise, so it is left for the CTO to drop.

@@ -86,6 +86,9 @@ describe("reply meaning groups", () => {
       ),
     ]);
     expect([...used].filter((name) => !defined.has(name))).toEqual([]);
+    expect(
+      REPLY_MEANINGS.fill.groups.filter((name) => !defined.has(name)),
+    ).toEqual([]);
     expect([...defined].filter((name) => !used.has(name))).toEqual([]);
   });
 

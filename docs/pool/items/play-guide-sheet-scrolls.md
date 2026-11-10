@@ -6,20 +6,34 @@ kind: bug
 priority: 3
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: play-first
+model: haiku
+effort: low
+root: none
 ---
 
-**What.** TODO
+**What.** The title says the Guide sheet is 611 pixels taller than its window, so it scrolls, which no menu sheet is meant to do. The item body was never filled in (released from an idle draft), and no measurement was kept: not the window size, the place or the screen state the 611 pixels were read in. The Guide screen is built in src/bench/ui/guide-screen.mjs with its labels in src/bench/data/controls.json.
 
-**Rules.** TODO
+**Cause.** Needs cause. Looked at src/bench/ui/guide-screen.mjs and the guide controls in src/bench/data/controls.json (line 943) and found no stated or measured scroll defect beyond the title's 611 pixels; nobody has re-measured it on current main.
 
-**Done when.** TODO
+**Fix.** None until the cause is found.
 
-**Files.** TODO
+**Time box.** 1 hour for one Haiku session, to measure the Guide sheet at 1440 by 900 in a drawn place and either rewrite this item with `Found in code:` and a real Fix or propose it for dropping.
+
+**Rules.** Screen to mock: the Guide fits its window like every menu sheet, from the shared controls. Replace, never layer: a fix changes the one Guide sheet, with no second layout beside it.
+
+**Done when.** A second session opens the Guide in a drawn place (named with its seed) at 1440 by 900 and records, with a screenshot, whether the sheet scrolls and by how many pixels; if it does, this item is rewritten with the cause found by file and line, and if it does not, the item is proposed for dropping with the screenshot.
+
+**Waits on.** Nothing.
+
+**Files.** src/bench/ui/guide-screen.mjs, src/bench/data/controls.json, src/bench/play.css
 
 **Notes.** TODO Released from idle draft #5180 by the CTO, Oct 26.
 

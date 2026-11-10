@@ -719,6 +719,22 @@
     "elected": "Elected",
     "takesOffice": "Takes office",
     "searchIssues": "Search issues",
+    "issueFilter": {
+      "level": "Level",
+      "force": "In force",
+      "subject": "Subject",
+      "all": "All",
+      "inForce": "In force",
+      "notInForce": "Not in force yet",
+      "levels": {
+        "federal": "Federal",
+        "state": "{level}",
+        "county": "County",
+        "city": "City",
+        "township": "Township"
+      },
+      "none": "No laws match these choices."
+    },
     "issueGroups": {
       "fiscal": "Taxes and money",
       "labor-workforce": "Work and pay",
@@ -733,7 +749,18 @@
       "government-operations": "Government",
       "technology-privacy": "Technology and privacy",
       "transportation-infrastructure": "Roads and transit",
-      "agriculture-natural-resources": "Farms and land"
+      "agriculture-natural-resources": "Farms and land",
+      "trade": "Trade",
+      "immigration": "Immigration",
+      "energy-environment": "Energy policy",
+      "budget": "Budget",
+      "emergencies": "Emergencies",
+      "territories-culture": "Territories and culture",
+      "government": "Elections and offices",
+      "health": "Health care",
+      "housing": "Housing",
+      "justice-rights": "Civil rights",
+      "science-communications": "Science and communications"
     },
     "issueGroupOf": {
       "minimum-wage": "labor-workforce",

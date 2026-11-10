@@ -12,6 +12,8 @@ import meaningsJson from "./data/reply-meanings.json" with { type: "json" };
 
 interface ReplyMeanings {
   groups: Readonly<Record<string, string>>;
+  /** The groups a new move fills a short set with (the words run names them for the writer). */
+  fill: { about: string; groups: readonly string[] };
   everyday: Readonly<Record<string, Readonly<Record<string, string>>>>;
   scene: Readonly<Record<string, string>>;
 }

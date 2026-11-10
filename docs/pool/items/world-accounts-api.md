@@ -6,21 +6,34 @@ kind: wiring
 priority: 2
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5176
 blocked-on:
 after: core-finance-contracts-vs-obligations
+lead: money
+model: opus
+effort: medium
+root: none
 source: "core-needs-core-172 triage, Oct 15"
 claimed-at:
 ---
 
-**What.** The first half of this item is already true: business, credit and housing move every dollar through `accounts.transfer` by way of `transferCash` (src/core2/world-transfer.ts), and a played year shows thousands of their entries on the journal (see Notes). Rent is also already a standing contract with arrears: housing holds each lease as a `finance.contracts` row with `arrearsMinor`, which is the core's older twin of `accounts.addObligation`. What is left in the world area is credit: each loan's monthly payment is recomputed in `serviceLoans` from the declining balance and tracked in the loan row (late, past due, charged off), not as a standing payment. Move credit's scheduled loan payments onto the shared payment layer once the core decides which layer that is (see core-finance-contracts-vs-obligations), and have the lender read the arrears at the moment it decides.
+**What.** The first half of this item is already true: business, credit and housing move every dollar through `accounts.transfer` by way of `transferCash` (src/core2/world-transfer.ts), and a played year shows thousands of their entries on the journal (see Notes). Rent is also already a standing contract with arrears: housing holds each lease as a `finance.contracts` row with `arrearsMinor`, which is the core's older twin of `accounts.addObligation`. What is left in the world area is credit: each loan's monthly payment is recomputed in `serviceLoans` from the declining balance and tracked in the loan row (late, past due, charged off), not as a standing payment. Move credit's scheduled loan payments onto the shared payment layer once the core decides which layer that is, and have the lender read the arrears at the moment it decides.
 
-**Rules.** Wire to the world; every dollar balances; an effect is a read.
+**Cause.** Found in code: serviceLoans in src/core2/modules/credit.ts (line 1410) recomputes each loan's payment and keeps late, past-due and charged-off state on the loan row, not as a standing payment.
 
-**Done when.** After core-finance-contracts-vs-obligations is done: a one-year run of the played world (buildBenchWorld, a drawn place from all 56, a seed the builder did not choose) shows a loan payment posted from a standing payment by journal record id, one missed payment accruing arrears on it, and credit reading that arrears record when it decides on the next loan; the loan row's own late and past-due bookkeeping is deleted (replace, never layer) and the credit tests pass. **On screen.** Nothing yet: it would show on Jobs and study, and News, and nothing there reads it.
+**Fix.** Move credit's scheduled loan payments onto the shared payment layer chosen by core-finance-contracts-vs-obligations, have the lender read arrears when it decides on the next loan, and delete the loan row's own late and past-due bookkeeping.
 
-**Files.** src/core2/modules/credit.ts
+**Time box.** 8 hours for one session of the Opus model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Wire to the world: every dollar moves through the accounts API and balances on the journal. An effect is a read, not a record: credit reads the arrears record at the moment it decides. Replace, never layer: the loan row's bookkeeping is deleted in the same change.
+
+**Done when.** A second session (not the builder) runs a one-year played world (`buildBenchWorld`, a drawn place from all 56, a seed the builder did not choose) and sees a loan payment posted from a standing payment by journal record id, one missed payment accruing arrears on it, and credit reading that arrears record when it decides on the next loan; the loan row's own late and past-due bookkeeping is gone and the credit tests pass. On screen: nothing yet; it would show on Jobs and study, and News, and nothing there reads it.
+
+**Waits on.** core-finance-contracts-vs-obligations (the core decides the shared payment layer first).
+
+**Files.** src/core2/modules/credit.ts, src/core2/world-transfer.ts
 
 **Notes.** core.md line 178; GOV already uses the API (budgets, official-pay, law-reach, retirement-claims). Checked Oct 15.
 
