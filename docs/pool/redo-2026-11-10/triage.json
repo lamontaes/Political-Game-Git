@@ -9716,7 +9716,7 @@
     "reason": "Partly done: the sitting-holder vote share half is realistic-sitting-holders-vote-share (done) and row 45 party counts are drawn per world; the rest (2024 county vote, turnout, past vote totals, national poll support) remains.",
     "causeKind": "Design",
     "cause": "Design: owner Oct 27, 5:40 p.m. ('realistic not real') and docs/reports/real-statistics-in-play-2026-10-27.md rows 42 and 44 to 48.",
-    "fix": "Draw the 2024 county vote, turnout and contested-state map, past vote totals and national poll support per world from the published value as the centre of a seeded spread tagged in the parameter table.",
+    "fix": "Draw the 2024 county vote, turnout and contested-state map, past vote totals and national poll support per world from the published value as the center of a seeded spread tagged in the parameter table.",
     "root": "none",
     "model": "opus",
     "effort": "medium",

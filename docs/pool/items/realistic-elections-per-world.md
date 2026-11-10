@@ -22,7 +22,7 @@ source: owner, Oct 27, 5:40 PM Eastern ("realistic not real"); docs/reports/real
 
 **Cause.** Design: owner, Oct 27, 5:40 p.m. ("realistic not real") and docs/reports/real-statistics-in-play-2026-10-27.md rows 42 and 44 to 48, each naming its file and reader; src/core2/data/offices/tenure.json (read in src/bench/government.ts) holds the fixed winner's share.
 
-**Fix.** Draw the 2024 county vote, turnout and contested-state map, past vote totals and national poll support per world from the published value as the centre of a seeded spread tagged in the parameter table, so no two council members share a printed vote share.
+**Fix.** Draw the 2024 county vote, turnout and contested-state map, past vote totals and national poll support per world from the published value as the center of a seeded spread tagged in the parameter table, so no two council members share a printed vote share.
 
 **Time box.** 4 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
