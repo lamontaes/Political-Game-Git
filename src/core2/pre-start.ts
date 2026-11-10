@@ -7,6 +7,7 @@
  * runs during play.
  */
 import { bookkeeping } from "./bookkeeping";
+import { isOwnPastKind } from "./own-past-kinds";
 import { addDays, makeIsoDate } from "./kernel/dates";
 import { coreAPI } from "./state";
 import type {
@@ -292,18 +293,6 @@ function sameAsOldWrite(
     throw new Error("The pre-start history's ids differ from its rows.");
 }
 
-/**
- * The kinds of record that are one person's own past: their schooling, their
- * working life and their moves. Only these may be dated before the world's
- * window; the world's own history (laws, elections, budgets, the economy,
- * businesses) starts with it.
- */
-const OWN_PAST_KINDS = new Set<string>();
-export function ownPastKind<K extends string>(kind: K): K {
-  OWN_PAST_KINDS.add(kind);
-  return kind;
-}
-
 /** A person's birthday in the year of `date`: the day a year-grain record before the world's window is told on. */
 export function grainDate(
   person: Readonly<PersonState>,
@@ -409,7 +398,7 @@ export function recordPreStartLater(
     if (!born)
       throw new Error(`An own past for an absent person: ${own.person}`);
     for (const row of rows)
-      if (row.date < world.from && !OWN_PAST_KINDS.has(row.kind))
+      if (row.date < world.from && !isOwnPastKind(row.kind))
         throw new Error(
           `${row.id} is not a person's own past and cannot be dated before the window: ${row.date}`,
         );
