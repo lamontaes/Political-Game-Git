@@ -52462,6 +52462,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "signing-ask",
+          "excludesFacts": ["bill"],
           "key": "honor"
         }
       ],
@@ -52469,6 +52470,30 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-executive-has-signed-bill-and-name-keeps-you-back-after-the-photographs",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {executive} has signed {bill}. After the photographs, {name} keeps you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-recall-bills)",
+      "date": "2026-11-10",
       "tag": {
         "move": "narrate",
         "key": "honor"
@@ -53063,6 +53088,31 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-executive-has-vetoed-bill-and-name-asks-you-in-to-hear-it-face-to-face",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {executive} has vetoed {bill}, and {name} asks you in to say so face to face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "veto-call",
+          "excludesFacts": ["setting-phone"],
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-recall-bills)",
+      "date": "2026-11-10",
       "tag": {
         "move": "narrate",
         "key": "loss"

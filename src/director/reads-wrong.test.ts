@@ -19,6 +19,14 @@ import { PLATFORM_QUESTIONS } from "../core2/campaign-data";
 import { resolveMunicipalRecallRule } from "../core2/gov-rules/municipal-ballot-rules";
 import { draftBill, holdVote } from "../core2/modules/legislature";
 import { recallsOf } from "../core2/modules/recalls";
+import { billCatalog, provisionFor } from "../core2/bill-catalog";
+import {
+  bodyOf,
+  executiveOf,
+  memberKey,
+  members,
+  scheduleVote,
+} from "../core2/modules/legislature";
 import { openConversation } from "./conversation";
 import { purposeScene } from "./purpose-scene";
 import { stageWorldHeld } from "../../scripts/dialogue-batch/stage-world";
@@ -416,3 +424,138 @@ it(`the outcome of a recall is a scene only for the person who organized it (see
   }
   throw new Error(`no recall in ${tried.join("; ")}`);
 }, 900_000);
+
+const WEEK = 7;
+
+/** The sponsor's scene for a signature or a veto in one drawn place, composed as play composes it. */
+function signingScene(attemptSeed: string) {
+  const place = drawPlace(attemptSeed, "signing-narration");
+  const seed = attemptSeed;
+  setBookkeeping(false);
+  const world = buildBenchWorld(place.seed, gameStartDate(), {
+    twoLevel: true,
+    placeKey: place.key,
+  });
+  const { core, director } = world;
+  const api = coreAPI(core);
+  // A body of several members that is the town's or county's own, with the
+  // sponsor and (where its form of government has one) the executive full people.
+  const lawmaking = townSeats(api)
+    .filter(
+      (row) =>
+        row.holder?.personId &&
+        core.people.has(row.holder.personId) &&
+        ["city", "county", "state"].includes(row.office.level) &&
+        members(api, row.office.id).length > 1 &&
+        bodyOf(api, row.office.id),
+    )
+    // The town's own body votes within weeks; a state chamber waits for its session.
+    .sort(
+      (a, b) =>
+        Number(a.office.level === "state") - Number(b.office.level === "state"),
+    );
+  if (!lawmaking.length) {
+    console.log(`SCENES ${place.name} ${seed}\nno body here with full members`);
+    return null;
+  }
+  // A question the body's government may enact, from the place's own grant
+  // of authority (policy-authority.ts). A government granted none here has
+  // no bill this test can draft; another body, or another place, is read.
+  const allowedPolicy = (level: string) =>
+    billCatalog(api, level as "city" | "county" | "state")
+      .flatMap((subject) => subject.topics.flatMap((topic) => topic.policies))
+      .find((row) => row.kind === "policy-question" && row.authority.allowed);
+  const seats = lawmaking.filter((row) => allowedPolicy(row.office.level));
+  if (!seats.length) {
+    console.log(
+      `SIGNING ${place.name} ${seed}\nno catalog question its ${[...new Set(lawmaking.map((row) => row.office.level))].join(", ")} bodies may enact`,
+    );
+    return null;
+  }
+  const withExecutive = seats.find((row) => {
+    const id = executiveOf(api, row.office.id).term?.personId;
+    return id && id !== row.holder!.personId && core.people.has(id);
+  });
+  const seat = withExecutive ?? seats[0];
+  const sponsorId = seat!.holder!.personId!;
+  const executiveId = executiveOf(api, seat!.office.id).term?.personId;
+  // A state official is a full person under the key the legislature gives them.
+  const everyone = members(api, seat!.office.id).flatMap((term) =>
+    core.people.has(memberKey(term)) ? [memberKey(term)] : [],
+  );
+  for (const id of [
+    sponsorId,
+    ...everyone,
+    ...(executiveId ? [executiveId] : []),
+  ])
+    director.watch(core, id);
+  const policy = allowedPolicy(seat!.office.level)!;
+  const bill = draftBill(api, {
+    bodyOfficeId: seat!.office.id,
+    sponsorId,
+    provisions: [provisionFor({ policyId: policy.id, operation: "enact" })],
+  });
+  scheduleVote(api, bill.id);
+  // Played a week at a time until the executive acts, so the vote and the
+  // act are read within weeks of happening: a watched resident's older
+  // moments fold into the director's summaries (its memory window; the
+  // player keeps all of theirs).
+  const end = addDays(
+    makeIsoDate(core.date),
+    seat!.office.level === "state" ? 400 : 120,
+  );
+  while (core.date < end && !core.durableLog.has(`executive-action:${bill.id}`))
+    advanceCore(core, [addDays(makeIsoDate(core.date), WEEK), end].sort()[0]!);
+
+  const acted = core.durableLog.get(`executive-action:${bill.id}`);
+  const action = acted?.facts?.action;
+  const type =
+    action === "signed" ? "bill-signed" : action === "vetoed" ? "veto" : null;
+  if (!acted || !type || acted.facts?.executiveId === sponsorId) return null;
+  const entry = (director.ledger.people.get(sponsorId)?.schedule ?? []).find(
+    (row) =>
+      row.momentId.includes(`executive-action:${bill.id}`) &&
+      row.bindings.some((binding) => binding.typeKey === type),
+  );
+  if (!entry) return null;
+  const result = purposeScene(core, director, sponsorId as PersonId, entry, {
+    typeKey: type,
+  });
+  return {
+    where: `${place.name} (${place.key}), seed ${attemptSeed}`,
+    type,
+    number: String(acted.facts?.number ?? ""),
+    result,
+  };
+}
+
+it(`a signed or vetoed bill's scene plays and says which bill and who acted (seed ${seed})`, () => {
+  let checked = 0;
+  for (let attempt = 0; attempt < 8 && checked < 1; attempt += 1) {
+    const found = signingScene(`${seed}:${attempt}`);
+    if (!found) continue;
+    checked += 1;
+    const skipped = found.result?.kind === "skipped" ? found.result.reason : "";
+    expect(
+      found.result?.kind,
+      `${found.where}: ${found.type}: ${skipped}`,
+    ).toBe("composed");
+    if (found.result?.kind !== "composed") continue;
+    // The executive's post comes from the office record of the bill's body.
+    expect(
+      found.result.scene.facts.find((row) => row.key === "executive"),
+      `${found.where}: ${found.type}: the post of whoever acted`,
+    ).toBeTruthy();
+    const said = [
+      ...found.result.scene.talk.narration.map((line) => line.text),
+      found.result.scene.talk.state.text,
+    ].join(" ");
+    expect(said, `${found.where}: ${found.type}`).toMatch(
+      /\b[A-Z]{1,4} ?\d|Ordinance|Bill|Resolution|Act/,
+    );
+  }
+  expect(
+    checked,
+    `no signature or veto on another's bill from seed ${seed}`,
+  ).toBeGreaterThan(0);
+}, 1_800_000);

@@ -15,6 +15,7 @@ import { meetingsOn } from "../core2/modules/interest-groups";
 import {
   LEGISLATURE_MODULE_ID,
   billOf,
+  executiveOf,
   favorWorth,
   memberPosition,
   votesOn,
@@ -24,6 +25,7 @@ import {
   type DebateRow,
   type TownHallRow,
 } from "../core2/modules/meetings";
+import { OFFICES_MODULE_ID } from "../core2/modules/offices";
 import { viewOn } from "../core2/modules/views";
 import { addDays, daysBetweenText, makeIsoDate } from "../core2/kernel/dates";
 import { P } from "../core2/parameters";
@@ -368,6 +370,19 @@ function composeBinding(
       text: spokenDesignation(number, named?.form.kind ?? ""),
       sourceRecordIds: [billId ?? moment.causeId, moment.causeId],
     };
+  }
+  // The post of the executive who signed or vetoed the bill ("the mayor
+  // calls", "the governor"), from the office record of its body's executive.
+  if (named && core.modules.has(OFFICES_MODULE_ID)) {
+    const office = executiveOf(
+      coreAPI(core as CoreState),
+      named.bodyOfficeId,
+    ).office;
+    if (office)
+      facts.executive = {
+        text: office.kind.replace(/-/g, " "),
+        sourceRecordIds: [office.id, named.id, moment.causeId],
+      };
   }
   // A law in force (a story that it took effect): its policy by name, for
   // the lines that say what took effect.
