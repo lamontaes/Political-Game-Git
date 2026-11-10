@@ -67,6 +67,8 @@ const flags = [
   "bill-lost",
   "for",
   "winner-is-other",
+  // The clerk's petition lines are worded for a first filing or a repeat one.
+  "first-filing",
 ];
 export const facts: Record<string, Fact> = {
   name: fact("Pat Rivera"),
