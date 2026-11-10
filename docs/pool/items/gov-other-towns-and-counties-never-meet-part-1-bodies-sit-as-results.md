@@ -5,9 +5,9 @@ area: gov
 kind: bug
 priority: 1
 size: M
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-gov-other-towns-and-counties-never-meet-part-1-bodies-sit-as-results
 pr:
 after:
 blocked-on:
@@ -17,6 +17,7 @@ effort: high
 root: rc1-world-outside-town
 source: split from gov-other-towns-and-counties-never-meet in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:15:05.986Z
 ---
 
 **What.** Outside the player's own town, no local government does anything: in a played year in Caño Martín Peña, Puerto Rico (seed 50fe2d1143af) all 25 local sittings were the player's own board. This part makes other towns' and counties' bodies decide through the one body engine at a coarse level, on the days they sit, from the views of the people there. Only the result is kept: the law or budget in force, its date and the vote count.
