@@ -17,6 +17,7 @@ effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from gov-justice-incident-records (M, really L) by the claiming session, Oct 19
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Let a person stopped by police bring a complaint against the officer from their recorded experience of the stop. The board's existence and powers are read from the police-oversight law in force when the complaint is decided; with the law in force the board reviews and may discipline, without it the department reviews itself. The finding and any discipline are records the officer's employer reads.

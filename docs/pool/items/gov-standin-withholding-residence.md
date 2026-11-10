@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/budgets.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
+
+**Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate. SG-WORLD-withholding-residence-law is laws-other-places-chains-part-1-record-chains and laws-other-places-chains-part-3-close-stopgap; SG-WORLD-withholding-local-base is gov-withholding-local-exemptions. The nonresident row stays with world-withholding-nonresident-local.

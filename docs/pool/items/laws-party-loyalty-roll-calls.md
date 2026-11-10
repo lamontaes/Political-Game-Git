@@ -17,6 +17,8 @@ lead: laws-effects
 model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
+size: M
+checked: fable 2026-11-10
 ---
 
 **What.** State legislators' party loyalty runs on one shared weight, `weights.statePartyLoyalty` (value 1, in src/core2/data/officials/officials.json, read in src/core2/modules/officials.ts where a member's party term is scaled). It is checked against the federal party-unity figure (about 0.90) because the state roll-call input is not in the repository (stopgap SG-LAWS-state-party-loyalty-target). The owner's Oct 15 ruling lets the Shor-McCarty dataset calibrate this one parameter with nothing shipped; the replacement calibrates each chamber from its own public roll-call records. A player would see members of each chamber vote with or against their party the way that chamber really does. The sibling laws-party-loyalty-roll-call-weighing is proposed to merge here.

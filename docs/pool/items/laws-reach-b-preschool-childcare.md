@@ -16,6 +16,7 @@ lead: laws-effects
 model: opus
 effort: medium
 root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
 **What.** The `us-policy-positions:education.universal-preschool` policy in src/core2/data/laws/reach-group-b.json has mechanic "records": it marks 3- and 4-year-olds eligible and nothing reads it (stopgap SG-GOV-REACH-B-preschool-enrollment). Add the missing child-care cost: a monthly child-care flow for households with a child under school age, sized from the Consumer Expenditure child-care average by income with a per-world spread, paid to a child-care provider organization. When the preschool law is in force, an eligible child is enrolled with a pre-k record at a school or provider, and the family's child-care flow falls by the public share. Counted households follow the same rule times their weight; repeal ends the enrollment.

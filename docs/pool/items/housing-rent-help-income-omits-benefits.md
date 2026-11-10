@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 source: laws-and-effects lead, Oct 27 (housing helper's diagnosis on #6011)
+checked: fable 2026-11-10
 ---
 
 **What.** Rent help from a housing line above its base pays the renters with the least income per member first, and the income it ranks by leaves out cash assistance, SSI and disability payments, so a household living on them ranks as if it had no income. The income is wages plus retirement contracts for a full household and `householdIncome` for a counted one. In Washington, D.C. and Rockville, Maryland on October 26 many renters showed no recorded income, and a hundred vouchers went to two counted groups. HUD counts those benefits as annual income when it ranks and prices a voucher.

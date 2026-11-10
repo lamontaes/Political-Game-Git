@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 source: split from gov-gating-state-laws-recorded in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Record each place's gating state law for local minimum wage and rent rules in the opening law table, each row cited by statute with its retrieval date, so `policyAuthority` finds the gating law instead of writing a disputed missing grant. The law table is read before introduction and executive orders.
