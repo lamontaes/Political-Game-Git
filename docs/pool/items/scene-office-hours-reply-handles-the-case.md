@@ -8,7 +8,7 @@ size: M
 status: claimed
 standard: 2
 claimed-by: claude/pool-scene-office-hours-reply-handles-the-case
-pr:
+pr: #8351
 blocked-on:
 source: "words-and-scenes lead, Oct 27, scene web constituents pass (packet a-constituents-case)"
 lead: director
