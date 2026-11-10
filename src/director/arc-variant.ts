@@ -259,6 +259,15 @@ const ARCS = new Map<string, unknown>(
   ),
 );
 
+/** Each variant purpose to the family purpose it is a variant of (the family's pieces serve it too). */
+export function variantFamilies(): Record<string, string> {
+  return Object.fromEntries(
+    Object.entries(DATA.families).flatMap(([family, row]) =>
+      Object.values(row.variants).map((variant) => [variant.purpose, family]),
+    ),
+  );
+}
+
 /** The arc a variant purpose plays, or undefined for a purpose that is not a variant. */
 export function variantArc(purpose: string): unknown {
   return ARCS.get(purpose);

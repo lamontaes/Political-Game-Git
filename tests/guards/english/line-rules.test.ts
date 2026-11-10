@@ -1,4 +1,4 @@
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { describe, expect, it } from "vitest";
 import {
@@ -7,6 +7,12 @@ import {
   type LineRule,
 } from "../../../src/english/line-rules";
 import { freshRun } from "../../../scripts/words/run-rules";
+import {
+  REPLY_FOLLOWS_RUBRIC,
+  type ReplyFollowsFile,
+} from "../../../src/english/reply-follows";
+import { idsHash, pairId } from "../../../src/english/reply-pairs";
+import { bankKeys } from "../../../scripts/words/reply-pairs";
 
 /**
  * The owner's notes as rules (`data/english/line-rules.json`, design in
@@ -101,7 +107,13 @@ describe("line rules: each rule does what it says", () => {
     for (const rule of run.rules)
       if (rule.status === "awaiting-test")
         expect(["place", "judged"], rule.id).toContain(rule.test.kind);
-      else expect(tested(rule), rule.id).toBe(true);
+      else if (rule.test.kind === "place") {
+        // An enforced place rule is judged: it names the verdict file its reader folds.
+        expect(rule.test.reads, rule.id).toBeTruthy();
+        expect(existsSync(path.join(ROOT, rule.test.reads!)), rule.id).toBe(
+          true,
+        );
+      } else expect(tested(rule), rule.id).toBe(true);
   });
 });
 
@@ -142,5 +154,41 @@ describe("line rules: the run over every bank line", () => {
         .map((rule) => `${piece.key} breaks rule ${rule.id}: ${rule.says}`),
     );
     expect(found).toEqual([]);
+  });
+});
+
+describe("line rules: the reply verdicts", () => {
+  const read = (name: string) =>
+    readFileSync(path.join(ROOT, "data/english/judged", name), "utf8");
+  const file = JSON.parse(read("reply-follows.json")) as ReplyFollowsFile;
+  const yes = read("reply-follows.yes.txt").split("\n").filter(Boolean);
+
+  it("every line a verdict names is a current bank piece (npm run words:verdicts drops the rest)", () => {
+    const keys = bankKeys();
+    const gone = Object.entries(file.no).flatMap(([reply, before]) =>
+      [reply, ...before].filter((key) => !keys.has(key)),
+    );
+    expect(gone).toEqual([]);
+  });
+
+  it("the rubric in the verdict file is the rubric the judges were given", () => {
+    expect(file.rubric).toBe(REPLY_FOLLOWS_RUBRIC);
+    expect(file.rule).toBe("reply-follows-the-line-before");
+  });
+
+  it("the verdict files agree: the count judged, and the hash and order of the yes list", () => {
+    const no = Object.entries(file.no).flatMap(([reply, before]) =>
+      before.map((key) => pairId(key, reply)),
+    );
+    expect(file.judged).toBe(yes.length + no.length);
+    expect(yes).toEqual([...yes].sort());
+    expect(new Set([...yes, ...no]).size).toBe(yes.length + no.length);
+    expect(file.yesHash).toBe(idsHash(yes));
+  });
+
+  it("the run reports the rule and pulls nothing for it", () => {
+    const row = run.result.perRule["reply-follows-the-line-before"]!;
+    expect(row.pulled + row.waiting + row.flagged).toBe(0);
+    expect(row.report!.judged).toBe(file.judged);
   });
 });

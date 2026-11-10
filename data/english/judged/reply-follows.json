@@ -1,0 +1,8 @@
+{
+  "schema": "english-judged/1",
+  "rule": "reply-follows-the-line-before",
+  "rubric": "You are checking lines of dialogue for a game set in American politics and ordinary life. For each pair, the first line was just said by one person and the second is the other person's reply. Words in {braces} stand for a name, a place or a number. Say whether the reply FOLLOWS the first line: a real person could say it right after hearing that line, and it answers, acknowledges, pushes back on or reacts to what was actually said. It does NOT follow when it answers a question that was not asked, ignores a direct question, agrees or disagrees with something nobody said, refers to \"it\" or \"that\" when the first line gives nothing it could mean, treats a statement as an offer or an offer as a statement, or only repeats the first line's point as if it were new. A reply may dodge, refuse, joke or change the subject on purpose and still follow, if a listener would understand it as a response to that line. Judge only these two lines together; do not judge whether either line is well written. When you cannot tell, say it follows.",
+  "judged": 0,
+  "no": {},
+  "yesHash": "0wvjl67o803"
+}

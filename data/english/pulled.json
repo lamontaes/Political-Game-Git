@@ -66,5 +66,6 @@
     "scene-talk.state-deliver-news.they-sent-aid-for-the-damage-and-the-repairs-come-to-less-than-that-we": [
       "alright-in-dialogue"
     ]
-  }
+  },
+  "noReplyFollows": {}
 }

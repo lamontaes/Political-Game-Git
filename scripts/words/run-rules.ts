@@ -13,10 +13,21 @@
 import { execSync } from "node:child_process";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { basename, join } from "node:path";
+import { talkReplyFlow, talkScenes } from "../../src/director/scene-talk";
+import {
+  distinctPairs,
+  replyFollowsReport as replyFollowsReportOf,
+  replyPairs,
+  type ReplyFollowsReport,
+} from "../../src/english/reply-pairs";
+import { REPLY_FOLLOWS } from "../../src/english/reply-follows";
+import { playableParts } from "./reply-pairs";
+import { readVerdicts } from "./reply-verdicts";
 import type { PartGradeLedger } from "../../src/english/english-grades";
 import {
   pulledFileOf,
   runRules,
+  type PlaceReports,
   type LineRule,
   type LineRulesFile,
   type PulledFile,
@@ -68,6 +79,35 @@ export function readLedger(file = LEDGER_FILE): PartGradeLedger {
   return JSON.parse(readFileSync(file, "utf8")) as PartGradeLedger;
 }
 
+/**
+ * What the reply rule reports: the pairs play can offer now, the verdicts
+ * so far and the lines no reply follows. Reads the scene-talk bank and the
+ * judged files, and asks the picker's own test (`replyPairs`).
+ */
+export function replyFollowsReport(): ReplyFollowsReport {
+  const silenced: {
+    before: string;
+    purpose: string;
+    move: string;
+  }[] = [];
+  const parts = playableParts();
+  const pairs = distinctPairs(
+    replyPairs(parts, {
+      scenes: talkScenes(),
+      flow: talkReplyFlow,
+      verdicts: REPLY_FOLLOWS,
+      onSilenced: (spot) => silenced.push(spot),
+    }),
+  );
+  const verdicts = readVerdicts();
+  return replyFollowsReportOf({
+    pairs,
+    judgedIds: new Set([...verdicts.yes, ...verdicts.no.keys()]),
+    no: REPLY_FOLLOWS,
+    silenced,
+  });
+}
+
 /** A fresh run over the files on disk. */
 export function freshRun(): {
   readonly result: RunResult;
@@ -77,7 +117,9 @@ export function freshRun(): {
 } {
   const rules = readRules();
   const pieces = readBankPieces();
-  const result = runRules(rules, pieces, readLedger());
+  const result = runRules(rules, pieces, readLedger(), {
+    "reply-follows-the-line-before": replyFollowsReport(),
+  } satisfies PlaceReports);
   return { result, pulledFile: pulledFileOf(result), rules, pieces };
 }
 
@@ -102,6 +144,17 @@ export function reportOf(
       `Notes behind it: ${rule.from.length}${rule.research ? `, research ${rule.research.length}` : ""}. ` +
         `Lines it flags: ${row.flagged}. Pulled: ${row.pulled}. Waiting: ${row.waiting}.`,
     );
+    if (row.report) {
+      const r = row.report;
+      lines.push(
+        "",
+        `Pairs play can offer: ${r.pairs}. Judged: ${r.judged}, of which "no": ${r.no} (replies with at least one "no": ${r.repliesWithNo}). Not yet judged: ${r.unjudged}; they play as before.`,
+        `Lines no reply follows, where a new reply is needed: ${Object.keys(r.noReplyFollows).length}.`,
+        ...Object.entries(r.noReplyFollows)
+          .slice(0, 5)
+          .map(([key, spots]) => `- ${key}: ${spots.join(", ")}`),
+      );
+    }
     if (row.examples.length)
       lines.push(
         "",

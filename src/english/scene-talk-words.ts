@@ -22,6 +22,11 @@ import { renderLine, type Fact } from "./bank-line";
 
 export type { Fact };
 import { admittedParts, directorSlots } from "./bank-parts";
+import {
+  follows,
+  REPLY_FOLLOWS,
+  type ReplyFollowsTable,
+} from "./reply-follows";
 
 const zero = P.zero;
 const one = P.one;
@@ -43,7 +48,7 @@ export type SceneTalkStep =
 
 export type SceneTalkRole = "asker" | "asked" | "narrator";
 
-interface PartUse {
+export interface PartUse {
   subject: string;
   step: SceneTalkStep;
   move: string;
@@ -57,7 +62,7 @@ interface PartUse {
   excludesFacts?: string[];
 }
 
-interface BankPart {
+export interface BankPart {
   key: string;
   text: string;
   bearing?: string;
@@ -111,6 +116,8 @@ export interface SceneWordingOptions {
    * it, so a scene whose only words are held stays out of play.
    */
   includeHeld?: boolean;
+  /** The "no" verdicts the picker reads instead of the file's (the tests pass a fixture). */
+  replyFollows?: ReplyFollowsTable;
 }
 
 /** A worded turn: its text, the piece it came from and what the piece carries. */
@@ -145,45 +152,75 @@ const taggedBy = (part: BankPart) =>
     .flatMap((u) => u.requiresFacts ?? [])
     .find((name) => name.startsWith("asked_"));
 
-/** The pieces that fit a move, most specific first; what `keep` rules out is out before the closest is chosen. */
-function fitting(
+/** Where a scene is said: the part of a move that decides which pieces serve it at all. */
+export type SceneSpot = Pick<SceneMove, "purpose" | "family" | "key">;
+
+/** Whether a use serves this purpose and situation key (a fallback "*" serves only a scene with no purpose of its own). */
+export function usesSpot(u: PartUse, use: SceneSpot): boolean {
+  if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
+    return false;
+  return !(u.key && u.key !== use.key);
+}
+
+/**
+ * How closely one use of a piece fits a move, or -1 where it does not fit at
+ * all. The one test `fitting` and the reply pairs (`reply-pairs.ts`) both
+ * make, so the pairs the judges see are the pairs the picker can offer.
+ */
+export function useFit(
+  u: PartUse,
+  use: SceneMove,
+  steps: readonly string[],
+  facts: Readonly<Record<string, Fact>>,
+): number {
+  if (u.subject !== "scene") return -one;
+  if (!steps.includes(u.step) || u.move !== use.move) return -one;
+  if (u.role !== use.role) return -one;
+  if (!usesSpot(u, use)) return -one;
+  if (u.after && u.after !== use.after && u.after !== use.afterPiece)
+    return -one;
+  if (u.outcome && u.outcome !== use.outcome) return -one;
+  if (u.requiresFacts?.some((name) => !facts[name])) return -one;
+  if (u.excludesFacts?.some((name) => facts[name])) return -one;
+  return (
+    // A piece written for a variant beats the family's, whatever facts either needs.
+    (use.family && u.purpose === use.purpose ? sixteen : zero) +
+    (u.purpose && u.purpose !== "*" ? four : zero) +
+    (u.key ? two : zero) +
+    (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
+    // A piece that needs a fact the record holds says more than one that does not.
+    (u.requiresFacts?.length ?? zero)
+  );
+}
+
+/**
+ * The pieces that fit a move, most specific first; what `keep` rules out is
+ * out before the closest is chosen. A piece the reply verdicts say does not
+ * follow the line it answers (`afterPiece`) is out too, unless that would
+ * leave nothing for the move: a spot is never silent.
+ */
+export function fitting(
   use: SceneMove,
   facts: Readonly<Record<string, Fact>>,
   keep: (part: BankPart) => boolean = () => true,
   parts: readonly BankPart[] = SHIPPED,
+  verdicts: ReplyFollowsTable = REPLY_FOLLOWS,
 ): BankPart[] {
   const steps = Array.isArray(use.step) ? use.step : [use.step];
   const fits = parts.filter(keep).flatMap((part) => {
     // A piece may carry one use for each purpose it serves: take the best fit.
     let specific = -one;
-    for (const u of part.uses) {
-      if (u.subject !== "scene") continue;
-      if (!(steps as readonly string[]).includes(u.step) || u.move !== use.move)
-        continue;
-      if (u.role !== use.role) continue;
-      // A fallback piece ("*") serves only a scene with no purpose of its own.
-      if (u.purpose && u.purpose !== use.purpose && u.purpose !== use.family)
-        continue;
-      if (u.key && u.key !== use.key) continue;
-      if (u.after && u.after !== use.after && u.after !== use.afterPiece)
-        continue;
-      if (u.outcome && u.outcome !== use.outcome) continue;
-      if (u.requiresFacts?.some((name) => !facts[name])) continue;
-      if (u.excludesFacts?.some((name) => facts[name])) continue;
-      const score =
-        // A piece written for a variant beats the family's, whatever facts either needs.
-        (use.family && u.purpose === use.purpose ? sixteen : zero) +
-        (u.purpose && u.purpose !== "*" ? four : zero) +
-        (u.key ? two : zero) +
-        (u.after ? (u.after === use.afterPiece ? four + four : one) : zero) +
-        // A piece that needs a fact the record holds says more than one that does not.
-        (u.requiresFacts?.length ?? zero);
-      specific = Math.max(specific, score);
-    }
+    for (const u of part.uses)
+      specific = Math.max(specific, useFit(u, use, steps, facts));
     return specific < zero ? [] : [{ part, specific }];
   });
-  const best = Math.max(zero, ...fits.map((row) => row.specific));
-  return fits.filter((row) => row.specific === best).map((row) => row.part);
+  const answered = use.afterPiece;
+  const following = answered
+    ? fits.filter((row) => follows(row.part.key, answered, verdicts))
+    : fits;
+  const rows = following.length ? following : fits;
+  const best = Math.max(zero, ...rows.map((row) => row.specific));
+  return rows.filter((row) => row.specific === best).map((row) => row.part);
 }
 
 /**
@@ -227,6 +264,7 @@ export function wordSceneMove(input: {
       !(options.freshOnly && options.shown?.has(part.key)) &&
       !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
     options.includeHeld ? PARTS : SHIPPED,
+    options.replyFollows,
   );
   if (!every.length && strictSetup)
     return { unused: `${use.purpose}/${steps[zero]}/${use.move}` };
@@ -243,6 +281,7 @@ export function wordSceneMove(input: {
             !(options.freshOnly && options.shown?.has(part.key)) &&
             !(strictSetup && (options.usage!.get(part.key) ?? zero) > zero),
           options.includeHeld ? PARTS : SHIPPED,
+          options.replyFollows,
         ).filter((part) => !input.said.has(part.key))
       : [];
   // A piece already said on this branch is not said again while another fits.
@@ -303,11 +342,16 @@ export function wordSceneMove(input: {
 export function sceneMoveFits(
   use: SceneMove,
   facts: Readonly<Record<string, Fact>>,
-  options: Pick<SceneWordingOptions, "includeHeld"> = {},
+  options: Pick<SceneWordingOptions, "includeHeld" | "replyFollows"> = {},
 ): boolean {
   return (
-    fitting(use, facts, undefined, options.includeHeld ? PARTS : SHIPPED)
-      .length > zero
+    fitting(
+      use,
+      facts,
+      undefined,
+      options.includeHeld ? PARTS : SHIPPED,
+      options.replyFollows,
+    ).length > zero
   );
 }
 

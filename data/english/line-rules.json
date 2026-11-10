@@ -1473,9 +1473,10 @@
         }
       ],
       "note": "The notes disagree on: okay. for you, i'll do it.",
-      "status": "awaiting-test",
+      "status": "enforced",
       "test": {
-        "kind": "place"
+        "kind": "place",
+        "reads": "data/english/judged/reply-follows.json"
       },
       "examples": [
         {

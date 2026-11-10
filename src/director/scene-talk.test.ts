@@ -1,118 +1,22 @@
 import RULES_BOUND from "./data/scene-talk-rules.json" with { type: "json" };
 import { describe, expect, it } from "vitest";
-import { ageOnDate, makeIsoDate } from "../core2/kernel/dates";
-import { enrichCivicInputs } from "../core2/civic-inputs";
-import { initialFocusPeople } from "../core2/focus";
-import { advanceCore, createLifeCore } from "../core2/life";
-import { buildPopulation } from "../core2/population";
-import { createDirector } from "./ledger";
-import { composeSceneTalk, type PurposeType } from "./scene-talk";
-import type { Fact } from "../english/scene-talk-words";
-import situationFile from "./data/situation-types.json" with { type: "json" };
+import { composeSceneTalk } from "./scene-talk";
 import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "json" };
 import { heldByGrades } from "../english/english-grades";
 import { traitLean } from "../core2/choice";
 import { decisionKinds } from "../core2/trait-decision-table";
-
-// Scenes with a purpose: a setup, a person with a
-// purpose, stakes, and an exchange that plays to resolved or refused, worded
-// only from data/english/parts/scene-talk.json.
-const seed = process.env.GOLDEN_PATH_SEED ?? "scene-talk-test";
-const base = enrichCivicInputs(
-  buildPopulation({
-    seed,
-    ...(process.env.GOLDEN_PATH_SEED
-      ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
-      : {}),
-    startedAt: "2021-01-01",
-    minimumPeople: 300,
-  }),
-);
-const age = (birth: string) =>
-  ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
-const adults = base.people.filter(
-  (person) => person.tier !== "husk" && age(person.birthDate) >= 25,
-);
-const player = adults[0]!;
-const input = { ...base, playerId: player.id };
-const director = createDirector({ watch: [...initialFocusPeople(input)] });
-const core = createLifeCore(input, { modules: [director.module] });
-director.start(core);
-advanceCore(core, "2021-01-03");
-const askerId = adults[1]!.id;
-const askedId = player.id;
-
-const fact = (text: string): Fact => ({ text, sourceRecordIds: [askerId] });
-const flags = [
-  "your-promise",
-  "recruit",
-  "story",
-  "problem-job",
-  "problem-eviction",
-  "problem-illness",
-  "absence",
-  "in-office",
-  "bill-lost",
-  "for",
-  "winner-is-other",
-];
-const facts: Record<string, Fact> = {
-  name: fact("Pat Rivera"),
-  first: fact(core.people.get(askedId)!.givenName),
-  bill: fact('"Limit groundwater withdrawal"'),
-  section: fact("2"),
-  chair: fact("Lee Ortiz"),
-  office: fact("county commissioner"),
-  place: fact("the town"),
-  money: fact("$500"),
-  outlet: fact("the Courier"),
-  story: fact("the groundwater vote"),
-  opponent: fact("Dana Lee"),
-  winner: fact("Dana Lee"),
-  party: fact("Democratic"),
-  ...Object.fromEntries(flags.map((name) => [name, fact("yes")])),
-  deceased: fact("Sam Ortiz"),
-  cause: fact("a long illness"),
-  kid: fact("Jordan"),
-  job: fact("the hardware store"),
-  event: fact("the town hall"),
-  crowd: fact("forty people"),
-  petition: fact("the recall petition"),
-  minutes: fact("three minutes"),
-  ayes: fact("5"),
-  nays: fact("2"),
-  roll: fact("yes"),
-  deadline: fact("January 30"),
-  years: fact("six"),
-  home: fact("apartment"),
-  rent: fact("$900 a month"),
-  stake: fact("your seat"),
-  "what-happened": fact("your vote on the bill"),
-  self: fact("Pat Rivera"),
-  effect: fact("my rent went up"),
-  relative: fact("Robin Ortiz"),
-  where: fact("county clerk's office"),
-  executive: fact("governor"),
-  employer: fact("the hardware store"),
-  position: fact("a cashier"),
-  pay: fact("$15.00"),
-  when: fact("this morning"),
-  "stake-money": fact("money"),
-  cushion: fact("two months"),
-  remaining: fact("nine months"),
-  "stake-time": fact("time"),
-  child: fact("Jordan"),
-  "stake-worked": fact("worked"),
-  margin: fact("about 60 votes"),
-  signatures: fact("1,250"),
-  due: fact("March 5"),
-};
-// The engine is tested the way the grading page composes, with every part in,
-// even the ones the owner rejected; "plays every purpose in play" checks play.
-const HELD = { includeHeld: true } as const;
-const types = (
-  situationFile as unknown as { types: PurposeType[] }
-).types.filter((row) => row.purpose);
+import {
+  adults,
+  askedId,
+  askerId,
+  core,
+  director,
+  fact,
+  facts,
+  HELD,
+  seed,
+  types,
+} from "./scene-talk-fixture";
 
 describe(`scenes with a purpose (seed ${seed})`, () => {
   it("has the sixteen purpose types the arcs file words", () => {
