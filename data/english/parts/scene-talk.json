@@ -1274,6 +1274,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-chamber", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -1298,6 +1299,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-office", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -1322,6 +1324,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "ask-vote",
+          "excludesFacts": ["setting-chamber", "setting-phone"],
           "key": "vote-wanted"
         }
       ],
@@ -2052,6 +2055,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "staff-news",
+          "excludesFacts": ["setting-phone"],
           "key": "news-received"
         }
       ],
@@ -2101,6 +2105,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "section-bargain",
+          "excludesFacts": ["setting-office"],
           "key": "vote-wanted"
         }
       ],
@@ -2901,6 +2906,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "donor-ask",
+          "excludesFacts": ["setting-office", "setting-public"],
           "key": "favor-asked"
         }
       ],
@@ -12151,6 +12157,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "press-comment",
+          "excludesFacts": ["setting-phone"],
           "key": "routine"
         }
       ],
@@ -23327,7 +23334,7 @@
       "key": "scene-talk.follow-refuse.that-s-not-mine-to-give",
       "move": "follow-refuse",
       "kind": "spoken",
-      "text": "That's not mine to give.",
+      "text": "I don't trade my vote. Not for yours, and not for anyone's.",
       "uses": [
         {
           "subject": "scene",
@@ -28293,6 +28300,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "scandal-comment",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -28363,6 +28371,7 @@
           "key": "threat",
           "move": "greet",
           "purpose": "scandal-comment",
+          "excludesFacts": ["setting-home"],
           "role": "asker",
           "step": "open",
           "subject": "scene"
@@ -29387,6 +29396,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "recall-confront",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -31120,7 +31130,11 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
+          "excludesFacts": [
+            "read-about-money",
+            "setting-home",
+            "setting-other-home"
+          ],
           "key": "routine"
         }
       ],
@@ -31449,6 +31463,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -31944,6 +31959,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "protest-warning",
+          "excludesFacts": ["setting-letter", "setting-phone"],
           "key": "threat"
         }
       ],
@@ -42435,6 +42451,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "victory-night",
+          "excludesFacts": ["setting-home"],
           "key": "honor"
         }
       ],
@@ -42905,6 +42922,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "veto-call",
+          "excludesFacts": ["setting-venue"],
           "key": "loss"
         }
       ],
@@ -43546,6 +43564,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -46433,7 +46452,11 @@
           "move": "greet",
           "role": "asker",
           "purpose": "owed-apology",
-          "excludesFacts": ["read-about-money"],
+          "excludesFacts": [
+            "read-about-money",
+            "setting-home",
+            "setting-other-home"
+          ],
           "key": "routine"
         }
       ],
@@ -50119,6 +50142,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "victory-night",
+          "excludesFacts": ["setting-home"],
           "key": "honor"
         }
       ],
@@ -52438,6 +52462,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "signing-ask",
+          "excludesFacts": ["bill"],
           "key": "honor"
         }
       ],
@@ -52445,6 +52470,30 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "honor"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-executive-has-signed-bill-and-name-keeps-you-back-after-the-photographs",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {executive} has signed {bill}. After the photographs, {name} keeps you back.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "signing-ask",
+          "key": "honor"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-recall-bills)",
+      "date": "2026-11-10",
       "tag": {
         "move": "narrate",
         "key": "honor"
@@ -53039,6 +53088,31 @@
       "origin": "authored",
       "author": "Words session",
       "date": "2026-10-15",
+      "tag": {
+        "move": "narrate",
+        "key": "loss"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.the-executive-has-vetoed-bill-and-name-asks-you-in-to-hear-it-face-to-face",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "The {executive} has vetoed {bill}, and {name} asks you in to say so face to face.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "veto-call",
+          "excludesFacts": ["setting-phone"],
+          "key": "loss"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-recall-bills)",
+      "date": "2026-11-10",
       "tag": {
         "move": "narrate",
         "key": "loss"
@@ -53651,6 +53725,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -53675,6 +53750,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "appointment-offer",
+          "excludesFacts": ["setting-venue"],
           "key": "honor"
         }
       ],
@@ -54328,6 +54404,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "recall-confront",
+          "excludesFacts": ["setting-home"],
           "key": "threat"
         }
       ],
@@ -73453,6 +73530,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-it-s-working-and-i-don-t-want-anyone-touching-it"
         },
@@ -73462,6 +73540,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-it-s-hurting-people-i-know-and-nobody-up-there-seems-to-care"
         },
@@ -73471,6 +73550,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.because-nobody-s-ever-explained-it-to-us"
         },
@@ -73480,6 +73560,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.two-of-us-at-home-and-both-our-jobs-ride-on-it"
         }
@@ -73881,6 +73962,7 @@
           "move": "promise",
           "role": "asker",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "outcome": "resolved"
         }
@@ -74030,7 +74112,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -74054,7 +74136,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -74078,7 +74160,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -84519,6 +84601,7 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84569,6 +84652,7 @@
           "move": "decline",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84594,6 +84678,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.say-out-loud-whether-you-re-for-it-or-against-it-that-s-all"
         }
@@ -84694,6 +84779,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.two-families-moved-out-this-year-nobody-s-moved-in"
         }
@@ -84769,6 +84855,7 @@
           "move": "plea",
           "role": "asker",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.reply-decline.i-m-not-going-to-pick-a-side-on-a-state-law-at-a-town-hall"
         }
@@ -85620,6 +85707,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.written-answers-go-in-a-drawer-will-you-say-it-here-now"
         }
@@ -85695,6 +85783,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.bring-it-how-out-loud-with-my-name"
         }
@@ -85770,6 +85859,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.last-time-it-was-a-form-nobody-wrote-back"
         }
@@ -85845,6 +85935,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-press.a-list-of-addresses-doesn-t-help-the-people-at-them"
         }
@@ -86172,6 +86263,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "press"
         }
@@ -86298,6 +86390,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "answer"
         }
@@ -86408,6 +86501,7 @@
           "move": "answer",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "ask"
         }
@@ -86933,6 +87027,7 @@
           "move": "leave",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-answer.i-rent-and-i-work-for-a-living-i-want-to-know-what-i-d-be-getting"
         }
@@ -87358,7 +87453,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -87382,7 +87477,7 @@
           "step": "beat",
           "move": "beat",
           "role": "narrator",
-          "purpose": "constituent-help",
+          "purpose": "town-hall-question",
           "key": "favor-asked"
         }
       ],
@@ -87432,6 +87527,7 @@
           "move": "promise",
           "role": "asked",
           "purpose": "constituent-help",
+          "requiresFacts": ["townhall"],
           "key": "favor-asked",
           "after": "scene-talk.follow-ask.then-send-it-when-can-we-see-it"
         }
@@ -103321,6 +103417,7 @@
         {
           "subject": "scene",
           "purpose": "law-reaches",
+          "excludesFacts": ["setting-home", "setting-workplace"],
           "key": "news-received",
           "step": "narrate",
           "move": "narrate",
@@ -103345,6 +103442,7 @@
         {
           "subject": "scene",
           "purpose": "law-reaches",
+          "excludesFacts": ["setting-home", "setting-workplace"],
           "key": "news-received",
           "step": "narrate",
           "move": "narrate",
@@ -108364,6 +108462,7 @@
           "move": "greet",
           "role": "asker",
           "purpose": "cut-argument",
+          "excludesFacts": ["setting-phone"],
           "key": "cut-heard"
         }
       ],
@@ -118405,6 +118504,7 @@
           "move": "beat",
           "role": "narrator",
           "purpose": "desk-visit",
+          "excludesFacts": ["setting-phone"],
           "key": "desk-visit"
         }
       ],
@@ -126030,6 +126130,7 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -126053,6 +126154,7 @@
         {
           "subject": "scene",
           "purpose": "ask-support",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "door",
           "step": "narrate",
           "move": "narrate",
@@ -130596,6 +130698,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
+          "excludesFacts": ["office"],
           "key": "filed"
         }
       ],
@@ -130633,6 +130736,30 @@
       }
     },
     {
+      "key": "scene-talk.narrate-narrate.you-are-here-to-file-for-office-and-name-takes-your-papers-to-check-them",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You've come to file for {office}, and {name} takes your papers to check them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "filing-petition",
+          "key": "filed"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Words, scenes and the director (director-scene-has-no-context-lead)",
+      "date": "2026-11-09",
+      "tag": {
+        "move": "narrate",
+        "key": "filed"
+      }
+    },
+    {
       "key": "scene-talk.narrate-narrate.name-reads-your-forms-through-once-more-and-initials-the-last-page",
       "move": "narrate-narrate",
       "kind": "spoken",
@@ -130644,6 +130771,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "filing-petition",
+          "excludesFacts": ["office"],
           "key": "filed"
         }
       ],
@@ -133274,7 +133402,7 @@
       "key": "scene-talk.state-request.raise-your-right-hand-do-you-swear-to-follow-the-law-and-to-do-the-work",
       "move": "state-request",
       "kind": "spoken",
-      "text": "Raise your right hand. Do you swear to follow the law and to do the work of {office} honestly?",
+      "text": "Raise your right hand. Do you swear to follow the law and to do the work of the {office} honestly?",
       "uses": [
         {
           "subject": "scene",
@@ -147869,6 +147997,7 @@
           "move": "narrate",
           "role": "narrator",
           "purpose": "proposal-ask",
+          "excludesFacts": ["setting-public", "setting-venue"],
           "key": "favor-asked"
         }
       ],
@@ -183440,7 +183569,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "arrival" }
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.you-have-not-talked-to-name-in-away-they-live-in-hometown-now-and-they-have-something-to-ask-you",
@@ -183461,7 +183593,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "arrival" }
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.things-went-sour-between-you-and-name-a-while-back-and-now-they-have-come-to-find-you",
@@ -183482,7 +183617,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "arrival" }
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.since-you-last-talked-to-name-they-have-had-a-child-new-child-and-now-they-have-something-to-ask-you",
@@ -183503,7 +183641,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "arrival" }
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.since-you-last-talked-to-name-they-married-married-and-now-they-have-something-to-ask-you",
@@ -183524,7 +183665,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "arrival" }
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.since-you-last-talked-to-name-they-started-at-new-employer-and-now-they-have-something-to-ask-you",
@@ -183545,7 +183689,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "arrival" }
+      "tag": {
+        "move": "narrate",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.open-greet.hello-first-it-s-been-a-long-time-and-i-wasn-t-sure-you-would-remember-me",
@@ -183566,7 +183713,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "arrival" }
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.open-greet.hello-first-it-has-been-away-and-i-m-glad-i-found-you",
@@ -183588,7 +183738,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "arrival" }
+      "tag": {
+        "move": "greet",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-d-like-to-hear-how-you-ve-been-first-could-we-get-lunch-on-saturday",
@@ -183609,7 +183762,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-don-t-want-us-to-be-strangers-first-could-i-stop-by-and-see-you-now-and-then",
@@ -183630,7 +183786,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.we-left-things-badly-first-and-it-s-been-on-my-mind-can-we-start-over",
@@ -183652,7 +183811,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-d-like-to-talk-about-what-happened-between-us-first-will-you-hear-me-out",
@@ -183674,7 +183836,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.it-s-been-away-first-and-i-should-have-reached-out-sooner-can-we-start-talking-again",
@@ -183696,7 +183861,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-m-out-of-work-first-and-i-m-asking-everyone-i-know-do-you-know-anyone-who-s-hiring",
@@ -183718,7 +183886,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-moved-to-hometown-after-we-lost-touch-first-would-you-come-see-me-there-sometime",
@@ -183740,7 +183911,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-have-a-kid-now-first-and-i-wanted-you-to-hear-it-from-me-would-you-come-meet-new-child-on-saturday",
@@ -183762,7 +183936,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-married-married-since-we-last-talked-first-would-you-come-to-dinner-with-us-on-saturday",
@@ -183784,7 +183961,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-started-at-new-employer-since-we-last-talked-first-could-we-get-lunch-and-catch-up",
@@ -183806,7 +183986,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.state-request.i-ve-been-seriously-ill-first-and-it-made-me-think-of-the-people-i-lost-touch-with-could-you-spare-an-hour-for-me",
@@ -183828,7 +184011,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "arrival" }
+      "tag": {
+        "move": "request",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-agree.alright-yes-i-ll-do-what-you-re-asking",
@@ -183848,7 +184034,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "arrival" }
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-agree.yes-i-m-glad-you-came-to-me",
@@ -183868,7 +184057,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "arrival" }
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-do-it-and-you-have-my-word-on-that",
@@ -183888,7 +184080,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "arrival" }
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-make-it-happen-and-i-won-t-let-it-slip",
@@ -183908,7 +184103,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "arrival" }
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-ask.what-exactly-are-you-hoping-i-will-do",
@@ -183928,7 +184126,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "arrival" }
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-ask.why-did-you-come-to-me-now-after-all-this-time",
@@ -183948,7 +184149,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "arrival" }
+      "tag": {
+        "move": "ask",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.that-s-a-lot-to-take-in-at-once-can-we-talk-about-it-another-day",
@@ -183968,7 +184172,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "arrival" }
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.i-m-not-sure-i-can-promise-that-right-now-give-me-some-time-to-think",
@@ -183988,7 +184195,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "arrival" }
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-agree.you-re-right-i-ll-do-it",
@@ -184009,7 +184219,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "arrival" }
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-let-me-sort-out-my-week-first",
@@ -184030,7 +184243,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "arrival" }
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-leave.i-can-t-stay-and-go-back-and-forth-about-it-i-ll-find-you-when-i-m-ready",
@@ -184051,7 +184267,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "arrival" }
+      "tag": {
+        "move": "leave",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-agree.that-makes-sense-to-me-i-ll-do-it",
@@ -184072,7 +184291,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "arrival" }
+      "tag": {
+        "move": "agree",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-promise.yes-you-can-count-on-me",
@@ -184093,7 +184315,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "arrival" }
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.i-understand-but-i-still-can-t-give-you-an-answer-today",
@@ -184114,7 +184339,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "arrival" }
+      "tag": {
+        "move": "deflect",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-wasn-t-sure-you-would-say-yes",
@@ -184136,7 +184364,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "arrival" }
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-accept.good-i-m-glad-i-came",
@@ -184158,7 +184389,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "arrival" }
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-ll-do-my-part-when-we-meet",
@@ -184180,7 +184414,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "arrival" }
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-press.you-really-mean-it-i-ve-heard-sometime-from-people-before",
@@ -184202,7 +184439,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "arrival" }
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-accept.alright-take-the-time-you-need",
@@ -184224,7 +184464,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "arrival" }
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-press.i-understand-but-i-ve-waited-a-long-time-to-ask-can-you-give-me-an-answer",
@@ -184246,7 +184489,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "arrival" }
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-your-help-and-i-came-to-you-first-tell-me-what-you-can-do",
@@ -184268,7 +184514,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "arrival" }
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.follow-answer.i-came-to-you-because-i-d-rather-ask-someone-i-know-than-a-stranger-i-d-be-grateful-for-whatever-you-can-do",
@@ -184290,7 +184539,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "arrival" }
+      "tag": {
+        "move": "answer",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.close-thank.thanks-first-it-s-good-to-see-you-again",
@@ -184311,7 +184563,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "arrival" }
+      "tag": {
+        "move": "thank",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.close-promise.i-ll-be-in-touch-first-you-ll-hear-from-me",
@@ -184332,7 +184587,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "arrival" }
+      "tag": {
+        "move": "promise",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.close-accept.alright-i-won-t-keep-you-from-your-day-any-longer",
@@ -184353,7 +184611,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "arrival" }
+      "tag": {
+        "move": "accept",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.close-press.i-ll-check-back-with-you-in-a-few-days-if-that-s-alright",
@@ -184374,7 +184635,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "arrival" }
+      "tag": {
+        "move": "press",
+        "key": "arrival"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-and-there-is-something-they-want-to-ask-you",
@@ -184394,7 +184658,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "news-received" }
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-from-hometown-they-have-something-to-ask-you",
@@ -184415,7 +184682,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "news-received" }
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-have-had-a-child-new-child-and-they-have-something-to-ask-you",
@@ -184436,7 +184706,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "news-received" }
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-married-married-and-they-have-something-to-ask-you",
@@ -184457,7 +184730,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "news-received" }
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-they-were-missing-from-your-birthday-table-and-they-have-something-to-ask-you",
@@ -184478,7 +184754,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "news-received" }
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.a-letter-from-name-has-come-since-their-last-one-they-started-at-new-employer-and-they-have-something-to-ask-you",
@@ -184499,7 +184778,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "news-received" }
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.open-greet.dear-first-i-ve-been-meaning-to-write-for-a-while",
@@ -184520,7 +184802,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "news-received" }
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.open-greet.dear-first-i-m-writing-because-there-is-something-i-want-to-ask-you",
@@ -184541,7 +184826,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "news-received" }
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.write-back-and-tell-me-how-you-are-first-i-like-hearing-what-s-going-on-in-your-life",
@@ -184562,7 +184850,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.would-you-come-for-a-visit-sometime-this-year-first-i-d-like-to-see-you-in-person",
@@ -184583,7 +184874,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.come-and-see-me-in-hometown-first-i-would-love-to-show-you-what-it-s-like-here",
@@ -184605,7 +184899,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.i-m-still-sorry-i-missed-your-birthday-first-will-you-let-me-make-it-up-to-you-with-a-visit",
@@ -184627,7 +184924,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.my-birthday-is-coming-up-first-it-would-mean-a-lot-to-me-if-you-wrote-back-before-then",
@@ -184649,7 +184949,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.my-kid-new-child-was-born-since-my-last-letter-first-will-you-come-meet-them",
@@ -184671,7 +184974,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.i-married-married-since-i-last-wrote-first-will-you-come-and-meet-them",
@@ -184693,7 +184999,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.i-ve-moved-since-i-last-wrote-first-and-i-live-in-hometown-now-will-you-write-to-me-there",
@@ -184715,7 +185024,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.i-started-at-new-employer-since-i-last-wrote-first-will-you-write-back-and-tell-me-what-s-new-with-you",
@@ -184737,7 +185049,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.i-ve-been-seriously-ill-since-i-last-wrote-first-and-i-d-like-to-hear-from-you-will-you-write-back-soon",
@@ -184759,7 +185074,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.state-request.it-s-been-a-while-since-we-really-talked-first-will-you-write-back-and-tell-me-what-s-on-your-mind",
@@ -184780,7 +185098,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "news-received" }
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
@@ -184800,7 +185121,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "news-received" }
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-agree.alright-yes-i-m-glad-you-asked-me",
@@ -184820,7 +185144,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "news-received" }
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-do-it-and-i-give-you-my-word",
@@ -184840,7 +185167,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "news-received" }
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-write-you-again-soon-and-i-ll-make-it-happen",
@@ -184860,7 +185190,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "news-received" }
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-ask.can-you-tell-me-more-about-what-you-re-asking",
@@ -184880,7 +185213,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "news-received" }
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-ask.why-now-i-m-glad-to-hear-from-you-and-i-d-like-to-know-what-s-behind-it",
@@ -184900,7 +185236,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "news-received" }
+      "tag": {
+        "move": "ask",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-decline.i-wish-i-could-but-i-can-t-right-now-i-hope-you-ll-understand",
@@ -184920,7 +185259,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "decline", "key": "news-received" }
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-decline.i-m-sorry-but-i-can-t-do-that-this-time",
@@ -184940,7 +185282,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "decline", "key": "news-received" }
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-agree.you-re-right-and-i-ll-do-it",
@@ -184961,7 +185306,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "news-received" }
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-do-it-i-promise-i-just-need-to-sort-out-my-days-first",
@@ -184982,7 +185330,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "news-received" }
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-leave.i-d-rather-not-go-back-and-forth-about-it-in-letters-i-ll-write-when-i-m-ready",
@@ -185003,7 +185354,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "news-received" }
+      "tag": {
+        "move": "leave",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-agree.that-makes-sense-i-ll-do-it",
@@ -185024,7 +185378,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "news-received" }
+      "tag": {
+        "move": "agree",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-promise.you-can-count-on-me-i-ll-do-it",
@@ -185045,7 +185402,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "news-received" }
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.reply-decline.i-understand-but-i-still-can-t-do-it-i-m-sorry",
@@ -185066,7 +185426,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "decline", "key": "news-received" }
+      "tag": {
+        "move": "decline",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-m-so-glad-you-said-yes",
@@ -185088,7 +185451,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "news-received" }
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-accept.good-that-s-what-i-hoped-you-would-say",
@@ -185110,7 +185476,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "news-received" }
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-ll-do-my-part-too",
@@ -185132,7 +185501,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "news-received" }
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-press.can-i-count-on-that-first-i-d-like-to-plan-around-it",
@@ -185154,7 +185526,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "news-received" }
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-accept.alright-i-understand-and-i-won-t-ask-again-right-away",
@@ -185176,7 +185551,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "news-received" }
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-press.i-understand-but-it-matters-to-me-can-you-tell-me-what-s-in-the-way",
@@ -185198,7 +185576,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "news-received" }
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-answer.i-m-asking-for-a-little-of-your-time-and-i-thought-of-you-first-tell-me-what-you-can-do",
@@ -185220,7 +185601,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "news-received" }
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.follow-answer.i-d-rather-ask-family-than-a-stranger-i-d-be-grateful-for-whatever-you-can-do",
@@ -185242,7 +185626,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "news-received" }
+      "tag": {
+        "move": "answer",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.close-thank.thanks-first-write-again-when-you-can",
@@ -185263,7 +185650,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "news-received" }
+      "tag": {
+        "move": "thank",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.close-promise.i-ll-write-again-soon-first-take-care-of-yourself",
@@ -185284,7 +185674,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "news-received" }
+      "tag": {
+        "move": "promise",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.close-accept.alright-i-ll-wait-to-hear-from-you",
@@ -185305,7 +185698,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "news-received" }
+      "tag": {
+        "move": "accept",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.close-press.i-ll-write-again-in-a-few-weeks-about-it-if-that-s-alright",
@@ -185326,7 +185722,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, reunion and letter purposes)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "news-received" }
+      "tag": {
+        "move": "press",
+        "key": "news-received"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.everyone-has-come-together-to-celebrate-and-name-pulls-you-aside-to-ask-you-something",
@@ -187524,7 +187923,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.when-you-fell-seriously-ill-your-partner-name-called-for-help-afterward-they-sit-you-down-to-ask-you-something",
@@ -187545,7 +187947,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.you-fell-seriously-ill-at-home-with-child-in-the-room-name-called-for-help-and-afterward-comes-to-ask-you-something",
@@ -187566,7 +187971,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.other-people-in-the-house-saw-you-fall-seriously-ill-and-name-was-the-one-who-called-for-help-now-they-pull-you-aside-with-a-question",
@@ -187587,7 +187995,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.are-you-alright-first-i-haven-t-been-able-to-sit-still-since-i-called-for-help",
@@ -187608,7 +188019,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.can-i-sit-with-you-a-minute-first-i-want-to-ask-you-something-about-getting-you-well",
@@ -187629,7 +188043,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.i-thought-i-was-losing-you-first-can-i-ask-you-something",
@@ -187651,7 +188068,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.i-only-did-what-anyone-would-have-done-first-but-i-do-need-to-ask-you-something",
@@ -187672,7 +188092,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-let-me-drive-you-to-the-doctor-first-i-d-feel-a-lot-better-if-someone-checked-you-over",
@@ -187693,7 +188116,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-see-a-doctor-this-week-first-i-ll-go-with-you-if-you-want-me-there",
@@ -187714,7 +188140,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-let-me-stay-close-for-the-next-few-days-first-i-keep-going-over-the-minutes-before-i-called-for-help",
@@ -187735,7 +188164,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-promise-to-tell-me-the-moment-you-start-feeling-sick-again-first",
@@ -187756,7 +188188,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-let-me-call-the-rest-of-the-family-first-they-should-hear-what-happened-from-someone-who-was-here",
@@ -187777,7 +188212,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-talk-to-child-yourself-first-they-were-in-the-room-when-you-fell-ill",
@@ -187799,7 +188237,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.you-scared-me-badly-first-will-you-promise-me-you-ll-slow-down-for-a-few-days",
@@ -187821,7 +188262,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.will-you-let-the-others-in-the-house-sit-with-you-for-a-while-first-they-have-been-worried-about-you",
@@ -187843,7 +188287,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-agree.yes-you-re-right-i-ll-do-that",
@@ -187863,7 +188310,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "threat" }
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-agree.alright-you-were-the-one-who-called-for-help-so-i-won-t-argue",
@@ -187883,7 +188333,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "threat" }
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-agree.yes-i-owe-you-more-than-i-can-say-so-i-ll-do-what-you-re-asking",
@@ -187903,7 +188356,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "threat" }
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-agree.alright-i-ll-do-it-thank-you-for-asking-me-instead-of-deciding-for-me",
@@ -187923,7 +188379,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "agree", "key": "threat" }
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-promise.you-have-my-word-i-ll-do-it-and-i-won-t-put-it-off",
@@ -187943,7 +188402,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "threat" }
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-promise-you-were-there-when-i-needed-someone-and-i-won-t-forget-it",
@@ -187963,7 +188425,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "threat" }
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-ll-do-exactly-that-and-i-promise-to-keep-my-word",
@@ -187983,7 +188448,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "threat" }
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-promise.i-promise-i-know-what-it-cost-you-to-stand-there-and-wait-for-help",
@@ -188003,7 +188471,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "threat" }
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-ask.what-are-you-most-afraid-will-happen-if-i-don-t",
@@ -188023,7 +188494,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-ask.why-are-you-asking-me-now-what-did-you-see-when-i-fell-ill",
@@ -188043,7 +188517,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-decline.i-know-you-were-scared-but-i-can-t-do-that-right-now-i-m-sorry",
@@ -188063,7 +188540,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "decline", "key": "threat" }
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-decline.i-owe-you-more-than-i-can-say-and-i-still-can-t-do-that-right-now",
@@ -188083,7 +188563,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "decline", "key": "threat" }
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-decline.i-understand-why-you-re-asking-but-i-can-t-promise-that-i-hope-you-ll-forgive-me",
@@ -188103,7 +188586,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "decline", "key": "threat" }
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.i-m-tired-and-i-can-t-keep-talking-about-my-illness-today-i-ll-come-to-you-when-i-m-ready",
@@ -188124,7 +188610,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-ll-sleep-better-tonight-knowing-that",
@@ -188146,7 +188635,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-thank.thank-you-first-i-was-afraid-you-would-brush-me-off",
@@ -188168,7 +188660,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.good-that-s-all-i-wanted-to-hear",
@@ -188190,7 +188685,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.alright-i-m-glad-you-said-yes",
@@ -188212,7 +188710,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.can-i-count-on-that-first-i-was-frightened-when-i-called-for-help-and-i-don-t-want-to-feel-that-way-again",
@@ -188234,7 +188735,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.will-you-really-follow-through-first-i-m-asking-because-i-was-the-one-who-called-for-help",
@@ -188256,7 +188760,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-answer.i-m-afraid-of-walking-in-and-finding-you-worse-first-that-s-all-it-is",
@@ -188278,7 +188785,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "threat" }
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-answer.i-only-want-you-looked-after-first-whatever-you-can-manage-is-enough-for-me",
@@ -188300,7 +188810,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "threat" }
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-thank.thank-you-first-i-can-rest-easier-now",
@@ -188321,7 +188834,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-promise.i-ll-be-right-here-first-whatever-you-need-just-say-so",
@@ -188342,7 +188858,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "threat" }
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-accept.alright-i-ll-leave-you-to-rest",
@@ -188363,7 +188882,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-press.i-ll-ask-you-again-in-a-few-days-if-that-is-alright",
@@ -188384,7 +188906,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, rescue purpose)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.money.you-missed-a-payment-and-the-trouble-landed-on-name-too-now-they-want-to-talk-about-it",
@@ -188404,7 +188929,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.money.name-has-been-waiting-for-you-to-bring-up-the-missed-payment-and-now-has-brought-it-up-first",
@@ -188424,7 +188952,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.money.do-you-have-a-minute-first-i-want-to-talk-about-the-payment-you-missed",
@@ -188445,7 +188976,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.money.i-d-rather-say-this-to-your-face-first-it-s-about-the-payment-you-missed",
@@ -188466,7 +189000,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.money.you-missed-that-payment-first-and-it-landed-on-both-of-us-i-want-to-hear-you-say-you-re-sorry",
@@ -188487,7 +189024,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.money.that-payment-was-your-responsibility-first-i-d-like-an-apology-and-i-d-like-to-know-it-won-t-happen-again",
@@ -188508,7 +189048,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.money.anybody-can-miss-a-payment-first-i-just-need-you-to-say-it-was-your-doing",
@@ -188529,7 +189072,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.money.you-re-right-i-missed-the-payment-and-that-s-on-me-i-m-sorry",
@@ -188549,7 +189095,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.money.i-m-sorry-i-should-have-kept-track-of-it-and-i-didn-t",
@@ -188569,7 +189118,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.money.i-m-sorry-and-i-mean-it-i-know-it-landed-on-you-too",
@@ -188589,7 +189141,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.money.you-have-my-word-it-won-t-happen-again-i-ll-check-the-bills-every-week",
@@ -188609,7 +189164,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.money.i-m-sorry-i-ll-make-sure-the-next-one-is-paid-before-it-s-due-and-i-ll-show-you-the-receipt",
@@ -188629,7 +189187,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.money.it-was-one-payment-and-money-s-been-tight-lately",
@@ -188649,7 +189210,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "routine" }
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.money.i-ve-had-a-lot-going-on-lately",
@@ -188669,7 +189233,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "routine" }
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.money.you-act-like-you-ve-never-been-late-with-anything",
@@ -188689,7 +189256,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.money.i-m-not-the-only-one-who-forgets-things-around-here",
@@ -188709,7 +189279,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.money.then-say-it-in-front-of-everybody-if-that-s-what-you-want",
@@ -188730,7 +189303,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.money.you-want-a-fight-over-one-payment-fine-but-i-m-not-the-only-one-with-something-to-answer-for",
@@ -188751,7 +189327,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.money.if-you-re-going-to-keep-score-count-what-i-ve-covered-for-you-too",
@@ -188772,7 +189351,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.money.i-can-t-keep-going-over-the-missed-payment-today-i-ll-come-back-to-you-when-i-can-say-it-right",
@@ -188793,7 +189375,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.money.let-s-stop-before-we-say-something-we-can-t-take-back",
@@ -188814,7 +189399,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.money.i-m-done-for-now-we-ll-talk-when-we-re-calmer",
@@ -188835,7 +189423,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.money.thank-you-first-that-s-all-i-needed-to-hear",
@@ -188856,7 +189447,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.money.alright-i-m-glad-you-said-it-out-loud",
@@ -188877,7 +189471,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.money.that-s-a-start-first-tell-me-what-you-re-going-to-do-about-it",
@@ -188898,7 +189495,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.money.sorry-is-easy-first-what-are-you-going-to-do-differently",
@@ -188919,7 +189519,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-confront.money.don-t-turn-this-around-on-me-first-we-re-talking-about-your-payment",
@@ -188941,7 +189544,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-confront.money.i-m-not-going-to-apologize-for-something-you-won-t-let-me-explain-first",
@@ -188963,7 +189569,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-thank.money.thanks-first-let-s-leave-it-there",
@@ -188984,7 +189593,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "routine" }
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-accept.money.alright-we-ll-leave-it-at-that-for-now",
@@ -189005,7 +189617,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-warn.money.i-ll-be-watching-the-mail-first-don-t-let-it-happen-twice",
@@ -189026,7 +189641,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "routine" }
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-react.money.name-sighs-and-lets-the-subject-drop",
@@ -189046,7 +189664,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "routine" }
+      "tag": {
+        "move": "react",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.close.name-isn-t-angry-so-much-as-hurt-about-the-missed-payment-and-has-come-to-say-so",
@@ -189066,7 +189687,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.close.you-and-name-are-close-and-the-missed-payment-has-come-between-you",
@@ -189086,7 +189710,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.close.can-we-talk-about-the-missed-payment-first-it-s-been-bothering-me-more-than-i-expected",
@@ -189107,7 +189734,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.close.i-didn-t-want-to-bring-up-the-payment-you-missed-first-but-i-can-t-act-like-it-didn-t-happen",
@@ -189128,7 +189758,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-request.close.i-don-t-care-about-the-late-fee-first-i-care-that-the-missed-payment-came-between-us-can-you-tell-me-you-re-sorry",
@@ -189149,7 +189782,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "routine" }
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-request.close.you-and-i-don-t-do-this-to-each-other-first-could-you-tell-me-you-re-sorry-about-the-missed-payment",
@@ -189170,7 +189806,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "routine" }
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-request.close.i-thought-we-could-count-on-each-other-with-the-bills-first-would-you-tell-me-what-happened-with-the-missed-payment-and-say-you-re-sorry",
@@ -189191,7 +189830,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "routine" }
+      "tag": {
+        "move": "request",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.close.i-hate-that-i-hurt-you-first-i-m-sorry-about-the-missed-payment",
@@ -189211,7 +189853,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.close.you-re-right-to-be-hurt-i-m-sorry-and-i-m-not-going-to-make-excuses",
@@ -189231,7 +189876,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.close.i-m-sorry-you-re-the-last-person-i-wanted-to-let-down",
@@ -189251,7 +189899,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.close.i-m-sorry-and-i-promise-to-do-better-you-can-count-on-me-with-the-bills",
@@ -189271,7 +189922,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.close.i-ll-make-it-up-to-you-i-m-sorry-and-it-won-t-happen-again",
@@ -189291,7 +189945,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.close.i-didn-t-think-it-would-matter-this-much-to-you",
@@ -189311,7 +189968,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "routine" }
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.close.i-didn-t-mean-anything-by-it-it-just-got-away-from-me",
@@ -189331,7 +189991,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "routine" }
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-ask.close.what-would-help-you-most-right-now-first",
@@ -189351,7 +190014,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "routine" }
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-ask.close.what-do-you-need-from-me-to-put-the-missed-payment-right",
@@ -189371,7 +190037,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "routine" }
+      "tag": {
+        "move": "ask",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.close.i-can-t-talk-about-the-missed-payment-anymore-today-i-ll-find-you-when-i-m-ready",
@@ -189392,7 +190061,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.close.thank-you-first-it-means-a-lot-that-you-said-it",
@@ -189413,7 +190085,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.close.alright-i-feel-better-already",
@@ -189434,7 +190109,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.close.i-believe-you-re-sorry-first-i-just-need-to-see-that-it-counts-for-something",
@@ -189455,7 +190133,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.close.sorry-helps-first-i-d-like-to-know-how-you-ll-make-sure-it-doesn-t-happen-again",
@@ -189476,7 +190157,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-answer.close.just-tell-me-the-truth-about-it-first-and-tell-me-it-won-t-happen-again",
@@ -189498,7 +190182,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "routine" }
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-answer.close.i-only-want-to-know-i-can-count-on-you-first-that-s-all",
@@ -189520,7 +190207,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "routine" }
+      "tag": {
+        "move": "answer",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-thank.close.thank-you-first-i-m-glad-we-talked",
@@ -189541,7 +190231,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "routine" }
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-accept.close.alright-we-can-leave-it-here",
@@ -189562,7 +190255,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-warn.close.i-ll-give-you-time-first-but-i-won-t-forget-it",
@@ -189583,7 +190279,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "routine" }
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-react.close.name-looks-away-and-says-nothing-more",
@@ -189603,7 +190302,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "routine" }
+      "tag": {
+        "move": "react",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.repeat.you-and-name-have-quarreled-over-money-before-and-the-missed-payment-has-opened-it-up-again",
@@ -189623,7 +190325,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.repeat.name-has-had-this-conversation-with-you-before-and-has-come-to-have-it-again",
@@ -189643,7 +190348,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.repeat.we-have-to-do-this-again-first-it-s-the-missed-payment",
@@ -189664,7 +190372,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.repeat.i-hoped-we-were-done-with-this-first-the-missed-payment-says-we-aren-t",
@@ -189685,7 +190396,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.repeat.we-ve-been-through-this-over-money-before-first-i-need-more-than-an-apology-this-time",
@@ -189706,7 +190420,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.repeat.this-is-not-the-first-time-money-has-come-between-us-first-i-want-to-hear-what-changes",
@@ -189727,7 +190444,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.repeat.i-m-tired-of-having-this-talk-first-tell-me-what-s-different-now",
@@ -189748,7 +190468,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.repeat.you-re-right-and-i-know-it-s-not-the-first-time-i-m-sorry",
@@ -189768,7 +190491,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.repeat.i-m-sorry-i-ve-said-it-before-and-i-know-that-makes-it-harder-to-believe",
@@ -189788,7 +190514,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.repeat.i-m-sorry-about-the-missed-payment-i-know-what-it-looks-like-after-last-time",
@@ -189808,7 +190537,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.repeat.this-time-i-ll-do-it-differently-i-ll-pay-the-bills-the-day-they-come-and-you-can-check",
@@ -189828,7 +190560,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.repeat.you-have-my-word-and-you-can-hold-me-to-it-i-m-sorry",
@@ -189848,7 +190583,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.repeat.you-keep-bringing-up-the-past-instead-of-letting-me-fix-it",
@@ -189868,7 +190606,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.repeat.if-it-s-going-to-be-a-fight-every-time-why-should-i-bother",
@@ -189888,7 +190629,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.repeat.then-stop-reminding-me-of-every-mistake",
@@ -189909,7 +190653,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.repeat.every-time-it-s-the-same-speech-maybe-that-s-why-nothing-changes",
@@ -189930,7 +190677,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.repeat.you-can-list-everything-i-ve-ever-done-wrong-and-it-still-won-t-fix-the-payment",
@@ -189951,7 +190701,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.repeat.i-can-t-do-this-again-today-i-ll-talk-to-you-when-i-have-something-real-to-say",
@@ -189971,7 +190724,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.repeat.let-s-drop-it-for-now-i-ll-come-to-you-when-i-know-what-i-can-change",
@@ -189991,7 +190747,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse-i-ll-come-back-when-i-mean-it",
@@ -190012,7 +190771,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.repeat.i-m-walking-away-before-this-gets-worse",
@@ -190033,7 +190795,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.repeat.let-s-drop-it-arguing-about-the-past-isn-t-helping-either-of-us",
@@ -190054,7 +190819,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.repeat.thank-you-first-i-m-going-to-hold-you-to-that",
@@ -190075,7 +190843,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.repeat.alright-i-ll-give-you-one-more-chance",
@@ -190096,7 +190867,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.repeat.you-said-that-before-first-what-s-going-to-be-different-this-time",
@@ -190117,7 +190891,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.repeat.i-ve-heard-sorry-first-i-need-to-see-a-change",
@@ -190138,7 +190915,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-confront.repeat.don-t-tell-me-i-m-bringing-up-the-past-the-past-is-why-we-re-here-first",
@@ -190160,7 +190940,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-confront.repeat.and-you-keep-saying-you-ll-change-first-i-m-the-one-who-watches-you-not-do-it",
@@ -190182,7 +190965,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-thank.repeat.thanks-first-show-me-and-we-ll-be-fine",
@@ -190203,7 +190989,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "routine" }
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-accept.repeat.alright-we-ll-see-how-it-goes",
@@ -190224,7 +191013,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-warn.repeat.i-won-t-have-this-talk-a-third-time-first",
@@ -190245,7 +191037,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "routine" }
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-react.repeat.name-shakes-their-head-and-walks-away",
@@ -190265,7 +191060,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "routine" }
+      "tag": {
+        "move": "react",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.pressed.name-is-short-on-money-too-and-the-missed-payment-has-made-it-worse",
@@ -190285,7 +191083,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.pressed.money-is-tight-for-name-as-well-and-they-have-come-to-talk-about-the-missed-payment",
@@ -190305,7 +191106,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "routine" }
+      "tag": {
+        "move": "narrate",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.pressed.do-you-have-a-minute-first-money-is-tight-for-me-too-and-i-need-to-talk-about-the-payment-you-missed",
@@ -190326,7 +191130,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.open-greet.pressed.i-m-not-trying-to-pile-on-first-but-i-can-t-absorb-another-missed-payment",
@@ -190347,7 +191154,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "routine" }
+      "tag": {
+        "move": "greet",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.pressed.money-s-tight-for-me-too-first-so-a-missed-payment-hits-hard-i-need-you-to-own-it",
@@ -190368,7 +191178,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.pressed.i-can-t-cover-for-a-missed-payment-right-now-first-i-d-like-an-apology-and-a-plan",
@@ -190389,7 +191202,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.state-confront.pressed.i-m-stretched-thin-first-when-you-miss-a-payment-i-feel-it-can-you-say-you-re-sorry",
@@ -190410,7 +191226,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.pressed.you-re-right-i-missed-the-payment-and-i-know-you-can-t-afford-that-either-i-m-sorry",
@@ -190430,7 +191249,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.pressed.i-m-sorry-i-know-money-is-tight-for-you-too-and-i-made-it-worse",
@@ -190450,7 +191272,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.pressed.i-m-sorry-i-should-have-told-you-before-the-due-date",
@@ -190470,7 +191295,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "routine" }
+      "tag": {
+        "move": "apologize",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.pressed.i-ll-pay-the-next-one-before-anything-else-and-i-ll-tell-you-the-day-it-s-done",
@@ -190490,7 +191318,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-promise.pressed.you-have-my-word-i-ll-tell-you-if-i-m-short-before-the-payment-is-due-not-after",
@@ -190510,7 +191341,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "promise", "key": "routine" }
+      "tag": {
+        "move": "promise",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.pressed.money-is-tight-for-everybody-i-did-what-i-could",
@@ -190530,7 +191364,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "routine" }
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-deflect.pressed.i-m-stretched-thin-too-you-re-not-the-only-one-feeling-it",
@@ -190550,7 +191387,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deflect", "key": "routine" }
+      "tag": {
+        "move": "deflect",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.pressed.you-re-not-the-only-one-counting-every-dollar",
@@ -190570,7 +191410,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.pressed.i-don-t-see-you-offering-to-cover-for-me",
@@ -190590,7 +191433,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.pressed.then-don-t-ask-me-for-what-i-don-t-have",
@@ -190611,7 +191457,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.pressed.you-think-i-m-hiding-money-i-m-drowning-just-like-you-are",
@@ -190632,7 +191481,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-confront.pressed.if-you-can-t-help-don-t-lecture-me-about-what-i-owe",
@@ -190653,7 +191505,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.pressed.i-can-t-argue-about-money-today-i-ll-come-back-when-i-ve-got-a-plan",
@@ -190673,7 +191528,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.pressed.let-s-stop-neither-of-us-has-anything-left-for-this",
@@ -190693,7 +191551,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.pressed.i-can-t-talk-about-money-anymore-today-i-ll-find-you-when-i-know-what-i-can-do",
@@ -190714,7 +191575,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.pressed.we-re-both-running-on-empty-let-s-stop-here",
@@ -190735,7 +191599,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.reply-leave.pressed.i-ll-come-back-when-i-ve-got-a-plan-and-i-won-t-pretend-this-isn-t-on-me",
@@ -190756,7 +191623,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "routine" }
+      "tag": {
+        "move": "leave",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.pressed.thank-you-first-that-helps-more-than-you-know",
@@ -190777,7 +191647,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-accept.pressed.alright-i-appreciate-you-telling-me",
@@ -190798,7 +191671,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.pressed.a-plan-matters-more-than-sorry-right-now-first-what-are-you-going-to-do",
@@ -190819,7 +191695,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-press.pressed.i-believe-you-first-i-just-can-t-afford-to-be-wrong-again",
@@ -190840,7 +191719,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "routine" }
+      "tag": {
+        "move": "press",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-confront.pressed.everybody-s-short-first-that-doesn-t-make-a-missed-payment-okay",
@@ -190862,7 +191744,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.follow-confront.pressed.i-m-not-asking-for-what-you-don-t-have-first-i-m-asking-you-to-say-it-was-your-doing",
@@ -190884,7 +191769,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "routine" }
+      "tag": {
+        "move": "confront",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-thank.pressed.thanks-first-let-me-know-how-it-goes",
@@ -190905,7 +191793,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "routine" }
+      "tag": {
+        "move": "thank",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-accept.pressed.alright-we-ll-figure-out-the-rest",
@@ -190926,7 +191817,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "routine" }
+      "tag": {
+        "move": "accept",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-warn.pressed.if-it-happens-again-i-ll-have-to-bring-it-up-sooner-first",
@@ -190947,7 +191841,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "routine" }
+      "tag": {
+        "move": "warn",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.close-react.pressed.name-rubs-their-forehead-and-lets-it-go",
@@ -190967,7 +191864,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, apology variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "routine" }
+      "tag": {
+        "move": "react",
+        "key": "routine"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.witness.name-says-you-offered-them-money-and-has-gone-to-the-prosecutor-about-it",
@@ -190987,7 +191887,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.witness.name-is-the-one-you-offered-money-to-and-has-reported-it-now-they-have-come-to-say-so-to-your-face",
@@ -191007,7 +191910,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.witness.i-want-you-to-know-where-i-stand-first-i-went-to-the-prosecutor",
@@ -191028,7 +191934,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.witness.i-d-rather-you-heard-it-from-me-first-i-reported-what-you-offered-me",
@@ -191049,7 +191958,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.witness.you-offered-me-money-first-i-turned-it-down-and-i-reported-it",
@@ -191070,7 +191982,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.witness.i-m-letting-you-know-today-that-the-prosecutor-has-my-complaint-about-what-you-offered-me",
@@ -191091,7 +192006,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.witness.what-you-offered-me-wasn-t-a-gift-first-i-want-to-hear-what-you-have-to-say-about-it",
@@ -191112,7 +192030,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.witness.i-never-offered-you-anything-you-have-that-wrong",
@@ -191132,7 +192053,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.witness.no-whatever-you-think-you-heard-it-wasn-t-an-offer",
@@ -191152,7 +192076,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.witness.that-s-not-what-happened-and-i-ll-say-so-to-anyone-who-asks",
@@ -191172,7 +192099,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.witness.it-wasn-t-how-you-took-it-let-me-tell-you-what-i-meant",
@@ -191192,7 +192122,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.witness.i-was-trying-to-help-with-a-problem-and-i-went-about-it-wrong-let-me-explain",
@@ -191212,7 +192145,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it",
@@ -191232,7 +192168,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.witness.you-re-reporting-me-because-it-suits-you",
@@ -191252,7 +192191,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.witness.put-it-in-writing-if-you-re-so-sure",
@@ -191272,7 +192214,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.witness.you-re-right-and-i-m-sorry-i-shouldn-t-have-offered-you-anything",
@@ -191292,7 +192237,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.witness.i-was-wrong-to-put-you-in-that-position-and-i-m-sorry-for-it",
@@ -191312,7 +192260,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.witness.i-m-sorry-i-knew-it-was-wrong-when-i-said-it",
@@ -191332,7 +192283,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.witness.then-let-the-prosecutor-sort-out-which-of-us-is-lying",
@@ -191353,7 +192307,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.witness.i-m-not-afraid-of-an-investigation",
@@ -191374,7 +192331,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.witness.you-ve-made-up-your-mind-so-there-s-nothing-left-to-say",
@@ -191395,7 +192355,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.witness.i-m-not-going-to-say-anything-more-about-this-today",
@@ -191415,7 +192378,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.witness.i-need-to-think-before-i-say-another-word",
@@ -191435,7 +192401,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.witness.i-ve-said-what-i-m-going-to-say-today-we-ll-see-what-comes-of-it",
@@ -191456,7 +192425,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.witness.this-isn-t-getting-us-anywhere-i-m-done-talking",
@@ -191477,7 +192449,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.witness.whatever-happens-next-it-won-t-be-settled-here",
@@ -191498,7 +192473,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.witness.thank-you-for-telling-me-straight-first-that-s-more-than-i-expected",
@@ -191519,7 +192497,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.witness.alright-i-wanted-to-hear-it-from-you-before-anyone-else",
@@ -191540,7 +192521,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.witness.that-doesn-t-answer-it-first-tell-me-what-you-meant-when-you-offered-the-money",
@@ -191561,7 +192545,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.witness.you-ll-have-to-do-better-than-that-first-i-know-what-i-heard",
@@ -191582,7 +192569,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.witness.then-why-offer-it-at-all-first",
@@ -191604,7 +192594,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.witness.and-you-thought-i-d-take-it",
@@ -191626,7 +192619,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-confront.witness.don-t-turn-this-on-me-first-i-m-the-one-who-was-offered-the-money",
@@ -191648,7 +192644,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-confront.witness.i-m-not-afraid-of-what-you-have-to-say-first-the-prosecutor-has-my-account",
@@ -191670,7 +192669,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-warn.witness.then-i-ll-tell-the-prosecutor-exactly-what-you-told-me-today",
@@ -191691,7 +192693,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "threat" }
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-accept.witness.alright-i-ve-said-what-i-came-to-say",
@@ -191712,7 +192717,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-thank.witness.thank-you-for-hearing-me-out-first",
@@ -191733,7 +192741,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-react.witness.name-nods-once-and-leaves",
@@ -191753,7 +192764,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "threat" }
+      "tag": {
+        "move": "react",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.hearsay.name-was-told-about-a-bribe-by-someone-who-knew-of-it-and-made-a-complaint-now-they-want-to-hear-it-from-you",
@@ -191773,7 +192787,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.hearsay.a-complaint-to-the-prosecutor-has-your-name-on-it-and-name-is-the-one-who-made-it",
@@ -191793,7 +192810,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.hearsay.i-ll-be-straight-with-you-first-i-went-to-the-prosecutor-about-something-i-was-told",
@@ -191814,7 +192834,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.hearsay.can-i-ask-you-something-first-i-made-a-complaint-and-i-d-rather-you-heard-that-from-me",
@@ -191835,7 +192858,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.hearsay.someone-who-knew-about-it-told-me-there-was-a-bribe-first-and-your-name-came-up-is-it-true",
@@ -191856,7 +192882,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.hearsay.i-reported-what-i-was-told-first-i-want-to-hear-your-side-before-anyone-else-s",
@@ -191877,7 +192906,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.hearsay.i-don-t-have-proof-first-i-have-what-i-was-told-and-i-couldn-t-sit-on-it",
@@ -191898,7 +192930,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.hearsay.no-whoever-told-you-that-has-it-wrong",
@@ -191918,7 +192953,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.hearsay.that-s-a-rumor-and-you-ve-put-it-in-front-of-a-prosecutor",
@@ -191938,7 +192976,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.hearsay.there-s-nothing-to-it",
@@ -191958,7 +192999,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.hearsay.part-of-it-s-true-and-i-ll-tell-you-which-part",
@@ -191978,7 +193022,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.hearsay.it-isn-t-as-simple-as-you-were-told-let-me-explain",
@@ -191998,7 +193045,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.hearsay.i-ll-tell-you-what-happened-start-to-finish",
@@ -192018,7 +193068,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine",
@@ -192038,7 +193091,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.hearsay.you-went-to-a-prosecutor-over-a-rumor",
@@ -192058,7 +193114,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-ask.hearsay.who-told-you-that",
@@ -192078,7 +193137,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-ask.hearsay.what-exactly-were-you-told-and-by-whom",
@@ -192098,7 +193160,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.hearsay.then-you-d-better-hope-your-source-is-right",
@@ -192119,7 +193184,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.hearsay.rumors-ruin-people-you-should-have-come-to-me-first",
@@ -192140,7 +193208,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-confront.hearsay.you-can-t-take-it-back-now-and-neither-can-i",
@@ -192161,7 +193232,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.hearsay.i-m-not-going-to-answer-a-rumor-today",
@@ -192181,7 +193255,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.hearsay.i-ll-answer-when-i-know-who-said-it",
@@ -192201,7 +193278,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.hearsay.i-m-not-going-to-argue-about-a-rumor-i-m-leaving-it-there",
@@ -192222,7 +193302,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.hearsay.i-won-t-be-pulled-into-this-we-re-finished",
@@ -192243,7 +193326,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.hearsay.come-back-when-you-have-more-than-a-rumor",
@@ -192264,7 +193350,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.hearsay.thank-you-first-that-s-the-first-thing-i-ve-heard-that-wasn-t-secondhand",
@@ -192285,7 +193374,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.hearsay.alright-i-m-glad-i-asked-you-instead-of-guessing",
@@ -192306,7 +193398,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.hearsay.that-s-not-enough-first-someone-told-me-otherwise",
@@ -192327,7 +193422,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.hearsay.i-want-to-believe-you-first-give-me-something-i-can-check",
@@ -192348,7 +193446,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.hearsay.and-you-expect-me-to-believe-that-first",
@@ -192370,7 +193471,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.hearsay.then-why-would-someone-tell-me-something-different",
@@ -192392,7 +193496,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-answer.hearsay.i-can-t-say-who-it-was-first-i-can-say-they-knew-what-they-were-talking-about",
@@ -192414,7 +193521,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "threat" }
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-answer.hearsay.it-came-from-someone-i-trust-first-that-s-all-i-ll-say",
@@ -192436,7 +193546,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "threat" }
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-confront.hearsay.i-didn-t-make-it-up-first-somebody-did-tell-me",
@@ -192458,7 +193571,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-confront.hearsay.don-t-call-it-a-rumor-when-the-prosecutor-has-it-first",
@@ -192480,7 +193596,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-warn.hearsay.if-it-s-wrong-i-ll-say-so-to-the-prosecutor-myself",
@@ -192501,7 +193620,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "threat" }
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-accept.hearsay.alright-that-s-all-i-wanted-to-ask",
@@ -192522,7 +193644,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-thank.hearsay.thank-you-for-answering-first",
@@ -192543,7 +193668,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-react.hearsay.name-frowns-and-goes-without-another-word",
@@ -192563,7 +193691,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "threat" }
+      "tag": {
+        "move": "react",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.taken.a-bribe-was-offered-and-taken-and-name-made-a-complaint-to-the-prosecutor-that-names-more-than-one-person-now-they-want-to-hear-it-from-you",
@@ -192583,7 +193714,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.taken.name-has-gone-to-the-prosecutor-over-a-payment-that-was-taken-and-wants-to-hear-from-you-before-anyone-else-does",
@@ -192603,7 +193737,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.taken.i-won-t-waste-your-time-first-this-is-about-the-money-that-was-taken",
@@ -192624,7 +193761,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.taken.i-d-rather-say-this-to-you-than-about-you-first-it-s-about-the-payment",
@@ -192645,7 +193785,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.taken.the-money-was-taken-first-and-more-than-one-name-is-in-my-complaint-yours-is-one-of-them",
@@ -192666,7 +193809,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.taken.i-m-told-the-money-changed-hands-first-this-isn-t-only-a-rumor-about-an-offer",
@@ -192687,7 +193833,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-confront.taken.this-isn-t-about-an-offer-anymore-first-the-money-was-taken-i-need-to-know-what-you-had-to-do-with-it",
@@ -192708,7 +193857,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "confront", "key": "threat" }
+      "tag": {
+        "move": "confront",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.taken.i-had-nothing-to-do-with-any-payment",
@@ -192728,7 +193880,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.taken.nobody-can-show-that-i-touched-that-money",
@@ -192748,7 +193903,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.taken.whoever-put-my-name-in-your-complaint-was-wrong",
@@ -192768,7 +193926,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.taken.i-ll-tell-you-exactly-how-it-went-and-you-can-judge",
@@ -192788,7 +193949,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.taken.it-started-as-one-thing-and-became-another-let-me-explain",
@@ -192808,7 +193972,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.taken.you-should-hear-all-of-it-from-me-not-from-the-prosecutor",
@@ -192828,7 +193995,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.taken.i-m-sorry-i-got-into-something-i-couldn-t-get-out-of",
@@ -192848,7 +194018,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.taken.i-should-have-walked-away-before-the-money-moved-i-m-sorry",
@@ -192868,7 +194041,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.taken.i-m-sorry-and-i-ll-answer-for-it",
@@ -192888,7 +194064,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.taken.i-can-t-discuss-it-not-yet",
@@ -192908,7 +194087,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.taken.i-have-to-go-i-m-sorry",
@@ -192928,7 +194110,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.taken.i-ve-said-enough-for-today-let-the-prosecutor-do-the-rest",
@@ -192949,7 +194134,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.taken.thank-you-first-that-took-more-nerve-than-i-expected",
@@ -192970,7 +194158,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.taken.alright-i-ll-put-that-in-with-what-i-know",
@@ -192991,7 +194182,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.taken.that-s-not-the-whole-story-first-tell-me-the-rest",
@@ -193012,7 +194206,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.taken.sorry-doesn-t-tell-me-who-else-was-involved-first",
@@ -193033,7 +194230,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.taken.who-else-knew-first",
@@ -193055,7 +194255,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.taken.and-the-money-first-where-did-it-go",
@@ -193077,7 +194280,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-warn.taken.the-prosecutor-will-want-the-rest-first",
@@ -193098,7 +194304,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "threat" }
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-accept.taken.alright-i-know-where-you-stand",
@@ -193119,7 +194328,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-thank.taken.thank-you-for-being-straight-first",
@@ -193140,7 +194352,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-react.taken.name-lets-out-a-long-breath-and-steps-away",
@@ -193160,7 +194375,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "threat" }
+      "tag": {
+        "move": "react",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.friend.name-is-close-to-you-and-went-to-the-prosecutor-anyway-now-they-are-asking-you-to-tell-them-the-truth",
@@ -193180,7 +194398,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.narrate-narrate.friend.name-did-not-want-to-make-this-complaint-and-has-come-to-you-before-anyone-else",
@@ -193200,7 +194421,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "threat" }
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.friend.i-didn-t-sleep-first-i-filed-a-complaint-and-i-wanted-you-to-hear-it-from-me",
@@ -193221,7 +194445,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.open-greet.friend.this-is-the-hardest-thing-i-ve-ever-said-to-you-first-i-went-to-the-prosecutor",
@@ -193242,7 +194469,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "threat" }
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.friend.please-tell-me-it-isn-t-true-first-i-need-to-hear-it-from-you",
@@ -193263,7 +194493,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.friend.would-you-tell-me-what-happened-first-i-can-t-take-the-complaint-back-but-i-can-listen",
@@ -193284,7 +194517,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.state-request.friend.i-didn-t-want-to-believe-it-first-will-you-tell-me-what-really-happened",
@@ -193305,7 +194541,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "request", "key": "threat" }
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.friend.it-isn-t-true-i-d-never-do-that-to-you",
@@ -193325,7 +194564,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.friend.no-i-swear-i-didn-t",
@@ -193345,7 +194587,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-deny.friend.whatever-you-were-told-that-s-not-what-happened",
@@ -193365,7 +194610,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "deny", "key": "threat" }
+      "tag": {
+        "move": "deny",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.friend.i-ll-tell-you-everything-and-i-m-not-going-to-dress-it-up",
@@ -193385,7 +194633,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.friend.it-s-more-complicated-than-it-sounds-let-me-tell-you",
@@ -193405,7 +194656,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-tell.friend.you-deserve-the-truth-from-me-here-it-is",
@@ -193425,7 +194679,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "threat" }
+      "tag": {
+        "move": "tell",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.friend.i-m-sorry-you-had-to-be-the-one-who-found-out-i-never-wanted-to-put-you-in-this-position",
@@ -193445,7 +194702,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.friend.i-m-sorry-you-deserved-to-hear-it-from-me-first",
@@ -193465,7 +194725,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-apologize.friend.i-m-sorry-i-let-you-down-and-i-know-it",
@@ -193485,7 +194748,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "apologize", "key": "threat" }
+      "tag": {
+        "move": "apologize",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-ask.friend.why-didn-t-you-come-to-me-before-you-went-to-the-prosecutor",
@@ -193505,7 +194771,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-ask.friend.how-long-have-you-been-carrying-this",
@@ -193525,7 +194794,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.reply-leave.friend.i-can-t-do-this-right-now-i-ll-find-you-when-i-can",
@@ -193546,7 +194818,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "leave", "key": "threat" }
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.friend.thank-you-for-telling-me-first-i-know-that-wasn-t-easy",
@@ -193567,7 +194842,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-accept.friend.alright-i-needed-to-hear-it-from-you",
@@ -193588,7 +194866,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.friend.i-want-to-believe-you-first-i-just-need-more-than-that",
@@ -193609,7 +194890,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-press.friend.i-d-like-to-trust-you-first-help-me",
@@ -193630,7 +194914,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "press", "key": "threat" }
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.friend.is-that-all-of-it-first",
@@ -193652,7 +194939,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-ask.friend.why-didn-t-you-tell-me-yourself-first",
@@ -193674,7 +194964,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "threat" }
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-answer.friend.because-i-wasn-t-sure-i-could-ask-you-and-still-do-what-was-right-first",
@@ -193696,7 +194989,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "threat" }
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.follow-answer.friend.because-i-was-afraid-you-d-tell-me-it-was-true-first",
@@ -193718,7 +195014,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "threat" }
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-warn.friend.i-ll-tell-the-prosecutor-what-you-ve-told-me-first-i-have-to",
@@ -193739,7 +195038,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "warn", "key": "threat" }
+      "tag": {
+        "move": "warn",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-accept.friend.alright-i-ll-hold-on-to-that-for-now",
@@ -193760,7 +195062,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "threat" }
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-thank.friend.thank-you-for-not-shutting-me-out-first",
@@ -193781,7 +195086,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "thank", "key": "threat" }
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
     },
     {
       "key": "scene-talk.close-react.friend.name-wipes-their-eyes-and-nods",
@@ -193801,307 +195109,10 @@
       "origin": "authored",
       "author": "Claude Sonnet (Story, accusation variants)",
       "date": "2026-11-09",
-      "tag": { "move": "react", "key": "threat" }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-has-come-in-from-hometown-to-meet-kid-and-stays-to-see-how-you-are",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} has come in from {hometown} to meet {kid}, and stays to see how you are.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid", "hometown"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.narrate-narrate.name-brings-dinner-for-you-and-partner-and-sits-down-to-meet-kid",
-      "move": "narrate-narrate",
-      "kind": "spoken",
-      "text": "{name} brings dinner for you and {partner} and sits down to meet {kid}.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "narrate",
-          "move": "narrate",
-          "role": "narrator",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid", "partner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "narrate", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.open-greet.i-won-t-stay-long-first-i-just-wanted-to-see-kid-and-see-you",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "I won't stay long, {first}. I just wanted to see {kid} and see you.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.open-greet.take-your-time-first-i-m-not-here-to-tell-you-how-to-do-anything",
-      "move": "open-greet",
-      "kind": "spoken",
-      "text": "Take your time, {first}. I'm not here to tell you how to do anything.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "open",
-          "move": "greet",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "greet", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.state-ask.how-are-you-feeling-first-and-how-is-partner-doing",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "How are you feeling, {first}, and how is {partner} doing?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["partner"]
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.state-ask.what-would-help-most-this-week-first-dishes-laundry-an-hour-of-sleep",
-      "move": "state-ask",
-      "kind": "spoken",
-      "text": "What would help most this week, {first}? Dishes, laundry, an hour of sleep?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "state",
-          "move": "ask",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.reply-tell.partner-and-i-are-both-running-on-no-sleep-but-we-re-happy",
-      "move": "reply-tell",
-      "kind": "spoken",
-      "text": "{partner} and I are both running on no sleep, but we're happy.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "tell",
-          "role": "asked",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["partner"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "tell", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.reply-request.could-you-do-the-dishes-while-i-sit-with-kid-for-a-minute",
-      "move": "reply-request",
-      "kind": "spoken",
-      "text": "Could you do the dishes while I sit with {kid} for a minute?",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "request",
-          "role": "asked",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "request", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.reply-confess.i-m-happy-and-i-m-terrified-and-i-didn-t-know-a-person-could-be-both",
-      "move": "reply-confess",
-      "kind": "spoken",
-      "text": "I'm happy and I'm terrified, and I didn't know a person could be both.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "confess",
-          "role": "asked",
-          "purpose": "new-baby",
-          "key": "honor"
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "confess", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.reply-ask.would-you-like-to-hold-kid-you-can-wash-your-hands-in-the-kitchen-first",
-      "move": "reply-ask",
-      "kind": "spoken",
-      "text": "Would you like to hold {kid}? You can wash your hands in the kitchen first.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "reply",
-          "move": "ask",
-          "role": "asked",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid"]
-        }
-      ],
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "ask", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.follow-accept.done-sit-down-and-i-ll-take-care-of-the-rest",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Done. Sit down, and I'll take care of the rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor",
-          "after": "request"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.follow-answer.i-d-love-to-show-me-how-to-hold-kid-and-i-ll-do-it-your-way",
-      "move": "follow-answer",
-      "kind": "spoken",
-      "text": "I'd love to. Show me how to hold {kid}, and I'll do it your way.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "answer",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor",
-          "requiresFacts": ["kid"],
-          "after": "ask"
-        }
-      ],
-      "bearing": "warm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "answer", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.follow-comfort.you-can-be-both-i-was-too",
-      "move": "follow-comfort",
-      "kind": "spoken",
-      "text": "You can be both. I was, too.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "comfort",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor",
-          "after": "confess"
-        }
-      ],
-      "bearing": "tender",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "comfort", "key": "honor" }
-    },
-    {
-      "key": "scene-talk.follow-accept.then-i-ll-keep-this-short-and-let-you-rest",
-      "move": "follow-accept",
-      "kind": "spoken",
-      "text": "Then I'll keep this short and let you rest.",
-      "uses": [
-        {
-          "subject": "scene",
-          "step": "follow",
-          "move": "accept",
-          "role": "asker",
-          "purpose": "new-baby",
-          "key": "honor",
-          "after": "tell"
-        }
-      ],
-      "bearing": "calm",
-      "origin": "authored",
-      "author": "Claude Sonnet (Story, new-baby purpose)",
-      "date": "2026-11-09",
-      "tag": { "move": "accept", "key": "honor" }
+      "tag": {
+        "move": "react",
+        "key": "threat"
+      }
     }
   ]
 }

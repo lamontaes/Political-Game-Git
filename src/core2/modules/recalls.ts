@@ -1058,6 +1058,7 @@ function announce(
       recallId: recall.id,
       termId: recall.termId,
       memberId: recall.memberId,
+      organizerId: recall.organizerId,
       outcome,
       ...counts,
     },
