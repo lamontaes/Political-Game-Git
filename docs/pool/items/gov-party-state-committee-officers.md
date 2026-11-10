@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/parties.ts, src/core2/candidate-pool.ts, src/core2/candidate-pool.test.ts (new), src/core2/data/stopgaps/pool.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-POOL-party-officers-local.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have named each party's state and national committee officers; the local chair already stands in and no player sees the difference.

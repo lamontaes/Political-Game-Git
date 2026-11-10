@@ -20,7 +20,7 @@ claimed-at: 2026-10-26T02:56:19.248Z
 checked: fable 2026-11-10
 ---
 
-**What.** At seed196612b7b9cc3d9b7c955d1fdc5446b2, src/core2/staff.test.ts exhausts its bounded draws with no office could hire: KY2135362, OH3984308, OR4181300, NH3369940, WY5640120, IA1937200 and NJ3430420. The exact assertion and places reproduce on clean main d3b95c2b3e3ccf419c4fc19bdb08225b336af67a and on the timeout-only PR5837. Diagnose which seat, candidate or post-hire-work gate rejects each draw; this is not a timeout failure.
+**What.** At seed196612b7b9cc3d9b7c955d1fdc5446b2, src/core2/staff.test.ts exhausts its bounded draws with no office could hire: KY2135362, OH3984308, OR4181300, NH3369940, WY5640120, IA1937200 and NJ3430420. The exact assertion and places reproduce on clean main d3b95c2b3e3ccf419c4fc19bdb08225b336af67a and on the timeout-only PR5837. Diagnose which seat, candidate or post-hire-work gate rejects each draw; this is not a timeout failure. Guards: the staff-work test on main, which exhausts its draws.
 
 **Cause.** Measured: GOLDEN_PATH_SEED=196612b7b9cc3d9b7c955d1fdc5446b2 npx vitest run src/core2/staff.test.ts (test 'no office could hire', failure line 298), and the fresh seed c3be1ee291b4f1dee38390afc7a1c5e25df002e784aa632d8b455f55c2af8da7. The Oct 26 Notes diagnose the named seed: four places lost both first aides to absence (fixed by #5769, office-week) and the remaining gates are the noRoom branch (staff.test.ts line 216: a budget line with no room in US-OR 4181300 and US-IA 1937200) and no 'known' candidate (US-NH 3369940).
 

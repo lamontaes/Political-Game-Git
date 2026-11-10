@@ -19,7 +19,7 @@ source: split from nation-federal-scandal-producer in the pool redo, Nov 10, 202
 checked: fable 2026-11-10
 ---
 
-**What.** Once a federal official's act is recorded, the press must be able to learn of it and run it, because the public learns of an act only through the press. Today the tip-off path reads only the town's own outlets and crimes. This is part 2 of nation-federal-scandal-producer.
+**What.** Once a federal official's act is recorded, the press must be able to learn of it and run it, because the public learns of an act only through the press. Today the tip-off path reads only the town's own outlets and crimes. This is part 2 of nation-federal-scandal-producer. Seen: the paper's story of a federal official's act.
 
 **Cause.** Found in code: `tipOff` in src/core2/modules/press.ts (line 2490) and `reportersHere` take a crime record and the town's outlets' reporters only, so a federal official's act has no path to a story.
 

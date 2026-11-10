@@ -19,7 +19,7 @@ source: split from nation-federal-scandal-producer in the pool redo, Nov 10, 202
 checked: fable 2026-11-10
 ---
 
-**What.** The national opinion engine has a writer for pushes (`pushOpinion`) but nothing sends it a scandal. When the press runs a federal official's act, push approval by the effect the research gives (Iran-Contra: 63 to 47 in two months, recovered over about 20 months; Watergate: 62 to 24 over 21 months; Gallup, news.gallup.com/poll/4258). This is part 3 of nation-federal-scandal-producer.
+**What.** The national opinion engine has a writer for pushes (`pushOpinion`) but nothing sends it a scandal. When the press runs a federal official's act, push approval by the effect the research gives (Iran-Contra: 63 to 47 in two months, recovered over about 20 months; Watergate: 62 to 24 over 21 months; Gallup, news.gallup.com/poll/4258). This is part 3 of nation-federal-scandal-producer. Seen: the President's approval number falling after the paper reports a federal scandal.
 
 **Cause.** Found in code: `pushOpinion` in src/core2/modules/national-opinion.ts (line 70) records a push by kind and source id, and no caller sends it a scandal.
 

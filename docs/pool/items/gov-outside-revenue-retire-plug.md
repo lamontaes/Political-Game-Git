@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Rewritten to the quality gate 2026-10-15 (the item was a stub when added with `npm run pool -- add`). Claim released Oct 23: branch gone.
 
 Released Oct 20 (claude): siblings gov-outside-revenue-fees is still claimed and gov-outside-revenue-real-payers is blocked, so the plug still carries flows; retire it after both are done.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have deleted the outside-revenue plug and its stopgap row once its sibling items finished; the plug is a registered stopgap and its sibling gov-outside-revenue-real-payers is dropped.

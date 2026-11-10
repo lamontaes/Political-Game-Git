@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/legislature.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Found Oct 24 by the traits lead's never-run audit.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have measured why legislators never move a poison-pill amendment; no screen or scene the player reaches depends on it.

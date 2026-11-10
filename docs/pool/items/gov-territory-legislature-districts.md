@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-GOV-territory-legislature-districts.
 
 Nov 1 evidence (governing lead, elections-past-race-votes-from-electorate on governing/past-race-votes): American Samoa's Senate is not elected by ballot. state-offices.json's own note says its 18 senators are matai chosen by county councils under Samoan custom, yet offices-state.ts seats the chamber as elected, so the opening's paper prints a past "election" for each Senate seat (Malaeloa/Ituau, seed plv-1 draw 22: 18 Senate races). When the districts are read, mark that chamber as chosen, not elected, so no past race is written for it.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have elected four territories' legislatures by their real districts; the at-large election already seats a legislature.

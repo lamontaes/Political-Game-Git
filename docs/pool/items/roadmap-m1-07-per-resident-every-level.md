@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): correct the item: ranges check realistic-not-real (OD:12/OD:558); do not tighten to real per-resident values.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have extended a per-resident check to the federal level and territories; no player sees the check.

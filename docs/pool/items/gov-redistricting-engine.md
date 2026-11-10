@@ -21,7 +21,7 @@ claimed-at: 2026-10-19T23:51:06.707Z
 checked: fable 2026-11-10
 ---
 
-**What.** After a census the game recounts its people, seats shift between states, and the maps are redrawn: council wards, state legislative districts and U.S. House districts, by whoever the state's law names (legislature, independent commission, council). The independent-redistricting law decides who holds the pen. Neighborhood makeup comes from Census place data and is used the way courts use it under the Voting Rights Act; it is never a label on a person.
+**What.** After a census the game recounts its people, seats shift between states, and the maps are redrawn: council wards, state legislative districts and U.S. House districts, by whoever the state's law names (legislature, independent commission, council). The independent-redistricting law decides who holds the pen. Neighborhood makeup comes from Census place data and is used the way courts use it under the Voting Rights Act; it is never a label on a person. Seen: the redistricting plan screen where the player picks among ready-made plans (owner, Oct 6, ruling R1), and the district a household votes in.
 
 **Cause.** Design: docs/codex/specs/bank/b16-redistricting-vra.md (its old-core references are not ported; take only what the golden path uses). Today no src/core2 file draws a district, and SG-GOV-REACH-A-redistricting is open in src/core2/data/stopgaps/gov.json.
 

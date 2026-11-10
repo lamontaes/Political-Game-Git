@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -42,3 +42,5 @@ Folded in Oct 25 from gov-recall-bars-calendar-months. Its done when: A test in 
 Folded in Oct 25 from gov-recall-bars-fraction-of-term. Its done when: A test in src/core2/recalls.test.ts asserts that a fractional row returns one-fourth of the term in days for terms of 2, 3 and 4 years (about 183, 274 and 365) and that a banded row still returns its two values; scripts/research/check-core-research.ts passes with the row SOURCED and recomputes the days from the fraction; and a one-year run of the played world (buildBenchWorld, a place whose bar is a fraction of the term, drawn from all 56 and named with its seed in the PR) shows a recall petition started no earlier than that fraction of the term after the term began, named by recall record id and the term's dates.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have counted recall bars from elections in three states; the estimated bars already work and the player never sees the difference.

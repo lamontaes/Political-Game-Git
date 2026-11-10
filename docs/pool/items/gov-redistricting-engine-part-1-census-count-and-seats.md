@@ -19,7 +19,7 @@ source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Every tenth year the game counts its own people and apportions the U.S. House seats among the states from the count. This replaces the fixed seat counts a state holds today with a count the game keeps, and it comes from the stubs gov-redistricting-census-count and gov-redistricting-census-seats-read.
+**What.** Every tenth year the game counts its own people and apportions the U.S. House seats among the states from the count. This replaces the fixed seat counts a state holds today with a count the game keeps, and it comes from the stubs gov-redistricting-census-count and gov-redistricting-census-seats-read. Seen: the number of U.S. House seats each state holds after a census, on the federal Government screen.
 
 **Cause.** Design: docs/codex/specs/bank/b16-redistricting-vra.md (the only written spec; its old-core references are not ported, so take only what the golden path uses) and the owner's approved decisions D-6 and Sept 28 #8 named in gov-redistricting-engine. Today no src/core2 file draws a district, and SG-GOV-REACH-A-redistricting is open in src/core2/data/stopgaps/gov.json.
 

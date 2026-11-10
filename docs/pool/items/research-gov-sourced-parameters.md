@@ -5,7 +5,7 @@ area: gov
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -51,3 +51,5 @@ Oct 24, 2026: split. PR 5856 (item research-gov-bribery-sentences-holder-parties
 Sent back 2026-10-23 from PR #5856 (branch claude/dreamy-tesla-bgi3ui-gov): The table leaves two parameter rows and all three stopgap-resolution rows unmet, and the year exercises neither new bribery nor unrecorded-party reader; bound the completed research slices while preserving the unidentified and unread work open; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced stopgap numbers to exact values; a number may stay an estimate and no player sees the added precision.

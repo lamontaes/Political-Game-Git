@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Filed Oct 25 by the traits lead from traits-integrity-cases-vary: the other three case decisions reach their research sizes once each played case is crossed with every decider's lean; hiring cannot while its case is the saturated budget alone.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have researched staff allowances by office and place so fewer officials hire an aide; the aide is a payroll line no screen the player uses shows.

@@ -19,7 +19,7 @@ after:
 checked: fable 2026-11-10
 ---
 
-**What.** The 201 statewide executive rows checked on October 13 in data/research/offices/statewide-executive-parties-2026.json, and the rosters and data/research/offices/unrecorded-holder-parties-2026.json, record the holder and party current in October 2026. The game seats them at its opening on January 20, 2025. Where a holder changed in between (the Northern Mariana Islands' lieutenant governor was an independent on the opening day and a Republican by 2026; Georgia's labor commissioner was vacant on the opening day), the opening seats the wrong party. The 60 rows checked on October 23 already carry the opening-day holder.
+**What.** The 201 statewide executive rows checked on October 13 in data/research/offices/statewide-executive-parties-2026.json, and the rosters and data/research/offices/unrecorded-holder-parties-2026.json, record the holder and party current in October 2026. The game seats them at its opening on January 20, 2025. Where a holder changed in between (the Northern Mariana Islands' lieutenant governor was an independent on the opening day and a Republican by 2026; Georgia's labor commissioner was vacant on the opening day), the opening seats the wrong party. The 60 rows checked on October 23 already carry the opening-day holder. Seen: the party shown beside each statewide officeholder on the Government screen at the January 20, 2025 opening.
 
 **Cause.** Found in code: data/research/offices/statewide-executive-parties-2026.json and data/research/offices/unrecorded-holder-parties-2026.json record holders as of October 2026, while src/core2/game-start.ts function gameStartDate (line 14) opens the game on January 20, 2025 in every place.
 

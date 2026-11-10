@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/public-payroll.ts, src/core2/work-patterns.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** Time box: 3 hours, Sonnet, no helpers. Split from gov-town-officers-paid-under-minimum-wage (PR 6190).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sized a stipend post's hours to its pay; the pay in total is already right and no screen shows the hours or hourly rate.

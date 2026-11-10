@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Fable's country tier design (pool item core-country-tier-first-slice) decides the shape; this item is the measured defect it must close. From the Fable audit, Pillar 3. Measured there: one played year with the audit's own readings in Caño Martín Peña, Puerto Rico; the two skips were read in the code and confirmed by the audit's independent reviewer. The audit's size call: "When every state is counted groups with a ledger, a state's opinion and economy exist to drive its legislature, and its laws have people to land on." That is why this item waits on the country tier's first slice and has Fable as its lead. Confirmed on main, Nov 10 (helper): both skips are as cited, each with a comment that another state's act "is a national event, not the town's law". The audit did not check whether the national opinion module reads these events beyond the press, and its twin-world test in Pillar 1 (Woods Cross, Utah, seed f61d987b2e0e) shows the same gap inside the player's own state: with both income taxes at zero that region's population was 729,822 in both worlds. Note for the checker: `after:` names an item that must exist in the pool before the pool check passes. Related: `nation-other-states-change-laws-in-year-one-then-almost-never`, `nation-other-states-never-change-an-amount`, `world-other-places-coarse-population` (open: a coarse population for every other place), `laws-other-places-chains` (open, priority 3: another place's law reaches a worker who lives there), `views-other-places-voters` (open: other places' voters have no views to change).
 
 **Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: The country tier now reads each state's law in its monthly steps, so this is a build inside the reach code against a written fix: Opus at high effort.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made another state's law reach named people; those states run as results and no player meets those people.

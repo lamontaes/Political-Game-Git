@@ -19,7 +19,7 @@ source: split from gov-treasury-diversion by Fable after the owner's Nov 10 ruli
 checked: fable 2026-11-10
 ---
 
-**What.** Part 1 never decides for the person the player controls. Give the player the same moment as a scene: the keeper of the books says a line is short and another has room, and the player asks the body, moves it quietly, or leaves it. This is part 4 of gov-treasury-diversion. Read docs/design/treasury-diversion.md first; this part builds "What the player sees" for a played executive.
+**What.** Part 1 never decides for the person the player controls. Give the player the same moment as a scene: the keeper of the books says a line is short and another has room, and the player asks the body, moves it quietly, or leaves it. This is part 4 of gov-treasury-diversion. Read docs/design/treasury-diversion.md first; this part builds "What the player sees" for a played executive. Seen: a scene where a played mayor, county executive or governor chooses to ask the body, move the money quietly or leave it.
 
 **Cause.** Design: docs/design/treasury-diversion.md, written from the owner's Nov 10, 2026 ruling in docs/coordination/OWNER-DECISIONS.md ("Yes, keep it": an official can move money from one budget line to another outside the law, found out the way bribery is, through audits, the press or complaints). In code today, a bribe put to the player waits as a pending record answered in the scene `bribe-offer` (`announceOffer`, src/core2/modules/corruption.ts line 341, and the `scene.reply` handler in the module's `onEvent`); a diversion has no such scene, and src/director/data/situation-types.json holds no type for it.
 

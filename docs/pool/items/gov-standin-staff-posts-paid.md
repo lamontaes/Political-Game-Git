@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/staff.ts, src/core2/data/stopgaps/world.json
 
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have drawn aides' applicants from seats outside the town and made staff work real there; nobody sees it.

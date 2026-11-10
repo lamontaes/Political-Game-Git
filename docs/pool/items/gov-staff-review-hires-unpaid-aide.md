@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/staff.ts, src/core2/staff.test.ts, src/core2/small-town-treasury-payroll.test.ts
 
 **Notes.** staffReview's hire condition is being rewritten by lamontaes/Political-Game-Git#5715 (leanedYes); build this on it once it merges.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have stopped a small-town official hiring an aide with no pay room; the aide is a payroll line no player screen shows.

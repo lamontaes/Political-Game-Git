@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The owner ruled on Nov 10, 2026: "Yes, keep it." An official can move money from one budget line to another outside the law, and it is found out the way bribery is, through audits, the press or complaints. The design is docs/design/treasury-diversion.md: a second kind of act in the corruption engine that exists, with its money on the treasury's books and its discovery through people who learn of it. It is built in four parts and one research item, and this parent is the closing check.
+**What.** The owner ruled on Nov 10, 2026: "Yes, keep it." An official can move money from one budget line to another outside the law, and it is found out the way bribery is, through audits, the press or complaints. The design is docs/design/treasury-diversion.md: a second kind of act in the corruption engine that exists, with its money on the treasury's books and its discovery through people who learn of it. It is built in four parts and one research item, and this parent is the closing check. Seen: the paper's story and the Journal line when an official's quiet move of budget money is found out (owner, Nov 10: "Yes, keep it").
 
 **Cause.** Design: docs/design/treasury-diversion.md, written from the owner's Nov 10, 2026 ruling in docs/coordination/OWNER-DECISIONS.md. In code today the corruption engine (src/core2/modules/corruption.ts) records only bribes (`CrimeRecord`, line 62), nothing but a lawful measure moves a line (`amendBudget`, src/core2/modules/budgets.ts line 2105), and no module audits a government's books.
 

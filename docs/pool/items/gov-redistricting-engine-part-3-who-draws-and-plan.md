@@ -19,7 +19,7 @@ source: split from gov-redistricting-engine in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** The independent-redistricting law decides who holds the pen: the legislature, an independent commission or the council. A plan is built for a drawn place by that drawer from the new count and the neighborhood data, with the choice among printed plans and its reasons kept. It comes from the stubs gov-redistricting-who-draws and gov-redistricting-plan-builder.
+**What.** The independent-redistricting law decides who holds the pen: the legislature, an independent commission or the council. A plan is built for a drawn place by that drawer from the new count and the neighborhood data, with the choice among printed plans and its reasons kept. It comes from the stubs gov-redistricting-who-draws and gov-redistricting-plan-builder. Feeds: gov-redistricting-engine-part-4-plan-screen-and-challenge.
 
 **Cause.** Design: docs/codex/specs/bank/b16-redistricting-vra.md (the only written spec; its old-core references are not ported, so take only what the golden path uses) and the owner's approved decisions D-6 and Sept 28 #8 named in gov-redistricting-engine. Today no src/core2 file draws a district, and SG-GOV-REACH-A-redistricting is open in src/core2/data/stopgaps/gov.json.
 

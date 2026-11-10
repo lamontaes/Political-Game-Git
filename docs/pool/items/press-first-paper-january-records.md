@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** On a January 20, 2025 first paper, the fresh stories (within the news engine's `newsMaxAgeDays`) are only laws enacted, laws taking effect and legislative votes. In Knik River, Alaska (seed briefs-nov2:1) the 9 fresh stories are of two kinds, law-took-effect and law-enacted. The opening day's own records (the inauguration, a legislature convening, a county board's first January meeting) do not reach the paper as stories. Write those records so the press desk prints them as ordinary stories dated within the window.
+**What.** On a January 20, 2025 first paper, the fresh stories (within the news engine's `newsMaxAgeDays`) are only laws enacted, laws taking effect and legislative votes. In Knik River, Alaska (seed briefs-nov2:1) the 9 fresh stories are of two kinds, law-took-effect and law-enacted. The opening day's own records (the inauguration, a legislature convening, a county board's first January meeting) do not reach the paper as stories. Write those records so the press desk prints them as ordinary stories dated within the window. Seen: the first paper on opening day, with the inauguration, legislatures convening and January meetings.
 
 **Cause.** Needs cause. Looked at: `GOLDEN_PATH_SEED=briefs-nov2:1 npx vitest run src/bench/paper-fresh.test.ts` draws Knik River, Alaska and gives 9 fresh stories of only law-took-effect and law-enacted kinds. Not traced: which inauguration, session and meeting records exist and what they are dated.
 

@@ -19,7 +19,7 @@ source: split from nation-president-orders-by-series in the pool redo, Nov 10, 2
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/data/executive/federal-orders.json holds one order, limit-power-plant-carbon. Add the other federal series an engine reads and an administration can set by rule or determination, such as the annual refugee admissions determination (immigration.admit-more-immigrants) and the series the powers catalog lets the federal executive move, each with its authority (statute and a precedent) quoted from a fetched page in data/research/executive. A series is listed only where an engine reads it. This is part 1 of nation-president-orders-by-series.
+**What.** src/core2/data/executive/federal-orders.json holds one order, limit-power-plant-carbon. Add the other federal series an engine reads and an administration can set by rule or determination, such as the annual refugee admissions determination (immigration.admit-more-immigrants) and the series the powers catalog lets the federal executive move, each with its authority (statute and a precedent) quoted from a fetched page in data/research/executive. A series is listed only where an engine reads it. This is part 1 of nation-president-orders-by-series. Feeds: nation-president-orders-by-series-part-2-reversal-and-reader.
 
 **Cause.** Found in code: src/core2/data/executive/federal-orders.json lists one order, read by `issueFederalOrder` and `presidentialOrderDecisions` in src/core2/modules/executive.ts; the Federal Register and congress.gov pages were blocked in the Nov 9 research, so the authorities are still to quote.
 

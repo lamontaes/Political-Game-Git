@@ -19,7 +19,7 @@ source: split from gov-treasury-diversion by Fable after the owner's Nov 10 ruli
 checked: fable 2026-11-10
 ---
 
-**What.** Nothing audits a government's books today. Add one yearly audit row per government after its fiscal year closes, made by a named auditor who learns of every diversion on that year's books and decides whether to publish a finding. This is part 3 of gov-treasury-diversion. Read docs/design/treasury-diversion.md first; this part builds "The audit".
+**What.** Nothing audits a government's books today. Add one yearly audit row per government after its fiscal year closes, made by a named auditor who learns of every diversion on that year's books and decides whether to publish a finding. This is part 3 of gov-treasury-diversion. Read docs/design/treasury-diversion.md first; this part builds "The audit". Seen: the paper's story of a yearly audit finding.
 
 **Cause.** Design: docs/design/treasury-diversion.md, written from the owner's Nov 10, 2026 ruling in docs/coordination/OWNER-DECISIONS.md ("Yes, keep it": an official can move money from one budget line to another outside the law, found out the way bribery is, through audits, the press or complaints). In code today, no module keeps an audit: a search of src/core2 for "audit" finds only comments, and the officials roster (src/core2/modules/officials.ts, near line 654) seats a state's elected auditor who has nothing to do.
 

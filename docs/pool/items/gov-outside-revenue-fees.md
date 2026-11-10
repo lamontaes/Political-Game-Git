@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5926
 blocked-on:
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 Oct 20: gov-outside-revenue-fees-wiring is done, so the item no longer waits on it.
 
 Sent back 2026-10-24 UTC from PR #5926 (branch claude/outside-revenue-fees): council fee-change acceptance explicitly unmet and aggregate budget twelfths do not prove per-use payer chain; fee-family permit closure follow-up needs named tracking or valid bounded scope; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). Fee payment by use is already built in the done items gov-outside-revenue-fees-wiring, -named-payers and -data; what is left is removing an outside share nobody reads.
