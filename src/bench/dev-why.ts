@@ -22,13 +22,13 @@ import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1
 import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
-import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
 import {
   COUNTRY_SECTORS,
+  MACRO_MODULE_ID,
   type CountrySector,
   type CountryState,
-} from "../core2/country-model";
+} from "../core2/modules/macro";
 import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import placeStates from "../core2/data/places/states.json" with { type: "json" };
 import type {
