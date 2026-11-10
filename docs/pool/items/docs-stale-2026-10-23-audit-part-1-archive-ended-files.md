@@ -5,9 +5,9 @@ area: docs
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: open
 standard: 2
-claimed-by: claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ effort: low
 root: none
 source: split from docs-stale-2026-10-23-audit in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T21:52:06.889Z
+claimed-at:
 branch: claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files
 ---
 
@@ -38,3 +38,5 @@ branch: claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files
 **Files.** docs/coordination, docs/packages, docs/reports, docs/archive
 
 **Notes.** Claimed by next for sonnet-0b74 (Sonnet in Claude Code, tier mid) (2026-11-10 21:51 UTC) on branch claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files.
+
+Released (2026-11-10): Second-session check of the pool command; nothing was built. Continue on branch claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files.
