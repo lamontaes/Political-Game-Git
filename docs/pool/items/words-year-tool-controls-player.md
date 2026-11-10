@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/director-unfired-types
-pr: pending
+pr: 8107
 blocked-on:
 lead: words
 milestone: play-first
