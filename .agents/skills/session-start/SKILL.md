@@ -40,6 +40,7 @@ Copy this checklist and keep it current:
 ## Claim and build
 
 1. Take the top of "Next up" in `docs/pool/INDEX.md`, or your own area's top item. Claim it: `npm run pool -- claim <id> --branch <branch>`. If it's already claimed, take the next. A claim older than 60 minutes with no pushed branch and no PR may be released and taken. Say so in the item's Notes.
+   1a. An item at the standard (`standard: 2`, `.agents/rules/pool-item-standard.md`) is built from the item alone: its Cause, Fix, Done when and Files are the brief, and `model:` and `effort:` say what it was sized for. A `Needs cause.` item is never built (the claim refuses it); take the next one.
 2. An item whose Notes say "Sent back … (branch X)" is a fix, not a build: follow `pr-fixer`.
 3. An L item: split it into S or M items with their own done-when before building, and mark the L item `blocked-on` them.
 4. Copy every line of the item's **Done when** into a scratch list before writing code. Each line is a thing you will show, not a thing you will describe. Read every function, export and field you plan to use on current `origin/main` first; names change daily, and code written from memory of an older main is the most common unverified assumption.
