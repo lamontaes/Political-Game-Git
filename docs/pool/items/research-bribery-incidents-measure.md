@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** data/research/corruption, scripts/research/bribe-chain-years.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have found a bribery-specific real count to check played bribe totals against; a number that only adds precision nobody sees.

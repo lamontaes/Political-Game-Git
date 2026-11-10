@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -49,3 +49,5 @@ Oct 24, 2026: split. PR 5860 (item research-opening-capital-cash-buffer-tail) de
 Sent back 2026-10-23 from PR #5860 (branch claude/dreamy-tesla-bgi3ui-opening-capital): The required three stopgap-resolution rows are explicitly Not met; route the completed estimated tail-span and source-checking slice to bounded acceptance while keeping the remaining mechanic and estimate work open; finish on that branch, merge main into it first.
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced firm opening cash and owner funding; the numbers stay estimates, and every item that waited on it is dropped.

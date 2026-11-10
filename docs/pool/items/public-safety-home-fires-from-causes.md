@@ -6,7 +6,7 @@ lead: laws
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/public-safety.ts, src/core2/modules/housing.ts, src/core2/modules/press.ts, src/bench/printed-words.ts, src/bench/printed-words.test.ts
 
 **Notes.** Filed by Words (words-paper-and-journal-everyday-life): the fire half of the police and fire log waits on this record. Words wires the log once a fire record exists.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have added a home-fire simulation from cooking, heating, wiring and home age so the paper's fire log prints; too in depth, and fire losses are already paid from a national rate.

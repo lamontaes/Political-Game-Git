@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5076
@@ -49,3 +49,5 @@ Sent back 2026-10-18 from PR #4950 (branch claude/research-triage-evidence): Mer
 Sent back 2026-10-18 from PR #4951 (branch claude/fhfa-growth-check): Merging current main (ca0832d084) conflicts in docs/pool/items/core-research-data-unread-triage.md, docs/pool/items/world-town-net-moving-negative.md. Resolve these conflicts on this branch and push before local validation can run.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-23 from PR #4926 (branch claude/research-data-roadmap-triage): rawSource bypass additions clear a red reader guard despite missing consumers; preserve awaiting-reader ownership or add real readers, and supply the missing Done-when evidence table; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have shortened a list of 38 research files with no reader; no player sees which file is read, and the guard already passes.

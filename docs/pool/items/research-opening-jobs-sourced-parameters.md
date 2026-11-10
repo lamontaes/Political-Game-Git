@@ -5,7 +5,7 @@ area: core
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -54,3 +54,5 @@ Deferred Oct 25: nothing on screen reads it yet.
 Oct 25 audit: set open; its block was a free-text note, not an item or an owner question (the note stays in Notes).
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-yucp92-aa` (2026-10-20). Cleared from the front matter and kept here.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced the opening's jobs, workgroups and pay calendars; they stay estimates, and every item that waited on it is dropped.

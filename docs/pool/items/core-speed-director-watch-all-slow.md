@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5808
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Sent back 2026-10-23 from PR #5808 (branch claude/director-watch-all): The cache/rescore slice has no bounded acceptance table; the associated umbrella still reports 29.4 seconds versus under 15 and lacks the required stories-from-engines passing proof; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sped up the director when all 1,720 people are watched at once, a test mode; the player watches his circle, and the repro test no longer exists.

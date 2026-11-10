@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Measured Oct 20 (claude). The list comes from reading core.stopgapHits after 730 days in three drawn places; to rerun it, advance a bench world two years and read the set. Making `stopgap()` record into the core as `api.stopgap` does would remove the blind spot first. Released from idle draft #5196 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have checked 80 stopgap rows for staleness; a row-by-row audit nobody plays, and the item that waits on it (core-stopgap-rows-never-hit-in-play) is already dropped.

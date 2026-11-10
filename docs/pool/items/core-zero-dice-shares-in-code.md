@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Oct 25 audit: unblocked; core-old-engine-01-zero-dice-guard-repoint is done (PR #5832 merged).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have moved six shares written as numbers in code into parameter tables; the numbers work today and no player sees where they live.

@@ -5,7 +5,7 @@ area: core
 kind: wiring
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/place-prices.ts, scripts/outcome-web/effect-matrix.ts
 
 **Notes.** Filed Oct 25 by the effects lead from web-reach-places-services.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have decided what reads the extra riders a fare-free law adds; the riders move no money and no player sees a rider count.

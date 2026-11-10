@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -40,3 +40,5 @@ checked: fable 2026-11-10
 **Notes.** First row: Prototype opening baseline on a normalized stress channel. No claim of a US population norm. Released from idle draft #5076 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-19). Cleared from the front matter and kept here.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced 18 prototype weights; the numbers stay estimates, and no player sees them.

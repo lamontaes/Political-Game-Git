@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr: #5037
@@ -43,3 +43,5 @@ Sent back 2026-10-20 from PR #5037 (branch claude/residents-test-draws): Merge m
 Sent back 2026-10-20 from PR #5037 (branch claude/residents-test-draws): Merging current origin/main conflicts in src/core2/residents.test.ts, src/core2/news.test.ts, src/core2/law-reach-group-a.test.ts and src/core2/law-reach-group-b.test.ts. Resolve those test conflicts on this branch, preserving both main assertions and the bounded nonempty-case searches, then rerun every changed test file on the merged result. Do not restore the old bare returns or drop the main law/payment assertions while resolving them.; finish on that branch, merge main into it first.
 
 Sent back 2026-10-22 from PR #5037 (branch claude/residents-test-draws): The remaining diff edits Words-protected src/director/opening-story.test.ts without Words ownership; separate that edit and describe the five test files actually remaining while preserving the bounded positive-case searches.; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have replaced early returns in four generated-world tests with searches for a place that has the needed record; test tidiness that no player sees, and the tests already pass.

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/work.ts, src/core2/free-block.ts, src/core2/data/parameters.json, src/core2/data/stopgaps/p8.json, data/research/core/atus-2025-sleep.json, scripts/core2-year/time-use.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given each person their own sleep hours instead of one 8.7-hour figure; no screen shows a person's sleep, and a flat estimate stands.

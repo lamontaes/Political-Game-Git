@@ -19,7 +19,7 @@ root: design-life-record
 checked: fable 2026-11-10
 ---
 
-**What.** In a drawn bench world many full housemates are neither kin on record nor in each other's knownIds, so a scene or journal cannot name them: the family filing talk at home and the journal line for a strained ending both skip them. People who live together know each other's names, and relatives in one household carry the family fact that says how they are related. Fix the opening so every full housemate pair is either kin on record or known by name.
+**What.** In a drawn bench world many full housemates are neither kin on record nor in each other's knownIds, so a scene or journal cannot name them: the family filing talk at home and the journal line for a strained ending both skip them. People who live together know each other's names, and relatives in one household carry the family fact that says how they are related. Fix the opening so every full housemate pair is either kin on record or known by name. Seen: the family talk at home and the journal line for a strained ending, which skip housemates who do not know each other by name today.
 
 **Cause.** Measured: buildBenchWorld two-level, Stem, North Carolina, seed hh-a, draw hh: 68 of 258 full housemate pairs are neither kin on record nor known by name (Christopher Walton and Lily Walton, person_006f9e0e33a27d16 and person_006f9f0e33a27ec9, tier weekly); Crooked Creek, Alaska, seed hh-b: 0 of 32.
 

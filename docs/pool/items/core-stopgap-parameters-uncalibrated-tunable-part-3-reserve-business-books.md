@@ -5,7 +5,7 @@ area: core
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** src/core2/data/parameters.json, src/core2/data/stopgaps/p8.json, src/core2/modules/business.ts
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced two business parameters; the numbers stay estimates, and no player sees them.
