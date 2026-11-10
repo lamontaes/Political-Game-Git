@@ -12,7 +12,7 @@ pr:
 blocked-on:
 after: world-customers-move-between-sellers
 lead: jobs
-model: sonnet
+model: opus
 effort: high
 root: none
 source: added with npm run pool -- add
@@ -43,7 +43,7 @@ checked: fable 2026-11-10
 
 If, after fix 1, the crossings come all in the first month and then stop, the scores do not move month to month. Write that into this item's Notes with the month-by-month counts, rather than raising the baselines further.
 
-**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 6 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** No dice: each hire, quit and layoff comes from the worker's or employer's own situation, and the JOLTS ranges report the gap and never decide a pass (owner, Nov 8: ranges are not targets). One model, two tiers: counted workers change jobs by the same rules, times their count.
 
@@ -60,3 +60,5 @@ If, after fix 1, the crossings come all in the first month and then stop, the sc
 A working-copy probe in `reviewWorkers` (undone, not committed) printed each month's choices, the quartiles of leave minus stay and look minus stay, the summed logistic pulls, the open positions and the seekers; the figures are in the Cause. A scratchpad count of each town's open full-person jobs gave the public-post shares.
 
 Still unknown: whether 145 public posts in a town of Westport's size is right, or an opening that places other governments' staff at town employers. That is for the offices line; a separate item may be needed. Also unknown: whether the town's scores move enough month to month for a steady quit flow once fix 1 is in.
+
+**Notes (Fable B's check, Nov 10).** Checked against main: `reviewWorkers` and `reviewCountedWorkers` in src/core2/modules/jobs.ts give each worker the one highest-scoring offer, and the stopgap SG-WORLD-jobs-quit-rate-uncalibrated says the leave and look terms were never tuned for that rule. The fix changes the parameters the one chooser already reads and adds no second path. The build is for Opus: fitting the terms so that workers cross by degrees, and stopping when the scores do not move, is a judgment inside one engine. Where the player sees it: Jobs and study lists openings that fill, News reports hires, quits and layoffs with their reasons, and the Metrics tab's unemployment moves (owner, Nov 8: "making the economy move, upswings, downswings, and so that way people react").
