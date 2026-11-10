@@ -60,7 +60,7 @@ milestone: M3 # from docs/ROADMAP.md, if any
 source: overnight order Session A; stopgap SG-GOV-REACH-A-cannabis
 ---
 
-**What.** One paragraph: what to build or fix, in plain words.
+**What.** One paragraph: what to build or fix, in plain words. Seen: the shelf price on a retailer's card after the cannabis law passes.
 
 **Cause.** Begins with exactly one of: `Found in code:` (a repository path that exists, with a line number or a function name), `Measured:` (a place and a seed, or the command that shows it), `Design:` (for work that is new, not broken: a path under docs/ that exists, or a dated owner ruling), or `Needs cause.` (nothing is known yet; say what was looked at).
 
@@ -79,7 +79,7 @@ source: overnight order Session A; stopgap SG-GOV-REACH-A-cannabis
 **Notes.** Where it came from, what was tried, what the last session left (PR, branch, comment). Optional, and after the sections above.
 ```
 
-`npm run pool -- --check` names each thing a `standard: 2` item lacks. **A `Needs cause.` item is not built:** `claim` refuses it, and the index lists it under "Needs cause" and keeps it out of Next up, until Fable (or a session that finds the cause) rewrites it with `Found in code:` or `Measured:`. `npm run pool -- audit [--out <file>]` writes one JSON row for every open, gated and blocked item (at the standard or not, what it lacks, paths and names it cites that no longer exist, lead, size, last change); it changes nothing.
+**What** ends with one sentence that says where the player sees it: `Seen:` and the screen, scene, line, number or choice ("Seen: the bill card's line for who the law reached, in dollars."); `Feeds:` and the id of the item it is a step toward (that item must say where it is seen); or, for a rule, a check, a skill or a pool tool, `Guards:` and the thing the player sees or feels that it keeps working (a guard that protects only another unseen piece is not filed; the check wants at least four words after `Seen:` and `Guards:`, and the lead reads the line). The check holds every open, claimed, blocked or in-PR item to it (an item whose `checked:` is `fable 2026-11-10` is let through until the depth sweep, `docs/pool/DEPTH-SWEEP.md`, reaches it), and `Feeds:` must name a real item. `npm run pool -- add` takes the sentence as `--seen "Seen: ..."`. `npm run pool -- --check` names each thing a `standard: 2` item lacks. **A `Needs cause.` item is not built:** `claim` refuses it, and the index lists it under "Needs cause" and keeps it out of Next up, until Fable (or a session that finds the cause) rewrites it with `Found in code:` or `Measured:`. `npm run pool -- audit [--out <file>]` writes one JSON row for every open, gated and blocked item (at the standard or not, what it lacks, paths and names it cites that no longer exist, lead, size, last change); it changes nothing.
 
 Keep the body short; the rules and checks are usually one line each because AGENTS.md carries the detail. An item needs no instructions that AGENTS.md already gives.
 
