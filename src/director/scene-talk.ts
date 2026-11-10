@@ -67,6 +67,8 @@ interface Ending {
    * the promise record reads it.
    */
   firmness?: string;
+  /** What this ending does to the resident's case at office hours: the cases engine's decision. */
+  settles?: "help" | "decline";
   when: {
     reply?: string[];
     asker?: string[];
@@ -202,6 +204,7 @@ export interface TreeNode {
       keeps: string;
       opens?: string;
       firmness?: string;
+      settles?: "help" | "decline";
     };
   };
 }
@@ -708,6 +711,7 @@ export function composeSceneTalk(
           keeps: found.keeps,
           ...(found.opens ? { opens: found.opens } : {}),
           ...(found.firmness ? { firmness: found.firmness } : {}),
+          ...(found.settles ? { settles: found.settles } : {}),
         };
         endingCounts[found.id] = (endingCounts[found.id] ?? zero) + one;
       } else
