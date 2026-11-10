@@ -5,9 +5,9 @@ area: play
 kind: feature
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-issues-law-page-and-what-shows-part-2-law-page-summary
 pr:
 after:
 blocked-on:
@@ -18,6 +18,8 @@ root: rc7-player-cannot-drive
 milestone: play-first
 source: split from play-issues-law-page-and-what-shows in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:13:24.902Z
+branch: claude/pool-play-issues-law-page-and-what-shows-part-2-law-page-summary
 ---
 
 **What.** Owner, Nov 1: opening Child access prevention gave "In force: Territory law, No, since July 1, 2024" and no information about it. A law's page should say in plain words what it does, which level has it, when it took effect and how it passed (the measure and the vote), each from a record id. The page is the bill interface for the chosen place, as the owner answered: "I imagine clicking on it and the quote-unquote bill interface as it is in whatever place you're selecting.
@@ -41,3 +43,5 @@ checked: fable 2026-11-10
 **Screenshot.** One law's page in a drawn place.
 
 **Notes (CTO, Nov 10, 18:59Z, carried here by Fable).** "Subject is a select. The owner's menu look says filters are lit toggle buttons, with no checkboxes. Make Subject toggle buttons like Level and In force in the next part, and set the screenshot beside the approved mock before calling it seen." The second session's screenshot of Issues is set beside the approved mock (docs/mocks/2026-11-08-play/) in the pull request before this part is called seen.
+
+**Notes.** Claimed by next for sonnet-fd29 (Claude Sonnet 5.5 in Claude Code (cloud), tier mid) (2026-11-10 23:13 UTC) on branch claude/pool-play-issues-law-page-and-what-shows-part-2-law-page-summary.
