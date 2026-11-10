@@ -5,14 +5,15 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: merged
 claimed-by: story/director-win-side
-pr: 8122
+pr: #8122
 blocked-on:
 lead: words
 milestone: play-first
 source: "the lost candidate years could not show race-won or swearing-in; swearing-in-scene.test.ts was red on seed 72 when the officiant was the player's mother"
 claimed-at: 2026-11-10T08:00:00.000Z
+merged-at: 2026-11-10T07:36:09.733Z
 ---
 
 **What.** Proof, plus one test fix. A player who files, campaigns on the real campaign actions (canvass, raise-money, event, forum, donor-meeting, as src/bench/path-check.ts does) and wins plays the whole win side. Bear Creek, Alaska (seed w3:13): the player, person_b5d3c7657bd8b93f, filed for election-result:contest:seat:gus2025:160739:board:3:2025-10-07 with no rival and won. The director staged, on the player's clock: race-won and family-win (2025-10-07, that count), morning-after (10-08), race-told (10-10, for the count of board:6, through the original row), swearing-in (took-office:seat:gus2025:160739:board:3:2025-10-13), celebration, first-day, first-meeting and advice. race-won, swearing-in and race-told compose. Nothing needed wiring.
