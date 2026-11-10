@@ -7,7 +7,7 @@ priority: 2
 size: M
 status: in-pr
 claimed-by: story/journal-as-stories
-pr: pending
+pr: 8118
 blocked-on:
 lead: words
 source: owner batch 3 ("After 2 years out of work, I found work in Lexington" is a statement; "After out of work, I went back to work" breaks; he wants a small story)
