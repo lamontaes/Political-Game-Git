@@ -18,8 +18,16 @@ milestone: play-first
 
 **The change (lane's file).** In the `honor` builder, add `...(f.school ? { school: read.fact(f.school, f.record ?? "") } : {})` to the facts it hands the bank. Then the Words line rewrites the honor headlines and news lines to use `{school}` (gated on it, with the count in words), declares the slot, and adds a played-year test.
 
-**Rules.** Words come from the bank; the builder only passes the record's fact. No new engine; one rule for all 56 places.
+**Rules.** No hand-written player text: the builder passes only the record's school fact and the words come from the headline bank. One rule, all 56 places: every place's honor names its own school from its own record, never a place name typed in code.
 
 **Done when.** In a played year drawn from all 56 places, a `school.honor` record's headline names the school from the record's `school` fact (for example "Opal Public Schools"), shown in a test that prints the headline with the place, seed and record id, and the English guards pass.
+
+**Time box.** 2 hours; if not done, push what exists, open the draft PR, write the handoff.
+
+**You will see.** You see the paper's honors headline name the school, such as "Four Opal Public Schools seniors sign with Division I programs", instead of a count of nobody in particular.
+
+**Screenshot.** The News screen's honors headline before and after, in a drawn place.
+
+**Files.** src/bench/printed-words.ts, data/english/parts/headlines.json, data/english/parts/news.json
 
 **Notes.** Needs from others: play-first, the one-line builder change in src/bench/printed-words.ts; Words will follow with the bank pieces on the same branch or a stacked one. The school on record is the district; naming a high school needs a school row the school engine does not keep yet.
