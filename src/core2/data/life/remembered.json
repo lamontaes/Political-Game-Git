@@ -289,6 +289,16 @@
   ],
   "notTold": [
     {
+      "kind": "business.staff-reduced",
+      "from": "event",
+      "reason": "about the business; each worker let go has the job lost or left on their own list"
+    },
+    {
+      "kind": "grievance.confronted",
+      "from": "event",
+      "reason": "a confrontation the director tells as a scene, not an event of a life"
+    },
+    {
       "kind": "association.requested",
       "from": "event",
       "reason": "a civic act (a talk, a gift, a comment, a drive); the journal and the scenes tell it, not a life"

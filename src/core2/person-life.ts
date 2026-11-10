@@ -254,6 +254,8 @@ export function lifeSummary(
   };
 }
 
+const PLAYED_JOBS_STOPGAP = "SG-PEOPLE-played-jobs-read-at-open";
+
 /** A job's id as it was before a demotion to the counts renamed it (`<id>:counted:<date>`). */
 const jobKey = (jobId: string) => jobId.split(":counted:")[0]!;
 
@@ -299,6 +301,7 @@ function playedJobs(
     .table("changes")
     .query("byPerson", [personId]) as unknown as JobChangeRow[];
   if (!rows.length) return [];
+  stopgap(PLAYED_JOBS_STOPGAP);
   const pastJobs = new Set<string>();
   const pastDays = new Set<string>();
   for (const event of out) {
