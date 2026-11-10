@@ -5,9 +5,9 @@ area: docs
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-pool-next-release-note-id-already-used
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: rc2-done-from-records
 source: found by Fable on Nov 10 while fixing a release test red on main (pull request #8228)
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:04:33.858Z
+branch: claude/pool-pool-next-release-note-id-already-used
 ---
 
 **What.** `npm run pool -- next` starts each item's branch with a release note named after the item. An item that already had a merged pull request (a sent-back or reopened item) has that id recorded as released, so the note's id is refused and the release test "passes the deterministic metadata check" goes red on main when the pull request merges. That happened by hand on Nov 10 with the election tests' pull request. The tool must never start a branch with an id that is already used. The command's one real run on Nov 10 (the second session's report on issue 7365) found three more small things in the same code, and they are fixed here too: an item whose recorded pull request is closed is offered with that number as if it were live; a real run takes minutes and prints nothing until it ends; and a dry run gives different release times from a real run.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing.
 
 **Files.** scripts/pool/index.ts, scripts/pool/draft-pr.ts, scripts/pool/next.test.ts, docs/pool/START-A-BUILDER.md, docs/release/consumed-changes.json
+
+**Notes.** Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:04 UTC) on branch claude/pool-pool-next-release-note-id-already-used.
