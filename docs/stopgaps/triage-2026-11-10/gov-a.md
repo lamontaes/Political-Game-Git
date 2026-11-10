@@ -80,7 +80,7 @@ History on main is shallow, so a replaced row names the function and the pool it
 - `SG-GOV-recall-signature-groups`: src/core2/modules/recalls.ts:318-360 (recorded count first, marker at :343 for the sized fallback).
 - `SG-GOV-group-endorsement-stance`: src/core2/modules/campaigns.ts:4683-4700 (cause-group stance = its topic and desiredChange).
 - `SG-GOV-world-race-lean`: src/core2/modules/voting.ts:5230 decide() marker; places from worldRacePlaces.
-- `SG-GOV-REACH-A-leave-claims`: src/core2/paid-leave.ts:31 (marker; only the premium is set); no payment from the fund in src (grep paid-leave).
+- `SG-GOV-REACH-A-leave-claims`: src/core2/paid-leave.ts:31 (marker; only the premium is set); no payment from the fund in src (grep paid-leave). Reuse: the premium is already collected by `paidLeavePremium` and `paidLeaveProgram` (`src/core2/paid-leave.ts`); claims are paid through the existing benefit payer `payBenefits` (`src/core2/law-reach/group-b-money.ts:604`), so the new item adds no second payment path.
 - `SG-GOV-REACH-A-union-dues`: src/core2/right-to-work-dues.ts:12 (marker), membershipPoints at :37; membership rate read in src/core2/membership-dues.ts.
 - `SG-GOV-REACH-A-cannabis-market`: src/core2/modules/place-prices.ts:1103-1113 (sync with marker); :186 usesCannabis reads the national pricesCannabisUsePrevalence; data/research/laws/samhsa-2024-cannabis-past-year.json not read in src.
 - `SG-GOV-REACH-A-consumer-credit`: src/core2/modules/credit.ts:1325 and :1664-1674 (cap read when quoting new personal loans; marker).
@@ -123,6 +123,10 @@ History on main is shallow, so a replaced row names the function and the pool it
 - `SG-GOV-REACH-A-discrimination`: src/core2/jobs-age-bias.ts:26 (marker on ageBiasAt, small employers only).
 - `SG-GOV-REACH-A-abortion`: src/core2/births-unplanned.ts:10-60 (restrictionRead and providerMiles read the law where she lives and the miles to a provider), :126-183 weighUnplanned, decideUnplanned; src/core2/births-counted.ts:1177 recordAbortionRestriction (the web's birth-rate factor for counted women). No code marker for this id.
 - `SG-GOV-REACH-A-age-verification`: src/core2/modules/business.ts:1293-1333 (cost share by classification, from the law; no marker for this id in code).
+
+## Reuse (owner, Nov 10)
+
+One money system: the only new code item, `gov-paid-leave-claims`, changes the existing `paidLeave` handler and pays through `payBenefits`. The other three new items are research and move no money. Rows closed by an existing live item (sellers, committees, redistricting, taxes) were left to that item's own Fix, which this triage did not rewrite.
 
 ## Questions for the owner
 
