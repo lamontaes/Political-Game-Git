@@ -1,5 +1,5 @@
 ---
-id: tests-m2-07-drawn-place-without-race
+id: election-tests-wait-for-filing-to-open
 impact: none
 ---
 
