@@ -5,7 +5,7 @@ area: docs
 kind: cleanup
 priority: 1
 size: M
-status: claimed
+status: in-pr
 standard: 2
 claimed-by: claude/pool-docs-stale-2026-10-23-audit-part-1-archive-ended-files
 pr: #8248
