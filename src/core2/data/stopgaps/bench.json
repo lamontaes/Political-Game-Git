@@ -8,8 +8,10 @@
     "why": "The credit engine keeps one household row per monthly review with no limit, and the sheet needs some length; no parameter table row sets how far back a player looks.",
     "addedBy": "claude/wire-opening-and-home",
     "addedAt": "2026-10-28",
-    "replacement": "A TUNABLE display window in the parameter table, checked against how many months a player scrolls back, or a chart that draws every kept row.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A TUNABLE display window in the parameter table, checked against how many months a player scrolls back, or a chart that draws every kept row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-BENCH-money-spending-reasons",

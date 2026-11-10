@@ -8,8 +8,10 @@
     "why": "The research (the Census supplemental measure, 2021 against 2022) is one program's before and after at its own amounts, not a rate per dollar, and the game has no child benefit for it to scale.",
     "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
     "addedAt": "2026-10-29",
-    "replacement": "A child benefit (a law question or bill-catalog policy) paid to each household by its children through the law reach's money group, as the welfare line pays (src/core2/law-reach/group-b-money.ts); the poverty count (householdPoverty in src/core2/world-poverty.ts) then reads it as income, so the link is carried by the payment, not run by the web.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A child benefit (a law question or bill-catalog policy) paid to each household by its children through the law reach's money group, as the welfare line pays (src/core2/law-reach/group-b-money.ts); the poverty count (householdPoverty in src/core2/world-poverty.ts) then reads it as income, so the link is carried by the payment, not run by the web.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-FAMILY-birth-bonus-not-paid",
@@ -20,8 +22,10 @@
     "why": "Milligan's estimate holds around Quebec's own schedule, by parity and in Canadian dollars, so no per-dollar size carries over to a game bill of another amount.",
     "addedBy": "effects-web family 1 (laws lead), from the family helper's commit e68fb4fa8b",
     "addedAt": "2026-10-29",
-    "replacement": "A birth-bonus bill that pays each household on a birth; the link is then sized from that amount through Milligan's benefit elasticity (0.107) and read where births are decided (src/core2/births-plan.ts and src/core2/births-counted.ts already read the web's births.rate factor).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A birth-bonus bill that pays each household on a birth; the link is then sized from that amount through Milligan's benefit elasticity (0.107) and read where births are decided (src/core2/births-plan.ts and src/core2/births-counted.ts already read the web's births.rate factor).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-FAMILY-marriage-not-recorded",

@@ -8,8 +8,10 @@
     "why": "The owner ruled that bills phase in by dated steps or a percent a year (DECISION-REGISTER, Sept 12 travel clarification, item 1); pool item gov-m3-01-phase-in-by-dated-steps built the dated steps first, and how a yearly percent is written into law (a step per year, or one indexed row the laws engine raises each year) is not built.",
     "addedBy": "governing lead",
     "addedAt": "2026-10-30",
-    "replacement": "seatAct takes a percent a year and the years it runs; the steps are drafted as dated sections of the one bill a year apart, each the law in force raised by the percent, through the same enact path (or one indexed law row the laws engine raises each year on its calendar), with no number typed.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: seatAct takes a percent a year and the years it runs; the steps are drafted as dated sections of the one bill a year apart, each the law in force raised by the percent, through the same enact path (or one indexed law row the laws engine raises each year on its calendar), with no number typed.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-LEGISLATURE-dated-budget-line-amended-on-enactment",
@@ -32,8 +34,10 @@
     "why": "Reading every member's position on every drafted bill in a 435-member House each day would slow a country's year past the speed bar; a member's own bill is the one a player reads.",
     "addedBy": "Legislation",
     "addedAt": "2026-11-08",
-    "replacement": "Record cosponsors for every full person's bill from the same rule, once the position read is cheap enough, and fold the counted members' signatures as a count.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Record cosponsors for every full person's bill from the same rule, once the position read is cheap enough, and fold the counted members' signatures as a count.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-LEGISLATURE-study-committee-terms",
@@ -44,7 +48,9 @@
     "why": "The NCSL pages on interim and study committees (ncsl.org) and a Montana Legislative Council memo could not be fetched in this session (hosts outside the network allowlist), so no sourced size, term or formation rule was read. The formation cause is the game's own: a narrow floor loss whose closest opponents are less sure than its backers.",
     "addedBy": "Legislation (study committees)",
     "addedAt": "2026-11-09",
-    "replacement": "Per-body formation rules, sizes and terms read from NCSL and each legislature's rules (and mayoral or county task force practice), with outside members drawn from residents by their records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Per-body formation rules, sizes and terms read from NCSL and each legislature's rules (and mayoral or county task force practice), with outside members drawn from residents by their records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   }
 ]

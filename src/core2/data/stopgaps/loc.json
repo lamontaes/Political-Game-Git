@@ -8,7 +8,9 @@
     "why": "The Firefly library has the residences' exteriors only; the bench lists the rooms' picture names first (officialResidences in src/bench/data/scene-places.json) so they are used as soon as they are painted.",
     "addedBy": "LOCATIONS",
     "addedAt": "2026-10-13",
-    "replacement": "Painted rooms for each residence (white-house-residence-living, -dining, -bedroom; governor-residence-living, -dining, -bedroom), imported under those names.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Painted rooms for each residence (white-house-residence-living, -dining, -bedroom; governor-residence-living, -dining, -bedroom), imported under those names.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   }
 ]

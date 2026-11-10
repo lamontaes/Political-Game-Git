@@ -8,8 +8,10 @@
     "why": "The owner's Oct 29 ruling builds the record as a background simulation for the sales law; the readers the research names (school performance and leaving school, the adult substance-use condition at 18, a parent's worry) are engines that do not take a teen's use as an input today.",
     "addedBy": "laws lead (health-teen-substance-use-record)",
     "addedAt": "2026-10-29",
-    "replacement": "The school engine reads a teen's use where it decides grades and leaving school, and the health engine reads it where a person turning 18 is given the adult substance-use condition, each at a researched size.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The school engine reads a teen's use where it decides grades and leaving school, and the health engine reads it where a person turning 18 is given the adult substance-use condition, each at a researched size.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-HEALTH-own-records-counted",
@@ -20,8 +22,10 @@
     "why": "The counted flows that start a counted member's serious illness read only place-level factors; the counted tier's closures are not tied to the health flows.",
     "addedBy": "laws-lead-mortality-helper",
     "addedAt": "2026-10-28",
-    "replacement": "The counted flows read the law reach's coverage records (medicaidCoverageSpells, by person id) and multiply a counted member's chance of a serious illness by the same (1 + size x covered) / (1 + size x covered at the first look) factor, leaving the place-level twin out for them as for a full person; the counted flows read the jobs engine's closure records (the changes table, counted workers included) and the counted jobs' hours, and multiply a displaced or long-hours counted member's chance by the same excess.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The counted flows read the law reach's coverage records (medicaidCoverageSpells, by person id) and multiply a counted member's chance of a serious illness by the same (1 + size x covered) / (1 + size x covered at the first look) factor, leaving the place-level twin out for them as for a full person; the counted flows read the jobs engine's closure records (the changes table, counted workers included) and the counted jobs' hours, and multiply a displaced or long-hours counted member's chance by the same excess.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-HEALTH-medical-bill-shape",
@@ -32,8 +36,10 @@
     "why": "The health engine keeps condition records only for full people, and the survey's age and use profiles are not yet parameters; the town is scaled so its average care is the survey's.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "An age profile of out-of-pocket spending (MEPS by age band) and the uninsured's lower use of care at the same need, as parameters the bill reads; counted members' condition prevalence from the condition pack's cells, so a counted member's care need follows the same sliding scale; the counted keep-back from the housing payments each group owes before the next bill. When a household outside those places keeps books (a national figure's pay and living costs), it is billed by its own place's region on the same rule.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An age profile of out-of-pocket spending (MEPS by age band) and the uninsured's lower use of care at the same need, as parameters the bill reads; counted members' condition prevalence from the condition pack's cells, so a counted member's care need follows the same sliding scale; the counted keep-back from the housing payments each group owes before the next bill. When a household outside those places keeps books (a national figure's pay and living costs), it is billed by its own place's region on the same rule.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-HEALTH-medical-debt-collections",
@@ -44,8 +50,10 @@
     "why": "The game has no collection agencies or debt buyers, and nothing yet decides when a household with cash pays an old medical debt.",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, and the provider's write-off kept as its charity care on its books.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Medical debts paid down from what a household holds after its living costs, on the same rule as its other debts, settled or sold at research's recovery rates, and the provider's write-off kept as its charity care on its books.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-HEALTH-medical-owed-fill-in",
@@ -56,8 +64,10 @@
     "why": "A fill-in moves a counted group's people and money but not what its households owe; the same root as the group's living-cost arrears at fill-in (pool item world-fill-in-strands-group-living-arrears).",
     "addedBy": "claude/laws-medical-debt",
     "addedAt": "2026-10-29",
-    "replacement": "At fill-in, the owed bills of the households released from the record move to the records that take their weight, in proportion to the weight each takes, by the same rule that moves the group's living-cost arrears (world-fill-in-strands-group-living-arrears).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: At fill-in, the owed bills of the households released from the record move to the records that take their weight, in proportion to the weight each takes, by the same rule that moves the group's living-cost arrears (world-fill-in-strands-group-living-arrears).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   },
   {
     "id": "SG-HEALTH-results-mode-opening-gap",
@@ -68,7 +78,9 @@
     "why": "The fast clock, part 2 (pool item core-fast-clock-part-2-births-deaths-and-illness-in-skipped-time): results mode calls a module only on the first of each month (onResultsMonth, part 1), and the health engine's records open on its first run; an event can only enter on the current date, so a day already passed cannot be heard on its own day.",
     "addedBy": "Fable helper",
     "addedAt": "2026-11-10",
-    "replacement": "Results mode opens every engine's records on the skip's first day (a start hook in life.ts that runs once per world before the first skipped day), so the health engine books its calendar days from the opening and no booked day is passed over.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Results mode opens every engine's records on the skip's first day (a start hook in life.ts that runs once per world before the first skipped day), so the health engine books its calendar days from the opening and no booked day is passed over.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T9 (owner, Nov 10: too in depth)"
   }
 ]
