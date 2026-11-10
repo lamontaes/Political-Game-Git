@@ -45,11 +45,12 @@ import { pairKey } from "./kernel/ids";
 import { housingWorldOffset } from "./housing-prices";
 import { parameter } from "./parameters";
 import { endResidentFlow } from "./residents-economy";
+import { HOUSING_STATUS_EVENT } from "./housing-status-event";
 import type { ModuleRow } from "./module-data";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 
-export const HOUSING_STATUS_EVENT = "housing.status-changed";
+export { HOUSING_STATUS_EVENT };
 const HOUSING = "housing";
 
 export type HousingStatus =
