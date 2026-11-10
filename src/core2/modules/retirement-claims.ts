@@ -6,6 +6,7 @@
  * sized as the opening sizes awards. Claims are indexed by date; nothing scans
  * the town each day.
  */
+import { nextDue } from "../accounts";
 import { addDays, makeIsoDate } from "../kernel/dates";
 import { worldBenefitMonthlyMinor } from "../opening-income";
 import incomeData from "../data/opening-income.json" with { type: "json" };
@@ -233,13 +234,22 @@ function moveToPerson(api: CoreAPI, rt: Runtime, personId: PersonId): void {
     return;
   const accounts = api.accounts();
   const id = `${row.obligationId}:own`;
+  const cadence = { kind: "months", every: 1 } as const;
+  // The award keeps its own pay day. After skipped time the counted flow's
+  // next day can lie in the past (the flow did not run while time was
+  // skipped), so the person's first payment is the first of those days still
+  // ahead; the days gone by were the counted flow's.
+  const payDay = Number(flow.nextAt.slice(-2));
+  let firstDueAt = makeIsoDate(flow.nextAt);
+  while (firstDueAt <= api.state.date)
+    firstDueAt = nextDue(firstDueAt, cadence, payDay);
   accounts.addObligation({
     id,
     from: accounts.main(flow.payerId),
     to: accounts.main(personId),
     amountMinor: row.monthlyMinor,
-    firstDueAt: flow.nextAt,
-    cadence: { kind: "months", every: 1 },
+    firstDueAt,
+    cadence,
     accruesArrears: false,
     reasonKey: "income.retirement",
     source: flow.source,
