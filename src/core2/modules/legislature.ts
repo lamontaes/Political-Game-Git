@@ -6635,6 +6635,183 @@ export function floorCountOf(
 }
 
 /**
+ * How a bill ended, or that it has not yet, read from its own rows (its
+ * status, its committees' records, each chamber's floor count, the override's
+ * public record). One answer for every screen and tool that says why a bill
+ * is not law (Fable audit, Nov 9, 2026: forced bills failed and nothing said
+ * a chair had held them or that the Senate was short of cloture). It counts
+ * nothing new and words nothing; the codes are worded by whoever shows them.
+ */
+export type BillEnding =
+  | { readonly how: "pending" }
+  | {
+      readonly how: "law";
+      readonly by: "signed" | "overridden" | "enacted";
+    }
+  | {
+      /** The body lacks the power for a section; each refusal's reason code and source. */
+      readonly how: "blocked";
+      readonly reasons: readonly {
+        readonly reason: AuthorityReason;
+        readonly source: string;
+      }[];
+    }
+  | {
+      /** Never voted: its law was already made, or cut across an act waiting. */
+      readonly how: "moot";
+      readonly question: string;
+    }
+  | {
+      /** The committee's chair never heard it, and no discharge sent it to the floor. */
+      readonly how: "committee-held";
+      readonly chamber: string;
+      readonly committee: string;
+      readonly chairId: string;
+      /** The chair's own position on the bill and what their temperament adds; heard when the sum is not below zero. */
+      readonly chairPosition: number;
+      readonly chairTrait: number;
+      /** The discharge petition, where the chamber has one: signatures asked and signed. */
+      readonly discharge: {
+        readonly needed: number;
+        readonly signed: number;
+      } | null;
+    }
+  | {
+      readonly how: "committee-lost";
+      readonly chamber: string;
+      readonly committee: string;
+      readonly yes: number;
+      readonly no: number;
+    }
+  | {
+      readonly how: "floor-lost";
+      readonly chamber: string;
+      readonly yes: number;
+      readonly no: number;
+    }
+  | {
+      /** A majority voted yes, but fewer than the share of sworn members the chamber needs to end debate. */
+      readonly how: "cloture-short";
+      readonly chamber: string;
+      readonly yes: number;
+      readonly no: number;
+      readonly needed: number;
+    }
+  | {
+      readonly how: "vetoed";
+      /** Each chamber's override count against what it needed; null when no override vote is on record. */
+      readonly override:
+        | readonly {
+            readonly chamber: string;
+            readonly yes: number;
+            readonly needed: number;
+            readonly members: number;
+          }[]
+        | null;
+    }
+  | {
+      /** Its session ended, or its calendar ran out, before any vote. */
+      readonly how: "session-ended";
+    };
+
+export function billEnding(api: CoreAPI, billId: string): BillEnding {
+  const bill = table(api, "bills").get(billId) as unknown as
+    BillRow | undefined;
+  if (!bill) throw new Error("No such bill.");
+  if (
+    bill.status === "signed" ||
+    bill.status === "overridden" ||
+    bill.status === "enacted"
+  )
+    return { how: "law", by: bill.status };
+  if (bill.status === "blocked")
+    return {
+      how: "blocked",
+      reasons: bill.authority
+        .filter((a) => !a.allowed)
+        .map((a) => ({ reason: a.reason, source: a.source })),
+    };
+  if (bill.status === "vetoed") {
+    const record = api.state.durableLog.get(`veto-override:${bill.id}`);
+    const tallies = String(record?.facts?.tallies ?? "");
+    return {
+      how: "vetoed",
+      override: tallies
+        ? tallies.split(",").map((part) => {
+            // "<chamber>:<yes>/<needed>/<members>"; a chamber id holds colons of its own.
+            const at = part.lastIndexOf(":");
+            const [yes, needed, count] = part
+              .slice(at + 1)
+              .split("/")
+              .map(Number);
+            return {
+              chamber: part.slice(0, at),
+              yes: yes ?? 0,
+              needed: needed ?? 0,
+              members: count ?? 0,
+            };
+          })
+        : null,
+    };
+  }
+  if (bill.status !== "failed") return { how: "pending" };
+  if (bill.moot) return { how: "moot", question: bill.moot.question };
+  const unreported = committeeRecords(api, bill.id)
+    .filter((c) => !c.reported)
+    .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id))
+    .at(-1);
+  // A bill ends at its first failure, and a committee that does not report it keeps it off that
+  // chamber's floor, so an unreported record is where it ended (a chamber before it carried the bill).
+  if (unreported)
+    return unreported.heard
+      ? {
+          how: "committee-lost",
+          chamber: unreported.chamber,
+          committee: unreported.committee,
+          yes: unreported.yes,
+          no: unreported.no,
+        }
+      : {
+          how: "committee-held",
+          chamber: unreported.chamber,
+          committee: unreported.committee,
+          chairId: unreported.chairId,
+          chairPosition: unreported.chairReasons.position.total,
+          chairTrait: unreported.chairReasons.hearingTrait,
+          discharge: unreported.discharge
+            ? {
+                needed: unreported.discharge.needed,
+                signed: unreported.discharge.signers.length,
+              }
+            : null,
+        };
+  for (const chamber of [...chambersOf(api, bill)].reverse()) {
+    const count = floorCountOf(api, bill.id, chamber);
+    if (!count || count.carried) continue;
+    const needed =
+      chamber === FEDERAL_SENATE
+        ? Math.ceil(
+            members(api, chamber).length *
+              campaignParameter("senateClotureShare"),
+          )
+        : 0;
+    return count.yes > count.no && count.yes < needed
+      ? { how: "cloture-short", chamber, yes: count.yes, no: count.no, needed }
+      : { how: "floor-lost", chamber, yes: count.yes, no: count.no };
+  }
+  return { how: "session-ended" };
+}
+
+/** The sections a trade for a vote, or a poison pill, added to a bill after it was drafted. */
+export function sectionsAddedTo(bill: BillRow): number {
+  return bill.deals.filter(
+    (d) =>
+      d.status !== "declined" &&
+      (d.kind === "trade-amendment" || d.kind === "poison-pill"),
+  ).length;
+}
+
+/**
  * An amendment moved on a drafted bill: one section replaced by another, with the
  * estimate of the bill as it would read and the roll call of the body on it. It is
  * its own record (the bill is changed only when the body adopts it), so the paper

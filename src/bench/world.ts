@@ -626,6 +626,25 @@ function* benchWorldStages(
         ...(person.jobId ? { jobId: person.jobId } : {}),
       };
     });
+  recipes.set(core, {
+    seed,
+    date,
+    options: {
+      twoLevel: options.twoLevel,
+      placeKey: place.key,
+      ...(options.minimumPeople !== undefined
+        ? { minimumPeople: options.minimumPeople }
+        : {}),
+      ...(options.countScale !== undefined
+        ? { countScale: options.countScale }
+        : {}),
+      ...(options.playerBirthDate
+        ? { playerBirthDate: options.playerBirthDate }
+        : {}),
+      ...(options.playerGender ? { playerGender: options.playerGender } : {}),
+      ...(options.settings ? { settings: options.settings } : {}),
+    },
+  });
   return {
     core,
     director,
@@ -634,4 +653,22 @@ function* benchWorldStages(
     residents,
     ...(playerId ? { playerId } : {}),
   };
+}
+
+/** How a world was built: its seed, its start date and the choices that shaped it. */
+export interface BuildRecipe {
+  readonly seed: string;
+  readonly date: string;
+  readonly options: BuildOptions;
+}
+const recipes = new WeakMap<CoreState, BuildRecipe>();
+
+/**
+ * The recipe a world was built from, so the same world can be built again as a
+ * twin (dev mode's money check compares the played world with the same world
+ * left alone). Kept beside the world, not in it; a world restored from a save
+ * has none.
+ */
+export function buildRecipeOf(core: CoreState): BuildRecipe | undefined {
+  return recipes.get(core);
 }

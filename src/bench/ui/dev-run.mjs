@@ -63,6 +63,13 @@ export function devRunPanel({ labels, onDone }) {
     b.setAttribute("aria-pressed", String(hold));
   });
   holdButton.dataset.testid = "dev-hold-law";
+  // Where an event counts: the player's own town, county, state and nation (the default), or anywhere.
+  let anywhere = false;
+  const whereButton = toggle(labels.anywhere, false, (b) => {
+    anywhere = !anywhere;
+    b.setAttribute("aria-pressed", String(anywhere));
+  });
+  whereButton.dataset.testid = "dev-run-anywhere";
   const run = makeButton({ className: "action" }, labels.run);
   run.dataset.testid = "dev-run";
   run.addEventListener("click", async () => {
@@ -75,6 +82,7 @@ export function devRunPanel({ labels, onDone }) {
           days: until ? undefined : labels.steps[at],
           event: until || undefined,
           cap: labels.cap,
+          ...(anywhere ? { where: "anywhere" } : {}),
           ...(hold && lastIntroducedSeries()
             ? { defeat: [lastIntroducedSeries()] }
             : {}),
@@ -84,6 +92,7 @@ export function devRunPanel({ labels, onDone }) {
       if (!response.ok) throw new Error(value.error);
       result.textContent = [
         `${labels.reasons[value.reason]}`,
+        ...(until ? [labels.where[value.where]] : []),
         `${value.from} → ${value.to}`,
         `${value.days} ${labels.daysName}`,
         ...value.records,
@@ -138,7 +147,7 @@ export function devRunPanel({ labels, onDone }) {
     stepper,
     el("h4", { className: "label", textContent: labels.orUntil }),
     el("div", { className: "acts" }, ...eventButtons),
-    el("div", { className: "acts" }, holdButton, run),
+    el("div", { className: "acts" }, whereButton, holdButton, run),
     el("h4", { className: "label", textContent: labels.hour }),
     el("div", { className: "acts" }, ...hourButtons),
     el("div", { className: "acts" }, jump),
