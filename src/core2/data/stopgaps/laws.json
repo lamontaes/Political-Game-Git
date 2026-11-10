@@ -107,8 +107,8 @@
   {
     "id": "SG-LAWS-ui-base-period-last-pay",
     "file": "src/core2/jobs-benefits.ts",
-    "line": 282,
-    "whatItFakes": "A claim's weekly benefit is the state's share of the lost job's weekly pay as it stood on the last day, times the weeks it ran (capped by the weekly maximum). Real state law computes it from base-period wages, usually the highest quarter of the first four of the last five completed quarters, so an hours cut shortly before a layoff barely moves it.",
+    "line": 369,
+    "whatItFakes": "A claim for a person or counted group with fewer than four completed quarters of recorded pay (or a state whose row gives no base-period basis) still draws its weekly benefit from the lost job's pay on the last day. Where a pay history exists the benefit already reads the first four of the last five completed quarters (basePeriodWages). No played year has yet shown a claim after a real hours cut drawing the same benefit as steady hours.",
     "why": "No per-person pay by calendar quarter is read by the claim engine; named workers' paydays are in the cash journal (work-payroll-cash.ts) and counted workers' in their group's perDayMinorByJob history, but the claim does not sum them yet.",
     "addedBy": "night:laws-and-effects",
     "addedAt": "2026-11-08",
