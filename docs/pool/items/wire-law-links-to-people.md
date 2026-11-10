@@ -6,20 +6,35 @@ kind: feature
 priority: 1
 size: L
 status: open
+standard: 2
 claimed-by:
 pr: #6760
-blocked-on:
+after:
+blocked-on: wire-law-links-to-people-part-1-partly-wired-laws,wire-law-links-to-people-part-2-effects-families-2-to-5,wire-law-links-to-people-part-3-effects-families-6-to-9,wire-law-links-to-people-part-4-loan-cap-and-research-sizes
+lead: laws-effects
+model: sonnet
+effort: low
+root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** The effect web (docs/reports/effect-web-matrix-2026-10-20.json, scripts/outcome-web/effect-matrix.ts) has 244 links: 139 reach the world, 118 are named in a stopgap, 0 unreached without a stopgap. The law matrix (docs/reports/law-wiring-matrix.json, scripts/law-wiring/matrix.ts) has 68 of 89 laws wired, 7 partly, 14 on a stopgap. One PR per link or law, the oldest stopgap first: the law in force changes, the engine that pays or decides reads it, a named person's money or view moves, proven by scripts/law-wiring/check.ts in two drawn places. Each PR regenerates the matrix. No new mechanic: a link whose reader does not exist is a stopgap naming the engine. Time box: 8 hours.
+**What.** The effect web (docs/reports/effect-web-matrix-2026-10-20.json, scripts/outcome-web/effect-matrix.ts) was counted at 244 links on Oct 20; the law matrix (docs/reports/law-wiring-matrix.json, scripts/law-wiring/matrix.ts) now reads 178 laws, 147 wired, 31 partly, and 246 research links, 175 reaching. One PR per link or law, the oldest stopgap first: the law in force changes, the engine that pays or decides reads it, a named person's money or view moves, proven by scripts/law-wiring/check.ts in two drawn places. Each PR regenerates the matrix. No new mechanic: a link whose reader does not exist is a stopgap naming the engine. Time box: 8 hours.
 
-**Rules.** Replace, never layer: every PR deletes the second path and counts it. One engine per mechanic and the simulation as the one layer (AGENTS.md first bullet). No new mechanic (AGENTS.md step 0): a missing piece is a registered stopgap naming the engine. Every cut corner a registered stopgap. The guards on main (npm run guards, sixteen ids in scripts/guards/index.ts) pass on every PR; a shrinking baseline is lowered in the same PR. Sessions never message; the channel block and PR bodies are the record. One PR per line; mergers merge on green; a golden-path red that reproduces on clean main does not block. Guards: two-seeds-differ, no-second-source, no-dice. An effect is a read, not a record; ask why by record; nobody attributes a change to a law unless they learned of it.
+**Cause.** Found in code: docs/reports/law-wiring-matrix.json summary (built by scripts/law-wiring/matrix.ts) shows 178 laws, 147 wired, 31 partly, and 175 of 246 research links reaching, 21 about zero, 50 unread, none unread without a stopgap; per-law reach lives in src/core2/law-reach/ (`applied.ts` and the group files); unread links are listed in src/core2/data/outcome-web/unwired.json. The Oct 29 effects plan (docs/reports/effects-web-plan-2026-10-29.md) is the remaining queue and no other item carries it.
 
-**Done when.** The regenerated matrices show wired up and stopgapped down by the PRs' counts, each PR naming the link, the place, the seed and the record ids from the checker; no link reaches the world through a second path.
+**Fix.** Work the matrix's partly-wired laws and the plan's ten families one PR each, oldest stopgap first, each regenerating the matrices and proving the chain to a named person in two drawn places; delete the second path in every PR. The four parts below carry the work.
 
-**Files.** src/core2/law-reach/,src/core2/modules/laws.ts,data/research/outcome-web/links.json,scripts/law-wiring/,scripts/outcome-web/,docs/reports/law-wiring-matrix.json
+**Time box.** 16 hours across the four parts; this item is done when all four are merged and seen.
+
+**Rules.** Replace, never layer: every PR deletes the second path and counts it. One engine per mechanic and the simulation as the one layer (AGENTS.md first bullet). No new mechanic (AGENTS.md step 0): a missing piece is a registered stopgap naming the engine. Every cut corner a registered stopgap. The guards on main (npm run guards, sixteen ids in scripts/guards/index.ts) pass on every PR; a shrinking baseline is lowered in the same PR. One PR per line; mergers merge on green; a golden-path red that reproduces on clean main does not block. Guards: two-seeds-differ, no-second-source, no-dice. An effect is a read, not a record; ask why by record; nobody attributes a change to a law unless they learned of it.
+
+**Done when.** A second session replays the regenerated matrices after the parts merge and sees wired up and stopgapped down by the PRs' counts, with each PR naming the link, the place, the seed and the record ids from the checker, and no link reaching the world through a second path. Do not let a matrix-regeneration PR flip this item to done (Oct 29 note).
+
+**Waits on.** Its parts: wire-law-links-to-people-part-1-partly-wired-laws, wire-law-links-to-people-part-2-effects-families-2-to-5, wire-law-links-to-people-part-3-effects-families-6-to-9, wire-law-links-to-people-part-4-loan-cap-and-research-sizes (listed in blocked-on).
+
+**Files.** src/core2/law-reach/applied.ts, scripts/law-wiring/matrix.ts, scripts/law-wiring/check.ts, docs/reports/law-wiring-matrix.json, docs/reports/effects-web-plan-2026-10-29.md
 
 **Notes.** Filed by the CTO on the owner's go (Oct 28): the laws-and-effects lead's matrix work resumes under the guards. engine: laws.ts, law-reach/host.ts. guard: two-seeds-differ, no-second-source. Read: OWNER-DECISIONS, docs/work-orders/lead-laws-effects-2026-10-26.md, the laws-and-effects channel blocks. Starts now. Oct 28, 10:10 UTC (laws-and-effects lead): laws wired 68 to 70 of 89, links reaching the world 139 to 143 of 244, by #6552 (groundwater), #6567 (farmland), #6573 (four election laws, restore-voting wired) and #6577 (two housing links); every link an engine read its own way beside the web is now carried by that engine at the research's size. Left, each on its stopgap and needing an engine the game lacks: parks (free time), SNAP and grocery exemption (food security), three fiscal laws (state and local borrowing), higher education (college completion), Medicaid and cannabis (medical debt, teen use records), immigration enforcement (legal status), the loan cap (small-dollar lenders), natural resources and age verification (no researched link). Set back to open. Oct 28, 10:10 UTC (laws-and-effects lead): laws wired 68 to 70 of 89, links reaching the world 139 to 143 of 244, by #6552 (groundwater), #6567 (farmland), #6573 (four election laws, restore-voting wired) and #6577 (two housing links); every link an engine read its own way beside the web is now carried by that engine at the research's size. Left, each on its stopgap and needing an engine the game lacks: parks (free time), SNAP and grocery exemption (food security), three fiscal laws (state and local borrowing), higher education (college completion), Medicaid and cannabis (medical debt, teen use records), immigration enforcement (legal status), the loan cap (small-dollar lenders), natural resources and age verification (no researched link). Set back to open.
 

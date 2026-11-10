@@ -13,13 +13,27 @@ blocked-on:
 milestone:
 source: "post-merge audit Oct 19 evening, item 7 (PR #5166)"
 claimed-at:
+lead: governing
+standard: 2
+model: opus
+effort: medium
+root: none
+checked: fable 2026-11-10
 ---
 
-**What.** Change src/core2/modules/contracts.ts so the four TUNABLE weights in src/core2/data/contracts/parameters.json set bands and the members' reads decide. Today award() scores each firm as one weighted sum of price, capacity and closeness to the owner and the trait lean only slides the price and tie weights, so the formula decides. Give each member a second read of each firm that is theirs: the firm's record on this government's earlier awards (the contracts table: whether the last line was paid out and its workforce held) and, for a full person, their view of the firm's owner from closeness. Each read is clamped into the weight's band, so no weight can by itself outvote the others, and the member's decisionLean picks which reads count; the weights stay only as cited band limits with their spread.
+**What.** Change the contract award so the four TUNABLE weights set bands and the members' reads decide. Today `award()` scores each firm as one weighted sum of price, capacity and closeness to the owner, and the trait lean only slides the price and tie weights, so the formula decides. Reviewed Oct 20 over four drawn towns, 400 played days each, 106 awards (all with two or more bids): the cheapest bidder won 67, the largest won 72, and the members split between firms in only 11. In the other 95 every member ranked the same firm first, because price and workforce are the same for every member and only the tie to the owner differs, and a member rarely knows a business owner. The officials have too little to read.
 
-**Rules.** No dice: the winner comes from members' reads and the body's vote, never a roll or a fixed score that decides alone. Ask why: each member's vote cites the reads that ranked the firm first, in the award row's votes. An effect is a read, not a record: the award row's reasons are read by the treasury and by gov-bribe-buys-a-contract when it changes a ranking. Estimate, never UNKNOWN: a firm with no earlier award starts from the bidders' average with the spread, not a zero. Replace, never layer: the single weighted sum is deleted in the same change.
+**Cause.** Found in code: `src/core2/modules/contracts.ts` `award` (line 169) scores each firm as one weighted sum from the four TUNABLE weights in `src/core2/data/contracts/parameters.json`; measured Oct 20 in four drawn towns, 106 awards (cheapest won 67, members split in 11).
 
-**Done when.** In a one-year run of the played world (buildBenchWorld, every module installed) in a place drawn from all 56 with a seed the builder did not choose (named in the test output), a government's award shows each member's vote with the reads behind it by record id, and changing one member's traits changes their ranking without any weight change; src/core2/contracts.test.ts proves it, and the weights are each marked as band limits with a spread in parameters.json.
+**Fix.** Give each member a second read of each firm: the firm's record on this government's earlier awards (the contracts table: whether the last line was paid out and its workforce held) and, for a full person, their view of the firm's owner from closeness. Clamp each read into its weight's band, let `decisionLean` pick which reads count, record which read decided each vote, and delete the single weighted sum. A firm with no earlier award starts from the bidders' average with the spread.
+
+**Time box.** 6 hours for one opus session.
+
+**Rules.** No dice: the winner comes from members' reads and the body's vote, never a roll or a fixed score that decides alone. Ask why: each member's vote cites the reads that ranked the firm first, in the award row's votes. An effect is a read, not a record: the treasury and gov-bribe-buys-a-contract read the award row's reasons. Estimate, never UNKNOWN. Replace, never layer: the single weighted sum is deleted in the same change. Ranges are not targets (owner, Nov 8).
+
+**Done when.** A second session plays a year (`buildBenchWorld`, every module installed) in a place drawn from all 56 with a seed the builder did not choose (named in the test output) and sees a government's award show each member's vote with the reads behind it by record id; changing one member's traits changes their ranking without any weight change. `src/core2/contracts.test.ts` proves it, and the weights are each marked as band limits with a spread in `parameters.json`.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/contracts.ts, src/core2/data/contracts/parameters.json, src/core2/contracts.test.ts
 

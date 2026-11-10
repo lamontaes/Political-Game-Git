@@ -9,15 +9,29 @@ size: M
 status: open
 blocked-on: research access (the session's network blocks the state statute sites)
 source: Elections, from the Nov 8 playtest check (PR #7721, point C11)
+after:
+standard: 2
+model: opus
+effort: medium
+root: rc9-place-facts-one-default
+checked: fable 2026-11-10
 ---
 
-**What.** Every town or city race in every state is given no primary: `municipal()` in `src/core2/elections-calendar.ts` returns `primaryDate: null`, so the clerk says "No primary, just the one election" (`src/director/filing-visit.ts`) and a race that has one is grouped as at-large where it should not be (`elections.ts` at-large grouping reads the missing date). Connecticut's own filing record names a September municipal primary for partisan town elections (`data/research/elections/filing-requirements.json`, US-CT municipalOffice: filing deadline "about 63 days before the September primary"). Other states hold municipal primaries too (partisan city elections, nonpartisan top-two primaries).
+**What.** Every town or city race in every state is given no primary, though some states hold municipal primaries. `municipal()` in the elections calendar returns `primaryDate: null`, so the clerk says "No primary, just the one election" and a race that has one is grouped as at-large where it should not be. Connecticut's own filing record names a September municipal primary for partisan town elections (`data/research/elections/filing-requirements.json`, US-CT municipalOffice: filing deadline "about 63 days before the September primary"). Other states hold municipal primaries too (partisan city elections, nonpartisan top-two primaries). The rule lives in data by state, read by the voting engine, which holds the primary only when more candidates file than the rule allows.
 
-**Rules.** One rule, all 56 places: the municipal primary rule lives in data by state (whether municipal elections have one, its date rule and where it applies), each row SOURCED from the statute or ESTIMATED with a spread, never a name in logic. No dice: a primary is held only when more candidates file than the party or ballot rule allows through, as in the voting engine's primary already. Estimate, never UNKNOWN: a state whose rule is not read starts from "no primary" marked ESTIMATED with the reason.
+**Cause.** Found in code: `src/core2/elections-calendar.ts` `municipal` (line 387) returns `primaryDate: null` (line 410) for every municipal race; the clerk line "No primary, just the one election" is in `src/director/filing-visit.ts`. `data/research/elections/municipal-primary-rules.json` does not exist yet.
 
-**Done when.** In a played year at three places drawn from all 56 (names and seeds printed), including Connecticut, the town's contest record carries the primary date the state's data gives where the state holds one, the clerk's visit says the primary date instead of "no primary", and a decided town race with more filers than the rule allows shows the primary result by record id; a state without a municipal primary still reads "no primary".
+**Fix.** Add per-state municipal primary rule rows (whether municipal elections have one, the date rule and where it applies), each SOURCED from the statute or ESTIMATED with a spread, read in `municipal()`, and let the voting engine hold the primary only when more candidates file than the party or ballot rule allows. A state whose rule is not read starts from "no primary" marked ESTIMATED with the reason.
 
-**Files.** src/core2/elections-calendar.ts, src/core2/elections.ts, data/research/elections/municipal-primary-rules.json (new, with citations), src/director/filing-visit.ts
+**Time box.** 8 hours for one opus session.
+
+**Rules.** One rule, all 56 places: the municipal primary rule lives in data by state, never a name in logic. No dice: a primary is held only when more candidates file than the party or ballot rule allows through, as in the voting engine's primary already. Estimate, never UNKNOWN. Research before building: the date rules need the statutes read.
+
+**Done when.** A second session plays a year at three places drawn from all 56 (names and seeds printed), including Connecticut, and sees the town's contest record carry the primary date the state's data gives where the state holds one, the clerk's visit say the primary date instead of "no primary", and a decided town race with more filers than the rule allows show the primary result by record id. A state without a municipal primary still reads "no primary".
+
+**Waits on.** Network access to the state statute sites (the item's blocked-on).
+
+**Files.** src/core2/elections-calendar.ts, src/core2/modules/elections.ts, data/research/elections/municipal-primary-rules.json (new), src/director/filing-visit.ts, data/research/elections/filing-requirements.json
 
 **Notes.** Elections, Nov 8: not guessed in code. The date rules need the statutes read; the research helper could not fetch cga.ct.gov, ecode360.com or ballotpedia.org from this session. Ask for those hosts to be allowed, then fill the table state by state.
 

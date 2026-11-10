@@ -1447,7 +1447,31 @@ export function composeJournal(
     // is a line in the chapter one is living, and a stranger's birth or death
     // is no chapter of this life (lane 3, path 9: no chapter titled after
     // someone else).
-    const turn = turnOf(row, moment);
+    // A turn is titled by its record ("My son", "Ordinance 2025-4"); a title
+    // that would be a bare person's name (a relative whose relation has no
+    // word to say them by) is no chapter of this life: it is told inside the
+    // chapter being lived (lane 3, path 9: no chapter titled after someone
+    // else).
+    const titledByName = (): boolean => {
+      const text = render(
+        { part: "title", kindPrefix: row.kindPrefix },
+        facts,
+        `${moment.id}:title`,
+        sourceIds,
+      )?.text;
+      return (
+        !!text &&
+        moment.counterpartIds.some((other) => {
+          const row = core.people.get(other);
+          return (
+            !!row &&
+            (text === row.givenName ||
+              text === `${row.givenName} ${row.familyName}`)
+          );
+        })
+      );
+    };
+    const turn = turnOf(row, moment) && !titledByName();
     const ownTitle =
       turn && chapterKind === row.kindPrefix
         ? render(
@@ -1594,9 +1618,16 @@ export function composeJournal(
         moment.causeKind === "job-ended:let-go") &&
         own)
     ) {
+      // A lost job names the employer it was lost at; a
+      // death is told by the lines that follow it (the age, the illness).
+      const lostJob =
+        moment.causeKind === "job-ended" ||
+        moment.causeKind === "job-ended:let-go";
       const hard = render(
         { part: "memoir", field: "hard", closedWith },
-        facts,
+        lostJob && facts.employer
+          ? { ...facts, "lost-employer": facts.employer }
+          : facts,
         `${moment.id}:hard`,
         sourceIds,
       );
@@ -1607,14 +1638,21 @@ export function composeJournal(
     }
     // The event told as a small story: each field the row names follows it,
     // when the record gives the facts that field's sentences name.
-    for (const field of row.follow ?? []) {
-      const told = render(
-        { part: "memoir", field: field as MemoirField },
-        facts,
-        `${moment.id}:${field}`,
-        sourceIds,
-      );
-      if (told) parts.push(told);
+    // A field may name alternatives ("a|b|c"): the first that the facts let
+    // be worded is told, so one sentence that names two facts is not followed
+    // by two that name the same person again.
+    for (const named of row.follow ?? []) {
+      for (const field of named.split("|")) {
+        const told = render(
+          { part: "memoir", field: field as MemoirField },
+          facts,
+          `${moment.id}:${field}`,
+          sourceIds,
+        );
+        if (!told) continue;
+        parts.push(told);
+        break;
+      }
     }
     // Looking back: a moment whose weight grew with the people in it, when
     // life went on after it.
@@ -1709,7 +1747,7 @@ export function composeJournal(
     }
     // Another's turn in public life (their filing, their oath, a race they
     // won) is told as what it meant to the person, from their tie: a friend's
-    // is gladness, a rival's is doubt; anyone else's is only the line.
+    // is the friendship, a rival's is doubt; anyone else's is only the line.
     const governing = row.turnFor === "self" || row.hasOwnLine;
     const theirWin =
       !row.hasOwnLine || facts.winner?.text === subjectOf(moment);

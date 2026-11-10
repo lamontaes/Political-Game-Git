@@ -70,11 +70,8 @@
     "minutes|everyday|minutes|self|young-adult": 1
   },
   "graded": {
-    "naturalness": {
-      "unknown": 59
-    },
     "unknown": {
-      "unknown": 105,
+      "unknown": 111,
       "journal": 25,
       "legislation": 8,
       "notices": 2,
@@ -85,6 +82,9 @@
       "interview": 1,
       "emotion": 6,
       "conversation": 2
+    },
+    "naturalness": {
+      "unknown": 59
     }
   },
   "gradedByBatch": {
@@ -137,6 +137,11 @@
     "restored-liked-lines": {
       "unknown": {
         "unknown": 17
+      }
+    },
+    "2026-11-10-nov8-playtest-rejected": {
+      "unknown": {
+        "unknown": 6
       }
     }
   }

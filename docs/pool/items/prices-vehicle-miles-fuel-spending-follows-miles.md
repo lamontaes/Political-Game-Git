@@ -8,15 +8,30 @@ size: S
 status: open
 claimed-by:
 pr:
+after:
 blocked-on:
+standard: 2
+lead: laws
+model: sonnet
+effort: low
+root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
-**What.** The price engine now scales the miles a household drives by the outcome web's factor on `traffic.vehicle-miles` where it charges a mileage fee, so the fee and the fuel tax refund follow the miles. The household's own spending on fuel does not read the same factor, so a law that moves driving changes the fee but not what the household spends at the pump. One chain should carry the miles to both.
+**What.** The price engine scales the miles a household drives by the outcome web's factor on `traffic.vehicle-miles` where it charges a mileage fee, so the fee and the fuel tax refund follow the miles. The household's own spending on fuel is meant to read the same factor, so a law that moves driving changes both the fee and what the household spends at the pump. The item says to check first which engine charges fuel today, and that check has not been completed, so the cause is not yet known.
 
-**Rules.** An effect is a read: the engine that pays reads the factor when it pays. One model, two tiers: counted households take the same rule times their count. No dice.
+**Cause.** Needs cause. Looked at src/core2/modules/place-prices.ts (the mileage fee reads the `traffic.vehicle-miles` factor, lines 112 to 117, 424 to 433 and 1222 to 1225) and src/core2/cost-of-living.ts (it does not read it); the engine that pays a household's pump spending was not found.
 
-**Done when.** The engine that charges a household for fuel reads the same miles factor as the mileage fee, and a played year of `buildBenchWorld` in a drawn place (seed named) shows a household's fuel payment changing with the factor, named by journal id, for a named household and a counted group alike.
+**Fix.** None until the cause is found.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** An effect is a read, not a record: the engine that pays reads the factor when it pays. One model, two tiers: counted households take the same rule times their count. No dice.
+
+**Done when.** A second session (not the builder) (or the finder) names the engine that charges a household for fuel in `buildBenchWorld` in a drawn place (place and seed named), by the journal record id of one fuel payment and the function that wrote it, and rewrites this item with that as its Cause and a Fix; or, if no engine charges fuel, says so by search and the item is rewritten as a build item.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/modules/place-prices.ts, src/core2/cost-of-living.ts
 

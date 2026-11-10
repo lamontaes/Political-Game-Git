@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,7 @@ source: director lead, found while testing #6300, Oct 27
 **Files.** src/director/office-scene-levels.test.ts
 
 **Notes.** Found while testing director-president-asks-within-powers; the failure does not touch the opening.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. The test file was deleted with the whole office scene in commit c67d0365f4 (Oct 28, "delete the dead office scene"), which removed `src/director/office-scene-levels.test.ts`, `office-scene.ts` and its data. Nothing on main reads OFFICE_SCENE_SEED, and neither file exists now. The office scene is replaced by the director's circumstance and purpose scenes (docs/design/director-on-core2.md).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

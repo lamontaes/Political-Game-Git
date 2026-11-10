@@ -11,15 +11,30 @@ pr: #5432
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+standard: 2
+model: opus
+effort: high
+root: design-one-model-two-tiers
+lead: lives
+checked: fable 2026-11-10
 ---
 
-**What.** The health module's death event moves the mood and stress of the dead person's witnesses, but witnesses are only people in the full-person table, and in the two-level world most of a person's kin are counted people or husks that carry no mood. A run of Biggersville, Mississippi (seed hb1) for 700 days had 13 deaths and not one bereaved full person, so the effect of a death is nearly absent in play. A counted group should be moved by a death the way a full person is, times its count, so the town's bereaved show the sourced trajectories (about two thirds show no lasting rise, Bonanno 2002).
+**What.** The health module's death event moves the mood and stress of the dead person's witnesses, but witnesses are only people in the full-person table, and in the two-level world most of a person's kin are counted people or husks that carry no mood. A run of Biggersville, Mississippi (seed hb1) for 700 days had 13 deaths and not one bereaved full person, so the effect of a death is nearly absent in play. A counted group should be moved by a death the way a full person is, times its count.
+
+**Cause.** Measured: Biggersville, Mississippi, seed hb1, 700 days: 13 deaths and no bereaved full person (the item). Code: src/core2/modules/health.ts line 1038 applies moodImpulse only to the dead person's witnesses in the full-person table.
+
+**Fix.** Move a counted household's members by the same bereavement rule as a full witness, times the count, and keep the reasons only for filled-in people. Report the share back at baseline 18 months on with scripts/health/bereavement-band.ts.
+
+**Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One model, two tiers: a counted group is read with the same rule as a full person, times its count. An effect is a read, not a record: another engine must read the mood a death writes. No dice: who is moved comes from the tie and the person's traits. The chain is the acceptance.
 
-**Done when.** In a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) scripts/health/bereavement-band.ts watches bereaved people in the dead's household and kin, counted ones included, and reports the share back within one mood spread of baseline at 18 months against the sourced 66.8 percent, with one chain by record id from a death to a named bereaved person's mood and the director's line.
+**Done when.** A second session runs a one-year played world (buildBenchWorld, a drawn place from all 56, seed named in the PR body) and sees, for a named death, the dead's household and kin including counted people moved in mood, with one chain by record id from the death to a named bereaved person's mood and the director's line. scripts/health/bereavement-band.ts reports the share back near baseline at 18 months beside the sourced 66.8 percent (Bonanno 2002); the figure is reported, not a pass mark.
 
-**Files.** src/core2/modules/health.ts,scripts/health/bereavement-band.ts
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/health.ts, scripts/health/bereavement-band.ts
 
 **Notes.** TODO
 

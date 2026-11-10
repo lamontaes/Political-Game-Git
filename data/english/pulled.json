@@ -1,25 +1,7 @@
 {
   "schema": "english-pulled/1",
-  "pulled": {
-    "opening-speech.story-says.polished-twn-prices-in-this-town-have-climbed-faster-than-they-should-and-families": [
-      "no-this-town"
-    ],
-    "opening-speech.story-says.polished-twn-prices-in-this-town-have-eased-since-this-term-began-and-the": [
-      "no-this-town"
-    ],
-    "scene-talk.state-ask.i-m-with-you-i-only-need-to-know-how-we-get-through-remaining-on-savings-that-la": [
-      "no-figures-people-would-not-know"
-    ],
-    "scene-talk.state-ask.say-it-plainly-savings-for-cushion-a-race-of-remaining-where-does-the-money-come": [
-      "no-figures-people-would-not-know"
-    ],
-    "scene-talk.state-ask.you-filed-and-we-have-cushion-saved-nobody-asked-me-what-the-next-remaining-woul": [
-      "no-figures-people-would-not-know"
-    ]
-  },
-  "waiting": {
-    "scene-talk.reply-agree.deal-yes": ["no-dangling-fragments"]
-  },
+  "pulled": {},
+  "waiting": {},
   "sample": {
     "conversation.charge-answer-refuse.i-m-not-going-to-talk-about-that": [
       "evasion-points-somewhere"
@@ -75,6 +57,24 @@
     ]
   },
   "noReplyFollows": {
+    "scene-talk.follow-answer.about-twenty-of-us-mostly-neighbors": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.sign-up-sheets-phone-calls-and-a-few-words-at-a-meeting-if-you-want": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.there-are-sign-up-sheets-and-calls-and-speaking-only-if-you-re-up-for-it": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.three-minutes-after-that-they-cut-you-off-anyway": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.twenty-or-so-mostly-folks-from-around-here": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-answer.you-d-get-three-minutes-they-stop-you-after-that": [
+      "join-cause/decline"
+    ],
     "scene-talk.follow-ask.then-why-vote-at-all": [
       "conflict-accuse.friend/deny",
       "conflict-accuse.hearsay/deny",
@@ -100,6 +100,20 @@
       "conflict-accuse/leave",
       "conflict-accuse/tell"
     ],
+    "scene-talk.follow-press.because-you-d-say-it-plainly-and-they-d-listen": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-press.it-s-only-two-pages-here-take-a-look": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-press.two-pages-and-i-have-them-right-here": [
+      "join-cause/decline"
+    ],
+    "scene-talk.follow-press.you-d-say-it-plainly-and-they-would-listen-to-you": [
+      "join-cause/decline"
+    ],
+    "scene-talk.reply-agree.count-me-in-tell-me-when": ["join-cause/thank"],
+    "scene-talk.reply-agree.i-m-with-you-tell-me-when": ["join-cause/thank"],
     "scene-talk.reply-confront.hearsay.you-took-somebody-s-word-over-mine": [
       "conflict-accuse.hearsay/confront"
     ],
@@ -133,5 +147,6 @@
     "scene-talk.reply-tell.witness.i-did-say-something-about-money-let-me-tell-you-the-whole-of-it": [
       "conflict-accuse.witness/ask"
     ]
-  }
+  },
+  "awaitingVerdict": {}
 }

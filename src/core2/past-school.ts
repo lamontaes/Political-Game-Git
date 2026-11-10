@@ -13,13 +13,15 @@ import {
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
 import {
+  ownWindowOf,
   preStartHistory,
-  preStartWindowOf,
   recordPreStartLater,
+  wholePastOnce,
   type HistoryRecord,
   type HistoryWriter,
   type PreStartWindow,
 } from "./pre-start";
+import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
 import { hasModuleState } from "./module-state";
 import { coreAPI } from "./state";
@@ -69,7 +71,7 @@ export function schoolName(
   return name;
 }
 
-export const SCHOOL_STARTED = "school.started";
+export const SCHOOL_STARTED = ownPastKind("school.started");
 /**
  * The years after kindergarten each stage starts, from the parameter table
  * (ESTIMATED from the CPS October 2024 modal ages by grade).
@@ -172,23 +174,29 @@ export function schoolHistory(
     history.record(row);
 }
 
-/** The school years of people filled in after the run, by the same rule. */
+/**
+ * A person's school years over their own life, once (the owner's ruling,
+ * Nov 9, 2026): the same rule as the run, over the window from their birth.
+ * A full person's clipped records are restated, not kept beside it.
+ */
 export function schoolHistoryFor(
   core: CoreState,
   people: readonly Readonly<PersonState>[],
 ): void {
-  const window = preStartWindowOf(core);
-  if (!window) return;
-  const fresh = people.filter(
-    (person) =>
-      !preStartHistory(core, { kind: SCHOOL_STARTED, personId: person.id })
-        .length,
-  );
-  recordPreStartLater(
-    core,
-    SCHOOL_MODULE_ID,
-    schoolRecords(core, fresh, window),
-  );
+  for (const person of people) {
+    const window = ownWindowOf(core, person);
+    if (!window || !wholePastOnce(core, person.id, "school")) continue;
+    const held = preStartHistory(core, {
+      kind: SCHOOL_STARTED,
+      personId: person.id,
+    }).map((row) => row.id);
+    recordPreStartLater(
+      core,
+      SCHOOL_MODULE_ID,
+      schoolRecords(core, [person], window),
+      { person: person.id, drop: held },
+    );
+  }
 }
 
 /** A school a person attended: where, from when, at what stage, by its record. */

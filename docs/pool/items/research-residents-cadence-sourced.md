@@ -11,15 +11,30 @@ pr: #5796
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+standard: 2
+model: sonnet
+effort: high
+root: none
+lead: researcher
+after:
+checked: fable 2026-11-10
 ---
 
-**What.** Split from research-residents-sourced-parameters. SG-CORE-residents-cadence in src/core2/residents.ts: the wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays; counted workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). Source what the replacement will read: the counts' pay dates and income, and absence and turnover rates by industry from BLS JOLTS and CPS (BLS is not reachable from cloud sessions, so use a reachable publisher or mark the row ESTIMATED with its source). Where the replacement is a mechanic, source what it reads and leave the mechanic to the people builder, naming the pool item.
+**What.** SG-CORE-residents-cadence in src/core2/residents.ts says the wider population's purchases are merged per seller, kind and week of the month and paid monthly instead of after each household's own paydays, and that counted workers always work their full schedule and are paid on the employer's cadence (semimonthly approximated as two monthly dates). The bounded slice that landed delivered the sourced JOLTS and CPS reference tables, explicit across-industry ranges, a weighted turnover report (src/core2/turnover-check.ts) and event-time and fill-in regressions. What is left is a comparable CPS absence report and the pay-date rows: the attendance diagnostic counts job-weeks with any missed work segment, while CPS Table 47 selects full-time wage-and-salary workers, their main jobs, hours below 35 and specified reasons, excluding vacation and holidays, so the diagnostic does not prove a calibration gap. BLS is not reachable from cloud sessions, so use a reachable publisher or mark the row ESTIMATED with its source.
 
-**Rules.** Research before building: real data checks the simulation and never decides an outcome by itself. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Follow .agents/skills/researcher/SKILL.md.
+**Cause.** Found in code: `RESIDENTS_STOPGAP` (SG-CORE-residents-cadence, line 49) is still registered in src/core2/residents.ts, and src/core2/turnover-check.ts has `absenceRate` reading the CPS share of full-time workers absent in a survey week, but no played-year absence report is comparable with CPS Table 47. An earlier turnover check reweighted past events from current representation (Niceville, Florida, place 1248750, seed 118d0e8a347d62a772645a1341bcffcd88ba3e3e064306cc90a3bacbb8590f7a); the event-time fix landed.
 
-**Done when.** Each row is SOURCED or ESTIMATED in the parameter table with a citation and a spread; SG-CORE-residents-cadence is resolved or its remaining mechanic is named in a pool item with the sourced rows it reads; the research-data-reader guard, tripwire and calibration-guard tests pass; a one-year played world (buildBenchWorld, a drawn place, seed named) reports each band and where the town landed. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Fix.** Source the pay-date rows, build the CPS-comparable absence report (full-time wage-and-salary workers, main jobs, hours below 35, specified reasons, vacation and holidays excluded) over a played year, keep event-time quantity (never current representation) in the turnover check with a weighted-world regression, and resolve or narrow SG-CORE-residents-cadence, naming a people-builder item for any mechanic left.
 
-**Files.** src/core2/residents.ts,src/core2/data/parameters.json,src/core2/data/stopgaps.json,data/research/people/
+**Time box.** 6 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note and stop.
+
+**Rules.** Research before building: real data checks the simulation and never decides an outcome by itself. Estimate, never UNKNOWN: a value the source lacks for a place starts from the real average with a per-world spread, marked ESTIMATED with its source, never shown to the player. One rule, all 56 places: a figure that varies by place is a per-place table in data, never a state named in logic. Follow .agents/skills/researcher/SKILL.md. No dice: absence and turnover come from the schedule, the employer and the person's record, never a rate drawn for one worker. One model, two tiers: a counted group is read with the same rule as a full person, times its count.
+
+**Done when.** A second session runs a one-year played world (buildBenchWorld, a drawn place, seed named in the PR) and reads the CPS-comparable absence report beside the CPS figure, with the real figure reported and not a pass mark, and finds each row SOURCED or ESTIMATED in the parameter table with a citation and a spread. SG-CORE-residents-cadence is resolved or its remaining mechanic is named in a pool item with the sourced rows it reads. The research-data-reader guard, tripwire and calibration-guard tests pass, and the weighted-world regression in src/core2 holds event-time quantity.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/residents.ts, src/core2/turnover-check.ts, data/research/people/jolts-cps-turnover-absence-2025.json, src/core2/data/parameters.json, src/core2/data/stopgaps/core.json
 
 **Notes.** TODO
 

@@ -4,7 +4,7 @@ title: "Stopgaps in counted-money (faked-mechanic): 1 open"
 area: world
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,7 @@ claimed-at:
 **Original notes.** First row: Money an engine pays to or takes from a place's counted residents as a whole (an owner's draw to owners who are counted, a pooled property tax bill, a price change on counted households, money left in the place's residen
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-19). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into world-counted-return-and-withdrawal-keyed. Its own Notes split the work into three items: world-counted-unemployment-unplaced-keyed and world-counted-law-payouts-keyed are done, and world-counted-return-and-withdrawal-keyed (open) covers the last unkeyed sources. The kept item should close SG-CORE-counted-unkeyed-money (src/core2/data/stopgaps/core.json, still open; `UNKEYED_STOPGAP` in src/core2/counted-money.ts) when it lands. This item's test file src/core2/counted-money.test.ts is gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `world-counted-return-and-withdrawal-keyed`, which carries this item's remaining work.

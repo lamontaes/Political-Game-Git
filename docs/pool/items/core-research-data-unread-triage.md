@@ -6,20 +6,35 @@ kind: wiring
 priority: 3
 size: M
 status: open
+standard: 2
 claimed-by:
 pr: #5076
+after:
 blocked-on:
+model: sonnet
+effort: low
+root: none
+lead: researcher
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** `scripts/audit/research-data-unread-baseline.json` names 370 files under `data/research` that no code in `src/` or `scripts/` reads. The research data guard used to count the bare folder name `data/research/` as a read of every file, which hid them; the guard now counts only real reads and holds these 370 on a list that may only shrink. Go through them folder by folder: wire each file to the engine that should read it, list it as raw source with a one-line reason, or move it to the waiting list with its engine and owner. Take each file off the baseline as it is settled.
+**What.** The 370-file baseline scripts/audit/research-data-unread-baseline.json is gone; the research data guard now counts only real reads, and scripts/audit/research-data-allowlist.json records 38 files under data/research in `unreadFound` with no reader (housing 7, laws/local-starting-law 11, macro/series 7, regional/series 2, renewal 2, and one each in six other folders, 14 folders in all). Go through them folder by folder: wire each file to the engine that should read it, list it as raw source with a one-line reason, or move it to the waiting list with its engine and owner. Take each file off `unreadFound` as it is settled.
+
+**Cause.** Found in code: scripts/audit/research-data-allowlist.json `unreadFound` lists 38 files under data/research with no reader, checked by tests/guards/research-data-has-reader.test.ts.
+
+**Fix.** For each of the 14 folders in `unreadFound`: wire the file to its engine (naming the reader by file and line), or move it to `rawSource` or `awaitingReader` with a reason, and shrink the list.
+
+**Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** An effect is a read, not a record: a research file with no reader is an unregistered placeholder until wired or classified. Research before building: real data checks totals and never decides one actor's outcome. One rule, all 56 places: per-place research files are read by one data path, not named in code.
 
-**Done when.** The baseline holds fewer than 370 files; every file removed from it has a named reader (file and line) or an entry in `research-data-allowlist.json` with a reason, and `tests/guards/research-data-has-reader.test.ts` passes.
+**Done when.** A second session, not the builder, runs tests/guards/research-data-has-reader.test.ts and it passes with `unreadFound` shorter than 38 files; each file removed from it has a named reader (file and line) or an entry in `rawSource` or `awaitingReader` with a reason. For each file wired to an engine, the second session loads a drawn place in the played world and shows the engine reading it by record id.
 
-**Files.** scripts/audit/research-data-unread-baseline.json, scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts, data/research/
+**Waits on.** Nothing.
+
+**Files.** scripts/audit/research-data-allowlist.json, tests/guards/research-data-has-reader.test.ts, data/research
 
 **Notes.** From PR 4681 (tests-research-data-reader-allowlist-red). The largest groups: core-figures/P0-12 declarations (56 files, one per place), roadmap-r* research outputs, business roadmap-r8 tables. Take one folder per session.
 
