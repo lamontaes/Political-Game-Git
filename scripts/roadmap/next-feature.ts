@@ -9,7 +9,7 @@
 import { readdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { parseFrontMatter } from "../pool/index";
+import { gateOpen, parseFrontMatter } from "../pool/index";
 
 /** Statuses of an item someone can still take or is working on. */
 const LIVE = new Set(["open", "claimed", "in-pr", "blocked"]);
@@ -71,7 +71,7 @@ export function carriers(
 
 /**
  * The items a session may claim, by the pool's own rule (`pool claim`): open,
- * and every item it waits on (`after:`) done.
+ * and every item it waits on (`after:`) merged or done.
  */
 export function claimable(
   carried: readonly Carrier[],
@@ -81,8 +81,7 @@ export function claimable(
     items.map((i) => [i.id, parseFrontMatter(i.text)?.status ?? ""]),
   );
   return carried.filter(
-    (c) =>
-      c.status === "open" && c.after.every((a) => status.get(a) === "done"),
+    (c) => c.status === "open" && c.after.every((a) => gateOpen(status.get(a))),
   );
 }
 

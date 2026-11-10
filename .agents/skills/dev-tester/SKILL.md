@@ -9,6 +9,10 @@ Scripts live in `scripts/dev-tests/` (`law-run.ts`, `twin.ts`, `bodies.ts`, `bri
 
 ## Method
 
+- **Who a law reached is one read.** `lawReach(api, lawRowId, townPlaceId)` in `src/core2/law-reach/applied.ts` reads every store that records a law applied to someone (the applied table, both law-reach stores, the wage raises) and returns full people in town and elsewhere, counted people, organizations, governments and dollars by engine. Dev mode's bill card and `law-run.ts` both call it. Never count the records that cite a law: on Nov 9 that count was the 175 members who voted.
+- **A forced bill says how it ended.** `billEnding(api, billId)` (legislature) names a chair's hold, a lost committee or floor vote, the Senate short of cloture, a veto or a session's end; `decideAt` returns it with `addedSections`, the sections a trade put on the bill. Discard a run whose `addedSections` is above zero, or name the rider.
+- **The money check is in dev mode.** `DevMode.twinMoney()` builds the same world left alone and sums cash by holder in both; use it in place of comparing people's and organizations' cash by hand.
+
 - **Pass a law the game's way:** `draftBill` at the body that has the power, `castMemberVote` yes for every member of every chamber (`chambersOf`), the executive's signature recorded first with `executiveDecision(api, billId, true)` (without it the executive's own stance vetoes), then `holdVote`. Dev mode's `decideAt` does the same, but it forces floor votes only: a state or federal bill can still die in a committee (`bill-failed stage "committee"`). Test city and county bodies, which have no committee, and redraw places until a state bill enacts.
 - **Run to the law's own date.** A passed bill takes effect on the state's rule, often the next July 1 or 30 days on. Read the law after its effective date plus the research lag, never the day it passes.
 - **Count by ids, not facts.** A printed story's id is `printed:<outlet>:law-took-effect:<law row id>` and `news.read` cites the story id. Counting records whose facts mention the law row id missed every story and wrongly reported "nobody heard" (Prairie Village KS, Nov 8).

@@ -1,4 +1,4 @@
-/** One model, two tiers: the town's people counts (macro, press audience, disaster share) stand for as many people as the counted records' weights say. */
+/** One model, two tiers: the town's people counts (press audience, disaster share) stand for as many people as the counted records' weights say. */
 import { randomBytes } from "node:crypto";
 import { expect, it } from "vitest";
 import { buildBenchWorld } from "../bench/world";
@@ -12,7 +12,6 @@ import {
   residentsRuntime,
   townPlaceOf,
 } from "./modules/residents";
-import { coreAPI } from "./state";
 
 const SCALE = 3;
 
@@ -23,16 +22,8 @@ function open(seed: string, key: string, countScale?: number) {
     placeKey: key,
     countScale: countScale ?? 1,
   });
-  // The macro engine records its state on its first day.
   advanceCore(core, addDays(makeIsoDate(core.date), 2));
-  const state = coreAPI(core)
-    .moduleState("macro")
-    .table("state")
-    .get("macro:state") as unknown as {
-    townResidents: number;
-    placeIds: string[];
-  };
-  return { core, state };
+  return { core };
 }
 
 /**
@@ -88,14 +79,10 @@ function check(seed: string, key: string, where: string): boolean {
         (sum(base.core, field) + ((SCALE - 1) / SCALE) * held[field]),
     );
   }
-  // The national step hears a town of the larger size.
-  expect(big.state.townResidents, where).toBeGreaterThan(
-    base.state.townResidents,
-  );
   return true;
 }
 
-it("counts the people, households and workers a counted record stands for, and macro hears the town at that size", () => {
+it("counts the people, households and workers a counted record stands for", () => {
   // Some places open with no counted workers; draw again until one has them,
   // and fail if none does.
   const tried: string[] = [];

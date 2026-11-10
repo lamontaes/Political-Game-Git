@@ -315,6 +315,18 @@ function isCounted(api: CoreAPI, personId: string): boolean {
   return !person || isDemoted(person);
 }
 
+/**
+ * Someone the counts no longer hold and who is not a full person: they died
+ * or moved away with their counted household. A full person returned to the
+ * counts keeps their record, so the record alone does not mean they are here
+ * (Montpelier, Vermont, seed mont1: a returned household moved away in March
+ * 2027 and its member was hired in April, and the press later tried to fill
+ * in a worker no longer in the counts).
+ */
+function goneFromCounts(api: CoreAPI, personId: string): boolean {
+  return isCounted(api, personId) && !residentFacts(core(api), personId);
+}
+
 function definition(kind: Kind): ActionDefinition {
   const row = jobsData.actions[kind];
   return {
@@ -2133,6 +2145,11 @@ function reviewRegionalFinds(api: CoreAPI): void {
       .table(table)
       .query("all", [true]) as unknown as SeekerRow[]) {
       if (seeker.employed) continue;
+      // A counted seeker who died or moved away with their household finds no work here.
+      if (table === "countedSeekers" && goneFromCounts(api, seeker.personId)) {
+        store(api).table("countedSeekers").remove(seeker.personId);
+        continue;
+      }
       const person = c.people.get(seeker.personId);
       // A seeker returned to the counts goes on as a counted seeker, keeping their progress (matching may find no opening for a long while to move them).
       if (person && isDemoted(person) && table === "seekers") {
@@ -3143,7 +3160,7 @@ function runWeek(api: CoreAPI): void {
   for (const seeker of counted) {
     if (inCustody(api, seeker.personId)) continue;
     // A seeker who died or moved away with their household is no one to hire.
-    if (!c.people.has(seeker.personId) && !residentFacts(c, seeker.personId)) {
+    if (goneFromCounts(api, seeker.personId)) {
       store(api).table("countedSeekers").remove(seeker.personId);
       continue;
     }
@@ -5054,3 +5071,4 @@ export function registerEmployer(
 export { residentEmploymentRate } from "../opening-employment";
 export { countySectorEmployment } from "../town-employment-mix";
 export { nationalMedianAnnualWage } from "../town-pay";
+export { workedToday } from "../job-lifecycle";

@@ -13,7 +13,7 @@ import {
   type Experiment,
   type LawLevel,
 } from "./dev-mode";
-import { traceNode, traceReport } from "./dev-trace";
+import { traceReport } from "./dev-trace";
 import { compareProofs, recordProof, type RecordProof } from "./dev-proof";
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -140,6 +140,12 @@ export async function handleDev(
     }
     case "GET reach":
       send(200, mode.reach(q("lawId")));
+      return true;
+    case "GET bill-outcome":
+      send(200, mode.billOutcome(q("billId")));
+      return true;
+    case "POST twin-money":
+      send(200, mode.twinMoney());
       return true;
     case "GET people":
       send(
@@ -344,6 +350,16 @@ export async function handleDev(
       );
       return true;
     }
+    case "POST outlook": {
+      const input = await body(request);
+      send(
+        200,
+        mode.outlook({
+          years: input.years === undefined ? undefined : Number(input.years),
+        }),
+      );
+      return true;
+    }
     case "POST run-until": {
       const input = await body(request);
       send(
@@ -358,6 +374,9 @@ export async function handleDev(
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,
+          where: input.where === "anywhere" ? "anywhere" : "mine",
+          subject:
+            typeof input.subject === "string" ? input.subject : undefined,
         }),
       );
       return true;
@@ -399,11 +418,10 @@ export async function handleDev(
       });
       return true;
     }
+    // One trace under both names: the record, its answer and the records behind it.
     case "GET trace":
-      send(200, mode.trace(q("id")));
-      return true;
     case "GET trace/node":
-      send(200, traceNode(core, mode.director, q("id")));
+      send(200, mode.trace(q("id")));
       return true;
     case "POST trace/report": {
       const input = await body(request);
@@ -444,10 +462,7 @@ export async function handleDev(
         // The first difference opens in the trace; the rest open on click by firstId.
         differences: differences.map((row, i) => ({
           ...row,
-          trace:
-            i === 0 && row.firstId
-              ? traceNode(core, mode.director, row.firstId)
-              : undefined,
+          trace: i === 0 && row.firstId ? mode.trace(row.firstId) : undefined,
         })),
       });
       return true;
