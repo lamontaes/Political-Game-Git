@@ -17,6 +17,7 @@ import {
   worldCoreData,
 } from "../core2/modules/world";
 import { openLaws } from "../core2/modules/laws";
+import { openStartingCircle } from "../core2/modules/people";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
@@ -30,6 +31,7 @@ import { openCrime } from "../core2/modules/crime";
 import { openPatrol } from "../core2/modules/police-patrol";
 import { openCoverage } from "../core2/modules/coverage";
 import { openHomelessCount } from "../core2/modules/homeless-count";
+import { openGrievance } from "../core2/modules/people";
 import { openEstates } from "../core2/estates";
 import { openEmployerTaxes } from "../core2/modules/employer-taxes";
 import { openContracts } from "../core2/modules/contracts";
@@ -534,6 +536,8 @@ function* benchWorldStages(
   // Officials are paid from the treasuries budgets just opened (OPUS-CORE).
   openOfficialPay(core);
   openHomelessCount(core);
+  // Disputes between two people from the layoffs and evictions above.
+  openGrievance(core);
   // Crimes that happen to households, from the national rates and the web's factors (OPUS-CORE).
   openCrime(core);
   // The hours the police line pays its staff, a row per place and month.
@@ -597,6 +601,8 @@ function* benchWorldStages(
   const preStart = defaultPreStart(core);
   if (preStart)
     runPreStart(core, preStartWindow(core, preStart.from, preStart.step));
+  // The people the player starts out knowing have their whole past at the opening.
+  openStartingCircle(core);
   // Sessions already sitting take up their work at the opening, so their bills are filed on day one.
   openSittingSessions(core);
   // Last, so everyone the opening seated has a health coverage record on day one

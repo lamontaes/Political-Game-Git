@@ -34,3 +34,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/candidacy.ts, src/core2/modules/voting.ts, scripts/dev-tests/zero-general.ts
 
 **Notes.** Elections, Nov 8: probe `scripts/dev-tests/zero-general.ts <seed> 2` prints every filing's party and status on a one-name ballot.
+
+**Notes (Fable, Nov 10, one more place).** Machias, Washington (5341470, `GOLDEN_PATH_SEED=c3 npx vitest run src/core2/two-level-elections.test.ts`): the U.S. House seat and both state House seats on November 3, 2026 have one Democrat and one or two runners with no party, and no Republican, because a district race's field is only the town's own runners.

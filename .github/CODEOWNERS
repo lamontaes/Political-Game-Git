@@ -279,6 +279,7 @@
 /src/core2/modules/mentorship.ts @lamontaes
 /src/core2/modules/rescue.ts @lamontaes
 /src/core2/modules/quarrel.ts @lamontaes
+/src/core2/modules/grievance.ts @lamontaes
 /src/core2/modules/public-action.ts @lamontaes
 /src/core2/husk-promoters.ts @lamontaes
 /src/core2/opening-ties.ts @lamontaes
@@ -288,6 +289,7 @@
 /src/core2/past.ts @lamontaes
 /src/core2/past-*.ts @lamontaes
 /src/core2/deep-past.ts @lamontaes
+/src/core2/own-past-kinds.ts @lamontaes
 /src/core2/pre-start.ts @lamontaes
 /src/core2/shared-history.ts @lamontaes
 

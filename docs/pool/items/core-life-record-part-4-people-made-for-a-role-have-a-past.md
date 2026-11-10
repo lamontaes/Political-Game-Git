@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session, on main in a drawn place it names with its seed, opens the card of the town paper's owner or the state's election chief: it has at least four sentences, one of them work before the role, and reads the same when opened again.
 
-**Waits on.** Pull requests 8115 and 8123 on main.
+**Waits on.** Nothing. The life record's three steps it waited on are on main (pull requests #8115 and #8139, which holds #8123).
 
 **Files.** src/core2/person-life.ts (new), src/core2/past-work.ts, src/core2/data/stopgaps/people.json

@@ -1903,6 +1903,8 @@ export function layOff(
     facts: {
       decidedBy: decidedBy ?? organizationId,
       organizationId,
+      // The change record this layoff wrote, for the grievance it causes.
+      jobChangeId: `job-change:${api.state.date}:${job.id}:layoff`,
       ...(full ? {} : { "counted-subject": job.personId }),
     },
   };

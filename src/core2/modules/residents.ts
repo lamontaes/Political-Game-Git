@@ -108,6 +108,8 @@ export const DAYS_PER_YEAR = 365;
 
 /** Whether a person was returned to the counts (counted-groups.ts); screens and tools read it here. */
 export { isDemoted } from "../counted-groups";
+// The counted jobs of an employer, for engines outside this family (the patrol-hours record).
+export { countedJobHeads, countedJobsOf };
 
 export const RESIDENTS_MODULE_ID = "core2-residents-v1";
 // Outside buyers pay first, so a day's receipts can meet that day's payroll.

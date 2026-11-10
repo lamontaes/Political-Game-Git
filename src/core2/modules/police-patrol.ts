@@ -24,7 +24,7 @@ import {
   treasuryParameter,
 } from "../budgets-treasury";
 import { BUDGETS_MODULE_ID, type GovernmentRow } from "./budgets";
-import { countedJobHeads, countedJobsOf } from "../residents-economy";
+import { countedJobHeads, countedJobsOf } from "./residents";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreModule, CoreState } from "../types";
 
