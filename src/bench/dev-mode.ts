@@ -26,18 +26,21 @@ import {
   lawInForce,
   LAWS_MODULE_ID,
 } from "../core2/modules/laws";
-import { inForceOn, LAW_SERIES } from "../core2/laws-in-force";
+import { inForceOn, inTownChain, LAW_SERIES } from "../core2/laws-in-force";
 import type { LawRowInput } from "../core2/laws-starting";
 import { POLICY_QUESTIONS } from "../core2/policy-answers";
 import { POLICIES as REACH_A_POLICIES } from "../core2/law-reach/group-a-records";
 import { GROUP_B_KEYS } from "../core2/law-reach/group-b";
 import { jobsAt } from "../core2/law-reach/group-b-money";
+import { lawReach } from "../core2/law-reach/applied";
 import {
   PUBLIC_EMPLOYER_CLASSES,
   PUBLIC_PAY_FLOOR,
   PUBLIC_PAY_FLOOR_UNIT,
 } from "../core2/public-pay-floor";
 import {
+  billEnding,
+  billJurisdiction,
   bodyOf,
   bodyRow,
   castMemberVote,
@@ -55,6 +58,7 @@ import {
   FEDERAL_SENATE,
   holdVote,
   learnStake,
+  sectionsAddedTo,
   type BillRow,
   type Provision,
   LEGISLATURE_MODULE_ID,
@@ -62,8 +66,11 @@ import {
   members,
   memberKey,
 } from "../core2/modules/legislature";
-import { OFFICES_MODULE_ID } from "../core2/modules/offices";
-import { playerContests } from "../core2/modules/elections";
+import { isOutsideOffice, OFFICES_MODULE_ID } from "../core2/modules/offices";
+import {
+  ELECTIONS_MODULE_ID,
+  playerContests,
+} from "../core2/modules/elections";
 import {
   campaignFor,
   castVolunteer,
@@ -72,7 +79,7 @@ import {
 import { campaignDay, campaignView } from "./campaign";
 import { metricsPanel } from "../core2/modules/world-panels";
 import { nationalPanel } from "../core2/modules/macro";
-import { residentsRuntime } from "../core2/modules/residents";
+import { isDemoted, residentsRuntime } from "../core2/modules/residents";
 import { layOffWorker } from "../core2/modules/jobs";
 import {
   beginSeriousIllness,
@@ -82,6 +89,7 @@ import {
 import { snapshotExplicitControlV1 } from "../core2/player-control-state-v1";
 import type { CoreAPI, CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
+import { buildBenchWorld, buildRecipeOf } from "./world";
 import type { BenchPlayer } from "./player";
 import { budgetView } from "./budget";
 import { decisionPanels, type WhyPanel } from "./dev-why";
@@ -202,6 +210,86 @@ function inPlayersCircle(core: CoreState, personId: string): boolean {
 }
 // A screen length, not a model value.
 const BODIES_SHOWN = 30;
+// The holders the money check lists (a list length, not a model value).
+const TWIN_HOLDERS = 40;
+/** Who holds cash, in the order the money check shows them. */
+const CASH_CLASSES = [
+  "player-household",
+  "people-in-town",
+  "people-elsewhere",
+  "people-returned-to-counts",
+  "counted-in-town",
+  "counted-elsewhere",
+  "businesses",
+  "banks",
+  "governments",
+  "public-employers",
+  "other-organizations",
+] as const;
+/** The same order, for sorting rows whose class is read from a map's keys. */
+const CLASS_ORDER: readonly string[] = CASH_CLASSES;
+
+/**
+ * Every dollar of cash in a world by who holds it: each person and each
+ * organization once, by the balance the core keeps for them. Counted
+ * households' money is their place's residents account (their group funds
+ * are its accounts).
+ */
+function cashByHolder(core: CoreState, town: string) {
+  const classes = new Map<string, number>();
+  const holders = new Map<
+    string,
+    { name: string; class: string; minor: number }
+  >();
+  const add = (id: string, name: string, kind: string, minor: number) => {
+    classes.set(kind, (classes.get(kind) ?? 0) + minor);
+    holders.set(id, { name, class: kind, minor });
+  };
+  const player = core.playerId ? core.people.get(core.playerId) : undefined;
+  const household = new Set(
+    player ? (core.households.get(player.householdId)?.memberIds ?? []) : [],
+  );
+  for (const person of core.people.values())
+    add(
+      person.id,
+      `${person.givenName} ${person.familyName}`,
+      household.has(person.id)
+        ? "player-household"
+        : isDemoted(person)
+          ? "people-returned-to-counts"
+          : person.placeId === town
+            ? "people-in-town"
+            : "people-elsewhere",
+      person.liquidMinor,
+    );
+  for (const org of core.organizations.values()) {
+    const government =
+      (org as { governmentFacts?: unknown }).governmentFacts !== undefined;
+    add(
+      org.id,
+      org.name,
+      org.kind === "residents"
+        ? org.placeId === town
+          ? "counted-in-town"
+          : "counted-elsewhere"
+        : org.kind === "government-treasury" ||
+            org.kind === "public-institution"
+          ? "governments"
+          : org.kind === "bank"
+            ? "banks"
+            : org.kind === "employer" || org.kind === "media"
+              ? government
+                ? "public-employers"
+                : "businesses"
+              : "other-organizations",
+      org.liquidMinor,
+    );
+  }
+  return { classes, holders };
+}
+
+// The people a reach names on a screen (a list length, not a model value).
+const REACH_NAMED = 40;
 
 /** A person's health case, if the health engine has one for them. */
 function healthCase(core: CoreState, personId: string) {
@@ -277,6 +365,12 @@ function levelRow(rows: readonly LawRowInput[], date: string) {
     latest(live.filter((row) => row.tier === "general")) ??
     latest(live)
   );
+}
+
+/** Money in a law is whole cents: a wage floor of 1001 is $10.01 an hour, and 10.01 is not an amount. */
+function wholeMoney(unit: string | undefined, value: number): void {
+  if (unit?.startsWith("minor") && !Number.isSafeInteger(value))
+    throw new Error("An amount of money in a law is in whole cents.");
 }
 
 export class DevMode {
@@ -483,6 +577,7 @@ export class DevMode {
           .query("bySeriesOnly", [input.series]) as unknown as LawRowInput[]
       ).find((row) => row.unit)?.unit ??
       (input.series === PUBLIC_PAY_FLOOR ? PUBLIC_PAY_FLOOR_UNIT : undefined);
+    wholeMoney(unit, value);
     const measureId = `${DEV_MODE}-${this.sequence + 1}`;
     const row = enactLaw(api, {
       jurisdiction: level.jurisdiction,
@@ -510,34 +605,176 @@ export class DevMode {
   }
 
   /**
-   * Who a law reached: the law-reach and raise records naming it.
-   * stopgapId: SG-PLAY-dev-law-reach-full-only
+   * Who a law reached: the core's one reader over every store that records a
+   * law applied to someone (`lawReach`, law-reach/applied.ts), with the names of
+   * the full people it reached, the most money first. It reads only.
    */
   reach(lawId: string) {
-    const people = new Set<string>();
-    let records = 0;
-    let counted = 0;
-    for (const moduleId of [
-      LAWS_MODULE_ID,
-      "core2-law-reach-a-v1",
-      "core2-law-reach-b-v1",
-    ]) {
-      if (!has(this.core, moduleId)) continue;
-      const tables = this.api.moduleState(moduleId).snapshot().tables;
-      for (const rows of Object.values(tables))
-        for (const row of rows as readonly Readonly<
-          Record<string, unknown>
-        >[]) {
-          if (row.lawId !== lawId) continue;
-          records += 1;
-          // A record naming someone still in the counts reaches a counted person.
-          if (typeof row.personId === "string")
-            if (this.core.people.has(row.personId)) people.add(row.personId);
-            else counted += 1;
-          if (typeof row.counted === "number") counted += row.counted;
-        }
-    }
-    return { lawId, records, fullPeople: people.size, counted };
+    const { people, ...reach } = lawReach(this.api, lawId, this.townId());
+    return {
+      ...reach,
+      /** The first of the full people it named; a screen lists these. */
+      named: people.slice(0, REACH_NAMED).map((row) => {
+        const person = this.core.people.get(row.personId)!;
+        return { ...row, name: `${person.givenName} ${person.familyName}` };
+      }),
+    };
+  }
+
+  /**
+   * A bill's whole account for a check: how it ended and why (the legislature's
+   * own `billEnding`), the sections a trade added to it, and each law row it
+   * made with the reach of that row. Reads only.
+   */
+  billOutcome(billId: string) {
+    const api = this.api;
+    const bill = api
+      .moduleState(LEGISLATURE_MODULE_ID)
+      .table("bills")
+      .get(billId) as unknown as BillRow | undefined;
+    if (!bill) throw new Error("No such bill.");
+    const laws = has(this.core, LAWS_MODULE_ID)
+      ? (
+          api
+            .moduleState(LAWS_MODULE_ID)
+            .table("laws")
+            .rows() as unknown as LawRowInput[]
+        ).filter((row) =>
+          // The bill's own id where the law row keeps it; else the body's designation.
+          row.terms?.enactedByBill !== undefined
+            ? row.terms.enactedByBill === bill.id
+            : row.terms?.enactedBy === bill.number &&
+              row.effectiveDate >= bill.introduced,
+        )
+      : [];
+    const ending = billEnding(api, bill.id);
+    const nameOf = (id: string) => {
+      const person = this.core.people.get(id);
+      return person ? `${person.givenName} ${person.familyName}` : "";
+    };
+    return {
+      bill: { id: bill.id, number: bill.number, status: bill.status },
+      ending,
+      /** The names a screen needs beside the ending's ids: the chamber's own name and the chair's. */
+      endingNames: {
+        chamber:
+          "chamber" in ending
+            ? (bodyOf(api, ending.chamber)?.bodyName ?? "")
+            : "",
+        chair: "chairId" in ending ? nameOf(ending.chairId) : "",
+      },
+      addedSections: sectionsAddedTo(bill),
+      sections: bill.provisions.length,
+      laws: laws.map((row) => ({
+        id: row.id,
+        series: row.series,
+        level: row.level,
+        jurisdiction: row.jurisdiction,
+        value: row.value,
+        unit: row.unit ?? "",
+        effectiveDate: row.effectiveDate,
+        inForce: row.effectiveDate <= this.core.date,
+        reach: this.reach(row.id),
+      })),
+    };
+  }
+
+  /**
+   * The money check: this world against the same world left alone. Builds the
+   * twin from this world's own recipe (seed, place, start date, the choices
+   * of the New game screen), runs it to today with nobody played and nothing
+   * changed, and adds up the cash in both by who holds it: the player's
+   * household, full people in the town and elsewhere, the counted households
+   * of each place, businesses, each government's treasury, and everything
+   * outside the books (what the rest sums to, with its sign turned). The
+   * difference is what was done in this world: the laws dev mode passed and
+   * whatever the player did. It also names the holders whose cash moved most.
+   * This is how the Fable audit followed every law's dollars (Nov 9, 2026);
+   * it is here so a second session can run the same check from the game.
+   * Run the world with dev mode's Run, not Day and Week, so the only
+   * difference is the change being checked. Read-only for this world; the
+   * twin is built, read and dropped.
+   */
+  twinMoney() {
+    const recipe = buildRecipeOf(this.core);
+    if (!recipe)
+      throw new Error(
+        "This world was not built in this session, so it has no recipe to build a twin from.",
+      );
+    const started = Date.now();
+    const twin = buildBenchWorld(recipe.seed, recipe.date, recipe.options).core;
+    if (twin.date < this.core.date)
+      advanceCore(twin, makeIsoDate(this.core.date));
+    const here = cashByHolder(this.core, this.townId());
+    const there = cashByHolder(
+      twin,
+      has(twin, LAWS_MODULE_ID) ? lawChain(coreAPI(twin)).townPlaceId : "",
+    );
+    const keys = [
+      ...new Set([...here.classes.keys(), ...there.classes.keys()]),
+    ];
+    const classes = keys
+      .map((key) => {
+        const hereMinor = here.classes.get(key) ?? 0;
+        const twinMinor = there.classes.get(key) ?? 0;
+        return { key, hereMinor, twinMinor, diffMinor: hereMinor - twinMinor };
+      })
+      .sort((a, b) => CLASS_ORDER.indexOf(a.key) - CLASS_ORDER.indexOf(b.key));
+    // Money that left every book in the world went outside it; the difference in what is left is its mirror.
+    const inside = classes.reduce((sum, row) => sum + row.diffMinor, 0);
+    const holderIds = new Set([
+      ...here.holders.keys(),
+      ...there.holders.keys(),
+    ]);
+    const holders = [...holderIds]
+      .map((id) => {
+        const a = here.holders.get(id);
+        const b = there.holders.get(id);
+        return {
+          id,
+          name: (a ?? b)!.name,
+          class: (a ?? b)!.class,
+          hereMinor: a?.minor ?? 0,
+          twinMinor: b?.minor ?? 0,
+          diffMinor: (a?.minor ?? 0) - (b?.minor ?? 0),
+        };
+      })
+      .filter((row) => row.diffMinor !== 0);
+    const byMove = (
+      a: { diffMinor: number; id: string },
+      b: { diffMinor: number; id: string },
+    ) =>
+      Math.abs(b.diffMinor) - Math.abs(a.diffMinor) || a.id.localeCompare(b.id);
+    const marks = this.marks();
+    return {
+      seed: recipe.seed,
+      placeKey: recipe.options.placeKey ?? "",
+      from: recipe.date,
+      to: this.core.date,
+      /** What dev mode did in this world and not in the twin, by control. */
+      changes: [...new Set(marks.map((m) => m.control))]
+        .sort()
+        .map((control) => ({
+          control,
+          count: marks.filter((m) => m.control === control).length,
+        })),
+      classes: [
+        ...classes,
+        {
+          key: "outside",
+          hereMinor: 0,
+          twinMinor: 0,
+          diffMinor: -inside,
+        },
+      ],
+      governments: holders
+        .filter((row) => row.class === "governments")
+        .sort(byMove),
+      /** The holders whose cash differs most, people and organizations alike. */
+      holders: holders.sort(byMove).slice(0, TWIN_HOLDERS),
+      holdersMoved: holders.length,
+      twinMs: Date.now() - started,
+    };
   }
 
   // 2. Decisions ----------------------------------------------------------
@@ -764,6 +1001,16 @@ export class DevMode {
       if (value === undefined || !Number.isFinite(value))
         throw new Error("A bill needs a value.");
       if (!sponsorId) throw new Error("A bill needs a sponsor.");
+      wholeMoney(
+        input.unit ??
+          (
+            this.api
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .query("bySeriesOnly", [series]) as unknown as LawRowInput[]
+          ).find((row) => row.unit)?.unit,
+        value,
+      );
       // A policy question (a yes or no the law answers) is a section of its own kind.
       provisions = [
         POLICY_QUESTIONS[series]
@@ -948,6 +1195,9 @@ export class DevMode {
       /** Chambers whose committee never reported the bill: the chair held it unheard, or it lost its vote. */
       held: records.filter((c) => !c.reported).map((c) => c.chamber),
       bill: held,
+      /** How it ended and why, in the legislature's own terms, and the sections a trade added to it. */
+      ending: billEnding(api, billId),
+      addedSections: sectionsAddedTo(held),
     };
   }
 
@@ -1468,8 +1718,13 @@ export class DevMode {
   }
 
   /**
-   * Runs the world day by day until `days` have passed or the chosen event's records appear, whichever
+   * Runs the world day by day until `days` have passed or the chosen event happens, whichever
    * comes first, never past `cap` days. Says why it stopped and the record ids that stopped it.
+   * An event counts only where the player lives and is governed (their town, county and state,
+   * the nation, their own people) unless `where` is "anywhere": the world holds every state's
+   * laws and officials, and a run stopped on another state's law tells a check nothing (Fable
+   * audit, Nov 9, 2026). A bill passing or failing is read from the bills themselves, since a
+   * body with no executive writes no record when its bill becomes law.
    */
   runUntil(input: {
     days?: number;
@@ -1483,6 +1738,10 @@ export class DevMode {
     person?: string;
     /** Stop when the player's ledger holds a moment the director reads as a cause of this situation type. */
     scene?: string;
+    /** The player's own governments and people (the default), or the whole world. */
+    where?: "mine" | "anywhere";
+    /** Stop only on this bill (its passing or failing) or this law row (its taking effect). */
+    subject?: string;
   }) {
     const cap = Math.max(1, Math.min(input.cap ?? 366, 3660));
     const limit = Math.min(input.days ?? cap, cap);
@@ -1529,6 +1788,85 @@ export class DevMode {
         ...(this.core.logByKind.get(kind) ?? []),
       ]),
     );
+    const mine = input.where !== "anywhere";
+    const chain = has(this.core, LAWS_MODULE_ID) ? lawChain(this.api) : null;
+    const town = this.townId();
+    /** Whether a logged event is the one asked for: the subject, the person, and the player's own place. */
+    const wanted = (id: string) => {
+      const record = this.core.durableLog.get(id);
+      if (!record) return false;
+      const facts = (record.facts ?? {}) as Readonly<Record<string, unknown>>;
+      if (input.person && !record.personIds.includes(input.person))
+        return false;
+      if (
+        input.subject &&
+        facts.lawId !== input.subject &&
+        facts.billId !== input.subject &&
+        facts.contestId !== input.subject
+      )
+        return false;
+      if (!mine || input.person) return true;
+      // A law's own government, where the record names one.
+      if (typeof facts.jurisdiction === "string" && chain)
+        return inTownChain(chain, facts.jurisdiction);
+      // A race: the office it fills is not another place's.
+      if (
+        typeof facts.contestId === "string" &&
+        has(this.core, OFFICES_MODULE_ID)
+      ) {
+        const contest = has(this.core, ELECTIONS_MODULE_ID)
+          ? (this.api
+              .moduleState(ELECTIONS_MODULE_ID)
+              .table("contests")
+              .get(facts.contestId) as { officeId?: string } | undefined)
+          : undefined;
+        const office = contest?.officeId
+          ? this.api
+              .moduleState(OFFICES_MODULE_ID)
+              .table("offices")
+              .get(contest.officeId)
+          : undefined;
+        if (office) return !isOutsideOffice(this.api, office);
+      }
+      // A person's event: someone of the player's own, or it happened in the played town.
+      return (
+        record.personIds.some((p) => inPlayersCircle(this.core, p)) ||
+        record.placeId === town
+      );
+    };
+    // A bill's end is read from the bills: passed into law, or ended without becoming law.
+    const billEvent =
+      !input.kind &&
+      (input.event === "bill-passes" || input.event === "bill-fails")
+        ? input.event
+        : null;
+    const billRows = () =>
+      billEvent && has(this.core, LEGISLATURE_MODULE_ID)
+        ? (this.api
+            .moduleState(LEGISLATURE_MODULE_ID)
+            .table("bills")
+            .rows() as unknown as BillRow[])
+        : [];
+    const statusBefore = new Map(billRows().map((b) => [b.id, b.status]));
+    const billsEnded = () => {
+      const out: string[] = [];
+      for (const bill of billRows()) {
+        if (statusBefore.get(bill.id) === bill.status) continue;
+        statusBefore.set(bill.id, bill.status);
+        if (input.subject && bill.id !== input.subject) continue;
+        const how = billEnding(this.api, bill.id).how;
+        if (how === "pending") continue;
+        if ((how === "law") !== (billEvent === "bill-passes")) continue;
+        if (
+          mine &&
+          chain &&
+          !inTownChain(chain, billJurisdiction(this.api, bill))
+        )
+          continue;
+        out.push(bill.id);
+      }
+      return out;
+    };
     const sceneBefore = sceneCount();
     const before = count();
     const from = this.core.date;
@@ -1544,6 +1882,10 @@ export class DevMode {
         days: 0,
         reason: "event" as const,
         event: input.event,
+        where:
+          input.where !== "anywhere"
+            ? ("mine" as const)
+            : ("anywhere" as const),
         records: playerContests(this.api).map((c) => c.id),
         defeated: [] as string[],
       };
@@ -1568,23 +1910,21 @@ export class DevMode {
         reason = "event";
         break;
       }
-      if (kinds && count() > before) {
-        const fresh = kinds
-          .flatMap((kind) => [...(this.core.logByKind.get(kind) ?? [])])
-          .filter(
-            (id) =>
-              !seen.has(id) &&
-              (!input.person ||
-                this.core.durableLog.get(id)?.personIds.includes(input.person)),
-          );
-        // Another person's event is passed over; this run waits for the one asked for.
-        if (!fresh.length) {
-          for (const id of kinds.flatMap((kind) => [
-            ...(this.core.logByKind.get(kind) ?? []),
-          ]))
-            seen.add(id);
-          continue;
+      if (billEvent) {
+        const ended = billsEnded();
+        if (ended.length) {
+          reason = "event";
+          records = ended;
+          break;
         }
+      } else if (kinds && count() > before) {
+        const all = kinds.flatMap((kind) => [
+          ...(this.core.logByKind.get(kind) ?? []),
+        ]);
+        const fresh = all.filter((id) => !seen.has(id) && wanted(id));
+        // An event somewhere else, or another person's, is passed over; this run waits for the one asked for.
+        for (const id of all) seen.add(id);
+        if (!fresh.length) continue;
         reason = "event";
         records = fresh;
         break;
@@ -1598,6 +1938,7 @@ export class DevMode {
       days,
       reason,
       event: input.event ?? null,
+      where: mine ? ("mine" as const) : ("anywhere" as const),
       records: records.slice(0, 20),
       defeated: [...defeated],
     };

@@ -141,6 +141,12 @@ export async function handleDev(
     case "GET reach":
       send(200, mode.reach(q("lawId")));
       return true;
+    case "GET bill-outcome":
+      send(200, mode.billOutcome(q("billId")));
+      return true;
+    case "POST twin-money":
+      send(200, mode.twinMoney());
+      return true;
     case "GET people":
       send(
         200,
@@ -358,6 +364,9 @@ export async function handleDev(
           defeat: Array.isArray(input.defeat)
             ? input.defeat.map(String)
             : undefined,
+          where: input.where === "anywhere" ? "anywhere" : "mine",
+          subject:
+            typeof input.subject === "string" ? input.subject : undefined,
         }),
       );
       return true;
