@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: claude/words-school-home-four-answers
-pr: 8165
+pr: 8355
 blocked-on:
 lead: words
 source: added by hand on the branch
