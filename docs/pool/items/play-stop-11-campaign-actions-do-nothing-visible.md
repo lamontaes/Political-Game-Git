@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: claimed
 claimed-by: claude/pool-play-stop-11-campaign-actions-do-nothing-visible
-pr:
+pr: #8262
 after:
 blocked-on:
 standard: 2
