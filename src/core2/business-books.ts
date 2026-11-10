@@ -1,7 +1,7 @@
 import { makeIsoDate, daysBetweenText } from "./kernel/dates";
 import dataJson from "./data/business-books.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
-import type { CountrySector } from "./country-model";
+import { COUNTRY_SECTORS, type CountrySector } from "./country-model";
 import type { Source } from "./types";
 import { worldLevel, worldRate } from "./world-draw";
 
@@ -15,8 +15,11 @@ export interface BusinessKind {
   salesCostEstimated: boolean;
   creditLineDaysParameter: string | null;
   ownPriceElasticityParameter: string;
-  /** The country tier's sector this kind sells into; null only for the all-corporations fallback row. */
-  sector: CountrySector | null;
+  /**
+   * The country tier's sector this kind sells into, as the data file names it; null only for the
+   * all-corporations fallback row. Read it through `sectorOfKind`, which checks the name.
+   */
+  sector: string | null;
   /** Why the kind belongs to that sector (its NAICS industry and the BLS supersector). */
   sectorSource: string;
   stopgapIds: readonly string[];
@@ -153,7 +156,14 @@ export function sectorOfKind(
   kindId: string,
   options: BusinessBooksOptions = {},
 ): CountrySector | null {
-  return kindById(settings(options).data, kindId).sector;
+  const sector = kindById(settings(options).data, kindId).sector;
+  if (sector === null) return null;
+  const known = COUNTRY_SECTORS.find((row) => row === sector);
+  if (!known)
+    throw new Error(
+      `Business kind ${kindId} names a sector the country tier does not have: ${sector}`,
+    );
+  return known;
 }
 
 export function classifyBusiness(
