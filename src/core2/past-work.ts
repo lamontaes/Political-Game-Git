@@ -36,7 +36,6 @@ import { countedHeadcountOf } from "./residents-economy";
 import {
   coarseSteps,
   grainDate,
-  ownPastKind,
   ownWindowOf,
   preStartHistory,
   preStartWindowOf,
@@ -46,6 +45,7 @@ import {
   type HistoryWriter,
   type PreStartWindow,
 } from "./pre-start";
+import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
 import { registerWorldMapPart } from "./snapshot";
 import { stopgap } from "./stopgaps";

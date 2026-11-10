@@ -21,13 +21,13 @@ import moveRows from "./data/moves/parameters.json" with { type: "json" };
 import { addDays, makeIsoDate } from "./kernel/dates";
 import {
   grainDate,
-  ownPastKind,
   ownWindowOf,
   preStartHistory,
   preStartWindowOf,
   recordPreStartLater,
   wholePastOnce,
 } from "./pre-start";
+import { ownPastKind } from "./own-past-kinds";
 import { coreAPI } from "./state";
 import { stopgap } from "./stopgaps";
 import type { HistoryRecord, HistoryWriter, PreStartWindow } from "./pre-start";

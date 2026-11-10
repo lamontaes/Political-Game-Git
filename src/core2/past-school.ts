@@ -13,7 +13,6 @@ import {
   SCHOOL_STAGE_CALENDAR,
 } from "./past-school-calendar";
 import {
-  ownPastKind,
   ownWindowOf,
   preStartHistory,
   recordPreStartLater,
@@ -22,6 +21,7 @@ import {
   type HistoryWriter,
   type PreStartWindow,
 } from "./pre-start";
+import { ownPastKind } from "./own-past-kinds";
 import { residenceOn } from "./past-moves";
 import { hasModuleState } from "./module-state";
 import { coreAPI } from "./state";
