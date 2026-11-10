@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** data/research/justice/ussc-federal-sentencing.json (new), data/research/justice/bop-federal-offenses-2026.json, src/core2/modules/justice.ts
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as replaced. The federal courts were built on Nov 8 as results and counts in src/core2/modules/federal-courts.ts, from the Sentencing Commission file data/research/justice/ussc-federal-sentencing-fy2025.json and the Bureau of Prisons table, and that engine already reads the reduce-mandatory-minimums law in force. What is left (a federal case, defendant and sentence built when someone opens one, the door that opens it, and the proof against the Bureau's table) is justice-federal-case-stream with its two parts, justice-federal-case-stream-part-1-case-on-open and justice-federal-case-stream-part-2-door-and-proof. This item's plan (a new data file, then cases kept for everyone through justice.ts) is the design the country tier replaced.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Replaced by work on main and by justice-federal-case-stream.

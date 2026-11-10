@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5708
 blocked-on:
@@ -49,3 +49,5 @@ Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of world-new-homes-moves-read. The record this item could not find is `housing.moved`, written in src/core2/housing-occupancy.ts (line 383) with the household's members, and read by nothing. world-new-homes-moves-read has that record written to the life record and read by the journal and the director, with Story writing the lines.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Its open question has an answer in the code: a household's move within town is the housing.moved record written at housing-occupancy.ts 383, which nothing reads.

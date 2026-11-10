@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: blocked
+status: dropped
 standard: 2
 claimed-by: claude/bayou-blue-coverage
 pr: #5944
@@ -43,3 +43,5 @@ Sent back 2026-10-24 from PR #5944 (branch claude/quirky-ride-vrwwz4-coverage): 
 Oct 25 (Merger 0): PR #5944 now delivers only the bounded per-jurisdiction regression under core-county-governed-openings-per-jurisdiction. It does not complete the exhaustive all-localities acceptance; that remains here and neither original item is finished by this merge.
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate of core-opening-coverage-every-locality, which is claimed and builds the same check over every locality. That item's done-when should name Bayou Blue, Louisiana (2205175, seed e955294c587729831a6cee88a3d0927ecf6a630617722d4bd7ad78cc74505e07) as one of the places it prints.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Its fix is the all-localities check that core-opening-coverage-every-locality builds (claimed), and its own note says it closes when that lands.
