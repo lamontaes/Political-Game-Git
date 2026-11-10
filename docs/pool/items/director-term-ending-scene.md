@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-director-on-core2
 source: split from words-director-watches-officeholders by pool feeder Oct 20
+checked: fable 2026-11-10
 ---
 
 **What.** The offices engine records when a term ends (`TermRow.endDate`), when a seat is vacated (`seat-vacated`) and when its next holder takes it (`inauguration`, `took-office`), and nothing stages the ending. Build circumstance rows that read these through the shared officeholder reader and stage a farewell or handover for the outgoing and incoming holders, with staff and press. When the player's own term ends and the seat is on the ballot, the scene ends with the existing campaign or filing screen opened from the control data, never a new screen; an ending the player loses or leaves opens the journal instead.

@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/core2/emotion.ts returns every person's mood and stress to their own baseline by one fixed half-life, so after a death or another hard event nobody stays raised for months and nobody's distress starts late. The documented adult courses after a potentially traumatic event are resilience 65.7%, recovery 20.8%, chronic 10.6% and delayed onset 8.9% (Galatzer-Levy, Huang and Bonanno 2018), now in data/research/core/affect-trajectories-2018.json. Add a slower course that a person's own causes keep up (ongoing grief, money trouble, poor health, rumination traits) so a chronic or delayed course can happen, and report the town's share of bereaved people still raised six months on beside the file's range of 13.9% to 26%. Closes SG-P8-emotion-model.
