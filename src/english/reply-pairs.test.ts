@@ -4,7 +4,6 @@ import sceneBank from "../../data/english/parts/scene-talk.json" with { type: "j
 import type { BankPart } from "./scene-talk-words";
 import {
   distinctPairs,
-  idsHash,
   pairId,
   replyPairs,
   type ReplyFlow,
@@ -12,6 +11,7 @@ import {
 } from "./reply-pairs";
 import { talkReplyFlow, talkScenes } from "../director/scene-talk";
 import { tableOf } from "./reply-follows";
+import { idsHash } from "./judged";
 import {
   buildTalks,
   observedPairs,
