@@ -29,12 +29,14 @@ If you are not a Claude model, use the level the owner gave you. With none given
    - If your tool may push only under its own prefix, add `--branch-prefix <prefix>` (a Claude cloud session uses `claude/pool-`).
    - If it cannot open the pull request itself, it prints the title and a file holding the body. Open a draft pull request from the branch with those, then record it: `npm run pool -- claim <id> --branch <branch> --pr <number>`.
    - If it says **continue**, another agent started this item. Read its pull request from top to bottom and the branch's commits before you change anything.
+   - To see what it would take without changing anything, add `--dry-run`. To skip opening the draft, add `--no-pr`; it then prints the title and body file.
+   - Check out the branch it names before you change anything: `git fetch origin <branch> && git checkout -B <branch> origin/<branch>`.
 2. **Read the item,** `docs/pool/items/<id>.md`, and every document and skill its Rules name. Skills are plain markdown under `.agents/skills/<name>/SKILL.md`.
 3. **Check the Cause against the code** before changing anything. If a function is gone, or the code does not do what the Cause says, do not guess and build. Write what differs on the pull request, with file and line, run `npm run pool -- release <id> --reason "<one sentence>"`, and take the next item.
 4. **Build the Fix and nothing more.** Commit each working unit with its test passing, and push after every commit.
 5. **Prove it in two drawn places.** Write the test or printed proof the item's Done when names, and run it with two seeds. Name each place and seed. A test draws its place with the repository's `drawPlace`, names the place and seed in every failure, and never returns early in a way that passes without checking.
 6. **Run only your own checks:** the test files you wrote or changed and those the item names, one at a time; prettier and eslint on the files you changed; `npm run zero-dice` if you changed anything under `src/core2`; `npm run test:skill-ops` if you changed a skill or `AGENTS.md`. A checker runs the full gate, not you. If a test you did not write fails, run it on clean main with the same seed. If it fails there too it is not yours: say so on the pull request with the test, place and seed.
-7. **Fill in the pull request.** Its body was made for you from the template: say what changed for the player, give the evidence for each Done-when line, how a second session checks it in the game, the break-it check, and what was removed. Replace the release note's placeholder line. Then mark the pull request ready and run `npm run pool -- status <id> in-pr --pr <number>`.
+7. **Fill in the pull request.** Its body was made for you from the template: say what changed for the player, give the evidence for each Done-when line, how a second session checks it in the game, the break-it check, and what was removed. Replace the release note's placeholder line in `docs/release/changes/<id>.md` and push it; `status <id> in-pr` refuses until you do. Then mark the pull request ready and run `npm run pool -- status <id> in-pr --pr <number>`.
 8. **Take the next item.** You never merge your own pull request.
 
 ## The pull request is the item's thread
@@ -45,7 +47,7 @@ A session can end at any moment. Nothing may live only in your conversation.
 - **Questions.** A question for the owner or the CTO is a comment that starts with "Question:" and ends with what you read before asking (`AGENTS.md`, "Look before you ask"). Then build the simplest version the rules allow and say so. Nothing waits.
 - **Send-backs.** The checker and the merge desk answer on the same pull request. A sent-back item is yours until you hand it off.
 - **Handoff.** When you stop for any reason, add a comment that starts with "Handoff:" and says what is done, what is not, how to run the proof, and the next step. Leave the claim in place.
-- **Stale claims.** A claimed item whose branch has had no push for twice its time box is released by the next agent's `next`, which then offers it as **continue**. Its pull request and branch stay as they are.
+- **Stale claims.** A claim older than twice its time box, whose branch has had no push for that long (or, with no branch, whose claim is that old), is released by the next agent's `next`, which then offers it as **continue**. Its pull request and branch stay as they are.
 
 ## When you stop
 
@@ -62,7 +64,7 @@ A session can end at any moment. Nothing may live only in your conversation.
 3. **What it unblocks.** The item more items wait on comes first.
 4. **Effort,** low before high, then **size,** small before large.
 
-An item is offered only when it is open, carries `checked: fable`, has a known cause, and waits on nothing that is not yet on main.
+An item is offered only when it is open, carries `checked: fable`, has a known cause, has every `after:` item on main, and has a Waits on that says "Nothing" or names only items already on main. A Waits on that names anything else (an owner decision, the Story session's lines, early-access preparation) is not offered.
 
 ## What you never do
 
