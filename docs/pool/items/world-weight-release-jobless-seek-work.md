@@ -13,7 +13,7 @@ after: world-counted-weight-release-grows-employer-staff
 source: added with npm run pool -- add
 ---
 
-**What.** When a household is filled in at a town's Census size, the households its record stood for spread over its group, and the jobs they held stay with their employers. The households that take the weight therefore stand for more people than their jobs' heads, and those added people hold no job. The jobs engine reads counted seekers from records, so they never look for work, and the town's jobless count drifts from what its people would do. Stopgap SG-WORLD-weight-release-jobless-not-seeking marks it in src/core2/counted-groups.ts.
+**What.** When a household is filled in at a town's Census size, the households its record stood for spread over its group, and the jobs they held stay with their employers. The households that take the weight therefore stand for more people than their jobs' heads, and those added people hold no job. The jobs engine reads counted seekers from records, so they never look for work, and the town's jobless count drifts from what its people would do. Stopgap SG-WORLD-weight-release-jobless-not-seeking marks it in src/core2/counted-groups.ts. Seen: the town's jobless count on the Metrics tab, which drifts once a household is clicked and filled in.
 
 **Rules.** One model, two tiers: a counted record's working-age people beyond its jobs' heads are read by the jobs engine with the same chooser as a full person, times their count. No dice: who looks for work follows their traits, money and the place's conditions.
 

@@ -14,7 +14,7 @@ source: "src/core2/data/stopgaps.json, src/core2/housing-construction.ts, kind f
 claimed-at: 2026-10-19T23:08:37.700Z
 ---
 
-**What.** The stopgap row(s) SG-WORLD-housing-new-home-buyers in src/core2/housing-construction.ts mark a shortcut that is still live in play. Today new houses sell only to full renter households, and counted renters and households moving in never buy one, so unsold houses pile up. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json.
+**What.** The stopgap row(s) SG-WORLD-housing-new-home-buyers in src/core2/housing-construction.ts mark a shortcut that is still live in play. Today new houses sell only to full renter households, and counted renters and households moving in never buy one, so unsold houses pile up. The row stays open until the real mechanic replaces the fake, or the feature that needs the fake is deleted. This item replaces it and clears the row in src/core2/data/stopgaps.json. Seen: the town's housing numbers, where new houses sit unsold because only full renter households ever buy one.
 
 **Rules.** One model, two tiers: counted renters and arriving households buy under the same affordability rule as full ones. Sliding scales and causes: buying follows income, savings and price. Replace, never layer: the fake is deleted in the same change, and a row is never closed by deleting it without the mechanic. Numbers go in the parameter table tagged SOURCED, ESTIMATED or TUNABLE.
 

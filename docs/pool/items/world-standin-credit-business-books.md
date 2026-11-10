@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: split from gov-standins-other (Oct 19, 2026); rows SG-WORLD-business-ope
 **Files.** src/core2/modules/credit.ts, src/core2/modules/business.ts, src/core2/macro-model.ts
 
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have given opening businesses owners and per-industry compliance cost and classified books; no player sees any of them.

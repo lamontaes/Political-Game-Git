@@ -13,7 +13,7 @@ after: research-occupational-licensing-table
 source: added with npm run pool -- add
 ---
 
-**What.** No person record carries an occupational license, so a repeal of a license has nothing to change in a match. Derive a held-license fact for each worker in a licensed occupation from their schooling record and job history, by the same rule for full and counted people, using the licensed shares by occupation and state. The jobs engine can then read the license when it matches a seeker, which world-licensing-reform-jobs needs.
+**What.** No person record carries an occupational license, so a repeal of a license has nothing to change in a match. Derive a held-license fact for each worker in a licensed occupation from their schooling record and job history, by the same rule for full and counted people, using the licensed shares by occupation and state. The jobs engine can then read the license when it matches a seeker, which world-licensing-reform-jobs needs. Feeds: world-licensing-reform-jobs (the repeal has nobody to reach until a worker holds a license or not).
 
 **Rules.** One model, two tiers: the same derivation for a counted worker times their count. No dice: a license follows from schooling, tenure and the occupation's requirement, never a share rolled per person. Replace, never layer: no second license record beside the one built.
 

@@ -13,7 +13,7 @@ after: world-schooling-to-pay
 source: added with npm run pool -- add
 ---
 
-**What.** Hire pay now follows each hire's schooling (world-schooling-to-pay), but nothing shows a place whose graduation share rises later paying higher household incomes. Show the chain: the school module's graduation record, the education fact it writes, the hire pay it sets, the paycheck, the household income the poverty measure reads. If the education fact is not updated when a student graduates, write it, so a graduating cohort is hired at its new level.
+**What.** Hire pay now follows each hire's schooling (world-schooling-to-pay), but nothing shows a place whose graduation share rises later paying higher household incomes. Show the chain: the school module's graduation record, the education fact it writes, the hire pay it sets, the paycheck, the household income the poverty measure reads. If the education fact is not updated when a student graduates, write it, so a graduating cohort is hired at its new level. Seen: the Metrics tab's household income and poverty share rising later in a place whose graduation share rose.
 
 **Rules.** An effect is a read, not a record: the hire pay must read the updated education fact. Wire to the world: shown in a played world, by record ids. No dice.
 

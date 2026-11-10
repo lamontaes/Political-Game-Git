@@ -5,7 +5,7 @@ area: world
 kind: stopgap
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/housing-occupancy.ts, src/core2/housing-occupancy.test.ts, src/core2/data/stopgaps.json
 
 **Notes.** Oct 20 (pool feeder): made from the open stopgap row SG-WORLD-new-rental-move-coverage; waits on dwelling locations for the commute half.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have weighed commute and room in who takes a rental; commute is a slight estimate and no player sees the match.

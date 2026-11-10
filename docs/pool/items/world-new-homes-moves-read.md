@@ -13,7 +13,7 @@ source: "split from world-new-homes-moves-not-reached"
 claimed-at:
 ---
 
-**What.** Households now move into new rentals in a played year (the housing module's `moves` table fills and a `housing.moved` event is emitted for each full person), but nothing reads that event: the director has rules for evictions, status changes and purchases but none for a move, and the journal has no row for it. Add the director rule and the journal row for `housing.moved`, with the words from the English engine's banks, so a watched person's move into a new home becomes a scene and a journal line. In a place with rent stabilization, a lease renewal in a new building carries the capped rent and its law id.
+**What.** Households now move into new rentals in a played year (the housing module's `moves` table fills and a `housing.moved` event is emitted for each full person), but nothing reads that event: the director has rules for evictions, status changes and purchases but none for a move, and the journal has no row for it. Add the director rule and the journal row for `housing.moved`, with the words from the English engine's banks, so a watched person's move into a new home becomes a scene and a journal line. In a place with rent stabilization, a lease renewal in a new building carries the capped rent and its law id. Seen: a scene and a Journal line when a person the player watches moves into a new home.
 
 **Rules.** An effect is a read: the director or the news reads the move record by id. No hand-written player text: the lines come from the English engine. One rule, all 56 places. The chain is the acceptance: follow one move to the rent change, the person and the journal line.
 

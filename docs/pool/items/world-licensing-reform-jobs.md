@@ -11,7 +11,7 @@ claimed-by:
 claimed-at:
 ---
 
-**What.** The jobs engine matches seekers to jobs without any licensing requirement, so the law "reduce occupational licensing" reaches no one's pay. Give licensed occupations a requirement row in the jobs data, and let the match read the law row in force: where the license is repealed, seekers without it are matched to those jobs and their pay enters household income. The poverty measure (world-metrics povertyShare) then moves from incomes with no web link.
+**What.** The jobs engine matches seekers to jobs without any licensing requirement, so the law "reduce occupational licensing" reaches no one's pay. Give licensed occupations a requirement row in the jobs data, and let the match read the law row in force: where the license is repealed, seekers without it are matched to those jobs and their pay enters household income. The poverty measure (world-metrics povertyShare) then moves from incomes with no web link. Seen: the bill card's line for who a licensing repeal reached, and the household income and poverty share after it.
 
 **Rules.** An effect is a read: the jobs engine must read the law row at the moment it matches a seeker. Wire to the world: it applies to every licensed occupation, not one example. No dice: who is matched follows from skills, pay and the law in force.
 

@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -22,3 +22,5 @@ source: split of world-home-turnover (Oct 18)
 **Files.** src/core2/modules/housing.ts, src/core2/modules/place-prices.ts, src/core2/data/stopgaps.json
 
 **Notes.** Found Oct 18 splitting world-home-turnover. Property tax reads `ownedHomes`; see world-property-tax-zero-home-values (done).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have made town sale prices set assessments; no player reads an assessment, and a home's value already follows the state index.

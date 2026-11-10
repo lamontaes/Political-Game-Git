@@ -5,7 +5,7 @@ area: world
 kind: research
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -23,3 +23,5 @@ source: Split from world-stopgap-finance-state-receipt-budget-proxy and world-st
 **Files.** src/core2/data/business/io-supplier-shares.json, src/core2/io-supplier-shares.ts, src/core2/data/parameters.json, src/core2/io-supplier-shares.test.ts
 
 **Notes.** Split from world-stopgap-finance-state-receipt-budget-proxy and world-stopgap-opening-finance-authored-opening-counterparty-crosswalk by pool feeder Oct 20; the stand-in research says BEA input-output tables can calibrate demand (SG-P8-outside-product-demand-crosswalk).
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have sourced which industry buys from which; no player sees a supplier share.

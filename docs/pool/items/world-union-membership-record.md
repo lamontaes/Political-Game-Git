@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5302
 blocked-on:
@@ -24,3 +24,5 @@ claimed-at:
 **Notes.** PR #5302 sent back: Merge conflict with main in src/core2/data/stopgaps.json.
 
 Sent back 2026-10-23 from PR #5302 (branch claude/union-membership-record): Missing industry-level BLS acceptance and Done-when evidence table; release impact none omits changed personal dues cash flows; finish on that branch, merge main into it first.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have recorded union membership by industry and state; the body is TODO and no screen reads it.

@@ -14,7 +14,7 @@ lead: laws-effects
 claimed-at: 
 ---
 
-**What.** The only recorded meeting of an executive is the governor's weekly meeting with the legislature's leaders on the state office day; nothing records an executive meeting another executive, though the owner asked for a mayor and the governor, and a governor and the president. Add a recorded meeting where the law and the world give one a cause: a governor's disaster request to the president that the federal aid table already carries, a mayor and the governor over a state grant or a shared disaster. The record names both and the cause record that brought them together.
+**What.** The only recorded meeting of an executive is the governor's weekly meeting with the legislature's leaders on the state office day; nothing records an executive meeting another executive, though the owner asked for a mayor and the governor, and a governor and the president. Add a recorded meeting where the law and the world give one a cause: a governor's disaster request to the president that the federal aid table already carries, a mayor and the governor over a state grant or a shared disaster. The record names both and the cause record that brought them together. Seen: a scene of a mayor and the governor, or the governor and the president, meeting over a disaster request or a grant (the owner asked for it).
 
 **Rules.** Simulate it, don't ask: executives meet when a recorded cause (a disaster, a grant, a mandate) puts a decision between their governments, never on a timer or a chance. Wire to the world: the meeting is read by the director, which stages a scene. One rule, all 56 places: no place is named.
 

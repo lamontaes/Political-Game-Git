@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/housing-mortgages.ts, src/core2/data/housing/housing.json, data/research/world/acs-2024-owner-mortgage-moved-in-by-county.json, src/core2/data/stopgaps.json
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have moved who owes and since when to county shares; a precision no screen shows.

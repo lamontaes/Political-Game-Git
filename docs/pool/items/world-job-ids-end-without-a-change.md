@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,5 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/jobs.ts
 
 **Notes.** Found by the M0-M2 lead's M1 helper, Oct 24.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would have written a reason on a reissued job id; a bookkeeping gap no player sees (the visible hires and layoffs are on world-job-turnover-far-below-jolts).

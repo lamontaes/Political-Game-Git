@@ -13,7 +13,7 @@ source: added with npm run pool -- add
 claimed-at:
 ---
 
-**What.** The outcome web takes each engine-measure cause's baseline when it opens, so a cause a law changes on that same day (a state corporate rate, a property tax rate) gets the changed value as its baseline and the web never sees the change. The taxes helper fixed it for those two measures with baselineReader in src/core2/modules/outcome-web.ts on PR #5649; every other engine-measure cause still has it. The fix belongs in one place for all causes, not per measure.
+**What.** The outcome web takes each engine-measure cause's baseline when it opens, so a cause a law changes on that same day (a state corporate rate, a property tax rate) gets the changed value as its baseline and the web never sees the change. The taxes helper fixed it for those two measures with baselineReader in src/core2/modules/outcome-web.ts on PR #5649; every other engine-measure cause still has it. The fix belongs in one place for all causes, not per measure. Seen: the effect numbers on the bill card and Metrics tab for a law that takes effect on the web's opening day, which show no change today.
 
 **Rules.** Replace, never layer: one baseline rule for every engine-measure cause, read from the law in force the day before the web opened, replacing the per-measure readers; an effect is a read, not a record.
 

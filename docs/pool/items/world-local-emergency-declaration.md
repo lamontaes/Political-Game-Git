@@ -6,15 +6,15 @@ kind: feature
 priority: 3
 size: M
 status: open
-claimed-by: 
+claimed-by:
 pr:
 blocked-on:
 source: scene researcher Helper D, Oct 27; scenes-from-life episode disaster-first-hours (a city's mayor signed an emergency executive order within hours of a tornado)
 lead: laws-effects
-claimed-at: 
+claimed-at:
 ---
 
-**What.** The executive-powers table and the executive engine give only a governor the power to declare an emergency; a mayor or county executive has none, though a real mayor's first act after a tornado is an order that gives the departments emergency powers. Add a recorded local emergency order, naming the executive and the disaster record that caused it, available where the state's law gives local executives the power and decided by the executive's traits when they are not the player. The order moves a named budget line toward the response, as the governor's declaration does, so the budgets engine and the departments read it.
+**What.** The executive-powers table and the executive engine give only a governor the power to declare an emergency; a mayor or county executive has none, though a real mayor's first act after a tornado is an order that gives the departments emergency powers. Add a recorded local emergency order, naming the executive and the disaster record that caused it, available where the state's law gives local executives the power and decided by the executive's traits when they are not the player. The order moves a named budget line toward the response, as the governor's declaration does, so the budgets engine and the departments read it. Seen: a mayor or county executive's choice to sign an emergency order after a disaster, and the budget line it moves.
 
 **Rules.** No dice: whether and when an executive signs follows the power the state gives them, their recorded traits and the disaster on record, never a percentage. Wire to the world: the order is read by the budgets engine, which moves a line, and by the director. One rule, all 56 places: the power comes from the state's own law in the table and no place is named.
 
