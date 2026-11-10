@@ -196819,7 +196819,7 @@
       "key": "scene-talk.narrate-narrate.you-live-alone-and-are-seriously-ill-and-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You live alone and are seriously ill, and {name} has come to see you.",
+      "text": "You've been seriously ill, alone in the house, when {name} comes by to see you.",
       "uses": [
         {
           "subject": "scene",
@@ -196840,7 +196840,7 @@
       "key": "scene-talk.narrate-narrate.you-are-seriously-ill-with-child-in-your-household-and-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are seriously ill, with {child} in your household, and {name} has come to see you.",
+      "text": "{name} has come to see you. You're seriously ill, with {child} to look after at home.",
       "uses": [
         {
           "subject": "scene",
@@ -196861,7 +196861,7 @@
       "key": "scene-talk.narrate-narrate.you-are-seriously-ill-and-your-partner-name-has-come-to-see-you",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "You are seriously ill, and your partner {name} has come to see you.",
+      "text": "Your partner, {name}, has come in to see you. You're seriously ill, and there's something on their mind.",
       "uses": [
         {
           "subject": "scene",
@@ -196903,7 +196903,7 @@
       "key": "scene-talk.open-greet.how-are-you-feeling-today",
       "move": "open-greet",
       "kind": "spoken",
-      "text": "How are you feeling today?",
+      "text": "You don't have to tell me how you're feeling. I just wanted to see you.",
       "uses": [
         {
           "subject": "scene",
