@@ -6,17 +6,32 @@ kind: bug
 priority: 3
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
+after:
+lead: laws-effects
+model: sonnet
+effort: low
+root: rc8-law-judged-by-paperwork
+checked: fable 2026-11-10
 ---
 
-**What.** The school voucher law's applied records for counted groups put a weight in the `count` field, which every reader takes as the number of people the group stands for (`src/core2/law-reach/group-b-money.ts:1011`, found by the health-schools helper, Oct 25). In the health-schools year run in Uehling, Nebraska (seed 5e27b0c4196fd3a8) the voucher's group records say 310,500 people, where the same town's SNAP group record says 16. The matrix's reach cells and anything that sums people under a law then overstate the voucher's reach by orders of magnitude.
+**What.** The school voucher law's applied records for counted groups put a weight in the `count` field, which every reader takes as the number of people the group stands for (`src/core2/law-reach/group-b-money.ts (line 1521)`, found by the health-schools helper, Oct 25). In the health-schools year run in Uehling, Nebraska (seed 5e27b0c4196fd3a8) the voucher's group records say 310,500 people, where the same town's SNAP group record says 16. The matrix's reach cells and anything that sums people under a law then overstate the voucher's reach by orders of magnitude.
+
+**Cause.** Found in code: src/core2/law-reach/group-b-money.ts (line 1521, in the voucher payer after `voucherShare`) records `count: Math.max(1, Math.round(weight))`, where `weight` is the flow weight, not the group's people.
+
+**Fix.** Write the number of people into the voucher group record count and test it against the group's size.
+
+**Time box.** 2 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** One model, two tiers: a counted group is read by every engine with the same rule as a full person, times its count, so the count must be people.
 
-**Done when.** The voucher's group records carry the number of people the group stands for, a test asserts that count against the counted group's own size in a drawn place, and the health-schools family's year run in Uehling, Nebraska (seed 5e27b0c4196fd3a8) shows a voucher reach of the same order as the town's counted population, by record id.
+**Done when.** A second session, not the builder, plays the health-schools year in Uehling, Nebraska (seed 5e27b0c4196fd3a8) and sees the voucher's counted-group records carry the number of people the group stands for, a voucher reach of the same order as the town's counted population, by record id; a test asserts the count against the counted group's own size in a drawn place.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/law-reach/group-b-money.ts
 

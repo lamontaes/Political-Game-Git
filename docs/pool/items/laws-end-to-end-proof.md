@@ -5,21 +5,37 @@ area: laws
 kind: wiring
 priority: 1
 size: M
-status: open
-claimed-by:
-pr:
+status: claimed
+standard: 2
+claimed-by: claude/pool-laws-end-to-end-proof
+pr: #8260
+after:
 blocked-on: words-law-effect-learned-journal
+lead: laws
+model: opus
+effort: high
+root: rc2-done-from-records
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
-claimed-at:
+claimed-at: 2026-11-10T23:02:09.136Z
+checked: fable 2026-11-10
+branch: claude/pool-laws-end-to-end-proof
 ---
 
-**What.** The owner keeps hearing that laws work, "from negotiation to its effects," without seeing it. This item is the laws lead's acceptance: one played life in a drawn place where the player proposes a law, negotiates for it by trade or favor on the record, and the bill passes or fails by the members' own reads of their lives and districts. If it passes, the law in force changes, one named person's money or life changes because an engine read it, that person learns of it from news they received, their view or choice moves with that news as the cited reason, and the director's scene and the journal say so. The proof names every record id along the way.
+**What.** The owner keeps hearing that laws work, "from negotiation to its effects," without seeing it. This item is the laws lead's acceptance: one played life in a drawn place where the player proposes a law, negotiates for it by trade or favor on the record, and the bill passes or fails by the members' own reads of their lives and districts. If it passes, the law in force changes, one named person's money or life changes because an engine read it, that person learns of it from news they received, their view or choice moves with that news as the cited reason, and the director's scene and the journal say so. M3-04's "an enacted ordinance reaches specific named people" still has no test where the ordinance passes by the body's vote in a played world and is then followed to a named person: the existing law tests enact their laws with `enactLaw`, not a vote. The units for learning on the day a story is heard and for the held bill keeping the chair's reasons are on main; this is the proof test.
+
+**Cause.** Design: docs/work-orders/lead-laws-2026-10-24.md (the laws lead's acceptance, added by the CTO Oct 24) and the Oct 29 governing-lead note in this item's Notes: no test follows a voted ordinance to a named person. The proof test src/core2/laws-end-to-end.test.ts is not on main.
+
+**Fix.** Write src/core2/laws-end-to-end.test.ts: one year of `buildBenchWorld` with every module in a drawn place, a player's bill voted by members' reasons, followed by record id to a named person's money, the news they heard, their moved stance and the journal line, and a second drawn place where the bill fails and shows the members' reasons. Where a link of the chain breaks, file it as its own item and name it here. When it lands, add the test to the M3-04 command in docs/roadmap/features.json.
+
+**Time box.** 10 hours for one Opus session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** The chain is the acceptance: record, law in force, payment or price, person reached, choice or view moved, director scene or journal line, each by record id. Ask why: the person's stance cites the outlet or conversation that told them (knowing is a read). No dice: every member's vote comes from their recorded reasons, never a roll. No hand-written player text: the scene and journal words come from the English engine.
 
-**Done when.** A test (`src/core2/laws-end-to-end.test.ts`) plays one year of `buildBenchWorld` with every module in a place drawn from all 56, seed named, and records by id: the player's bill, each negotiation offer and the favor or trade it recorded, each member's vote with its reasons, the law-in-force change, the `lawApplied` row, the journal entry or price that moved for one named person, the news item they received, the stance or choice that moved citing it, and the scene and journal line. A second drawn place where the bill fails shows the members' reasons. Screenshots of the scene and journal go in the PR body.
+**Done when.** A second session, not the builder, runs `src/core2/laws-end-to-end.test.ts`, which plays one year of `buildBenchWorld` with every module in a drawn place (place and seed named) and records by id: the player's bill, each negotiation offer and the favor or trade it recorded, each member's vote with its reasons, the law-in-force change, the `lawApplied` row, the journal entry or price that moved for one named person, the news item they received, the stance or choice that moved citing it, and the scene and journal line. A second drawn place where the bill fails shows the members' reasons. Then the same session plays the proof's pinned seed 4a4e3819bc34b9d1e26d8413 (Susupe, Northern Mariana Islands) on the bench in a real browser and puts screenshots of the resident's law-takes-effect scene and of the journal line naming the bottle deposit, with their record ids, in the PR body.
 
-**Files.** src/core2/laws-end-to-end.test.ts, src/bench/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md
+**Waits on.** Nothing. The journal row and bank lines it once waited for are on main (src/director/data/journal-rows.json has the `event:law.effect-learned` row; item words-law-effect-learned-journal was closed as built).
+
+**Files.** src/core2/laws-end-to-end.test.ts (new), src/bench/path-check.ts, scripts/law-wiring/year.ts, docs/reports/law-wiring-2026-10-20.md, docs/roadmap/features.json, data/english/parts/journal.json, data/english/parts/scene-words.json
 
 **Notes.** Added Oct 24 by the CTO as the laws lead's acceptance (docs/work-orders/lead-laws-2026-10-24.md). Built last, once the families land; the lead may start it earlier on a stopgap and say so. Where a link of the chain breaks, file it as its own item and name it here.
 
@@ -34,3 +50,5 @@ Oct 25 (CTO ruling): the screenshot split is accepted; the screenshots live in `
 Oct 27, laws-and-effects lead: the draft #5968 is closed and split by the per-unit rule. Its engine units are #6371 (learning on the day a story is heard) and #6374 (the held bill keeps the chair's reasons); main already has the journal lines. The proof test is redone on main once both merge.
 
 Oct 29 (governing lead, from the M3-04 command on branch governing/m3-spec-commands): M3-04's "an enacted ordinance ... reaches specific named people" has no test where the ordinance passes by the body's vote in a played world and is then followed to a named person: legislature.test.ts passes it in a small population world and raises a hand-set worker only if it passes, and law-wiring-labor.test.ts and law-reach-group-a.test.ts enact their laws with `enactLaw`, not a vote (their repeals do end the reach). This item's test is that missing proof; when it lands, add src/core2/laws-end-to-end.test.ts to the M3-04 command in docs/roadmap/features.json.
+
+Claimed by next for opus-5234 (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 23:02 UTC) on branch claude/pool-laws-end-to-end-proof.

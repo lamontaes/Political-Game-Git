@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/corruption.ts, src/bench/dev-mode.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/bench/dev-mode.ts` takes `answer: "takes" | "refuses"` for its bribe control (line 1586) and calls `considerBribe` (line 1592) with a pick, and `considerBribe` in `src/core2/modules/corruption.ts` reads `ask.pick?.offer` and `ask.pick?.take` (lines 257 and 269), recording what the engine would have said beside the pick.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

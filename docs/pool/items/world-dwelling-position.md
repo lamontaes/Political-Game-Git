@@ -6,20 +6,35 @@ kind: feature
 priority: 3
 size: M
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
+after:
+lead: governing
+model: sonnet
+effort: medium
+root: rc9-place-facts-one-default
 source: found by gov-ward-map-from-dwellings
 claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** A dwelling in the core is a row keyed to its household with a tenure and a value, and nothing says where in the town it stands. Without that no council ward, precinct or school zone can follow where people live, and every such map is the households in recorded order. Give each dwelling a position inside its town, drawn from the town's real shape (its census tracts or block groups where the data has them, an estimate with a spread otherwise), so that neighbors are close and a map cut follows the town.
+**What.** A dwelling in the core is a row keyed to its household with a tenure and a value, and nothing says where in the town it stands. Without that no council ward, precinct or school zone can follow where people live, and every such map is the households in recorded order. Give each dwelling a position inside its town, drawn from the town's real shape (its census tracts or block groups where the data has them, an estimate with a spread otherwise), so that neighbors are close and a map cut follows the town. Its only reader today is gov-ward-map-from-dwellings, which is blocked on this item and was deferred Oct 25, so this is low value until that moves.
+
+**Cause.** Design: docs/pool/items/gov-ward-map-from-dwellings.md (ward maps need positions; stopgap SG-GOV-ward-map) and the tract shares from the ACS B01003 file named in the Notes.
+
+**Fix.** Give each dwelling a position from the place's tract or block-group population shares (an estimate with spread), stored with the dwelling in src/core2/modules/housing.ts and read by ward and precinct drawing in src/core2/modules/voting.ts.
+
+**Time box.** 6 hours for one session of the Sonnet model. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
 **Rules.** Estimate, never UNKNOWN: a dwelling's position starts from the place's own tract or block-group population shares and is marked as an estimate with its source. One rule, all 56 places: no state, city or GEOID in logic; the shares live in data. Wire to the world: ward maps and polling places must read the position the same day it is used, so it is a read and not a record nobody opens.
 
-**Done when.** In the played world (buildBenchWorld) in a drawn place and seed named in the PR body, every household's dwelling record carries a position, the dwellings per tract match the place's tract population shares within the stated spread, and a test in src/core2 reads the positions from voting.ts to draw the town's wards by dwelling record id.
+**Done when.** A second session (not the builder) plays a world (`buildBenchWorld`) in a drawn place and seed named in the PR body and sees every household's dwelling record carry a position, the dwellings per tract reported beside the place's tract population shares with the stated spread, and a test in src/core2 reading the positions from voting.ts to draw the town's wards by dwelling record id.
 
-**Files.** src/core2/modules/housing.ts, src/core2/modules/voting.ts, src/core2/data/housing/
+**Waits on.** Nothing. Its reader, gov-ward-map-from-dwellings, waits on this item.
+
+**Files.** src/core2/modules/housing.ts, src/core2/modules/voting.ts, src/core2/data/housing/housing.json
 
 **Notes.** Needed by gov-ward-map-from-dwellings (stopgap SG-GOV-ward-map). Oct 19.
 

@@ -62,10 +62,10 @@ describe("a person's history on their card", () => {
         true,
       );
     // Each line names its kind of record, the bank's move, which picks the
-    // timeline's icon on the card.
+    // paragraph it is told in on the card.
     for (const line of card.history)
       expect(line.kind, `${where}: ${line.text}`).toMatch(
-        /^(born|school|moved|partner|child|work|loss|office|tie)$/,
+        /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
       );
     // Your own birth is said to you, not by your name.
     const yours = card.history.filter((line) =>
@@ -110,7 +110,7 @@ describe("a person's history on their card", () => {
         preStartHistory(core, {
           kind: "office.seat-reached",
           personId: person.id,
-        }).length && linesOf(person) >= 3,
+        }).length && linesOf(person) >= 2,
     );
     const worker = strangers.find(
       (person) =>
@@ -119,7 +119,7 @@ describe("a person's history on their card", () => {
           kind: "person.work-spell",
           personId: person.id,
         }).length &&
-        linesOf(person) >= 4,
+        linesOf(person) >= 3,
     );
     const neighbor = strangers.find(
       (person) =>
@@ -127,7 +127,7 @@ describe("a person's history on their card", () => {
         person !== worker &&
         person.placeId === viewer.placeId &&
         person.alive &&
-        linesOf(person) >= 4,
+        linesOf(person) >= 3,
     );
     const chosen = { seatHolder, worker, neighbor };
     for (const [role, person] of Object.entries(chosen)) {
@@ -155,10 +155,11 @@ describe("a person's history on their card", () => {
         expect(records.has(line.recordId), `${where}: ${line.recordId}`).toBe(
           true,
         );
-      // An official's records hold their birth and each term they won (three or
-      // more); a resident's hold school, work and family (four or more).
+      // An official's records hold each term they won (two or more; their birth is
+      // told under their name); a resident's hold school, work and family (three or
+      // more).
       expect(card.history.length, `${where}: ${role}`).toBeGreaterThanOrEqual(
-        role === "seatHolder" ? 3 : 4,
+        role === "seatHolder" ? 2 : 3,
       );
     }
   }, 600_000);

@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/legislature.ts, src/core2/data/legislature/committee-day.json
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/core2/data/legislature/discharge.json` holds the discharge rules (a majority or a fraction of members, per chamber) and `dischargePetition` in `src/core2/modules/legislature.ts` (line 4194, called at line 4386) has members sign by their own decision and discharges the bill when the chamber's rule is met. Merged Nov 8 in commits d21ae6db46 and 30f17d564d.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: core
 kind: cleanup
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,7 @@ claimed-at:
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The item is an empty draft (every section TODO). The blind spot it names is closed by core-stopgap-hits-miss-module-calls (done, #5452): src/core2/stopgaps.ts records module-level `stopgap()` hits through `recordStopgapsIn` (line 28).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

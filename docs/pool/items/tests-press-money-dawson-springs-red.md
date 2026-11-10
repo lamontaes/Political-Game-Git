@@ -6,18 +6,33 @@ kind: bug
 priority: 2
 size: S
 status: open
+standard: 2
 claimed-by:
 pr:
 blocked-on:
 source: added with npm run pool -- add
 claimed-at:
+after:
+lead: laws-effects
+model: sonnet
+effort: medium
+root: none
+checked: fable 2026-11-10
 ---
 
-**What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. Either the outlet's revenue there truly does not follow its readers (a defect in the press money rule) or the town is too small for the check's shape and the test needs to say so from the record. The test draws its place at random, so CI turns red on any change whose run lands here.
+**What.** src/core2/press-money.test.ts fails on main with GOLDEN_PATH_SEED=87f9d8a36f733083. Its first draw, Dawson Springs, Kentucky (2120224), place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, never has a month when the paper's readers and its revenue both rise, so the check that revenue follows the audience fails over March 2025 to January 2026. The analysis in the Notes found the cause: the paper's readers sit within 1 percent of 700 all year, while its subscriptions moved by a fifth, because households short of cash pay in part and the rest in a later month. A threshold fix passed Dawson but failed Little America, Wyoming (5646935, seed pmf1:0).
 
-**Rules.** Ask why: the fix names, by record, why the readers and the revenue move as they do in Dawson Springs before changing the rule or the check. One rule, all 56 places: no place-specific branch. Every number lives in a parameter table.
+**Cause.** Found in code: src/core2/press-money.test.ts near line 112 (the first paper whose readers both rose and fell) compares monthly signs, while src/core2/modules/press.ts lets a household short of cash pay a subscription in part, so a month's revenue is cash-limited and not audience-limited. The per-reader-month ceiling already in the test holds in both places. Place seed cb670b23a8bfc0787ac8adf6af104ac8b022be4acf201ee326c4c7118b509e66, Dawson Springs, Kentucky.
 
-**Done when.** src/core2/press-money.test.ts passes on seed 87f9d8a36f733083 and on three fresh seeds the builder did not choose, in the played world, with the cause in Dawson Springs named by record in the PR body.
+**Fix.** Change the check's shape to the year's subscription cash against reader-months (the per-reader-month ceiling already holds), not a monthly sign or a threshold, and show it passes in Dawson Springs, Kentucky and Little America, Wyoming (seed pmf1:0).
+
+**Time box.** 3 hours.
+
+**Rules.** Ask why: the fix names, by record, why the readers and the revenue move as they do in Dawson Springs. One rule, all 56 places: no place-specific branch, and the test draws its place at random. Every number lives in a parameter table.
+
+**Done when.** A second session runs src/core2/press-money.test.ts on seed 87f9d8a36f733083 in the drawn place Dawson Springs, Kentucky, in Little America, Wyoming (seed pmf1:0) and on three fresh seeds the builder did not choose, in the played world, and sees every run pass. The PR body names by record why the readers and the revenue move as they do in Dawson Springs.
+
+**Waits on.** Nothing.
 
 **Files.** src/core2/press-money.test.ts, src/core2/modules/press.ts
 

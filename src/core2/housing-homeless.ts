@@ -45,11 +45,12 @@ import { pairKey } from "./kernel/ids";
 import { housingWorldOffset } from "./housing-prices";
 import { parameter } from "./parameters";
 import { endResidentFlow } from "./residents-economy";
+import { HOUSING_STATUS_EVENT } from "./housing-status-event";
 import type { ModuleRow } from "./module-data";
 import { webFactorFor } from "./outcome-web-reach";
 import type { CoreAPI, CoreState, PersonId } from "./types";
 
-export const HOUSING_STATUS_EVENT = "housing.status-changed";
+export { HOUSING_STATUS_EVENT };
 const HOUSING = "housing";
 
 export type HousingStatus =
@@ -254,6 +255,8 @@ function setStatus(
         memberIds: readonly PersonId[];
         reasons: Readonly<Record<string, number | string>>;
         reasonRecordIds: readonly string[];
+        /** The lease the household signed, where it rents again. */
+        leaseId?: string;
       },
   previous: HousingStatus,
 ): void {
@@ -293,6 +296,8 @@ function setStatus(
         row.memberIds.map((id) => [`person:${id}:housing`, row.status]),
       ),
       ...countedFacts(row.id, countedIds),
+      // The lease a household housed again signed, for the grievance it ends.
+      ...("leaseId" in row && row.leaseId ? { leaseId: row.leaseId } : {}),
     },
   });
 }
@@ -720,6 +725,7 @@ export function reviewHomeless(
           cashMinor: cash,
         },
         reasonRecordIds: [leaseId],
+        leaseId,
       },
       row.status,
     );

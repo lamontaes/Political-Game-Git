@@ -53,6 +53,12 @@ import {
   type CountryTier,
 } from "../country-model";
 import { countryOpening } from "../country-opening";
+/** The country tier's sectors and state rows, for screens that read a state's record (dev mode's Trace). */
+export {
+  COUNTRY_SECTORS,
+  type CountrySector,
+  type CountryState,
+} from "../country-model";
 import { bookkeeping } from "../bookkeeping";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
@@ -781,10 +787,16 @@ export const MACRO_MODULE: PreStartModule = {
     else if (work.kind === "macro-rate-effective")
       takeEffect(api, work.sourceRecordIds[0]!);
   },
-  onDay(api) {
-    if (!readState(api)) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its months, meetings and rate changes are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The economy opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!readState(api)) open(api);
+}
 
 /** The board members are people in the world; add them to the opening input. */
 export function withCentralBank(input: CoreInput): CoreInput {

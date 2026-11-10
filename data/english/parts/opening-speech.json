@@ -23886,7 +23886,7 @@
       "key": "opening-speech.story-says.polished-twn-prices-in-this-town-have-climbed-faster-than-they-should-and-families",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Prices in this town have climbed faster than they should, and families feel it every time they fill a cart or a tank.",
+      "text": "Prices across town have climbed faster than they should, and families feel it every time they fill a cart or a tank.",
       "uses": [
         {
           "move": "story-says",
@@ -23907,7 +23907,7 @@
       "key": "opening-speech.story-says.polished-twn-prices-in-this-town-have-eased-since-this-term-began-and-the",
       "move": "story-says",
       "kind": "spoken",
-      "text": "Prices in this town have eased since this term began, and the month stretches a little further.",
+      "text": "Prices around town have eased since this term began, and the month stretches a little further.",
       "uses": [
         {
           "move": "story-says",

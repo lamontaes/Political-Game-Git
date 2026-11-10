@@ -41,6 +41,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { billNameFor, spokenDesignation } from "../english/bill-names";
 import { areaName } from "../english/area-names";
 import { questionAbout } from "../english/question-names";
+import { raceTurnoutFacts } from "./race-turnout-facts";
 import {
   questionName,
   storyTopicName,
@@ -118,6 +119,7 @@ import {
   PRESS_STORY_EVENT,
 } from "../core2/modules/press";
 import { closenessBetween } from "../core2/closeness";
+import lineNames from "../core2/data/budgets/line-names.json" with { type: "json" };
 import { stakeOf } from "./family-stake";
 import { remarkOf } from "./remark";
 import { properName, spoken, spokenDate, stateInSentence } from "./words";
@@ -1103,6 +1105,11 @@ function composeBinding(
     resultFacts(facts, record.personIds, winner, askerId, askedId, {
       id: moment.causeId,
     });
+  // Who turned out, from the count's own rows: the winner's share of the
+  // ballots, the share of the eligible who voted and the place that gave the
+  // winner the biggest share.
+  if (record?.kind === "election-result" && said.contestId)
+    Object.assign(facts, raceTurnoutFacts(core, said.contestId));
   // The winner's side of a count: how far ahead they finished, from the
   // result record's totals (votes, exact: a count is an integer).
   if (said.totals && said.winnerId === askedId) {
@@ -1518,6 +1525,16 @@ function cutFacts(
         sourceRecordIds: [causeId, budget.id],
       };
   }
+  // What the line pays for, as the budget screen names it ("police
+  // protection"), from the line the record names.
+  const lineName = (
+    lineNames.lines as Record<string, { readonly name: string } | undefined>
+  )[said.line ?? ""]?.name;
+  if (lineName)
+    facts.line = {
+      text: lineName.charAt(P.zero).toLowerCase() + lineName.slice(P.one),
+      sourceRecordIds: [causeId, ...(budget ? [budget.id] : [])],
+    };
   const post = appointmentsIn(api, lawChain(api).townPlaceId).find(
     (row) => row.holderId === headId,
   );

@@ -4,21 +4,36 @@ title: "Oct 23 doc audit: archive 49 dead docs, fix 13, stamp 46, add the freshn
 area: docs
 kind: cleanup
 priority: 1
-size: L
+size: S
 status: open
+standard: 2
 claimed-by:
 pr: #5844
-blocked-on:
+after:
+blocked-on: docs-stale-2026-10-23-audit-part-1-archive-ended-files, docs-stale-2026-10-23-audit-part-2-repair-pointers, docs-stale-2026-10-23-audit-part-3-freshness-check
+lead: cto
+model: sonnet
+effort: low
+root: none
 source: added with npm run pool -- add
-claimed-at: 
+claimed-at:
+checked: fable 2026-11-10
 ---
 
-**What.** On Oct 23 the owner said to stop the stale docs. The live tree still carried 28 ended per-session status files, the BOARD, two handoffs, six work orders, the seven M0 packages, the 4,243-line PROGRESS file, a duplicate specs draft and five old-engine reports, and nothing checked a doc's freshness. This slice archives those 49 files under docs/archive/2026-10-23/ with their originals deleted, rewrites 13 docs whose rules were overruled, stamps 46 checked docs with a Current as of line, repairs every live pointer to a moved path, and adds scripts/docs/freshness.mjs with its skill and npm script so release:check prints the freshness table.
+**What.** On Oct 23 the owner said to stop the stale docs. The live tree still carries ended per-session status files in docs/coordination (BOARD.md, SESSION-A.md, SESSION-B.md, SESSION-C.md, SESSION-D.md, HANDOFF-2026-10-12.md, OPUS-CORE.md, OPUS-GOV.md, OPUS-PEOPLE.md, OPUS-PLAY.md and others), work orders, M0 packages, a long PROGRESS file and old-engine reports, and nothing checks a doc's freshness. The first attempt (PR #5844) archived 49 files under docs/archive/2026-10-23/ but was sent back and never merged. This item redoes it in three parts: archive the ended files with their originals deleted, repair every live pointer, and optionally add a freshness check.
+
+**Cause.** Found in code: `BOARD.md` (`docs/coordination/BOARD.md`), `docs/coordination/SESSION-A.md`, `docs/coordination/HANDOFF-2026-10-12.md` and `docs/coordination/OPUS-CORE.md` still exist in the live tree, while `docs/archive/2026-10-23/`, `scripts/docs/freshness.mjs` and the doc-freshness skill do not exist (the first PR was sent back for an ENOBUFS truncation in freshness.mjs, per the Notes).
+
+**Fix.** Move the ended docs to docs/archive/ with originals deleted and live pointers repaired. Skip the freshness script unless a cheaper stamp check is wanted. The three parts are listed in Waits on.
+
+**Time box.** 2 hours for one Sonnet session for the closing check after the parts; each part carries its own time box.
 
 **Rules.** Replace, never layer: every archived doc is a move with its original deleted in the same commit and every pointer to it repaired, never a copy left beside the live one. Look before you ask: a doc that disagrees with OWNER-DECISIONS.md is rewritten to the ruling, not asked about again.
 
-**Done when.** Every one of the 49 archived paths is under docs/archive/2026-10-23/ and gone from its old place; grep of the live tree outside docs/archive for the 49 old paths returns nothing but a commit-pinned GitHub permalink and two JSON data strings; node scripts/docs/freshness.mjs --report exits 0 and lists 64 flagged docs, all in docs-stale-2026-10-23-leftovers; the test suite npm run test:skill-ops passes with the .claude/skills mirrors byte-identical to .agents/skills; npm run pool -- --check shows the index current; prettier is clean on every changed Markdown and JSON file. **On screen.** None by design: this is a check, a speed or tooling change, or a cleanup; the player notices only that the game keeps running and the numbers stay believable.
+**Done when.** A second session lists docs/coordination in a drawn place's checkout of main and finds the ended session, handoff and work-order files gone from it and present under docs/archive/. A search of the live tree outside docs/archive for the old paths finds nothing but permalinks, `npm run pool -- --check` shows the index current, and `npm run test:skill-ops` passes. **On screen.** None by design: this is a cleanup; the player notices nothing.
 
-**Files.** docs/archive/2026-10-23/, docs/coordination/, docs/packages/, docs/roadmap/, docs/reports/, scripts/docs/freshness.mjs, scripts/docs/freshness.json, .agents/skills/doc-freshness/SKILL.md, .claude/skills/doc-freshness/SKILL.md, AGENTS.md, package.json
+**Waits on.** Its three parts: docs-stale-2026-10-23-audit-part-1-archive-ended-files, docs-stale-2026-10-23-audit-part-2-repair-pointers, docs-stale-2026-10-23-audit-part-3-freshness-check.
+
+**Files.** docs/coordination, docs/packages, docs/roadmap, docs/reports, docs/archive, AGENTS.md
 
 **Notes.** Sent back 2026-10-23 from PR #5844 (branch cto/docs-fresh-2026-10-23): freshness.mjs:21-24 silently truncates the git file inventory at spawnSync default maxBuffer (ENOBUFS), falsely flags existing tests and invalidates the 64-doc receipt; handle subprocess errors and complete inventory, and correct the literal old-path exclusions; finish on that branch, merge main into it first.
