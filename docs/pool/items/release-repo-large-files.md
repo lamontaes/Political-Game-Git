@@ -16,6 +16,7 @@ effort: high
 root: none
 lead: cto
 blocked-on:
+checked: fable 2026-11-10
 ---
 
 **What.** The repository is large and has no large-file storage, so every session's clone carries all of it. The owner ruled on Oct 19 to move art intermediates and large raw data to Git LFS, and to delete the raw publisher captures in data/source/*/raw/ that nothing reads. A clone should be a few hundred MB, so every session's clone gets smaller and faster. The Oct 19 audit snapshot (commit 0104686) said 3.13 GB, with art about 1.4 GB and about 520 MB of captures; recount every path and size before implementing.

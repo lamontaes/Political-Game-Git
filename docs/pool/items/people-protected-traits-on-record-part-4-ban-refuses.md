@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The ban on discrimination in housing and work reaches nobody until a decision can cite a protected trait. Once the hire and tenant picks record reasons that cite one, a ban in force must refuse a decision whose reasons cite it, recorded by lawApplied. Until then the ban is an open stopgap and its matrix row cannot be graded.

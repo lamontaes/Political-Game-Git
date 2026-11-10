@@ -16,6 +16,7 @@ standard: 2
 model: opus
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** After a filing, a relative whose household savings fall short of the race's length (`src/director/family-stake.ts`) talks to the player at home, and one of the player's four replies bounds the cost ("There's a line I won't cross with our savings"). Today that reply is recorded as said and as time together, and nothing reads the limit (stopgap `SG-WORDS-family-limit-unread`). The campaign engine should keep the limit as a record of what the candidate agreed to with that relative, and read it when the candidate gives their own money.

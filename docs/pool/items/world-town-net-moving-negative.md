@@ -17,6 +17,7 @@ effort: high
 root: none
 source: added with npm run pool -- add
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** A played town loses far more residents to moving away than move in: 3.6 to 4.7 percent of its residents a year net. A real town's net migration sits near its state's, so a town that empties faster than its state is a sign that the in-moves and out-moves follow different rules. Find what makes in-moves fall short of out-moves and fix the cause. Two causes were fixed on Oct 17 (the counted engine could not tell which state a state-level counted place lay in, and newcomers settled only where a counted household of their age lived); the rest were measured and need a fresh look at the current code.

@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** The employer's hire pick weighs experience, reliability and referral and reads no protected trait, so nobody is ever passed over. An employer's pass-over should come from the owner's or hiring manager's own traits and views read against the applicant's record, with the reasons recorded (OWNER-DECISIONS.md, "Employer passing over an applicant"). This takes the employer pass-over of the merged owner-employer-bias-source.
