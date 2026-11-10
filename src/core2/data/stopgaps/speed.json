@@ -22,5 +22,17 @@
     "addedAt": "2026-11-09",
     "replacement": "Opening a grouped hearer builds their own detail (that they came, what they heard) from the group's result and the record ids (step 3), and a household retelling read by group.",
     "status": "open"
+  },
+  {
+    "id": "SG-SPEED-results-mode-daily-work",
+    "kind": "partial-model",
+    "file": "src/core2/life.ts",
+    "line": 589,
+    "whatItFakes": "A day in results mode (time nobody watches) runs only the module calendar's dated work and the day's compaction: no module's daily work, no planned acts, no person due to act and no end-of-day hooks. Only the finance engine catches up, on the first of each month, by settling the budgets, business reviews, bills and buyers' purchases that fell due; wages, households' everyday living and every other daily loop do not run. People are not born, do not die or move, prices and pay hold, nobody is hired and nobody campaigns in a skipped year.",
+    "why": "The fast clock, part 1 (pool item core-fast-clock-part-1-a-results-mode-for-skipped-time): one year day by day took 41.5 seconds in the smallest measured town; the base that the later parts add their monthly steps to.",
+    "addedBy": "Fable helper",
+    "addedAt": "2026-11-10",
+    "replacement": "Parts 2 to 4 of the fast clock give each engine whose daily work a skipped year needs (births, deaths and illness; prices, pay and jobs; elections counted from the voters) its own onResultsMonth step, each the engine's own code at a monthly pace.",
+    "status": "open"
   }
 ]
