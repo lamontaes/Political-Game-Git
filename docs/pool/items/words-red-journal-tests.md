@@ -7,7 +7,7 @@ priority: 1
 size: S
 status: in-pr
 claimed-by: story/red-journal-tests
-pr: pending
+pr: 8119
 blocked-on:
 lead: words
 source: src/director/journal.test.ts and journal-story.test.ts red on clean main at seeds 11 and 222 (Nov 10)
