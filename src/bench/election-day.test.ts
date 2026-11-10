@@ -56,6 +56,14 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
     const md = born.slice(5) === "02-29" ? "03-01" : born.slice(5);
     const eighteen = makeIsoDate(`${Number(born.slice(0, 4)) + 18}-${md}`);
     if (eighteen > core.date) advanceCore(core, eighteen);
+    // Every race opens its filing on a real day, so on the birthday most
+    // places have none open yet: the world runs a week at a time, at most 60
+    // weeks, until the clerk lists a race (the game offers it then).
+    let weeksWaited = 0;
+    while (!playerContests(api).length && weeksWaited < 60) {
+      advanceCore(core, addDays(makeIsoDate(core.date), 7));
+      weeksWaited += 1;
+    }
     const filed = [...playerContests(api)]
       .sort(
         (a, b) =>
@@ -72,7 +80,9 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
         ),
       );
     if (!filed) {
-      tried.push(`${where}: no race the player could enter`);
+      tried.push(
+        `${where}: no race the player could enter after ${weeksWaited} weeks (reached ${core.date})`,
+      );
       continue;
     }
     // Filing is a petition: the player canvasses for signatures until it
@@ -104,7 +114,9 @@ it("election morning offers a canvass and the vote, staying home casts nothing, 
       tried.push(`${where}: election morning never came for ${filed.id}`);
       continue;
     }
-    console.log(`election-day: ${where}, race ${filed.id}`);
+    console.log(
+      `election-day: ${where}, waited ${weeksWaited} weeks (to ${core.date}), race ${filed.id}`,
+    );
 
     // Election morning: the narrator, the canvass for a candidate, the ask.
     const day = electionDay(core, playerId!, visit, false);
