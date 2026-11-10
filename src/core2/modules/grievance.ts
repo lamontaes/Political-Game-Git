@@ -28,7 +28,7 @@
  * record stood for (`heads`, the job change's own count).
  */
 import { registerModule } from "../state";
-import { HOUSING_STATUS_EVENT } from "../housing-homeless";
+import { HOUSING_STATUS_EVENT } from "../housing-status-event";
 import type { ModuleRow } from "../module-data";
 import type { CoreAPI, CoreEventInput, CoreModule, CoreState } from "../types";
 import { ownerOf } from "./business";

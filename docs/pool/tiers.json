@@ -33,6 +33,12 @@
       "why": "Scoped building against a spec with its test."
     },
     {
+      "label": "muse",
+      "tier": "mid",
+      "any": ["muse"],
+      "why": "Meta's Muse Code and its Muse Spark models. Not yet measured here, so mid until the CTO moves it. It sits above the light row, whose \"spark\" would otherwise take Muse Spark for a small model."
+    },
+    {
       "label": "light",
       "tier": "light",
       "any": ["mini", "nano", "flash", "lite", "small", "spark"],
@@ -55,12 +61,6 @@
       "tier": "mid",
       "any": ["gemini", "antigravity"],
       "why": "Not yet measured on top items here; mid until the CTO moves it."
-    },
-    {
-      "label": "muse",
-      "tier": "mid",
-      "any": ["muse"],
-      "why": "Not yet measured here; mid until the CTO moves it."
     },
     {
       "label": "cursor",
