@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/campaign-outside-donors.test.ts fails on clean main with GOLDEN_PATH_SEED=pet-run-1 (Oct 28, 21:05 UTC). In Strasburg, North Dakota (3876500), place seed 273562d7baee41cdcec1eb38d32cc89d442587e61b63a699457dcb3bdc5b2cf1, the candidate person:cabinet:US-ND:budget files for the 2030 U.S. Senate race and runs 120 campaign turns three days apart. The test's last check fails: no poll is bought (polls 0). The race is five years out, so the campaign may hold its money for later, or the poll purchase may wait for a window the test never reaches. Guards: campaign-outside-donors.test, red on clean main in Strasburg, North Dakota.
+**What.** src/core2/campaign-outside-donors.test.ts fails on clean main with GOLDEN_PATH_SEED=pet-run-1 (Oct 28, 21:05 UTC). In Strasburg, North Dakota (3876500), place seed 273562d7baee41cdcec1eb38d32cc89d442587e61b63a699457dcb3bdc5b2cf1, the candidate person:cabinet:US-ND:budget files for the 2030 U.S. Senate race and runs 120 campaign turns three days apart. The test's last check fails: no poll is bought (polls 0). The race is five years out, so the campaign may hold its money for later, or the poll purchase may wait for a window the test never reaches. Guards: a statewide campaign that raises money buys a poll, which the Campaigns screen shows (Strasburg, North Dakota).
 
 **Cause.** Needs cause. Looked at src/core2/campaign-outside-donors.test.ts and src/core2/modules/campaigns.ts: GOLDEN_PATH_SEED=pet-run-1 in Strasburg, North Dakota gives polls 0, and neither a held budget nor a poll window is shown as the reason.
 

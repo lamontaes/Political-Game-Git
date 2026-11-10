@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 3
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -20,7 +20,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** `src/director/electoral-scenes.test.ts` (the filing and campaign stop) runs past 20 minutes in some drawn places: GOLDEN_PATH_SEED=fs1 exceeds 1,200 seconds on clean main. What the test spends the time on has not been measured. Guards: electoral-scenes.test, which runs past 20 minutes in some drawn places and holds up CI.
+**What.** `src/director/electoral-scenes.test.ts` (the filing and campaign stop) runs past 20 minutes in some drawn places: GOLDEN_PATH_SEED=fs1 exceeds 1,200 seconds on clean main. What the test spends the time on has not been measured.
 
 **Cause.** Needs cause. Measured (title only): `src/director/electoral-scenes.test.ts` exceeds 1,200 seconds at GOLDEN_PATH_SEED=fs1 on clean main. It has not been run here and what it spends the time on has not been read.
 
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** TODO Released from idle draft #5196 by the CTO, Oct 26.
 
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-7xkkii` (2026-10-20). Cleared from the front matter and kept here.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would speed up one slow director test; the cause is not found and no player sees test time.

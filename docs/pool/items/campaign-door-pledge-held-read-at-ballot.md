@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** In src/core2/door-pledge.test.ts, the test 'a door yes is near-binding' fails in Merizo, Guam (territory:GU:merizo, seed e1fedb0d3a7de565c35eaf9f988e4bc793010cc88e0dc52957a07a8ba6e6466d) on main da7ec81210: ballot:contest:seat:US-GU:governor:2026-11-03:person_6920550c71951401 carries a pledge part of 1.9336394 while the test expects 1.9337205. The test recomputes pledgeDoubt after the election, but pledgeDoubt reads relationships and news as of api.state.date, which moved after the ballot was cast, so a small drift in the voter's ties to the candidates shows up as a mismatch. Found by Lane 1 while checking #7142, where it fails the same way. Guards: door-pledge.test, red on main in Merizo, Guam by a rounding drift after the election.
+**What.** In src/core2/door-pledge.test.ts, the test 'a door yes is near-binding' fails in Merizo, Guam (territory:GU:merizo, seed e1fedb0d3a7de565c35eaf9f988e4bc793010cc88e0dc52957a07a8ba6e6466d) on main da7ec81210: ballot:contest:seat:US-GU:governor:2026-11-03:person_6920550c71951401 carries a pledge part of 1.9336394 while the test expects 1.9337205. The test recomputes pledgeDoubt after the election, but pledgeDoubt reads relationships and news as of api.state.date, which moved after the ballot was cast, so a small drift in the voter's ties to the candidates shows up as a mismatch. Found by Lane 1 while checking #7142, where it fails the same way.
 
 **Cause.** Found in code: src/core2/door-pledge.test.ts recomputes `pledgeDoubt` (src/core2/modules/voting.ts line 791) after the election, but `pledgeDoubt` reads relationships and news as of the state's date, which moved after the ballot was cast. In Merizo, Guam (territory:GU:merizo, seed e1fedb0d3a7de565c35eaf9f988e4bc793010cc88e0dc52957a07a8ba6e6466d) ballot:contest:seat:US-GU:governor:2026-11-03:person_6920550c71951401 carries a pledge part of 1.9336394 where the test expects 1.9337205.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/door-pledge.test.ts, src/core2/modules/voting.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would fix a test that recomputes a pledge after the election and drifts in the fourth decimal; nothing a player sees moves.

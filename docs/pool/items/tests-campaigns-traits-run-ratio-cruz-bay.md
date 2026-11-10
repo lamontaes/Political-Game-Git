@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/modules/campaigns.traits.test.ts, the case "running for office follows honesty-humility at about the researched rate, among newcomers", fails in Cruz Bay, U.S. Virgin Islands with GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52 (the first draw, suffix :0): the candidacy.run odds ratio between the top and bottom thirds of lean is 3.26, and the test allows under 2.67, which is the study's 1.21 times the test's 2.2 slack. It fails the same way on main's own code. The slope is read with every reason total moved so one in twenty would run, so the ratio depends on how many newcomers weigh running there and how many of their reason totals sit in one pile near the line. Guards: campaigns.traits.test, red in Cruz Bay: the running-for-office odds ratio is 3.26 against a ceiling of 2.67.
+**What.** src/core2/modules/campaigns.traits.test.ts, the case "running for office follows honesty-humility at about the researched rate, among newcomers", fails in Cruz Bay, U.S. Virgin Islands with GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52 (the first draw, suffix :0): the candidacy.run odds ratio between the top and bottom thirds of lean is 3.26, and the test allows under 2.67, which is the study's 1.21 times the test's 2.2 slack. It fails the same way on main's own code. The slope is read with every reason total moved so one in twenty would run, so the ratio depends on how many newcomers weigh running there and how many of their reason totals sit in one pile near the line.
 
 **Cause.** Needs cause. Looked at src/core2/modules/campaigns.traits.test.ts (the run-for-office case) and src/core2/modules/candidacy.ts: the hypothesis is the number of newcomers weighing a run in Cruz Bay and the pile of reason totals at the line, and it was not shown by record. Measured: GOLDEN_PATH_SEED=a4eca5af1791dc3df7527d94791fb774b3fcdd52, Cruz Bay, U.S. Virgin Islands.
 
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/campaigns.traits.test.ts, src/core2/modules/candidacy.ts, data/content/trait-decision-gaps.json
 
 **Notes.** Found Nov 1 by the governing lead's review of governing/traits-endorsements-heard (head ed93f41c81): with the named seed the endorsement case passes and this case fails; it fails the same way on main. Read: OWNER-DECISIONS (no dice), searched docs/pool/items for candidacy.run, running for office and Cruz Bay: no match. The giving ratio in Lyndon Center, Vermont is traits-donate-reasons-too-flat-in-some-towns.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would loosen or fix a test ceiling on an odds ratio of who runs; the ratio is a calibration check no player sees.

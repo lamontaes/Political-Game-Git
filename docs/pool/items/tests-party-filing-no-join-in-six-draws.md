@@ -19,7 +19,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** src/core2/party-filing.test.ts fails on clean main with GOLDEN_PATH_SEED=pet-run-1 after its six draws, because in none of the played years did anyone join a party as an act. The places it passed over were Monomoscoy Island, Massachusetts; Deepstep, Georgia; Carter, Oklahoma; McCalla, Alabama; Lehr, North Dakota; and Bethany, Oregon. Before the vacant-seat special race fix, the same seed stopped earlier with "No national party on side 0", which hid this red. The join act may have become rarer since the test was written on Oct 27, or the test's window may be too short. Guards: party-filing.test, red on clean main: nobody joined a party as an act in six played years.
+**What.** src/core2/party-filing.test.ts fails on clean main with GOLDEN_PATH_SEED=pet-run-1 after its six draws, because in none of the played years did anyone join a party as an act. The places it passed over were Monomoscoy Island, Massachusetts; Deepstep, Georgia; Carter, Oklahoma; McCalla, Alabama; Lehr, North Dakota; and Bethany, Oregon. Before the vacant-seat special race fix, the same seed stopped earlier with "No national party on side 0", which hid this red. The join act may have become rarer since the test was written on Oct 27, or the test's window may be too short. Guards: a resident can join a party before filing, which the filing screen shows.
 
 **Cause.** Needs cause. Looked at src/core2/party-filing.test.ts and src/core2/modules/parties.ts: why no one joins a party as an act in these six played years was not traced. Measured: GOLDEN_PATH_SEED=pet-run-1 passes over the six places above with no join act.
 
