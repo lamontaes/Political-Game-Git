@@ -22,4 +22,4 @@ claimed-at:
 
 **Files.** src/director/race-told-scene.test.ts, src/director (the race-told producer)
 
-**Notes.** Nov 10, 15:25 UTC (Story): red again on CI at seed 13185266f8e7978e6bec3346aacf921bab78efe0, same message (Little Rock, South Carolina, no race to enter that year; Old Agency, Montana, no race told in the year; and the rest of its draw), so it is red on most seeds, not one.
+**Notes.** Nov 10, 15:25 UTC (Story): red again on CI at seed 13185266f8e7978e6bec3346aacf921bab78efe0, same message (Little Rock, South Carolina, no race to enter that year; Old Agency, Montana, no race told in the year; and the rest of its draw), so it fails on more than one seed; seed 11 passes.
