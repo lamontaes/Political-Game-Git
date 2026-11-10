@@ -83,6 +83,8 @@ export interface JournalLine {
   date: IsoDate;
   text: string;
   momentIds: readonly string[];
+  /** The kind of each moment the line tells (its row's cause kind), in the order told. */
+  kinds?: readonly string[];
   sourceRecordIds: readonly string[];
   /** The earlier entries this one revises, when a later record changed what they meant. */
   revises?: readonly string[];
@@ -1737,6 +1739,7 @@ export function composeJournal(
       date: moment.date,
       text: journalEntry(parts),
       momentIds: [moment.id],
+      kinds: [moment.causeKind],
       sourceRecordIds: [
         ...new Set(parts.flatMap((part) => part.sourceRecordIds)),
       ],
@@ -1749,6 +1752,7 @@ export function composeJournal(
     if (joined) {
       joined.text = `${joined.text} ${entry.text}`;
       joined.momentIds = [...joined.momentIds, moment.id];
+      joined.kinds = [...(joined.kinds ?? []), moment.causeKind];
       joined.sourceRecordIds = [
         ...new Set([...joined.sourceRecordIds, ...entry.sourceRecordIds]),
       ];
