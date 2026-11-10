@@ -62,7 +62,7 @@ describe("a person's history on their card", () => {
         true,
       );
     // Each line names its kind of record, the bank's move, which picks the
-    // timeline's icon on the card.
+    // paragraph it is told in on the card.
     for (const line of card.history)
       expect(line.kind, `${where}: ${line.text}`).toMatch(
         /^(born|school|moved|home|partner|child|work|business|loss|health|law|office|tie)$/,
