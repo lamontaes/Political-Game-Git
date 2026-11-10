@@ -6093,6 +6093,106 @@
       "tag": {
         "move": "narrate"
       }
+    },
+    {
+      "move": "lead-job-offer-alone",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "lead-job-offer-alone",
+          "subject": "lead",
+          "role": "job-offer",
+          "choice": "alone"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.lead-job-offer-alone.a-call-has-come-in-about-your-application",
+      "text": "A call has come in about your application.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "cause-shared-other",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "cause-shared-other",
+          "subject": "cause",
+          "role": "feeling:event:cause.shared",
+          "choice": "other"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news"
+      },
+      "key": "scene-words.cause-shared-other.on-one-issue-you-and-other-agree",
+      "text": "On one issue, you and {other} agree.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "cause-shared-other",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "cause-shared-other",
+          "subject": "cause",
+          "role": "feeling:event:cause.shared",
+          "choice": "other"
+        }
+      ],
+      "tag": {
+        "move": "deliver-news"
+      },
+      "key": "scene-words.cause-shared-other.other-and-you-stand-on-the-same-side-of-an-issue",
+      "text": "{other} and you stand on the same side of an issue.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-request-request",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-request-request",
+          "subject": "opening",
+          "role": "request",
+          "choice": "request"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-request-request.who-wants-to-ask-you-something",
+      "text": "{who} wants to ask you something.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
+    },
+    {
+      "move": "opening-request-request",
+      "kind": "spoken",
+      "uses": [
+        {
+          "move": "opening-request-request",
+          "subject": "opening",
+          "role": "request",
+          "choice": "request"
+        }
+      ],
+      "tag": {
+        "move": "narrate"
+      },
+      "key": "scene-words.opening-request-request.who-has-a-request-for-you",
+      "text": "{who} has a request for you.",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, one-line spots 1)",
+      "date": "2026-11-10"
     }
   ]
 }
