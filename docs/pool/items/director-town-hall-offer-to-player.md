@@ -5,12 +5,13 @@ area: gov
 kind: feature
 priority: 3
 size: M
-status: open
+status: merged
 claimed-by:
-pr:
+pr: #8134
 blocked-on:
 lead: governing
 source: "director helper trace, Nov 10: town-hall-question fires far less than other scenes; the director offers the player no town hall"
+merged-at: 2026-11-10T10:13:11.811Z
 ---
 
 **What.** Nothing in the director offers a held town hall as a choice. Traced (all read-only):
