@@ -28,13 +28,13 @@
   {
     "id": "SG-WEB-knowing-rent-reader",
     "kind": "missing-mechanic",
-    "file": "src/core2/outcome-news.ts",
-    "line": 52,
-    "whatItFakes": "The town hears of a rise in housing.rent from the outcome web's month record, but no engine yet reads the web's rent factor when it sets a lease, so the rise the story reports is not in any lease or rent payment.",
+    "file": "src/core2/data/news/outcome-news.json",
+    "line": 24,
+    "whatItFakes": "The town hears of a rise in housing.rent from the outcome web's month record, and the housing engine does read the web's rent factor when it renews a lease (renewRentalLeases in src/core2/housing-occupancy.ts, which webFactorFor(housing.rent) feeds), but the news list's housing.rent entry still says no engine reads it (readBy null in src/core2/data/news/outcome-news.json), so this marker outlives the thing it faked.",
     "why": "The housing family's rent wiring is on its own branch; the news path lists the measure so the town hears of it the month an engine reads it, with no change here.",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The housing engine multiplies its lease rent by webFactorFor(housing.rent); then this row and the readBy null in data/news/outcome-news.json are replaced by the reading file.",
+    "replacement": "Point the news entry's readBy at src/core2/housing-occupancy.ts and delete this row's marker (pool item web-news-rent-reader-marker).",
     "status": "open"
   },
   {
@@ -67,12 +67,12 @@
     "id": "SG-WEB-housing-links-unsized",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
-    "line": 526,
-    "whatItFakes": "Two housing links move nothing through the web: air-conditioning use does not rise or fall with the electricity price, and the share of income a place's renters pay in rent adds no factor to how many people are homeless. The housing engine's own evictions do follow unpaid rent (a named household's lease by its own pay and cash; counted households by their group's pooled arrears, lowest income first), but no played year yet shows that path rising with burden past 22 and faster past 32 percent.",
+    "line": 664,
+    "whatItFakes": "One housing link moves nothing through the web: air-conditioning use does not rise or fall with the electricity price (no published slope, and no engine decides air-conditioning use). The rent-burden link now reaches people: reviewHomeless (src/core2/housing-homeless.ts) reads the web's homelessness factor, and the housing engine's evictions follow unpaid rent, but no played year yet shows the eviction path rising past 22 and faster past 32 percent.",
     "why": "The cited research gives no usable size: the electricity-price link has no published slope and no engine reads the air-conditioning share; the rent-burden link has thresholds at 22 and 32 percent but no slope (Zillow and UNH 2018; Colburn and Aldern 2022), and src/core2/housing-calibration.test.ts checks the curve only in a year with 10 or more court cases, which the drawn towns did not reach and the pinned Puerto Rico town fails.",
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-20",
-    "replacement": "A sized link (a published slope per cent of price) read by an engine that decides air-conditioning use; for rent burden, a played year with 10 or more court cases that passes the burden checks in src/core2/housing-calibration.test.ts, after which the link is carried by the housing engine.",
+    "replacement": "A sized air-conditioning link (a published slope per cent of price) read by an engine that decides air-conditioning use; for rent burden, a played year with 10 or more court cases that passes the burden checks in src/core2/housing-calibration.test.ts.",
     "status": "open"
   },
   {
@@ -394,11 +394,11 @@
     "kind": "missing-mechanic",
     "file": "src/core2/data/outcome-web/unwired.json",
     "line": 68,
-    "whatItFakes": "coverage-to-medical-debt is not run by the outcome web, so it moves nothing (it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct); no person, household or organization record changes.",
+    "whatItFakes": "coverage-to-medical-debt is not run by the outcome web, so it moves nothing: it waits on health.coverage-pct, which no engine records. The engine that owns finance.medical-debt-in-collections does read the web's factor for the other links on it (collectionsShare in src/core2/medical-bills.ts calls webReach), so what is faked is this one link's cause, not the reader.",
     "why": "the web does not run it: it waits on health.coverage-pct; nothing in the core records its cause, health.coverage-pct",
     "addedBy": "EFFECT-WEB-WIRING",
     "addedAt": "2026-10-20",
-    "replacement": "The engine that owns finance.medical-debt-in-collections multiplies its own person, household or organization rate by webReach(api, placeId, \"finance.medical-debt-in-collections\", subject), as counted births do, so these links change its records.",
+    "replacement": "An engine measure health.coverage-pct recorded from the coverage records, so the web runs coverage-to-medical-debt and collectionsShare's existing webReach read carries it (pool item outcome-causes-health-programs-part-1-coverage-links).",
     "status": "open"
   },
   {
