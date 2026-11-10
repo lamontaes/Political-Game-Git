@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/race-told-turnout
-pr: pending
+pr: 8149
 blocked-on:
 lead: words
 source: coordinator, Nov 10 (the only answer to "Who turned out for {candidate}?" was "{candidate} got the most votes. That's all I know for sure.")
