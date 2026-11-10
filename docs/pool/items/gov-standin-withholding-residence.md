@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** Split out of gov-standins-other by the session that claimed it (claude/standins-other-credit-business).
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as a duplicate. SG-WORLD-withholding-residence-law is laws-other-places-chains-part-1-record-chains and laws-other-places-chains-part-3-close-stopgap; SG-WORLD-withholding-local-base is gov-withholding-local-exemptions. The nonresident row stays with world-withholding-nonresident-local.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Nothing is left in it that another item does not hold.

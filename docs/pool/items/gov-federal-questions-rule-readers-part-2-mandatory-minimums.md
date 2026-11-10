@@ -5,7 +5,7 @@ area: gov
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/data/laws/reach-group-a.json, src/core2/law-reach/group-a.ts, src/core2/modules/justice.ts, src/core2/data/stopgaps/laws.json
 
 **Notes (Fable's check, Nov 10, proposed for the CTO).** Proposed: drop as already built. The federal courts engine in src/core2/modules/federal-courts.ts reads the reduce-mandatory-minimums law in force (its header, line 13 on, and the key at line 31) and takes the sentence of cases still subject to a minimum down for admissions after the law took effect. The Nov 10 sweep saw the law "move nothing" because that engine moves counts of people in federal custody, not dollars in one town. A named case and person the law reaches is justice-federal-case-stream-part-1-case-on-open and part 2.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's full check (`docs/pool/redo-2026-11-10/checked.md`): Asks for a reader that exists.

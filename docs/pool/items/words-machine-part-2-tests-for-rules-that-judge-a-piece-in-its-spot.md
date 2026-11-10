@@ -30,7 +30,7 @@ claimed-at: 2026-11-10T19:03:05.502Z
 
 **Rules.** No hand-written player text: the rules judge bank lines only, and this part writes none. A rule may not pull a line the owner graded good. A rule that needs a fact no tag holds is left awaiting, with the missing tag named in its row; do not guess the context from the words.
 
-**Done when.** A second session, on main, runs `npm run words:rules` twice with the second run changing nothing, reads these rules in the report with their flagged lines and no conflicts, and for three of the rules opens one pulled line and one line left alone in the same bank and agrees the rule tells them apart by where each is said. It builds a drawn place's scenes for a year with the crew's scene tool, names the place and seed, and finds none of the lines these rules pulled.
+**Done when.** A second session, on main, runs `npm run words:rules` twice with the second run changing nothing, reads these rules in the report with their flagged lines and no conflicts, and for three of the rules opens one line the rule flags (pulled, or waiting for Story's rewrite where pulling it would leave its spot silent) and one line left alone in the same bank and agrees the rule tells them apart by where each is said. It builds a drawn place's scenes for a year with the crew's scene tool, names the place and seed, and finds none of the lines these rules pulled.
 
 **Waits on.** Pull request 8154 on main. words-machine-part-1-tests-for-rules-that-judge-one-line for the run's steps.
 

@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: in-pr
+status: merged
 claimed-by: claude/fable-life-record-list
 pr: #8115
 after:
@@ -13,6 +13,7 @@ blocked-on:
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Against your newest rulings (measured)", and "Reported done that is not done", item 8)
 claimed-at: 2026-11-10T06:09:05.995Z
+merged-at: 2026-11-10T20:15:54.998Z
 ---
 
 **What.** Measured by the audit on Nov 9 in Blodgett Landing, New Hampshire (a random world; the audit gives no seed), playing a 17-year-old the game named Ray Kent: "the You screen's Your life tab and the person card still draw a timeline... You approved a timeline on October 29 and withdrew it on November 7; the game shows the older design." Its screenshot `docs/audits/fable-vision-2026-11-09-screens/01-your-life-four-lines.jpg` (branch audit/fable-vision) shows the Your life tab as a gold line with four round icons and four dated cards, 2007, 2012, 2018 and 2021. Read in code on main, Nov 10: `lifeTimeline` in `src/bench/play.mjs` (line 3156) wraps the one timeline part (`timeline` in `src/bench/ui/timeline.mjs`, line 72) and is called three times: on a person's card (line 2353, inside `personCardNode`), on Jobs and study (line 3441, `jobs()`) and on Your life (line 3452, `history()`); its styles are `.timeline` and the five `.timeline-*` rules in `src/bench/play.css` (from line 3630). Fix all three at once: the same history lines are told as sentences in a section strip, as the approved You screen and person card draw text, and the timeline part, its styles and its callers are deleted.

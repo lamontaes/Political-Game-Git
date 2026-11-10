@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: owner, Oct 29 (Government screen answers: judges as read-only cards)
+checked: fable 2026-11-10
 ---
 
 **What.** On Oct 29 the owner answered that Politics → Government's Judicial tab shows "the judges who exist in the world as read-only cards", but no judge exists in the world: the offices engine seats no judgeship, and the Government screen's Judicial tab has nothing to draw (SG-PLAY-government-judicial-no-judges). Courts as play come after early access (owner, Oct 10), yet a town's county court, the state's supreme court and the federal bench have real judges a player would see named. This seats them as officials through the one offices engine, chosen as each place's law says (elected, appointed or retained), with no court mechanics added.
