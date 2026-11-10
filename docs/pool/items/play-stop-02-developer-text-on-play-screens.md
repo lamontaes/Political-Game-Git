@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
-pr:
+status: claimed
+claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
+pr: #8266
 after:
 blocked-on:
 standard: 2
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:12:18.364Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
