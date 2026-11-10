@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: story/director-race-told-townhall
-pr: 8109
+pr: #8109
 blocked-on:
 lead: words
 milestone: play-first
