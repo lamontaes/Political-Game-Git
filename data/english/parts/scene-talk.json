@@ -105,7 +105,8 @@
     "spouse": "The name of the person the celebrant married, from the marriage record.",
     "vote_share": "The winner's share of the ballots cast in a race, in whole percent, from the count's totals.",
     "turnout": "The share of the people eligible to vote who voted in a race, in whole percent, from the count's rows.",
-    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results."
+    "best_place": "The place that gave the winner the biggest share of its ballots, by name, from the count's place results.",
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record."
   },
   "maxWords": 70,
   "parts": [
