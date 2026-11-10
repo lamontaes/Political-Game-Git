@@ -44,6 +44,7 @@ If you cannot tell from the code, say "could not tell" and what you read. Never 
 
 - **Crime.** `SG-CORE-crime-offenders` and `SG-CORE-crime-arrests` wait for the owner's start on the one crime system (owner, Nov 10; `docs/coordination/OWNER-DECISIONS.md`). Tag any stand-in that belongs to it "waits on the crime system" and file nothing.
 - **Scope calls of Oct 10** (`docs/ROADMAP.md`): courts come after early access; the press, constituent cases and corruption are basic at early access. A stand-in inside one of those may stay, and the row says which call covers it.
+- **One money system, and reuse before you build (owner, Nov 10).** "Make sure it's all the same, you know, dollar system and money, or it links to or reuses code where possible, etc. It doesn't need to build everything new all the time." Money moves only through what exists: the accounts and obligations, the treasuries, withholding and the one benefit payer. So before you call a closing "code", look for the engine and the function that already own the mechanic, and name them: a stand-in's "missing engine" may only need wiring to an engine that exists. A Fix in a new item names the existing function it changes, and never adds a second payment, tax or ledger path beside one that exists.
 - **Speed is part of done.** No closing plan may push a played year past two minutes. For a code closing, say in a few words how it stays cheap: monthly, by counts, or built when opened.
 
 ## A question for the owner
