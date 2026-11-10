@@ -17,6 +17,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 lead: laws-effects
+checked: fable 2026-11-10
 ---
 
 **What.** Three links still wait on causes or outcomes the disaster, justice and school-year engines do not record as measures: disaster-to-public-transfers (a severe disaster), release-lower-level-to-larceny and heat-to-learning. The home-price births, disaster-to-home-values and disaster-to-out-migration links are already wired, and the two pretrial-detention links are carried by the court and jobs engines. A link runs only when its cause is readable and its outcome is one the web keeps. Add the cause measure and the kept outcome for each of the three.

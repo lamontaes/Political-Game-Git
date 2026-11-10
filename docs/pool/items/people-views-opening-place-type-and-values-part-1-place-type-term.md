@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-one-model-two-tiers
 source: split from people-views-opening-place-type-and-values in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Add a place-type term to a person's opening lean so a rural town opens more Republican-leaning and an urban one more Democratic-leaning, as the Pew 2024 community-type shares measure (urban counties 60% Democratic and 37% Republican, suburban 47% and 50%, rural a 25-point Republican edge; data/research/people/pew-partisanship-community-type-2023.json). The term is added for full people and, by the same rule, for counted residents (`countedLean`), so a counted resident opens where they will when filled in. Pew gives party identification, not the views scale, so the conversion to the views scale is the builder's work and is marked ESTIMATED with its source and spread.
