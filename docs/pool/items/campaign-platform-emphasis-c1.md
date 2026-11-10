@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/campaign-views.ts, src/core2/modules/campaigns.ts, src/core2/campaign-platform-played.test.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would refit how a candidate spreads their talk across the platform to a research slope; no screen shows emphasis by support, and a number may stay an estimate.

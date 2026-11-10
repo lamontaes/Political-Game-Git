@@ -19,7 +19,7 @@ source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for
 checked: fable 2026-11-10
 ---
 
-**What.** A resident in a crowd can found a standing group in the public-action records. The player can join one through the cause-invite scene, but the player cannot start one. Add a scene where a resident or officeholder founds a group around a cause they hold, people with a reason to join do join, and the group and its members are records the public-action engine and the press read.
+**What.** A resident in a crowd can found a standing group in the public-action records. The player can join one through the cause-invite scene, but the player cannot start one. Add a scene where a resident or officeholder founds a group around a cause they hold, people with a reason to join do join, and the group and its members are records the public-action engine and the press read. Seen: a scene where you or a resident start a movement, and its members join.
 
 **Cause.** Found in code: `organize` (`src/core2/modules/public-action.ts` line 201) founds a standing group from a crowd, and `playerJoins` (line 334) after `inviteThePlayer` (line 291) is the only way the player meets one. Design: the owner on Nov 8, "can you start a movement?" (docs/coordination/voice-notes/2026-11-08-story-and-night.md).
 

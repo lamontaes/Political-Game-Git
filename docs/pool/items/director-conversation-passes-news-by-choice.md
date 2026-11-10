@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** `src/director/conversation.test.ts` ('records talking as time together, and passes news the other hasn't heard') takes `talk.choices[0]` and then expects the other person to know fixture-story as 'told'. In Moscow, Tennessee (seed cvd4) and Galateo, Puerto Rico (seed cvd5) the first choice is an answer that tells no news, so `api.knows(...).access` is undefined. It fails the same on clean main.
+**What.** `src/director/conversation.test.ts` ('records talking as time together, and passes news the other hasn't heard') takes `talk.choices[0]` and then expects the other person to know fixture-story as 'told'. In Moscow, Tennessee (seed cvd4) and Galateo, Puerto Rico (seed cvd5) the first choice is an answer that tells no news, so `api.knows(...).access` is undefined. It fails the same on clean main. Guards: conversation.test, red on clean main in Moscow, Tennessee and Galateo, Puerto Rico; it picks a reply that tells no news.
 
 **Cause.** Found in code: `src/director/conversation.test.ts` line 339, `say(core, talk, talk.choices[0]!.key)` in the test at line 326; the first choice is not always the one that tells the news. Measured: GOLDEN_PATH_SEED=cvd4 (Moscow, Tennessee) and cvd5 (Galateo, Puerto Rico).
 

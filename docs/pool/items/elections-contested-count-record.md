@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -37,3 +37,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/elections.ts, src/core2/modules/voting.ts, data/research/elections
 
 **Notes.** Found while building words-scene-concession-received; the not-yet-conceding replies end in the strained-tie label only.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would add a recount record from a researched recount law for every place; no screen asks for a recount and the concession scene already plays without it.

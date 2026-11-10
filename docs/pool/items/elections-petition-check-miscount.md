@@ -20,7 +20,7 @@ root: none
 checked: fable 2026-11-10
 ---
 
-**What.** The clerk's petition check counts one or two fewer signatures than were signed. `src/core2/petition-filing.test.ts` ("the clerk puts a filing on the ballot by its signatures") fails at some drawn places because a checked petition's valid count plus its struck names comes out one or two below its signature rows. Seen Nov 9, 2026: Mount Carbon, West Virginia, run seed b013e990be582152 (123 against 124), and Alma, Illinois, run seed ef2460c2d6b1632b (130 against 132). Every signature must end up counted or struck, and the fix is in the check, not the test.
+**What.** The clerk's petition check counts one or two fewer signatures than were signed. `src/core2/petition-filing.test.ts` ("the clerk puts a filing on the ballot by its signatures") fails at some drawn places because a checked petition's valid count plus its struck names comes out one or two below its signature rows. Seen Nov 9, 2026: Mount Carbon, West Virginia, run seed b013e990be582152 (123 against 124), and Alma, Illinois, run seed ef2460c2d6b1632b (130 against 132). Every signature must end up counted or struck, and the fix is in the check, not the test. Seen: the clerk's petition check counts every signature signed (123 of 124 in Mount Carbon today).
 
 **Cause.** Found in code: `src/core2/modules/voting.ts` `checkPetition` (line 641) sets `valid` to the rounded sum of each standing signer's roll count, and `electorateRoll` (line 1501) gives a counted resident `v.weight * scale`, which can be below 1, while `struckIds` counts one per row. So `valid + struckIds.length` differs from the signature rows whenever a counted resident signed; `src/core2/petition-filing.test.ts` (line 211) asserts the rows add up.
 

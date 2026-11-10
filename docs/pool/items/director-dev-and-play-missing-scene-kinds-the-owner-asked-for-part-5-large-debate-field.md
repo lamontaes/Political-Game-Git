@@ -19,7 +19,7 @@ source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for
 checked: fable 2026-11-10
 ---
 
-**What.** A debate is a sitting the player takes part in (kinds debate-invite and debate-sitting). Nothing in the elections engine makes a field of 15 or stages one. Make a debate sitting stage a field of up to 15 with every candidate on the contest answering, and sometimes just two or three, as the contest's own filings give.
+**What.** A debate is a sitting the player takes part in (kinds debate-invite and debate-sitting). Nothing in the elections engine makes a field of 15 or stages one. Make a debate sitting stage a field of up to 15 with every candidate on the contest answering, and sometimes just two or three, as the contest's own filings give. Seen: the debate scene with up to 15 candidates on the stage, or two or three when that is who filed.
 
 **Cause.** Found in code: the `debate-sitting` kind (`src/director/data/situation-types.json` line 6029) and the meetings engine's debate-invited record (`src/core2/modules/meetings.ts` `takePart`, line 198); no cap or large-field case was found and none has been run. Design: the owner on Nov 8, "there's 15 people at the debates. Maybe sometimes, there's just 2 or 3".
 

@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -40,3 +40,5 @@ branch: claude/pool-campaigns-volunteer-joined-and-lapsed-records
 **Notes.** Found while packeting scene-listener-offers-to-work.
 
 Released (2026-11-10): Done-when needs the director's listener scene to read a lapse record, which needs scene lines under data/english/parts (Story session only) and a lapse rule the item does not define; join record alone is buildable. Continue on branch claude/pool-campaigns-volunteer-joined-and-lapsed-records.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would keep a record of when and why each volunteer joined or lapsed; the volunteer count already shows on the Campaigns screen and the first listener scene does not wait on it.

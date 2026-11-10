@@ -5,7 +5,7 @@ area: elections
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/data/elections/filing-deadlines.json, data/research/elections/filing-requirements.json, data/research/elections/ballot-order-2026.json, src/core2/modules/elections.ts, src/core2/modules/voting.ts, src/core2/elections-law.test.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would read the 38 estimated filing deadlines and the territory ballot orders from statutes; the estimates already work, and a number may stay an estimate.

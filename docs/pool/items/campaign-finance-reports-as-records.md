@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 after:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/core2/modules/campaigns.ts, src/director/campaign-months.test.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would add a dated finance report on a per-state calendar of report dates, which a player never asks for and no screen needs; public-records depth.

@@ -19,7 +19,7 @@ source: split from director-dev-and-play-missing-scene-kinds-the-owner-asked-for
 checked: fable 2026-11-10
 ---
 
-**What.** A statewide candidate has no scene for a stop in another part of the state, and the campaigns engine records no travel. Add a trail-stop scene where a candidate for a statewide office stops in another place and the views of the people there move, read from records. The rest of the state is counted groups, so the people met there are filled in when met.
+**What.** A statewide candidate has no scene for a stop in another part of the state, and the campaigns engine records no travel. Add a trail-stop scene where a candidate for a statewide office stops in another place and the views of the people there move, read from records. The rest of the state is counted groups, so the people met there are filled in when met. Seen: a statewide candidate stops in another town in a scene, and the views of the people there move.
 
 **Cause.** Found in code: `knockDoors` (`src/core2/modules/campaigns.ts` line 1526) works the candidate's own town; the rest of the state is counted groups. Design: the owner on Nov 8, "campaigning around the state" (docs/coordination/voice-notes/2026-11-08-story-and-night.md).
 

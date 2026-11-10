@@ -5,7 +5,7 @@ area: elections
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -38,3 +38,5 @@ checked: fable 2026-11-10
 **Notes.** TODO
 
 Deferred Oct 25: nothing on screen reads it yet.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would spread precincts across church, school and government buildings by the EAVS shares; the polling scene already has a building and a player cannot tell the shares.

@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5804
 blocked-on:
@@ -39,3 +39,5 @@ Oct 25 audit: From the dropped elections-local-races-share-above-band: pooled 94
 Nov 4, 05:45 (Lane 1, branch governing/county-challengers): on seed a63ad2af1003c7ad, 24 drawn places, two played years: town contests 30 of 41 uncontested (0.73, in band), county contests 161 of 175 (0.92), all 191 of 216 (0.88). candidacyCountywideWeight at 0.4 (the bottom of its spread) gives county 158 of 175 (0.90): not the lever. Cause: a county race is weighed and voted by the town alone (Mallard Bay, Oklahoma: nine county contests each weighed by the same 102 named adults and 149 counted records). Registered SG-GOV-county-race-town-only and filed elections-county-race-sees-only-the-town. Holders running again at 92 percent (elections-holders-stand-again-too-often) is the other cause; its measurement is running. The test src/core2/local-races-contested.test.ts is on the branch.
 
 Released by next (2026-11-10): no push to governing/county-challengers since 2026-11-04 11:13 UTC, more than twice its 4-hour time box. Continue on branch governing/county-challengers and pull request #5804.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would calibrate the share of uncontested local races; the Nov 4 measure put town races in band (73 percent) and the county part is dropped.

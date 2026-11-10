@@ -19,7 +19,7 @@ source: split from director-opening-as-a-scene in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** The opening's cutaways were stock rooms with nobody in them, chosen by the sentence's topic rather than from the town's records. In Iowa City, Iowa, seed 28c0b8150290, all four stood empty. Each cutaway must be the town's own business for the fact with the people who work there.
+**What.** The opening's cutaways were stock rooms with nobody in them, chosen by the sentence's topic rather than from the town's records. In Iowa City, Iowa, seed 28c0b8150290, all four stood empty. Each cutaway must be the town's own business for the fact with the people who work there. Seen: the opening address cutaways show the town's own factory, store and main street with their people, not empty rooms.
 
 **Cause.** Design: docs/reports/opening-root-cause-2026-10-27.md (cutaways chosen by topic, not from the town's records). The list of what is left comes from part 1.
 

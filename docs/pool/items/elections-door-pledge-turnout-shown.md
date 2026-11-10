@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/path-check.ts, src/core2/modules/campaigns.ts, src/bench/election-night.ts, src/core2/door-pledge.test.ts
 
 **Notes.** TODO
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would show a comparison of door-yes voters against neighbors in a race record; no player screen carries it, it is a run-log precision.

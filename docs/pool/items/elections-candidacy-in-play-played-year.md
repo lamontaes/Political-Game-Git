@@ -19,7 +19,7 @@ source: added with npm run pool -- add
 checked: fable 2026-11-10
 ---
 
-**What.** `src/core2/candidacy-in-play.test.ts` builds a bench world and plays a year at module level, outside any test, so its import took 588 seconds at West Wendover, Nevada (seed f24b370d1a4c2d35), close to the 600-second line past which merge desks send heavy tests back. The weighing test's own loop was quadratic and is fixed in #7986; the played year is the remaining cost. Share one played world with the other path tests that play the same span, or play a shorter span that still holds a filing day and a general election, and keep all four tests.
+**What.** `src/core2/candidacy-in-play.test.ts` builds a bench world and plays a year at module level, outside any test, so its import took 588 seconds at West Wendover, Nevada (seed f24b370d1a4c2d35), close to the 600-second line past which merge desks send heavy tests back. The weighing test's own loop was quadratic and is fixed in #7986; the played year is the remaining cost. Share one played world with the other path tests that play the same span, or play a shorter span that still holds a filing day and a general election, and keep all four tests. Guards: candidacy-in-play.test, whose import takes 588 seconds at West Wendover, close to the line where merge desks send tests back.
 
 **Cause.** Found in code: `src/core2/candidacy-in-play.test.ts` builds a bench world and plays a year at module level (lines 42 to 82, outside any `it`). Measured: its import took 588 seconds at West Wendover, Nevada (3283730, PW3_SEED=f24b370d1a4c2d35).
 

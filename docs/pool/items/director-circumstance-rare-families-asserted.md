@@ -19,7 +19,7 @@ source: director lead, #6263 CI, Oct 27
 checked: fable 2026-11-10
 ---
 
-**What.** `src/director/circumstance.test.ts` asserts only the families every drawn year carries, because four rows fire once or never in a year of one town. On seeds adf2b240b2d518b4f73a5c107884f60b75c71249 and 28a43cad632afa618a63b16b1fc951c92738e133 over five worlds each, price-moved-street and rent-news-street fired 0 times. death-known-street fired 4 and then 0 times, rival-message 0 and then 1, and new-coworker 4 and then 7. Asserting them made the test pass or fail by the draw, and playing more worlds to find them ran past CI's 45-minute unit job.
+**What.** `src/director/circumstance.test.ts` asserts only the families every drawn year carries, because four rows fire once or never in a year of one town. On seeds adf2b240b2d518b4f73a5c107884f60b75c71249 and 28a43cad632afa618a63b16b1fc951c92738e133 over five worlds each, price-moved-street and rent-news-street fired 0 times. death-known-street fired 4 and then 0 times, rival-message 0 and then 1, and new-coworker 4 and then 7. Asserting them made the test pass or fail by the draw, and playing more worlds to find them ran past CI's 45-minute unit job. Guards: the director test that asserts price, death, hire and rival-message scenes fire in a played year; it fails by the drawn world today.
 
 **Cause.** Needs cause. Looked at: `src/director/circumstance.test.ts` (header lines 53 to 55) counts price-moved-street, rent-news-street, death-known-street, new-coworker, rival-message and lobbyist-hallway but cannot assert them, and seeds adf2b240b2d518b4f73a5c107884f60b75c71249 and 28a43cad632afa618a63b16b1fc951c92738e133 gave 0 for the first two. Why each is rare was not traced.
 

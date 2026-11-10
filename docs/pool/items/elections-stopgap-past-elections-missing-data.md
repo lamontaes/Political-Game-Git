@@ -4,7 +4,7 @@ title: "Stopgaps in past-elections (missing-data): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5747
 blocked-on: research data: the row's replacement needs sourced data (Each territory's certified 2024 delegate and governor returns (territorial election offices) as research data, read in place of the town's ballots....)
@@ -41,3 +41,5 @@ checked: fable 2026-11-10
 
 Sent back 2026-10-20 from PR #5747 (branch claude/territory-past-returns): data/research/elections/territory-returns-2024.json MP.governor records first-round votes and only the runoff total; past-elections.ts:149-166 then calls the largest first-round candidate the certified winner. The body labels Torres (5728) the winner, but the cited 2022 Northern Mariana Islands gubernatorial election page says Palacios won the runoff with 54.14% to Torres 45.86%. Record and use the deciding-round winner/share accurately, and distinguish first-round totals from winning returns in the claims. The pool done-when also requires the replacement to be read by another engine in a one-year played-world run by record id; the new test only builds the opening and the body reports no completed year. Supply that proof before resolving SG-CORE-past-territory-ballots.; finish on that branch, merge main into it first.
 Stale 2026-10-26: PR #5747 closed (no push for five days, handed back); the work is on branch claude/territory-past-returns; claim the item and merge main into that branch.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would replace estimated territory delegate and governor returns with certified 2024 ones; a number may stay an estimate.

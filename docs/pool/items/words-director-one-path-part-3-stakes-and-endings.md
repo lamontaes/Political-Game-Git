@@ -19,7 +19,7 @@ source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Part of words-director-one-path. A scene's stakes should come from the engine that owns the facts, and how the scene ended should change that engine's record; today the ending stays in the director. Start with three scene kinds and show each by record id.
+**What.** Part of words-director-one-path. A scene's stakes should come from the engine that owns the facts, and how the scene ended should change that engine's record; today the ending stays in the director. Start with three scene kinds and show each by record id. Seen: how a scene ends changes the record the next screen or scene reads (three scene kinds first).
 
 **Cause.** Design: docs/reports/words-director-plan-2026-10-28.md (owner approved Oct 28), section 3: a scene's stakes name facts that live in the engine that owns them (src/director/family-stake.ts reads the household's savings and children), but a scene's ending is not written back to that engine.
 

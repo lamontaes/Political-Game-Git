@@ -19,7 +19,7 @@ source: the builder of director-conversation-test-sparse-town, Nov 10, 2026 (pul
 checked: fable 2026-11-10
 ---
 
-**What.** After the conversation test was fixed for towns where the player knows few people, one drawn town still fails it in two places. Both failures are also on main. One turn offers a single reply where the test needs at least two, and the test of a lie being believed finds the date one day short after the world is advanced.
+**What.** After the conversation test was fixed for towns where the player knows few people, one drawn town still fails it in two places. Both failures are also on main. One turn offers a single reply where the test needs at least two, and the test of a lie being believed finds the date one day short after the world is advanced. Guards: conversation.test, red on main in one drawn town (a turn with one reply, a lie that is believed a day early).
 
 **Cause.** Needs cause. Looked at: the builder's report on pull request 8176. In McMechen, West Virginia (place key 5450260, draw seed beginning 1076092e; the full seed is in that builder's session, titled "Builder: the conversation test in a town where the player knows few people"), src/director/conversation.test.ts fails at its assertion that replies are distinct (near line 280) and at the lie test's date (near line 469: 2021-01-04 after an advance to 2021-01-05). Not yet known: why the composer offers one reply on that turn, and why the advance stops a day early there.
 

@@ -19,7 +19,7 @@ source: split from words-director-one-path in the pool redo, Nov 10, 2026
 checked: fable 2026-11-10
 ---
 
-**What.** Part of words-director-one-path. The filing counter is played by a bespoke visit while the scheduled `filing` scene cannot be worded, so the same filing has two paths. Move the visit into the one scene path and delete the duplicate. The counter's where, the clerk and the after-filing line must come from the filing and petition records.
+**What.** Part of words-director-one-path. The filing counter is played by a bespoke visit while the scheduled `filing` scene cannot be worded, so the same filing has two paths. Move the visit into the one scene path and delete the duplicate. The counter's where, the clerk and the after-filing line must come from the filing and petition records. Seen: the filing counter scene, where the clerk and the after-filing line come from the filing record (golden path: file for office).
 
 **Cause.** Design: docs/reports/words-director-plan-2026-10-28.md (owner approved Oct 28, 2:10 PM), sections 1 and 3: two bespoke visits sit beside their situation types; src/director/filing-visit.ts still carries the filing visit while the scheduled `filing` type (src/director/data/situation-types.json) cannot be worded by purposeScene.
 

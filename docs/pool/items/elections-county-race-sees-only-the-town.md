@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 standard: 2
 claimed-by:
 pr:
@@ -39,3 +39,5 @@ checked: fable 2026-11-10
 **Notes.** Filed by Lane 1, Nov 4 (unit 5). Design and stopgap registration on governing/county-challengers.
 
 Nov 4, 11:40 (Lane 1): step A merged as its own item (`elections-county-race-county-votes`): a county race is voted by the whole county. Step B, built on `governing/county-challengers` at df3dcf3cf9, does not work and is set aside. The rest of the county was given runners in proportion from the town's counted records (each standing for the county's people like them), weighed by the same counted reasons. In Pigeon Falls, Wisconsin and Mulford, Colorado (run seed ccb-1) no counted record clears the stay-out bar even for a town seat (strongest pulls 3.03 and 3.41 against 3.94), and a county seat is 0.5 lower (candidacyCountywideWeight), so scaling by the county's size gives no one: a few hundred records can't stand for the tail of a county of tens of thousands, where challengers come from. src/core2/county-race-challengers.test.ts failed on all four drawn places with a county. Next design: generate the county's people like each record with their own seeded temperament (generation of who exists), weighing only as many as a seat's tail needs, and refit or remove the countywide weight once they do. Bigger than one 400-line step; the stopgap stays registered on main.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would generate the whole county's people so county seats are contested 70 percent of the time, not 92; a player cannot tell, and local races are in band.

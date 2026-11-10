@@ -21,7 +21,7 @@ claimed-at:
 checked: fable 2026-11-10
 ---
 
-**What.** The director turns campaigns, votes, laws and money into moments: big ones interrupt, smaller ones wait or become journal lines, and callbacks come through people. Roadmap spec M4-01 is mostly built, and what remains has not been measured. (Owner: OPUS-PEOPLE.)
+**What.** The director turns campaigns, votes, laws and money into moments: big ones interrupt, smaller ones wait or become journal lines, and callbacks come through people. Roadmap spec M4-01 is mostly built, and what remains has not been measured. (Owner: OPUS-PEOPLE.) Seen: after a campaign, a vote or a law, the people it touched have a scene or a Journal line sized to how big it was.
 
 **Cause.** Needs cause. Looked at: `scheduleMoment` sizes interrupts by impact (`src/director/scheduling.ts`), director-civic-producers and its six parts are done, `src/director/world-moments.test.ts` and `src/director/journal.test.ts` exist. The spec's command in `docs/roadmap/features.json` (M4-01) has not been run in a drawn place to see which clauses fail (broad-event chapters, lie, favor and promise callbacks).
 

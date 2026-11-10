@@ -4,7 +4,7 @@ title: "Stopgaps in parameters (uncalibrated-tunable): 1 open"
 area: elections
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5436
 blocked-on:
@@ -52,3 +52,5 @@ Against the cited band (most local seats draw one or two candidates), state and 
 Sent back 2026-10-23 from PR #5436 (branch claude/candidacy-calibration-g08lgv): this measurement-only PR still marks the unfinished calibration umbrella for automatic completion while SG-P15-candidacy-weights stays open; use a bounded reporting item and a Done-when evidence table; finish on that branch, merge main into it first.
 
 **Notes (Fable, Nov 10, model).** The sort marked this for a Fable-level model. Read again by Fable: A calibration read inside the candidacy engine: Opus at high effort.
+
+Dropped Nov 10, 2026 (depth sweep): too in depth (owner, Nov 10). It would explain why towns draw 0.5 to 4.0 candidates per contest; the weights item it belongs to is dropped.
