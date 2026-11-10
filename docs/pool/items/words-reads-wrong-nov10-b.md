@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/reads-wrong-nov10-b
-pr: pending
+pr: 8144
 blocked-on:
 lead: words
 source: "second read-through of the Nov 10 scenes: the five that the first pass could not print in play (new baby, race told, apology, accusation, story-read), composed by their own tests on two seeds"
