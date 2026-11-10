@@ -32,8 +32,10 @@
     "why": "The press records an outlet's staff; its nonpayroll costs have no data yet.",
     "addedBy": "claude/press-outlet-revenue",
     "addedAt": "2026-10-24",
-    "replacement": "An outlet's nonpayroll costs from a sourced cost structure for newspapers and stations, as supplier contracts on its books.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: An outlet's nonpayroll costs from a sourced cost structure for newspapers and stations, as supplier contracts on its books.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-press-interview-conversation",
@@ -68,8 +70,10 @@
     "why": "The identity fill-in (OPUS-CORE) seats a named person without a home or a budget; a press person's home and family need the population builder's household draw.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "A press person's household drawn as the opening draws any household of their age and pay in the town, with its rent, living costs and kin.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A press person's household drawn as the opening draws any household of their age and pay in the town, with its rent, living costs and kin.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-press-favors-and-leaks",
@@ -80,8 +84,10 @@
     "why": "Favors and leaks need a player act on a reporter (a scene or a conversation move) that the director does not offer yet.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-14",
-    "replacement": "A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A leak as a conversation move that puts a record on the reporter's wire with the leaker named in their knowledge, and favors as relationship acts the reporter's drives and closeness read.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-press-endorsements",
@@ -154,8 +160,10 @@
     "why": "Sharing a cause ties an activist to each person told, and every tie was weighed every day, so a town's third year ran 1.35 times its first (Bedford, Wyoming); the speed rule asks that a later year run within 20 percent of the first. Built as the order's recommended version while the owner rules.",
     "addedBy": "claude/speed-cause-weekly-contacts",
     "addedAt": "2026-10-24",
-    "replacement": "The owner's ruling on whether people with causes contact only people they know, and how many in a week (docs/coordination/OWNER-DECISIONS.md); then causeHolderWeeklyContacts sourced by research.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The owner's ruling on whether people with causes contact only people they know, and how many in a week (docs/coordination/OWNER-DECISIONS.md); then causeHolderWeeklyContacts sourced by research.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-counted-readers-stories",
@@ -226,8 +234,10 @@
     "why": "No study publishes these as coefficients: the decision is a weighed choice from each woman's own records. Real rates (Guttmacher's about 4 unintended pregnancies a year per 100 women 15 to 44, and the share ended) can only check the town's totals, never pick a woman.",
     "addedBy": "claude/provider-distance",
     "addedAt": "2026-10-24",
-    "replacement": "A generated-year sensitivity check in drawn places: each weight run across its window, the town's unplanned pregnancies and endings per 1,000 women 15 to 44 against the state's published rates, and each spread replaced by the measured window (pool item people-unplanned-calibration).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A generated-year sensitivity check in drawn places: each weight run across its window, the town's unplanned pregnancies and endings per 1,000 women 15 to 44 against the state's published rates, and each spread replaced by the measured window (pool item people-unplanned-calibration).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-counted-opening-exposure",
@@ -238,8 +248,10 @@
     "why": "Counted records keep no past, and starting every woman at zero would give no unplanned pregnancy for years and then the whole tier at once.",
     "addedBy": "claude/unplanned-counted-tier",
     "addedAt": "2026-10-24",
-    "replacement": "Her exposure since her last birth or partnering, read from a counted past once the opening reconstructs one (as SG-M1-opening-pregnancies does for full couples).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Her exposure since her last birth or partnering, read from a counted past once the opening reconstructs one (as SG-M1-opening-pregnancies does for full couples).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-press-conflict-beat",
@@ -286,8 +298,10 @@
     "why": "The economy pass and the business pass start with the world's window, and the owner ruled (Nov 9, 2026) that only people's own pasts reach back to their birth.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "A coarse national series of unemployment and earnings by year, sourced (BLS), read by the same run.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A coarse national series of unemployment and earnings by year, sourced (BLS), read by the same run.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-PEOPLE-role-people-have-no-past",
@@ -310,7 +324,9 @@
     "why": "The brief for step 3 of the life record said to add no event and no record: the jobs table already holds the start, the employer and how the job ended, so a reader of it closes the gap without a second record of the same fact.",
     "addedBy": "Fable",
     "addedAt": "2026-11-10",
-    "replacement": "The jobs engine writes one hire or separation event that the people module remembers like any other row of the table, and the reader of the change rows is deleted.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The jobs engine writes one hire or separation event that the people module remembers like any other row of the table, and the reader of the change rows is deleted.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   }
 ]
