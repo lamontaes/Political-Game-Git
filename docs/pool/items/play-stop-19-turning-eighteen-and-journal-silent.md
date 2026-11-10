@@ -5,7 +5,7 @@ area: play
 kind: bug
 priority: 2
 size: S
-status: open
+status: merged
 claimed-by:
 pr:
 after:
@@ -18,6 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
+merged-at: 2026-11-10T23:40:00.000Z
 ---
 
 **What.** A life started at 17 with a February 3 birthday on the v0.22.10 release did not list the player's own birthday under Coming up, showed nothing when the Week crossed it, and left the Journal blank until the day after filing, when it said "I ran for Council member." in the past tense. Both children are done (-b in PR 7179): `src/bench/calendar.ts` (line 117) now lists the player's own birthday beside the family's, and a sweep of turning eighteen in the journal landed (commit b6305be0bf). What is left is a second session's replay of the finish line.
@@ -41,3 +42,5 @@ checked: fable 2026-11-10
 **Screenshot.** Coming up and the Journal, from a drawn place, with the place and seed under them.
 
 **Notes.** Playtest Oct 24 (docs/reports/playtest-2026-10-24.md). Release v0.22.10 (4c943f3), Anson, Texas, game seed 670bd1f7-66a4-4345-9ccd-98b9cdc7e213. Log 15:56, 16:02, 16:03, 16:05; screenshots 19, 40, 41, 42, 52. Lead: m0-m2 (calendar and birthday screen); words (journal lines) (CTO, Oct 24; play-first order docs/work-orders/play-first-2026-10-24.md). Lead: play-first (acting CTO, Oct 24; docs/play-first/ORDER.md). Split Oct 24 into play-stop-19-turning-eighteen-and-journal-silent-a and play-stop-19-turning-eighteen-and-journal-silent-b, each four hours or less; the CTO sets this item done when the last part is done.
+
+**Notes (Fable B, Nov 10, marked merged by hand).** Nothing is left to build here: what is left is a second session's check in the running game. Both of its parts are done and on main; the date here is the day it was marked, since the parts merged earlier. While the item stayed open, `next` handed it to builders, who replayed it, could not record the result (`pool seen` takes only merged work) and released it; this one went round several builders on Nov 10. It is now with the second-session checkers, who record it with `npm run pool -- seen`. The builders' replays above are theirs to read first (pool item pool-open-items-with-nothing-to-build-are-handed-to-builders).

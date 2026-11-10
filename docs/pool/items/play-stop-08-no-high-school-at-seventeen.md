@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
+status: merged
+claimed-by:
 pr: #6038
 after:
 blocked-on:
@@ -17,9 +17,10 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T23:07:56.679Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-08-no-high-school-at-seventeen
+merged-at: 2026-10-26T17:25:35.000Z
 ---
 
 **What.** A life started as a 17-year-old in Anson, Texas on the v0.22.10 release listed "Anson Middle" and "Anson El" under school, no high school, and no enrollment in the senior year. It is implemented by play-teen-has-current-high-school (done; merged as 48d74a8b39). The Nov 4 check in the Notes (Anson, Texas, age 17) shows Who you are with School "Anson Public Schools" and Jobs and study reading "You went on to high school." What is left is a closing check by a second session in a drawn place, including whether a current high school should be named by its own name and not its district.
@@ -61,3 +62,5 @@ Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): Replayed on main 94969ad22a, not recorded as seen (pool seen refuses a claimed item; it needs status merged): Fort McDermitt, Nevada, seed c1b4258f-ab41-4038-b653-ca22b9a44c71, age 17, 1440x900: Who you are and Jobs and study read 'I started school at Fort McDermitt Public Schools. I went on to middle school. I went on to high school.' with no cut-off and no missing high school; the school is named by its district, not as a high school. Same in Platte Center, Nebraska. Ready for pool seen once the item is merged. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
 
 Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:07 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
+
+**Notes (Fable B, Nov 10, marked merged by hand).** Nothing is left to build here: what is left is a second session's check in the running game. Its build is pull request 6038, merged Oct 26. While the item stayed open, `next` handed it to builders, who replayed it, could not record the result (`pool seen` takes only merged work) and released it; this one went round several builders on Nov 10. It is now with the second-session checkers, who record it with `npm run pool -- seen`. The builders' replays above are theirs to read first (pool item pool-open-items-with-nothing-to-build-are-handed-to-builders).
