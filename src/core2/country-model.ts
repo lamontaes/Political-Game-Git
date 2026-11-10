@@ -1130,15 +1130,21 @@ export function stepCountry(
     state.openings =
       state.openings * (1 - rules.postingsLapsePerMonth) +
       state.openingsPerJobAdded * posted;
-    const found = (efficiency: number) =>
-      efficiency *
-      seekers ** rules.matchSeekerWeight *
-      state.openings ** (1 - rules.matchSeekerWeight);
-    state.matchEfficiency ??= found(1) > 0 ? steadyHires / found(1) : 0;
+    // The share of those looking who find work in a month rises with the openings there are
+    // for each of them and never reaches everyone: however many openings, some people are
+    // between jobs. Nothing flips when openings outnumber seekers.
+    const reach =
+      seekers > 0 && state.openings > 0
+        ? (state.openings / seekers) ** (1 - rules.matchSeekerWeight)
+        : 0;
+    const steadyShare = seekers > 0 ? steadyHires / seekers : 0;
+    state.matchEfficiency ??=
+      reach > 0 && steadyShare > 0 && steadyShare < 1
+        ? -Math.log(1 - steadyShare) / reach
+        : 0;
     const hires = Math.min(
-      seekers,
       state.openings,
-      found(state.matchEfficiency),
+      seekers * (1 - Math.exp(-state.matchEfficiency * reach)),
     );
     state.openings -= hires;
     const tightness = seekers > 0 ? state.openings / seekers : state.tightness;
