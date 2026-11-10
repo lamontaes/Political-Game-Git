@@ -5,9 +5,9 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-play-m0-02-week-never-finishes-clinton-tennessee
 pr:
 blocked-on:
 lead: play-first
@@ -17,6 +17,8 @@ model: opus
 effort: high
 root: rc2-done-from-records
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T22:59:03.962Z
+branch: claude/pool-play-m0-02-week-never-finishes-clinton-tennessee
 ---
 
 **What.** The golden path's step M0-02 (a chosen adult is played for a week; every act is the character's own pick or answers a stop) fails on clean main at 550ed6ad69 in Clinton, Tennessee with 'Error: The week did not finish.' The step advances a week and answers each stop; its guard gives up after 5,000 answers without the week completing. It fails the same way on the words machine's branch, which changes nothing in the player's week. The runner draws each step's place from the commit, so any pull request can draw this place and go red on an accepted step. Which stop repeats, and for whom, is not found.
@@ -36,3 +38,5 @@ checked: fable 2026-11-10
 **Files.** src/bench/m0-check.ts, src/bench/player.ts, src/bench/handler.ts
 
 **Notes.** Not looked into: which stop repeats. The check's own adult is chosen by adultOf(w, 'm0-02').
+
+Claimed by next for opus-d23b (Claude Opus 5.5 in Claude Code (cloud session), tier top) (2026-11-10 22:58 UTC) on branch claude/pool-play-m0-02-week-never-finishes-clinton-tennessee.
