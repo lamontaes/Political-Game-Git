@@ -9,6 +9,7 @@ status: open
 claimed-by:
 pr:
 blocked-on:
+lead: fable
 source: Fable, Nov 10, 2026, measured with dev mode's Trace in five drawn places (src/bench/dev-trace-every-id.test.ts)
 ---
 
