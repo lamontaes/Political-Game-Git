@@ -44,4 +44,4 @@ Write no verdicts beyond the examples the tests need, and change no bank line: S
 
 **Waits on.** Nothing. words-machine-part-1-tests-for-rules-that-judge-one-line and words-machine-part-2-tests-for-rules-that-judge-a-piece-in-its-spot edit the same two files (data/english/line-rules.json and src/english/line-rules.ts): merge main in before pushing.
 
-**Files.** src/english/line-rules.ts, src/english/line-rules.test.ts, src/english/reply-follows.ts, scripts/words/reply-pairs.ts, scripts/words/fold-verdicts.ts, scripts/words/run-rules.ts, data/english/judged/, tests/guards/english/line-rules.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
+**Files.** src/english/line-rules.ts, src/english/line-rules.test.ts, src/english/reply-follows.ts, scripts/words/reply-pairs.ts, scripts/words/reply-verdicts.ts, scripts/words/fold-verdicts.ts, scripts/words/run-rules.ts, data/english/judged/, tests/guards/english/line-rules.test.ts, .agents/skills/words-engine/SKILL.md, .claude/skills/words-engine/SKILL.md
