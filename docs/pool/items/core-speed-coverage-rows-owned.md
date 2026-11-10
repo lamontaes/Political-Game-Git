@@ -5,11 +5,12 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: speed/coverage-owned
 pr:
 blocked-on:
 source: added with npm run pool -- add
+claimed-at: 2026-11-10T01:16:18.509Z
 ---
 
 **What.** Health coverage is 8.5 s of Gunnison UT's election year (key 4932660, seed n8f6): each month every household's medical bill row and every counted household's premium row is deep-copied on write (plainCopy), though each is built fresh for that write and never touched again. Write them with putOwned.
