@@ -5,8 +5,8 @@ area: play
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-02-developer-text-on-play-screens
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at: 2026-11-10T23:05:52.613Z
+claimed-at:
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-02-developer-text-on-play-screens
 ---
@@ -49,3 +49,5 @@ Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): Replay in Basking Ridge, NJ (seed 9978ac7a-fe58-46f4-9998-f5e8401d92d6): plain-text.browser.mjs stalls at src/bench/plain-text.browser.mjs:173 (#talk-leave hidden after the clerk's race choice; the talk still shows 'I understand.' to pick first), run with dev mode on so Mark gap showing is expected; dev-mode-off screens/screenshots and seen not recorded. Needs the script to pick the last choice, then a dev-mode-off replay. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
 
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:05 UTC) on branch claude/pool-play-stop-02-developer-text-on-play-screens.
+
+Released (2026-11-10): Replay-only item: pool seen refuses a claimed item (only merged work), so a builder cannot close it; not replayed here. Continue on branch claude/pool-play-stop-02-developer-text-on-play-screens.
