@@ -929,6 +929,125 @@ export function composeJournal(
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }
+    // How old they were on the day, from the birth record they stand on.
+    const ageThen = (born: string, recordId: string): Fact => ({
+      text: String(ageOnDate(makeIsoDate(born), makeIsoDate(moment.date))),
+      sourceRecordIds: [recordId],
+    });
+    // A move into the county: where they came from, and the children born
+    // before it, who came with them (the moves engine holds a mover back for
+    // children at home).
+    if (moment.causeKind === "moved") {
+      const move = preStartHistory(core as CoreState, {
+        kind: PERSON_MOVED_IN,
+        personId,
+      }).find((entry) => entry.id === moment.causeId);
+      const from = placeLabel(String(move?.facts.fromPlaceId ?? ""));
+      // Only a place that is not the one they moved to (a county and its
+      // seat are one answer).
+      if (
+        move &&
+        from &&
+        !(placeName(person.placeId)?.text ?? "").endsWith(from)
+      )
+        facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
+      const children = (person.pastFacts ?? []).flatMap((entry) => {
+        const child =
+          entry.kind === "family:child" && entry.date < moment.date
+            ? core.people.get(entry.facts?.otherPersonId as PersonId)
+            : undefined;
+        const relation = child ? kin.get(child.id) : undefined;
+        const phrase =
+          child && relation
+            ? relationPhrase(
+                relation.relation,
+                child.looks?.gender ?? "other",
+                "journal",
+                words,
+              )
+            : undefined;
+        return child && phrase
+          ? [
+              {
+                text: `${phrase} ${child.givenName}`,
+                phrase,
+                name: child.givenName,
+                id: child.id,
+                fact: entry.id,
+              },
+            ]
+          : [];
+      });
+      if (children.length)
+        facts["moved-with"] = {
+          text:
+            new Set(children.map((child) => child.phrase)).size === one
+              ? `${children[zero]!.phrase}${children.length > one ? "s" : ""} ${listOf(children.map((child) => child.name))}`
+              : listOf(children.map((child) => child.text)),
+          sourceRecordIds: children.flatMap((child) => [child.fact, child.id]),
+        };
+      facts["age-then"] = ageThen(person.birthDate, person.id);
+    }
+    // A child born to them: how old they were, and whether the first.
+    if (moment.causeKind === "family:child") {
+      facts["age-then"] = ageThen(person.birthDate, person.id);
+      const earlier = (person.pastFacts ?? []).some(
+        (entry) => entry.kind === "family:child" && entry.date < moment.date,
+      );
+      if (!earlier)
+        facts.firstborn = {
+          text:
+            core.people.get(
+              (person.pastFacts ?? []).find(
+                (entry) => entry.id === moment.causeFactId,
+              )?.facts?.otherPersonId as PersonId,
+            )?.givenName ?? "yes",
+          sourceRecordIds: [moment.causeFactId ?? moment.causeId],
+        };
+    }
+    // A partnership: how long they have been together, to the day told.
+    if (moment.causeKind === "household:partners-met") {
+      const days = daysBetween(
+        makeIsoDate(moment.date),
+        makeIsoDate(core.date),
+      );
+      if (days > zero)
+        facts.together = {
+          text: spanSaid(days),
+          sourceRecordIds: [moment.causeId],
+        };
+    }
+    // A death in the family: how old they were, and whether it followed an illness the record names.
+    if (moment.causeKind === "event:life.death") {
+      const deadId = subjectOf(moment);
+      const dead = deadId ? core.people.get(deadId) : undefined;
+      if (dead) facts["death-age"] = ageThen(dead.birthDate, dead.id);
+      if (
+        core.durableLog
+          .get(moment.causeId)
+          ?.topic?.startsWith("health:serious-illness")
+      )
+        facts["after-illness"] = {
+          text: "seriously ill",
+          sourceRecordIds: [moment.causeId],
+        };
+    }
+    // A school year's end: how long they had been at the school.
+    if (moment.causeKind === SCHOOL_FINISHED) {
+      const result = schoolResult(core, moment.causeId);
+      const attended = schoolsAttended(core, personId).find(
+        (entry) => entry.schoolId === result?.schoolId,
+      );
+      if (attended && attended.date < moment.date) {
+        facts["school-for"] = {
+          text: spanSaid(
+            daysBetween(makeIsoDate(attended.date), makeIsoDate(moment.date)),
+          ),
+          sourceRecordIds: [attended.recordId, moment.causeId],
+        };
+        facts["age-then"] = ageThen(person.birthDate, person.id);
+      }
+    }
     const row = rows.find((entry) =>
       moment.causeKind.startsWith(entry.kindPrefix),
     );
@@ -1817,11 +1936,17 @@ function linkLines(
         ids.some((id) => id.startsWith(PAST_WORK_PREFIX));
       const working =
         work(line.sourceRecordIds) && work(earlier.sourceRecordIds);
+      // A record the line before already cites as its own reason ("when my
+      // daughter was born, I left ...") is the same event told twice, never
+      // its effect: the later telling joins by time.
+      const toldBefore = (name: string) =>
+        line.sourceRecordIds.includes(name) &&
+        earlier.sourceRecordIds.includes(name);
       const shared = working
         ? []
         : line.sourceRecordIds.flatMap((id) =>
             [...namesOf(core, id)]
-              .filter((name) => theirs.has(name))
+              .filter((name) => theirs.has(name) && !toldBefore(name))
               .flatMap((name) => [theirs.get(name)!, id]),
           );
       const echoed = line.momentIds.some((id) =>
