@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/arc-variant-again-pull
-pr: pending
+pr: 8090
 blocked-on:
 lead: words
 source: CI red on #8087 and on clean main, seed b1659aa066afd1da (Tallaboa, Puerto Rico)
