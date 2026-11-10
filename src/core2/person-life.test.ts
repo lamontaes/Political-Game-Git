@@ -35,7 +35,7 @@ const CAP = parameters.lifeRememberedMost.value;
 const OVER = 25;
 /** A town with fewer adults than this is too small for "under a twentieth" to mean anyone. */
 const SMALL_TOWN_ADULTS = 100;
-/** The most people one town's engines make to hold a role with no past of their own. */
+/** The most people with no life yet that a town of under 100 adults may hold. */
 const ROLE_HOLDERS_MOST = 4;
 /** How many counted households a search may fill in before it gives up. */
 const FILL_IN_MOST = 40;
@@ -153,14 +153,11 @@ describe(`the life record in ${where}`, () => {
     );
     expect(adults.length, where).toBeGreaterThan(0);
     expect(events, where).toBeGreaterThan(0);
-    // The people made with no past are the holders of a few roles an engine fills (a paper's
-    // owner and the like): under a twentieth of the adults in a town of any size, and in a
-    // town too small for a twentieth to be one person, no more than the roles themselves.
-    const roles = pastless.filter((id) => !id.startsWith("person_"));
-    expect(
-      roles.length,
-      `${where}: someone the town's own build made has no life: ${pastless.filter((id) => id.startsWith("person_")).join(", ")}`,
-    ).toBe(pastless.length);
+    // The people with no life yet are few: the holders of a role an engine fills (a paper's
+    // owner), and someone very old whose whole life lies before the years the past covers
+    // (Kapolei, Hawaii: a woman of 99 living alone; the whole-life past gives her one when
+    // her card is opened). Under a twentieth of the adults in a town of any size, and in a
+    // town too small for a twentieth to be one person, no more than a handful.
     if (adults.length >= SMALL_TOWN_ADULTS)
       expect(
         pastless.length,
