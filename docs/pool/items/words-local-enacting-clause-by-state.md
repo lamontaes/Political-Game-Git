@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc9-place-facts-one-default
 lead: words
+checked: fable 2026-11-10
 ---
 
 **What.** Every local ordinance opens with one national clause, 'Be it ordained by the {body}', from the local row of src/core2/data/legislature/bill-forms.json, rendered through the legislation bank piece legislation.local-section-first.be-it-ordained. State law prescribes the clause for the towns and counties that follow its general law: data/research/gov/local-ordinance-style-2026.json records it for each of the 56 places, with the statute, the class of city it covers and blanks for the place's name, its body and its kind (some read 'do ordain', some 'ordains:', one form says 'Be it enacted' and names the local government). Author bank pieces for each clause pattern the research records, keyed so the composer picks the drawn place's pattern from its row and falls back to the national clause for ESTIMATED rows, and send them to grading.

@@ -31,6 +31,6 @@ checked: fable 2026-11-10
 
 **Done when.** A second session plays a year of buildBenchWorld in a drawn place (seed named) and sees a tenant decision record its reasons citing the landlord's traits against an applicant's recorded race or sex, by decision record id.
 
-**Waits on.** people-protected-traits-on-record-part-1-race-on-record.
+**Waits on.** people-protected-traits-on-record-part-1-race-on-record, and world-housing-landlord-owners (which gives each rental a recorded owner who decides; this part adds the weighing of a tenant to that owner's decision and builds no second owner).
 
 **Files.** src/core2/modules/housing.ts, src/core2/types.ts, src/core2/law-wiring-rights-env.test.ts

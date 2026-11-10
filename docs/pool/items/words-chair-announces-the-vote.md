@@ -17,13 +17,14 @@ effort: medium
 root: design-director-on-core2
 source: story/restore-liked-lines, Nov 8 (a rewrite never deletes a line the owner graded good)
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** The owner graded the chair's line "The motion carries." good (batch 9, Oct 14), and it sits in data/english/parts/address.json under stopgap SG-WORDS-address-no-reader with nothing reading it. No scene has a chair who speaks: the floor-debate scene only narrates "The chair recognizes {name}", and the bill paper words a result in writing. Give the council meeting or floor a chair turn after the roll that announces the recorded result in the chair's own words, with this piece for a passed question.
 
 **Cause.** Found in code: data/english/parts/address.json holds the graded chair line address.chair-run-meeting.the-motion-carries ('The motion carries.') and src/director/data/stopgaps.json (line 604) holds SG-WORDS-address-no-reader; no scene reads it, and the floor-debate scene only narrates 'The chair recognizes {name}'.
 
-**Fix.** Add a chair turn after the recorded roll in the council or floor scene that says the bank piece for a passed question, and its own piece for a failed one, citing the vote record id; then delete SG-WORDS-address-no-reader.
+**Fix.** Add a chair turn after the recorded roll in the council or floor scene that says the bank piece for a passed question, and its own piece for a failed one (Story writes that piece; every line in data/english/parts/ is Story's, owner's ruling of Nov 10), citing the vote record id; then delete SG-WORDS-address-no-reader.
 
 **Time box.** 3 hours for one Sonnet session.
 

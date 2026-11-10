@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: design-story-director
 source: split from words-director-one-path in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** Part of words-director-one-path. The bench decides who is present in a scene on its own, and two small pickers keep their own copies of the director's choice. Reduce them to the director's one path, and delete the copies in the same change. The same people must stand in a scene whichever screen asks.
