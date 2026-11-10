@@ -5,9 +5,9 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: claimed
 standard: 2
-claimed-by:
+claimed-by: claude/pool-life-a-dead-persons-own-card-says-they-died
 pr:
 after:
 blocked-on:
@@ -17,6 +17,8 @@ effort: medium
 root: design-life-record
 source: the life record's second session, Nov 10 (not seen; its note is on core-life-record); cause found by Fable
 checked: fable 2026-11-10
+claimed-at: 2026-11-10T23:38:52.639Z
+branch: claude/pool-life-a-dead-persons-own-card-says-they-died
 ---
 
 **What.** When someone dies, their relatives' cards and the player's My life say so ("lost his parent"), but the dead person's own card ends with whatever came before. In the second session's game a father's card said only that he "fell seriously ill in 2026". A card has to say that the person died, when, and of what where the record gives it.
@@ -34,3 +36,5 @@ checked: fable 2026-11-10
 **Waits on.** Nothing to build. The sentence shows in the game once Story's pieces for it are on main.
 
 **Files.** src/core2/data/life/remembered.json, src/core2/person-life.ts, src/core2/person-life.test.ts, src/bench/card.ts, data/english/parts/person-history.json
+
+**Notes.** Claimed by next for sonnet-95c2 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:38 UTC) on branch claude/pool-life-a-dead-persons-own-card-says-they-died.
