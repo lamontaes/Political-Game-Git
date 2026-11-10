@@ -22,7 +22,7 @@ import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
 export const VISIT_TYPE = "visit";
 
 /** Days of illness before it is said as a stretch of time: about two weeks. */
-const MIN_DAYS = 15;
+const MIN_DAYS = rulesFile.illnessFacts.sickForDays.value;
 
 /**
  * The facts for `askerId`, the one who is ill, asking `askedId`, who visits.
