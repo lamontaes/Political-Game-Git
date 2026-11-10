@@ -28,7 +28,7 @@
     "kind": "partial-model",
     "file": "src/core2/life.ts",
     "line": 589,
-    "whatItFakes": "A day in results mode (time nobody watches) runs only the module calendar's dated work and the day's compaction: no module's daily work, no planned acts, no person due to act and no end-of-day hooks. On the first of each month the finance engine catches up by settling the budgets, business reviews, bills and buyers' purchases that fell due, and the health and renewal engines run births, illness and deaths (part 2); wages, households' everyday living and every other daily loop do not run. People do not move, prices and pay hold, nobody is hired and nobody campaigns in a skipped year.",
+    "whatItFakes": "A day in results mode (time nobody watches) runs the dated work and, on the first of each month, each engine's own onResultsMonth step (finance, health, renewal, residents, place-prices, jobs, macro, grievance); no person acts, no module's daily work runs, nobody moves and nobody campaigns in a skipped year.",
     "why": "The fast clock, part 1 (pool item core-fast-clock-part-1-a-results-mode-for-skipped-time): one year day by day took 41.5 seconds in the smallest measured town; the base that the later parts add their monthly steps to.",
     "addedBy": "Fable helper",
     "addedAt": "2026-11-10",
