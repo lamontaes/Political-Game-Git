@@ -48,6 +48,7 @@
     "cost": "What a law in force costs a household each month, from the price record it moved.",
     "chair": "The committee's chair, by name, from the committee's hold record.",
     "percent": "How much of the line that cut was, in whole percent, from the adopted budget on record.",
+    "line": "What a budget line pays for, in the plain words the budget screen names it (\"police protection\", \"highways\"), from the budget-line record.",
     "cut": "What the council cut from a budget line, said to two figures, from the budget-line record.",
     "years": "Whole years a department head has held their post, from the appointment record.",
     "roll": "The count on a presented bill, yes to no, from the vote records.",
@@ -108160,7 +108161,7 @@
       "key": "scene-talk.narrate-narrate.the-post-s-line-lost-cut-in-the-budget-the-council-passed-name-has-the-page",
       "move": "narrate-narrate",
       "kind": "spoken",
-      "text": "The {post}'s line lost {cut} in the budget the council passed. {name} has the page.",
+      "text": "The council cut {line} by {cut} in the budget it passed. {name} wants to talk about it.",
       "uses": [
         {
           "subject": "scene",
@@ -108169,7 +108170,7 @@
           "role": "narrator",
           "purpose": "cut-argument",
           "key": "cut-heard",
-          "requiresFacts": ["cut", "post"]
+          "requiresFacts": ["cut", "line"]
         }
       ],
       "bearing": "calm",
@@ -109062,7 +109063,7 @@
       "key": "scene-talk.follow-thank.thank-you-i-ll-get-the-list-to-you",
       "move": "follow-thank",
       "kind": "spoken",
-      "text": "Thank you. I'll get the list to you.",
+      "text": "Thank you. I'll write up what we need.",
       "uses": [
         {
           "subject": "scene",
@@ -109664,7 +109665,7 @@
       "key": "scene-talk.reply-leave.send-me-the-list-i-ll-answer-tomorrow",
       "move": "reply-leave",
       "kind": "spoken",
-      "text": "Send me the list. I'll answer tomorrow.",
+      "text": "Put it in writing. I'll answer tomorrow.",
       "uses": [
         {
           "subject": "scene",
