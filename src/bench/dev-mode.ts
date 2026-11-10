@@ -226,6 +226,8 @@ const CASH_CLASSES = [
   "public-employers",
   "other-organizations",
 ] as const;
+/** The same order, for sorting rows whose class is read from a map's keys. */
+const CLASS_ORDER: readonly string[] = CASH_CLASSES;
 
 /**
  * Every dollar of cash in a world by who holds it: each person and each
@@ -717,9 +719,7 @@ export class DevMode {
         const twinMinor = there.classes.get(key) ?? 0;
         return { key, hereMinor, twinMinor, diffMinor: hereMinor - twinMinor };
       })
-      .sort(
-        (a, b) => CASH_CLASSES.indexOf(a.key) - CASH_CLASSES.indexOf(b.key),
-      );
+      .sort((a, b) => CLASS_ORDER.indexOf(a.key) - CLASS_ORDER.indexOf(b.key));
     // Money that left every book in the world went outside it; the difference in what is left is its mirror.
     const inside = classes.reduce((sum, row) => sum + row.diffMinor, 0);
     const holderIds = new Set([
