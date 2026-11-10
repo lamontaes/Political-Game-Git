@@ -1,7 +1,7 @@
 ---
 id: director-town-hall-offer-to-player
 title: "A resident or staffer asks the officeholder to hold a town hall on a question, from the same cause the engine uses for everyone else"
-area: governing
+area: gov
 kind: feature
 priority: 3
 size: M
