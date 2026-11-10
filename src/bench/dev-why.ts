@@ -24,6 +24,13 @@ import { BUSINESS_MODULE_ID } from "../core2/business-module-id";
 import { BUDGETS_MODULE_ID } from "../core2/modules/budgets";
 import { MACRO_MODULE_ID } from "../core2/modules/macro";
 import { LEGISLATURE_MODULE_ID } from "../core2/modules/legislature";
+import {
+  COUNTRY_SECTORS,
+  type CountrySector,
+  type CountryState,
+} from "../core2/country-model";
+import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
+import placeStates from "../core2/data/places/states.json" with { type: "json" };
 import type {
   CoreState,
   DecisionReason,
@@ -547,6 +554,130 @@ function repricingPanels(core: CoreState, facilityId: string): WhyPanel[] {
   ];
 }
 
+// ---- A state's month in the country tier ----------------------------------
+
+/** What the bill catalog calls each law amount ("Income tax rate"), by series. */
+const LAW_NAMES: ReadonlyMap<string, string> = new Map(
+  (
+    billCatalog as unknown as {
+      subjects: {
+        topics: {
+          policies: { kind: string; series?: string; name: string }[];
+        }[];
+      }[];
+    }
+  ).subjects.flatMap((subject) =>
+    subject.topics.flatMap((topic) =>
+      topic.policies.flatMap((policy) =>
+        policy.kind === "law-amount" && policy.series
+          ? [[policy.series, policy.name] as const]
+          : [],
+      ),
+    ),
+  ),
+);
+const STATE_NAMES = placeStates.states as Readonly<Record<string, string>>;
+const SECTOR_WORDS: Readonly<Record<CountrySector, string>> = {
+  construction: "construction",
+  "education-health": "education and health care",
+  financial: "finance, insurance and real estate",
+  government: "government",
+  information: "information",
+  "leisure-hospitality": "leisure and hospitality",
+  manufacturing: "manufacturing",
+  "mining-logging": "mining and logging",
+  "other-services": "other services",
+  "professional-business": "professional and business services",
+  "trade-transport-utilities": "trade, transportation and utilities",
+};
+const dollars = (value: number) => money(Math.round(value * 100));
+const whole = (value: number) =>
+  `${value < 0 ? "−" : ""}${Math.round(Math.abs(value)).toLocaleString("en-US")}`;
+/** Largest figure first. */
+const largestFirst = (rows: { size: number; row: WhyRow }[]): WhyRow[] =>
+  rows.sort((a, b) => Math.abs(b.size) - Math.abs(a.size)).map((r) => r.row);
+
+/**
+ * What each step of a state's latest month moved (`whatMoved`, kept by the country tier's
+ * month): the taxes withheld under each law row, which opens that law; what households spent
+ * and the ledger took in; the jobs filled and ended in each sector; who arrived and left.
+ */
+function countryStatePanels(core: CoreState, state: CountryState): WhyPanel[] {
+  const name = STATE_NAMES[state.usps] ?? state.usps;
+  const latest = state.whatMoved?.at(-1);
+  if (!latest)
+    return [
+      {
+        title: `What moved ${name} this month`,
+        rows: [],
+        gap: "The country tier has not run a month here yet: let a month pass.",
+      },
+    ];
+  const laws = core.modules.get(LAWS_MODULE_ID)?.state
+    ? coreAPI(core).moduleState(LAWS_MODULE_ID).table("laws")
+    : undefined;
+  const lawName = (lawId: string, level: string) => {
+    const row = laws?.get(lawId) as { series?: string } | undefined;
+    const named = row?.series ? LAW_NAMES.get(row.series) : undefined;
+    return `withheld under the ${level} law${named ? ` (${named})` : ""}`;
+  };
+  const month = `month ${latest.month} of the country's economy`;
+  const withheld = largestFirst(
+    latest.withheld.map((line) => ({
+      size: line.dollars,
+      row: {
+        label: lawName(line.lawId, line.level),
+        value: dollars(line.dollars),
+        id: line.lawId,
+      },
+    })),
+  );
+  const ledger = largestFirst(
+    [
+      ["what households spent", latest.spent],
+      ["state income tax the ledger took in", latest.incomeTaxRevenue],
+      ["sales tax the ledger took in", latest.salesTaxRevenue],
+      ["tax on profits the ledger took in", latest.profitTaxRevenue],
+      ["other revenue the ledger took in", latest.otherRevenue],
+      ["the year's budget in force", latest.budgetYear],
+    ].map(([label, size]) => ({
+      size: size as number,
+      row: { label: label as string, value: dollars(size as number) },
+    })),
+  );
+  const jobs = largestFirst(
+    COUNTRY_SECTORS.map((sector, at) => {
+      const added = latest.jobsAdded[at] ?? 0;
+      const cut = latest.jobsCut[at] ?? 0;
+      const vacated = latest.jobsVacated[at] ?? 0;
+      const net = added - cut - vacated;
+      return {
+        size: net,
+        row: {
+          label: SECTOR_WORDS[sector],
+          value: `${net >= 0 ? "+" : ""}${whole(net)} jobs: ${whole(added)} filled, ${whole(cut)} ended at firms, ${whole(vacated)} left by people who moved away, aged out of work or died`,
+        },
+      };
+    }),
+  );
+  const people = largestFirst(
+    [
+      ["people who moved here from other states", latest.arrived],
+      ["people who left for other states", latest.left],
+      ["people who came from abroad", latest.fromAbroad],
+    ].map(([label, size]) => ({
+      size: size as number,
+      row: { label: label as string, value: whole(size as number) },
+    })),
+  );
+  return [
+    { title: `Taxes withheld from pay in ${name}, ${month}`, rows: withheld },
+    { title: `Spending and the ledger in ${name}, ${month}`, rows: ledger },
+    { title: `Jobs in ${name} by sector, ${month}`, rows: jobs },
+    { title: `People who arrived and left ${name}, ${month}`, rows: people },
+  ];
+}
+
 // ---- The entry point -------------------------------------------------------
 
 export function whyPanels(
@@ -573,6 +704,8 @@ export function whyPanels(
     );
   if (found.kind === "person")
     return [...ledgerPanels(core, id), ...decisionPanels(core, id)];
+  if (found.engine === `${MACRO_MODULE_ID}.countryStates`)
+    return countryStatePanels(core, record as unknown as CountryState);
   if (found.engine === `${MACRO_MODULE_ID}.repricings`)
     return repricingPanels(core, String(record.facilityId));
   return [];
