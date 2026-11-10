@@ -20,7 +20,13 @@ import { journalDataFromBank } from "./mined/journal-bank";
 const zero = P.zero;
 const one = P.one;
 
-type Wording = { key: string; text: string; stages?: readonly string[] };
+type Wording = {
+  key: string;
+  text: string;
+  stages?: readonly string[];
+  /** Facts the piece needs; it is not said while the moment lacks one. */
+  requiresFacts?: readonly string[];
+};
 
 export interface JournalWordRow {
   kindPrefix: string;

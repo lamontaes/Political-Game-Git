@@ -18,6 +18,7 @@ import type { JournalRows, JournalWords } from "../journal-words";
 
 interface JournalUse {
   journal?: { kindPrefix: string; field: string }[];
+  requiresFacts?: string[];
 }
 type MinedPart = BankPart<JournalUse>;
 export const JOURNAL_BANK = bankJson as unknown as { parts: MinedPart[] };
@@ -73,14 +74,26 @@ export function journalDataFromBank(
   bank: { parts: MinedPart[] } = JOURNAL_BANK,
   rows: JournalRows = JOURNAL_ROWS,
 ): JournalWords {
-  const fields = new Map<string, { key: string; text: string }[]>();
+  const fields = new Map<
+    string,
+    { key: string; text: string; requiresFacts?: string[] }[]
+  >();
   for (const part of admittedParts(bank.parts)) {
     for (const use of part.uses)
       for (const target of use.journal ?? []) {
         const id = `${target.kindPrefix}|${target.field}`;
         const list = fields.get(id) ?? [];
         if (!list.some((row) => row.key === part.key))
-          list.push({ key: part.key, text: journalSlots(part.text) });
+          list.push({
+            key: part.key,
+            text: journalSlots(part.text),
+            // The facts the piece needs: the one check that holds a piece back
+            // until its facts are present is the grounded English engine's
+            // (`requiresFacts` on a variant), the same the scene bank uses.
+            ...(use.requiresFacts?.length
+              ? { requiresFacts: [...use.requiresFacts] }
+              : {}),
+          });
         fields.set(id, list);
       }
   }
