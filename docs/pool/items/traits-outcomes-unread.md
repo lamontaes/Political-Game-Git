@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: none
 source: "CTO weekend leads, Oct 24 (PR cto/leads-2026-10-24)"
+checked: fable 2026-11-10
 ---
 
 **What.** Of 23 outcomes personality should shape, 16 were read by their owning engine after the Oct 20 families and 7 were not. Five read only in part: an ordinary worker's job performance, earnings, coping with hardship, how others learn a trait, and speech (job performance and coping with hardship have since merged). Two are stopgapped because no engine runs them in play: partnering and divorce (`SG-TRAITS-partnerships-no-engine`). Make each owning engine read the trait at its researched size.

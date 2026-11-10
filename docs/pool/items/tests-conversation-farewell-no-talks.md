@@ -16,6 +16,7 @@ lead: words
 model: opus
 effort: high
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** src/director/conversation.test.ts "never parts with a word the talk already said" fails on main (fixed world, seed conversation-test): expected 0 to be greater than 0. Of the first 25 people the player knows, none reaches a farewell in 8 turns, and the first one's talk opens with no lines and no choices at all. The engine may be right to say nothing for a person with nothing on record, so the first question is whether the test picks people who have anything to say. The Notes record that run alone, or paired with any one earlier test, it passes, and that in the full file every known person opens an empty talk, so earlier tests leave something behind.

@@ -16,6 +16,7 @@ model: opus
 effort: high
 root: design-one-model-two-tiers
 source: split from people-protected-traits-on-record in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** A landlord's tenant pick should weigh the landlord's own traits and views against an applicant's record and record the reasons, as the hire pick does. Today rentals have one town landlord organization and no person weighs an applicant. The reasons are saved on the decision so a refused or passed-over applicant can be explained.
