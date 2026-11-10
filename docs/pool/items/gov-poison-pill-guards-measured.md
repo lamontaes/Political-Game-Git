@@ -16,6 +16,7 @@ lead: governing
 root: none
 source: added with npm run pool -- add
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** legislature.poison-pill never ran in a played election window (Parkway, Missouri): movesPill (src/core2/modules/legislature.ts, line 4766) is asked only after the guards just before its caller (near line 4750) pass, and which guard holds every time was not measured. Measure each guard's pass rate in a played year and either fix the guard that never passes or record why the decision is rare.

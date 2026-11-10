@@ -17,6 +17,7 @@ standard: 2
 model: sonnet
 effort: medium
 root: none
+checked: fable 2026-11-10
 ---
 
 **What.** Nothing is known about this item: it was released from an idle draft with the title "x" and no text. By its name it concerns a wage that is overpaid when counted households are read with their weight. Until someone can say which wage, in which place, by how much, it cannot be built.

@@ -16,6 +16,7 @@ model: opus
 effort: medium
 root: design-movements-and-unrest
 source: split from world-police-patrol-and-grievance-causes in the pool redo, Nov 10, 2026
+checked: fable 2026-11-10
 ---
 
 **What.** No module records how many hours a town's police are on patrol; the police department is only staff and a budget line. Add a monthly patrol-hours row per place: the paid hours of the staff whose post resolves to the police line through `lineForPost` (src/core2/budgets-treasury.ts), so that cutting or raising the police line, and the hiring or leaving of officers, changes the hours the next month. Follow src/core2/modules/crime.ts for the module pattern. This is the first of three parts of world-police-patrol-and-grievance-causes.

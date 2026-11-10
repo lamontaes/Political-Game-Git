@@ -16,6 +16,7 @@ model: sonnet
 effort: low
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** Hire pay now follows each hire's schooling (world-schooling-to-pay), but nothing shows a place whose graduation share rises later paying higher household incomes. Show the chain: the school module's graduation record, the education the hire pay reads, the hire pay it sets, the paycheck, and the household income the poverty measure reads. Reading the code, the hire-pay step already reads the graduation record directly (schoolingOn in src/core2/modules/jobs.ts), so an education fact may not need writing; the open question is whether the household income the poverty measure reads includes the higher pay.
