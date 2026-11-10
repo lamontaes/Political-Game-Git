@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by:
-pr:
+pr: 8252
 blocked-on:
 lead: words
 source: CTO, Nov 10 5:48 p.m. (step 1), after #8204 merged eight more of the owner's rules with tests
