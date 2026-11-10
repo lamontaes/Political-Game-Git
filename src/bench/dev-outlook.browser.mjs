@@ -28,6 +28,11 @@ try {
   );
   await page.locator('[data-testid="dev-outlook"]').click();
   await page.locator('[data-testid="dev-outlook-table"]').waitFor();
+  // A picture of the section when the caller names a file for it.
+  if (process.env.OUTLOOK_SHOT)
+    await page
+      .locator(".dev-outlook")
+      .screenshot({ path: process.env.OUTLOOK_SHOT });
   const text = await page.locator(".dev-outlook").innerText();
   console.log(text);
   const rows = await page
