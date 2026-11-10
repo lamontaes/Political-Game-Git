@@ -24609,6 +24609,290 @@
       "origin": "authored",
       "author": "Story session (story-person-view-learned)",
       "date": "2026-11-09"
+    },
+    {
+      "key": "conversation.own-work-answer-detail.still-there-still-living-in-my-place",
+      "move": "own-work-answer-detail",
+      "kind": "spoken",
+      "text": "Still there. Still living in {my_place}.",
+      "uses": [
+        {
+          "move": "own-work-answer-detail",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-detail.yes-at-employer-and-still-in-my-place",
+      "move": "own-work-answer-detail",
+      "kind": "spoken",
+      "text": "Yes, at {employer}. And still in {my_place}.",
+      "uses": [
+        {
+          "move": "own-work-answer-detail",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-deflect.that-s-a-long-story-ask-me-another-time",
+      "move": "own-work-answer-deflect",
+      "kind": "spoken",
+      "text": "That's a long story. Ask me another time.",
+      "uses": [
+        {
+          "move": "own-work-answer-deflect",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-deflect.let-s-not-talk-shop-maybe-another-time",
+      "move": "own-work-answer-deflect",
+      "kind": "spoken",
+      "text": "Let's not talk shop. Maybe another time.",
+      "uses": [
+        {
+          "move": "own-work-answer-deflect",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-change.still-there-where-are-you-living-these-days",
+      "move": "own-work-answer-change",
+      "kind": "spoken",
+      "text": "Still there. Where are you living these days?",
+      "uses": [
+        {
+          "move": "own-work-answer-change",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.own-work-answer-change.yes-and-where-are-you-living-now",
+      "move": "own-work-answer-change",
+      "kind": "spoken",
+      "text": "Yes. And where are you living now?",
+      "uses": [
+        {
+          "move": "own-work-answer-change",
+          "subject": "own-work",
+          "role": "answer",
+          "choice": "change",
+          "raises": "home"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-detail.okay-i-m-at-my-employer-these-days",
+      "move": "mutual-answer-detail",
+      "kind": "spoken",
+      "text": "Okay. I'm at {my_employer} these days.",
+      "uses": [
+        {
+          "move": "mutual-answer-detail",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-detail.right-i-work-at-my-employer-now",
+      "move": "mutual-answer-detail",
+      "kind": "spoken",
+      "text": "Right. I work at {my_employer} now.",
+      "uses": [
+        {
+          "move": "mutual-answer-detail",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "detail"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-care.say-hello-to-name-for-me",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Say hello to {name} for me.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-care.please-say-hi-to-name-for-me",
+      "move": "mutual-answer-care",
+      "kind": "spoken",
+      "text": "Please say hi to {name} for me.",
+      "uses": [
+        {
+          "move": "mutual-answer-care",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "care"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-deflect.i-d-rather-not-get-into-name-now",
+      "move": "mutual-answer-deflect",
+      "kind": "spoken",
+      "text": "I'd rather not get into {name} now.",
+      "uses": [
+        {
+          "move": "mutual-answer-deflect",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-deflect.that-s-a-story-for-another-time",
+      "move": "mutual-answer-deflect",
+      "kind": "spoken",
+      "text": "That's a story for another time.",
+      "uses": [
+        {
+          "move": "mutual-answer-deflect",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "deflect"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-change.okay-where-do-you-work-these-days",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Okay. Where do you work these days?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
+    },
+    {
+      "key": "conversation.mutual-answer-change.huh-what-are-you-doing-for-work-now",
+      "move": "mutual-answer-change",
+      "kind": "spoken",
+      "text": "Huh. What are you doing for work now?",
+      "uses": [
+        {
+          "move": "mutual-answer-change",
+          "subject": "mutual",
+          "role": "answer",
+          "choice": "change",
+          "raises": "their-work"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, own-work mutual answers)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer"
+      }
     }
   ]
 }
