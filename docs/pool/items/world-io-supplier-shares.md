@@ -17,6 +17,7 @@ effort: medium
 root: none
 milestone:
 source: Split from world-stopgap-finance-state-receipt-budget-proxy and world-stopgap-opening-finance-authored-opening-counterparty-crosswalk by pool feeder Oct 20; the stand-in research says BEA input-output tables can calibrate demand (SG-P8-outside-product-demand-crosswalk)
+checked: fable 2026-11-10
 ---
 
 **What.** Firms' purchases from suppliers are cost-to-revenue ratios spread across whatever routes exist, and households' and firms' counterparties are capacity-weighted ties, with no source for which supplier industry a firm buys from. Add the Bureau of Economic Analysis input-output Use table (apps.bea.gov, reachable from cloud on Oct 20) as a sourced data file under src/core2/data/business/ with a reader: for each purchasing industry, the share of its intermediate purchases by supplier industry, mapped to the game's business kinds through NAICS, with the share bought from the place versus outside (an ESTIMATED regional purchase coefficient with its source and spread). Include the Census Monthly Trade inventory-to-sales ratios by industry as the days of supply a firm holds. Expose `supplierShares(kindId)` and `inventoryDays(kindId)` for the two engines that read them.

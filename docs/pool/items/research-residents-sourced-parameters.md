@@ -17,6 +17,7 @@ effort: medium
 root: none
 lead: researcher
 after:
+checked: fable 2026-11-10
 ---
 
 **What.** Source the numbers behind residents' employment. Each row below is a registered stopgap whose replacement waits on sourced or estimated data. For each row, find a public source with a year and a unit, record the figure as a SOURCED or ESTIMATED parameter row with a citation and a spread, put the research file under data/research/people/ with a reader, and resolve the stopgap row. Where a row's replacement is a mechanic rather than a number, source what that mechanic will read and leave the mechanic to the area's builder, naming the pool item in the PR. Only the employment-proxy row remains here. The cadence and district-placement rows moved to research-residents-cadence-sourced and research-residents-district-placement-sourced and are left out of the list below, and research-residents-employment-island-areas holds the island areas' own employment-by-age tables. The earlier pull request delivered only the county observations (src/core2/data/resident-employment-counties.json). The employment proxy uses national CPS age ratios where county ACS cells are missing or suppressed.

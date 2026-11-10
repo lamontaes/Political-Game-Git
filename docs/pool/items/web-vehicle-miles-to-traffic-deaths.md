@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The outcome web now keeps `traffic.vehicle-miles`, miles driven per resident, for all 56 places, and a mileage fee moves it. More miles mean more crashes, but no link carries miles driven to traffic deaths or injuries, so a law that changes driving changes no one's safety. Research the size (deaths per mile driven and how they scale with miles), and link it where a measure of traffic deaths exists or should be kept.
