@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: S
-status: open
+status: done
 claimed-by:
 pr:
 blocked-on:
@@ -47,3 +47,5 @@ Sent back 2026-10-21 from PR #5056 (branch claude/scene-subject-named): The sepa
 Oct 29 (CTO): #5056 closed because no session carries it (it conflicts with main in src/director/data/situation-types.json); its branch is kept. The words session owns the director, so this is its item to take or drop.
 
 **Notes (Fable, Nov 10, proposed for the CTO).** Proposed: drop as built. `causeMatches` in src/director/scheduling.ts (lines 317 to 355) refuses a cause whose record does not name the moment's person: the types filing and race-lost carry `selfNamed: true`, race-lost also needs the record's winner to be someone else, and public-hearing carries `causeNames: subject`. The filing event names only the filer (src/core2/modules/elections.ts line 1269) and an election result names its filers (src/core2/modules/voting.ts line 3288). The tests src/director/own-filing-scenes.test.ts and src/director/cause-names.test.ts hold it.
+
+**Notes (CTO, Nov 10).** Closed on Fable's proposal: already built: the director refuses a filing or race-lost scene for a person the cause record does not name, and two tests hold it (Fable, #8209).

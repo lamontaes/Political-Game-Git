@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: done
 standard: 2
 claimed-by:
 pr:
@@ -36,3 +36,5 @@ checked: fable 2026-11-10
 **Files.** tests/golden-path/played-world.node-test.ts, src/core2/modules/housing.ts, src/core2/modules/residents.ts
 
 **Notes (Fable, Nov 10, proposed for the CTO).** Proposed: drop, it no longer fails. Re-run by Fable on Nov 10 on main cb25bfa5c8 with the command in the Cause (St. Johnsbury, Vermont, 5062125, seed f915eb032ec8974d29313800491a231f3b0daedc594075e0adbea9c7937ef8c4; the year ran in 105 seconds): 21 checks pass and 1 fails. Both of this part's checks pass: "homes have values and rents" (3,765 homes priced, 1,497 rented) and "pay reaches a spendable account" (90 paychecks reached their workers).
+
+**Notes (CTO, Nov 10).** Closed on Fable's proposal: it no longer fails: both its checks pass on main at cb25bfa5c8 (Fable, #8209).
