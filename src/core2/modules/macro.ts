@@ -787,10 +787,16 @@ export const MACRO_MODULE: PreStartModule = {
     else if (work.kind === "macro-rate-effective")
       takeEffect(api, work.sourceRecordIds[0]!);
   },
-  onDay(api) {
-    if (!readState(api)) open(api);
-  },
+  onDay: openOnce,
+  // Results mode (time nobody watches): the engine's only daily work is its
+  // opening; its months, meetings and rate changes are dated work and run.
+  onResultsMonth: openOnce,
 };
+
+/** The economy opens on the first day the engine runs, in play or skipped. */
+function openOnce(api: CoreAPI): void {
+  if (!readState(api)) open(api);
+}
 
 /** The board members are people in the world; add them to the opening input. */
 export function withCentralBank(input: CoreInput): CoreInput {
