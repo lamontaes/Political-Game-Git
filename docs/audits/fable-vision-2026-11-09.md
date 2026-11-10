@@ -106,6 +106,20 @@ Build one coarse country tier out of the model you already have. Every state bec
 - **Three separate pieces of code answer "what is the law now" (read)** (`src/core2/modules/laws.ts:602`, `src/core2/modules/outcome-web.ts:195`, `src/core2/laws-death-taxes.ts:58`).
 - **State and federal laws barely move the economy (measured).** See the twin-world test in pillar 1. Your Kentucky example, abolishing the income tax and watching the metrics, does not work. With both income taxes at zero, national unemployment moved by 0.005 of a point in three years, and the jobless rate in the town's part of Utah by 0.004. That region's population did not change by one person.
 
+### Dev mode on the screen (measured, with screenshots)
+
+A helper drove dev mode through the game's own screens in Ten Broeck, Kentucky, for five months of game time and took 136 screenshots. I checked the ones I cite with my own eyes. Ten are saved beside this report in `fable-vision-2026-11-09-screens`.
+
+- **The bill page's dev card works.** It lists each member with Yes and No, a margin, and Sign, Veto, Override and Trace. A property tax ordinance passed 5 to 0, the mayor signed, and the page said so (screenshot 04).
+- **The Bills and Bribe panels cannot be read.** On the Government screen they are drawn underneath the Members cards. Their result lines show through in pieces (screenshot 05).
+- **A person's record list prints "[object Object]" in every slot.** Clicking one opens a Trace that says "kind missing, record null" (screenshot 06).
+- **The Watch panel is black text on a black sheet.** Its tables cannot be read (screenshot 07).
+- **The scene list does not say which scenes it can cause.** All 98 kinds are plain buttons. A "visit" I asked for began and then played nothing in four days, which matches the four waited scenes that never came in my own sessions (screenshot 08).
+- **Dev mode's own status table agrees with pillar 3.** On the same screen it lists "Other places: not in the new core yet," and state and federal government as "partly running," missing "budgets and governing" (screenshot 08).
+- **Run-until still stops far away.** "Until a law takes effect" stopped on laws in Colorado, Hawaii, Delaware and the Virgin Islands, and never on the law just passed in town.
+- **A bribe on a town council bill was taken by a United States senator.** The bribe panel offers officials who have no vote on the bill, and the record it wrote names a Kentucky senator and a California House seat (screenshot 10).
+- **The player's own screen shows a bill with no name.** After the dev bills, the council's Coming up list read "Jul 1 2025-11:" with nothing after it (screenshot 10).
+
 ### What a player sees
 
 A council member can draft from 32 town policies; a state legislator from 152 (`src/bench/legislature.ts:64`). A mayor or governor has no bill menu at all, because only bodies with two or more seats get one (`src/bench/legislature.ts:93`). There is no Repeal button outside dev mode (`src/bench/ui/dev-bills.mjs:134`); a player repeals by typing 0. After a law passes, no screen shows the people it reached.
