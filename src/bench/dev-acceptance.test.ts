@@ -169,11 +169,18 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
         series: "minimum-wage",
         value: 9 + (count += 1) / 100,
       }).bill;
-    // Every member against it: the committee hears it (the chair is cast to) and votes it down.
+    // Every member against it: it is voted down, in its committee where that committee's members
+    // vote it there, else on the floor. Either way the ending names the vote that ended it.
     const sunk = dev.decideAt(introduce().id, -1000, { chairHears: true });
-    expect(sunk.ending.how, `${where}: ${JSON.stringify(sunk.ending)}`).toBe(
-      "committee-lost",
-    );
+    expect(
+      ["committee-lost", "floor-lost"],
+      `${where}: ${JSON.stringify(sunk.ending)}`,
+    ).toContain(sunk.ending.how);
+    if (
+      sunk.ending.how === "committee-lost" ||
+      sunk.ending.how === "floor-lost"
+    )
+      expect(sunk.ending.yes, where).toBe(0);
     // Short by three: the committee's members carry it to the floor, and the floor votes it down.
     const lost = dev.decideAt(introduce().id, -3, { chairHears: true });
     expect(lost.ending.how, `${where}: ${JSON.stringify(lost.ending)}`).toBe(
@@ -348,10 +355,13 @@ describe(`dev mode as the acceptance check: ${where}`, () => {
       money.classes.reduce((sum, row) => sum + row.diffMinor, 0),
       where,
     ).toBe(0);
-    // Each holder named is in the world, in the class the check gave it.
+    // Each holder named is in this world, or only in the twin (a campaign fund the twin's race
+    // opened and this world's did not), where it holds nothing here.
     for (const holder of money.holders)
       expect(
-        core.people.has(holder.id) || core.organizations.has(holder.id),
+        core.people.has(holder.id) ||
+          core.organizations.has(holder.id) ||
+          holder.hereMinor === 0,
         `${where}: ${holder.id}`,
       ).toBe(true);
   }, 900_000);
