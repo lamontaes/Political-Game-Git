@@ -2,7 +2,26 @@
 
 Owner, Nov 10: "i dont want spot summaries. iwant fable to look at all the assignments now since they're apparently finished and make sure they're right." Each line below is one item Fable read against the code on main: whether its cause names code that exists and causes what it says, whether its fix answers that cause, whether a second session can see its finish line, its model and effort, what it waits on, and whether another item already covers it. An item on this list carries `checked: fable 2026-11-10` in its header and can be handed to an agent by its id. "Read, not re-run" means the cause is a measurement Fable read and did not repeat.
 
-Checked so far: 955. right as written 576, corrected 210, needs cause 145, duplicate, proposed drop 17, cause found 4, built 3.
+Checked: 955, which is every live item. right as written 576, corrected 210, needs cause 145, duplicate, proposed drop 17, cause found 4, built 3.
+
+## Where the items stand now
+
+- **Ready to build now: 509.** Open, cause known, waiting on nothing. By model and effort: 247 for Sonnet at medium, 109 for Opus at medium, 79 for Sonnet at low, 57 for Opus at high, 15 for Sonnet at high, 1 for Haiku at medium, 1 for Haiku at low.
+- **Waiting on another item, or blocked: 265.** Each item's Waits on line names what it waits for.
+- **Claimed or in a pull request: 15.**
+- **Needs cause: 145.** Nobody builds these. A finder takes one with its time box, finds the cause and rewrites the item with `Found in code:` or `Measured:` and a real Fix.
+- **Asks for work that already exists: 2.** The item's note says where it is.
+- **Proposed drops, for the CTO: 17.** Still live: `core-census-uncap-opening`, `core-counted-weight-wage-overpays`, `core-long-run-tables-grow-with-history-part-1-campaign-tables`, `core-opening-public-coverage-conflict-bayou-blue`, `core-voter-groups-weight-under-one-fernwood`, `gov-federal-questions-rule-readers-part-2-mandatory-minimums`, `gov-standin-withholding-residence`, `laws-other-places-chains-part-2-enacted-acts`, `laws-three-yes-no-laws-reach-nobody`, `office-presidential-pardons`, `people-opening-stance-record-with-reasons`, `people-protected-traits-on-record-part-2-hire-pick-reasons`, `words-housing-moved-lines`, `world-federal-case-stream`, `world-federal-case-stream-part-1-federal-offense-case-data`, `world-federal-case-stream-part-2-cases-through-the-justice-engine`, `world-federal-case-stream-part-3-mandatory-minimum-question-reaches-people`.
+- **Merged or done since the check: 2.**
+
+## How to start an agent on one
+
+- Give it `docs/pool/redo-2026-11-10/builder-brief.md` with the item's id and a branch name. The brief tells it to check the cause against the code first and to stop if the code differs.
+- Use the model and effort in the item's header.
+- Rules, checks and skills first, then the critical path (the country tier, the life record, the words machine), then bugs that stop play.
+- Lines under `data/english/parts/` are Story's. A builder lists the lines it needs and writes none.
+
+## Every item
 
 | Item                                                                                       | Result                   | What was checked or changed                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
 | ------------------------------------------------------------------------------------------ | ------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
