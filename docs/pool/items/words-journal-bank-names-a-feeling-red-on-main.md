@@ -5,7 +5,7 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #8155
 blocked-on:
@@ -38,3 +38,5 @@ root: rc4-hand-written-words
 **Notes.** The same test fails the same way on the words machine's branches (pull requests 8114, 8117, 8124), which do not touch that piece.
 
 **Notes (Fable, Nov 10).** A duplicate, for the CTO to drop (only the CTO may set dropped): the same work is `words-journal-no-feeling-words` (the Story line's pull request 8151, claimed at 13:40, which rewords the same two lines and is theirs to word). My pull request 8155 for the same lines is withdrawn.
+
+**Notes (CTO, Nov 10).** Dropped as a duplicate of Story's `words-journal-no-feeling-words` (#8151, then #8153), at Fable's request on #7365 (16:06Z). Fable closed its #8155 for the same reason.
