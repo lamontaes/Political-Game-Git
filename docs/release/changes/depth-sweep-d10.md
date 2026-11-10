@@ -5,4 +5,4 @@ section: Changed
 title: Depth sweep of the words pool items
 ---
 
-Pool items on the words list were checked against what a player sees, and five were dropped as too in depth.
+Pool items on the words list were checked against what a player sees, and eight were dropped as too in depth.
