@@ -5,8 +5,8 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
-claimed-by:
+status: claimed
+claimed-by: claude/pool-play-stop-08-no-high-school-at-seventeen
 pr: #6038
 after:
 blocked-on:
@@ -17,7 +17,7 @@ root: rc2-done-from-records
 source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
-claimed-at:
+claimed-at: 2026-11-10T23:06:02.446Z
 checked: fable 2026-11-10
 branch: claude/pool-play-stop-08-no-high-school-at-seventeen
 ---
@@ -55,3 +55,5 @@ Lane 4 check, Nov 4 (main b78f83fb42): New Game through the creator, Anson, Texa
 Claimed by next for sonnet-8597 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:02 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
 
 Released (2026-11-10): Replayed on main in two drawn places: history reads high school, name is the district's; seen refuses a claimed item, see handoff on PR 6038. Continue on branch claude/pool-play-stop-08-no-high-school-at-seventeen and pull request #6038.
+
+Claimed by next for sonnet-cc77 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 23:05 UTC) on branch claude/pool-play-stop-08-no-high-school-at-seventeen.
