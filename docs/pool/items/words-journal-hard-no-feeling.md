@@ -7,7 +7,7 @@ priority: 2
 size: S
 status: in-pr
 claimed-by: story/journal-hard-no-feeling
-pr: pending
+pr: 8153
 blocked-on:
 lead: words
 source: "CTO ruling, Nov 10: prior-rulings/people.md section 24 (owner-locked, Sept 6: imply tension through ordinary concrete behavior and dialogue rather than narrating feelings) binds the journal"
