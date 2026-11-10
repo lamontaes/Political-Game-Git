@@ -276,15 +276,19 @@ export function lifeOf(
       .filter((event) => event.from === "played")
       .map((event) => `${event.date}|${withKey(event)}`),
   );
-  const told = new Set<string>();
+  // Only another source's telling makes a twin. Two records of one source are
+  // two events, each with its own id, however alike: a person who loses two
+  // jobs on one day lost two jobs.
+  const told = new Map<string, LifeEvent["from"]>();
   const once: LifeEvent[] = [];
   for (const event of out) {
     if (event.from === "built" && inThePast.has(withKey(event))) continue;
     if (event.from === "built" && inPlay.has(`${event.date}|${withKey(event)}`))
       continue;
     const key = `${event.date}|${withKey(event)}`;
-    if (told.has(key)) continue;
-    told.add(key);
+    const first = told.get(key);
+    if (first !== undefined && first !== event.from) continue;
+    if (first === undefined) told.set(key, event.from);
     once.push(event);
   }
   return once.sort(
