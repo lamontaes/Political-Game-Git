@@ -5,8 +5,8 @@ area: words
 kind: bug
 priority: 1
 size: S
-status: claimed
-claimed-by: claude/pool-play-stop-01-talk-says-nothing
+status: open
+claimed-by:
 pr:
 after:
 blocked-on:
@@ -18,7 +18,7 @@ source: added with npm run pool -- add
 lead: play-first
 milestone: play-first
 checked: fable 2026-11-10
-claimed-at: 2026-11-10T22:58:31.731Z
+claimed-at:
 branch: claude/pool-play-stop-01-talk-says-nothing
 ---
 
@@ -55,3 +55,5 @@ Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session
 Released (2026-11-10): Replay-only item; next re-offers it to builders. Needs a second session's replay, or the CTO should mark it not-for-builders. Continue on branch claude/pool-play-stop-01-talk-says-nothing.
 
 Claimed by next for sonnet-a266 (Claude Sonnet 5.5 in Claude Code (cloud session), tier mid) (2026-11-10 22:58 UTC) on branch claude/pool-play-stop-01-talk-says-nothing.
+
+Released (2026-11-10): Replay-only item (Fix says nothing is built); second session must replay it. Builder released it. Continue on branch claude/pool-play-stop-01-talk-says-nothing.
