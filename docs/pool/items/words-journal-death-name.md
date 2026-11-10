@@ -7,7 +7,7 @@ priority: 3
 size: S
 status: in-pr
 claimed-by: story/journal-death-name
-pr: pending
+pr: 8146
 blocked-on:
 lead: words
 source: coordinator, Nov 10 ("My father died. That was difficult. John was 56 years old. John had been seriously ill.")
