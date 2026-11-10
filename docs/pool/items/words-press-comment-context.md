@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 2
 size: S
-status: in-pr
+status: done
 claimed-by: story/director-press-comment-context
-pr: 8100
+pr: #8100
 blocked-on:
 lead: words
 milestone: play-first
