@@ -5,7 +5,7 @@ area: play
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -21,3 +21,7 @@ source: added with npm run pool -- add
 **Files.** src/core2/modules/jobs.ts, src/bench/dev-mode.ts
 
 **Notes.** TODO
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `DevMode.forceLayoff` (`src/bench/dev-mode.ts` line 1231) calls `layOffWorker` (`src/core2/modules/jobs.ts` line 4816), which ends a named worker's job through the business's own layoff with the `work.job-lost` event (line 1888), the state claim and the seeker row, as the file's own doc comment says.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

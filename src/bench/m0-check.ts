@@ -241,28 +241,34 @@ const specs: Record<string, () => string> = {
     return `${label(w)}: from ${at.date}, skip ${packet.kind === "stop" ? `stopped ${packet.at.date} minute ${packet.at.minuteOfDay} for ${why.join(", ")}` : why.length ? `ended ${packet.at.date}, ${why.join(", ")}` : `ran ${lookahead} days to ${packet.at.date} with nothing needing the player`}; the character attended ${shifts} shift choices and made ${skip.selfChosen.length} choices itself`;
   },
 
-  /** Twenty sampled saved items each open a "why" made of saved records. */
+  /** Twenty sampled decision records each open a "why" made of saved scores. */
   "M0-04"() {
     const w = world(),
       player = new BenchPlayer(w.core, w.director),
       chosen = adultOf(w, "m0-04");
     player.select(chosen.id);
-    const person = w.core.people.get(chosen.id)!;
-    const savedIds = () =>
-      [
-        person.id,
-        person.householdId,
-        ...(person.jobId ? [person.jobId] : []),
-        ...(w.core.logByPerson.get(chosen.id) ?? []),
-        ...(w.core.relationshipsByPerson.get(chosen.id) ?? []),
-        ...(w.core.cashJournal.detailedByOwner.get(chosen.id) ?? []),
-        ...(w.director.ledger.people.get(chosen.id)?.moments.map((m) => m.id) ??
-          []),
-      ].sort();
-    let ids = savedIds();
-    // Play on, a week at a time, until the screen shows twenty saved items.
-    for (let week = 0; ids.length < 20 && week < 8; week++) {
-      let result = player.advance("week");
+    // Sampling rule: only items that come from a decision record (a
+    // `person.acted` row of this character) are sampled. The core keeps
+    // every option's scores for circleDecisionDetailDays only, so each new
+    // decision record is opened on the day it appears on screen, as a player
+    // would; the step fails on any sampled record that opens without scores.
+    const seen = new Set<string>(),
+      sample: string[] = [];
+    const newDecisions = () =>
+      [...(w.core.logByPerson.get(chosen.id) ?? [])]
+        .filter((id) => {
+          const row = w.core.durableLog.get(id);
+          return (
+            !seen.has(id) &&
+            row?.kind === "person.acted" &&
+            row.actorId === chosen.id
+          );
+        })
+        .sort();
+    // Records made before the character was taken are not on the played screen.
+    for (const id of newDecisions()) seen.add(id);
+    for (let day = 0; sample.length < 20 && day < 120; day++) {
+      let result = player.advance("day");
       while (result.packet.kind !== "complete")
         result = {
           ...result,
@@ -274,28 +280,35 @@ const specs: Record<string, () => string> = {
               })
             : player.resume({ kind: "stop", pauseId: result.packet.pauseId })),
         };
-      ids = savedIds();
+      for (const id of newDecisions()) {
+        seen.add(id);
+        if (sample.length >= 20) break;
+        const trace = player.trace(id) as {
+          recordId?: string;
+          status: string;
+          scoresStatus: string;
+          scores?: unknown;
+        };
+        check(
+          trace.status === "saved",
+          `${label(w)}: item ${id} opened no saved explanation (${trace.status}).`,
+        );
+        check(
+          trace.scoresStatus === "saved" && trace.scores !== undefined,
+          `${label(w)}: item ${id} opened a why with no saved scores.`,
+        );
+        check(
+          trace.recordId === id && w.core.durableLog.has(id),
+          `${label(w)}: item ${id} names a record that is not in the core.`,
+        );
+        sample.push(id);
+      }
     }
-    check(ids.length >= 20, `Only ${ids.length} saved items to sample.`);
-    const sample = new Set<string>();
-    for (let i = 0; sample.size < 20; i++)
-      sample.add(ids[hash(`${seed}:m0-04:${i}`) % ids.length]!);
-    let withScores = 0;
-    for (const id of sample) {
-      const trace = player.trace(id) as {
-        status: string;
-        scoresStatus: string;
-        savedSources?: readonly { status?: string; id?: string }[];
-      };
-      check(
-        ["saved", "no-saved-reason", "saved-director-record"].includes(
-          trace.status,
-        ),
-        `Item ${id} opened no saved explanation (${trace.status}).`,
-      );
-      if (trace.scoresStatus === "saved") withScores++;
-    }
-    return `${label(w)}: 20 of ${ids.length} saved items opened saved explanations; ${withScores} carry saved scores, the rest say none were saved`;
+    check(
+      sample.length >= 20,
+      `${label(w)}: only ${sample.length} decision records to sample.`,
+    );
+    return `${label(w)}: ${sample.length} decision records (${sample[0]} to ${sample.at(-1)}) each opened a saved why with saved scores and a record id that exists in the core`;
   },
 
   /** The golden path and world panel for a fresh life. */

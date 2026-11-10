@@ -10,17 +10,27 @@ claimed-by:
 pr:
 after:
 blocked-on:
+standard: 2
+model: sonnet
+effort: medium
+root: rc10-screens-keep-own-facts
 lead: screens
 source: Fable audit, Nov 9, 2026 (docs/audits/fable-vision-2026-11-09.md on branch audit/fable-vision, Pillar 6, "Against your newest rulings (measured)")
 ---
 
-**What.** Measured by the audit on Nov 9 in Blodgett Landing, New Hampshire (a random world; the audit gives no seed): "Your life shows a full-body figure." Its screenshot `docs/audits/fable-vision-2026-11-09-screens/01-your-life-four-lines.jpg` (branch audit/fable-vision) shows the Your life tab with a seated woman drawn head to shoes in a tall frame at the left. Read in code on main, Nov 10: in `openSheet` in `src/bench/play.mjs` the You tab uses the approved strip screen with a bust, while the other two tabs of the group keep "the side figure" (comment at line 5245): `fillArtwork` (`src/bench/ui/picture.mjs`, line 12) fills `#sheet-media` with the whole figure from `portraitUrl()` (line 3167) at line 5257, under the class `character-sheet`. Fix the class: no menu draws a full figure; Jobs and study and Your life show the same bust the You tab shows, from the same face record, and the full-figure slot, its picture source and its styles are deleted.
+**What.** The audit measured on Nov 9 in Blodgett Landing, New Hampshire (a random world, no seed given): "Your life shows a full-body figure." The You tab uses the approved strip screen with a bust, while the other two tabs of the group keep a side figure of a seated woman drawn head to shoes in a tall frame. The owner ruled on Nov 7 that menus show busts only. No menu should draw a full figure: Jobs and study and Your life show the same bust the You tab shows, from the same face record, and the full-figure slot, its picture source and its styles are deleted.
+
+**Cause.** Found in code: `openSheet` in src/bench/play.mjs (about lines 5245 to 5259) keeps "the side figure" for two tabs, calling `fillArtwork` (src/bench/ui/picture.mjs, line 12) with `portraitUrl()` (src/bench/play.mjs, line 3167) into `#sheet-media` under the class `character-sheet`.
+
+**Fix.** Show the same bust the You tab shows on all three tabs from the same face record (use the one face part if play-one-person-shows-two-faces has landed, else `bust` in src/bench/ui/strips.mjs, line 38, with the card's own face record), and delete `fillArtwork`'s figure, `portraitUrl`, the `#sheet-media` slot and the `character-sheet` and `screen-portrait` styles. Whole figures stay in rooms and scenes.
 
 **Time box.** 3 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
 
-**Rules.** Replace, never layer: `fillArtwork`'s figure, `portraitUrl`, the `#sheet-media` slot and the `character-sheet` and `screen-portrait` styles go in the same change that puts the bust on these tabs. Owner, Nov 7, about 4:50 p.m. (docs/mocks/2026-11-07-approved/RULINGS-nov5.md, item 50): "No, remember, we're going to keep the busts because that's easiest to do. Unless you can... no, let's just do the busts. On the page. The full body, we keep coming with problems with that." The digest adds: "No full-body figures on menus; the Figure switch is removed."
+**Rules.** Replace, never layer: `fillArtwork`'s figure, `portraitUrl`, the `#sheet-media` slot and the `character-sheet` and `screen-portrait` styles go in the same change that puts the bust on these tabs. Owner, Nov 7 (docs/mocks/2026-11-07-approved/RULINGS-nov5.md, item 50): "we're going to keep the busts because that's easiest to do ... The full body, we keep coming with problems with that." This is about menus only.
 
-**Done when.** A different session starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named in the proof), opens You and takes a screenshot at 1440×900 of each of its three tabs. All three must show the same bust, head to upper chest ending in a soft fade, of the same face. None may show legs, a seated or standing whole figure, or a tall framed picture beside the text. The session then opens every other menu from the rail and confirms none draws a whole figure. The same three screenshots are then taken in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro, and set beside the approved example `you-ol-g` in `docs/mocks/2026-11-07-approved/menu-examples.html`. The owner plays it: he clicks through You, Jobs and study and Your life and sees the same bust of his character on each.
+**Done when.** A second session (not the builder) starts the bench (`npm run bench`), starts a new game in a drawn place (place and seed named), opens You and takes a screenshot at 1440x900 of each of its three tabs: all three show the same bust, head to upper chest ending in a soft fade, of the same face, and none shows legs, a whole seated or standing figure, or a tall framed picture beside the text. The session then opens every other menu from the rail and confirms none draws a whole figure. The same three screenshots are taken in Blodgett Landing, New Hampshire, the audit's place (the audit gives no seed), as the named repro, and set beside the approved example `you-ol-g` in docs/mocks/2026-11-07-approved/menu-examples.html.
+
+**Waits on.** Nothing.
 
 **Files.** src/bench/play.mjs, src/bench/ui/picture.mjs, src/bench/ui/strips.mjs, src/bench/play.css, src/bench/play.html
 

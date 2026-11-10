@@ -5,7 +5,7 @@ area: world
 kind: wiring
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5812
 blocked-on:
@@ -28,3 +28,7 @@ Sent back 2026-10-23 from PR #5812 (branch claude/apply-buy-reasons): Apply-only
 Sent back 2026-10-24 from PR #5812 (branch claude/apply-buy-reasons): jobs.ts:1829 still gives counted seekers a constant need while full people use the new runway score, contrary to the one-model rule; the new test selects alive people without jobs rather than actual seekers and can use children or retirees; share the rule across tiers, prove actual seeker/fill-in witnesses, and correct its one-case versus body2/2 count; finish on that branch, merge main into it first.
 
 Oct 25 (Merger 0): PR #5812 delivers the applying slice under bounded item world-apply-runway-both-tiers. This umbrella stays open for its home-buying acceptance and must not be marked done by that merge.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into world-counted-renters-buy. The apply half is built and merged under world-apply-runway-both-tiers (`unemployedNeed` in src/core2/modules/jobs.ts, test src/core2/jobs-apply-need-varies.test.ts), and the buy half cannot start until counted renters can buy, which is world-counted-renters-buy. The kept item should take this Done-when line: each home purchase carries a circumstance reason that differs between buyers, by record id, in a one-year played world in a drawn place.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `world-counted-renters-buy`, which carries this item's remaining work.

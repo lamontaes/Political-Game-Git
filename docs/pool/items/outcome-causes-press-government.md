@@ -22,3 +22,5 @@ claimed-at:
 **Files.** src/core2/modules/outcome-web.ts, src/core2/gov-measures.ts, src/core2/modules/press.ts, src/core2/data/outcome-web/outcome-web.json
 
 **Notes.** Split from core-outcome-causes-recorded, which was really three bounded pieces (found building it: engine measures are read from world-metrics month fields, government measures from `gov-measures.ts`, and a wired link also needs a kept outcome, so no link is a one-line change). The links' sizes and anchors are in data/research/outcome-web/links.json.
+
+**Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/data/outcome-web/coverage.json lists newspaper-closure-to-engagement under "wired", and exposed-corruption-to-reelection is carried by the voting engine's scandal term (scandalTerm in src/core2/modules/voting.ts, line 1230, which reads bribes reported to the press and convictions made public); the coverage row says so under carriedBy. Nothing is left to wire for these two links.

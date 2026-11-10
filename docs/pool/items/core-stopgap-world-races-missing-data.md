@@ -5,21 +5,35 @@ area: core
 kind: stopgap
 priority: 3
 status: open
+standard: 2
 claimed-by:
 pr: #5304
+after:
 blocked-on:
 milestone:
+model: sonnet
+effort: medium
+root: rc9-place-facts-one-default
+lead: governing
 source: "src/core2/data/stopgaps.json, src/core2/modules/world-races.ts, kind missing-data"
 claimed-at:
 ---
 
-**What.** Replace or clear the 2 open missing-data stopgap row(s) in src/core2/modules/world-races.ts: SG-GOV-world-race-lean, SG-GOV-delegate-race-size. Each fake is replaced by the mechanic, or the feature that needs it is deleted.
+**What.** Two missing-data stopgap rows remain on the out-of-town races: SG-GOV-world-race-lean and SG-GOV-delegate-race-size (src/core2/data/stopgaps/gov.json). This item narrows to the delegate-race size row; the lean row stays open for the district-results data and is reduced by core-race-candidates-who-runs. A territory delegate race is sized by a default rather than its votes cast. Oct 20 research found the 2024 votes cast: Puerto Rico about 1,220,000 (derived from 530,540 at 43.48 percent; the State Commission of Elections certifies the exact count), Guam about 29,300 (derived), U.S. Virgin Islands 14,167 (certified, vivote.gov), American Samoa about 9,900 (derived), Northern Mariana Islands 12,225 (unofficial).
 
-**Rules.** Never close a row by deleting it; registered stopgaps; replace, never layer; numbers in the parameter table (SOURCED, ESTIMATED or TUNABLE).
+**Cause.** Found in code: src/core2/modules/voting.ts (`racePlaces` line 3552, `statePlaces` imported at line 168 and used at lines 4265 and 4587) holds rows SG-GOV-world-race-lean and SG-GOV-delegate-race-size (src/core2/data/stopgaps/gov.json); a territory delegate race is sized by a default rather than its votes cast.
 
-**Done when.** Rows resolved in stopgaps.json; the engine's replacement read by another engine in a one-year played-world run, by record id.
+**Fix.** Size each territory's delegate race as votes cast over the state or national turnout (`cpsTurnout`) with `votes2024` set to votes cast, reading each commission's certified results first (values above are the Oct 20 research), drop `api.stopgap("SG-GOV-delegate-race-size")` and resolve that row; keep SG-GOV-world-race-lean open for the district-results data.
 
-**Files.** src/core2/modules/world-races.ts
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** One rule, all 56 places: the five territories are sized by the same rule as states, from per-place data, and no territory is named in logic. Estimate, never UNKNOWN: a territory whose certified count is not found starts from the derived figure, marked ESTIMATED with its source. Never close a row by deleting it.
+
+**Done when.** A second session, not the builder, plays a one-year buildBenchWorld in a drawn place in a year with a territory delegate race (place and seed named) and opens each territory's delegate race: its size equals votes cast over turnout, shown by race record id, and SG-GOV-delegate-race-size is resolved while SG-GOV-world-race-lean stays open for the district-results data.
+
+**Waits on.** Nothing.
+
+**Files.** src/core2/modules/voting.ts, src/core2/race-places.ts, src/core2/data/stopgaps/gov.json
 
 **Notes.** First row: A race the town doesn't vote in is counted on the counted residents' engine at a coarser level (a House district's, the state's counties', a legislative district's eligible voters, voting as the town's counted residents
 

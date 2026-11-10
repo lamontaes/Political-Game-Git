@@ -11,15 +11,29 @@ pr: #5493
 blocked-on: a researcher: choose the homeschool definition (Household Pulse is broader than NHES), then build the state table from the Pulse public-use files; see the Notes
 source: added with npm run pool -- add
 claimed-at:
+after:
+standard: 2
+model: sonnet
+effort: low
+root: none
+lead: lives
 ---
 
-**What.** The private share of students by state is sourced (NCES, PR for research-school-assignment-sources); the homeschool share by state is not. The Census Bureau's Household Pulse surveys report homeschooling by state, but the Census data service needs a key the session did not have. Source it with a year, a unit and a spread into data/research/people/ with a reader, and the five territories take the median.
+**What.** The private share of students by state is sourced, but the homeschool share by state is not read anywhere. A researcher already built the 51-state table from the Census Household Pulse public-use files, scaled to the national NHES figure (1.8 to 4.4 percent, median 2.6), with the definition, limits and script written up in docs/reports/homeschool-share-2026-10-20.md. The table never shipped because the school engine reads one national private share. Move the table into data/research/people with a reader in the tuition opening.
 
-**Rules.** Research before building: a share calibrates the band the proof reports, never the chance one family homeschools. Estimate, never UNKNOWN: a state the source lacks starts from the median, marked ESTIMATED.
+**Cause.** Found in code: src/core2/opening-private-tuition.ts (privateShareOf, line 43, and publishedPrivateShareOf, line 27) reads one national private share and has no homeschool share; the state table is written up in docs/reports/homeschool-share-2026-10-20.md, with source file data/research/people/census-household-pulse-homeschool-replicate-errors-2023.json.
 
-**Done when.** A research file lists each state's homeschool share with its source and year, a reader in the school engine uses it, and the research-data guard in tests/guards passes with the file named; a played world in a drawn place reports the share it used.
+**Fix.** Move the 51-state table (plus five territories at the median, tagged ESTIMATED) into data/research/people with a reader in the tuition opening, and have the played world report the share used. Describe it as a state-share calibration of the tuition quota, not as identifying individual homeschooling families.
 
-**Files.** data/research/people, src/core2/opening-private-tuition.ts
+**Time box.** 4 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+
+**Rules.** Research before building: a share calibrates the band the proof reports, never the chance one family homeschools. Estimate, never UNKNOWN: a state the source lacks starts from the median, marked ESTIMATED. One rule, all 56 places: the table is keyed by state data, none named in code.
+
+**Done when.** A second session plays a drawn place in buildBenchWorld (place and seed named) and sees the played world report the homeschool share it used for that place's state, with tuition records present in the world. A research file lists each state's homeschool share with its source and year, a reader in the school engine uses it, and the research-data guard in tests/guards passes with the file named.
+
+**Waits on.** Nothing.
+
+**Files.** data/research/people, src/core2/opening-private-tuition.ts, docs/reports/homeschool-share-2026-10-20.md
 
 **Notes.** TODO
 
