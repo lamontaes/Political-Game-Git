@@ -39,12 +39,12 @@
     "id": "SG-WORLD-housing-fill-in-arrears",
     "kind": "owner-decision",
     "file": "src/core2/modules/housing.ts",
-    "line": 1819,
-    "whatItFakes": "When a counted household with an open eviction case is filled in, the case follows the household and its lease takes up the arrears the group had run up at notice, from the notice date. Whether the arrears carry over, are cured by the fill-in, or the case closes is the owner's call.",
+    "line": 2796,
+    "whatItFakes": "When a counted household with an open eviction case is filled in, the case follows the household and its lease takes up the arrears the whole group had run up at notice, from the notice date; the household then settles part of it from its own cash and traits (`settleArrears`, pool item world-fill-in-arrears-from-household, #5699). What is still faked: the arrears carried are the group's, not the household's own income against its housing cost over the months it was counted.",
     "why": "A counted household is not a second simulation: filled in, it must be the same household with the same debt (one model, two tiers). No ruling exists on its arrears.",
     "addedBy": "claude/fill-in-hook",
     "addedAt": "2026-10-17",
-    "replacement": "The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
+    "replacement": "The household's own arrears read from its income against its housing cost over the months it was counted (owner ruling Oct 19, docs/coordination/OWNER-DECISIONS.md), instead of the group's run-up. Was: The owner's ruling on carry, cure or close for a counted household's arrears on fill-in (docs/coordination/OWNER-DECISIONS.md).",
     "status": "open"
   },
   {
@@ -324,8 +324,9 @@
     "why": "Every other place has a Census county tenure, rent and value table or one of the four island areas' own Census 2020 rows; a place with neither has no table of its own in the data.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "That place's own tenure, rent and value table; if no such place is reachable, delete the fallback and this row.",
-    "status": "open"
+    "replacement": "Resolved Nov 10 (stand-in triage): each of the four island areas now starts from its own Census 2020 row (`islandAreaOf` in src/core2/modules/housing.ts, rows in `islandAreas` of src/core2/data/housing/housing.json; pull request #5431, pool item world-housing-island-areas-sourced), and the county tables cover the other 52 places, so no place of the 56 reaches the national fallback. The marker is still at src/core2/modules/housing.ts line 190 on the now-unreached fallback. Was: That place's own tenure, rent and value table; if no such place is reachable, delete the fallback and this row.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10"
   },
   {
     "id": "SG-WORLD-housing-county-estimate",
@@ -973,9 +974,9 @@
   {
     "id": "SG-WORLD-government-opening-fund-balance",
     "kind": "estimated-parameter",
-    "file": "data/research/money/treasury-opening-cash.json",
-    "line": 15,
-    "whatItFakes": "Opening cash is calibrated from reported cash and net reserves instead of dated accounts for each fictional government. State and local net fund balances are treated as available cash; exact fund assignments and opening legacy deficits are not modeled.",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 536,
+    "whatItFakes": "Each government's opening cash is a calibrated estimate from reported cash and net fund balances (`openingCash` profiles read in src/core2/modules/budgets.ts, data/research/money/treasury-opening-cash.json; pool item world-government-opening-fund-balance, #7164), not dated accounts for each fictional government. State and local net fund balances are treated as available cash; exact fund assignments and opening legacy deficits are not modeled.",
     "why": "A new game has no preceding cash history. Federal cash uses two reporting years; state reserves use a 37-state historical sample; local reserves use Michigan medians and general-government revenue as a general-fund proxy. These estimates replace neither appropriation nor borrowing decisions.",
     "addedBy": "lane-2/opening-treasuries",
     "addedAt": "2026-11-04",
