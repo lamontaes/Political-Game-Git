@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -32,3 +32,5 @@ Sent back 2026-10-21 from PR #5555 (branch claude/other-places-coarse): The impo
 Oct 22 (claude): the first slice in PR 5555 (a trip resident drawn from the place counts) is tracked as world-trip-resident-from-place-counts; this item (household, job and pay over a played year) stays open.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. docs/design/country-tier.md, "7. Results first", says: "Another state: its cells and ledger are the results. A person met there is filled in from their cell, with a job and pay that agree with it (the existing fill-in path, now reading the tier)." That replaces keeping a coarse population per place. The trip-resident slice is already done (world-trip-resident-from-place-counts, status done), and the old pull request imported deleted old-simulation code. SG-OFFICE-FED-trip-residents stays open in src/core2/data/stopgaps/office.json and is owned by office-stopgap-office-day-federal-president-missing-record and the country-tier items, not by this item.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

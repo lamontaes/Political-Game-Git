@@ -5,7 +5,7 @@ area: gov
 kind: owner-decision
 priority: 3
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** Claude, Oct 19: the ruling is in OWNER-DECISIONS.md (employer passing over an applicant, #5102): the owner's traits and views read against the applicant's record, reasons recorded, and a ban refuses a decision citing a protected trait. Not built: a person (PersonInput in src/core2/types.ts) carries no protected trait except age (birthDate); there is no recorded sex, race, religion or disability, and the owner's views of groups do not exist. The hire pick in src/core2/modules/jobs.ts (fit: experience, reliability, referral) has no such input. Building this first needs a spec for which protected traits a person has, where they come from (census data, per place) and how an owner's view of a group is formed. That is a population-model decision, not a jobs change. Laws lead, Oct 24: the owner answered the spec question "yes" (OWNER-DECISIONS.md, Oct 24, "Sex and race on the record"): every person carries a recorded sex and race, race from the place's Census shares and counted groups by the same shares times their count, and an employer or landlord passes someone over only from their own recorded traits and views, never a roll. The build is `people-protected-traits-on-record`; this item is unblocked and its spec is that ruling.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into people-protected-traits-on-record. Its own Notes say it is unblocked and that the build is people-protected-traits-on-record, which carries the same owner ruling (OWNER-DECISIONS.md, Oct 24, "Sex and race on the record"), the hire pick in src/core2/modules/jobs.ts and the discrimination ban (SG-GOV-REACH-A-discrimination). Nothing here is separate; the kept item's part 2 (hire pick reasons) takes the employer pass-over from the owner's or hiring manager's own traits and views.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `people-protected-traits-on-record`, which carries this item's remaining work.

@@ -5,7 +5,7 @@ area: release
 kind: research
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5080
 blocked-on:
@@ -34,3 +34,5 @@ Sent back 2026-10-23 from PR #5007 (branch claude/dev-why-red): The dev-why test
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (inventory item, not buildable; red tests live as their own items).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. This is an inventory of the Oct 17 to 20 red tests, most now fixed or filed as their own items, and its own look-first audit note (2026-10-27) says "close (inventory item, not buildable; red tests live as their own items)". The red-main skill (.agents/skills/red-main/SKILL.md) now owns taking a red from report to fix. The paths src/simulation and src/presentation it cites are gone with the old core.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

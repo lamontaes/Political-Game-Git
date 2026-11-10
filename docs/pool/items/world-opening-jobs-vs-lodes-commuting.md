@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: M
-status: blocked
+status: dropped
 claimed-by: claude/political-game-pool-yucp92-ag
 pr:
 blocked-on: world-commuters-in-opening
@@ -24,3 +24,5 @@ claimed-at: 2026-10-20T09:16:26.942Z
 **Notes.** Oct 20 (pool feeder): spec written; the blocker world-commute-flow-data is done and commuting-shares.ts exists but nothing outside its own test reads commutingSharesOf yet, so this item is the first read. Jobs in town held by people who live outside (workInShare) is the other half; add it as its own item if the firms' hiring needs it.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into world-commuters-in-opening. Both items limit town placement of employed residents to the target times liveWorkShare (commutingSharesOf, src/core2/commuting-shares.ts) and leave the rest as workers employed elsewhere; world-commuters-in-opening is the item this one is blocked on, and it also covers the counted tier and the commuter's paycheck. The kept item should take this item's done-when: the share of employed residents placed in town jobs is within 10 points of the place's liveWorkShare for a high-commute town (Elk Creek, Nebraska) and a low-commute town drawn the same way, with the cash journal balanced over a played year. Its test file src/core2/opening-employment.test.ts is gone; src/core2/opening-employment.ts exists.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `world-commuters-in-opening`, which carries this item's remaining work.

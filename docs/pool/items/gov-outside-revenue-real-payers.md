@@ -5,7 +5,7 @@ area: gov
 kind: stopgap
 priority: 1
 size: L
-status: open
+status: dropped
 claimed-by:
 pr: #4475
 blocked-on:
@@ -32,3 +32,5 @@ Oct 20 (pool feeder): spec written; the item's own split already exists as pool 
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): roll-up of gov-outside-revenue-retire-plug; the children carry the work.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into gov-outside-revenue-retire-plug. This is a roll-up of it: its children taxes, aid, borrowing and spending-payees are done, and fees and retire-plug remain; both close on the same check (closures.mjs check 6 and SG-GOV-outside-revenue-monthly). The kept item should take the owner-visible line 'every budget line has a named payer or payee'.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `gov-outside-revenue-retire-plug`, which carries this item's remaining work.

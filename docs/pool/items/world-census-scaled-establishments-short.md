@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,5 @@ Design finding Oct 21 (claude): the code does not scale establishments at all, b
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The firm-sizing it asked for landed: `scaleFirmsToCensus` in src/core2/census-firms.ts sizes each firm to the place's Census scale (its header says a town opened at Census scale has more customers and workers, so its firms are sized to match), is called from src/bench/world.ts, and is tested in src/core2/census-firms.test.ts; the merge is #5295 (commit 645c92a9f0), which closed core-census-opens-at-census-scale (status done). The leftover "establishment count near the county rate" is a range, not a target, under the Nov 8 ruling (OWNER-DECISIONS.md, Nov 8 morning: ranges are not targets). Not certain: it scales firm size, not firm count; if the CTO wants a firm count, that is a new item. The scripts and files it cites (scripts/core2-year/census-scaled-economy.mjs, src/simulation/local-business-counts.ts) are gone.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

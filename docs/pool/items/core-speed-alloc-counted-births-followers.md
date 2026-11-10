@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ claimed-at:
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/peaceful-ritchie-03780x` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both named hot spots were rebuilt: `countedFollowers` in src/core2/modules/press.ts (line 1189) sums per-age-band counts from a cached `townAdultsByBand` (line 1156; core-speed-press-counted-followers and core-speed-press-town-adults, both done), and the counted births pass is core-speed-counted-renewal-pass (done). The allocation profile script it needs (scripts/speed-years/alloc-profile.ts) is not on main.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

@@ -5,7 +5,7 @@ area: laws
 kind: wiring
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -26,3 +26,5 @@ lead: play-first
 Oct 25 (CTO ruling): the split is accepted. This is the `laws-end-to-end-proof-screens` half named in OWNER-DECISIONS Oct 25; it keeps this id. Lead play-first, p1: the lane owns src/bench and the screenshots. The grading hold is gone (owner, Oct 24: every piece plays unless graded out), so nothing blocks it. `laws-end-to-end-proof` closes on records without these screenshots.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-end-to-end-proof. The item's test file (src/core2/laws-end-to-end.test.ts) does not exist on main yet, and the screenshots are the proof's final second-session check. The kept item should take this item's step: play the proof's pinned seed 4a4e3819bc34b9d1e26d8413 (Susupe, Northern Mariana Islands) on the bench in a real browser and put screenshots of the resident's law-takes-effect scene and of the journal line naming the bottle deposit, with their record ids, in the PR body. This reverses the CTO split of Oct 25 (which kept this id), so the CTO decides; laws-end-to-end-proof's Done when has been written to include the step.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `laws-end-to-end-proof`, which carries this item's remaining work.

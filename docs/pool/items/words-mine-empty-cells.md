@@ -4,7 +4,7 @@ title: "Order 3: mine the empty cells of the coverage table"
 area: words
 kind: research
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr: #5701
 blocked-on:
@@ -31,3 +31,5 @@ Sent back 2026-10-21 from PR #5701 (branch claude/political-game-pool-yucp92-bm)
 Claim released by the Oct 25 audit: no push in 72 hours (branch claude/political-game-pool-yucp92-bm last pushed Oct 20; PR #5701 stays open for the next builder).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, replaced. Its tooling is gone: words:coverage is not in package.json, and docs/grading/coverage.md, scripts/dialogue-batch/coverage-table.ts and data/english/parts/meeting.json no longer exist. The owner's Nov 10 ruling "Who does words work: split by role" (docs/coordination/OWNER-DECISIONS.md: "Split by role." Fable builds the rules and checks, Story writes every line) replaces its mine-and-grade method, and its named first targets are separate items (words-hearing-chair-title-and-yes, words-meeting-minutes-from-the-record).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): replaced by a design or ruling (named in the Notes above).

@@ -5,7 +5,7 @@ area: core
 kind: feature
 priority: 2
 size: L
-status: open
+status: dropped
 claimed-by:
 pr: #5076
 blocked-on:
@@ -34,3 +34,5 @@ Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md):
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-3xfqef-26` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. SG-CORE-filled-unplaced-income is resolved in src/core2/data/stopgaps/core.json (a filled-in worker with an unplaced income holds a commuter job paid through the payroll calendar with withholding), `returnUnplacedPay` is gone from src, and the commuter part is core-commuter-job-fill-in (done). The branch and PR #5076 it points to were split and cannot be repaired; the old core it names (src/simulation) was deleted Oct 28.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

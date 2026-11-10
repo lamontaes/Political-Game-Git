@@ -6,7 +6,7 @@ lead: words
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ source: Red main fixer 2 and Merger 1, Nov 1 (#7023, past-work.test.ts in Leopol
 **Notes.** Filed by the CTO, Nov 1 18:55, from Merger 1's note on #7023. Read: OWNER-DECISIONS (Oct 27 "The world has a past", Nov 1 every life simulated); searched the pool for past work, employer and Journal work line: `history-past-work` (done, the records) and `core-day-one-job-before-employer-founded` (dates) are different; no twin.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. src/core2/past-work.test.ts (about lines 173 to 198) picks a past-work row with no employer and expects at least one journal line for it, naming the place; the fix from #7023 is in.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

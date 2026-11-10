@@ -5,7 +5,7 @@ area: director
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,5 @@ milestone: play-first
 Oct 29 (CTO, second account): claim released; the session that held it ended with the Oct 19 to 29 crews. Branch `golden/door-ask` is kept; claiming this item takes it over.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. A door row plays as the player's ask: `src/director/purpose-scene.ts` (line 1222) handles a `campaign.door` moment through `doorStanding`, `src/director/data/situation-types.json` has the `door-ask` type, and `src/director/door-ask-scene.test.ts` asserts a door plays as the player's ask answered from the knock. The item's `src/director/ask-talk.ts` is now `purpose-scene.ts` and `src/director/doors.ts`.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

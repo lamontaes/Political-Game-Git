@@ -5,7 +5,7 @@ area: people
 kind: bug
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5738
 blocked-on:
@@ -28,3 +28,5 @@ Sent back 2026-10-20 from PR #5738 (branch claude/couples-plan-share): docs/pool
 Sent back 2026-10-23 from PR #5738 (branch claude/couples-plan-share): Fresh births-plan.ts conflict and explicitly unmet CDC age-band acceptance; resolve both or use a valid bounded item preserving unfinished age-shape work; finish on that branch, merge main into it first.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into people-births-ready-couples-conceive-at-once. Same births seam (the plan score in src/core2/births-plan.ts and the couples table in src/core2/modules/renewal.ts), measured Oct 20 and likely changed by later births work. Its CDC age-band done-when and the finding that 3 of 191 active couples planned (1.6 percent, age term averaging -2.96) belong in the kept item's part 1 (people-births-ready-couples-conceive-at-once-part-1-re-measure).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `people-births-ready-couples-conceive-at-once`, which carries this item's remaining work.

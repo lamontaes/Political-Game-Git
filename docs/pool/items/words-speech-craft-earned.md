@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr: #5601
 blocked-on:
@@ -30,3 +30,5 @@ Sent back 2026-10-20 from PR #5601 (branch claude/speech-craft): docs/pool/items
 Claim released by the Oct 25 audit: no push in 72 hours (PR #5601 closed unmerged; branch last pushed Oct 20).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Earned devices are built: speechCraft and deviceEarned in src/english/speech-registers.ts (a sliding scale from addresses given, parameter speechCraftHalfAddresses), and src/core2/speech-craft.test.ts proves it in buildBenchWorld. The item's speakerSpeakingRecordIds is now deviceEarned(device, addressesGiven).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

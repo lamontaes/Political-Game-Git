@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ source: added with npm run pool -- add
 Nov 4, 08:10 UTC (Lane 5): tried and not shipped. With experiencedKeyRetentionDays at 45 on top of #7198 (branch lane-5/experienced-key-window, b8818c6659), Arcadia at 4,096 MiB: year 2 heap 2,136 MB (2,191 without it), year 3 2,444 MB (2,436 without it), year 4 still out of memory. The bare keys are not where the memory is; the rest of knowledgeByPerson (heard promises 59,157, people met and named about 106,000, event facts) and the growth inside the 2028 election year are. Back to open; the branch stays for the record.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-memory-heard-knowledge-keys. Its own Nov 4 note says a 45-day window did not help (year 3 heap 2,444 MB against 2,436 MB): the bare lived-through keys are not where Arcadia's memory is, the heard facts in knowledgeByPerson are. `experiencedKeyRetentionDays` is at src/core2/data/parameters.json line 5596 and read at src/core2/knowledge-retention.ts line 112. The kept item now carries that measurement. The speed runner it names is `npm run speed:year` (scripts/speed-years/run.ts).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-memory-heard-knowledge-keys`, which carries this item's remaining work.

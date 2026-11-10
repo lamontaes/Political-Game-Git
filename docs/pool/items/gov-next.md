@@ -4,7 +4,7 @@ title: "Next:"
 area: gov
 kind: feature
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -31,3 +31,5 @@ Oct 20 (pool feeder): spec written; the three children exist (words-speech-part-
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (roll-up; remaining work is play-first-13-campaign-screen-to-mock-b).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. This is a roll-up whose children are finished: play-speech-builder and play-join-party are done, words-speech-part-words is dropped, and src/bench/campaign.browser.mjs and src/director/speech-builder.ts exist. The whole-day play is now the seen-in-game check of those items.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

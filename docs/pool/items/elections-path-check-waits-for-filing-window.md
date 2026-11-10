@@ -5,7 +5,7 @@ area: elections
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `src/bench/path-check.ts` `stand()` (line 229) now lives on a week at a time until a race opens and logs "filing opened by" the date (line 250), which is this item's ask. `scripts/core2-year/incumbency-totals.ts` named in the item is not on main.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

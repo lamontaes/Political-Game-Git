@@ -5,7 +5,7 @@ area: words
 kind: wiring
 priority: 2
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,5 @@ Merger 0: Rechecked after authentication recovered, 2026-10-26, PR #6136 branch 
 Split Oct 26 (words-and-scenes lead): the in-person heard speech and the moment table moved to `words-scene-for-unstaged-big-moments-a` (#6136). What stays here: a candidate's debate speech heard on the broadcast becomes a scene without inventing presence (for example the broadcast watched at home with the household, or the candidate's campaign following up by a record of contact). It overlaps the debate invitation in `words-campaign-season-scenes-fill-the-months`; take whichever lands first. Time box: 3 hours.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both halves landed: the in-person heard-speech half is words-scene-for-unstaged-big-moments-a (status done) and the debate half overlaps words-campaign-season-scenes-fill-the-months (status done); situation types debate-invite (src/director/data/situation-types.json line 6081) and debate-sitting (line 6029) exist.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

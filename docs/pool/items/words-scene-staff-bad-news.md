@@ -5,7 +5,7 @@ area: words
 kind: feature
 priority: 1
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -34,3 +34,5 @@ milestone: play-first
 Words handoff, Nov 2 02:50 UTC (the account at its weekly limit): branch words/staff-bad-news, head c2b2c8c579, fully merged. Next step: check the done-when against main (one scene per press record naming the player or their bill, and its 1440x900 shot) and set it done or finish what is missing.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The staff-news situation exists with three causes (src/director/data/situation-types.json line 4956) and its build half, words-scene-staff-bad-news-a, is status done. The item's old path src/director/situations/ is now src/director/data/situation-types.json.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

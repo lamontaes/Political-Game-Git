@@ -5,7 +5,7 @@ area: gov
 kind: feature
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** TODO
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Both files now have readers: src/core2/modules/federal-courts.ts line 19 imports data/research/justice/bop-federal-offenses-2026.json (and scripts/justice/derive-federal-stay-share.ts line 36 reads it), and scripts/research/check-orders-and-vacancies.ts line 45 reads data/research/executive/orders-and-vacancies-2026-11.json; neither file is in scripts/audit/research-data-allowlist.json. Medium confidence: the guard was not run, and the orders file is read by a script, not production code.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

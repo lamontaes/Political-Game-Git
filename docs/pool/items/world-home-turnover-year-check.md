@@ -5,7 +5,7 @@ area: world
 kind: feature
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ source: split of world-home-turnover (Oct 18)
 **Notes.** Found Oct 18. This is the check half of world-home-turnover, which is blocked on this item.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into world-home-turnover. This is the check half of world-home-turnover and cannot run before the pieces exist; under the Nov 8 ruling (ranges are not targets) it is a report, not a target. The kept item takes it as world-home-turnover-part-2-year-report-vs-nar-census: report the sales rate, the first-time-buyer share, the place and the seed, and compare totals only.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `world-home-turnover`, which carries this item's remaining work.

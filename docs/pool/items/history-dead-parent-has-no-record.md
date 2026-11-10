@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 1
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -23,3 +23,5 @@ source: added with npm run pool -- add
 **Notes.** lead: cto. Filed by the standing red-main owner Oct 28 22:55 UTC; not built there because it adds dead people to the opening, a change every engine reading people sees. Read: OWNER-DECISIONS (Oct 28: one history), DECISION-REGISTER; searched docs/pool/items for parent-died, family fact: none.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. A dead parent is now a person record: `KinDeath.personId` (src/core2/opening-kin.ts, line 118) is built into a dead husk record in src/core2/population.ts (the `dead` list built from `kin.deaths`, id `death.personId`, near line 1966), and the `family:parent-died` fact carries `otherPersonId: death.personId` (population.ts, line 1764). Not run: src/core2/m0-life-at-18.test.ts was not executed in this pass, so the second-session check is to run it with GOLDEN_PATH_SEED=0348e538206ef93d3f5193a439b5266a73a878a4e5cf090f20b58e26f54ebd59 and GOLDEN_PATH_PLACE_KEY=4959390 (Perry, Utah) and one fresh drawn place.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

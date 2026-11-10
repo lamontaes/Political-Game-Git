@@ -6,7 +6,7 @@ kind: bug
 priority: 1
 size: S
 lead: m0-m2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -24,3 +24,5 @@ source: added with npm run pool -- add
 **Notes.** TODO Oct 29 08:15 UTC, Words and director: Puerto Rico fails the same row too. CI on #6756 (job 123333674951) drew Parcelas de Navarro, Puerto Rico (run seed 64786bd44fc6d52f): row 45 seat:US-PR:us-house:98, "expected 'Democratic' to be null". The delegate seats of D.C. and the territories, not D.C. alone.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. `holderIn` in src/core2/realistic-not-real.test.ts (lines 947 to 960) now maps a non-voting delegate's seat 98 (`DELEGATE_DISTRICT`, line 143) to the roster's at-large seat, with the comment naming Moca, Puerto Rico seed 08477dec014e6c2e; D.C. and the territories are covered.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

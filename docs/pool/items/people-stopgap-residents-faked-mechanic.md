@@ -4,7 +4,7 @@ title: "Stopgaps in residents (faked-mechanic): 1 open"
 area: people
 kind: stopgap
 priority: 2
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on: people-unplaced-fill-in-job
@@ -26,3 +26,5 @@ claimed-at:
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): already built (row resolved).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. SG-CORE-filled-unplaced-income is status resolved in src/core2/data/stopgaps/core.json: a filled-in worker holds a job:commuter:<personId>:<start> job at the place's outside account with withholding (src/core2/modules/residents.ts, the job-id builder at line 3431; src/core2/unplaced-fill-in-job.test.ts). The item's own Notes already say built (look-first audit, Oct 27).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

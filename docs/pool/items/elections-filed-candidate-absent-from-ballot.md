@@ -5,7 +5,7 @@ area: core
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -27,3 +27,5 @@ Oct 27 (claude/filed-absent): released unbuilt; the world seed is lost (PR #6062
 Look-first audit 2026-10-27 (docs/reports/retroactive-look-first-2026-10-27.md): close (unreproducible without the seed).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main (the report is unreproducible and the likely cause is correct behavior). The world seed was never kept. In `src/core2/modules/voting.ts` the `lose` function (line 2145) withdraws filings that miss a party-primary cut, and the ballot in `src/core2/modules/elections.ts` keeps filings with status `on-ballot` or `petitioning` (line 1329). The item's Oct 27 note shows an unaffiliated filing at Runge (4863788, seed ballot-probe-1) reaches the ballot, and the Oct 27 look-first audit says close. Not re-run.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

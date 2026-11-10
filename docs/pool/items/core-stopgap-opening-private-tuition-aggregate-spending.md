@@ -4,7 +4,7 @@ title: "Stopgaps in opening-private-tuition (aggregate-spending): 1 open"
 area: core
 kind: stopgap
 priority: 3
-status: open
+status: dropped
 claimed-by:
 pr: #5667
 blocked-on:
@@ -38,3 +38,5 @@ Sent back 2026-10-21 from PR #5667 (branch claude/tuition-faith): src/core2/priv
 Oct 25 audit: cleared a stale blocked-on (its item or PR is done, or the acting CTO's Oct 20 ruling lets any builder build the director side while every word comes from the English engine).
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into core-private-tuition-beliefs-and-schools. It is the roll-up of SG-CORE-private-tuition-average, whose three parts are two done (re-enrollment #5504, counted #5633) and one dropped (choice-reads-beliefs), whose content the Oct 25 audit folded into core-private-tuition-beliefs-and-schools. The kept item now takes "delete the means-ranked quota in `withPrivateTuition` and the `stopgap(data.stopgapId)` marker, resolve the row naming the parts" (src/core2/opening-private-tuition.ts line 66, row in src/core2/data/stopgaps/core.json).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `core-private-tuition-beliefs-and-schools`, which carries this item's remaining work.

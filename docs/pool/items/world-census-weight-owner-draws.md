@@ -5,7 +5,7 @@ area: world
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr: #5306
 blocked-on:
@@ -42,3 +42,5 @@ Checked Oct 21 (claude): the blocker world-census-scaled-establishments-short po
 Oct 21 (CTO merger, PR #5301): the earlier business/draws sums are raw drawnMinor values. For counted owners that value is returned by countedPayment in one household's units, whereas full owners' draws are actual transfers; their unweighted sum is not the town's journal total. Use the group-fund journal measure in this item's What and Done when to establish per-resident draw parity. These historical findings and the proposed #5295 build do not complete either pool item.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. Its own notes say it closes when #5295 merges (firms sized to the Census town, draws read times the weight) and that its premise (multiply the draws) was wrong; #5295 merged as commit 645c92a9f0 (core-census-opens-at-census-scale is done). The code is `scaleFirmsToCensus` in src/core2/census-firms.ts with src/core2/census-firms.test.ts, which states the per-resident parity in a drawn place above 20,000 people.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

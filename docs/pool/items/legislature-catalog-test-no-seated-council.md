@@ -5,7 +5,7 @@ area: gov
 kind: bug
 priority: 2
 size: S
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -30,3 +30,5 @@ Oct 28, 23:25 UTC (wire-office): does not reproduce on main; ready for the CTO t
 Lane 5 (pool truth, Nov 3): the item was open but still named an old claim, `claude/political-game-pool-udtiwn` (2026-10-20). Cleared from the front matter and kept here.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: drop, already done on main. The catalog case exists ("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", src/core2/legislature.test.ts line 815). The Oct 28 Note above records that it does not reproduce: it passed on ten fresh GOLDEN_PATH_SEED values and the whole file passed 20 of 20 in six more runs, and this item's own Done when allows closing with that evidence. No failing seed was ever recorded.
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): already done on main (evidence in the Notes above).

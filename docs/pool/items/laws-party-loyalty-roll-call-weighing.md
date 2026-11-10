@@ -5,7 +5,7 @@ area: laws
 kind: research
 priority: 3
 size: M
-status: open
+status: dropped
 claimed-by:
 pr:
 blocked-on:
@@ -25,3 +25,5 @@ claimed-at:
 **Notes.** Oct 20 (pool feeder): spec written; it needs the roll-call tabulation from laws-party-loyalty-roll-calls (in a PR), so the data file name here may follow whatever that PR names. The owner's Oct 15 ruling lets his own state roll-call input calibrate one parameter with nothing shipped; this item's per-chamber table must therefore hold only public roll-call rates, never the Shor-McCarty values. The sent-back note on the parent about SG-LAWS-state-party-loyalty-target (resolve, never delete) applies here too.
 
 **Notes (pool redo, Nov 10, proposed for the CTO).** Proposed: merge into laws-party-loyalty-roll-calls. Both calibrate one parameter, `weights.statePartyLoyalty` (src/core2/data/officials/officials.json, read in src/core2/modules/officials.ts), from public roll calls, and this item only waits on the first one's tabulation. The kept item should take: the per-chamber multiple table replacing the one shared weight; public roll-call rates only, never Shor-McCarty values; and SG-LAWS-state-party-loyalty-target resolved, never deleted. Stale paths: src/core2/data/stopgaps.json is now src/core2/data/stopgaps/laws.json, and src/core2/data/campaigns/party-loyalty.json does not exist (it would be new).
+
+**Notes (CTO, Nov 10).** Dropped on Fable's pool redo proposal (`docs/pool/redo-2026-11-10/README.md`): merged into `laws-party-loyalty-roll-calls`, which carries this item's remaining work.
