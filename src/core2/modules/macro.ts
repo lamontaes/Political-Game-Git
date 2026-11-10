@@ -40,8 +40,11 @@ import {
 import countryParameters from "../data/country/parameters.json" with { type: "json" };
 import { countryLaw, startingLawReader } from "../country-law";
 import {
+<<<<<<< HEAD
   countryMoney,
   countryPeople,
+=======
+>>>>>>> origin/main
   countryProblems,
   countryRules,
   countryStateFigures,
@@ -200,6 +203,7 @@ function rulesOf(api: CoreAPI): CountryRules {
   return rules;
 }
 
+<<<<<<< HEAD
 /** The law in force in every state on a day (today unless one is given), read through the laws module where the world has one, else from the starting law. */
 function lawNow(api: CoreAPI, date: string = api.state.date) {
   const read = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
@@ -207,6 +211,15 @@ function lawNow(api: CoreAPI, date: string = api.state.date) {
         stateLawInForce(api, stateKey, series, date)
     : startingLawReader(date);
   return countryLaw(read, params(api), date);
+=======
+/** The law in force in every state today, read through the laws module where the world has one, else from the starting law. */
+function lawNow(api: CoreAPI) {
+  const read = (api.state as CoreState).modules.has(LAWS_MODULE_ID)
+    ? (stateKey: string, series: string) =>
+        stateLawInForce(api, stateKey, series)
+    : startingLawReader(api.state.date);
+  return countryLaw(read, params(api), api.state.date);
+>>>>>>> origin/main
 }
 
 /** The country tier as the tables keep it: one row for the nation's accounts, one for each state. A copy, so a month can change it. */

@@ -22,3 +22,14 @@ source: Fable, Nov 10, 2026, while building the country tier (design: docs/desig
 **Files.** src/core2/life.ts, src/core2/pre-start.ts, src/core2/fast-forward.ts, src/core2/modules/macro.ts, src/core2/country-model.ts, src/bench/dev-mode.ts, src/bench/ui/dev-run.mjs
 
 **Notes.** Related: release-nightly-twenty-year-game-on-main, core-speed-world-campaign-days-as-group-results. The check for counts that cannot be is countryProblems in src/core2/country-model.ts; the macro module throws on it when bookkeeping is on. After: core-country-tier-town-joins-its-state.
+
+**Notes (Fable, Nov 10, measured).** What skipping days costs and loses, in Chumuckla, Florida (953 people, draw seed k3 with the label skip-probe, world seed aa4665b284a797eb671c6eafef8865086489b881e3eb81e1116a200598fb6482), one year each way on the tier branch:
+
+- Day by day: 41.5 seconds. 59 deaths, the town's unemployment 4.0%, prices up 1.2%.
+- Only each engine's dated work from the module calendar, no daily loops and nobody acting: 14.6 seconds. No deaths at all, unemployment 7.2%, prices flat, and day-by-day play then fails on its first day ("Business reviews must advance chronologically", the finance day).
+- The calendar plus one whole day a month: 27.8 seconds. One death, unemployment 4.3%, prices up 4.5%. Play resumes.
+- The largest costs in the calendar-only year: the press week 1.8 s, other governments' floor weeks 1.6 s, the housing review 1.4 s, the jobs review 1.3 s, counted renewal 0.9 s, local meetings 0.9 s. The daily loops that cost most per month: the health producer 1.1 s, jobs 0.8 s, the news pass 0.7 s.
+
+So twenty years in seconds cannot come from skipping days in the engines as they are: their own monthly work is about 15 seconds a year in the smallest town, and deaths and prices live in the daily loops. The town has to be kept as counts during a skip (item core-country-tier-town-joins-its-state first), with only the player's household and circle kept as people, and rebuilt on return. Not yet measured: the same year with everyone outside one household's circle sent back to the counts first.
+
+What exists today instead: the country's outlook (`countryOutlook` in src/core2/modules/macro.ts, branch claude/fable-twenty-years), which runs every state and the nation twenty years ahead on a copy in about four seconds and equals the months the game then plays. It does not move the game's date.
