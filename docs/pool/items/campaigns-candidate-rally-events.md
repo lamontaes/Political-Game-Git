@@ -24,7 +24,7 @@ root: rc7-player-cannot-drive
 
 **Fix.** Have the campaigns engine write a campaign-event row (venue from the place's records, date, speaker, the stances the speaker holds) when a candidate's campaign holds one, from that campaign's own money and reach, not a chance. The director stages it as a scene the player can travel to; the race row links to the next one. Reuse the one scene engine; no second event system. Decide with the lead whether it extends public-action's record.
 
-**Time box.** 2 days for a Sonnet session; split by the lead if the director part is larger.
+**Time box.** 16 hours for a Sonnet session; split by the lead if the director part is larger.
 
 **Rules.** One engine per mechanic; no dice; the scene follows scene-standard; words come from the English banks.
 
