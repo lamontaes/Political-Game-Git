@@ -194102,6 +194102,2757 @@
       "author": "Claude Sonnet (Story, new-baby purpose)",
       "date": "2026-11-09",
       "tag": { "move": "accept", "key": "honor" }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-been-charged-and-name-wants-to-talk-about-what-comes-next",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You have been charged, and {name} wants to talk about what comes next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["you-charged"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-been-charged-the-case-is-to-end-in-a-plea-and-name-wants-to-talk-it-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You have been charged, the case is to end in a plea, and {name} wants to talk it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["you-charged", "will-plead"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-have-been-charged-with-a-trial-on-trial-day-and-name-wants-to-talk-it-over",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You have been charged, with a trial on {trial-day}, and {name} wants to talk it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["you-charged", "trial-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-wants-to-talk-about-the-charge-against-you-and-child-is-in-your-household",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} wants to talk about the charge against you, and {child} is in your household.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["you-charged", "child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-charged-and-has-come-to-talk-with-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been charged and has come to talk with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-charged-and-the-case-is-to-end-in-a-plea",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been charged, and the case is to end in a plea.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["will-plead"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-charged-with-a-trial-on-trial-day",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been charged, with a trial on {trial-day}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["trial-day"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-has-been-charged-and-child-lives-in-their-household",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} has been charged, and {child} lives in their household.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-were-found-guilty-and-name-wants-to-know-what-happens-next",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You were found guilty, and {name} wants to know what happens next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["convicted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-pleaded-guilty-and-name-wants-to-know-what-happens-next",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You pleaded guilty, and {name} wants to know what happens next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["convicted", "pleaded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-were-found-guilty-and-sentenced-to-sentence-name-wants-to-know-what-happens-next",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You were found guilty and sentenced to {sentence}. {name} wants to know what happens next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["convicted", "sentence"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.you-were-found-not-guilty-and-name-wants-to-know-what-happens-next",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "You were found not guilty, and {name} wants to know what happens next.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["acquitted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-found-guilty-and-has-come-to-talk-with-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was found guilty and has come to talk with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["convicted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-pleaded-guilty-and-has-come-to-talk-with-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} pleaded guilty and has come to talk with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["convicted", "pleaded"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-found-guilty-and-sentenced-to-sentence",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was found guilty and sentenced to {sentence}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["convicted", "sentence"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.narrate-narrate.name-was-found-not-guilty-and-has-come-to-talk-with-you",
+      "move": "narrate-narrate",
+      "kind": "spoken",
+      "text": "{name} was found not guilty and has come to talk with you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "narrate",
+          "move": "narrate",
+          "role": "narrator",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["acquitted"]
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "narrate",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.tell-me-where-things-stand-i-don-t-want-to-guess",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Tell me where things stand. I don't want to guess.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-ll-keep-this-short-first-there-are-a-few-things-to-settle",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'll keep this short, {first}. There are a few things to settle.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.can-we-go-through-what-happens-next",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Can we go through what happens next?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-coming-i-need-to-ask-you-a-few-things",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for coming. I need to ask you a few things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-d-rather-ask-you-than-guess-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'd rather ask you than guess, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.let-me-tell-you-where-it-stands-first",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Let me tell you where it stands first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-not-going-to-pretend-i-know-what-to-say",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm not going to pretend I know what to say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-m-here-tell-me-what-you-need",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I'm here. Tell me what you need.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.there-are-a-few-things-we-have-to-decide-first-can-we-do-that-now",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "There are a few things we have to decide, {first}. Can we do that now?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.thank-you-for-coming-i-need-to-ask-you-something",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "Thank you for coming. I need to ask you something.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-know-this-isn-t-easy-to-hear",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I know this isn't easy to hear.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "braced",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.open-greet.i-need-you-to-help-me-with-a-few-things",
+      "move": "open-greet",
+      "kind": "spoken",
+      "text": "I need you to help me with a few things.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "open",
+          "move": "greet",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "greet",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.have-you-spoken-to-a-lawyer-yet-first-if-you-haven-t-i-ll-help-you-find-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Have you spoken to a lawyer yet, {first}? If you haven't, I'll help you find one.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.are-you-going-to-plead-guilty-whatever-you-decide-decide-it-with-your-lawyer-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Are you going to plead guilty? Whatever you decide, decide it with your lawyer first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["will-plead"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-trial-is-trial-day-do-you-want-me-to-come-with-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The trial is {trial-day}. Do you want me to come with you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["trial-day"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.first-do-you-want-the-family-there-when-they-call-your-case-or-would-you-rather-we-stayed-away",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{first}, do you want the family there when they call your case, or would you rather we stayed away?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.should-i-call-employer-and-say-you-ll-need-time-off-or-would-you-rather-do-it-yourself",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Should I call {employer} and say you'll need time off, or would you rather do it yourself?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-should-i-tell-child-do-you-want-to-be-the-one-to-say-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What should I tell {child}? Do you want to be the one to say it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.do-you-need-me-to-find-papers-for-the-lawyer-or-money-for-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Do you need me to find papers for the lawyer, or money for one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-come-with-me-first-when-they-call-my-case",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you come with me, {first}, when they call my case?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.first-should-the-family-come-or-would-you-rather-they-stayed-away",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{first}, should the family come, or would you rather they stayed away?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-m-told-the-case-ends-in-a-plea-what-would-you-do-in-my-place",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I'm told the case ends in a plea. What would you do in my place?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["will-plead"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-trial-is-trial-day-will-you-be-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The trial is {trial-day}. Will you be there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["trial-day"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.would-you-call-employer-for-me-and-say-i-ll-need-time",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Would you call {employer} for me and say I'll need time?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-tell-child-for-me-in-a-calm-moment-before-someone-else-does",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you tell {child} for me, in a calm moment, before someone else does?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-help-me-find-a-lawyer-if-i-haven-t-got-one",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you help me find a lawyer, if I haven't got one?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.do-you-want-to-ask-a-lawyer-what-can-still-be-done-first-there-s-a-deadline-so-let-s-not-wait",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Do you want to ask a lawyer what can still be done, {first}? There's a deadline, so let's not wait.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["convicted"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.who-should-i-call-to-tell-them-the-news",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Who should I call to tell them the news?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["acquitted"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-should-we-tell-child-i-d-rather-we-said-the-same-thing",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What should we tell {child}? I'd rather we said the same thing.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.should-i-call-employer-or-will-you",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Should I call {employer}, or will you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-ve-said-you-ll-be-out-on-release-what-do-you-need-from-me-until-then",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They've said you'll be out on {release}. What do you need from me until then?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["release"]
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.the-fine-is-fine-do-you-want-me-to-help-with-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "The fine is {fine}. Do you want me to help with it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received",
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.what-can-i-do-first-first",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "What can I do first, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-go-with-me-first-to-ask-a-lawyer-what-can-still-be-done",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you go with me, {first}, to ask a lawyer what can still be done?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["convicted"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-call-the-others-and-tell-them-i-can-t-say-it-again-and-again",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you call the others and tell them? I can't say it again and again.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["acquitted"]
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-sit-down-with-child-and-explain-it-be-honest-but-keep-it-simple",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you sit down with {child} and explain it? Be honest, but keep it simple.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["child"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.first-would-you-call-employer-for-me-i-don-t-know-what-to-say-to-them",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "{first}, would you call {employer} for me? I don't know what to say to them.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["employer"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.they-say-i-get-out-on-release-will-you-be-there",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "They say I get out on {release}. Will you be there?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["release"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.i-owe-fine-can-you-help-me-work-out-how-to-pay-it",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "I owe {fine}. Can you help me work out how to pay it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received",
+          "requiresFacts": ["fine"]
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.state-request.will-you-come-to-see-me-first-i-ll-need-it-more-than-i-ll-say",
+      "move": "state-request",
+      "kind": "spoken",
+      "text": "Will you come to see me, {first}? I'll need it more than I'll say.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "state",
+          "move": "request",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "request",
+        "key": "news-received"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-please-first-i-d-be-glad-of-that",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, please, {first}. I'd be glad of that.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-i-d-rather-not-do-this-alone",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. I'd rather not do this alone.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-do-that-first",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, do that, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-tell-you-as-soon-as-i-know-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll tell you as soon as I know, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-let-you-know-what-i-decide-i-promise",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll let you know what I decide. I promise.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-think-i-should-do",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you think I should do?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-would-it-take-from-you",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What would it take from you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.no-i-ll-handle-that-myself",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "No, I'll handle that myself.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.not-yet-let-me-think-first",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Not yet. Let me think first.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-can-t-think-about-this-right-now-give-me-a-day",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I can't think about this right now. Give me a day.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-of-course-i-ll-do-it",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, of course. I'll do it.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-tell-me-when-and-where",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes. Tell me when and where.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-agree.yes-first-leave-it-with-me",
+      "move": "reply-agree",
+      "kind": "spoken",
+      "text": "Yes, {first}. Leave it with me.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "agree",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "agree",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-be-there-you-have-my-word",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll be there. You have my word.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-promise.i-ll-do-it-today-first",
+      "move": "reply-promise",
+      "kind": "spoken",
+      "text": "I'll do it today, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "promise",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.what-do-you-want-me-to-say-first",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "What do you want me to say, {first}?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-ask.how-much-do-you-want-me-to-know",
+      "move": "reply-ask",
+      "kind": "spoken",
+      "text": "How much do you want me to know?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "ask",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "ask",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.i-can-t-do-that-i-m-sorry",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "I can't do that. I'm sorry.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-decline.let-me-think-about-it-that-s-a-lot-to-ask",
+      "move": "reply-decline",
+      "kind": "spoken",
+      "text": "Let me think about it. That's a lot to ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "decline",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "decline",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.reply-leave.i-need-time-with-this-can-i-come-back-to-you",
+      "move": "reply-leave",
+      "kind": "spoken",
+      "text": "I need time with this. Can I come back to you?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "reply",
+          "move": "leave",
+          "role": "asked",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "leave",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.then-i-ll-make-the-call-this-afternoon-first",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Then I'll make the call this afternoon, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-m-glad-i-ll-be-there",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I'm glad. I'll be there.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-leave-it-with-you-until-you-re-ready",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll leave it with you until you're ready.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.it-s-your-decision-i-ll-be-here",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "It's your decision. I'll be here.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.is-there-anything-at-all-i-can-take-off-your-hands",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Is there anything at all I can take off your hands?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.think-about-it-first-and-tell-me-tomorrow",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Think about it, {first}, and tell me tomorrow.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.whatever-you-decide-first-i-ll-back-you",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Whatever you decide, {first}, I'll back you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.ask-the-lawyer-first-then-tell-me-i-ll-do-the-rest",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Ask the lawyer first, then tell me. I'll do the rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.i-wasn-t-sure-you-would-thank-you",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "I wasn't sure you would. Thank you.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-thank.thank-you-i-ll-sleep-better-tonight",
+      "move": "follow-thank",
+      "kind": "spoken",
+      "text": "Thank you. I'll sleep better tonight.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.i-understand-i-shouldn-t-have-asked-so-much",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "I understand. I shouldn't have asked so much.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-accept.then-i-ll-find-another-way",
+      "move": "follow-accept",
+      "kind": "spoken",
+      "text": "Then I'll find another way.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.please-there-s-nobody-else-i-can-ask",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Please. There's nobody else I can ask.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-press.would-you-at-least-think-about-it",
+      "move": "follow-press",
+      "kind": "spoken",
+      "text": "Would you at least think about it?",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "anxious",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.just-say-what-s-true-and-keep-it-short",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Just say what's true, and keep it short.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.follow-answer.only-what-you-re-comfortable-with-first",
+      "move": "follow-answer",
+      "kind": "spoken",
+      "text": "Only what you're comfortable with, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "follow",
+          "move": "answer",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "answer",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-we-talked-get-some-rest",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad we talked. Get some rest.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-call-you-tomorrow-first",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll call you tomorrow, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-ll-go-call-if-you-change-your-mind",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I'll go. Call if you change your mind.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-tomorrow-so-think-it-over",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again tomorrow, so think it over.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-hearing-ask",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-verdict-ask",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-thank.i-m-glad-you-came-first",
+      "move": "close-thank",
+      "kind": "spoken",
+      "text": "I'm glad you came, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "thank",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "warm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "thank",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-promise.i-ll-call-you-when-i-know-more",
+      "move": "close-promise",
+      "kind": "spoken",
+      "text": "I'll call you when I know more.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "promise",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "tender",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "promise",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-accept.then-i-won-t-keep-you-first",
+      "move": "close-accept",
+      "kind": "spoken",
+      "text": "Then I won't keep you, {first}.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "accept",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "calm",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "accept",
+        "key": "threat"
+      }
+    },
+    {
+      "key": "scene-talk.close-press.i-ll-ask-again-when-i-can-if-that-s-all-right",
+      "move": "close-press",
+      "kind": "spoken",
+      "text": "I'll ask again when I can, if that's all right.",
+      "uses": [
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-hearing-asked",
+          "key": "threat"
+        },
+        {
+          "subject": "scene",
+          "step": "close",
+          "move": "press",
+          "role": "asker",
+          "purpose": "court-verdict-asked",
+          "key": "news-received"
+        }
+      ],
+      "bearing": "guarded",
+      "origin": "authored",
+      "author": "Claude Sonnet (Story, court hearing and verdict purposes)",
+      "date": "2026-11-10",
+      "tag": {
+        "move": "press",
+        "key": "threat"
+      }
     }
   ]
 }

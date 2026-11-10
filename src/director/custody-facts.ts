@@ -21,7 +21,7 @@ import type { CoreState, PersonId } from "../core2/types";
 import { moneySaid } from "../english/count-words";
 import { spanSaid } from "../english/span-words";
 import rulesFile from "./data/scene-talk-rules.json" with { type: "json" };
-import { spokenDate } from "./words";
+import { properName, spokenDate } from "./words";
 
 /** The justice engine's record of a person set free at the end of a term. */
 export const RELEASED_EVENT = "justice.released";
@@ -29,6 +29,11 @@ export const RELEASED_EVENT = "justice.released";
 export const IMPRISONED_EVENT = "justice.imprisoned";
 /** The justice engine's record of a person held for want of bail. */
 export const HELD_EVENT = "justice.held-before-trial";
+/** The justice engine's records of a charge, a conviction and an acquittal. */
+export const CHARGED_EVENT = "justice.charged";
+export const CONVICTED_EVENT = "justice.convicted";
+export const ACQUITTED_EVENT = "justice.acquitted";
+const COURT_EVENTS = [CHARGED_EVENT, CONVICTED_EVENT, ACQUITTED_EVENT];
 
 export interface CustodyFact {
   text: string;
@@ -61,7 +66,9 @@ export function custodyFacts(
   const facts: Record<string, CustodyFact> = {};
   if (
     !record ||
-    ![RELEASED_EVENT, IMPRISONED_EVENT, HELD_EVENT].includes(record.kind)
+    ![RELEASED_EVENT, IMPRISONED_EVENT, HELD_EVENT, ...COURT_EVENTS].includes(
+      record.kind,
+    )
   )
     return facts;
   const insideId = record.personIds.find(
@@ -123,6 +130,60 @@ export function custodyFacts(
       text: spokenDate(said.releaseDate, core.date),
       sourceRecordIds: cited,
     };
+  }
+  if (COURT_EVENTS.includes(record.kind)) {
+    // The case in court: whether the charge goes to a plea or a trial, the
+    // day of the trial, and what a conviction came to, all from the records.
+    if (record.kind === CHARGED_EVENT) {
+      facts.charged = { text: "yes", sourceRecordIds: cited };
+      if (said.plea === "true")
+        facts["will-plead"] = { text: "yes", sourceRecordIds: cited };
+      else if (said.trialDate)
+        facts["trial-day"] = {
+          text: spokenDate(said.trialDate, core.date),
+          sourceRecordIds: cited,
+        };
+    }
+    if (record.kind === ACQUITTED_EVENT)
+      facts.acquitted = { text: "yes", sourceRecordIds: cited };
+    if (record.kind === CONVICTED_EVENT) {
+      facts.convicted = { text: "yes", sourceRecordIds: cited };
+      if (said.plea === "true")
+        facts.pleaded = { text: "yes", sourceRecordIds: cited };
+      if (sentence?.releaseDate && sentence.custodyMonths > P.zero) {
+        facts.sentence = {
+          text: spanSaid(daysBetweenText(record.date, sentence.releaseDate)),
+          sourceRecordIds: [...cited, sentence.id],
+        };
+        facts.release = {
+          text: spokenDate(sentence.releaseDate, core.date),
+          sourceRecordIds: [...cited, sentence.id],
+        };
+      }
+      if (Number(said.fineMinor) > P.zero)
+        facts.fine = {
+          text: moneySaid(Number(said.fineMinor)),
+          sourceRecordIds: cited,
+        };
+      if (Number(said.probationMonths) > P.zero)
+        facts.probation = { text: "yes", sourceRecordIds: cited };
+      if (sentence?.jobsEnded.length)
+        facts["job-lost"] = {
+          text: "yes",
+          sourceRecordIds: [...cited, sentence.id],
+        };
+    }
+    if (insideId === askedId) {
+      facts["you-charged"] = { text: asked.givenName, sourceRecordIds: cited };
+      // Their work, where the job row names an employer.
+      const job = asked.jobId ? core.jobs.get(asked.jobId) : undefined;
+      const org = job ? core.organizations.get(job.organizationId) : undefined;
+      if (job && org && !job.endsAt)
+        facts.employer = {
+          text: properName(org.name),
+          sourceRecordIds: [...cited, job.id, org.id],
+        };
+    }
   }
   if (record.kind === HELD_EVENT) {
     facts["awaiting-trial"] = { text: "yes", sourceRecordIds: cited };

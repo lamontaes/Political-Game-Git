@@ -2306,7 +2306,10 @@
             "family": "household"
           },
           "opener": "accused",
-          "opening": "tell"
+          "opening": "tell",
+          "purpose": "court-hearing-ask",
+          "asker": "family",
+          "asked": "accused"
         },
         {
           "match": {
@@ -2318,7 +2321,10 @@
             "family": "subject"
           },
           "opener": "family",
-          "opening": "comfort"
+          "opening": "comfort",
+          "purpose": "court-hearing-asked",
+          "asker": "accused",
+          "asked": "family"
         }
       ],
       "awaiting": ["record:prosecutor-in-scene"],
@@ -2369,7 +2375,10 @@
             "family": "household"
           },
           "opener": "defendant",
-          "opening": "tell"
+          "opening": "tell",
+          "purpose": "court-verdict-ask",
+          "asker": "family",
+          "asked": "defendant"
         },
         {
           "match": {
@@ -2381,7 +2390,10 @@
             "family": "subject"
           },
           "opener": "family",
-          "opening": "comfort"
+          "opening": "comfort",
+          "purpose": "court-verdict-asked",
+          "asker": "defendant",
+          "asked": "family"
         },
         {
           "match": {
@@ -2393,7 +2405,10 @@
             "family": "household"
           },
           "opener": "defendant",
-          "opening": "thank"
+          "opening": "thank",
+          "purpose": "court-verdict-ask",
+          "asker": "family",
+          "asked": "defendant"
         },
         {
           "match": {
@@ -2405,7 +2420,10 @@
             "family": "subject"
           },
           "opener": "family",
-          "opening": "comfort"
+          "opening": "comfort",
+          "purpose": "court-verdict-asked",
+          "asker": "defendant",
+          "asked": "family"
         }
       ],
       "awaiting": ["record:judge-in-scene"],
