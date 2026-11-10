@@ -16,4 +16,4 @@ Pool item: play-stop-07-every-day-starts-at-midnight. Replayed by sonnet-2698 (a
 
 **Next.** The item goes back to open with this line. A builder takes the filing-visit clock as its own item and proves it with `filing.browser.mjs` in two drawn places.
 
-Seen cases beyond the item: at Cinco Bayou-style first stops the card said "Open now" for a market at 8:30 PM, and Go started the visit at 8:17 AM next day. That is consistent with the first act running from the morning, but the "Open now" label reads the evening clock. Not filed.
+Seen cases beyond the item: in Lake Tansi, Tennessee (a drawn seed) the card said "Open now" for a market at 8:30 PM, and Go started the visit at 8:17 AM next day. That is consistent with the first act running from the morning, but the "Open now" label reads the evening clock. Not filed.
