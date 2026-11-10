@@ -5,9 +5,9 @@ area: words
 kind: bug
 priority: 3
 size: S
-status: in-pr
+status: done
 claimed-by: story/press-variants-seed
-pr: 8102
+pr: #8102
 blocked-on:
 lead: words
 milestone: play-first
