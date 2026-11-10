@@ -22,11 +22,11 @@ source: added with npm run pool -- add
 
 **Cause.** Measured: plain-text.browser.mjs line 173 timed out waiting for #talk-leave in Graniteville, Vermont (seed f416f8cf-40c0-4aff-a4da-5f4b834fc1a4) and Carolinas Heights, Northern Mariana Islands (seed c8fd1703-0ec9-44ca-baa7-6b6f031ce553). In the second, the box held Ella Holland asking 'Do you know much about Brian Monroe?' with replies and only Mark gap, no Leave. The failing step is the click after counter('seventeen'), so either the clerk talk was replaced by that scene or a Continue-only talk has no Leave; which one is not yet known.
 
-**Fix.** Reproduce in the Carolinas Heights seed, find whether the clerk's talk was displaced by the scene or the scene's talk lacks Leave, and make the check and the game agree: a talk always offers a way out, and the check dismisses a scene that leads in before it reads the clerk. Test: plain-text.browser.mjs passes in two drawn places, place and seed named.
+**Fix.** Reproduce in the Carolinas Heights seed, find whether the clerk's talk was displaced by the scene or the scene's talk lacks Leave, and make the check and the game agree: a talk offers a way out unless a ruling says otherwise, and the check dismisses a scene that leads in before it reads the clerk. Test: plain-text.browser.mjs passes in two drawn places, place and seed named.
 
 **Time box.** 3 hours
 
-**Rules.** Look before you ask: owner Oct 27 ruling that the player can always leave a talk is in play-stop-01-talk-says-nothing. No hand-written player text; the check never hides the opening or a scene to pass.
+**Rules.** Look before you ask: search OWNER-DECISIONS.md for any ruling on leaving a talk before changing the Leave rule; none was cited when this item was filed. No hand-written player text; the check never hides the opening or a scene to pass.
 
 **Done when.** In two drawn places src/bench/plain-text.browser.mjs passes through the filing counter, the clerk's reply and Campaigns. A second session sees in the running game on main, in a place and seed nobody chose, the talk after the filing counter offering a way out, and records it with pool seen.
 
