@@ -84,7 +84,7 @@
       "life": "loss",
       "what": "died",
       "who": "kin-of-named",
-      "facts": ["cause"]
+      "facts": ["causeOfDeath"]
     },
     {
       "record": "health.serious-illness",

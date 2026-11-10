@@ -159,10 +159,13 @@ export function rememberEvent(
   if (!row) return;
   const kept: Record<string, string> = {};
   for (const key of row.facts) {
-    const value = event.facts?.[key];
+    // Some writers key a fact by its event (`event:<id>:causeOfDeath`).
+    const value =
+      event.facts?.[key] ?? event.facts?.[`event:${event.id}:${key}`];
     if (value !== undefined && value !== "") kept[key] = String(value);
   }
-  if (row.topicAs && event.topic) kept[row.topicAs] = event.topic;
+  if (row.topicAs && event.topic && kept[row.topicAs] === undefined)
+    kept[row.topicAs] = event.topic;
   for (const id of rememberers(core, event, row)) {
     const person = core.people.get(id) as Rememberer | undefined;
     if (!person?.alive) continue;
@@ -251,10 +254,19 @@ export function lifeOf(
     out.push({ ...held, from: "played" });
   // The same event told by two sources (a partner as a built fact and as a
   // record of the past) is told once, from the first source in the order above.
+  // A built fact carries the day the person was made, so it is matched to its
+  // twin in the past by what it says and who it names, not by its date, and the
+  // record of the past (which holds the true day) is the one told.
+  const withKey = (event: LifeEvent) =>
+    `${event.life}|${event.what}|${[...event.withIds].sort().join(",")}`;
+  const inThePast = new Set(
+    out.filter((event) => event.from === "past").map(withKey),
+  );
   const told = new Set<string>();
   const once: LifeEvent[] = [];
   for (const event of out) {
-    const key = `${event.date}|${event.life}|${event.what}|${[...event.withIds].sort().join(",")}`;
+    if (event.from === "built" && inThePast.has(withKey(event))) continue;
+    const key = `${event.date}|${withKey(event)}`;
     if (told.has(key)) continue;
     told.add(key);
     once.push(event);
