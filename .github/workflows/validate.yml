@@ -231,6 +231,30 @@ jobs:
           printf '  %s\n' "${files[@]}"
           npx vitest run "${files[@]}"
 
+  # Every test file and golden-path command must still load (npm run tests:load).
+  # The unit job loads only the files a change touched, so a break in how any
+  # other file loads is seen here, within the hour, on main's scheduled run.
+  tests-load:
+    name: tests-load
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Use Node 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22.13.0
+          cache: npm
+
+      - name: Install deterministic dependencies
+        run: npm ci
+
+      - name: Load every test file and golden-path command
+        run: npm run tests:load
+
   validate:
     name: validate
     if: always()
@@ -239,6 +263,7 @@ jobs:
       - guards
       - scope
       - unit
+      - tests-load
     runs-on: ubuntu-latest
     timeout-minutes: 15
     permissions:
@@ -255,6 +280,12 @@ jobs:
           echo "repository=$repository"
           echo "guards=$guards"
           echo "unit=$unit"
+          tests_load='${{ needs.tests-load.result }}'
+          echo "tests-load=$tests_load"
+          if [[ "$tests_load" == "failure" || "$tests_load" == "cancelled" ]]; then
+            echo "A test file or golden-path command no longer loads (npm run tests:load)."
+            exit 1
+          fi
           docs_only='${{ needs.scope.outputs.docs_only }}'
           if [[ "$docs_only" == "true" && "$unit" == "skipped" ]]; then unit=success; fi
           if [[ "$repository" != "success" || "$guards" != "success" || "$unit" != "success" ]]; then
