@@ -8,7 +8,7 @@ size: S
 status: claimed
 standard: 2
 claimed-by: claude/pool-tests-every-test-file-loads
-pr:
+pr: #8327
 after:
 blocked-on:
 lead: cto
