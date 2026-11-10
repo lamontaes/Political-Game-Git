@@ -945,7 +945,11 @@ export function composeJournal(
       const from = placeLabel(String(move?.facts.fromPlaceId ?? ""));
       // Only a place that is not the one they moved to (a county and its
       // seat are one answer).
-      if (move && from && !(placeName(person.placeId) ?? "").endsWith(from))
+      if (
+        move &&
+        from &&
+        !(placeName(person.placeId)?.text ?? "").endsWith(from)
+      )
         facts["moved-from"] = { text: from, sourceRecordIds: [move.id] };
       const children = (person.pastFacts ?? []).flatMap((entry) => {
         const child =
