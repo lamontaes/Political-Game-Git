@@ -8,8 +8,10 @@
     "why": "Two-level population (owner, Oct 11): only the circle is simulated person by person; the merged flows keep every monthly total equal to the full opening.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Wider-population spending timed from the counts' pay dates and income, and absence and turnover by industry read from the counts. The rows to check against are sourced (data/research/people/jolts-cps-turnover-absence-2025.json: BLS JOLTS 2025 annual hires, separations, quits and layoffs rates and CPS 2025 absence rates by industry), read by src/core2/turnover-check.ts; the mechanic that uses them is pool item people-residents-cadence-mechanic. Measured Oct 21 (Salem, Utah, seed 07f42052624493fd): hires 2.18 a month against JOLTS 3.3, quits 2.11 against 2.0, layoffs 0.27 against 1.1, separations 2.68 against 3.3.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Wider-population spending timed from the counts' pay dates and income, and absence and turnover by industry read from the counts. The rows to check against are sourced (data/research/people/jolts-cps-turnover-absence-2025.json: BLS JOLTS 2025 annual hires, separations, quits and layoffs rates and CPS 2025 absence rates by industry), read by src/core2/turnover-check.ts; the mechanic that uses them is pool item people-residents-cadence-mechanic. Measured Oct 21 (Salem, Utah, seed 07f42052624493fd): hires 2.18 a month against JOLTS 3.3, quits 2.11 against 2.0, layoffs 0.27 against 1.1, separations 2.68 against 3.3.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-fill-in-pooled-money",
@@ -72,8 +74,10 @@
     "why": "WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "The closure sells the business's assets (WORLD's business engine records them) before settling lenders and the owner's distribution.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The closure sells the business's assets (WORLD's business engine records them) before settling lenders and the owner's distribution.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-outside-living-costs",
@@ -134,8 +138,10 @@
     "why": "WORLD's jobs engine retires people during play, and nothing started their benefits, so retirees lost all income.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-public-school-template",
@@ -170,8 +176,10 @@
     "why": "Private schools had no customers at all, so they closed in every town.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: PEOPLE's schools engine: each child's enrollment chosen from the family's income, beliefs and the schools nearby, moving as they change. Means-ranked enrollment replaced the even spread of the town's average on Oct 19.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-counted-drift",
@@ -218,8 +226,10 @@
     "why": "School-age people never went to school (M0-13).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-13",
-    "replacement": "PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: PEOPLE's schools engine: each child's enrolled school (opening-schools), its district calendar and hours, classes with classmates and teachers, and attendance that state law and family circumstances shape.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-disasters-from-records",
@@ -290,8 +300,10 @@
     "why": "CTO, Oct 14: groups raise from the counted population as well as from full people, by the same rule times the count.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-14",
-    "replacement": "Counted groups carry their own concern by topic and their cash above the buffer, so the same gift rule reads them directly, at the frequency full givers give.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Counted groups carry their own concern by topic and their cash above the buffer, so the same gift rule reads them directly, at the frequency full givers give.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-closeness-gov-raw-reads",
@@ -314,8 +326,10 @@
     "why": "The starting-law research reads which law is in force on its calibration date, not when each was passed.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
-    "replacement": "Enactment years from the research for each policy answer, read by the law history (src/core2/past-laws.ts) in place of the seeded age; builder item core-past-law-enactment-years. Started Oct 23, 2026 in data/research/core/state-law-adoption-dates-2025.json for two policies, Medicaid expansion and right-to-work, all 56 places (Wikipedia summaries of the KFF tracker and the National Right to Work Committee timeline, whose own pages refused or showed the dates as images): their 67 laws in force at day one were passed 1.14 to 81.05 years before it, median 11.05. pastUndatedLawAgeYearsLow and High stay ESTIMATED (1 and 20) with those spreads (checked by scripts/research/core-parameters-check.ts).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Enactment years from the research for each policy answer, read by the law history (src/core2/past-laws.ts) in place of the seeded age; builder item core-past-law-enactment-years. Started Oct 23, 2026 in data/research/core/state-law-adoption-dates-2025.json for two policies, Medicaid expansion and right-to-work, all 56 places (Wikipedia summaries of the KFF tracker and the National Right to Work Committee timeline, whose own pages refused or showed the dates as images): their 67 laws in force at day one were passed 1.14 to 81.05 years before it, median 11.05. pastUndatedLawAgeYearsLow and High stay ESTIMATED (1 and 20) with those spreads (checked by scripts/research/core-parameters-check.ts).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-past-named-only",
@@ -326,8 +340,10 @@
     "why": "Only officeholders and the player's circle are full people (two-level population); the people who lost or left are not filled in yet.",
     "addedBy": "OPUS-CORE (the-world-has-a-past)",
     "addedAt": "2026-10-14",
-    "replacement": "The core's fill-in makes a challenger or former official a full person the moment the player meets or looks them up, matching the name, party and record already written (OPUS-CORE fill-in).",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The core's fill-in makes a challenger or former official a full person the moment the player meets or looks them up, matching the name, party and record already written (OPUS-CORE fill-in).",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-past-archive-kind",
@@ -362,8 +378,10 @@
     "why": "Parents' deaths come from the kin generator, which keeps them as facts on full residents only.",
     "addedBy": "gov-past-closures-archive (split from SG-CORE-past-no-deaths-closures)",
     "addedAt": "2026-10-19",
-    "replacement": "The counted residents' parents' deaths archived at counted level.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: The counted residents' parents' deaths archived at counted level.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-past-territory-ballots",
@@ -518,8 +536,10 @@
     "why": "The town's federal treasury holds only the town's share of federal taxes (a few hundred thousand dollars a month), too little to pay a national payroll, and no other state keeps a treasury here. Paid from the federal treasury, the president's pay came out at about $500 in a month.",
     "addedBy": "claude/gov-official-salary-payroll",
     "addedAt": "2026-10-16",
-    "replacement": "A federal treasury at national scale and a coarse treasury for every other state, so their officials are paid from them and their estates settle to them.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: A federal treasury at national scale and a coarse treasury for every other state, so their officials are paid from them and their estates settle to them.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   },
   {
     "id": "SG-CORE-crime-exposure-marginals",
@@ -604,7 +624,9 @@
     "why": "Service level is the one customer-facing record the business engine keeps per seller (staffing against need, jobs.ts firmStaffing). Rivals reprice from the same general factor and stay within half a percent of one another's price (Utah 4906590, seed n8b), so price alone moved no seller's share (#7939).",
     "addedBy": "Money",
     "addedAt": "2026-11-09",
-    "replacement": "Shares from each seller's price, quality or reputation (customers' own experience with it) as well as its service level, once the business engine keeps those records.",
-    "status": "open"
+    "replacement": "Dropped Nov 10, 2026 (too in depth, owner): the estimate stays as the game's answer. Was: Shares from each seller's price, quality or reputation (customers' own experience with it) as well as its service level, once the business engine keeps those records.",
+    "status": "resolved",
+    "resolvedAt": "2026-11-10",
+    "resolvedBy": "stand-in triage T7 (owner, Nov 10)"
   }
 ]
