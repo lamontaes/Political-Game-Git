@@ -17,6 +17,7 @@ effort: medium
 root: none
 source: speed lead, Nov 1, review of core-group-quarters-population
 claimed-at:
+checked: fable 2026-11-10
 ---
 
 **What.** Group-quarters residents are counted room records with no income of their own. Law reach and the poverty count read each zero-income room as a poor household, so an inmate or a nursing-home resident reads as eligible for a means-tested program and as poor (stopgap SG-GQ-means-tests-poverty). A prison or nursing-home town's poverty rate and a program's reach there are overstated. The Census poverty universe leaves out institutional residents, military quarters and college dormitories, and each program's own eligibility rule says who in group quarters it serves.

@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** The law-wiring checker credits whichever engine first fills a per-day law cache as the law's reader. The justice helper found on Oct 24 that restore-voting-after-sentence grades its systems link wired only in a third drawn place (Reddington, Indiana, seed 7c6e6a3aa5e6453d), because elections.ts:693 happened to fill the shared per-day election-law cache in src/core2/law-reach/group-a-voting.ts first; in Prescott, Michigan and Uehling, Nebraska the trace names only the interest-groups engine. A cached read hides every later engine that reads the same law the same day. Three narrower faults are folded in: the checker credits a payment to every law its file reads, it credits a pass-through payment helper instead of the engine that read the law and paid, and it counts interest-group dues and drive donations that name a law as the law's own money.

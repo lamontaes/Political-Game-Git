@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: rc8-law-judged-by-paperwork
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** With the ban on new gas hookups in force, the housing engine records the law applied only to the landlord organization that builds (organization:landlord in both audit towns, Prescott, Michigan and Uehling, Nebraska, in the Oct 24 regrade). The households who move into the new all-electric homes, and the counted households they stand for, are never recorded as reached, and no household's utility bill reads the law. The matrix still grades reach wired because the law reached an organization. The prices helper found it on Oct 24.

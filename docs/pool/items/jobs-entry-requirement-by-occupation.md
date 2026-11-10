@@ -16,6 +16,7 @@ model: sonnet
 effort: medium
 root: none
 source: added with npm run pool -- add
+checked: fable 2026-11-10
 ---
 
 **What.** When an opening has several applicants the jobs engine picks the one with the best fit: the years of experience in that occupation times a weight, plus the person's reliability times a weight, plus an official's word for them. Every occupation is judged by the same weights, so an entry-level opening with a 22-year-old and a 40-year-old with ten years in the trade ranks the experienced one first and the 22-year-old can never get a first job. Collect, for each occupation the game uses, what the BLS Employment Projections table lists as the work experience usually asked in a related occupation (none, under five years, five years or more) and the typical entry education, cite it, and write it to a data table keyed by occupation classification. A later item makes the fit read the table; this one is data only.

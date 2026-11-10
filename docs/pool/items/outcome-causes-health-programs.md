@@ -4,7 +4,7 @@ title: "The coverage, earned-income-credit and blood-lead links run: health and 
 area: people
 kind: wiring
 priority: 2
-size: M
+size: S
 status: open
 claimed-by:
 pr:
@@ -14,9 +14,10 @@ claimed-at:
 after:
 standard: 2
 model: sonnet
-effort: medium
+effort: low
 root: rc8-law-judged-by-paperwork
 lead: laws-effects
+checked: fable 2026-11-10
 ---
 
 **What.** Seven links wait on causes the health, programs and pregnancy engines do not record: coverage-to-catastrophic-bills, coverage-to-medical-debt, coverage-to-depression, marriage-equality-to-coverage, eitc-to-low-birthweight, lead-to-reading and abortion-denied-to-financial-distress. Each cause is a share or total over the place's people, read from rows the engines already write. A link runs only when its cause is readable and its outcome is one the web keeps, so each link needs the owning engine's record of the cause and a kept outcome with its base and source. It is split into three parts.
@@ -25,7 +26,7 @@ lead: laws-effects
 
 **Fix.** Build the three parts: the coverage links, the earned income credit link, and the lead and abortion links. Each regenerates coverage.json so the links move from waiting to wired.
 
-**Time box.** 10 hours for one Sonnet session. When it runs out, push what passes, set the state honestly with a one-line note, and stop.
+**Time box.** 2 hours for one Sonnet session, the closing check after the three parts. When it runs out, write what was seen in the item and stop.
 
 **Rules.** Wire to the world: an effect is a read, not a record, so the outcome is read by the engine that owns it through outcomeWebFactor or a kept measure that views and news read. No dice: the cause record moves the outcome by the link's researched size, never a roll. One rule, all 56 places: place facts live in data.
 
