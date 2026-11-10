@@ -198,6 +198,45 @@ export function regionalConditions(
   return workConditions(api).of(uspsOf(placeId));
 }
 
+/** Working, looking, out or retired at an age, from the person's own seeded line against CPS 2024 for that age. */
+function statusAt(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+  age: number,
+): Status {
+  const line = new SeededRng(api.state.seed)
+    .fork(`lives-work:${person.id}`)
+    .next();
+  const band = bandOf(age);
+  const hundred = api.parameter("percent");
+  const employed = band ? CPS.employedPctByAge[band]! / hundred : 0;
+  const inForce = band ? CPS.laborForcePctByAge[band]! / hundred : 0;
+  return line < employed
+    ? "employed"
+    : line < inForce
+      ? "looking"
+      : age >= jobsParameter(api, "jobsEarliestRetirementAge")
+        ? "retired"
+        : "out";
+}
+
+/**
+ * Where a person living elsewhere stood in work on the world's opening day,
+ * by the same line their first review reads: the end their past working life
+ * runs to when their card is first opened (src/core2/past-work.ts).
+ */
+export function openingWorkStatus(
+  api: CoreAPI,
+  person: Readonly<PersonState>,
+): Status {
+  const core = api.state as CoreState;
+  return statusAt(
+    api,
+    person,
+    ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.startedAt)),
+  );
+}
+
 /** Day one: working, looking or out, from the person's own seeded line against CPS 2024 for their age. */
 function opening(
   api: CoreAPI,
@@ -205,24 +244,11 @@ function opening(
   age: number,
 ): WorkRow {
   const rng = new SeededRng(api.state.seed).fork(`lives-work:${person.id}`);
-  const line = rng.next();
-  const band = bandOf(age);
-  const hundred = api.parameter("percent");
-  const employed = band ? CPS.employedPctByAge[band]! / hundred : 0;
-  const inForce = band ? CPS.laborForcePctByAge[band]! / hundred : 0;
-  const status: Status =
-    line < employed
-      ? "employed"
-      : line < inForce
-        ? "looking"
-        : age >= jobsParameter(api, "jobsEarliestRetirementAge")
-          ? "retired"
-          : "out";
   // Where they stand along each pull on day one: years already worked or
   // looked, seeded the same way.
   return {
     id: person.id,
-    status,
+    status: statusAt(api, person, age),
     since: api.state.date,
     layoffPull: rng.fork("layoff").next(),
     quitPull: rng.fork("quit").next(),
