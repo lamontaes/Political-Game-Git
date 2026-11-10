@@ -22,7 +22,7 @@ root: rc7-player-cannot-drive
 
 **Cause.** Found in code: src/bench/play.mjs:4296 (no rally link in the race row). src/core2/modules/campaigns.ts keeps filings, contests, bills, stories and terms but no rally record; the rally in src/core2/modules/public-action.ts is a town's demonstration, not a candidate's event.
 
-**Fix.** Have the campaigns engine write a campaign-event row (venue from the place's records, date, speaker, the stances the speaker holds) when a candidate's campaign holds one, from that campaign's own money and reach, not a chance. The director stages it as a scene the player can travel to; the race row links to the next one. Reuse the one scene engine; no second event system. Decide with the lead whether it extends public-action's record.
+**Fix.** Have the campaigns engine write a campaign-event row (venue from the place's records, date, speaker, the stances the speaker holds) when a candidate's campaign holds one, from that campaign's own money and reach, not a chance. The director stages it as a scene the player can travel to; the race row links to the next one. Reuse what exists: write the row through the same `api.emit` path the campaigns engine already uses for its volunteer-shift events (src/core2/modules/campaigns.ts:2824), and stage it through the director's existing situation types; no second event, scene or money system, and any venue cost is paid through the campaign's existing accounts, not a new ledger. Decide with the lead whether it extends public-action's record.
 
 **Time box.** 16 hours for a Sonnet session; split by the lead if the director part is larger.
 
