@@ -62600,7 +62600,7 @@
       "key": "scene-talk.reply-agree.deal-yes",
       "move": "reply-agree",
       "kind": "spoken",
-      "text": "Deal. Yes.",
+      "text": "Then you have a deal.",
       "uses": [
         {
           "subject": "scene",
