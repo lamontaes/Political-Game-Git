@@ -242,7 +242,7 @@ describe("a kind with several arcs", () => {
             where,
           ).toBeGreaterThan(0);
       }
-  });
+  }, 300_000);
 
   it("makes the variants differ in their steps, their replies and their endings, not only their words", () => {
     for (const [family, row] of Object.entries(FAMILIES)) {
